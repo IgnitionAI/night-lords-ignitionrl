@@ -1,0 +1,14 @@
+node_modules/
+dist/
+web/dist/
+runs/*
+!runs/eval-b3-snap700-n50.json
+!runs/b3/
+runs/b3/*
+!runs/b3/metrics.jsonl
+!runs/base/
+runs/base/*
+!runs/base/metrics.jsonl
+recordings/
+.env*
+*.log

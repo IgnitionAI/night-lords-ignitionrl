@@ -1,0 +1,58 @@
+{
+ "pack": "naive",
+ "greedy": false,
+ "seeds": "900000..900199",
+ "wallSeconds": 0.6,
+ "results": {
+  "march": {
+   "games": 200,
+   "packWins": 0,
+   "packWinRate": 0,
+   "meanSeconds": 13.6,
+   "meanNightLordsKilled": 4,
+   "reasons": {
+    "meute anéantie": 200
+   }
+  },
+  "turret": {
+   "games": 200,
+   "packWins": 0,
+   "packWinRate": 0,
+   "meanSeconds": 14.7,
+   "meanNightLordsKilled": 4,
+   "reasons": {
+    "meute anéantie": 200
+   }
+  },
+  "brawler": {
+   "games": 200,
+   "packWins": 0,
+   "packWinRate": 0,
+   "meanSeconds": 11.5,
+   "meanNightLordsKilled": 4,
+   "reasons": {
+    "meute anéantie": 200
+   }
+  },
+  "backpedal": {
+   "games": 200,
+   "packWins": 200,
+   "packWinRate": 1,
+   "meanSeconds": 20.5,
+   "meanNightLordsKilled": 0.48,
+   "reasons": {
+    "Terminator abattu": 200
+   }
+  },
+  "wallHugger": {
+   "games": 200,
+   "packWins": 0,
+   "packWinRate": 0,
+   "meanSeconds": 17.1,
+   "meanNightLordsKilled": 4,
+   "reasons": {
+    "meute anéantie": 200
+   }
+  }
+ }
+}

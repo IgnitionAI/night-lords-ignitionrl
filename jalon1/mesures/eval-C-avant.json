@@ -1,0 +1,31 @@
+{
+ "pack": "runs/base/actor.json",
+ "greedy": false,
+ "seeds": "900000..900199",
+ "wallSeconds": 5.8,
+ "results": {
+  "wallHugger": {
+   "games": 200,
+   "packWins": 94,
+   "packWinRate": 0.47,
+   "meanSeconds": 10.5,
+   "meanNightLordsKilled": 2.68,
+   "reasons": {
+    "Terminator abattu": 94,
+    "meute anéantie": 101,
+    "téléportation atteinte": 5
+   }
+  },
+  "ghost": {
+   "games": 200,
+   "packWins": 188,
+   "packWinRate": 0.94,
+   "meanSeconds": 9.5,
+   "meanNightLordsKilled": 0.6,
+   "reasons": {
+    "Terminator abattu": 188,
+    "meute anéantie": 12
+   }
+  }
+ }
+}

@@ -1,0 +1,498 @@
+{
+ "summary": {
+  "player": "elite",
+  "rounds": 3,
+  "ftUpdatesPerRound": 30,
+  "gamesPerEval": 200,
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "base": 0.635,
+  "afterC": {
+   "mean": 0.428,
+   "sd": 0.078,
+   "values": [
+    0.455,
+    0.34,
+    0.49
+   ]
+  },
+  "afterControl": {
+   "mean": 0.653,
+   "sd": 0.071,
+   "values": [
+    0.735,
+    0.62,
+    0.605
+   ]
+  },
+  "gainC": {
+   "mean": -0.207,
+   "sd": 0.078,
+   "values": [
+    -0.18,
+    -0.295,
+    -0.14500000000000002
+   ]
+  },
+  "gainCvsControl": {
+   "mean": -0.225,
+   "sd": 0.095,
+   "values": [
+    -0.27999999999999997,
+    -0.27999999999999997,
+    -0.11499999999999999
+   ]
+  },
+  "baseVsGhost": {
+   "mean": 0.993,
+   "sd": 0.003,
+   "values": [
+    0.99,
+    0.995,
+    0.995
+   ]
+  }
+ },
+ "baseEval": {
+  "player": {
+   "games": 200,
+   "packWins": 127,
+   "packWinRate": 0.635,
+   "meanSeconds": 21.9,
+   "medianSeconds": 21.2,
+   "p10Seconds": 15.2,
+   "p90Seconds": 29.3,
+   "share30to90": 0.065,
+   "meanNightLordsKilled": 2.6,
+   "reasons": {
+    "meute anéantie": 65,
+    "Terminator abattu": 127,
+    "téléporté": 8
+   }
+  },
+  "pool": {
+   "march": 0.95,
+   "turret": 0.555,
+   "brawler": 0.805,
+   "backpedal": 0.98
+  }
+ },
+ "perSeed": [
+  {
+   "seed": 1,
+   "rounds": [
+    {
+     "round": 1,
+     "roundWinner": "terminator",
+     "roundSeconds": 17.2,
+     "frames": 172,
+     "bc": {
+      "rounds": 1,
+      "frames": 172,
+      "train": 137,
+      "val": 35,
+      "epochs": 40,
+      "seconds": 0.2,
+      "accTrain": {
+       "move": 0.577,
+       "atk": 0.876
+      },
+      "accVal": {
+       "move": 0.6,
+       "atk": 0.857
+      },
+      "majorityVal": {
+       "move": 0.6,
+       "atk": 0.943
+      }
+     },
+     "bcWallSeconds": 0.7,
+     "ftWallSeconds": 17
+    },
+    {
+     "round": 2,
+     "roundWinner": "terminator",
+     "roundSeconds": 8.4,
+     "frames": 84,
+     "bc": {
+      "rounds": 2,
+      "frames": 256,
+      "train": 205,
+      "val": 51,
+      "epochs": 40,
+      "seconds": 0.2,
+      "accTrain": {
+       "move": 0.58,
+       "atk": 0.849
+      },
+      "accVal": {
+       "move": 0.647,
+       "atk": 0.882
+      },
+      "majorityVal": {
+       "move": 0.627,
+       "atk": 0.922
+      }
+     },
+     "bcWallSeconds": 0.6,
+     "ftWallSeconds": 17.1
+    },
+    {
+     "round": 3,
+     "roundWinner": "terminator",
+     "roundSeconds": 12.600000000000001,
+     "frames": 126,
+     "bc": {
+      "rounds": 3,
+      "frames": 382,
+      "train": 304,
+      "val": 78,
+      "epochs": 40,
+      "seconds": 0.2,
+      "accTrain": {
+       "move": 0.497,
+       "atk": 0.865
+      },
+      "accVal": {
+       "move": 0.564,
+       "atk": 0.859
+      },
+      "majorityVal": {
+       "move": 0.564,
+       "atk": 0.923
+      }
+     },
+     "bcWallSeconds": 0.6,
+     "ftWallSeconds": 16.6
+    }
+   ],
+   "afterC": {
+    "player": {
+     "games": 200,
+     "packWins": 91,
+     "packWinRate": 0.455,
+     "meanSeconds": 17,
+     "medianSeconds": 19.6,
+     "p10Seconds": 7.7,
+     "p90Seconds": 24,
+     "share30to90": 0.01,
+     "meanNightLordsKilled": 3.1,
+     "reasons": {
+      "Terminator abattu": 91,
+      "téléporté": 22,
+      "meute anéantie": 87
+     }
+    },
+    "pool": {
+     "march": 0.835,
+     "turret": 0.705,
+     "brawler": 0.52,
+     "backpedal": 0.84
+    }
+   },
+   "afterControl": {
+    "player": {
+     "games": 200,
+     "packWins": 147,
+     "packWinRate": 0.735,
+     "meanSeconds": 20.7,
+     "medianSeconds": 21,
+     "p10Seconds": 12.7,
+     "p90Seconds": 27.5,
+     "share30to90": 0.015,
+     "meanNightLordsKilled": 2.45,
+     "reasons": {
+      "Terminator abattu": 147,
+      "meute anéantie": 53
+     }
+    },
+    "pool": {
+     "march": 0.945,
+     "turret": 0.735,
+     "brawler": 0.86,
+     "backpedal": 0.995
+    }
+   },
+   "baseVsGhost": 0.99
+  },
+  {
+   "seed": 2,
+   "rounds": [
+    {
+     "round": 1,
+     "roundWinner": "pack",
+     "roundSeconds": 16.5,
+     "frames": 165,
+     "bc": {
+      "rounds": 1,
+      "frames": 165,
+      "train": 133,
+      "val": 32,
+      "epochs": 40,
+      "seconds": 0.2,
+      "accTrain": {
+       "move": 0.707,
+       "atk": 1
+      },
+      "accVal": {
+       "move": 0.594,
+       "atk": 1
+      },
+      "majorityVal": {
+       "move": 0.438,
+       "atk": 1
+      }
+     },
+     "bcWallSeconds": 0.6,
+     "ftWallSeconds": 16
+    },
+    {
+     "round": 2,
+     "roundWinner": "terminator",
+     "roundSeconds": 15.9,
+     "frames": 159,
+     "bc": {
+      "rounds": 2,
+      "frames": 324,
+      "train": 261,
+      "val": 63,
+      "epochs": 40,
+      "seconds": 0.2,
+      "accTrain": {
+       "move": 0.667,
+       "atk": 0.962
+      },
+      "accVal": {
+       "move": 0.571,
+       "atk": 0.968
+      },
+      "majorityVal": {
+       "move": 0.492,
+       "atk": 0.984
+      }
+     },
+     "bcWallSeconds": 0.6,
+     "ftWallSeconds": 15.7
+    },
+    {
+     "round": 3,
+     "roundWinner": "terminator",
+     "roundSeconds": 17.8,
+     "frames": 178,
+     "bc": {
+      "rounds": 3,
+      "frames": 502,
+      "train": 401,
+      "val": 101,
+      "epochs": 40,
+      "seconds": 0.2,
+      "accTrain": {
+       "move": 0.591,
+       "atk": 0.943
+      },
+      "accVal": {
+       "move": 0.515,
+       "atk": 0.901
+      },
+      "majorityVal": {
+       "move": 0.475,
+       "atk": 0.97
+      }
+     },
+     "bcWallSeconds": 0.6,
+     "ftWallSeconds": 16.2
+    }
+   ],
+   "afterC": {
+    "player": {
+     "games": 200,
+     "packWins": 68,
+     "packWinRate": 0.34,
+     "meanSeconds": 16.7,
+     "medianSeconds": 17.7,
+     "p10Seconds": 6.9,
+     "p90Seconds": 24.1,
+     "share30to90": 0.015,
+     "meanNightLordsKilled": 3.08,
+     "reasons": {
+      "meute anéantie": 98,
+      "Terminator abattu": 68,
+      "téléporté": 34
+     }
+    },
+    "pool": {
+     "march": 0.825,
+     "turret": 0.55,
+     "brawler": 0.4,
+     "backpedal": 0.885
+    }
+   },
+   "afterControl": {
+    "player": {
+     "games": 200,
+     "packWins": 124,
+     "packWinRate": 0.62,
+     "meanSeconds": 20.7,
+     "medianSeconds": 21.9,
+     "p10Seconds": 12.2,
+     "p90Seconds": 27.8,
+     "share30to90": 0.035,
+     "meanNightLordsKilled": 2.57,
+     "reasons": {
+      "Terminator abattu": 124,
+      "meute anéantie": 60,
+      "téléporté": 16
+     }
+    },
+    "pool": {
+     "march": 0.905,
+     "turret": 0.51,
+     "brawler": 0.82,
+     "backpedal": 0.985
+    }
+   },
+   "baseVsGhost": 0.995
+  },
+  {
+   "seed": 3,
+   "rounds": [
+    {
+     "round": 1,
+     "roundWinner": "pack",
+     "roundSeconds": 26.400000000000002,
+     "frames": 264,
+     "bc": {
+      "rounds": 1,
+      "frames": 264,
+      "train": 211,
+      "val": 53,
+      "epochs": 40,
+      "seconds": 0.2,
+      "accTrain": {
+       "move": 0.739,
+       "atk": 0.991
+      },
+      "accVal": {
+       "move": 0.774,
+       "atk": 1
+      },
+      "majorityVal": {
+       "move": 0.415,
+       "atk": 1
+      }
+     },
+     "bcWallSeconds": 0.6,
+     "ftWallSeconds": 16.3
+    },
+    {
+     "round": 2,
+     "roundWinner": "pack",
+     "roundSeconds": 23.700000000000003,
+     "frames": 237,
+     "bc": {
+      "rounds": 2,
+      "frames": 501,
+      "train": 400,
+      "val": 101,
+      "epochs": 40,
+      "seconds": 0.2,
+      "accTrain": {
+       "move": 0.685,
+       "atk": 0.99
+      },
+      "accVal": {
+       "move": 0.663,
+       "atk": 1
+      },
+      "majorityVal": {
+       "move": 0.347,
+       "atk": 1
+      }
+     },
+     "bcWallSeconds": 0.6,
+     "ftWallSeconds": 16.3
+    },
+    {
+     "round": 3,
+     "roundWinner": "pack",
+     "roundSeconds": 22.8,
+     "frames": 228,
+     "bc": {
+      "rounds": 3,
+      "frames": 729,
+      "train": 585,
+      "val": 144,
+      "epochs": 40,
+      "seconds": 0.2,
+      "accTrain": {
+       "move": 0.552,
+       "atk": 0.99
+      },
+      "accVal": {
+       "move": 0.563,
+       "atk": 1
+      },
+      "majorityVal": {
+       "move": 0.375,
+       "atk": 1
+      }
+     },
+     "bcWallSeconds": 0.6,
+     "ftWallSeconds": 16.2
+    }
+   ],
+   "afterC": {
+    "player": {
+     "games": 200,
+     "packWins": 98,
+     "packWinRate": 0.49,
+     "meanSeconds": 15.7,
+     "medianSeconds": 17.4,
+     "p10Seconds": 7.1,
+     "p90Seconds": 23.6,
+     "share30to90": 0,
+     "meanNightLordsKilled": 3.18,
+     "reasons": {
+      "Terminator abattu": 98,
+      "meute anéantie": 95,
+      "téléporté": 7
+     }
+    },
+    "pool": {
+     "march": 0.83,
+     "turret": 0.67,
+     "brawler": 0.605,
+     "backpedal": 0.93
+    }
+   },
+   "afterControl": {
+    "player": {
+     "games": 200,
+     "packWins": 121,
+     "packWinRate": 0.605,
+     "meanSeconds": 21.5,
+     "medianSeconds": 20.8,
+     "p10Seconds": 14.1,
+     "p90Seconds": 29.4,
+     "share30to90": 0.095,
+     "meanNightLordsKilled": 2.48,
+     "reasons": {
+      "Terminator abattu": 121,
+      "meute anéantie": 68,
+      "téléporté": 11
+     }
+    },
+    "pool": {
+     "march": 0.97,
+     "turret": 0.7,
+     "brawler": 0.715,
+     "backpedal": 0.945
+    }
+   },
+   "baseVsGhost": 0.995
+  }
+ ]
+}

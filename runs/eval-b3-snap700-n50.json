@@ -1,0 +1,119 @@
+{
+ "pack": "runs/b3-snap-700.json",
+ "seeds": "900000..900049",
+ "wallSeconds": 10.3,
+ "results": {
+  "march": {
+   "unseen": false,
+   "games": 50,
+   "packWins": 45,
+   "packWinRate": 0.9,
+   "meanSeconds": 19.5,
+   "medianSeconds": 19.4,
+   "p10Seconds": 16.4,
+   "p90Seconds": 24.1,
+   "share30to90": 0.02,
+   "meanNightLordsKilled": 1.18,
+   "reasons": {
+    "Terminator abattu": 45,
+    "meute anéantie": 5
+   }
+  },
+  "turret": {
+   "unseen": false,
+   "games": 50,
+   "packWins": 39,
+   "packWinRate": 0.78,
+   "meanSeconds": 26.4,
+   "medianSeconds": 25,
+   "p10Seconds": 21.8,
+   "p90Seconds": 35.7,
+   "share30to90": 0.18,
+   "meanNightLordsKilled": 1.96,
+   "reasons": {
+    "Terminator abattu": 39,
+    "meute anéantie": 11
+   }
+  },
+  "brawler": {
+   "unseen": false,
+   "games": 50,
+   "packWins": 40,
+   "packWinRate": 0.8,
+   "meanSeconds": 20.8,
+   "medianSeconds": 21.2,
+   "p10Seconds": 13.5,
+   "p90Seconds": 29.9,
+   "share30to90": 0.08,
+   "meanNightLordsKilled": 2.14,
+   "reasons": {
+    "Terminator abattu": 40,
+    "meute anéantie": 10
+   }
+  },
+  "backpedal": {
+   "unseen": false,
+   "games": 50,
+   "packWins": 50,
+   "packWinRate": 1,
+   "meanSeconds": 21.7,
+   "medianSeconds": 21.6,
+   "p10Seconds": 19,
+   "p90Seconds": 24.3,
+   "share30to90": 0,
+   "meanNightLordsKilled": 0.5,
+   "reasons": {
+    "Terminator abattu": 50
+   }
+  },
+  "wallHugger": {
+   "unseen": true,
+   "games": 50,
+   "packWins": 17,
+   "packWinRate": 0.34,
+   "meanSeconds": 26.1,
+   "medianSeconds": 25,
+   "p10Seconds": 21.1,
+   "p90Seconds": 36,
+   "share30to90": 0.2,
+   "meanNightLordsKilled": 3.24,
+   "reasons": {
+    "meute anéantie": 32,
+    "Terminator abattu": 17,
+    "téléporté": 1
+   }
+  },
+  "kiter": {
+   "unseen": true,
+   "games": 50,
+   "packWins": 17,
+   "packWinRate": 0.34,
+   "meanSeconds": 21.3,
+   "medianSeconds": 21,
+   "p10Seconds": 14.5,
+   "p90Seconds": 28.2,
+   "share30to90": 0.06,
+   "meanNightLordsKilled": 3.14,
+   "reasons": {
+    "Terminator abattu": 17,
+    "meute anéantie": 33
+   }
+  },
+  "elite": {
+   "unseen": true,
+   "games": 50,
+   "packWins": 32,
+   "packWinRate": 0.64,
+   "meanSeconds": 20.1,
+   "medianSeconds": 20.6,
+   "p10Seconds": 14.7,
+   "p90Seconds": 25.2,
+   "share30to90": 0.02,
+   "meanNightLordsKilled": 2.38,
+   "reasons": {
+    "Terminator abattu": 32,
+    "meute anéantie": 18
+   }
+  }
+ }
+}

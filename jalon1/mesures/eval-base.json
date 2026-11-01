@@ -1,0 +1,66 @@
+{
+ "pack": "runs/base/actor.json",
+ "greedy": false,
+ "seeds": "900000..900199",
+ "wallSeconds": 10.5,
+ "results": {
+  "march": {
+   "games": 200,
+   "packWins": 174,
+   "packWinRate": 0.87,
+   "meanSeconds": 8.3,
+   "meanNightLordsKilled": 0.91,
+   "reasons": {
+    "Terminator abattu": 174,
+    "téléportation atteinte": 6,
+    "meute anéantie": 20
+   }
+  },
+  "turret": {
+   "games": 200,
+   "packWins": 174,
+   "packWinRate": 0.87,
+   "meanSeconds": 9.7,
+   "meanNightLordsKilled": 1.16,
+   "reasons": {
+    "Terminator abattu": 174,
+    "meute anéantie": 26
+   }
+  },
+  "brawler": {
+   "games": 200,
+   "packWins": 125,
+   "packWinRate": 0.625,
+   "meanSeconds": 7.6,
+   "meanNightLordsKilled": 2.34,
+   "reasons": {
+    "meute anéantie": 74,
+    "Terminator abattu": 125,
+    "téléportation atteinte": 1
+   }
+  },
+  "backpedal": {
+   "games": 200,
+   "packWins": 199,
+   "packWinRate": 0.995,
+   "meanSeconds": 6.4,
+   "meanNightLordsKilled": 0.18,
+   "reasons": {
+    "Terminator abattu": 199,
+    "téléportation atteinte": 1
+   }
+  },
+  "wallHugger": {
+   "games": 200,
+   "packWins": 94,
+   "packWinRate": 0.47,
+   "meanSeconds": 10.5,
+   "meanNightLordsKilled": 2.68,
+   "reasons": {
+    "Terminator abattu": 94,
+    "meute anéantie": 101,
+    "téléportation atteinte": 5
+   }
+  }
+ }
+}

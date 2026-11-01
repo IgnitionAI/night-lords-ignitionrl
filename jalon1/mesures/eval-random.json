@@ -1,0 +1,63 @@
+{
+ "pack": "random",
+ "greedy": false,
+ "seeds": "900000..900199",
+ "wallSeconds": 0.7,
+ "results": {
+  "march": {
+   "games": 200,
+   "packWins": 0,
+   "packWinRate": 0,
+   "meanSeconds": 11.3,
+   "meanNightLordsKilled": 3.92,
+   "reasons": {
+    "meute anéantie": 185,
+    "téléportation atteinte": 15
+   }
+  },
+  "turret": {
+   "games": 200,
+   "packWins": 0,
+   "packWinRate": 0,
+   "meanSeconds": 23.9,
+   "meanNightLordsKilled": 4,
+   "reasons": {
+    "meute anéantie": 199,
+    "téléportation atteinte": 1
+   }
+  },
+  "brawler": {
+   "games": 200,
+   "packWins": 0,
+   "packWinRate": 0,
+   "meanSeconds": 10.3,
+   "meanNightLordsKilled": 3.94,
+   "reasons": {
+    "meute anéantie": 189,
+    "téléportation atteinte": 11
+   }
+  },
+  "backpedal": {
+   "games": 200,
+   "packWins": 0,
+   "packWinRate": 0,
+   "meanSeconds": 21.5,
+   "meanNightLordsKilled": 3.21,
+   "reasons": {
+    "téléportation atteinte": 87,
+    "meute anéantie": 113
+   }
+  },
+  "wallHugger": {
+   "games": 200,
+   "packWins": 0,
+   "packWinRate": 0,
+   "meanSeconds": 18.5,
+   "meanNightLordsKilled": 3.69,
+   "reasons": {
+    "meute anéantie": 149,
+    "téléportation atteinte": 51
+   }
+  }
+ }
+}
