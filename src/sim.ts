@@ -19,7 +19,9 @@ export const N_NL = 4;
 
 // Valeurs de prototype, à régler au ressenti. Ce ne sont pas des chiffres du lore.
 export const T_CFG = {
-  radius: 0.8, fwd: 2.5, back: 1.5, strafe: 1.5, turn: 1.6, hp: 30,
+  // b4 (01/11) : Terminator plus lent (2,5→1,5 m/s, recul et pas chassé 1,5→1,0) et 45 d'armure (30 avant) pour viser
+  // des parties de 30 à 90 s. Sondé sur la politique b3 figée : mesures/b4/probe-regles-b3-n50.txt.
+  radius: 0.8, fwd: 1.5, back: 1.0, strafe: 1.0, turn: 1.6, hp: 45,
   boltCd: 12, boltRange: 16, boltHalf: 0.12, fistCd: 12, fistRange: 2.4, fistHalf: 1.0,
   visionHalf: 1.2, visionRange: 14, auspex: 4,
   noiseMove: 9, noiseIdle: 3, noiseBolt: 18, noiseFist: 12,

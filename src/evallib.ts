@@ -14,11 +14,11 @@ export function packActs(pack: Pack, w: World, rng: () => number, greedy = false
   });
 }
 export interface Stats { games: number; packWins: number; packWinRate: number; meanSeconds: number; medianSeconds: number; p10Seconds: number; p90Seconds: number; share30to90: number; meanNightLordsKilled: number; reasons: Record<string, number> }
-export function runGames(pack: Pack, mk: (seed: number) => Tactic, n: number, seedBase = 900000): Stats {
+export function runGames(pack: Pack, mk: (seed: number) => Tactic, n: number, seedBase = 900000, greedy = false): Stats {
   let wins = 0, kills = 0; const secs: number[] = []; const reasons: Record<string, number> = {};
   for (let g = 0; g < n; g++) {
     const seed = seedBase + g, t = mk(seed), w = newWorld(seed), rng = mulberry32(seed ^ 0x5bd1e995);
-    while (!w.done) step(w, t(w), packActs(pack, w, rng));
+    while (!w.done) step(w, t(w), packActs(pack, w, rng, greedy));
     if (w.winner === 'pack') wins++; secs.push(w.tick * DT); reasons[w.reason] = (reasons[w.reason] ?? 0) + 1; kills += w.nls.filter(x => !x.alive).length;
   }
   secs.sort((a, b) => a - b); const q = (p: number) => +secs[Math.min(secs.length - 1, Math.floor(p * secs.length))].toFixed(1);

@@ -27,11 +27,20 @@ let nextSeed = 1 + (seed0 * 104729) % 700000; // seeds d'entraînement < 900 000
 interface Traj { obs: number[][]; act: number[]; lp: number[]; val: number[]; rew: number[]; done: boolean }
 interface Env { w: World; tactic: Tactic; opp: string; traj: Traj[] }
 const poolNames = Object.keys(POOL);
+// b4 : tirage priorisé des tactiques fixes du pool (march, turret, brawler, backpedal) selon le taux de défaite récent
+// de la meute contre chacune (100 dernières parties d'entraînement). Les tactiques jamais vues restent hors entraînement.
+const pfsp = args.pfsp !== 'false';
+const histByOpp: Record<string, number[]> = {};
+function pickFixed(fixed: string[]): string {
+  if (!pfsp) return fixed[Math.floor(rng() * fixed.length)];
+  const wts = fixed.map(k => { const h = histByOpp[k] ?? []; const lossRate = h.length < 20 ? 0.5 : 1 - h.reduce((a, b) => a + b, 0) / h.length; return 0.1 + lossRate; });
+  let r = rng() * wts.reduce((a, b) => a + b, 0); for (let i = 0; i < fixed.length; i++) { r -= wts[i]; if (r <= 0) return fixed[i]; } return fixed[fixed.length - 1];
+}
 function makeEnv(): Env {
   const s = nextSeed++; let tactic: Tactic, opp: string, w: World;
   if (ghostBC && rng() < ghostShare) { opp = 'ghostBC'; tactic = bcGhost(ghostBC, s); w = newWorld(s); }
   else if (ghostSummary && rng() < ghostShare) { opp = 'ghost'; tactic = ghost(ghostSummary, s); w = newWorld(s, ghostSummary.spawn); }
-  else { const fixed = poolNames.filter(k => k !== 'randomized'); opp = rng() < 0.5 ? 'randomized' : fixed[Math.floor(rng() * fixed.length)]; tactic = opp === 'randomized' ? randomized(s) : POOL[opp](); w = newWorld(s); }
+  else { const fixed = poolNames.filter(k => k !== 'randomized'); opp = rng() < 0.5 ? 'randomized' : pickFixed(fixed); tactic = opp === 'randomized' ? randomized(s) : POOL[opp](); w = newWorld(s); }
   return { w, tactic, opp, traj: Array.from({ length: N_NL }, () => ({ obs: [], act: [], lp: [], val: [], rew: [], done: false })) };
 }
 const envs = Array.from({ length: E }, makeEnv);
@@ -57,7 +66,9 @@ for (let u = 1; u <= U; u++) {
       e.traj.forEach((tr, i) => { if (tr.obs.length > tr.rew.length) { tr.rew.push(rewards[i]); if (died[i]) { tr.done = true; finished.push(tr); e.traj[i] = { obs: [], act: [], lp: [], val: [], rew: [], done: false }; } } });
       if (e.w.done) {
         e.traj.forEach(tr => { if (tr.obs.length) { tr.done = true; finished.push(tr); } });
-        recent.push({ opp: e.opp, winner: e.w.winner!, ticks: e.w.tick }); envs[ei] = makeEnv();
+        recent.push({ opp: e.opp, winner: e.w.winner!, ticks: e.w.tick });
+        (histByOpp[e.opp] ??= []).push(e.w.winner === 'pack' ? 1 : 0); if (histByOpp[e.opp].length > 100) histByOpp[e.opp].shift();
+        envs[ei] = makeEnv();
       }
     });
   }
@@ -81,7 +92,7 @@ for (let u = 1; u <= U; u++) {
   transitions += N;
   const st = ppo.update(O, A, LP, AD, R);
   const win = recent.slice(-200); const wr = win.length ? win.filter(x => x.winner === 'pack').length / win.length : NaN;
-  const line = { update: u, seconds: +((performance.now() - t0) / 1000).toFixed(1), updateSeconds: +((performance.now() - tu) / 1000).toFixed(2), transitions, episodes: recent.length, packWinRateLast200Train: +wr.toFixed(3), ...Object.fromEntries(Object.entries(st).map(([k, v]) => [k, +v.toFixed(4)])) };
+  const line = { update: u, seconds: +((performance.now() - t0) / 1000).toFixed(1), updateSeconds: +((performance.now() - tu) / 1000).toFixed(2), transitions, episodes: recent.length, packWinRateLast200Train: +wr.toFixed(3), trainWinByOpp: Object.fromEntries(Object.entries(histByOpp).map(([k, h]) => [k, +(h.reduce((a, b) => a + b, 0) / Math.max(1, h.length)).toFixed(2)])), ...Object.fromEntries(Object.entries(st).map(([k, v]) => [k, +v.toFixed(4)])) };
   appendFileSync(`${out}/metrics.jsonl`, JSON.stringify(line) + '\n');
   if (u % 5 === 0 || u === U) console.log(JSON.stringify(line));
   if (u % 25 === 0 || u === U) {
