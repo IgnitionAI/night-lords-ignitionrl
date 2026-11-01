@@ -1,0 +1,5 @@
+{"name":"b4","greedy":false} | march 46/50 med=16.4 | turret 47/50 med=18 | brawler 44/50 med=17.3 | backpedal 43/50 med=15.9 | wallHugger 34/50 med=16.7 | kiter 25/50 med=19.2 | elite 32/50 med=19.8
+{"name":"hp90","T":{"hp":90},"greedy":false} | march 46/50 med=22.5 | turret 47/50 med=25 | brawler 44/50 med=26.2 | backpedal 32/50 med=24 | wallHugger 35/50 med=25.2 | kiter 20/50 med=24.4 | elite 24/50 med=24.2
+{"name":"hp135","T":{"hp":135},"greedy":false} | march 44/50 med=28.8 | turret 47/50 med=31.7 | brawler 44/50 med=35.6 | backpedal 34/50 med=29.2 | wallHugger 28/50 med=31.7 | kiter 9/50 med=26.4 | elite 22/50 med=28.5
+{"name":"hp90claw12","T":{"hp":90},"NL":{"clawCd":12},"greedy":false} | march 42/50 med=31.5 | turret 47/50 med=33.3 | brawler 44/50 med=38.7 | backpedal 30/50 med=29.6 | wallHugger 30/50 med=32.1 | kiter 10/50 med=26.3 | elite 22/50 med=31.6
+{"name":"regen","T":{"hp":60},"greedy":false} | march 45/50 med=18.1 | turret 47/50 med=20.4 | brawler 44/50 med=20.3 | backpedal 38/50 med=18.9 | wallHugger 35/50 med=19.5 | kiter 26/50 med=20.5 | elite 24/50 med=21
