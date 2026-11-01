@@ -116,9 +116,9 @@ export function elite(): Tactic {
     return a; };
 }
 /** Fantôme appris par imitation (behaviour cloning) sur les manches enregistrées du joueur. */
-export function bcGhost(m: ActorJSON, seed: number): Tactic {
+export function bcGhost(m: ActorJSON, seed: number, temp = Number(process.env.GHOST_TEMP ?? 0.5)): Tactic {
   const rng: Rng = mulberry32(seed);
-  return w => { const r = bcAct(m, tObserve(w), rng); return decodeAction(r.move, r.atk); };
+  return w => { const r = bcAct(m, tObserve(w), rng, temp); return decodeAction(r.move, r.atk); };
 }
 
 // randomized : tactique paramétrée tirée au hasard à chaque partie (randomisation de domaine pour l'entraînement).
