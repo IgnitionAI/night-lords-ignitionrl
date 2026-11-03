@@ -37,6 +37,21 @@ l'écran.
    `performance.now()` casse toute comparaison avant/après. Corollaire : la graine de grain de la
    passe post dépend du temps réel — deux captures ne sont jamais identiques au pixel (l'écart *est*
    le grain), alors que la simulation l'est.
+5. **Un Euler explicite explose sur un grand pas.** Symptôme : la caméra part à l'infini, la capture
+   sort entièrement noire. Cause : la secousse du tir est un ressort raide (`ω ≈ 23 rad/s`) ; en
+   intégration explicite il faut `ω·dt < 0,5`, or le pas de simulation vaut `dt = 0,1 s` → `ω·dt = 2,3`.
+   Douze sous-pas de 8 ms « corrigent » le débordement mais coûtent une boucle de plus par tick.
+6. **Un ressort intégré dans la boucle de simulation saccade à 10 Hz.** Symptôme : la caméra avance
+   par paliers de 100 ms alors que l'image est interpolée à 60 fps — le mouvement est *plus* mauvais
+   que sans effet. Cause : la position de caméra n'est calculée qu'à chaque tick, le rendu la relit
+   telle quelle.
+
+   **La règle qui règle les deux : tout effet de caméra s'évalue en forme fermée au moment du rendu,
+   jamais par une intégration dans le pas de simulation.** Un ressort amorti a une solution exacte —
+   `x(t) = (v₀/ω_d)·e^(−ζωt)·sin(ω_d t)` avec `ω_d = ω√(1−ζ²)` — qu'on évalue avec le temps *de
+   rendu* (`simT − DT + α·DT`, α = fraction du tick en cours). Trois bénéfices mesurés : aucune
+   instabilité quelle que soit la raideur, mouvement lisse à 60 fps, et `?shot=N` tombe exactement
+   sur le tick N sans dépendre de l'historique d'intégration.
 
 ## Distribution — décision
 
@@ -96,6 +111,34 @@ cône du projecteur.
 
 Textures : 15 WebP de 2 187 Kio sur disque, mais 15 × 1024² décompressés en VRAM, soit 60 Mio bruts —
 c'est le chiffre qui compte, pas le poids des fichiers.
+
+## Le flash de bouche peint la salle, pas la proie
+
+Mesuré, pas supposé. Deux rafales trouvées par balayage (100 graines × 3 modes d'autoplay, 300
+manches, événement `bolt` croisé avec la position des NL vivants et leur projection à l'écran) où une
+proie vivante est dans le cadre à moins de 8 m au tick du tir. Différence de luminance en blocs de
+8 px (le grain s'annule), même graine, même tick, `?impact=0` contre flash :
+
+| région | gain moyen | blocs > +2/255 | max |
+|---|---|---|---|
+| sol devant | **+11,6/255** | 81 % | +61 |
+| pilier droit | **+12,5/255** | 86 % | +46 |
+| dos du Terminator | +8,9/255 | — | +230 (un éclat) |
+| **Night Lord à 5,3 m** | **+1,8/255** | — | +124 |
+| Night Lord collé à 1,5 m | +2,5/255 | — | +122 |
+| total image | +5,9/255 | 54 % | +61 |
+
+Verdict géométrique, pas un réglage : la lumière est à 1,9 m devant le Terminator, la caméra à 3,55 m
+derrière lui. Ce qui est assez près pour encaisser le `1/r²` (2 à 3 m) est **derrière sa propre
+silhouette** ; ce qui est visible est à 5–8 m, où l'intensité est tombée à 0,8 puis 0,3 fois la clé.
+Aucune graine ne donne donc « le flash révèle une proie ». Le flash est un **révélateur de salle** —
+et c'est la proie qui reste la forme noire *contre* la salle allumée. Pour obtenir l'image classique
+(une proie déchirée par la lumière), il faut la placer à 2 ou 3 m **en travers du canon**, pas devant :
+c'est un plan de démo, pas un réglage de la simulation.
+
+Réglage retenu : `PointLight(0xffd8a8, 20 × muzzleT², 13 m, decay 2)` en `(1,9, 1,6, 0,6)` dans le
+repère du Terminator, 75 ms, décroissance quadratique. Contre 12 / 11 m / 1,4 m avant : le total passe
+de +2,54 à +5,90 sur les blocs, 30 % → 54 % des blocs au-dessus de +2.
 
 ## Lien avec la simulation — ce que le rendu ne décide pas
 
