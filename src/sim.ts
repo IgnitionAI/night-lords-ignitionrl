@@ -35,15 +35,18 @@ export interface TAction { fwd: number; strafe: number; turn: number; bolt: bool
 export const T_IDLE: TAction = { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false };
 export interface Belief { valid: boolean; x: number; y: number; age: number; facing: number | null; seen: boolean; heard: boolean; vox: boolean }
 export interface Mate { known: boolean; x: number; y: number; age: number; alive: boolean }
-export interface NL { role: number; x: number; y: number; facing: number; alive: boolean; cd: number; belief: Belief; lastAction: number; noise: number; mates: Mate[] }
+export interface NL { role: number; x: number; y: number; facing: number; alive: boolean; cd: number; armTicks: number; belief: Belief; lastAction: number; noise: number; mates: Mate[] }
 export interface Term { x: number; y: number; facing: number; hp: number; boltCd: number; fistCd: number; noise: number; moving: boolean; channel: number; lastHitTick: number; lastHitAngle: number }
 export type Ev =
   | { type: 'bolt'; x: number; y: number; tx: number; ty: number; kill: number }
   | { type: 'fist'; kill: number }
   | { type: 'claw'; who: number; dmg: number; zone: 'front' | 'side' | 'rear' }
-  | { type: 'whiff'; who: number };
+  | { type: 'whiff'; who: number }
+  | { type: 'clawArm'; who: number }; // annonce : le coup tombe 2 ticks plus tard, il est télégraphié
+/** Options de simulation. `clawWindup` : armement de 2 ticks avant l'impact des griffes (défaut `true`). */
+export interface WorldOpts { clawWindup?: boolean }
 export interface World {
-  seed: number; tick: number; rng: Rng; t: Term; nls: NL[];
+  seed: number; tick: number; rng: Rng; t: Term; nls: NL[]; opts: Required<WorldOpts>;
   done: boolean; winner: 'pack' | 'terminator' | null; reason: string; events: Ev[];
 }
 export const NL_ACTIONS = ['tenir', 'approcher', 'reculer', 'flanc G', 'flanc D', 'diag G', 'diag D', 'griffes'] as const;
@@ -90,7 +93,7 @@ export function rayFree(x: number, y: number, dx: number, dy: number, max = 6): 
   return max;
 }
 
-export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: number }): World {
+export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: number }, opts: WorldOpts = {}): World {
   const rng = mulberry32(seed);
   const t: Term = { x: 3, y: 6 + rng() * 12, facing: 0, hp: T_CFG.hp, boltCd: 0, fistCd: 0, noise: T_CFG.noiseIdle, moving: false, channel: 0, lastHitTick: -999, lastHitAngle: 0 };
   if (tSpawn) { t.x = tSpawn.x; t.y = tSpawn.y; t.facing = tSpawn.facing; }
@@ -98,11 +101,11 @@ export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: 
   for (let i = 0; i < N_NL; i++) {
     let x = 0, y = 0;
     do { x = 26 + rng() * 12; y = 2 + rng() * 20; } while (insideAny(x, y, 0.8) || dist(x, y, t.x, t.y) < 12);
-    nls.push({ role: i, x, y, facing: Math.PI, alive: true, cd: 0, lastAction: 0, noise: 0, mates: [],
+    nls.push({ role: i, x, y, facing: Math.PI, alive: true, cd: 0, armTicks: 0, lastAction: 0, noise: 0, mates: [],
       belief: { valid: false, x: BEACON.x, y: BEACON.y, age: 99, facing: null, seen: false, heard: false, vox: false } });
   }
   for (const n of nls) n.mates = nls.map(() => ({ known: false, x: n.x, y: n.y, age: 99, alive: true }));
-  const w: World = { seed, tick: 0, rng, t, nls, done: false, winner: null, reason: '', events: [] };
+  const w: World = { seed, tick: 0, rng, t, nls, opts: { clawWindup: opts.clawWindup ?? true }, done: false, winner: null, reason: '', events: [] };
   perceive(w);
   return w;
 }
@@ -190,6 +193,27 @@ export const REWARD = { tick: -0.002, dmgSelf: 0.5, dmgTeam: 0.2, front: -0.05, 
 
 export interface StepOut { rewards: number[]; died: boolean[] }
 
+/**
+ * Impact d'une griffe : portée et zone sont re-vérifiées ici, à l'instant où le coup tombe — jamais au moment
+ * de l'annonce. Une cible sortie de portée pendant l'armement encaisse un `whiff` et zéro dégât.
+ * Les récompenses restent attachées à l'impact effectif, pas à l'armement.
+ */
+function clawImpact(w: World, i: number, n: NL, rewards: number[], died: boolean[]) {
+  const t = w.t;
+  if (dist(n.x, n.y, t.x, t.y) > NL_CFG.clawRange) { w.events.push({ type: 'whiff', who: i }); return; }
+  const rel = Math.abs(angNorm(Math.atan2(n.y - t.y, n.x - t.x) - t.facing));
+  const zone = rel < NL_CFG.frontHalf ? 'front' : rel > NL_CFG.rearHalf ? 'rear' : 'side';
+  const dmg = zone === 'front' ? 0 : zone === 'rear' ? NL_CFG.dmgRear : NL_CFG.dmgSide;
+  const before = t.hp; t.hp = Math.max(0, t.hp - dmg);
+  if (dmg > 0) { t.lastHitTick = w.tick; t.lastHitAngle = Math.atan2(n.y - t.y, n.x - t.x); }
+  w.events.push({ type: 'claw', who: i, dmg, zone });
+  if (dmg === 0) rewards[i] += REWARD.front;
+  rewards[i] += REWARD.dmgSelf * dmg;
+  if (n.role === 3 && zone === 'rear') rewards[i] += REWARD.cyrionRear * dmg;
+  if (n.role === 2 && before <= T_CFG.hp / 2) rewards[i] += REWARD.xarlFinish * dmg;
+  w.nls.forEach((m, j) => { if (m.alive && !died[j]) rewards[j] += REWARD.dmgTeam * dmg; });
+}
+
 export function step(w: World, ta: TAction, acts: number[]): StepOut {
   const t = w.t; w.events = [];
   const rewards = w.nls.map(() => REWARD.tick), died = w.nls.map(() => false);
@@ -230,23 +254,14 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
     const n = w.nls[i]; if (!n.alive || died[i]) continue;
     const a = acts[i] ?? 0; n.lastAction = a; const f = nlFrame(n); n.noise = 0;
     if (n.cd > 0) n.cd--;
+    // armement en cours : le coup tombe quand le compte atteint 0, soit 2 ticks après l'annonce
+    if (n.armTicks > 0 && --n.armTicks === 0) clawImpact(w, i, n, rewards, died);
     if (a === 7) {
       n.facing = Math.atan2(f.uy, f.ux);
       if (n.cd === 0) {
         n.cd = NL_CFG.clawCd; n.noise = NL_CFG.noiseClaw;
-        if (dist(n.x, n.y, t.x, t.y) <= NL_CFG.clawRange) {
-          const rel = Math.abs(angNorm(Math.atan2(n.y - t.y, n.x - t.x) - t.facing));
-          const zone = rel < NL_CFG.frontHalf ? 'front' : rel > NL_CFG.rearHalf ? 'rear' : 'side';
-          const dmg = zone === 'front' ? 0 : zone === 'rear' ? NL_CFG.dmgRear : NL_CFG.dmgSide;
-          const before = t.hp; t.hp = Math.max(0, t.hp - dmg);
-          if (dmg > 0) { t.lastHitTick = w.tick; t.lastHitAngle = Math.atan2(n.y - t.y, n.x - t.x); }
-          w.events.push({ type: 'claw', who: i, dmg, zone });
-          if (dmg === 0) rewards[i] += REWARD.front;
-          rewards[i] += REWARD.dmgSelf * dmg;
-          if (n.role === 3 && zone === 'rear') rewards[i] += REWARD.cyrionRear * dmg;
-          if (n.role === 2 && before <= T_CFG.hp / 2) rewards[i] += REWARD.xarlFinish * dmg;
-          w.nls.forEach((m, j) => { if (m.alive && !died[j]) rewards[j] += REWARD.dmgTeam * dmg; });
-        } else w.events.push({ type: 'whiff', who: i });
+        if (w.opts.clawWindup) { n.armTicks = 2; w.events.push({ type: 'clawArm', who: i }); }
+        else clawImpact(w, i, n, rewards, died); // comportement d'avant : les dégâts tombent dans le tick
       }
     } else if (a > 0) {
       const dirs: Record<number, [number, number]> = { 1: [1, 0], 2: [-1, 0], 3: [0, 1], 4: [0, -1], 5: [0.7071, 0.7071], 6: [0.7071, -0.7071] };
