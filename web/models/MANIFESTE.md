@@ -198,6 +198,21 @@ simulation) et la rafale part au même tick. À l'image, `armTicks = 1` et le fl
 télégraphe. Une moyenne de région prise sur deux captures est un chiffre de bruit déguisé en mesure. Le
 plancher se mesure à côté, sinon il n'y a pas de mesure.
 
+**Le tick, la graine et le mode sont brûlés dans l'image.** La dernière ligne du HUD écrit `t235 · graine 18 ·
+autoplay march · cam epaule · shot=235`, et seulement les drapeaux qui s'écartent du défaut (`tell=0`,
+`impact=0`, `demo`). Une capture se vérifie alors sans sa légende, ce qui est le minimum : une planche dont le
+tick n'est pas lisible est une affirmation invérifiable, le même défaut qu'un chiffre sans SHA.
+
+Ça a immédiatement servi. La planche du télégraphe annonçait « graine 17 » ; la graine réellement jouée
+était **18**, parce que `startRound()` incrémente celle de l'URL. Personne ne l'avait vu en relisant le
+document — le brûlage l'a montré du premier coup d'œil.
+
+**Au-dessus de quel seuil une différence existe.** Le grain d'une passe plein écran fait bouger 5,9 à 6,1 %
+des blocs de plus de 2/255, et son maximum atteint +14,1 à +15,5 : la colonne « max » ne sépare donc rien.
+Ce qui sépare, c'est un seuil que le grain ne franchit jamais — **> 8/255** : 0,0 % des blocs pour le grain,
+3,0 à 3,5 % pour le télégraphe, 7,4 % pour le flash. Un maximum isolé n'est pas une mesure ; un comptage de
+blocs au-dessus d'un seuil que le bruit ne franchit pas en est une.
+
 **Graine et reproductibilité.** Les captures à `?shot=N` tombent sur le tick N, mais la graine de grain
 de la passe plein écran dépend de `performance.now()` : deux captures du même tick ne sont jamais
 identiques au pixel, l'écart est le grain. Comparer avec `pix.mjs` (histogramme) ou en blocs de 8 px,

@@ -432,10 +432,21 @@ async function endRound() {
 async function loadPolicy() {
   try { const j = await fetch('/policy/current.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null); if (j) { actor = j; policyLabel = `politique ${j.version}`; } } catch { /* naïve */ }
 }
+// Traçabilité brûlée dans l'image : un lecteur doit pouvoir dire, en regardant une capture, quel tick elle
+// montre, sur quelle graine et dans quel mode. Sans ça, chaque planche est une affirmation invérifiable — et
+// c'est le défaut qu'on reproche aux chiffres sans SHA. Seuls les drapeaux qui s'écartent du défaut sont écrits.
+function burnIn() {
+  const parts = [`t${w.tick}`, `graine ${seed}`, autoplay ? `autoplay ${autoplay}` : 'joueur', `cam ${CAM_MODE}`];
+  if (!TELL_ON) parts.push('tell=0');
+  if (!IMPACT) parts.push('impact=0');
+  if (DEMO_CFG) parts.push(`demo ${DEMO}`);
+  if (qs.get('shot')) parts.push(`shot=${qs.get('shot')}`);
+  return parts.join(' · ');
+}
 function hud() {
   const t = w.t; const h = document.getElementById('hud')!;
   h.innerHTML = `${DEMO_CFG ? '<b style="color:#ffb020">MISE EN SCÈNE</b> — ce n\'est pas une manche jouée · ' : ''}<b>TERMINATOR</b> — manche ${roundNo} · meute ${score.pack} / ${score.term} Terminator · ${((MAX_TICKS - w.tick) * DT).toFixed(0)} s<div class="bar"><i style="width:${t.hp / T_CFG.hp * 100}%"></i></div>`
-    + `${t.channel ? `<b style="color:#6f6">Téléportation ${Math.round(t.channel / T_CFG.channel * 100)} %</b> · ` : ''}Armure ${t.hp}/${T_CFG.hp} · bolter ${t.boltCd ? '…' : 'prêt'} · gantelet ${t.fistCd ? '…' : 'prêt'} · Night Lords debout : ${w.nls.filter(n => n.alive).length}/4<br><small>${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}</small>`;
+    + `${t.channel ? `<b style="color:#6f6">Téléportation ${Math.round(t.channel / T_CFG.channel * 100)} %</b> · ` : ''}Armure ${t.hp}/${T_CFG.hp} · bolter ${t.boltCd ? '…' : 'prêt'} · gantelet ${t.fistCd ? '…' : 'prêt'} · Night Lords debout : ${w.nls.filter(n => n.alive).length}/4<br><small>${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}</small><br><small style="color:#8f98a8">${burnIn()}</small>`;
   const d = document.getElementById('dbg')!; d.style.display = debug ? 'block' : 'none';
   if (debug) d.innerHTML = `<b>Vue de contrôle — ce que perçoit chaque Night Lord</b><table><tr><th>rôle</th><th>état</th><th>voit</th><th>entend</th><th>vox</th><th>âge</th><th>action (p)</th></tr>`
     + w.nls.map((n, i) => `<tr style="color:${ROLE_CSS[i]}"><td>${ROLES[i]}</td><td>${n.alive ? 'debout' : 'mort'}</td><td>${n.alive && n.belief.seen ? '●' : '·'}</td><td>${n.alive && n.belief.heard ? '●' : '·'}</td><td>${n.alive && n.belief.vox ? '●' : '·'}</td><td>${n.alive && n.belief.valid ? (n.belief.age * DT).toFixed(1) + ' s' : '—'}</td><td>${n.alive ? NL_ACTIONS[lastActs[i]] + (actor ? ` (${lastP[i].toFixed(2)})` : '') : ''}</td></tr>`).join('')

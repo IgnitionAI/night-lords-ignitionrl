@@ -1,28 +1,33 @@
 <!doctype html><meta charset="utf-8">
 <style>
- body{background:#0a0b0f;color:#c9cdd6;font:14px/1.5 ui-sans-serif,system-ui;margin:0;padding:22px 26px}
- h1{font:600 17px/1.3 ui-sans-serif;margin:0 0 4px;color:#e8ebf2;letter-spacing:.02em}
- p.s{color:#8b93a3;margin:0 0 18px;font-size:12.5px}
- .row{display:flex;gap:14px}
+ body{background:#0a0b0f;color:#c9cdd6;font:13.5px/1.5 ui-sans-serif,system-ui;margin:0;padding:20px 24px;width:1760px}
+ h1{font:600 17px/1.3 ui-sans-serif;margin:0 0 5px;color:#e8ebf2}
+ p.s{margin:0 0 14px;font-size:12.5px;color:#8b93a3}
+ .row{display:flex;gap:10px}
  figure{flex:1;margin:0}
  img{width:100%;display:block;border:1px solid #1e2230}
- figcaption{margin-top:7px;font-size:12.5px;color:#9aa3b4}
- b{color:#ff4a3d;font-weight:600}
- table{border-collapse:collapse;margin:18px 0 0;font-size:12.5px;width:100%}
+ figcaption{margin-top:6px;font-size:12px;color:#9aa3b4}
+ b{color:#e8ebf2;font-weight:600}
+ .k{color:#8bd4a0}
+ table{border-collapse:collapse;margin-top:16px;font-size:12px;width:100%}
  td,th{border-bottom:1px solid #1b1f2b;padding:5px 8px;text-align:left}
  th{color:#7d8698;font-weight:500}
  td.n{text-align:right;font-variant-numeric:tabular-nums}
- .k{color:#8bd4a0}
+ code{color:#9fb0c8}
+ .note{margin-top:12px;font-size:12px;color:#7b8798}
+ .warn{color:#ffb020;font-weight:600}
 </style>
 <h1>Télégraphe de la griffe, branché sur l'armement de la simulation</h1>
-<p class="s">Graine 17, <code>?autoplay=march</code>, <b>tick 235</b> — Night Lord n°2 à <b>2,26 m</b>, <code>armTicks = 1</code>, deux autres au contact. Caméra à l'épaule. Capture réelle d'une manche jouée : aucune mise en scène.</p>
+<p class="s">Graine <b>18</b> (<code>?seed=17</code>, <code>startRound</code> incrémente), <code>?autoplay=march</code>, <b>tick 235</b> — Night Lord n°2 à <b>2,26 m</b>, <code>armTicks = 1</code>, deux autres au contact. Capture réelle : aucune mise en scène.</p>
+<p class="s">Le tick, la graine et le mode sont <b>brûlés dans l'image</b> (dernière ligne du HUD) : une planche se vérifie sans sa légende.</p>
 <div class="row">
- <figure><img src="off-t235.jpg"><figcaption><code>?tell=0</code> — sans télégraphe. Les trois assaillants sont des masses noires équivalentes.</figcaption></figure>
- <figure><img src="on-t235.jpg"><figcaption>Par défaut — le NL n°2 est cerclé de rouge : le coup tombe dans <b>200 ms</b>. Les deux autres, griffes en recharge, ne disent rien.</figcaption></figure>
+ <figure><img src="off-t235.jpg"><figcaption><b><code>?tell=0</code></b> — sans télégraphe. Les trois assaillants sont des masses noires équivalentes.</figcaption></figure>
+ <figure><img src="on-t235.jpg"><figcaption><b>Par défaut</b> — le NL n°2 est cerclé de rouge : le coup tombe dans <b>200 ms</b>. Les deux autres, griffes en recharge, ne disent rien.</figcaption></figure>
 </div>
 <table>
- <tr><th>mesure</th><th>blocs de 8 px, image entière</th><th>région du NL armé (x 1000–1280, y 430–790)</th></tr>
- <tr><td>écart moyen</td><td class="n">+0,59 /255</td><td class="n k">+4,2 /255</td></tr>
- <tr><td>écart maximal d'un bloc</td><td class="n">+25,2 /255</td><td class="n">max 116 → <span class="k">155</span></td></tr>
- <tr><td>blocs au-dessus de 2/255</td><td class="n">13,5 %</td><td class="n">—</td></tr>
+ <tr><th>blocs de 8 px, image entière</th><th class="n">écart moyen</th><th class="n">blocs &gt; 2</th><th class="n">blocs &gt; 8</th><th class="n">blocs &gt; 16</th><th class="n">max</th></tr>
+ <tr><td>télégraphe (ces deux images)</td><td class="n">+0,59/255</td><td class="n">14,4 %</td><td class="n k">3,0 %</td><td class="n k">0,4 %</td><td class="n">+24,6</td></tr>
+ <tr><td>plancher de grain (même URL deux fois)</td><td class="n">0,00/255</td><td class="n">5,9–6,1 %</td><td class="n">0,0 %</td><td class="n">0,0 %</td><td class="n">+14,1 à +15,5</td></tr>
 </table>
+<p class="note">Le seuil qui compte est <b>&gt; 8</b> : le grain n'y passe jamais, sur deux répétitions. La valeur maximale, elle, ne dit rien — la queue du grain monte à +15, et un maximum isolé n'est pas une mesure.</p>
+<p class="note warn">Correction : la première version de cette planche annonçait « graine 17 ». La graine réellement jouée est 18 — <code>startRound()</code> incrémente celle de l'URL. C'est le brûlage du tick dans l'image qui l'a révélé, pas une relecture.</p>
