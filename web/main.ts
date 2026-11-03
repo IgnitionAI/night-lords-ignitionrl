@@ -55,7 +55,7 @@ beacon.position.set(BEACON.x, 0.05, BEACON.y); scene.add(beacon); const bl = new
 const NL_HEIGHT = 2.0, TERM_HEIGHT = 2.6;
 const gltfLoader = new GLTFLoader();
 const loadGLB = (url: string) => new Promise<any>((res, rej) => gltfLoader.load(url, res, undefined, rej));
-interface Rig { root: THREE.Object3D; mixer: THREE.AnimationMixer; walk: THREE.AnimationAction | null; run: THREE.AnimationAction | null; idle: THREE.AnimationAction | null; current: THREE.AnimationAction | null; }
+interface Rig { root: THREE.Object3D; mixer: THREE.AnimationMixer; walk: THREE.AnimationAction | null; run: THREE.AnimationAction | null; idle: THREE.AnimationAction | null; current: THREE.AnimationAction | null; tell: { value: number }; }
 // Box3.setFromObject ignore le skinning : sur un maillage quantifié (KHR_mesh_quantization) il rend 0,02 m
 // au lieu de 1,70 m, et l'échelle devient ×100. On mesure donc la boîte calculée par le skin, transformée
 // par la matrice monde du maillage (qui porte le facteur 0,01).
@@ -75,6 +75,10 @@ function measureHeight(root: THREE.Object3D): number {
 }
 const rigOf = (model: any, clips: any[], targetHeight: number, dim = 1): Rig => {
   const root = model.scene;
+  // Un seul objet uniform par modèle, créé ici : tous les programmes compilés plus tard le lisent en direct.
+  // (Un uniform créé dans onBeforeCompile n'existe qu'après le premier rendu — en mode capture, les ticks
+  // de simulation passaient tous avant, et le télégraphe restait à zéro.)
+  const tell = { value: 0 };
   const h = measureHeight(root);
   root.scale.setScalar(targetHeight / h);
   root.rotation.y = Math.PI / 2; // le modele regarde +Z, la simulation regarde +X
@@ -87,17 +91,19 @@ const rigOf = (model: any, clips: any[], targetHeight: number, dim = 1): Rig => 
     if (m && m.color) { m.color.multiplyScalar(dim); m.envMapIntensity = 0.25; m.metalness *= 0.3; m.roughness = Math.max(m.roughness, 0.72); }
     // Injecté *avant* le brouillard : ajouté après, le liseré traversait 17 m de brume intact et le Night
     // Lord devenait un mannequin blanc à contre-jour (vu à t77). Avant, la brume le mange comme le reste.
+    // Le liseré porte aussi le télégraphe de la griffe : du bleu froid au rouge ardent, et il s'intensifie.
     if (m && m.onBeforeCompile) m.onBeforeCompile = (sh) => {
-      sh.fragmentShader = sh.fragmentShader.replace('#include <fog_fragment>', `
+      sh.uniforms.uTell = tell;
+      sh.fragmentShader = 'uniform float uTell;\n' + sh.fragmentShader.replace('#include <fog_fragment>', `
        float fres = pow(1.0 - clamp(abs(dot(normalize(normal), normalize(vViewPosition))), 0.0, 1.0), 4.2);
-       gl_FragColor.rgb += vec3(0.26, 0.35, 0.55) * fres * 0.55;
+       gl_FragColor.rgb += mix(vec3(0.26, 0.35, 0.55), vec3(0.85, 0.12, 0.05), uTell) * fres * (0.55 + 1.4 * uTell);
        #include <fog_fragment>`);
     };
   });
   const mixer = new THREE.AnimationMixer(root);
   const pick = (n: string) => clips.find(c => c.name.toLowerCase().includes(n)) ?? null;
   const mk = (c: any) => (c ? mixer.clipAction(c) : null);
-  return { root, mixer, walk: mk(pick('walk')), run: mk(pick('run')), idle: mk(model.animations?.[0] ?? null), current: null };
+  return { root, mixer, walk: mk(pick('walk')), run: mk(pick('run')), idle: mk(model.animations?.[0] ?? null), current: null, tell };
 };
 const playRig = (rig: Rig, want: 'walk' | 'run' | 'idle', dt: number) => {
   const next = want === 'run' ? (rig.run ?? rig.walk) : want === 'walk' ? (rig.walk ?? rig.run) : rig.idle;
@@ -240,6 +246,24 @@ function updateCamYaw() {
   followYaw += d * 0.26; // ~4 rad/s de rotation max : le monde pivote sans fouetter
   camYaw = followYaw + pivotA;
 }
+// Télégraphe de la griffe. La simulation ne donne aucune anticipation : la griffe frappe dans le tick où elle
+// est choisie (src/sim.ts, action 7, distance <= clawRange). Ce qu'on peut montrer honnêtement, c'est la
+// *griffe prête* (cd === 0) et la *fermeture*. Sur un assaillant qui vient dans le dos on ne voit que son dos,
+// donc pas les yeux : le signal vit sur le liseré de silhouette, qui se lit de tous les angles.
+// 6 m -> 0, portée de griffe -> 1 ; une griffe en recharge ne donne que 30 %.
+// ?tell=0 coupe le télégraphe (comparaison avant/après, et réglage si ça crie trop).
+const TELL_ON = qs.get('tell') !== '0';
+const TELL_RANGE = 6.0, TELL_FADE = 1.5; // allumé jusqu'à 6 m, fondu sur les 1,5 m suivants
+function updateTell() {
+  for (let i = 0; i < nlRigs.length; i++) {
+    const rig = nlRigs[i]; if (!rig) continue;
+    const n = w.nls[i];
+    const d = Math.hypot(n.x - w.t.x, n.y - w.t.y);
+    // Binaire, pas un dégradé : la griffe est prête (cd === 0) et il est à portée d'un bond -> 1.
+    const on = n.cd === 0 ? Math.max(0, Math.min(1, (TELL_RANGE + TELL_FADE - d) / TELL_FADE)) : 0;
+    rig.tell.value = TELL_ON && n.alive ? on : 0;
+  }
+}
 function updateRigs(dt: number) { // avance d'un pas de simulation, pas du temps réel : le mode capture reste déterministe
   for (let i = 0; i < nlRigs.length; i++) {
     const rig = nlRigs[i]; if (!rig) continue;
@@ -249,6 +273,7 @@ function updateRigs(dt: number) { // avance d'un pas de simulation, pas du temps
     playRig(rig, moved ? 'run' : 'idle', dt);
   }
   if (termRig) playRig(termRig, w.t.moving ? 'walk' : 'idle', dt);
+  updateTell();
 }
 function tick() {
   prev = snap();
