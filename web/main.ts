@@ -19,7 +19,12 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDraw
 renderer.setPixelRatio(Math.min(2, devicePixelRatio)); renderer.shadowMap.enabled = true;
 // palette filmique : sans tone mapping les hautes lumières écrasent le reste du cadre
 renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.6;
-const scene = new THREE.Scene(); scene.background = new THREE.Color(0x020306); scene.fog = new THREE.Fog(0x020306, 30, 70);
+// Brouillard : FogExp2 par defaut, ~25 m de visibilite utile. `?fog=linear` revient a la rampe 8 -> 38 m,
+// disponible tant que la camera de couloir (P1) n'est pas mergee. Meme couleur que le fond, sinon une ligne
+// d'horizon se dessine la ou la geometrie s'efface.
+const FOG_COLOR = 0x0b0d13, FOG_MODE = qs.get('fog') ?? 'exp2';
+const scene = new THREE.Scene(); scene.background = new THREE.Color(FOG_COLOR);
+scene.fog = FOG_MODE === 'linear' ? new THREE.Fog(FOG_COLOR, 8, 38) : new THREE.FogExp2(FOG_COLOR, 0.052);
 const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 200);
 // Une seule lumière de remplissage, froide et rasante : les formes se lisent par leur bord, pas par leur face.
 scene.add(new THREE.AmbientLight(0x1b2130, 0.30));
@@ -58,13 +63,26 @@ nlBodyMat.onBeforeCompile = (sh) => { // liseré de Fresnel : la silhouette se d
      gl_FragColor.rgb += vec3(0.26, 0.35, 0.55) * fres * 0.55;`);
 };
 const nlMarkers: THREE.Object3D[] = []; // anneau + étiquette, visibles seulement en vue de contrôle
+const nlLabels: { sprite: THREE.Sprite; name: string }[] = [];
+let labelsBuilt = false;
+function buildLabels() { // différé : aucune texture de nom allouée tant que la vue de contrôle n'est pas ouverte
+  if (labelsBuilt) return; labelsBuilt = true;
+  for (const { sprite, name } of nlLabels) {
+    const c = document.createElement('canvas'); c.width = 256; c.height = 64;
+    const x = c.getContext('2d')!; x.font = 'bold 40px system-ui'; x.fillStyle = '#ffffff'; x.textAlign = 'center'; x.fillText(name, 128, 46);
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+    const mat = sprite.material as THREE.SpriteMaterial; mat.map = t; mat.needsUpdate = true;
+  }
+}
 const nlMeshes = ROLES.map((name, i) => {
   const g = new THREE.Group();
   add(g, new THREE.CapsuleGeometry(NL_CFG.radius, 1.1, 6, 12), nlBodyMat, 0, 1.0, 0);
   for (const z of [-0.11, 0.11]) add(g, new THREE.SphereGeometry(0.045, 8, 8), new THREE.MeshBasicMaterial({ color: 0xff1a08 }), 0.42, 1.66, z); // yeux, seule source chaude
   const ring = new THREE.Mesh(new THREE.RingGeometry(0.55, 0.75, 24), new THREE.MeshBasicMaterial({ color: ROLE_COL[i], transparent: true, opacity: 0.5, side: THREE.DoubleSide })); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.04; ring.visible = false; g.add(ring); nlMarkers.push(ring);
-  const c = document.createElement('canvas'); c.width = 256; c.height = 64; const x = c.getContext('2d')!; x.font = 'bold 40px system-ui'; x.fillStyle = ROLE_CSS[i]; x.textAlign = 'center'; x.fillText(name, 128, 46);
-  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), depthTest: false })); s.scale.set(2.4, 0.6, 1); s.position.y = 2.5; s.visible = false; g.add(s); nlMarkers.push(s);
+  // Etiquette : le canvas n'est peint qu'a la premiere ouverture de la vue de controle, et le sprite teste la
+  // profondeur (il s'affichait a travers les piliers). La teinte vient du materiau, le texte est blanc.
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ color: ROLE_COL[i], depthTest: true, transparent: true, opacity: 0.9 }));
+  s.scale.set(2.4, 0.6, 1); s.position.y = 2.5; s.visible = false; g.add(s); nlMarkers.push(s); nlLabels.push({ sprite: s, name });
   scene.add(g); return g;
 });
 // vue de contrôle : cônes, croyances, bruit
@@ -104,7 +122,7 @@ let w: World, prev: { t: [number, number, number]; n: [number, number, number][]
 let roundNo = 0, score = { pack: 0, term: 0 }, paused = false, acc = 0, hitstop = 0, shake = 0, lastActs: number[] = [0, 0, 0, 0], lastP: number[] = [0, 0, 0, 0], tracerT = 0;
 let roundOver = false, lastSummary = '';
 const keys = new Set<string>();
-addEventListener('keydown', e => { keys.add(e.code); if (e.code === 'KeyV') debug = !debug; if (e.code === 'KeyP') paused = !paused; if (e.code === 'Enter' && roundOver) startRound(); if (e.code === 'Space') e.preventDefault(); });
+addEventListener('keydown', e => { keys.add(e.code); if (e.code === 'KeyV') { debug = !debug; if (debug) buildLabels(); } if (e.code === 'KeyP') paused = !paused; if (e.code === 'Enter' && roundOver) startRound(); if (e.code === 'Space') e.preventDefault(); });
 addEventListener('keyup', e => keys.delete(e.code));
 const snap = () => ({ t: [w.t.x, w.t.y, w.t.facing] as [number, number, number], n: w.nls.map(n => [n.x, n.y, n.facing] as [number, number, number]) });
 function startRound() {
@@ -191,6 +209,7 @@ function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.asp
   const s = renderer.getDrawingBufferSize(new THREE.Vector2()); rt.setSize(s.x, s.y); }
 addEventListener('resize', resize);
 
+if (debug) buildLabels();
 await loadPolicy(); resize(); startRound();
 if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
   while (w.tick < shot && !w.done) tick();
