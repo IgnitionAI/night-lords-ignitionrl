@@ -100,12 +100,15 @@ Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --see
 - Pivot (P3) : la caméra se décale de 30 % au plus vers la menace la plus proche quand celle-ci est derrière
   le dos depuis plus d'une seconde. `?pivot=` règle le plafond, `?pivot=0` coupe. Le joueur garde la main,
   rien n'est forcé. `?fog=linear` revient au brouillard 8→38 m, `?grid=1` réaffiche la grille du grey-box.
-- Télégraphe : un Night Lord dont la griffe est prête (`cd = 0`) et qui est à moins de 6 m voit son liseré de
-  silhouette passer du bleu froid au rouge ardent. `?tell=0` le coupe. Il ne dit pas « il est dangereux » mais
-  « il peut frapper maintenant » ; la simulation ne donne aucun temps de préparation, la frappe tombe dans le
-  tick où elle est choisie. 2 ticks d'armement sont décidés côté simulation (Khayon) : quand ils arriveront,
-  le télégraphe se branchera sur l'armement et non sur `cd === 0`, et le build jouable ne sera plus comparable
-  aux mesures b3 (voir `web/models/MANIFESTE.md`).
+- Télégraphe : un Night Lord dont la griffe est **armée** (`armTicks > 0`, 2 ticks décidés par la
+  simulation) voit son liseré de silhouette passer au rouge ardent pendant 200 ms ; deux autres assaillants
+  au contact, griffes en recharge, ne disent rien. Une griffe simplement prête et proche donne un rideau à
+  45 %, qui ne crie pas. `?tell=0` coupe tout. Le signal se lit sur le **liseré**, pas sur les yeux : un
+  assaillant qui vient dans le dos n'a pas d'yeux visibles. Le build jouable n'est plus comparable aux
+  mesures b3 (voir `web/models/MANIFESTE.md`).
+- Le pas de la caméra vient de l'**événement de simulation** (`step`, avec son intensité et son pied), plus
+  d'un compteur de mètres parcourus : la cadence suit la vitesse par construction, le pied alterne, et le
+  pas d'arrêt — le plus lourd — pousse plus fort.
 - `shots/` : captures 16:9 et 9:16 (prototype du jalon 1)
 - `mesures/`, `jalon1/mesures/`, `runs/*metrics.jsonl` : mesures brutes citées dans les rapports
 
