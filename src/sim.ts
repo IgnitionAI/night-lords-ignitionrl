@@ -30,7 +30,20 @@ export const T_CFG = {
   strideTime: 0.9, // une foulée = |v| · 0,9 s : la cadence des pas suit la vitesse
   boltCd: 12, boltRange: 16, boltHalf: 0.12, fistCd: 12, fistRange: 2.4, fistHalf: 1.0,
   visionHalf: 1.2, visionRange: 14, auspex: 4,
-  noiseMove: 9, noiseIdle: 3, noiseBolt: 18, noiseFist: 12,
+  // --- Bruit du Terminator : un plancher, pas un silence. Servomoteurs, armure, réacteurs : il **s'entend**
+  // toujours, même à l'arrêt (`noiseFloor`), et plus fort quand il court (`noiseRun`, atteint à `fwd`). C'est une
+  // règle de perception, pas un réglage de confort : la meute n'a que la vue (12 m, cône), la vox (14 m) et
+  // l'ouïe (`dist ≤ t.noise`) pour réacquérir. Depuis l'inertie, le Terminator plafonne à 1,5-2,5 m/s et ne
+  // traverse plus les cônes de vision : sans bruit de fond, une forteresse lente devient invisible pour une
+  // meute déjà partie à la balise, et la manche n'a plus de contact. `noiseBolt`/`noiseFist` restent des
+  // minimums **ponctuels** : un geste peut rendre plus bruyant, jamais plus silencieux que le fond.
+  // Valeurs **mesurées** (voir `test/perception.test.ts`, chemin réel `policies/current.json`) : la meute s'établit
+  // à 23,1 m du Terminator immobile ; un plancher de 18 m ne la réveille donc jamais (0 contact, 0 ouïe). Le
+  // basculement est entre 23 et 24 m, 25 m est le premier palier de la mesure d'origine, 30 m sature (au-delà,
+  // plus aucun changement mesuré) et l'arène fait 40 × 24 m : un Terminator s'entend depuis presque partout, ce
+  // qui est la décision de game design (« une forteresse qui marche, ça s'entend »). `noiseRun = 40` couvre les
+  // 40 m de l'arène.
+  noiseFloor: 30, noiseRun: 40, noiseBolt: 18, noiseFist: 12,
   channel: 60, // la téléportation exige 6 s dans la zone sans subir de dégât
   // --- Armes (lot 3) : uniquement des valeurs **dérivées**. Les cinq valeurs de base du combat (boltHalf, boltCd,
   // fistCd, fistRange, fistHalf) ne changent pas ; ce qui suit les met en forme (rafale, munitions, charge, stagger).
@@ -158,7 +171,7 @@ export function rayFree(x: number, y: number, dx: number, dy: number, max = 6): 
 
 export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: number }, opts: WorldOpts = {}): World {
   const rng = mulberry32(seed);
-  const t: Term = { x: 3, y: 6 + rng() * 12, facing: 0, hp: T_CFG.hp, boltCd: 0, fistCd: 0, noise: T_CFG.noiseIdle, moving: false, channel: 0, lastHitTick: -999, lastHitAngle: 0,
+  const t: Term = { x: 3, y: 6 + rng() * 12, facing: 0, hp: T_CFG.hp, boltCd: 0, fistCd: 0, noise: T_CFG.noiseFloor, moving: false, channel: 0, lastHitTick: -999, lastHitAngle: 0,
     vx: 0, vy: 0, turnVel: 0, strideAcc: 0, foot: 0,
     ammo: T_CFG.boltAmmo, burstLeft: 0, burstCd: 0, reloadLeft: 0, fistCharge: 0,
     staggerTicks: 0, servoAlarm: 0, servoCriticalSent: false };
@@ -359,7 +372,10 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   t.x += t.vx * DT; t.y += t.vy * DT; collide(t, T_CFG.radius);
   const speed = Math.abs(vLong);
   t.moving = speed > 1e-6; // la vitesse réelle, pas l'entrée : le Terminator reste bruyant en glissant
-  t.noise = t.moving ? T_CFG.noiseMove : T_CFG.noiseIdle;
+  // Bruit de fond : plancher à l'arrêt, montée linéaire avec la vitesse jusqu'à `noiseRun`. Jamais sous
+  // `noiseFloor` — c'est ce qui permet à la meute de réacquérir un Terminator immobile hors de sa vue/vox.
+  t.noise = Math.min(T_CFG.noiseRun, Math.max(T_CFG.noiseFloor,
+    T_CFG.noiseFloor + (T_CFG.noiseRun - T_CFG.noiseFloor) * (speed / T_CFG.fwd)));
   if (t.fistCharge > 0) t.noise = Math.max(t.noise, T_CFG.noiseFist); // la charge s'entend venir
   // --- le pas comme événement de simulation. La foulée vaut |v| · 0,9 s : à pleine vitesse un pas tous les
   // 0,9 s (~2,25 m), et la cadence suit la vitesse quand elle retombe.
