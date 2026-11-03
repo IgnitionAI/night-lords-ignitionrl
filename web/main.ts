@@ -234,7 +234,7 @@ function osc(imps: Imp[], t: number, w: number, z: number) {
 }
 const REC = { w: 13.8, z: 0.62 }, STP = { w: 23.2, z: 0.60 };
 const FRESH = 1.2; // une impulsion de plus d'1,2 s ne s'entend plus
-let stepRun = 0, stepY = 0, recZ = 0, recPitch = 0;
+let stepY = 0, recZ = 0, recPitch = 0;
 let muzzleT = 0, fistT = 0;
 let roundOver = false, lastSummary = '';
 const keys = new Set<string>();
@@ -297,21 +297,21 @@ function updateCamYaw() {
   rollPrev = roll; roll += (rollTarget - roll) * 0.20;
   camYawPrev = camYaw;
 }
-// Télégraphe de la griffe. La simulation ne donne aucune anticipation : la griffe frappe dans le tick où elle
-// est choisie (src/sim.ts, action 7, distance <= clawRange). Ce qu'on peut montrer honnêtement, c'est la
-// *griffe prête* (cd === 0) et la *fermeture*. Sur un assaillant qui vient dans le dos on ne voit que son dos,
-// donc pas les yeux : le signal vit sur le liseré de silhouette, qui se lit de tous les angles.
-// 6 m -> 0, portée de griffe -> 1 ; une griffe en recharge ne donne que 30 %.
+// Télégraphe de la griffe. Depuis l'armement côté simulation (2 ticks, `n.armTicks`, actif par défaut depuis
+// #19), le signal a une source exacte : le coup tombe dans 200 ms, ce n'est plus « il est dangereux » mais
+// « il frappe maintenant ». Deux rideaux, par priorité : l'armement à pleine intensité (binaire, sur le liseré
+// de silhouette qui se lit de tous les angles — sur un assaillant dans le dos on ne voit que son dos, pas ses
+// yeux), puis la *griffe prête* et proche à 45 %, qui ne crie pas. Une griffe en recharge ne donne rien.
 // ?tell=0 coupe le télégraphe (comparaison avant/après, et réglage si ça crie trop).
 const TELL_ON = qs.get('tell') !== '0';
-const TELL_RANGE = 6.0, TELL_FADE = 1.5; // allumé jusqu'à 6 m, fondu sur les 1,5 m suivants
+const TELL_RANGE = 6.0, TELL_FADE = 1.5, TELL_READY = 0.45; // prêt : allumé jusqu'à 6 m, fondu sur les 1,5 m suivants
 function updateTell() {
   for (let i = 0; i < nlRigs.length; i++) {
     const rig = nlRigs[i]; if (!rig) continue;
     const n = w.nls[i];
     const d = Math.hypot(n.x - w.t.x, n.y - w.t.y);
-    // Binaire, pas un dégradé : la griffe est prête (cd === 0) et il est à portée d'un bond -> 1.
-    const on = n.cd === 0 ? Math.max(0, Math.min(1, (TELL_RANGE + TELL_FADE - d) / TELL_FADE)) : 0;
+    const ready = n.cd === 0 ? Math.max(0, Math.min(1, (TELL_RANGE + TELL_FADE - d) / TELL_FADE)) * TELL_READY : 0;
+    const on = n.armTicks > 0 ? 1 : ready; // l'armement gagne : 200 ms à pleine intensité
     rig.tell.value = TELL_ON && n.alive ? on : 0;
   }
 }
@@ -345,6 +345,12 @@ function tick() {
     // sensations différentes, et on veut pouvoir mesurer l'une en gardant l'autre.
     // La façade de Honsou : un événement appelle UNE fonction, toutes renvoient true si un son est parti.
     if (e.type === 'step') onStep((e as any).intensity ?? 1);
+    // Le pas pousse la caméra à la source : la cadence suit la vitesse par construction, plus de compteur
+    // de mètres. Le pied alterne, donc l'amplitude aussi ; le pas d'arrêt (intensity 0) est le plus lourd.
+    if (e.type === 'step' && IMPACT) {
+      const amp = (e as any).intensity > 0 ? 0.55 + 0.45 * (e as any).intensity : 1.15;
+      stepImp.push({ t0: simT, v: -1.95 * amp * ((e as any).foot === 0 ? 1 : 0.94) });
+    }
     else if (e.type === 'bolt') onBolterBurst(0.05);
     else if (e.type === 'fistCharge') onFistCharge(0);   // le gantelet s'engage, l'impact tombe 0,8 s plus tard
     else if (e.type === 'fist') onFistImpact(0);
@@ -404,9 +410,6 @@ function hud() {
 // qu'une rafale part. Ce qui les met en forme est continu.
 function updateImpact(dt: number) {
   simT += dt; breathT += dt; fistT += dt;
-  const moved = Math.hypot(w.t.x - prev.t[0], w.t.y - prev.t[1]);
-  stepRun += moved;
-  if (IMPACT && stepRun > 1.55) { stepRun = 0; stepImp.push({ t0: simT, v: -1.95 }); } // contact : la masse tombe
   for (let n = recImp.length - 1; n >= 0; n--) if (simT - recImp[n].t0 > FRESH) { recImp.splice(n, 1); pitchImp.splice(n, 1); }
   for (let n = stepImp.length - 1; n >= 0; n--) if (simT - stepImp[n].t0 > FRESH) stepImp.splice(n, 1);
 }
@@ -506,7 +509,8 @@ audio.attachLifecycle();
 resize(); startRound();
 if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
   while (w.tick < shot && !w.done) tick();
-  hitstop = 0; shake = 0; prev = snap(); hud(); render(1); document.title = 'READY';
+  hitstop = 0; shake = 0; prev = snap(); hud(); render(1);
+  document.title = 'READY';
 } else {
   let last = performance.now();
   const loop = (now: number) => {

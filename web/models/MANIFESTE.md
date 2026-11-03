@@ -154,10 +154,25 @@ prête » (`cd === 0`). La décision est d'ajouter **2 ticks de préparation** a
 - **Le build jouable n'est plus comparable aux mesures b3.** Elles ont été produites sans armement ;
   dès que le drapeau existe, leurs taux de victoire et leurs durées ne décrivent plus ce que le joueur
   affronte. Les chiffres de la meute restent valables pour l'entraînement, pas comme référence du jeu.
-- **Le télégraphe devra changer de source.** Il se branche aujourd'hui sur `cd === 0` ; il devra se
-  brancher sur l'armement. 2 ticks font 200 ms, soit 12 images à 60 fps : assez pour être vu, trop
+- **Le télégraphe a changé de source.** Il se branchait sur `cd === 0` ; il se branche désormais sur
+  `armTicks` (`?claw-windup` actif par défaut), donc sur l'armement. 2 ticks font 200 ms, soit 12 images à 60 fps : assez pour être vu, trop
   court pour être lu deux fois. Le liseré devra tenir sa montée pendant tout l'armement, pas seulement
   l'allumer sur le dernier tick.
+
+**Le pas de la caméra, et pourquoi il a changé.** Le poids du Terminator dans la caméra venait d'un
+compteur de mètres parcourus qui déclenchait une impulsion tous les 1,55 m. Ce compteur ignorait la
+vitesse réelle du tick, le pied qui se pose et les arrêts. Il vient maintenant de l'événement `step`
+de la simulation, qui porte son intensité et le pied. Mesuré sur 115 ticks (graine 3, `brawler`) :
+
+| | ancien compteur | événement `step` |
+|---|---:|---:|
+| course verticale de la caméra | 85,9 mm | **83,2 mm** |
+| écart-type | 21,9 mm | **21,2 mm** |
+| plus grand saut d'un tick à l'autre | 51,7 mm | **33,1 mm** |
+
+Le débattement est le même — c'est la même masse. Ce qui change, c'est que l'à-coup le plus brutal
+tombe quand le pied se pose au lieu de tomber quand le compteur déborde : **−18,6 mm sur le pire tick**.
+Un compteur ne sait pas marcher.
 
 **Graine et reproductibilité.** Les captures à `?shot=N` tombent sur le tick N, mais la graine de grain
 de la passe plein écran dépend de `performance.now()` : deux captures du même tick ne sont jamais
