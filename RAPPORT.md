@@ -1,5 +1,9 @@
 > **Note (01/11/2026)** : ce rapport est l'état de travail du 31/10 à 22:25, publié tel quel. Les mesures finales de b3 et de l'expérience C sont dans `README.md` et `mesures/`.
 
+> **Encadré (03/11/2026) — le build jouable n'est plus comparable aux mesures b3.**
+> Les griffes s'arment désormais **2 ticks (0,2 s)** avant l'impact : le coup est annoncé (`clawArm`), les dégâts ne tombent qu'à l'impact, après **re-vérification de la portée et de la zone** (`whiff` si la cible s'est éloignée). Tout ce qui est mesuré dans `mesures/` — b3, expérience C, évaluations — a été produit **sans** armement. Ces chiffres restent une **référence d'entraînement**, mais **ils ne décrivent plus ce que le joueur affronte** dans le build `web/`.
+> Toute évaluation future se fait avec `newWorld(seed, spawn?, { clawWindup: false })` — c'est déjà le cas dans `src/train.ts` et `src/evallib.ts`. Sans ce drapeau, on compare deux jeux différents et les écarts ne veulent rien dire.
+
 # Jalon 1b : état au 31/10/2026, 22:25 (heure de Paris), EN COURS
 
 Le rapport du jalon 1 est archivé dans `jalon1/RAPPORT-jalon1.md`, avec ses mesures et ses captures. Ses chiffres ne valent plus pour les règles actuelles.
