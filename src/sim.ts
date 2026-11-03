@@ -43,6 +43,12 @@ export const T_CFG = {
   fistStunTicks: 6, // stagger : 0,6 s pendant lesquelles la meute ne peut plus frapper
   slowScale: 0.5, // recharger ou charger un coup occupe les mains : vitesse réduite de moitié
   stunSpeed: 0.5, // un Night Lord étourdi se traîne à vitesse réduite
+  // --- Retour du coup (lot 4) : encaisser doit se sentir. Ce ne sont **pas** des valeurs d'équilibrage — les
+  // dégâts ne changent pas (`NL_CFG.dmgSide`/`dmgRear` intacts) — seulement ce que le coup **fait** au Terminator.
+  hitStaggerTicks: 2, // 0,2 s sans action offensive : le coup interrompt, il ne se contente pas de retirer des hp
+  staggerSpeed: 0.5, // pendant le stagger on se traîne : on encaisse, on ne s'arrête pas net
+  servoAlarmTicks: 10, // 1 s d'alarme de servo après un coup : posée à max(servoAlarm, 10)
+  servoCriticalFrac: 0.25, // seuil d'alerte : 25 % de l'armure (annoncé une seule fois par manche)
 };
 export const NL_CFG = {
   radius: 0.45, speed: 6, visionHalf: 1.1, visionRange: 12, clawRange: 1.75, clawCd: 8,
@@ -73,6 +79,11 @@ export interface Term {
   burstCd: number; // ticks avant le prochain tir de la rafale
   reloadLeft: number; // ticks de rechargement restants (0 = chargeur utilisable)
   fistCharge: number; // ticks de charge du gantelet restants (0 = rien en cours)
+  // --- Retour du coup (lot 4) : l'état que le joueur ressent. Il change les trajectoires (demi-vitesse) et les
+  // durées (actions annulées), donc il compte dans l'encadré de non-comparabilité du RAPPORT.
+  staggerTicks: number; // ticks de stagger restants (0 = rien) : aucune action offensive acceptée, vitesse réduite
+  servoAlarm: number; // ticks d'alarme de servo restants (0 = silence)
+  servoCriticalSent: boolean; // le seuil des 25 % a déjà été annoncé : un seul `servoCritical` par manche
 }
 export type Ev =
   // `recoil` (0 → 1) : recul normalisé du tir dans sa rafale, pour que la caméra ait une donnée et pas une impression.
@@ -82,6 +93,11 @@ export type Ev =
   | { type: 'fistCharge' } // entrée en charge : le coup est engagé, il ne s'annule plus
   | { type: 'fistReady' } // fin de charge : l'impact tombe dans le même tick, l'audio peut le précéder
   | { type: 'claw'; who: number; dmg: number; zone: 'front' | 'side' | 'rear' }
+  // --- Retour du coup côté Terminator (lot 4) : le `claw` reste émis tel quel (vu de la meute), `hit` dit ce que
+  // le joueur encaisse — émis **en plus**, jamais à la place. `stagger` : le coup a interrompu une action en cours
+  // (gantelet en charge perdu, rafale coupée). `servoAlarm` : valeur **après** application, pour le rendu et l'audio.
+  | { type: 'hit'; dmg: number; zone: 'front' | 'side' | 'rear'; hpAfter: number; stagger: boolean; servoAlarm: number }
+  | { type: 'servoCritical' } // une seule fois par manche : l'armure passe sous 25 %
   | { type: 'whiff'; who: number }
   | { type: 'clawArm'; who: number } // annonce : le coup tombe 2 ticks plus tard, il est télégraphié
   // le pas est un événement de simulation (et non un détail de rendu) : il porte le pied, la position et
@@ -144,7 +160,8 @@ export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: 
   const rng = mulberry32(seed);
   const t: Term = { x: 3, y: 6 + rng() * 12, facing: 0, hp: T_CFG.hp, boltCd: 0, fistCd: 0, noise: T_CFG.noiseIdle, moving: false, channel: 0, lastHitTick: -999, lastHitAngle: 0,
     vx: 0, vy: 0, turnVel: 0, strideAcc: 0, foot: 0,
-    ammo: T_CFG.boltAmmo, burstLeft: 0, burstCd: 0, reloadLeft: 0, fistCharge: 0 };
+    ammo: T_CFG.boltAmmo, burstLeft: 0, burstCd: 0, reloadLeft: 0, fistCharge: 0,
+    staggerTicks: 0, servoAlarm: 0, servoCriticalSent: false };
   if (tSpawn) { t.x = tSpawn.x; t.y = tSpawn.y; t.facing = tSpawn.facing; }
   const nls: NL[] = [];
   for (let i = 0; i < N_NL; i++) {
@@ -254,8 +271,24 @@ function clawImpact(w: World, i: number, n: NL, rewards: number[], died: boolean
   const zone = rel < NL_CFG.frontHalf ? 'front' : rel > NL_CFG.rearHalf ? 'rear' : 'side';
   const dmg = zone === 'front' ? 0 : zone === 'rear' ? NL_CFG.dmgRear : NL_CFG.dmgSide;
   const before = t.hp; t.hp = Math.max(0, t.hp - dmg);
-  if (dmg > 0) { t.lastHitTick = w.tick; t.lastHitAngle = Math.atan2(n.y - t.y, n.x - t.x); }
   w.events.push({ type: 'claw', who: i, dmg, zone });
+  // --- Retour du coup (lot 4). Seul un coup qui **inflige des dégâts** secoue l'armure : une griffe sur l'avant est
+  // encaissée sans stagger (l'armure tient), mais elle reste un `claw` pour la meute.
+  if (dmg > 0) {
+    t.lastHitTick = w.tick; t.lastHitAngle = Math.atan2(n.y - t.y, n.x - t.x);
+    const interrupted = t.fistCharge > 0 || t.burstLeft > 0;
+    // L'interruption est **réelle** : le gantelet en charge est perdu (aucune munition consommée, aucun dégât) et
+    // la rafale s'arrête net (les munitions déjà parties sont perdues). C'est ce qui fait du stagger un changement
+    // de trajectoire et de durée, pas un frisson de rendu.
+    t.fistCharge = 0; t.burstLeft = 0; t.burstCd = 0;
+    t.staggerTicks = T_CFG.hitStaggerTicks;
+    t.servoAlarm = Math.max(t.servoAlarm, T_CFG.servoAlarmTicks);
+    w.events.push({ type: 'hit', dmg, zone, hpAfter: t.hp, stagger: interrupted, servoAlarm: t.servoAlarm });
+    if (!t.servoCriticalSent && t.hp < T_CFG.hp * T_CFG.servoCriticalFrac) {
+      t.servoCriticalSent = true;
+      w.events.push({ type: 'servoCritical' });
+    }
+  }
   if (dmg === 0) rewards[i] += REWARD.front;
   rewards[i] += REWARD.dmgSelf * dmg;
   if (n.role === 3 && zone === 'rear') rewards[i] += REWARD.cyrionRear * dmg;
@@ -289,6 +322,12 @@ function fistImpact(w: World, died: boolean[]) {
 
 export function step(w: World, ta: TAction, acts: number[]): StepOut {
   const t = w.t; w.events = [];
+  // --- Retour du coup (lot 4) : les compteurs se décomptent **au début** du tick, sur l'état laissé par le tick
+  // précédent. Un coup tombé au tick T pose 2 ticks d'interdiction, lus entiers en T+1 et T+2 (l'action du tick T
+  // était déjà jouée), et une alarme à 10 dont l'événement porte la valeur pleine avant qu'elle ne décroisse.
+  const staggered = t.staggerTicks > 0;
+  if (staggered) t.staggerTicks--;
+  if (t.servoAlarm > 0) t.servoAlarm--;
   const rewards = w.nls.map(() => REWARD.tick), died = w.nls.map(() => false);
   const phi0 = w.nls.map(n => -REWARD.shaping * nlFrame(n).d); // potentiel calculé sur la croyance, pas sur la vraie position
   // --- Terminator : rien n'est instantané. L'entrée ne déplace pas : elle fixe une consigne que l'état de vitesse
@@ -300,9 +339,10 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   t.facing = angNorm(t.facing + t.turnVel * DT);
 
   const fwd = Math.max(-1, Math.min(1, ta.fwd));
-  // Recharger ou charger un coup occupe les mains : la vitesse est réduite de moitié (on recharge, on ne court pas).
-  // Le facteur est lu sur l'état **au début du tick** : c'est l'état qui pèse sur le pas de ce tick.
-  const speedScale = (t.reloadLeft > 0 || t.fistCharge > 0) ? T_CFG.slowScale : 1;
+  // Recharger ou charger un coup occupe les mains, et un coup encaissé coupe les jambes : vitesse réduite de moitié
+  // dans les deux cas. Le facteur est lu sur l'état **au début du tick** : c'est l'état qui pèse sur le pas de ce tick,
+  // donc un coup tombé au tick T ne ralentit qu'à partir de T+1 (l'action du tick T était déjà jouée).
+  const speedScale = ((t.reloadLeft > 0 || t.fistCharge > 0) ? T_CFG.slowScale : 1) * (staggered ? T_CFG.staggerSpeed : 1);
   // Le vecteur vitesse suit l'axe du regard : on n'intègre que la composante longitudinale. `strafe` est donc une
   // **orientation** de la marche, pas un pas de côté : sans accélération latérale (`strafeAccel = 0`), une vitesse
   // latérale ne peut jamais naître, et la créer d'un coup rendrait au Terminator la mobilité instantanée qu'on lui
@@ -340,7 +380,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   const wasCharging = t.fistCharge > 0;
   // --- Bolter lourd : rafale de `boltBurst` tirs, un par tick, avec munitions, dispersion et recul.
   const wasReloading = t.reloadLeft > 0; // état du début de tick : le chargeur qui vient de se remplir ce tick ne tire pas encore
-  if (ta.bolt && t.boltCd === 0 && !wasReloading && t.burstLeft === 0 && t.ammo > 0) {
+  if (ta.bolt && !staggered && t.boltCd === 0 && !wasReloading && t.burstLeft === 0 && t.ammo > 0) {
     t.burstLeft = T_CFG.boltBurst; t.burstCd = 0;
   }
   if (t.burstLeft > 0) {
@@ -372,7 +412,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   }
   // --- Gantelet : l'appui engage la charge, il ne peut plus l'annuler (une nouvelle entrée est ignorée pendant
   // les 8 ticks). `fistCd` ne part qu'à l'impact, dans `fistImpact`.
-  if (ta.fist && t.fistCd === 0 && t.fistCharge === 0) {
+  if (ta.fist && !staggered && t.fistCd === 0 && t.fistCharge === 0) {
     t.fistCharge = T_CFG.fistChargeTicks;
     t.noise = Math.max(t.noise, T_CFG.noiseFist);
     w.events.push({ type: 'fistCharge' });
@@ -418,7 +458,8 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   // --- Gantelet : la charge se décompte **en fin de tick**, après que la meute a joué. L'impact tombe donc à la fin
   // du 8ᵉ tick qui suit l'entrée, sur les positions de fin de tick (comme un contact, pas comme un tir). Le stagger
   // qu'il pose se lit alors à sa valeur pleine (`fistStunTicks`) et couvre les 6 ticks suivants.
-  if (wasCharging) {
+  // Un coup encaissé pendant la charge l'a déjà remise à 0 (`clawImpact`) : on ne la décompte pas, on ne frappe pas.
+  if (wasCharging && t.fistCharge > 0) {
     t.fistCharge--;
     if (t.fistCharge === 0) {
       w.events.push({ type: 'fistReady' }); // fin de charge : l'audio sait que le coup tombe maintenant
