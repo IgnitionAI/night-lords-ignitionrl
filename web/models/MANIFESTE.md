@@ -40,9 +40,20 @@ l'écran.
 
 ## Distribution — décision
 
-Les GLB ne rentrent pas dans le dépôt public. Honsou vérifie les termes Genex/Meshy, **Abaddon
-tranche** : un `git add` sur un dépôt public est une décision de conformité, pas de plomberie. Le
-chargeur dégrade proprement vers les capsules, vérifié sur `main` propre.
+Les GLB **restent hors du dépôt public**. Deux raisons distinctes, dans cet ordre :
+
+1. **Propriété intellectuelle Games Workshop.** Ce sont des Night Lords : un dépôt public qui
+   distribue un maillage reproduisant leur design engage un risque de droits d'auteur, et cela
+   indépendamment de l'outil qui a produit le maillage. C'est la raison qui suffit.
+2. **Appartenance des fichiers.** Le compte Genex est payant (3 699 crédits achetés). La FAQ tarifs de
+   Meshy, le moteur derrière Genex, écrit que sur un plan payant *you own all assets you create*
+   (sur le plan gratuit, c'est CC BY 4.0 avec attribution) — donc les modèles nous appartiennent et le
+   doute sur la redistribution disparaît de ce côté. Source : FAQ tarifs Meshy, consultée par Abaddon.
+
+Le dossier `Shared/team/pipeline/demo-night-lords/assets/rigged-opt/` reste la copie de travail. Le
+chargeur dégrade proprement vers les capsules quand `web/models/*.glb` est absent, vérifié sur `main`
+propre. Un déploiement de démonstration servira les fichiers depuis un stockage privé, pas depuis le
+dépôt. La question ne se rouvre pas, sauf décision de Salim de publier des assets GW assumés.
 
 ## Ce que le code fait
 
