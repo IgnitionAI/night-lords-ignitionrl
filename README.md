@@ -43,7 +43,7 @@ node dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1     # PPO m
 node dist/eval.mjs --pack runs/base/actor.json --n 200                    # taux de victoire, seeds 900000+
 scripts/mesures.sh                                                         # mesures du jalon 1
 cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies/current-full.json
-node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5)
+node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0)
 ```
 
 `policies/` contient la politique b3 (prête pour `node dist/server.mjs`). `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
@@ -60,6 +60,10 @@ node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|t
 - Pivot (P3) : la caméra se décale de 30 % au plus vers la menace la plus proche quand celle-ci est derrière
   le dos depuis plus d'une seconde. `?pivot=` règle le plafond, `?pivot=0` coupe. Le joueur garde la main,
   rien n'est forcé. `?fog=linear` revient au brouillard 8→38 m, `?grid=1` réaffiche la grille du grey-box.
+- Télégraphe : un Night Lord dont la griffe est prête (`cd = 0`) et qui est à moins de 6 m voit son liseré de
+  silhouette passer du bleu froid au rouge ardent. `?tell=0` le coupe. Il ne dit pas « il est dangereux » mais
+  « il peut frapper maintenant » ; la simulation ne donne aucun temps de préparation, la frappe tombe dans le
+  tick où elle est choisie.
 - `shots/` : captures 16:9 et 9:16 (prototype du jalon 1)
 - `mesures/`, `jalon1/mesures/`, `runs/*metrics.jsonl` : mesures brutes citées dans les rapports
 
