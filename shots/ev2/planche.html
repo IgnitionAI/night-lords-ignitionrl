@@ -18,7 +18,7 @@
  .warn{color:#ffb020;font-weight:600}
 </style>
 <h1>Télégraphe de la griffe, branché sur l'armement de la simulation</h1>
-<p class="s">Graine <b>18</b> (<code>?seed=17</code>, <code>startRound</code> incrémente), <code>?autoplay=march</code>, <b>tick 235</b> — Night Lord n°2 à <b>2,26 m</b>, <code>armTicks = 1</code>, deux autres au contact. Capture réelle : aucune mise en scène.</p>
+<p class="s">Graine <b>18</b> (<code>?seed=18</code> — l'URL dit ce qu'elle joue depuis le correctif), <code>?autoplay=march</code>, <b>tick 235</b> — Night Lord n°2 à <b>2,26 m</b>, <code>armTicks = 1</code>, deux autres au contact. Capture réelle : aucune mise en scène.</p>
 <p class="s">Le tick, la graine et le mode sont <b>brûlés dans l'image</b> (dernière ligne du HUD) : une planche se vérifie sans sa légende.</p>
 <div class="row">
  <figure><img src="off-t235.jpg"><figcaption><b><code>?tell=0</code></b> — sans télégraphe. Les trois assaillants sont des masses noires équivalentes.</figcaption></figure>
@@ -26,8 +26,8 @@
 </div>
 <table>
  <tr><th>blocs de 8 px, image entière</th><th class="n">écart moyen</th><th class="n">blocs &gt; 2</th><th class="n">blocs &gt; 8</th><th class="n">blocs &gt; 16</th><th class="n">max</th></tr>
- <tr><td>télégraphe (ces deux images)</td><td class="n">+0,59/255</td><td class="n">14,4 %</td><td class="n k">3,0 %</td><td class="n k">0,4 %</td><td class="n">+24,6</td></tr>
- <tr><td>plancher de grain (même URL deux fois)</td><td class="n">0,00/255</td><td class="n">5,9–6,1 %</td><td class="n">0,0 %</td><td class="n">0,0 %</td><td class="n">+14,1 à +15,5</td></tr>
+ <tr><td>télégraphe (ces deux images)</td><td class="n">+0,58/255</td><td class="n">14,4 %</td><td class="n k">3,0 %</td><td class="n k">0,4 %</td><td class="n">+24,6</td></tr>
+ <tr><td>plancher de grain (même URL deux fois)</td><td class="n">0,00/255</td><td class="n">5,4 %</td><td class="n">0,0 %</td><td class="n">0,0 %</td><td class="n">+5,7 à +15,5</td></tr>
 </table>
 <p class="note">Le seuil qui compte est <b>&gt; 8</b> : le grain n'y passe jamais, sur deux répétitions. La valeur maximale, elle, ne dit rien — la queue du grain monte à +15, et un maximum isolé n'est pas une mesure.</p>
-<p class="note warn">Correction : la première version de cette planche annonçait « graine 17 ». La graine réellement jouée est 18 — <code>startRound()</code> incrémente celle de l'URL. C'est le brûlage du tick dans l'image qui l'a révélé, pas une relecture.</p>
+<p class="note warn">Correction, deux fois : cette planche annonçait « graine 17 » (faux, la graine jouée était 18), puis `?seed=18` ne jouait pas 18 non plus — `startRound()` incrémentait dès la première manche. Le contrat d'URL est corrigé : `?seed=N` joue N, et les images ci-dessus sont refaites avec l'URL qui figure en légende.</p>

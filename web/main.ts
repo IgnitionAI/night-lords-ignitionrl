@@ -17,7 +17,11 @@ const qs = new URLSearchParams(location.search);
 // C'est un flag distinct de `?debug=1` (vue de contrôle historique, touche V), et rien de ce canal ne va au HUD.
 const CONTROL_VIEW = isControlViewEnabled(location.search);
 const autoplay = qs.get('autoplay'); const shot = Number(qs.get('shot') ?? 0);
-let debug = qs.get('debug') === '1'; let seed = Number(qs.get('seed') ?? (Date.now() % 800000) + 1);
+let debug = qs.get('debug') === '1';
+// `?seed=N` joue **N**. La manche 1 prend la graine telle quelle ; les manches suivantes avancent d'un cran,
+// pour qu'« Entrée » ne rejoue pas la même partie. Avant, `startRound()` incrémentait dès la première manche :
+// un `?seed=6` jouait donc la 7, et toutes les planches étiquetées par leur URL étaient décalées d'un cran.
+let seed = qs.get('seed') !== null ? Number(qs.get('seed')) : (Date.now() % 800000) + 1;
 let actor: ActorJSON | null = null; let policyLabel = 'meute naïve (aucune politique chargée)';
 const ROLE_COL = [0xd8d8ff, 0xff3030, 0xffa020, 0x30d0ff];
 const ROLE_CSS = ['#d8d8ff', '#ff3030', '#ffa020', '#30d0ff'];
@@ -284,7 +288,8 @@ const DEMO_SCRIPTS: Record<string, DemoScript> = {
 const DEMO_CFG = DEMO ? DEMO_SCRIPTS[DEMO] ?? null : null;
 function startRound() {
   // le build jouable garde l'armement des griffes (défaut) : il n'est plus celui des mesures b3
-  roundNo++; roundOver = false; seed = seed + 1; w = newWorld(seed); camYaw = followYaw = w.t.facing; prev = snap();
+  roundNo++; roundOver = false; if (roundNo > 1) seed += 1; // manche suivante : la graine d'après, jamais la même
+  w = newWorld(seed); camYaw = followYaw = w.t.facing; prev = snap();
   if (DEMO_CFG) { DEMO_CFG.place(w); camYaw = followYaw = w.t.facing; prev = snap(); } rec = new Recorder(autoplay ? `autoplay ${autoplay}` : 'joueur'); rng = mulberry32(seed ^ 0x9e3779b9);
   tactic = autoplay ? (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)() : null;
   nlMeshes.forEach(m => { m.rotation.set(0, 0, 0); m.visible = true; });

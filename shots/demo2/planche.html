@@ -16,7 +16,7 @@
  code{color:#9fb0c8}
 </style>
 <h1>Mode démo <code>?demo=reveal</code> — le flash et le télégraphe sur la même image</h1>
-<p class="s"><span class="warn">MISE EN SCÈNE</span> — ce n'est pas une manche jouée, le HUD le dit dans l'image. <code>?shot=14</code>, aucun aléa : mêmes entrées, même image, pas de graine à chercher. Tick, graine et mode brûlés dans l'image.</p>
+<p class="s"><span class="warn">MISE EN SCÈNE</span> — ce n'est pas une manche jouée, le HUD le dit dans l'image. <code>?shot=14&amp;seed=1</code>, aucun aléa : mêmes entrées, même image, pas de graine à chercher. Tick, graine et mode brûlés dans l'image.</p>
 <p class="s">Le frère du flanc arme sa griffe au tick 13 (<code>armTicks = 2</code>, décidé par la simulation), la rafale part au même tick : à l'image <code>armTicks = 1</code> et le flash est à 75 % de sa course.</p>
 <div class="row">
  <figure><img src="rien.jpg"><figcaption><b>Ni flash, ni télégraphe</b> — <code>?tell=0&amp;impact=0</code>. Deux masses noires au contact, la salle est un trou.</figcaption></figure>
@@ -26,8 +26,8 @@
 </div>
 <table>
  <tr><th>blocs de 8 px, image entière</th><th class="n">écart moyen</th><th class="n">blocs &gt; 2</th><th class="n">blocs &gt; 8</th><th class="n">blocs &gt; 16</th><th class="n">max</th></tr>
- <tr><td>flash</td><td class="n">1,92/255</td><td class="n">30,5 %</td><td class="n k">7,4 %</td><td class="n k">1,2 %</td><td class="n">+70,8</td></tr>
- <tr><td>télégraphe</td><td class="n">0,63/255</td><td class="n">12,0 %</td><td class="n k">3,5 %</td><td class="n k">0,9 %</td><td class="n">+26,8</td></tr>
- <tr><td>plancher de grain (même URL deux fois)</td><td class="n">0,00/255</td><td class="n">5,9–6,1 %</td><td class="n">0,0 %</td><td class="n">0,0 %</td><td class="n">+14,1 à +15,5</td></tr>
+ <tr><td>flash</td><td class="n">1,92/255</td><td class="n">31,2 %</td><td class="n k">7,4 %</td><td class="n k">1,2 %</td><td class="n">+70,6</td></tr>
+ <tr><td>télégraphe</td><td class="n">0,63/255</td><td class="n">12,0 %</td><td class="n k">3,4 %</td><td class="n k">0,9 %</td><td class="n">+30,8</td></tr>
+ <tr><td>plancher de grain (même URL deux fois)</td><td class="n">0,00/255</td><td class="n">5,4 %</td><td class="n">0,0 %</td><td class="n">0,0 %</td><td class="n">+5,7</td></tr>
 </table>
 <p class="s" style="margin-top:9px;color:#7b8798">Le seuil qui compte est <b>&gt; 8</b> : le grain n'y passe jamais. La colonne « max » est là pour être lue à côté du grain — un maximum isolé n'est pas une mesure.</p>
