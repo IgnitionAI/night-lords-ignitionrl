@@ -52,6 +52,8 @@ node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|t
 
 Tout l'aléatoire passe par `--seed` : initialisation des poids (BC et PPO, graine dérivée par couche), brassage des mini-lots, tirages d'actions, seeds des mondes et des tactiques `randomized()`, et seeds d'éval (900 000+). Deux exécutions avec la même graine et les mêmes arguments produisent **les mêmes poids et les mêmes métriques** ; seules les durées (`seconds`, `updateSeconds`, `wallSeconds`) relèvent de l'horloge murale.
 
+Cette reproductibilité est **prouvée par `npm test` à 20 mises à jour** : deux constructions identiques, deux entraînements courts, mêmes poids et même perte. Elle **n'est pas encore prouvée à pleine échelle** : les deux runs complets de 200 et 2 000 mises à jour ont été interrompus par le garde de charge machine (`src/guard.ts`), donc la vérification complète est **en attente**. La commande pour la faire, quand la machine est au repos, est juste en dessous (les deux `train.mjs` puis le `diff` des `metrics.jsonl`). « Reproductible à 20 mises à jour » et « reproductible à 2 000 » ne sont pas la même affirmation, et seul le premier est acquis aujourd'hui.
+
 ```sh
 npm test                                                              # reproductibilité des poids (≈ 4 s)
 node build.mjs
