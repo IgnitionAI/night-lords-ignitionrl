@@ -26,15 +26,21 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure
 const FOG_COLOR = 0x0b0d13, FOG_MODE = qs.get('fog') ?? 'exp2';
 const scene = new THREE.Scene(); scene.background = new THREE.Color(FOG_COLOR);
 scene.fog = FOG_MODE === 'linear' ? new THREE.Fog(FOG_COLOR, 8, 38) : new THREE.FogExp2(FOG_COLOR, 0.052);
-const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 200);
+// P1 : l'oeil a hauteur d'homme. A 22 m et 50 degres, un Night Lord fait 55 px de haut et l'arene tient
+// dans le cadre - on regarde un plateau, pas une traque. A 3,4 m et 58 degres il en fait 100 a 120.
+const CAM = { back: 8.2, height: 3.4, highMax: 4.9, ahead: 3.0, eye: 1.2, fov: 58, fovPortrait: 68 };
+const camera = new THREE.PerspectiveCamera(CAM.fov, 1, 0.1, 200);
 // Une seule lumière de remplissage, froide et rasante : les formes se lisent par leur bord, pas par leur face.
 scene.add(new THREE.AmbientLight(0x1b2130, 0.30));
-const keyLight = new THREE.DirectionalLight(0x8fb4e8, 1.5); keyLight.position.set(50, 34, 6); scene.add(keyLight);
+const keyLight = new THREE.DirectionalLight(0x8fb4e8, 0.85); keyLight.position.set(50, 34, 6); scene.add(keyLight);
 const rimLight = new THREE.DirectionalLight(0x5f7fd0, 1.1); rimLight.position.set(38, 12, 24); scene.add(rimLight);
-const poolLight = new THREE.PointLight(0x8fb0e0, 26, 16, 2); poolLight.position.set(20, 5.5, BEACON.y); scene.add(poolLight);
-const floor = new THREE.Mesh(new THREE.PlaneGeometry(ARENA.w, ARENA.h), new THREE.MeshStandardMaterial({ color: 0x0e1014, metalness: 0.25, roughness: 0.5 }));
+const poolLight = new THREE.PointLight(0x8fb0e0, 9, 14, 2); poolLight.position.set(20, 5.5, BEACON.y); scene.add(poolLight);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(ARENA.w, ARENA.h), new THREE.MeshStandardMaterial({ color: 0x0e1014, metalness: 0.05, roughness: 0.82 }));
 floor.rotation.x = -Math.PI / 2; floor.position.set(ARENA.w / 2, 0, ARENA.h / 2); floor.receiveShadow = true; scene.add(floor);
-const grid = new THREE.GridHelper(40, 40, 0x2a2f3a, 0x15181f); grid.position.set(20, 0.01, 20); grid.scale.set(1, 1, 0.6); scene.add(grid);
+// La grille etait le seul repere d'echelle du grey-box ; a hauteur d'homme elle dessine un plateau de jeu.
+// Gardee derriere ?grid=1 pour le travail sur la geometrie.
+const grid = new THREE.GridHelper(40, 40, 0x2a2f3a, 0x15181f); grid.position.set(20, 0.01, 20); grid.scale.set(1, 1, 0.6);
+if (qs.get('grid') === '1') scene.add(grid);
 const wallMat = new THREE.MeshStandardMaterial({ color: 0x2b2e36, metalness: 0.5, roughness: 0.6 });
 for (const b of PILLARS) { const m = new THREE.Mesh(new THREE.BoxGeometry(b.x1 - b.x0, 4, b.y1 - b.y0), wallMat); m.position.set((b.x0 + b.x1) / 2, 2, (b.y0 + b.y1) / 2); m.castShadow = m.receiveShadow = true; scene.add(m);
   const lamp = new THREE.PointLight(0xff2a1a, 11, 11, 2); lamp.position.set((b.x0 + b.x1) / 2, 3.6, b.y0 - 0.3); scene.add(lamp); }
@@ -79,10 +85,13 @@ const rigOf = (model: any, clips: any[], targetHeight: number, dim = 1): Rig => 
     // l'albedo pour que la forme passe devant le detail, et on garde le liseré de Fresnel de P2.
     const m = o.material as THREE.MeshStandardMaterial;
     if (m && m.color) { m.color.multiplyScalar(dim); m.envMapIntensity = 0.25; m.metalness *= 0.3; m.roughness = Math.max(m.roughness, 0.72); }
+    // Injecté *avant* le brouillard : ajouté après, le liseré traversait 17 m de brume intact et le Night
+    // Lord devenait un mannequin blanc à contre-jour (vu à t77). Avant, la brume le mange comme le reste.
     if (m && m.onBeforeCompile) m.onBeforeCompile = (sh) => {
-      sh.fragmentShader = sh.fragmentShader.replace('#include <dithering_fragment>', `#include <dithering_fragment>
+      sh.fragmentShader = sh.fragmentShader.replace('#include <fog_fragment>', `
        float fres = pow(1.0 - clamp(abs(dot(normalize(normal), normalize(vViewPosition))), 0.0, 1.0), 4.2);
-       gl_FragColor.rgb += vec3(0.26, 0.35, 0.55) * fres * 0.55;`);
+       gl_FragColor.rgb += vec3(0.26, 0.35, 0.55) * fres * 0.55;
+       #include <fog_fragment>`);
     };
   });
   const mixer = new THREE.AnimationMixer(root);
@@ -183,7 +192,7 @@ addEventListener('keydown', e => { keys.add(e.code); if (e.code === 'KeyV') { de
 addEventListener('keyup', e => keys.delete(e.code));
 const snap = () => ({ t: [w.t.x, w.t.y, w.t.facing] as [number, number, number], n: w.nls.map(n => [n.x, n.y, n.facing] as [number, number, number]) });
 function startRound() {
-  roundNo++; roundOver = false; seed = seed + 1; w = newWorld(seed); prev = snap(); rec = new Recorder(autoplay ? `autoplay ${autoplay}` : 'joueur'); rng = mulberry32(seed ^ 0x9e3779b9);
+  roundNo++; roundOver = false; seed = seed + 1; w = newWorld(seed); camYaw = w.t.facing; prev = snap(); rec = new Recorder(autoplay ? `autoplay ${autoplay}` : 'joueur'); rng = mulberry32(seed ^ 0x9e3779b9);
   tactic = autoplay ? (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)() : null;
   nlMeshes.forEach(m => { m.rotation.set(0, 0, 0); m.visible = true; });
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
@@ -196,6 +205,15 @@ function floatText(x: number, y: number, text: string, color: string) {
   const v = new THREE.Vector3(x, 2.5, y).project(camera); const el = document.createElement('div'); el.className = 'float'; el.textContent = text; el.style.color = color;
   el.style.left = `${(v.x + 1) / 2 * innerWidth}px`; el.style.top = `${(1 - v.y) / 2 * innerHeight}px`; document.body.appendChild(el);
   requestAnimationFrame(() => { el.style.transform = 'translateY(-40px)'; el.style.opacity = '0'; }); setTimeout(() => el.remove(), 800);
+}
+// Lacet de la caméra : elle se place derrière le dos du Terminator, pas sur un axe fixe. À 22 m la
+// caméra plein ouest marchait ; à 3,4 m un axe fixe met un pilier de 4 m entre l'œil et la meute dès
+// que le joueur longe un mur (vu à t77). Il est avancé d'un pas de simulation, donc ?shot= reste juste.
+let camYaw = 0;
+function updateCamYaw() {
+  let d = w.t.facing - camYaw;
+  while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI;
+  camYaw += d * 0.26; // ~4 rad/s de rotation max : le monde pivote sans fouetter
 }
 function updateRigs(dt: number) { // avance d'un pas de simulation, pas du temps réel : le mode capture reste déterministe
   for (let i = 0; i < nlRigs.length; i++) {
@@ -221,7 +239,7 @@ function tick() {
     if ((e.type === 'bolt' || e.type === 'fist') && e.kill >= 0) { hitstop = 0.09; shake = 0.5; const n = w.nls[e.kill]; floatText(n.x, n.y, `${ROLES[e.kill]} abattu`, '#ffd27a'); flash(0.25); }
     if (e.type === 'claw') { const n = w.nls[e.who]; if (e.dmg === 0) floatText(n.x, n.y, 'ARMURE', '#9cf'); else { floatText(w.t.x, w.t.y, `-${e.dmg} ${e.zone === 'rear' ? 'DOS' : 'FLANC'}`, '#f44'); shake = Math.max(shake, 0.3); } }
   }
-  updateRigs(DT);
+  updateRigs(DT); updateCamYaw();
   if (w.done) endRound();
 }
 function flash(o: number) { const f = document.getElementById('flash')!; f.style.transition = 'none'; f.style.opacity = String(o); requestAnimationFrame(() => { f.style.transition = 'opacity .25s'; f.style.opacity = '0'; }); }
@@ -262,18 +280,26 @@ function render(alpha: number) {
       links[i].visible = n.alive && b.valid; links[i].geometry.setFromPoints([new THREE.Vector3(n.x, 0.1, n.y), new THREE.Vector3(b.x, 0.1, b.y)]); links[i].computeLineDistances(); });
     noiseRing.position.set(w.t.x, 0.06, w.t.y); noiseRing.scale.setScalar(w.t.noise); tCone.position.set(w.t.x, 0.04, w.t.y); tCone.rotation.y = -w.t.facing;
   }
-  // caméra ¾ haute qui suit le Terminator ; en portrait elle recule pour garder la meute dans le cadre
+  // caméra de couloir : 8,2 m derrière le Terminator, à 3,4 m du sol, qui regarde 3 m devant lui.
+  // Le personnage occupe le tiers bas du cadre et la meute arrive de face, à sa hauteur.
   const portrait = innerHeight > innerWidth;
   const sx = (Math.random() - 0.5) * shake, sz = (Math.random() - 0.5) * shake;
-  // paysage : caméra derrière (ouest), haute ; portrait : plus haute, pour que l'arène (24 m) tienne en largeur
-  if (portrait) { camera.position.set(tx - 7 + sx, 36, ty + sz); camera.lookAt(tx + 7 + sx, 0, ty + sz); }
-  else { camera.position.set(tx - 10 + sx, 22, ty + sz); camera.lookAt(tx + 8 + sx, 0, ty + sz); }
+  // Un pilier de 4 m suffit à avaler le cadre : la caméra ne doit jamais se retrouver *dans* un pilier.
+  // Une arête qui passe devant est acceptable — c'est même ce qu'on veut, un Night Lord peut se cacher
+  // derrière. Donc pas de raycast de dégagement, seulement un test d'appartenance : si l'oeil tombe dans
+  // l'emprise d'un pilier, la caméra monte au-dessus (4,9 m) et regarde par-dessus.
+  const back = portrait ? CAM.back + 1.6 : CAM.back, high = portrait ? CAM.height + 0.9 : CAM.height;
+  const cx = tx - Math.cos(camYaw) * back, cz = ty - Math.sin(camYaw) * back;
+  const inPillar = PILLARS.some(b => cx > b.x0 - 0.55 && cx < b.x1 + 0.55 && cz > b.y0 - 0.55 && cz < b.y1 + 0.55);
+  const cy = inPillar ? CAM.highMax : high;
+  camera.position.set(cx + sx, cy, cz + sz);
+  camera.lookAt(tx + Math.cos(camYaw) * CAM.ahead + sx, CAM.eye, ty + Math.sin(camYaw) * CAM.ahead + sz);
   camera.up.set(0, 1, 0);
   postMat.uniforms.uTime.value = performance.now() * 0.001;
   renderer.setRenderTarget(rt); renderer.render(scene, camera);
   renderer.setRenderTarget(null); renderer.render(postScene, postCam);
 }
-function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = innerHeight > innerWidth ? 75 : 50; camera.updateProjectionMatrix();
+function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = innerHeight > innerWidth ? CAM.fovPortrait : CAM.fov; camera.updateProjectionMatrix();
   const s = renderer.getDrawingBufferSize(new THREE.Vector2()); rt.setSize(s.x, s.y); }
 addEventListener('resize', resize);
 
