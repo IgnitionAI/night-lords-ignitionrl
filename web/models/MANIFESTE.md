@@ -174,6 +174,30 @@ Le débattement est le même — c'est la même masse. Ce qui change, c'est que 
 tombe quand le pied se pose au lieu de tomber quand le compteur déborde : **−18,6 mm sur le pire tick**.
 Un compteur ne sait pas marcher.
 
+## Mode démo — mise en scène, jamais présenté comme du jeu joué
+
+`?demo=reveal` existe pour photographier un plan que la simulation ne produit pas, et pour le montrer **sans
+dépendre d'une graine** : deux effets qui ne se rencontrent presque jamais en jeu, sur la même image.
+
+Ce qui est fabriqué : les positions de départ et les actions scriptées. Ce qui ne l'est pas : le pas de
+simulation, qui calcule dégâts, événements, bruit et armement comme d'habitude. `step()` ne sait pas qu'on
+filme. Le HUD affiche « MISE EN SCÈNE » **dans l'image**, pour qu'une capture ne puisse pas être recyclée en
+preuve de jeu joué après avoir perdu sa légende.
+
+Script (`?demo=reveal&shot=14`) : le frère du flanc arme sa griffe au tick 13 (`armTicks = 2`, décidé par la
+simulation) et la rafale part au même tick. À l'image, `armTicks = 1` et le flash est à 75 % de sa course.
+
+| bloc de 8 px, image entière | flash seul | télégraphe seul | grain, même URL deux fois |
+|---|---:|---:|---:|
+| écart moyen | 1,90 /255 | 0,63 /255 | 0,00 /255 |
+| écart maximal | +70,8 | +27,6 | +6,4 |
+| blocs > 2/255 | 30,1 % | 12,5 % | 5,5 % |
+
+**Pourquoi des blocs et pas des moyennes de région** : le grain d'une passe plein écran dépend de
+`performance.now()`, et il déplace la moyenne d'une région de ±1,5/255 — soit l'ordre de grandeur du
+télégraphe. Une moyenne de région prise sur deux captures est un chiffre de bruit déguisé en mesure. Le
+plancher se mesure à côté, sinon il n'y a pas de mesure.
+
 **Graine et reproductibilité.** Les captures à `?shot=N` tombent sur le tick N, mais la graine de grain
 de la passe plein écran dépend de `performance.now()` : deux captures du même tick ne sont jamais
 identiques au pixel, l'écart est le grain. Comparer avec `pix.mjs` (histogramme) ou en blocs de 8 px,
