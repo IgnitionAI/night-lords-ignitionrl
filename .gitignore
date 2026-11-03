@@ -20,3 +20,6 @@ web/models/*
 # Banque sonore : Genex n'a pas confirmé la redistribution commerciale de ses sorties
 # audio -> hors dépôt, servie par URL avec repli muet (voir web/audio/README-AUDIO.md)
 web/sfx/*
+
+# Manifeste des modèles optimisés : chiffres, pas d'asset -> dans le dépôt
+!web/models/LOD-ET-INSTANCES.md
