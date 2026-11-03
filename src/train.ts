@@ -17,11 +17,14 @@ const seed0 = Number(args.seed ?? 1); // seeds d'entraînement : 1..899 999 ; l'
 const ghostShare = Number(args.ghostShare ?? 0.7);
 checkGuard('début entraînement');
 
-const ppo = new PPO(OBS_DIM, N_ACT, { ...DEFAULT_PPO, lr: Number(args.lr ?? DEFAULT_PPO.lr) });
+const ppo = new PPO(OBS_DIM, N_ACT, { ...DEFAULT_PPO, lr: Number(args.lr ?? DEFAULT_PPO.lr) }, seed0);
 if (args.init) ppo.load(args.init);
 const ghostBC: ActorJSON | null = args.ghostBC ? JSON.parse(readFileSync(args.ghostBC, 'utf8')) : null;
 const ghostSummary = args.ghost ? summarize(JSON.parse(readFileSync(args.ghost, 'utf8')) as Recording) : null;
 const rng = mulberry32(seed0 * 7919);
+// flux séparé pour les tirages d'actions (et le brassage des mini-lots) : la séquence des mondes/tactiques ci-dessus
+// reste exactement celle d'avant, mais plus aucun Math.random() ne fuit hors de la graine.
+const actRng = mulberry32((seed0 * 7919) ^ 0x5bd1e995);
 let nextSeed = 1 + (seed0 * 104729) % 700000; // seeds d'entraînement < 900 000 (l'éval utilise 900 000+)
 
 interface Traj { obs: number[][]; act: number[]; lp: number[]; val: number[]; rew: number[]; done: boolean }
@@ -47,7 +50,7 @@ for (let u = 1; u <= U; u++) {
     const { probs, values } = ppo.act(Float32Array.from(obs), who.length);
     const acts = envs.map(() => new Array(N_NL).fill(0));
     who.forEach(([ei, i], q) => {
-      let r = Math.random(), c = 0, a = N_ACT - 1;
+      let r = actRng(), c = 0, a = N_ACT - 1;
       for (let j = 0; j < N_ACT; j++) { c += probs[q * N_ACT + j]; if (r < c) { a = j; break; } }
       acts[ei][i] = a; const tr = envs[ei].traj[i];
       tr.obs.push(obs.slice(q * OBS_DIM, (q + 1) * OBS_DIM)); tr.act.push(a); tr.lp.push(Math.log(probs[q * N_ACT + a] + 1e-8)); tr.val.push(values[q]);
@@ -79,7 +82,7 @@ for (let u = 1; u <= U; u++) {
     for (let t = 0; t < T; t++) { O.set(tr.obs[t], p * OBS_DIM); A[p] = tr.act[t]; LP[p] = tr.lp[t]; AD[p] = adv[t]; R[p] = adv[t] + tr.val[t]; p++; }
   });
   transitions += N;
-  const st = ppo.update(O, A, LP, AD, R);
+  const st = ppo.update(O, A, LP, AD, R, actRng);
   const win = recent.slice(-200); const wr = win.length ? win.filter(x => x.winner === 'pack').length / win.length : NaN;
   const line = { update: u, seconds: +((performance.now() - t0) / 1000).toFixed(1), updateSeconds: +((performance.now() - tu) / 1000).toFixed(2), transitions, episodes: recent.length, packWinRateLast200Train: +wr.toFixed(3), ...Object.fromEntries(Object.entries(st).map(([k, v]) => [k, +v.toFixed(4)])) };
   appendFileSync(`${out}/metrics.jsonl`, JSON.stringify(line) + '\n');

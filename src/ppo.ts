@@ -4,22 +4,30 @@
 import * as tf from '@tensorflow/tfjs-node';
 import { writeFileSync, readFileSync } from 'node:fs';
 import type { ActorJSON } from './policy';
+import { mulberry32, type Rng } from './rng';
+import { layerSeed } from './model';
 
 export interface PPOCfg { lr: number; hidden: number[]; clip: number; epochs: number; minibatch: number; entCoef: number; vfCoef: number; gamma: number; lambda: number }
 export const DEFAULT_PPO: PPOCfg = { lr: 3e-4, hidden: [128, 128], clip: 0.2, epochs: 4, minibatch: 2048, entCoef: 0.01, vfCoef: 0.5, gamma: 0.99, lambda: 0.95 };
 
-function mlp(inDim: number, outDim: number, hidden: number[], lastStd: number) {
+// Initialiseurs seedés : même famille qu'avant (glorotNormal pour les couches cachées, randomNormal(stddev) pour la sortie),
+// seule la graine est ajoutée, dérivée couche par couche. Acteur et critique reçoivent des graines distinctes
+// (sinon leurs couches cachées, de mêmes formes, partiraient des mêmes poids).
+export function mlp(inDim: number, outDim: number, hidden: number[], lastStd: number, seed: number) {
   const m = tf.sequential();
-  hidden.forEach((h, i) => m.add(tf.layers.dense({ units: h, activation: 'tanh', inputShape: i === 0 ? [inDim] : undefined })));
-  m.add(tf.layers.dense({ units: outDim, kernelInitializer: tf.initializers.randomNormal({ stddev: lastStd }) }));
+  hidden.forEach((h, i) => m.add(tf.layers.dense({ units: h, activation: 'tanh', inputShape: i === 0 ? [inDim] : undefined,
+    kernelInitializer: tf.initializers.glorotNormal({ seed: layerSeed(seed, i) }) })));
+  m.add(tf.layers.dense({ units: outDim, kernelInitializer: tf.initializers.randomNormal({ stddev: lastStd, seed: layerSeed(seed, hidden.length) }) }));
   return m;
 }
 
 export class PPO {
-  actor: tf.Sequential; critic: tf.Sequential; optA: tf.Optimizer; optC: tf.Optimizer;
-  constructor(public obsDim: number, public nAct: number, public cfg: PPOCfg = DEFAULT_PPO) {
-    this.actor = mlp(obsDim, nAct, cfg.hidden, 0.01); this.critic = mlp(obsDim, 1, cfg.hidden, 1.0);
+  actor: tf.Sequential; critic: tf.Sequential; optA: tf.Optimizer; optC: tf.Optimizer; rng: Rng;
+  // `seed` est obligatoire : il n'existe pas de PPO « non seedé » (c'est la source de divergence de l'issue #5).
+  constructor(public obsDim: number, public nAct: number, public cfg: PPOCfg, seed: number) {
+    this.actor = mlp(obsDim, nAct, cfg.hidden, 0.01, seed); this.critic = mlp(obsDim, 1, cfg.hidden, 1.0, (seed ^ 0x5bd1e995) >>> 0);
     this.optA = tf.train.adam(cfg.lr); this.optC = tf.train.adam(cfg.lr);
+    this.rng = mulberry32((seed ^ 0x9e3779b9) >>> 0); // mélange des mini-lots, dans un flux propre au PPO
   }
   act(obs: Float32Array, n: number): { probs: Float32Array; values: Float32Array } {
     return tf.tidy(() => {
@@ -29,13 +37,14 @@ export class PPO {
       return { probs: Float32Array.from(probs), values: Float32Array.from(values) };
     });
   }
-  update(obs: Float32Array, acts: Int32Array, oldLp: Float32Array, adv: Float32Array, ret: Float32Array) {
+  // `rng` : flux injectable pour le brassage des mini-lots (défaut : flux interne dérivé de `seed`).
+  update(obs: Float32Array, acts: Int32Array, oldLp: Float32Array, adv: Float32Array, ret: Float32Array, rng: Rng = this.rng) {
     const N = acts.length, c = this.cfg; let mean = 0, sd = 0;
     for (let i = 0; i < N; i++) mean += adv[i]; mean /= N; for (let i = 0; i < N; i++) sd += (adv[i] - mean) ** 2; sd = Math.sqrt(sd / N) + 1e-8;
     const nadv = adv.map(a => (a - mean) / sd);
     const idx = Array.from({ length: N }, (_, i) => i); let pl = 0, vl = 0, ent = 0, kl = 0, nb = 0;
     for (let e = 0; e < c.epochs; e++) {
-      for (let i = N - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
+      for (let i = N - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
       for (let s = 0; s < N; s += c.minibatch) {
         const ids = idx.slice(s, s + c.minibatch), m = ids.length;
         const o = new Float32Array(m * this.obsDim), a = new Int32Array(m), lp = new Float32Array(m), ad = new Float32Array(m), r = new Float32Array(m);

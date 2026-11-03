@@ -46,7 +46,27 @@ cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies
 node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0)
 ```
 
-`policies/` contient la politique b3 (prête pour `node dist/server.mjs`). `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
+`policies/` contient la politique b3 (prête pour `node dist/server.mjs`) : `current.json` est `runs/b3@2000` (2 000 mises à jour, seed 3). `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
+
+## Rejouer une mesure
+
+Tout l'aléatoire passe par `--seed` : initialisation des poids (BC et PPO, graine dérivée par couche), brassage des mini-lots, tirages d'actions, seeds des mondes et des tactiques `randomized()`, et seeds d'éval (900 000+). Deux exécutions avec la même graine et les mêmes arguments produisent **les mêmes poids et les mêmes métriques** ; seules les durées (`seconds`, `updateSeconds`, `wallSeconds`) relèvent de l'horloge murale.
+
+```sh
+npm test                                                              # reproductibilité des poids (≈ 4 s)
+node build.mjs
+node dist/train.mjs --updates 200 --envs 32 --out runs/replay-a --seed 3
+node dist/train.mjs --updates 200 --envs 32 --out runs/replay-b --seed 3
+node dist/eval.mjs --pack runs/replay-a/actor.json --n 200            # seeds 900000..900199
+```
+
+```sh
+# même graine ⇒ mêmes couches ; même graine ⇒ même metrics.jsonl (aux durées près)
+node -e 'const a=require("./runs/replay-a/actor.json"),b=require("./runs/replay-b/actor.json");console.log(JSON.stringify(a.layers)===JSON.stringify(b.layers)?"mêmes poids":"poids différents")'
+diff <(sed -E 's/"([a-zA-Z]*[sS]econds)":[0-9.]+/"\1":0/g' runs/replay-a/metrics.jsonl) <(sed -E 's/"([a-zA-Z]*[sS]econds)":[0-9.]+/"\1":0/g' runs/replay-b/metrics.jsonl) && echo "mêmes métriques"
+```
+
+Une graine différente (`--seed 4`) doit changer les deux. L'éval est elle aussi reproductible : relancer la même commande `eval.mjs` donne le même rapport, aux `wallSeconds` près.
 
 ## Fichiers
 

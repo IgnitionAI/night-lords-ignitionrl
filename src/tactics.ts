@@ -124,7 +124,13 @@ export function bcGhost(m: ActorJSON, seed: number, temp = Number(process.env.GH
 // randomized : tactique paramétrée tirée au hasard à chaque partie (randomisation de domaine pour l'entraînement).
 // Ce n'est ni kiter ni elite (jamais utilisés à l'entraînement), mais elle couvre des comportements voisins
 // (pas chassés, recul, réaction aux coups) : à dire clairement dans le rapport.
-export function randomized(seed = Math.floor(Math.random() * 1e9)): Tactic {
+// Graine de repli quand l'appelant n'en fournit pas : une séquence mulberry32 re-seedable (reseedRandomizedTactics),
+// et non Math.random() — la variété entre parties est conservée, la reproductibilité du processus aussi.
+// C'est l'option la moins intrusive : aucun appelant existant ne change (randomized(s) reste identique).
+let fallbackSeeds: Rng = mulberry32(0x9e3779b9);
+/** Re-seede la séquence de repli des `randomized()` sans argument (à appeler au démarrage d'un run). */
+export function reseedRandomizedTactics(seed: number): void { fallbackSeeds = mulberry32(seed >>> 0); }
+export function randomized(seed = Math.floor(fallbackSeeds() * 1e9)): Tactic {
   const r = mulberry32(seed); const P = {
     engage: 5 + r() * 9, strafeP: r(), period: 10 + Math.floor(r() * 40), backOff: r() * 4, scan: r() < 0.5,
     reactHit: r() < 0.5, fistPref: r() < 0.4, chase: r() < 0.3, hold: r() < 0.3, holdTicks: 20 + Math.floor(r() * 60) };
