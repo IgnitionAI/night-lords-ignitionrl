@@ -17,21 +17,28 @@ const ROLE_CSS = ['#d8d8ff', '#ff3030', '#ffa020', '#30d0ff'];
 const canvas = document.getElementById('c') as HTMLCanvasElement;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(Math.min(2, devicePixelRatio)); renderer.shadowMap.enabled = true;
+// palette filmique : sans tone mapping les hautes lumières écrasent le reste du cadre
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.6;
 const scene = new THREE.Scene(); scene.background = new THREE.Color(0x020306); scene.fog = new THREE.Fog(0x020306, 30, 70);
 const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 200);
-scene.add(new THREE.AmbientLight(0x30364a, 0.35)); scene.add(new THREE.HemisphereLight(0x223355, 0x050505, 0.25));
-const floor = new THREE.Mesh(new THREE.PlaneGeometry(ARENA.w, ARENA.h), new THREE.MeshStandardMaterial({ color: 0x1a1c22, metalness: 0.6, roughness: 0.7 }));
+// Une seule lumière de remplissage, froide et rasante : les formes se lisent par leur bord, pas par leur face.
+scene.add(new THREE.AmbientLight(0x1b2130, 0.30));
+const keyLight = new THREE.DirectionalLight(0x8fb4e8, 1.5); keyLight.position.set(50, 34, 6); scene.add(keyLight);
+const rimLight = new THREE.DirectionalLight(0x5f7fd0, 1.1); rimLight.position.set(38, 12, 24); scene.add(rimLight);
+const poolLight = new THREE.PointLight(0x8fb0e0, 26, 16, 2); poolLight.position.set(20, 5.5, BEACON.y); scene.add(poolLight);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(ARENA.w, ARENA.h), new THREE.MeshStandardMaterial({ color: 0x0e1014, metalness: 0.25, roughness: 0.5 }));
 floor.rotation.x = -Math.PI / 2; floor.position.set(ARENA.w / 2, 0, ARENA.h / 2); floor.receiveShadow = true; scene.add(floor);
 const grid = new THREE.GridHelper(40, 40, 0x2a2f3a, 0x15181f); grid.position.set(20, 0.01, 20); grid.scale.set(1, 1, 0.6); scene.add(grid);
 const wallMat = new THREE.MeshStandardMaterial({ color: 0x2b2e36, metalness: 0.5, roughness: 0.6 });
 for (const b of PILLARS) { const m = new THREE.Mesh(new THREE.BoxGeometry(b.x1 - b.x0, 4, b.y1 - b.y0), wallMat); m.position.set((b.x0 + b.x1) / 2, 2, (b.y0 + b.y1) / 2); m.castShadow = m.receiveShadow = true; scene.add(m);
-  const lamp = new THREE.PointLight(0xff2a1a, 6, 7, 2); lamp.position.set((b.x0 + b.x1) / 2, 3.6, b.y0 - 0.3); scene.add(lamp); }
+  const lamp = new THREE.PointLight(0xff2a1a, 11, 11, 2); lamp.position.set((b.x0 + b.x1) / 2, 3.6, b.y0 - 0.3); scene.add(lamp); }
 for (const [w, d, x, z] of [[ARENA.w, 0.4, ARENA.w / 2, -0.2], [ARENA.w, 0.4, ARENA.w / 2, ARENA.h + 0.2], [0.4, ARENA.h, -0.2, ARENA.h / 2], [0.4, ARENA.h, ARENA.w + 0.2, ARENA.h / 2]]) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, 1.2, d), wallMat); m.position.set(x, 0.6, z); scene.add(m); }
-const beacon = new THREE.Mesh(new THREE.CylinderGeometry(BEACON.r, BEACON.r, 0.1, 32), new THREE.MeshStandardMaterial({ color: 0x00ff33, emissive: 0x00aa55, emissiveIntensity: 1.2 }));
-beacon.position.set(BEACON.x, 0.05, BEACON.y); scene.add(beacon); const bl = new THREE.PointLight(0x33ff66, 12, 9, 2); bl.position.set(BEACON.x, 2, BEACON.y); scene.add(bl);
+// Rayon de téléportation : une braise, pas un néon. Le vert saturait à 255 et devenait l'objet le plus attractif du plateau.
+const beacon = new THREE.Mesh(new THREE.CylinderGeometry(BEACON.r, BEACON.r, 0.1, 32), new THREE.MeshStandardMaterial({ color: 0x3a1a08, emissive: 0xc24a12, emissiveIntensity: 0.85 }));
+beacon.position.set(BEACON.x, 0.05, BEACON.y); scene.add(beacon); const bl = new THREE.PointLight(0xff7a3a, 7, 9, 2); bl.position.set(BEACON.x, 2, BEACON.y); scene.add(bl);
 
 // Terminator : cubes (os/or loyaliste), front marqué par le visor et le storm bolter
-const term = new THREE.Group(); const bone = new THREE.MeshStandardMaterial({ color: 0xcdb98a, metalness: 0.5, roughness: 0.45 });
+const term = new THREE.Group(); const bone = new THREE.MeshStandardMaterial({ color: 0x2a2418, metalness: 0.5, roughness: 0.45 });
 const add = (g: THREE.Group, geo: THREE.BufferGeometry, mat: THREE.Material, x: number, y: number, z: number) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = true; g.add(m); return m; };
 add(term, new THREE.BoxGeometry(1.3, 1.7, 1.6), bone, 0, 1.25, 0);
 add(term, new THREE.BoxGeometry(0.9, 0.9, 2.6), bone, -0.1, 2.05, 0); // épaulières
@@ -39,16 +46,25 @@ add(term, new THREE.BoxGeometry(0.55, 0.5, 0.55), bone, 0.35, 2.35, 0);
 add(term, new THREE.BoxGeometry(0.12, 0.12, 0.4), new THREE.MeshBasicMaterial({ color: 0xff2020 }), 0.64, 2.38, 0);
 add(term, new THREE.BoxGeometry(1.3, 0.3, 0.3), new THREE.MeshStandardMaterial({ color: 0x333 }), 0.75, 1.5, 0.9); // storm bolter
 const fistM = add(term, new THREE.BoxGeometry(0.6, 0.6, 0.6), new THREE.MeshStandardMaterial({ color: 0x3355ff, emissive: 0x1122aa }), 0.55, 1.1, -0.95);
-const spot = new THREE.SpotLight(0xfff2d0, 60, T_CFG.visionRange + 4, T_CFG.visionHalf * 0.75, 0.5, 1.4); spot.position.set(0.7, 2.4, 0); spot.castShadow = true;
-term.add(spot); const tLamp = new THREE.PointLight(0xffe8c0, 25, 6, 2); tLamp.position.set(-1.2, 4, 0); term.add(tLamp); const spotTarget = new THREE.Object3D(); spotTarget.position.set(8, 0, 0); term.add(spotTarget); spot.target = spotTarget; scene.add(term);
+const spot = new THREE.SpotLight(0xfff2d0, 34, T_CFG.visionRange + 4, T_CFG.visionHalf * 0.75, 0.5, 1.4); spot.position.set(0.7, 2.4, 0); spot.castShadow = true;
+term.add(spot); const tLamp = new THREE.PointLight(0xffe8c0, 6, 4, 2); tLamp.position.set(-1.2, 4, 0); term.add(tLamp); const spotTarget = new THREE.Object3D(); spotTarget.position.set(8, 0, 0); term.add(spotTarget); spot.target = spotTarget; scene.add(term);
 
+// Un Night Lord : un corps noir qu'on devine à son liseré, et deux yeux. Aucun marqueur de rôle au sol
+// ni au-dessus de la tête en vue de jeu — anneau et étiquette restent disponibles en vue de contrôle (V).
+const nlBodyMat = new THREE.MeshStandardMaterial({ color: 0x050507, roughness: 0.85, metalness: 0.05 });
+nlBodyMat.onBeforeCompile = (sh) => { // liseré de Fresnel : la silhouette se dessine par son bord
+  sh.fragmentShader = sh.fragmentShader.replace('#include <dithering_fragment>', `#include <dithering_fragment>
+     float fres = pow(1.0 - clamp(abs(dot(normalize(normal), normalize(vViewPosition))), 0.0, 1.0), 4.2);
+     gl_FragColor.rgb += vec3(0.26, 0.35, 0.55) * fres * 0.55;`);
+};
+const nlMarkers: THREE.Object3D[] = []; // anneau + étiquette, visibles seulement en vue de contrôle
 const nlMeshes = ROLES.map((name, i) => {
   const g = new THREE.Group();
-  add(g, new THREE.CapsuleGeometry(NL_CFG.radius, 1.1, 6, 12), new THREE.MeshStandardMaterial({ color: 0x14204a, metalness: 0.6, roughness: 0.35 }), 0, 1.0, 0);
-  add(g, new THREE.BoxGeometry(0.2, 0.08, 0.5), new THREE.MeshBasicMaterial({ color: ROLE_COL[i] }), 0.38, 1.55, 0); // yeux, côté avant
-  const ring = new THREE.Mesh(new THREE.RingGeometry(0.55, 0.75, 24), new THREE.MeshBasicMaterial({ color: ROLE_COL[i], side: THREE.DoubleSide })); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.04; g.add(ring);
+  add(g, new THREE.CapsuleGeometry(NL_CFG.radius, 1.1, 6, 12), nlBodyMat, 0, 1.0, 0);
+  for (const z of [-0.11, 0.11]) add(g, new THREE.SphereGeometry(0.045, 8, 8), new THREE.MeshBasicMaterial({ color: 0xff1a08 }), 0.42, 1.66, z); // yeux, seule source chaude
+  const ring = new THREE.Mesh(new THREE.RingGeometry(0.55, 0.75, 24), new THREE.MeshBasicMaterial({ color: ROLE_COL[i], transparent: true, opacity: 0.5, side: THREE.DoubleSide })); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.04; ring.visible = false; g.add(ring); nlMarkers.push(ring);
   const c = document.createElement('canvas'); c.width = 256; c.height = 64; const x = c.getContext('2d')!; x.font = 'bold 40px system-ui'; x.fillStyle = ROLE_CSS[i]; x.textAlign = 'center'; x.fillText(name, 128, 46);
-  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), depthTest: false })); s.scale.set(2.4, 0.6, 1); s.position.y = 2.5; g.add(s);
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), depthTest: false })); s.scale.set(2.4, 0.6, 1); s.position.y = 2.5; s.visible = false; g.add(s); nlMarkers.push(s);
   scene.add(g); return g;
 });
 // vue de contrôle : cônes, croyances, bruit
@@ -63,6 +79,25 @@ const links = ROLES.map((_, i) => { const g = new THREE.BufferGeometry().setFrom
 const noiseRing = new THREE.Mesh(new THREE.RingGeometry(0.97, 1, 64), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.35, side: THREE.DoubleSide })); noiseRing.rotation.x = -Math.PI / 2; noiseRing.position.y = 0.06; dbgGroup.add(noiseRing);
 const tCone = fan(T_CFG.visionHalf, T_CFG.visionRange, 0xfff0c0, 0.05); dbgGroup.add(tCone);
 const tracer = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), new THREE.LineBasicMaterial({ color: 0xffe080 })); scene.add(tracer); tracer.visible = false;
+
+// Passe plein écran : vignette + grain. Un quad et un shader, aucun addon ; la render target est linéaire
+// et c'est ce shader qui encode en sRGB (sinon l'image est deux fois trop sombre).
+const rt = new THREE.WebGLRenderTarget(2, 2, { samples: 4, colorSpace: THREE.LinearSRGBColorSpace });
+const postScene = new THREE.Scene(); const postCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+const postMat = new THREE.ShaderMaterial({
+  uniforms: { tDiffuse: { value: rt.texture }, uTime: { value: 0 }, uVignette: { value: 0.95 } },
+  vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }',
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float uTime, uVignette; varying vec2 vUv;
+    float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+    void main(){
+      vec3 c = texture2D(tDiffuse, vUv).rgb;
+      vec2 d = vUv - 0.5;
+      c *= clamp(1.0 - dot(d, d) * uVignette * 1.9, 0.0, 1.0);
+      c += (hash(vUv * 1024.0 + uTime) - 0.5) * 0.014;
+      gl_FragColor = vec4(pow(clamp(c, 0.0, 1.0), vec3(0.4545)), 1.0);
+    }`,
+});
+postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), postMat));
 
 // ---------- état de jeu
 let w: World, prev: { t: [number, number, number]; n: [number, number, number][] }, rec: Recorder, rng: () => number, tactic: Tactic | null;
@@ -134,7 +169,7 @@ function render(alpha: number) {
   const tx = lerp(prev.t[0], w.t.x), ty = lerp(prev.t[1], w.t.y), tf = la(prev.t[2], w.t.facing);
   term.position.set(tx, 0, ty); term.rotation.y = -tf; fistM.position.x = w.t.fistCd > 8 ? 1.2 : 0.55;
   w.nls.forEach((n, i) => { const g = nlMeshes[i]; g.position.set(lerp(prev.n[i][0], n.x), 0, lerp(prev.n[i][1], n.y)); if (n.alive) g.rotation.y = -la(prev.n[i][2], n.facing); else { g.rotation.set(Math.PI / 2, 0, 0); g.position.y = 0.4; } });
-  dbgGroup.visible = debug;
+  dbgGroup.visible = debug; for (const m of nlMarkers) m.visible = debug;
   if (debug) {
     w.nls.forEach((n, i) => { cones[i].visible = n.alive; cones[i].position.set(n.x, 0.05, n.y); cones[i].rotation.y = -n.facing;
       const b = n.belief; beliefs[i].visible = n.alive && b.valid; beliefs[i].position.set(b.x, 0.08 + i * 0.01, b.y); (beliefs[i].material as THREE.MeshBasicMaterial).opacity = Math.max(0.15, 1 - b.age / 50);
@@ -148,9 +183,12 @@ function render(alpha: number) {
   if (portrait) { camera.position.set(tx - 7 + sx, 36, ty + sz); camera.lookAt(tx + 7 + sx, 0, ty + sz); }
   else { camera.position.set(tx - 10 + sx, 22, ty + sz); camera.lookAt(tx + 8 + sx, 0, ty + sz); }
   camera.up.set(0, 1, 0);
-  renderer.render(scene, camera);
+  postMat.uniforms.uTime.value = performance.now() * 0.001;
+  renderer.setRenderTarget(rt); renderer.render(scene, camera);
+  renderer.setRenderTarget(null); renderer.render(postScene, postCam);
 }
-function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = innerHeight > innerWidth ? 75 : 50; camera.updateProjectionMatrix(); }
+function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = innerHeight > innerWidth ? 75 : 50; camera.updateProjectionMatrix();
+  const s = renderer.getDrawingBufferSize(new THREE.Vector2()); rt.setSize(s.x, s.y); }
 addEventListener('resize', resize);
 
 await loadPolicy(); resize(); startRound();
