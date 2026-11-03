@@ -57,7 +57,7 @@ test('décélération : lâcher l\'entrée fait décroître la vitesse sur plusi
   for (let i = 1; i < seen.length; i++) assert.ok(seen[i] < seen[i - 1], `tick ${i} : ${seen[i]} < ${seen[i - 1]}`);
   assert.equal(seen[seen.length - 1], 0, 'la vitesse finit exactement à zéro (pas de résidu)');
   assert.equal(w.t.moving, false, 'immobile : `moving` reflète la vitesse réelle');
-  assert.equal(w.t.noise, T_CFG.noiseFloor, 'le bruit retombe au plancher (noiseFloor) une fois arrêté, jamais en dessous');
+  assert.equal(w.t.noise, T_CFG.noiseIdle, 'le bruit retombe à noiseIdle une fois arrêté');
   assert.equal(w.t.vx, 0); assert.equal(w.t.vy, 0);
 });
 
