@@ -16,7 +16,7 @@
  .note{margin-top:12px;font-size:12px;color:#7b8798}
 </style>
 <h1>Alarme de servo — l'armure encaisse, et c'est l'armure qui bat</h1>
-<p class="s">Graine <b>6</b> (<code>?seed=5</code>), <code>?autoplay=brawler</code>, <b>tick 225</b> : premier coup porté au Terminator (<code>hit</code>, 2 dégâts, zone <b>rear</b>, armure 30 → 28). La simulation pose <code>servoAlarm = 10</code> ticks ; le rendu ne fait que mettre en forme.</p>
+<p class="s">Graine <b>6</b> (<code>?seed=6</code>), <code>?autoplay=brawler</code>, <b>tick 225</b> : premier coup porté au Terminator (<code>hit</code>, 2 dégâts, zone <b>rear</b>, armure 30 → 28). La simulation pose <code>servoAlarm = 10</code> ticks ; le rendu ne fait que mettre en forme.</p>
 <div class="row">
  <figure><img src="off-t225.jpg"><figcaption><b><code>?alarme=0</code></b> — sans alarme : l'armure reste mate, le HUD ne dit rien. Tick, graine et mode brûlés dans l'image.</figcaption></figure>
  <figure><img src="on-t225.jpg"><figcaption><b>Par défaut</b> — les plaques respirent le rouge de l'intérieur, et le HUD écrit <b style="color:#ff5a2a">■ ALARME SERVO</b>. Ni lampe collée sur le modèle, ni source de lumière de plus.</figcaption></figure>
@@ -26,4 +26,5 @@
  <tr><td>luminance du corps, écart à <code>?alarme=0</code></td><td class="n k">+5,56</td><td class="n">+1,50</td><td class="n k">+4,70</td><td class="n">+0,47</td><td class="n">+2,17</td><td class="n">−0,82</td></tr>
 </table>
 <p class="note">Un clignotement à <b>2,5 Hz</b> — période de 4 ticks. À 8 Hz, l'intensité sautait d'un tick à l'autre sans dessiner de battement : la simulation échantillonne à 10 Hz, et une fréquence plus rapide que ça ne se lit pas, elle scintille. Le rouge décroît avec l'alarme (10 ticks), donc la dernière image est presque éteinte.</p>
+<p class="note">Image entière, blocs de 8 px : +0,58/255 en moyenne, 13,2 % des blocs &gt; 2, <b>4,0 % &gt; 8</b>, 0,2 % &gt; 16. Plancher de grain mesuré à côté : 5,4 % &gt; 2, <b>0,0 % &gt; 8</b>.</p>
 <p class="note">Coût : <b>0 draw call, 0 triangle, 0 lumière</b> — on touche l'émissif du matériau de l'armure. Trois dosages essayés (0,9 / 0,22 / 0,07) : à 0,9 le Terminator devenait une masse rouge fluo et on ne lisait plus l'armure ni les Night Lords autour.</p>

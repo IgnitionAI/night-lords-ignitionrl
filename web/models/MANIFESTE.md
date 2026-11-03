@@ -220,6 +220,17 @@ de 4 ticks), la courbe mesurée sur six ticks alterne franchement : +5,56, +1,50
 d'écart à `?alarme=0` sur la luminance du corps. Le rouge décroît avec l'alarme, donc la dernière image est
 presque éteinte — c'est le sens du signal, pas un défaut.
 
+**`?seed=N` joue N, et ça n'a pas toujours été vrai.** `startRound()` incrémentait la graine dès la première
+manche : `?seed=6` jouait la 7. Un paramètre qui ne fait pas ce qu'il dit est un piège pour celui qui n'a pas lu
+le message — donc il est corrigé dans le code, pas seulement documenté : la manche 1 prend la graine de l'URL
+telle quelle, les manches suivantes avancent d'un cran (pour qu'« Entrée » ne rejoue pas la même partie).
+
+**Conséquence sur les documents antérieurs au 4 novembre 2026** : toute capture ou planche étiquetée par son
+URL est décalée d'un cran. Les planches du télégraphe (#34, #37) annonçaient `?seed=17` pour une graine jouée de
+**18** ; la planche de l'alarme (#38) annonçait `?seed=5` pour une graine de **6**. Les images restent valides —
+seule l'étiquette d'URL était fausse — et elles ont été refaites avec l'URL corrigée. Le tick de la ligne brûlée
+dans l'image, lui, n'a jamais menti : c'est ce qui a permis de le voir.
+
 **Graine et reproductibilité.** Les captures à `?shot=N` tombent sur le tick N, mais la graine de grain
 de la passe plein écran dépend de `performance.now()` : deux captures du même tick ne sont jamais
 identiques au pixel, l'écart est le grain. Comparer avec `pix.mjs` (histogramme) ou en blocs de 8 px,
