@@ -213,6 +213,13 @@ Ce qui sépare, c'est un seuil que le grain ne franchit jamais — **> 8/255** :
 3,0 à 3,5 % pour le télégraphe, 7,4 % pour le flash. Un maximum isolé n'est pas une mesure ; un comptage de
 blocs au-dessus d'un seuil que le bruit ne franchit pas en est une.
 
+**Une fréquence qui ne se lit pas scintille.** L'alarme de servo bat dans les plaques du Terminator. Réglée
+d'abord à 8 Hz, elle ne dessinait aucun battement : la simulation avance par pas de 0,1 s, donc à 10 Hz, et une
+intensité plus rapide que l'échantillonnage saute d'un tick à l'autre au lieu de pulser. À **2,5 Hz** (période
+de 4 ticks), la courbe mesurée sur six ticks alterne franchement : +5,56, +1,50, +4,70, +0,47, +2,17, −0,82
+d'écart à `?alarme=0` sur la luminance du corps. Le rouge décroît avec l'alarme, donc la dernière image est
+presque éteinte — c'est le sens du signal, pas un défaut.
+
 **Graine et reproductibilité.** Les captures à `?shot=N` tombent sur le tick N, mais la graine de grain
 de la passe plein écran dépend de `performance.now()` : deux captures du même tick ne sont jamais
 identiques au pixel, l'écart est le grain. Comparer avec `pix.mjs` (histogramme) ou en blocs de 8 px,

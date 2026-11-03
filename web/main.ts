@@ -187,6 +187,13 @@ const tCone = fan(T_CFG.visionHalf, T_CFG.visionRange, 0xfff0c0, 0.05); dbgGroup
 // pulse en continu, bleu, faible. Deux lumières de plus dans la passe principale (aucun draw call).
 const muzzleLight = new THREE.PointLight(0xffd8a8, 0, 13, 2); term.add(muzzleLight); muzzleLight.position.set(1.9, 1.6, 0.6);
 const fistLight = new THREE.PointLight(0x3a63ff, 2.2, 3.2, 2); term.add(fistLight); fistLight.position.set(0.55, 1.1, -0.95);
+// Alarme de servo (#24) : l'armure encaisse, et c'est l'armure qui le dit — une lueur rouge qui bat dans les
+// plaques pendant une seconde. Ni lampe collée sur le modèle (une boule blanche au-dessus de l'épaule, essayé,
+// ça ressemble à un bug), ni source de lumière : une troisième lumière ponctuelle se paierait sur chaque pixel
+// des cinq maillages skinnés. L'émissif ne coûte rien — même draw call, mêmes triangles.
+const ALARM_ON = qs.get('alarme') !== '0'; // ?alarme=0 pour la comparaison avant/après
+const ALARM_COLOR = new THREE.Color(0xff2a0e);
+const alarmMats: THREE.MeshStandardMaterial[] = []; // rempli au chargement du Terminator
 const tracer = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), new THREE.LineBasicMaterial({ color: 0xffe080 })); scene.add(tracer); tracer.visible = false;
 
 // Passe plein écran : vignette + grain. Un quad et un shader, aucun addon ; la render target est linéaire
@@ -446,7 +453,7 @@ function burnIn() {
 function hud() {
   const t = w.t; const h = document.getElementById('hud')!;
   h.innerHTML = `${DEMO_CFG ? '<b style="color:#ffb020">MISE EN SCÈNE</b> — ce n\'est pas une manche jouée · ' : ''}<b>TERMINATOR</b> — manche ${roundNo} · meute ${score.pack} / ${score.term} Terminator · ${((MAX_TICKS - w.tick) * DT).toFixed(0)} s<div class="bar"><i style="width:${t.hp / T_CFG.hp * 100}%"></i></div>`
-    + `${t.channel ? `<b style="color:#6f6">Téléportation ${Math.round(t.channel / T_CFG.channel * 100)} %</b> · ` : ''}Armure ${t.hp}/${T_CFG.hp} · bolter ${t.boltCd ? '…' : 'prêt'} · gantelet ${t.fistCd ? '…' : 'prêt'} · Night Lords debout : ${w.nls.filter(n => n.alive).length}/4<br><small>${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}</small><br><small style="color:#8f98a8">${burnIn()}</small>`;
+    + `${t.channel ? `<b style="color:#6f6">Téléportation ${Math.round(t.channel / T_CFG.channel * 100)} %</b> · ` : ''}Armure ${t.hp}/${T_CFG.hp}${ALARM_ON && t.servoAlarm > 0 ? ' <b style="color:#ff5a2a">■ ALARME SERVO</b>' : t.servoCriticalSent ? ' <b style="color:#8a3a2a">servos critiques</b>' : ''} · bolter ${t.boltCd ? '…' : 'prêt'} · gantelet ${t.fistCd ? '…' : 'prêt'} · Night Lords debout : ${w.nls.filter(n => n.alive).length}/4<br><small>${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}</small><br><small style="color:#8f98a8">${burnIn()}</small>`;
   const d = document.getElementById('dbg')!; d.style.display = debug ? 'block' : 'none';
   if (debug) d.innerHTML = `<b>Vue de contrôle — ce que perçoit chaque Night Lord</b><table><tr><th>rôle</th><th>état</th><th>voit</th><th>entend</th><th>vox</th><th>âge</th><th>action (p)</th></tr>`
     + w.nls.map((n, i) => `<tr style="color:${ROLE_CSS[i]}"><td>${ROLES[i]}</td><td>${n.alive ? 'debout' : 'mort'}</td><td>${n.alive && n.belief.seen ? '●' : '·'}</td><td>${n.alive && n.belief.heard ? '●' : '·'}</td><td>${n.alive && n.belief.vox ? '●' : '·'}</td><td>${n.alive && n.belief.valid ? (n.belief.age * DT).toFixed(1) + ' s' : '—'}</td><td>${n.alive ? NL_ACTIONS[lastActs[i]] + (actor ? ` (${lastP[i].toFixed(2)})` : '') : ''}</td></tr>`).join('')
@@ -513,6 +520,17 @@ function render(alpha: number) {
   muzzleLight.intensity = 20 * muzzleT * muzzleT;
   const pulse = 0.72 + 0.28 * Math.sin((simT - DT + alpha * DT) * 3.1);
   fistLight.intensity = 2.2 * pulse;
+  // clignotement à 2,5 Hz — période de 4 ticks. 8 Hz était au-dessus de ce que la simulation échantillonne
+  // (10 ticks/s) : l'intensité sautait d'un tick à l'autre sans dessiner de battement lisible. Mesuré sur six
+  // ticks, la courbe ci-contre montre une alternance franche, pas un scintillement aléatoire. La valeur vient de la simulation (`servoAlarm` en ticks),
+  // le rendu ne fait que la mettre en forme — rien n'est inventé côté image.
+  const alarmGlow = ALARM_ON && w.t.servoAlarm > 0
+    ? (w.t.servoAlarm / T_CFG.servoAlarmTicks) * (0.30 + 0.70 * Math.abs(Math.sin(simT * 2 * Math.PI * 2.5)))
+    : 0;
+  // Une teinte, pas un projecteur. Mesuré en trois essais : 0,9 rendait le Terminator rouge fluo et on ne
+  // lisait plus l'armure ni les Night Lords autour ; 0,22 le teintait encore comme un néon ; 0,085 laisse
+  // l'albedo intact et fait seulement respirer le rouge des plaques. C'est une alarme, pas une enseigne.
+  for (const m of alarmMats) { m.emissive.copy(m.userData.baseEmissive).lerp(ALARM_COLOR, alarmGlow * 0.070); }
   (fistM.material as THREE.MeshStandardMaterial).emissive.setRGB(0.05 * pulse, 0.12 * pulse, 0.62 * pulse);
   // Flou de rotation : 5 prises dans la passe plein écran quand la caméra tourne vite, rien sinon.
   const blur = CAM_MODE === 'epaule' ? Math.max(-0.018, Math.min(0.018, -yawRate * 0.0032)) : 0;
@@ -544,6 +562,8 @@ async function loadModels() {
   try {
     termRig = await load('TERM', TERM_HEIGHT, 0.40);
     term.add(termRig.root);
+    // Les matériaux de l'armure, pour l'alarme de servo : on garde l'émissif d'origine pour savoir le rendre.
+    termRig.root.traverse((o: any) => { const m = o.material; if (m && m.emissive) { if (!m.userData.baseEmissive) m.userData.baseEmissive = m.emissive.clone(); alarmMats.push(m); } });
     for (const c of term.children) if ((c as THREE.Mesh).isMesh) (c as THREE.Mesh).visible = false;
   } catch (e) { console.warn('modèle TERM absent, cubes conservés', e); }
 }
@@ -553,6 +573,16 @@ await Promise.all([loadPolicy(), loadModels(), initAudio({ base: '/web/sfx/night
 // Onglet en arrière-plan : le module suspend le contexte, et ne le reprend au retour que s'il tournait.
 audio.attachLifecycle();
 resize(); startRound();
+// ---- sonde temporaire (retirée avant commit)
+if (Number(qs.get('hitscan') ?? 0)) {
+  const out: any[] = []; const base = seed; const n = Number(qs.get('hitscan'));
+  for (let k = 0; k < n; k++) {
+    seed = base + k; startRound(); let got: any = null;
+    while (w.tick < 400 && !w.done) { tick(); const h = w.events.find((e: any) => e.type === 'hit'); if (h) { got = { seed, tick: w.tick, dmg: h.dmg, zone: h.zone, hpAfter: h.hpAfter, alarm: h.servoAlarm }; break; } }
+    if (got) out.push(got); roundOver = true;
+  }
+  (window as any).__hits = out; document.title = 'HITS';
+}
 if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
   while (w.tick < shot && !w.done) tick();
   hitstop = 0; shake = 0; prev = snap(); hud(); render(1);

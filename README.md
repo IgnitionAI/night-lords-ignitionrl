@@ -43,7 +43,7 @@ node dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1     # PPO m
 node dist/eval.mjs --pack runs/base/actor.json --n 200                    # taux de victoire, seeds 900000+
 scripts/mesures.sh                                                         # mesures du jalon 1
 cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies/current-full.json
-node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0  ?demo=reveal)
+node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0  ?demo=reveal  ?alarme=0)
 ```
 
 `policies/` contient la politique b3 (prête pour `node dist/server.mjs`) : `current.json` est `runs/b3@2000` (2 000 mises à jour, seed 3). `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
@@ -106,6 +106,11 @@ Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --see
   45 %, qui ne crie pas. `?tell=0` coupe tout. Le signal se lit sur le **liseré**, pas sur les yeux : un
   assaillant qui vient dans le dos n'a pas d'yeux visibles. Le build jouable n'est plus comparable aux
   mesures b3 (voir `web/models/MANIFESTE.md`).
+- Alarme de servo : quand l'armure encaisse, la simulation pose `servoAlarm` (10 ticks, 1 s) et le rendu fait
+  **battre le rouge dans les plaques** du Terminator à 2,5 Hz pendant que le HUD écrit « ALARME SERVO ». Aucun
+  draw call, aucun triangle, aucune lumière de plus : c'est l'émissif du matériau de l'armure. `?alarme=0`
+  coupe l'effet et sa ligne de HUD (mesure avant/après). Sous 25 % d'armure, une seule fois par manche, le HUD
+  passe à « servos critiques ».
 - Le pas de la caméra vient de l'**événement de simulation** (`step`, avec son intensité et son pied), plus
   d'un compteur de mètres parcourus : la cadence suit la vitesse par construction, le pied alterne, et le
   pas d'arrêt — le plus lourd — pousse plus fort.
