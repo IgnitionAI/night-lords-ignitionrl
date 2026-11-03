@@ -1,0 +1,35 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+html{width:1900px}body{width:1900px;margin:0;background:#0b0d13;color:#cfd6e4;font:13px/1.45 ui-sans-serif,system-ui,sans-serif}
+h1{font:600 17px/1 ui-sans-serif;letter-spacing:.06em;text-transform:uppercase;margin:18px 22px 4px;color:#eef2f8}
+p.sub{margin:0 22px 14px;color:#7b8798;font-size:12px}
+code{color:#9fb0c8}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 22px 22px}
+figure{margin:0}
+figure img{width:100%;display:block;border-radius:3px}
+figcaption{font-size:11.5px;color:#8d99ab;padding:5px 2px 0}
+figcaption b{color:#e7ecf4;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:11.5px;color:#cfd6e4}
+</style></head><body>
+<h1>Les événements de simulation pilotent le pas, le télégraphe et le son</h1>
+<p class="sub">1600×900, aucune retouche. 10 ticks = 1 s. <code>?tell=0</code> coupe le télégraphe, <code>?impact=0</code> coupe poids et flash. Le <code>?shot=N</code> s'arrête sur le tick N : les deux images d'une paire sont le même tick, la même graine.</p>
+<div class="grid">
+  <figure><img src="t-off.jpg"><figcaption><b>t221, <code>?tell=0</code> — les griffes s'arment, rien ne le dit</b><br>Graine 19, <code>?autoplay=march</code>. Deux des trois assaillants ont la griffe armée (<code>armTicks = 2</code> et <code>1</code>) : le coup tombe dans 100 et 200 ms. Leur liseré reste froid, bleu : indistinguable d'une griffe en recharge.</figcaption></figure>
+  <figure><img src="t-on.jpg"><figcaption><b>t221, télégraphe actif — deux liserés passent au rouge ardent</b><br>Le troisième, à droite, garde son liseré froid : il n'a pas armé. La couleur dit <i>qui</i> frappe et <i>quand</i>, sans texte et sans HUD. Pendant les 200 ms de l'armement, l'intensité est binaire — pas un dégradé qu'on peut ignorer.</figcaption></figure>
+  <figure><img src="f-off.jpg"><figcaption><b>t151, <code>?impact=0</code> — la rafale part, chambre noire</b><br>Graine 6, <code>?autoplay=brawler</code>. Un Night Lord debout à 6,3 m dans l'axe, un second au sol plus près. La trace du bolter est visible ; rien n'éclaire.</figcaption></figure>
+  <figure><img src="f-on.jpg"><figcaption><b>t151, flash de bouche — la salle apparaît, pas la proie</b><br>Le sol devant monte de <b>+10,6/255</b>, le mur de droite de <b>+11,0</b>, l'image entière de <b>+4,9</b> (46 % des blocs de 8 px montent de plus de 2). Le Night Lord debout, lui, ne prend que <b>+1,6</b> : son liseré était déjà à 122 par la lumière froide. La physique ne pardonne pas — la lumière est 1,9 m devant le Terminator, à 6 m il ne reste que 1/r².</figcaption></figure>
+  <figure style="background:#11151d;border:1px solid #1e2530;border-radius:3px;padding:14px 16px;grid-column:1/3"><figcaption style="padding:0">
+    <b>Ce que les événements changent, et ce qu'ils coûtent</b><br>
+    <span style="color:#8d99ab">Le pas vient de <code>step</code> (position, pied, intensité), le télégraphe de <code>armTicks</code>, le son des six mêmes événements.</span>
+    <table style="margin-top:9px">
+      <tr style="color:#7b8798"><td></td><td>à l'épaule</td><td>impact = 0</td></tr>
+      <tr><td style="padding:3px 0">course verticale</td><td><b>83 mm</b></td><td>56 mm</td></tr>
+      <tr><td style="padding:3px 0">écart-type de la hauteur</td><td><b>21,2 mm</b></td><td>19,6 mm</td></tr>
+      <tr><td style="padding:3px 0">appui du pas</td><td><b>0,47°</b> = 6,8 px</td><td>0</td></tr>
+      <tr><td style="padding:3px 0">télégraphe armé</td><td><b>+2,2/255</b> sur la région du Night Lord, +27,6 en bloc</td><td>0</td></tr>
+      <tr><td style="padding:3px 0">flash, image entière</td><td><b>+4,9/255</b>, 46 % des blocs &gt; 2</td><td>0</td></tr>
+      <tr><td style="padding:3px 0">draw calls / triangles</td><td>inchangés</td><td>inchangés</td></tr>
+    </table>
+    <span style="color:#7b8798;font-size:11px;display:block;margin-top:9px">Le télégraphe ne s'allume que sur l'armement (binaire, 200 ms) ; une griffe prête mais qui recharge donne un second rideau à 45 %, qui ne crie pas. Le son : 91 appels aboutis en 40 s de temps réel, 0 exception, banque absente = silence total sans casser le jeu.</span>
+  </figcaption></figure>
+</div>
+</body></html>
