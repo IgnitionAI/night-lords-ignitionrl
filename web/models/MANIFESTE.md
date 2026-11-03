@@ -231,6 +231,14 @@ URL est décalée d'un cran. Les planches du télégraphe (#34, #37) annonçaien
 seule l'étiquette d'URL était fausse — et elles ont été refaites avec l'URL corrigée. Le tick de la ligne brûlée
 dans l'image, lui, n'a jamais menti : c'est ce qui a permis de le voir.
 
+**Si un signal doit se lire plus fort, c'est en surface, pas en crête.** Mesuré au seuil que le grain ne
+franchit jamais (> 8/255), sur l'image entière : le flash de bouche couvre **7,4 %** des blocs, le télégraphe
+**3,0 %**, l'alarme de servo **4,0 %** — pour des crêtes comparables (+70,6 / +24,6 / +67,8). Autrement dit le
+flash éclaire deux fois et demie plus large que le télégraphe ne signale. Le prochain qui voudra « un
+télégraphe plus visible » aura le réflexe d'appuyer sur l'intensité : c'est le mauvais levier, la crête est
+déjà à +24,6 sur une poignée de blocs. Ce qu'il faut étendre, c'est la **surface** — l'épaisseur du liseré, sa
+durée, ou le nombre de fragments de silhouette qu'il touche.
+
 **Graine et reproductibilité.** Les captures à `?shot=N` tombent sur le tick N, mais la graine de grain
 de la passe plein écran dépend de `performance.now()` : deux captures du même tick ne sont jamais
 identiques au pixel, l'écart est le grain. Comparer avec `pix.mjs` (histogramme) ou en blocs de 8 px,

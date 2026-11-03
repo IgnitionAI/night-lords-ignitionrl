@@ -50,6 +50,19 @@ n'entend rien. `initAudio` installe `autounlock` (pointerdown/keydown/touchstart
 suspend le contexte quand l'onglet passe en arrière-plan puis le reprend au retour — seulement s'il tournait et
 si le son n'est pas coupé. `audio.status()` dit où on en est (`state`, `ok`, `missing`).
 
+## Écoute A/B — le seul capteur qui manque
+
+`/data/OpenBot/Shared/team/pipeline/demo-night-lords/audio-api/ecoute-A-B.html` : page autonome, **la banque est
+embarquée en `data:` URL dans le fichier** (861 Kio), donc rien à servir, rien qui sorte de la machine, et
+surtout **rien dans ce dépôt** — la licence des sons générés par Genex n'est toujours pas tranchée.
+
+Chaque son se joue au gain du jeu puis à +6 dB, le mix complet se joue à −22,5 LUFS estimé (somme d'énergies,
+pas un mètre EBU R128 : cette machine n'en a pas) et sans correction. Un clic par son donne un verdict
+(*trop fort / bien / trop faible*), et un rapport à recopier. Générée par `/data/work/tools-fg/ecoute.mjs`.
+
+Vérifié en navigateur : 15 échantillons décodés, 18 sources créées sur trois lectures et un mix, **aucune
+requête hors `file:`/`data:`**.
+
 ## Ce qui est mesuré, et ce qui ne l'est pas
 
 - 25 s de temps réel, `?autoplay=brawler`, graine 3, comptage **à l'extérieur du code du jeu** (instrumentation
