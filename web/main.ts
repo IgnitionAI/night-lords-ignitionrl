@@ -8,6 +8,9 @@ import { mulberry32 } from '../src/rng';
 import { hunterState } from '../src/hunter-state';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { publishHunterState, isControlViewEnabled } from './hunter-channel';
+// Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
+// dépôt, licence Genex non confirmée) chaque appel renvoie false et ne fait rien — le jeu tourne à l'identique.
+import { initAudio, audio } from './audio/nightlords-audio.js';
 
 const qs = new URLSearchParams(location.search);
 // Canal d'ambiance (`cogitator:hunters`) : muet sauf si l'URL demande explicitement `?control=1`.
@@ -323,6 +326,8 @@ function updateRigs(dt: number) { // avance d'un pas de simulation, pas du temps
   if (termRig) playRig(termRig, w.t.moving ? 'walk' : 'idle', dt);
   updateTell();
 }
+// Panoramique d'une source : sa position écran, pas son angle au joueur (à 3 m la caméra voit autrement).
+function panOf(x: number, y: number) { const v = new THREE.Vector3(x, 1.3, y).project(camera); return Math.max(-1, Math.min(1, v.x)); }
 function tick() {
   prev = snap();
   const ta = tactic ? tactic(w) : playerAction(); rec.record(w, ta);
@@ -336,6 +341,14 @@ function tick() {
   // porter l'horodatage de la fin du tick, sinon son flash est déjà éteint quand l'image est rendue.
   updateImpact(DT);
   for (const e of w.events) {
+    // Le son suit les mêmes événements que la caméra, mais ne dépend pas de ?impact=0 : ce sont deux
+    // sensations différentes, et on veut pouvoir mesurer l'une en gardant l'autre.
+    if (e.type === 'step') audio.step({ intensity: (e as any).intensity ?? 1 });
+    else if (e.type === 'bolt') audio.bolt({ pan: 0.05 });
+    else if (e.type === 'fist') audio.fist({ pan: 0 });
+    else if (e.type === 'clawArm') audio.clawArm({ pan: panOf(w.nls[(e as any).who].x, w.nls[(e as any).who].y) });
+    else if (e.type === 'claw') { const n = w.nls[(e as any).who]; if ((e as any).dmg > 0) audio.claw({ pan: panOf(n.x, n.y) }); else audio.gauntletArc({ pan: panOf(n.x, n.y) }); }
+    else if (e.type === 'whiff') audio.whiff({ pan: panOf(w.nls[(e as any).who].x, w.nls[(e as any).who].y) });
     if (e.type === 'bolt') {
       tracer.geometry.setFromPoints([new THREE.Vector3(e.x, 1.5, e.y), new THREE.Vector3(e.tx, 1.2, e.ty)]); tracer.visible = true; tracerT = 0.08; shake = Math.max(shake, 0.15);
       if (IMPACT) { recImp.push({ t0: simT, v: 2.2 }); pitchImp.push({ t0: simT, v: 0.55 }); } // la rafale pousse la caméra et lève le nez
@@ -346,12 +359,19 @@ function tick() {
     // `step` : le pas est désormais un événement de simulation (position, pied, intensité). Le rendu le laisse
     // au cycle d'animation pour l'instant ; le son pourra s'y accrocher sans recompter les mètres.
   }
+  // Lit de servomoteurs : la charge suit la vitesse réelle, 0 = ralenti. Le silence est aussi un son —
+  // c'est le contraste entre le ralenti et la charge qui fait entendre la masse.
+  const sp = Math.hypot(w.t.vx, w.t.vy);
+  if (sp > 0.05) {
+    if (!audio.servo.isRunning()) { audio.servoSurge({ pan: 0 }); audio.servo.start({ load: sp / 2.5 }); }
+    audio.servo.setLoad(sp / 2.5);
+  } else audio.servo.setLoad(0.1);
   updateRigs(DT); updateCamYaw();
   if (w.done) endRound();
 }
 function flash(o: number) { const f = document.getElementById('flash')!; f.style.transition = 'none'; f.style.opacity = String(o); requestAnimationFrame(() => { f.style.transition = 'opacity .25s'; f.style.opacity = '0'; }); }
 async function endRound() {
-  roundOver = true; if (w.winner === 'pack') score.pack++; else score.term++;
+  roundOver = true; audio.servo.stop({ fade: 0.5 }); if (w.winner === 'pack') score.pack++; else score.term++;
   const msg = document.getElementById('msg')!; msg.style.display = 'block';
   msg.innerHTML = `<b>Manche ${roundNo} : ${w.winner === 'pack' ? 'la meute gagne' : 'le Terminator gagne'}</b> (${w.reason})<br>La meute étudie ta tactique…`;
   if (shot) return;
@@ -475,7 +495,7 @@ async function loadModels() {
 }
 
 if (debug) buildLabels();
-await Promise.all([loadPolicy(), loadModels()]);
+await Promise.all([loadPolicy(), loadModels(), initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' })]);
 resize(); startRound();
 if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
   while (w.tick < shot && !w.done) tick();
