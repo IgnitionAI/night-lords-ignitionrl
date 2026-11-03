@@ -70,6 +70,11 @@ diff <(sed -E 's/"([a-zA-Z]*[sS]econds)":[0-9.]+/"\1":0/g' runs/replay-a/metrics
 
 Une graine différente (`--seed 4`) doit changer les deux. L'éval est elle aussi reproductible : relancer la même commande `eval.mjs` donne le même rapport, aux `wallSeconds` près.
 
+## Plancher de bruit : rejouer la décision
+
+`npm run sweep:noise` rejoue la décision du plancher de bruit (reverté, PR #31) sur une liste de planchers (`--floors 18,25,30,35,40`), `--seeds` graines et `--ticks` : par plancher, la meute (`policies/current.json` lue en JSON, `--pack naive` pour le comportement de repli) est mesurée en graines OK (≥1 griffe et distance minimale < 14 m), événements, premier contact médian, distance minimale et ticks d'ouïe ; le joueur vient du pool (`--player`, défaut `brawler`, ou `idle`), `--out` archive le JSON, et le plancher est forcé au runtime — rien n'est réintroduit dans `src/sim.ts`.
+Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --seeds 1 --seed-base 3 --ticks 400 --out mesures/sweep-noise.json` → 18 m = 0 événement, 25 m = 310, 30 m = 443 (premier contact au tick 67, 0,48 m) et 35-40 m identiques : un plancher **< 25 m ne réveille pas la meute**, 30 m **sature**.
+
 ## Fichiers
 
 - `src/sim.ts` : simulation à pas fixe (100 ms), observations, récompenses
