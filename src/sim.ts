@@ -19,7 +19,15 @@ export const N_NL = 4;
 
 // Valeurs de prototype, à régler au ressenti. Ce ne sont pas des chiffres du lore.
 export const T_CFG = {
-  radius: 0.8, fwd: 2.5, back: 1.5, strafe: 1.5, turn: 1.6, hp: 30,
+  radius: 0.8, fwd: 2.5, back: 1.5, strafe: 1.5, hp: 30,
+  // --- Inertie (à régler au ressenti) : rien n'est instantané chez un Terminator. Il met du temps à prendre
+  // sa vitesse (`accel`), plus encore à la perdre (`decel`), et sa « tourelle » (la rotation) monte en régime
+  // (`turnAccel`) jusqu'à un plafond (`turnMax`) — la vitesse de rotation d'avant, 1,6 rad/s, devient ce plafond.
+  accel: 3, decel: 5, turnAccel: 2, turnMax: 1.6,
+  // Aucune accélération latérale : `strafe` ne translate pas (voir `step`). `strafe` reste un plafond inutilisé
+  // tant que cette valeur vaut 0 ; la hausser rendrait un pas de côté instantané, donc la mobilité qu'on retire.
+  strafeAccel: 0,
+  strideTime: 0.9, // une foulée = |v| · 0,9 s : la cadence des pas suit la vitesse
   boltCd: 12, boltRange: 16, boltHalf: 0.12, fistCd: 12, fistRange: 2.4, fistHalf: 1.0,
   visionHalf: 1.2, visionRange: 14, auspex: 4,
   noiseMove: 9, noiseIdle: 3, noiseBolt: 18, noiseFist: 12,
@@ -36,13 +44,23 @@ export const T_IDLE: TAction = { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: 
 export interface Belief { valid: boolean; x: number; y: number; age: number; facing: number | null; seen: boolean; heard: boolean; vox: boolean }
 export interface Mate { known: boolean; x: number; y: number; age: number; alive: boolean }
 export interface NL { role: number; x: number; y: number; facing: number; alive: boolean; cd: number; armTicks: number; belief: Belief; lastAction: number; noise: number; mates: Mate[] }
-export interface Term { x: number; y: number; facing: number; hp: number; boltCd: number; fistCd: number; noise: number; moving: boolean; channel: number; lastHitTick: number; lastHitAngle: number }
+export interface Term {
+  x: number; y: number; facing: number; hp: number; boltCd: number; fistCd: number; noise: number; moving: boolean;
+  channel: number; lastHitTick: number; lastHitAngle: number;
+  vx: number; vy: number; // vitesse courante (m/s, repère monde) : le Terminator ne l'atteint jamais d'un coup
+  turnVel: number; // vitesse de rotation (rad/s), rampée vers ±turnMax
+  strideAcc: number; // distance parcourue depuis le dernier pas (m)
+  foot: 0 | 1; // pied qui vient de frapper le sol (0 = gauche, 1 = droit)
+}
 export type Ev =
   | { type: 'bolt'; x: number; y: number; tx: number; ty: number; kill: number }
   | { type: 'fist'; kill: number }
   | { type: 'claw'; who: number; dmg: number; zone: 'front' | 'side' | 'rear' }
   | { type: 'whiff'; who: number }
-  | { type: 'clawArm'; who: number }; // annonce : le coup tombe 2 ticks plus tard, il est télégraphié
+  | { type: 'clawArm'; who: number } // annonce : le coup tombe 2 ticks plus tard, il est télégraphié
+  // le pas est un événement de simulation (et non un détail de rendu) : il porte le pied, la position et
+  // l'intensité, pour que le son et l'animation n'aient pas à réinventer la cadence. `intensity: 0` = pas d'arrêt.
+  | { type: 'step'; x: number; y: number; foot: 0 | 1; intensity: number };
 /** Options de simulation. `clawWindup` : armement de 2 ticks avant l'impact des griffes (défaut `true`). */
 export interface WorldOpts { clawWindup?: boolean }
 export interface World {
@@ -53,6 +71,9 @@ export const NL_ACTIONS = ['tenir', 'approcher', 'reculer', 'flanc G', 'flanc D'
 export const N_ACT = NL_ACTIONS.length;
 
 export const angNorm = (a: number) => { while (a > Math.PI) a -= 2 * Math.PI; while (a < -Math.PI) a += 2 * Math.PI; return a; };
+/** Déplace `v` vers `target` d'au plus `step`, sans dépassement (intégration d'une vitesse bornée). */
+export const moveToward = (v: number, target: number, step: number) =>
+  Math.abs(target - v) <= step ? target : v + Math.sign(target - v) * step;
 export const dist = (ax: number, ay: number, bx: number, by: number) => Math.hypot(ax - bx, ay - by);
 
 export function segHitsBox(ax: number, ay: number, bx: number, by: number, b: Box): boolean {
@@ -95,7 +116,8 @@ export function rayFree(x: number, y: number, dx: number, dy: number, max = 6): 
 
 export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: number }, opts: WorldOpts = {}): World {
   const rng = mulberry32(seed);
-  const t: Term = { x: 3, y: 6 + rng() * 12, facing: 0, hp: T_CFG.hp, boltCd: 0, fistCd: 0, noise: T_CFG.noiseIdle, moving: false, channel: 0, lastHitTick: -999, lastHitAngle: 0 };
+  const t: Term = { x: 3, y: 6 + rng() * 12, facing: 0, hp: T_CFG.hp, boltCd: 0, fistCd: 0, noise: T_CFG.noiseIdle, moving: false, channel: 0, lastHitTick: -999, lastHitAngle: 0,
+    vx: 0, vy: 0, turnVel: 0, strideAcc: 0, foot: 0 };
   if (tSpawn) { t.x = tSpawn.x; t.y = tSpawn.y; t.facing = tSpawn.facing; }
   const nls: NL[] = [];
   for (let i = 0; i < N_NL; i++) {
@@ -218,14 +240,45 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   const t = w.t; w.events = [];
   const rewards = w.nls.map(() => REWARD.tick), died = w.nls.map(() => false);
   const phi0 = w.nls.map(n => -REWARD.shaping * nlFrame(n).d); // potentiel calculé sur la croyance, pas sur la vraie position
-  // --- Terminator
-  t.facing = angNorm(t.facing + Math.max(-1, Math.min(1, ta.turn)) * T_CFG.turn * DT);
-  const fwd = Math.max(-1, Math.min(1, ta.fwd)), str = Math.max(-1, Math.min(1, ta.strafe));
-  const sp = (fwd >= 0 ? T_CFG.fwd : T_CFG.back) * fwd, ss = T_CFG.strafe * str;
+  // --- Terminator : rien n'est instantané. L'entrée ne déplace pas : elle fixe une consigne que l'état de vitesse
+  // rejoint par rampe. C'est l'inertie qui fait la tension du jeu (quatre prédateurs rapides contre une forteresse
+  // lente), pas la fragilité du Terminator.
+  const turnIn = Math.max(-1, Math.min(1, ta.turn));
+  t.turnVel = Math.max(-T_CFG.turnMax, Math.min(T_CFG.turnMax, t.turnVel + turnIn * T_CFG.turnAccel * DT));
+  if (turnIn === 0) t.turnVel = moveToward(t.turnVel, 0, T_CFG.turnAccel * DT); // relâcher ne freine pas net
+  t.facing = angNorm(t.facing + t.turnVel * DT);
+
+  const fwd = Math.max(-1, Math.min(1, ta.fwd));
+  // Le vecteur vitesse suit l'axe du regard : on n'intègre que la composante longitudinale. `strafe` est donc une
+  // **orientation** de la marche, pas un pas de côté : sans accélération latérale (`strafeAccel = 0`), une vitesse
+  // latérale ne peut jamais naître, et la créer d'un coup rendrait au Terminator la mobilité instantanée qu'on lui
+  // retire. Pour se décaler, il doit pivoter — c'est exactement la « tourelle » lente qu'on veut faire ressentir.
   const cx = Math.cos(t.facing), cy = Math.sin(t.facing);
-  t.x += (cx * sp - cy * ss) * DT; t.y += (cy * sp + cx * ss) * DT; collide(t, T_CFG.radius);
-  t.moving = fwd !== 0 || str !== 0;
+  let vLong = t.vx * cx + t.vy * cy; // projection sur le nouvel axe : il n'y a pas de latéral, et pivoter coûte un peu de vitesse (cos de l'angle tourné)
+  const vTarget = fwd >= 0 ? T_CFG.fwd * fwd : T_CFG.back * fwd;
+  // freiner, c'est décélérer : entrée nulle, ou consigne opposée au sens de la marche en cours
+  const braking = fwd === 0 || (vLong !== 0 && Math.sign(vTarget) !== Math.sign(vLong));
+  vLong = moveToward(vLong, vTarget, (braking ? T_CFG.decel : T_CFG.accel) * DT);
+  const vLat = 0; // `strafeAccel = 0` : aucune accélération latérale, donc jamais de vitesse latérale
+  t.vx = cx * vLong - cy * vLat; t.vy = cy * vLong + cx * vLat;
+  const wasMoving = t.moving; // avant de recalculer : sert au pas d'arrêt (un seul, pas un par tick)
+  t.x += t.vx * DT; t.y += t.vy * DT; collide(t, T_CFG.radius);
+  const speed = Math.abs(vLong);
+  t.moving = speed > 1e-6; // la vitesse réelle, pas l'entrée : le Terminator reste bruyant en glissant
   t.noise = t.moving ? T_CFG.noiseMove : T_CFG.noiseIdle;
+  // --- le pas comme événement de simulation. La foulée vaut |v| · 0,9 s : à pleine vitesse un pas tous les
+  // 0,9 s (~2,25 m), et la cadence suit la vitesse quand elle retombe.
+  t.strideAcc += speed * DT;
+  if (t.moving) {
+    if (t.strideAcc >= speed * T_CFG.strideTime) {
+      w.events.push({ type: 'step', x: t.x, y: t.y, foot: t.foot, intensity: Math.min(1, speed / T_CFG.fwd) });
+      t.strideAcc = 0; t.foot = t.foot === 0 ? 1 : 0;
+    }
+  } else if (wasMoving) {
+    // « un Terminator qui s'arrête, ça s'entend » : un seul pas d'intensité 0, puis silence.
+    w.events.push({ type: 'step', x: t.x, y: t.y, foot: t.foot, intensity: 0 });
+    t.strideAcc = 0;
+  }
   if (ta.bolt && t.boltCd === 0) {
     t.boltCd = T_CFG.boltCd; t.noise = Math.max(t.noise, T_CFG.noiseBolt);
     let best = -1, bd = 1e9;
