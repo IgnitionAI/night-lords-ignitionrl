@@ -97,6 +97,30 @@ cône du projecteur.
 Textures : 15 WebP de 2 187 Kio sur disque, mais 15 × 1024² décompressés en VRAM, soit 60 Mio bruts —
 c'est le chiffre qui compte, pas le poids des fichiers.
 
+## Lien avec la simulation — ce que le rendu ne décide pas
+
+Le rendu ne touche jamais `src/sim.ts`. Deux points où il en dépendent quand même, à lire avant de
+comparer une capture à une mesure.
+
+**Armement de la griffe (décidé, pas encore dans le code).** La frappe tombe aujourd'hui dans le tick
+où l'action 7 est choisie : aucune anticipation, donc un télégraphe qui ne peut annoncer que « griffe
+prête » (`cd === 0`). La décision est d'ajouter **2 ticks de préparation** avant la frappe, dans
+`src/sim.ts`, côté simulation — c'est la seule façon d'annoncer un coup qui arrive. Deux conséquences
+à ne pas perdre :
+
+- **Le build jouable n'est plus comparable aux mesures b3.** Elles ont été produites sans armement ;
+  dès que le drapeau existe, leurs taux de victoire et leurs durées ne décrivent plus ce que le joueur
+  affronte. Les chiffres de la meute restent valables pour l'entraînement, pas comme référence du jeu.
+- **Le télégraphe devra changer de source.** Il se branche aujourd'hui sur `cd === 0` ; il devra se
+  brancher sur l'armement. 2 ticks font 200 ms, soit 12 images à 60 fps : assez pour être vu, trop
+  court pour être lu deux fois. Le liseré devra tenir sa montée pendant tout l'armement, pas seulement
+  l'allumer sur le dernier tick.
+
+**Graine et reproductibilité.** Les captures à `?shot=N` tombent sur le tick N, mais la graine de grain
+de la passe plein écran dépend de `performance.now()` : deux captures du même tick ne sont jamais
+identiques au pixel, l'écart est le grain. Comparer avec `pix.mjs` (histogramme) ou en blocs de 8 px,
+jamais au pixel.
+
 ## Ce qui n'est pas mesuré ici
 
 - **fps** et coût GPU du skinning : 5 squelettes de 24 os, 120 matrices mises à jour puis envoyées au
