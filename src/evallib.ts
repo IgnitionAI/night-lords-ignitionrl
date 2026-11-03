@@ -17,7 +17,8 @@ export interface Stats { games: number; packWins: number; packWinRate: number; m
 export function runGames(pack: Pack, mk: (seed: number) => Tactic, n: number, seedBase = 900000): Stats {
   let wins = 0, kills = 0; const secs: number[] = []; const reasons: Record<string, number> = {};
   for (let g = 0; g < n; g++) {
-    const seed = seedBase + g, t = mk(seed), w = newWorld(seed), rng = mulberry32(seed ^ 0x5bd1e995);
+    // évaluation : sans armement, exactement les règles des mesures b3
+    const seed = seedBase + g, t = mk(seed), w = newWorld(seed, undefined, { clawWindup: false }), rng = mulberry32(seed ^ 0x5bd1e995);
     while (!w.done) step(w, t(w), packActs(pack, w, rng));
     if (w.winner === 'pack') wins++; secs.push(w.tick * DT); reasons[w.reason] = (reasons[w.reason] ?? 0) + 1; kills += w.nls.filter(x => !x.alive).length;
   }
@@ -27,7 +28,7 @@ export function runGames(pack: Pack, mk: (seed: number) => Tactic, n: number, se
 }
 /** Une manche jouée par un « joueur » (tactique) contre la meute, enregistrée comme dans le navigateur. */
 export function playRecordedRound(pack: Pack, t: Tactic, seed: number, source: string): { rec: Recording; winner: string; seconds: number } {
-  const w = newWorld(seed), r = new Recorder(source), rng = mulberry32(seed ^ 0x2545f491);
+  const w = newWorld(seed, undefined, { clawWindup: false }), r = new Recorder(source), rng = mulberry32(seed ^ 0x2545f491); // même règle que l'éval (manches enregistrées pour le fantôme)
   while (!w.done) { const a = t(w); r.record(w, a); step(w, a, packActs(pack, w, rng)); }
   return { rec: r.toJSON(`${w.winner} — ${w.reason}`), winner: w.winner!, seconds: w.tick * DT };
 }

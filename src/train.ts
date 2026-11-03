@@ -32,9 +32,11 @@ interface Env { w: World; tactic: Tactic; opp: string; traj: Traj[] }
 const poolNames = Object.keys(POOL);
 function makeEnv(): Env {
   const s = nextSeed++; let tactic: Tactic, opp: string, w: World;
-  if (ghostBC && rng() < ghostShare) { opp = 'ghostBC'; tactic = bcGhost(ghostBC, s); w = newWorld(s); }
-  else if (ghostSummary && rng() < ghostShare) { opp = 'ghost'; tactic = ghost(ghostSummary, s); w = newWorld(s, ghostSummary.spawn); }
-  else { const fixed = poolNames.filter(k => k !== 'randomized'); opp = rng() < 0.5 ? 'randomized' : fixed[Math.floor(rng() * fixed.length)]; tactic = opp === 'randomized' ? randomized(s) : POOL[opp](); w = newWorld(s); }
+  // entraînement : sans armement, pour rester comparable aux mesures b3 (le build jouable, lui, arme les griffes)
+  const O = { clawWindup: false };
+  if (ghostBC && rng() < ghostShare) { opp = 'ghostBC'; tactic = bcGhost(ghostBC, s); w = newWorld(s, undefined, O); }
+  else if (ghostSummary && rng() < ghostShare) { opp = 'ghost'; tactic = ghost(ghostSummary, s); w = newWorld(s, ghostSummary.spawn, O); }
+  else { const fixed = poolNames.filter(k => k !== 'randomized'); opp = rng() < 0.5 ? 'randomized' : fixed[Math.floor(rng() * fixed.length)]; tactic = opp === 'randomized' ? randomized(s) : POOL[opp](); w = newWorld(s, undefined, O); }
   return { w, tactic, opp, traj: Array.from({ length: N_NL }, () => ({ obs: [], act: [], lp: [], val: [], rew: [], done: false })) };
 }
 const envs = Array.from({ length: E }, makeEnv);
