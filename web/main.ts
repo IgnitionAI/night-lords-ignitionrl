@@ -5,12 +5,17 @@ import { POOL, UNSEEN, type Tactic } from '../src/tactics';
 import { Recorder } from '../src/recorder';
 import { forward, softmax, sample, type ActorJSON } from '../src/policy';
 import { mulberry32 } from '../src/rng';
+import { hunterState } from '../src/hunter-state';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { publishHunterState, isControlViewEnabled } from './hunter-channel';
 // Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
 // dépôt, licence Genex non confirmée) chaque appel renvoie false et ne fait rien — le jeu tourne à l'identique.
 import { initAudio, audio } from './audio/nightlords-audio.js';
 
 const qs = new URLSearchParams(location.search);
+// Canal d'ambiance (`cogitator:hunters`) : muet sauf si l'URL demande explicitement `?control=1`.
+// C'est un flag distinct de `?debug=1` (vue de contrôle historique, touche V), et rien de ce canal ne va au HUD.
+const CONTROL_VIEW = isControlViewEnabled(location.search);
 const autoplay = qs.get('autoplay'); const shot = Number(qs.get('shot') ?? 0);
 let debug = qs.get('debug') === '1'; let seed = Number(qs.get('seed') ?? (Date.now() % 800000) + 1);
 let actor: ActorJSON | null = null; let policyLabel = 'meute naïve (aucune politique chargée)';
@@ -212,6 +217,8 @@ postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), postMat));
 // ---------- état de jeu
 let w: World, prev: { t: [number, number, number]; n: [number, number, number][] }, rec: Recorder, rng: () => number, tactic: Tactic | null;
 let roundNo = 0, score = { pack: 0, term: 0 }, paused = false, acc = 0, hitstop = 0, shake = 0, lastActs: number[] = [0, 0, 0, 0], lastP: number[] = [0, 0, 0, 0], tracerT = 0;
+// Dernier tick publié sur le canal d'ambiance : garantit « une fois par tick au plus », même en pause.
+let publishedTick = -1;
 // Poids du Terminator : recul du bolter, appui du pas, respiration, inclinaison. Un ressort amorti par effet,
 // mais évalué en forme fermée au moment du rendu et non intégré pas à pas : la simulation avance de 0,1 s et
 // l'image de 16 ms — intégré par pas, tout ce poids arrivait par saccades de 10 Hz. La forme fermée se lit à
@@ -499,6 +506,9 @@ if (shot) { // capture : on avance la sim de N ticks sans attendre le temps rée
     let dt = Math.min(0.25, (now - last) / 1000); last = now;
     if (hitstop > 0) { hitstop -= dt; dt = 0; }
     if (!paused && !roundOver) { acc += dt; while (acc >= DT) { acc -= DT; tick(); if (roundOver) break; } }
+    // Ambiance : au plus une publication par tick, et seulement si `?control=1`. Le HUD, lui, ne lit rien
+    // d'ici : aucune donnée du canal ne touche le DOM du joueur.
+    if (CONTROL_VIEW && w.tick !== publishedTick) { publishHunterState(hunterState(w)); publishedTick = w.tick; }
     shake *= 0.85; if (tracerT > 0) { tracerT -= dt; if (tracerT <= 0) tracer.visible = false; }
     hud(); render(roundOver ? 1 : acc / DT); requestAnimationFrame(loop);
   };
