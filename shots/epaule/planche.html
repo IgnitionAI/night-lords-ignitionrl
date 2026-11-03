@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+html{width:1900px}body{width:1900px;margin:0;background:#0b0d13;color:#cfd6e4;font:13px/1.45 ui-sans-serif,system-ui,sans-serif}
+h1{font:600 17px/1 ui-sans-serif;letter-spacing:.06em;text-transform:uppercase;margin:18px 22px 4px;color:#eef2f8}
+p.sub{margin:0 22px 14px;color:#7b8798;font-size:12px}
+code{color:#9fb0c8}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 22px 22px}
+figure{margin:0}
+figure img{width:100%;display:block;border-radius:3px}
+figcaption{font-size:11.5px;color:#8d99ab;padding:5px 2px 0}
+figcaption b{color:#e7ecf4;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:11.5px;color:#cfd6e4}
+</style></head><body>
+<h1>Caméra à l'épaule — le poids du Terminator</h1>
+<p class="sub">Graine 3, <code>?autoplay=march</code>, 10 ticks = 1 s, 1600×900. Aucune retouche. <code>?cam=couloir</code> rend la caméra de P1, <code>?impact=0</code> coupe le poids.</p>
+<div class="grid">
+  <figure><img src="couloir-t115.jpg"><figcaption><b>Avant — caméra de couloir (P1), t115</b><br>8,2 m derrière, 3,4 m du sol. On regarde la scène de loin : le Terminator est une silhouette, la meute un groupe.</figcaption></figure>
+  <figure><img src="ep-t115.jpg"><figcaption><b>Après — à l'épaule, t115</b><br>3,55 m derrière, 1,15 m sur son épaule droite, 2,5 m du sol. Même tick, même graine : on ne voit plus qu'eux.</figcaption></figure>
+  <figure><img src="ep-t77.jpg"><figcaption><b>t77 — marche</b><br>Il occupe le cadre, l'épaule droite passe devant l'objectif. Un appui tous les 1,55 m.</figcaption></figure>
+  <figure><img src="ep-t100.jpg"><figcaption><b>t100 — approche</b><br>Le bolter est prêt, trois Night Lords encore debout. Le halo bleu du gantelet pulse à 3,1 rad/s.</figcaption></figure>
+  <figure><img src="ep-t82-sans.jpg"><figcaption><b>t82 — la rafale part, caméra stable</b><br><code>?impact=0</code> : ni recul, ni flash. C'est la référence de la paire suivante.</figcaption></figure>
+  <figure><img src="ep-t82.jpg"><figcaption><b>t82 — la rafale part, à l'épaule</b><br>76 mm de recul, 1,09° de nez qui monte. Flash de bouche : 12 sur 11 m pendant 75 ms — le sol devant monte de +10,8/255, le pilier central de +36.</figcaption></figure>
+  <figure style="background:#11151d;border:1px solid #1e2530;border-radius:3px;padding:14px 16px;grid-column:1/3"><figcaption style="padding:0">
+    <b>Ce que le poids coûte en stabilité</b><br>
+    <span style="color:#8d99ab">115 ticks, graine 3, caméra relevée à chaque tick, <code>?impact=0</code> en référence.</span>
+    <table style="margin-top:9px">
+      <tr style="color:#7b8798"><td></td><td>à l'épaule</td><td>impact = 0</td></tr>
+      <tr><td style="padding:3px 0">course verticale</td><td><b>83 mm</b></td><td>56 mm</td></tr>
+      <tr><td style="padding:3px 0">écart-type de la hauteur</td><td><b>21,7 mm</b></td><td>19,6 mm</td></tr>
+      <tr><td style="padding:3px 0">appui du pas</td><td><b>25,1 mm</b> = 0,40° = 5,8 px</td><td>0</td></tr>
+      <tr><td style="padding:3px 0">recul de la rafale</td><td><b>76,3 mm</b> vers l'arrière</td><td>0</td></tr>
+      <tr><td style="padding:3px 0">nez</td><td><b>1,09°</b> vers le haut</td><td>0</td></tr>
+      <tr><td style="padding:3px 0">roulis en virage</td><td><b>2,81°</b></td><td>2,81°</td></tr>
+      <tr><td style="padding:3px 0">rotation maximale</td><td>10,4°/tick</td><td>10,4°/tick</td></tr>
+    </table>
+    <span style="color:#7b8798;font-size:11px;display:block;margin-top:9px">Le roulis ne vient pas du poids : il suit le lacet, identique dans les deux colonnes. La respiration (5,2 s, ±28 mm) est dans les deux. Budget : aucun draw call et aucun triangle de plus, deux lumières ponctuelles, une branche de 5 prises dans la passe plein écran quand le lacet tourne.</span>
+  </figcaption></figure>
+</div>
+</body></html>
