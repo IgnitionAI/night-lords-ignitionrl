@@ -12,3 +12,7 @@ runs/base/*
 recordings/
 .env*
 *.log
+
+# Modèles riggés : provenance Genex, termes de redistribution non vérifiés -> hors dépôt (voir web/models/MANIFESTE.md)
+web/models/*
+!web/models/MANIFESTE.md

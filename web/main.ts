@@ -5,6 +5,7 @@ import { POOL, UNSEEN, type Tactic } from '../src/tactics';
 import { Recorder } from '../src/recorder';
 import { forward, softmax, sample, type ActorJSON } from '../src/policy';
 import { mulberry32 } from '../src/rng';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 const qs = new URLSearchParams(location.search);
 const autoplay = qs.get('autoplay'); const shot = Number(qs.get('shot') ?? 0);
@@ -42,6 +43,59 @@ for (const [w, d, x, z] of [[ARENA.w, 0.4, ARENA.w / 2, -0.2], [ARENA.w, 0.4, AR
 const beacon = new THREE.Mesh(new THREE.CylinderGeometry(BEACON.r, BEACON.r, 0.1, 32), new THREE.MeshStandardMaterial({ color: 0x3a1a08, emissive: 0xc24a12, emissiveIntensity: 0.85 }));
 beacon.position.set(BEACON.x, 0.05, BEACON.y); scene.add(beacon); const bl = new THREE.PointLight(0xff7a3a, 7, 9, 2); bl.position.set(BEACON.x, 2, BEACON.y); scene.add(bl);
 
+// ---------- modeles rigges (assets/rigged-opt, 1,21-1,78 Mo piece, 24 os, 1,70 m, face +Z)
+// Le facteur d'echelle est cale sur la hauteur du collider, pas sur un gout : NL radius 0,45 -> 2,0 m de haut,
+// Terminator radius 0,8 -> 2,6 m. Sinon le visuel deborde de la boite de collision et traverse les murs.
+const NL_HEIGHT = 2.0, TERM_HEIGHT = 2.6;
+const gltfLoader = new GLTFLoader();
+const loadGLB = (url: string) => new Promise<any>((res, rej) => gltfLoader.load(url, res, undefined, rej));
+interface Rig { root: THREE.Object3D; mixer: THREE.AnimationMixer; walk: THREE.AnimationAction | null; run: THREE.AnimationAction | null; idle: THREE.AnimationAction | null; current: THREE.AnimationAction | null; }
+// Box3.setFromObject ignore le skinning : sur un maillage quantifié (KHR_mesh_quantization) il rend 0,02 m
+// au lieu de 1,70 m, et l'échelle devient ×100. On mesure donc la boîte calculée par le skin, transformée
+// par la matrice monde du maillage (qui porte le facteur 0,01).
+function measureHeight(root: THREE.Object3D): number {
+  root.updateMatrixWorld(true);
+  let h = 0;
+  root.traverse((o: any) => {
+    if (!o.isMesh) return;
+    if (o.isSkinnedMesh) o.computeBoundingBox();
+    if (!o.geometry.boundingBox) o.geometry.computeBoundingBox();
+    const src = o.isSkinnedMesh ? o.boundingBox : o.geometry.boundingBox;
+    if (!src) return;
+    const box = src.clone().applyMatrix4(o.matrixWorld);
+    h = Math.max(h, box.max.y - Math.min(0, box.min.y));
+  });
+  return h > 0.01 ? h : 1.7;
+}
+const rigOf = (model: any, clips: any[], targetHeight: number, dim = 1): Rig => {
+  const root = model.scene;
+  const h = measureHeight(root);
+  root.scale.setScalar(targetHeight / h);
+  root.rotation.y = Math.PI / 2; // le modele regarde +Z, la simulation regarde +X
+  root.traverse((o: any) => {
+    if (!o.isMesh) return;
+    o.castShadow = true;
+    // Les textures sortent de Genex calibrees pour un studio, pas pour un couloir a 10 lux : on baisse
+    // l'albedo pour que la forme passe devant le detail, et on garde le liseré de Fresnel de P2.
+    const m = o.material as THREE.MeshStandardMaterial;
+    if (m && m.color) { m.color.multiplyScalar(dim); m.envMapIntensity = 0.25; m.metalness *= 0.3; m.roughness = Math.max(m.roughness, 0.72); }
+    if (m && m.onBeforeCompile) m.onBeforeCompile = (sh) => {
+      sh.fragmentShader = sh.fragmentShader.replace('#include <dithering_fragment>', `#include <dithering_fragment>
+       float fres = pow(1.0 - clamp(abs(dot(normalize(normal), normalize(vViewPosition))), 0.0, 1.0), 4.2);
+       gl_FragColor.rgb += vec3(0.26, 0.35, 0.55) * fres * 0.55;`);
+    };
+  });
+  const mixer = new THREE.AnimationMixer(root);
+  const pick = (n: string) => clips.find(c => c.name.toLowerCase().includes(n)) ?? null;
+  const mk = (c: any) => (c ? mixer.clipAction(c) : null);
+  return { root, mixer, walk: mk(pick('walk')), run: mk(pick('run')), idle: mk(model.animations?.[0] ?? null), current: null };
+};
+const playRig = (rig: Rig, want: 'walk' | 'run' | 'idle', dt: number) => {
+  const next = want === 'run' ? (rig.run ?? rig.walk) : want === 'walk' ? (rig.walk ?? rig.run) : rig.idle;
+  if (next && next !== rig.current) { rig.current?.fadeOut(0.15); next.reset().fadeIn(0.15).play(); rig.current = next; }
+  rig.mixer.update(dt);
+};
+
 // Terminator : cubes (os/or loyaliste), front marqué par le visor et le storm bolter
 const term = new THREE.Group(); const bone = new THREE.MeshStandardMaterial({ color: 0x2a2418, metalness: 0.5, roughness: 0.45 });
 const add = (g: THREE.Group, geo: THREE.BufferGeometry, mat: THREE.Material, x: number, y: number, z: number) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = true; g.add(m); return m; };
@@ -63,6 +117,9 @@ nlBodyMat.onBeforeCompile = (sh) => { // liseré de Fresnel : la silhouette se d
      gl_FragColor.rgb += vec3(0.26, 0.35, 0.55) * fres * 0.55;`);
 };
 const nlMarkers: THREE.Object3D[] = []; // anneau + étiquette, visibles seulement en vue de contrôle
+const nlProxy: THREE.Object3D[] = []; // capsule + yeux procéduraux : cachés dès que le modèle riggé est chargé
+const nlRigs: (Rig | null)[] = [null, null, null, null];
+let termRig: Rig | null = null;
 const nlLabels: { sprite: THREE.Sprite; name: string }[] = [];
 let labelsBuilt = false;
 function buildLabels() { // différé : aucune texture de nom allouée tant que la vue de contrôle n'est pas ouverte
@@ -76,8 +133,8 @@ function buildLabels() { // différé : aucune texture de nom allouée tant que 
 }
 const nlMeshes = ROLES.map((name, i) => {
   const g = new THREE.Group();
-  add(g, new THREE.CapsuleGeometry(NL_CFG.radius, 1.1, 6, 12), nlBodyMat, 0, 1.0, 0);
-  for (const z of [-0.11, 0.11]) add(g, new THREE.SphereGeometry(0.045, 8, 8), new THREE.MeshBasicMaterial({ color: 0xff1a08 }), 0.42, 1.66, z); // yeux, seule source chaude
+  nlProxy.push(add(g, new THREE.CapsuleGeometry(NL_CFG.radius, 1.1, 6, 12), nlBodyMat, 0, 1.0, 0));
+  for (const z of [-0.11, 0.11]) nlProxy.push(add(g, new THREE.SphereGeometry(0.045, 8, 8), new THREE.MeshBasicMaterial({ color: 0xff1a08 }), 0.42, 1.66, z)); // yeux, seule source chaude
   const ring = new THREE.Mesh(new THREE.RingGeometry(0.55, 0.75, 24), new THREE.MeshBasicMaterial({ color: ROLE_COL[i], transparent: true, opacity: 0.5, side: THREE.DoubleSide })); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.04; ring.visible = false; g.add(ring); nlMarkers.push(ring);
   // Etiquette : le canvas n'est peint qu'a la premiere ouverture de la vue de controle, et le sprite teste la
   // profondeur (il s'affichait a travers les piliers). La teinte vient du materiau, le texte est blanc.
@@ -140,6 +197,16 @@ function floatText(x: number, y: number, text: string, color: string) {
   el.style.left = `${(v.x + 1) / 2 * innerWidth}px`; el.style.top = `${(1 - v.y) / 2 * innerHeight}px`; document.body.appendChild(el);
   requestAnimationFrame(() => { el.style.transform = 'translateY(-40px)'; el.style.opacity = '0'; }); setTimeout(() => el.remove(), 800);
 }
+function updateRigs(dt: number) { // avance d'un pas de simulation, pas du temps réel : le mode capture reste déterministe
+  for (let i = 0; i < nlRigs.length; i++) {
+    const rig = nlRigs[i]; if (!rig) continue;
+    const n = w.nls[i];
+    if (!n.alive) { playRig(rig, 'idle', dt); continue; }
+    const moved = Math.hypot(n.x - prev.n[i][0], n.y - prev.n[i][1]) > 0.01;
+    playRig(rig, moved ? 'run' : 'idle', dt);
+  }
+  if (termRig) playRig(termRig, w.t.moving ? 'walk' : 'idle', dt);
+}
 function tick() {
   prev = snap();
   const ta = tactic ? tactic(w) : playerAction(); rec.record(w, ta);
@@ -154,6 +221,7 @@ function tick() {
     if ((e.type === 'bolt' || e.type === 'fist') && e.kill >= 0) { hitstop = 0.09; shake = 0.5; const n = w.nls[e.kill]; floatText(n.x, n.y, `${ROLES[e.kill]} abattu`, '#ffd27a'); flash(0.25); }
     if (e.type === 'claw') { const n = w.nls[e.who]; if (e.dmg === 0) floatText(n.x, n.y, 'ARMURE', '#9cf'); else { floatText(w.t.x, w.t.y, `-${e.dmg} ${e.zone === 'rear' ? 'DOS' : 'FLANC'}`, '#f44'); shake = Math.max(shake, 0.3); } }
   }
+  updateRigs(DT);
   if (w.done) endRound();
 }
 function flash(o: number) { const f = document.getElementById('flash')!; f.style.transition = 'none'; f.style.opacity = String(o); requestAnimationFrame(() => { f.style.transition = 'opacity .25s'; f.style.opacity = '0'; }); }
@@ -209,8 +277,32 @@ function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.asp
   const s = renderer.getDrawingBufferSize(new THREE.Vector2()); rt.setSize(s.x, s.y); }
 addEventListener('resize', resize);
 
+// Les modèles remplacent les proxies. Un échec de chargement laisse la capsule en place : le prototype
+// reste jouable sans réseau ni assets.
+async function loadModels() {
+  const load = async (name: string, target: number, dim = 1) => {
+    const model = await loadGLB(`/web/models/${name}.glb`);
+    const clips: any[] = [...(model.animations ?? [])];
+    for (const k of ['walk', 'run']) { try { const a = await loadGLB(`/web/models/${name}-${k}.glb`); clips.push(...(a.animations ?? [])); } catch { /* clip absent, on garde l'idle */ } }
+    return rigOf(model, clips, target, dim);
+  };
+  await Promise.all(ROLES.map(async (_r, i) => {
+    try {
+      const rig = await load(`NL-${i + 1}`, NL_HEIGHT, 0.22);
+      nlMeshes[i].add(rig.root); nlRigs[i] = rig;
+      for (const p of nlProxy.slice(i * 3, i * 3 + 3)) p.visible = false; // capsule + 2 yeux de ce rôle
+    } catch (e) { console.warn('modèle NL-' + (i + 1) + ' absent, capsule conservée', e); }
+  }));
+  try {
+    termRig = await load('TERM', TERM_HEIGHT, 0.40);
+    term.add(termRig.root);
+    for (const c of term.children) if ((c as THREE.Mesh).isMesh) (c as THREE.Mesh).visible = false;
+  } catch (e) { console.warn('modèle TERM absent, cubes conservés', e); }
+}
+
 if (debug) buildLabels();
-await loadPolicy(); resize(); startRound();
+await Promise.all([loadPolicy(), loadModels()]);
+resize(); startRound();
 if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
   while (w.tick < shot && !w.done) tick();
   hitstop = 0; shake = 0; prev = snap(); hud(); render(1); document.title = 'READY';
