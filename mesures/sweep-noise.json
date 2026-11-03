@@ -1,0 +1,168 @@
+{
+ "tool": "sweep-noise",
+ "config": {
+  "floors": [
+   18,
+   25,
+   30,
+   35,
+   40
+  ],
+  "seeds": 1,
+  "seedBase": 3,
+  "ticks": 400,
+  "player": "idle",
+  "pack": "policies/current.json",
+  "floorWired": false,
+  "noiseRun": 40,
+  "nearMetres": 14,
+  "clawWindup": true
+ },
+ "results": [
+  {
+   "floor": 18,
+   "noiseRun": 40,
+   "seeds": 1,
+   "seedsOk": 0,
+   "okRate": 0,
+   "events": 0,
+   "firstContactMedianTick": null,
+   "minDist": 23.15,
+   "heardTicks": 0,
+   "heardBeliefs": 0,
+   "packWins": 0,
+   "meanRoundTicks": 400,
+   "perSeed": [
+    {
+     "seed": 3,
+     "events": 0,
+     "contacts": 0,
+     "firstContact": null,
+     "minDist": 23.15,
+     "heardTicks": 0,
+     "heardBeliefs": 0,
+     "roundTicks": 400,
+     "eventsToEnd": 0,
+     "winner": null,
+     "reason": ""
+    }
+   ]
+  },
+  {
+   "floor": 25,
+   "noiseRun": 40,
+   "seeds": 1,
+   "seedsOk": 1,
+   "okRate": 1,
+   "events": 310,
+   "firstContactMedianTick": 93,
+   "minDist": 1.02,
+   "heardTicks": 116,
+   "heardBeliefs": 239,
+   "packWins": 1,
+   "meanRoundTicks": 161,
+   "perSeed": [
+    {
+     "seed": 3,
+     "events": 310,
+     "contacts": 205,
+     "firstContact": 93,
+     "minDist": 1.025,
+     "heardTicks": 116,
+     "heardBeliefs": 239,
+     "roundTicks": 161,
+     "eventsToEnd": 49,
+     "winner": "pack",
+     "reason": "Terminator abattu"
+    }
+   ]
+  },
+  {
+   "floor": 30,
+   "noiseRun": 40,
+   "seeds": 1,
+   "seedsOk": 1,
+   "okRate": 1,
+   "events": 443,
+   "firstContactMedianTick": 67,
+   "minDist": 0.48,
+   "heardTicks": 53,
+   "heardBeliefs": 184,
+   "packWins": 1,
+   "meanRoundTicks": 122,
+   "perSeed": [
+    {
+     "seed": 3,
+     "events": 443,
+     "contacts": 291,
+     "firstContact": 67,
+     "minDist": 0.481,
+     "heardTicks": 53,
+     "heardBeliefs": 184,
+     "roundTicks": 122,
+     "eventsToEnd": 53,
+     "winner": "pack",
+     "reason": "Terminator abattu"
+    }
+   ]
+  },
+  {
+   "floor": 35,
+   "noiseRun": 40,
+   "seeds": 1,
+   "seedsOk": 1,
+   "okRate": 1,
+   "events": 443,
+   "firstContactMedianTick": 67,
+   "minDist": 0.48,
+   "heardTicks": 53,
+   "heardBeliefs": 184,
+   "packWins": 1,
+   "meanRoundTicks": 122,
+   "perSeed": [
+    {
+     "seed": 3,
+     "events": 443,
+     "contacts": 291,
+     "firstContact": 67,
+     "minDist": 0.481,
+     "heardTicks": 53,
+     "heardBeliefs": 184,
+     "roundTicks": 122,
+     "eventsToEnd": 53,
+     "winner": "pack",
+     "reason": "Terminator abattu"
+    }
+   ]
+  },
+  {
+   "floor": 40,
+   "noiseRun": 40,
+   "seeds": 1,
+   "seedsOk": 1,
+   "okRate": 1,
+   "events": 443,
+   "firstContactMedianTick": 67,
+   "minDist": 0.48,
+   "heardTicks": 53,
+   "heardBeliefs": 184,
+   "packWins": 1,
+   "meanRoundTicks": 122,
+   "perSeed": [
+    {
+     "seed": 3,
+     "events": 443,
+     "contacts": 291,
+     "firstContact": 67,
+     "minDist": 0.481,
+     "heardTicks": 53,
+     "heardBeliefs": 184,
+     "roundTicks": 122,
+     "eventsToEnd": 53,
+     "winner": "pack",
+     "reason": "Terminator abattu"
+    }
+   ]
+  }
+ ]
+}
