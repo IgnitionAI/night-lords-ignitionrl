@@ -1,5 +1,5 @@
 // Behaviour cloning du joueur : apprend π(action | ce que perçoit le Terminator) sur toutes les manches enregistrées.
-// Usage : node dist/bc.mjs --out ghost.json [--epochs 300] rec1.json rec2.json ...
+// Usage : node dist/bc.mjs --out ghost.json [--epochs 300] [--seed 1] rec1.json rec2.json ...
 // Têtes factorisées : avancer (3), pas chassé (3), pivot (3), attaque (3) au lieu de 27 déplacements joints,
 // entraînement par mini-lots avec arrêt anticipé sur des blocs de frames tenus à part (et non des frames isolées,
 // trop corrélées avec leurs voisines pour mesurer la fidélité).
@@ -10,10 +10,11 @@ import { TOBS_DIM, BC_HEADS, moveToHeads } from './tobs';
 import type { Recording } from './recorder';
 import type { ActorJSON } from './policy';
 import { checkGuard } from './guard';
+import { bcModel } from './model';
 
 const argv = process.argv.slice(2); const oi = argv.indexOf('--out'); const out = argv[oi + 1];
 const opt = (k: string, d: number) => (argv.includes(`--${k}`) ? Number(argv[argv.indexOf(`--${k}`) + 1]) : d);
-const epochs = opt('epochs', 300), patience = opt('patience', 30), hidden = opt('hidden', 64);
+const epochs = opt('epochs', 300), patience = opt('patience', 30), hidden = opt('hidden', 64), seed = opt('seed', 1);
 const files = argv.filter((a, i) => !a.startsWith('--') && !argv[i - 1]?.startsWith('--'));
 checkGuard('début BC');
 const X: number[][] = [], Y: number[][] = [];
@@ -25,10 +26,8 @@ const tr = X.map((_, i) => i).filter(i => !isVal[i]), va = X.map((_, i) => i).fi
 const H = BC_HEADS.length;
 // poids de classe par tête (plafonnés à 10) pour ne pas écraser les actions rares (tirs, pivots)
 const cw = BC_HEADS.map((n, h) => { const c = new Array(n).fill(0); tr.forEach(i => c[Y[i][h]]++); return c.map(k => Math.min(10, tr.length / (n * Math.max(1, k)))); });
-const model = tf.sequential();
-model.add(tf.layers.dense({ units: hidden, activation: 'tanh', inputShape: [TOBS_DIM] }));
-model.add(tf.layers.dense({ units: hidden, activation: 'tanh' }));
-model.add(tf.layers.dense({ units: BC_HEADS.reduce((a, b) => a + b, 0) }));
+// initialisation seedée (glorotNormal, l'initialiseur par défaut de dense) : même distribution, tirage reproductible
+const model = bcModel(hidden, TOBS_DIM, BC_HEADS.reduce((a, b) => a + b, 0), seed);
 const adam = tf.train.adam(3e-3);
 const tensors = (ids: number[]) => ({ x: tf.tensor2d(ids.map(i => X[i]), [ids.length, TOBS_DIM]),
   y: BC_HEADS.map((n, h) => tf.oneHot(tf.tensor1d(ids.map(i => Y[i][h]), 'int32'), n)),
@@ -66,6 +65,6 @@ const majority = (ids: number[]) => {
 };
 const ws = model.getWeights(); const layers = [];
 for (let i = 0; i < ws.length; i += 2) { const [inDim, outDim] = ws[i].shape as [number, number]; layers.push({ inDim, outDim, w: Array.from(ws[i].dataSync()).map(v => +v.toFixed(5)), b: Array.from(ws[i + 1].dataSync()).map(v => +v.toFixed(5)), act: (i + 2 < ws.length ? 'tanh' : 'linear') as 'tanh' | 'linear' }); }
-const meta = { heads: 'fwd,strafe,turn,atk', rounds: files.length, frames: X.length, train: tr.length, val: va.length, epochsUsed: used, seconds: +((performance.now() - t0) / 1000).toFixed(1), valLoss: +best.toFixed(4), accTrain: acc(tr), accVal: acc(va), majorityVal: majority(va) };
+const meta = { heads: 'fwd,strafe,turn,atk', seed, rounds: files.length, frames: X.length, train: tr.length, val: va.length, epochsUsed: used, seconds: +((performance.now() - t0) / 1000).toFixed(1), valLoss: +best.toFixed(4), accTrain: acc(tr), accVal: acc(va), majorityVal: majority(va) };
 const j: ActorJSON = { version: `bc-factored:${out.split('/').pop()}`, obsDim: TOBS_DIM, nAct: BC_HEADS.reduce((a, b) => a + b, 0), layers, meta };
 writeFileSync(out, JSON.stringify(j)); console.log(JSON.stringify(meta));
