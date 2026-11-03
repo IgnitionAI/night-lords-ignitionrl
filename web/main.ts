@@ -10,7 +10,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { publishHunterState, isControlViewEnabled } from './hunter-channel';
 // Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
 // dépôt, licence Genex non confirmée) chaque appel renvoie false et ne fait rien — le jeu tourne à l'identique.
-import { initAudio, audio } from './audio/nightlords-audio.js';
+import { initAudio, audio, onStep, onServoCharge, onBolterBurst, onFistCharge, onFistImpact, onHit, onServoAlarm, onServoLoop } from './audio/nightlords-audio.js';
 
 const qs = new URLSearchParams(location.search);
 // Canal d'ambiance (`cogitator:hunters`) : muet sauf si l'URL demande explicitement `?control=1`.
@@ -343,12 +343,16 @@ function tick() {
   for (const e of w.events) {
     // Le son suit les mêmes événements que la caméra, mais ne dépend pas de ?impact=0 : ce sont deux
     // sensations différentes, et on veut pouvoir mesurer l'une en gardant l'autre.
-    if (e.type === 'step') audio.step({ intensity: (e as any).intensity ?? 1 });
-    else if (e.type === 'bolt') audio.bolt({ pan: 0.05 });
-    else if (e.type === 'fist') audio.fist({ pan: 0 });
+    // La façade de Honsou : un événement appelle UNE fonction, toutes renvoient true si un son est parti.
+    if (e.type === 'step') onStep((e as any).intensity ?? 1);
+    else if (e.type === 'bolt') onBolterBurst(0.05);
+    else if (e.type === 'fistCharge') onFistCharge(0);   // le gantelet s'engage, l'impact tombe 0,8 s plus tard
+    else if (e.type === 'fist') onFistImpact(0);
     else if (e.type === 'clawArm') audio.clawArm({ pan: panOf(w.nls[(e as any).who].x, w.nls[(e as any).who].y) });
-    else if (e.type === 'claw') { const n = w.nls[(e as any).who]; if ((e as any).dmg > 0) audio.claw({ pan: panOf(n.x, n.y) }); else audio.gauntletArc({ pan: panOf(n.x, n.y) }); }
-    else if (e.type === 'whiff') audio.whiff({ pan: panOf(w.nls[(e as any).who].x, w.nls[(e as any).who].y) });
+    else if (e.type === 'claw') { const n = w.nls[(e as any).who]; onHit((e as any).dmg > 0 ? 'claw' : 'armor', panOf(n.x, n.y)); }
+    else if (e.type === 'whiff') onHit('miss', panOf(w.nls[(e as any).who].x, w.nls[(e as any).who].y));
+    else if (e.type === 'hit' && (e as any).servoAlarm > 0) onServoAlarm(0); // l'armure encaisse : les servos hurlent 1 s
+    else if (e.type === 'servoCritical') onServoAlarm(0);                    // une fois par manche, sous 25 % d'armure
     if (e.type === 'bolt') {
       tracer.geometry.setFromPoints([new THREE.Vector3(e.x, 1.5, e.y), new THREE.Vector3(e.tx, 1.2, e.ty)]); tracer.visible = true; tracerT = 0.08; shake = Math.max(shake, 0.15);
       if (IMPACT) { recImp.push({ t0: simT, v: 2.2 }); pitchImp.push({ t0: simT, v: 0.55 }); } // la rafale pousse la caméra et lève le nez
@@ -363,15 +367,16 @@ function tick() {
   // c'est le contraste entre le ralenti et la charge qui fait entendre la masse.
   const sp = Math.hypot(w.t.vx, w.t.vy);
   if (sp > 0.05) {
-    if (!audio.servo.isRunning()) { audio.servoSurge({ pan: 0 }); audio.servo.start({ load: sp / 2.5 }); }
-    audio.servo.setLoad(sp / 2.5);
-  } else audio.servo.setLoad(0.1);
+    if (!audio.servo.isRunning()) onServoCharge(0); // montée en charge de 5 s, au démarrage seulement
+    onServoLoop.start({ load: sp / 2.5 });
+    onServoLoop.load(sp / 2.5);
+  } else onServoLoop.load(0.1);
   updateRigs(DT); updateCamYaw();
   if (w.done) endRound();
 }
 function flash(o: number) { const f = document.getElementById('flash')!; f.style.transition = 'none'; f.style.opacity = String(o); requestAnimationFrame(() => { f.style.transition = 'opacity .25s'; f.style.opacity = '0'; }); }
 async function endRound() {
-  roundOver = true; audio.servo.stop({ fade: 0.5 }); if (w.winner === 'pack') score.pack++; else score.term++;
+  roundOver = true; onServoLoop.stop({ fade: 0.5 }); if (w.winner === 'pack') score.pack++; else score.term++;
   const msg = document.getElementById('msg')!; msg.style.display = 'block';
   msg.innerHTML = `<b>Manche ${roundNo} : ${w.winner === 'pack' ? 'la meute gagne' : 'le Terminator gagne'}</b> (${w.reason})<br>La meute étudie ta tactique…`;
   if (shot) return;
@@ -496,6 +501,8 @@ async function loadModels() {
 
 if (debug) buildLabels();
 await Promise.all([loadPolicy(), loadModels(), initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' })]);
+// Onglet en arrière-plan : le module suspend le contexte, et ne le reprend au retour que s'il tournait.
+audio.attachLifecycle();
 resize(); startRound();
 if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
   while (w.tick < shot && !w.done) tick();
