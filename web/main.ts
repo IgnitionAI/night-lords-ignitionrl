@@ -192,7 +192,7 @@ addEventListener('keydown', e => { keys.add(e.code); if (e.code === 'KeyV') { de
 addEventListener('keyup', e => keys.delete(e.code));
 const snap = () => ({ t: [w.t.x, w.t.y, w.t.facing] as [number, number, number], n: w.nls.map(n => [n.x, n.y, n.facing] as [number, number, number]) });
 function startRound() {
-  roundNo++; roundOver = false; seed = seed + 1; w = newWorld(seed); camYaw = w.t.facing; prev = snap(); rec = new Recorder(autoplay ? `autoplay ${autoplay}` : 'joueur'); rng = mulberry32(seed ^ 0x9e3779b9);
+  roundNo++; roundOver = false; seed = seed + 1; w = newWorld(seed); camYaw = followYaw = w.t.facing; prev = snap(); rec = new Recorder(autoplay ? `autoplay ${autoplay}` : 'joueur'); rng = mulberry32(seed ^ 0x9e3779b9);
   tactic = autoplay ? (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)() : null;
   nlMeshes.forEach(m => { m.rotation.set(0, 0, 0); m.visible = true; });
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
@@ -209,11 +209,36 @@ function floatText(x: number, y: number, text: string, color: string) {
 // Lacet de la caméra : elle se place derrière le dos du Terminator, pas sur un axe fixe. À 22 m la
 // caméra plein ouest marchait ; à 3,4 m un axe fixe met un pilier de 4 m entre l'œil et la meute dès
 // que le joueur longe un mur (vu à t77). Il est avancé d'un pas de simulation, donc ?shot= reste juste.
-let camYaw = 0;
+let camYaw = 0, followYaw = 0;
+// P3 — le pivot. Mesure de l'état des lieux : la meute passe à plus de 90° dans le dos dès 8,3 s de
+// manche, jusqu'à 174°. La caméra se décale donc *un peu* vers la menace la plus proche, jamais plus de
+// 30 % de l'angle, et seulement si elle est derrière depuis plus d'une seconde : c'est un signal de
+// présence, pas une caméra qui reprend la main. ?pivot=0 coupe, ?pivot=0.5 essaie plus fort.
+const PIVOT = { max: Math.max(0, Math.min(1, parseFloat(qs.get('pivot') ?? '0.30'))), after: 1.0, range: 15, ramp: 0.10 };
+let pivotT = 0, pivotA = 0;
+function threatBehind() {
+  let best: { a: number; i: number; d: number } | null = null;
+  for (let i = 0; i < w.nls.length; i++) {
+    const n = w.nls[i]; if (!n.alive) continue;
+    const d = Math.hypot(n.x - w.t.x, n.y - w.t.y); if (d > PIVOT.range) continue;
+    let rel = Math.atan2(n.y - w.t.y, n.x - w.t.x) - w.t.facing;
+    while (rel > Math.PI) rel -= 2 * Math.PI; while (rel < -Math.PI) rel += 2 * Math.PI;
+    if (Math.abs(rel) < Math.PI / 2) continue; // devant ou sur les flancs : rien à signaler
+    if (!best || d < best.d) best = { a: rel, i, d };
+  }
+  return best;
+}
 function updateCamYaw() {
-  let d = w.t.facing - camYaw;
+  const th = threatBehind();
+  pivotT = th ? pivotT + DT : 0;
+  const want = th && pivotT > PIVOT.after ? th.a * PIVOT.max : 0;
+  pivotA += (want - pivotA) * PIVOT.ramp; // ~1 s pour se mettre en place, jamais un à-coup
+  // Le suivi du dos et le pivot sont deux choses : on lisse le suivi, puis on ajoute le pivot. Mélangés
+  // dans le même lissage, un joueur qui tourne annule la moitié du pivot (mesuré : 12° au lieu de 48°).
+  let d = w.t.facing - followYaw;
   while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI;
-  camYaw += d * 0.26; // ~4 rad/s de rotation max : le monde pivote sans fouetter
+  followYaw += d * 0.26; // ~4 rad/s de rotation max : le monde pivote sans fouetter
+  camYaw = followYaw + pivotA;
 }
 function updateRigs(dt: number) { // avance d'un pas de simulation, pas du temps réel : le mode capture reste déterministe
   for (let i = 0; i < nlRigs.length; i++) {
