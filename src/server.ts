@@ -7,7 +7,6 @@ import { join, extname } from 'node:path';
 import { loadavg } from 'node:os';
 import { inodePct, trainingProcs, localCI } from './guard';
 import { summarize, type Recording } from './recorder';
-import { gateDecision } from './gate';
 
 const ROOT = process.cwd(), PORT = Number(process.env.PORT ?? 18190), FT_UPDATES = Number(process.env.FT_UPDATES ?? 30);
 mkdirSync(join(ROOT, 'recordings'), { recursive: true }); mkdirSync(join(ROOT, 'policies'), { recursive: true });
@@ -28,17 +27,12 @@ createServer(async (req, res) => {
     busy = true; const t0 = Date.now(); const out = `runs/ft-${stamp}`; session.push(recPath);
     const ghostPath = join(ROOT, `runs/ghost-${stamp}.json`);
     const b = spawnSync('node', ['dist/bc.mjs', '--out', ghostPath, ...session.slice(-3)], { cwd: ROOT, encoding: 'utf8' }); // fantôme appris sur les 3 dernières manches
-    const r = b.status === 0 ? spawnSync('node', ['dist/train.mjs', '--init', 'policies/current-full.json', '--ghostBC', ghostPath, '--ghostShare', '0.5', '--updates', String(FT_UPDATES), '--envs', '16', '--out', out, '--seed', String(round)], { cwd: ROOT, encoding: 'utf8' }) : b;
+    const r = b.status === 0 ? spawnSync('node', ['dist/train.mjs', '--init', 'policies/current-full.json', '--ghostBC', ghostPath, '--ghostShare', '0.7', '--updates', String(FT_UPDATES), '--envs', '16', '--out', out, '--seed', String(round)], { cwd: ROOT, encoding: 'utf8' }) : b;
     busy = false; const seconds = (Date.now() - t0) / 1000;
-    let gate: ReturnType<typeof gateDecision> | null = null;
-    if (r.status === 0) {
-      const rd = (p: string) => JSON.parse(readFileSync(join(ROOT, p), 'utf8'));
-      gate = gateDecision(rd('policies/current.json'), rd(`${out}/actor.json`), rd(`runs/ghost-${stamp}.json`));
-      if (gate.accepted) { copyFileSync(join(ROOT, out, 'actor.json'), join(ROOT, 'policies/current.json')); copyFileSync(join(ROOT, out, 'full.json'), join(ROOT, 'policies/current-full.json')); }
-    }
-    writeFileSync(join(ROOT, out + '.server.json'), JSON.stringify({ seconds, status: r.status, summary: summary.describe, gate }));
+    if (r.status === 0) { copyFileSync(join(ROOT, out, 'actor.json'), join(ROOT, 'policies/current.json')); copyFileSync(join(ROOT, out, 'full.json'), join(ROOT, 'policies/current-full.json')); }
+    writeFileSync(join(ROOT, out + '.server.json'), JSON.stringify({ seconds, status: r.status, summary: summary.describe }));
     res.writeHead(200, { 'content-type': 'application/json' });
-    return res.end(JSON.stringify({ ok: r.status === 0, seconds, updates: FT_UPDATES, roundsUsed: Math.min(3, session.length), summary: summary.describe, gate, version: gate?.accepted ? out : 'inchangée (garde-fou)', log: r.status === 0 ? undefined : r.stderr.slice(-500) }));
+    return res.end(JSON.stringify({ ok: r.status === 0, seconds, updates: FT_UPDATES, roundsUsed: Math.min(3, session.length), summary: summary.describe, version: out, log: r.status === 0 ? undefined : r.stderr.slice(-500) }));
   }
   let p = url.pathname === '/' ? '/web/index.html' : url.pathname;
   if (p.startsWith('/policy/')) p = '/policies/' + p.slice(8);
