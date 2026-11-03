@@ -43,7 +43,7 @@ node dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1     # PPO m
 node dist/eval.mjs --pack runs/base/actor.json --n 200                    # taux de victoire, seeds 900000+
 scripts/mesures.sh                                                         # mesures du jalon 1
 cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies/current-full.json
-node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0)
+node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0  ?demo=reveal)
 ```
 
 `policies/` contient la politique b3 (prête pour `node dist/server.mjs`) : `current.json` est `runs/b3@2000` (2 000 mises à jour, seed 3). `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
@@ -101,6 +101,11 @@ Une graine différente (`--seed 4`) doit changer les deux. L'éval est elle auss
   tick où elle est choisie. 2 ticks d'armement sont décidés côté simulation (Khayon) : quand ils arriveront,
   le télégraphe se branchera sur l'armement et non sur `cd === 0`, et le build jouable ne sera plus comparable
   aux mesures b3 (voir `web/models/MANIFESTE.md`).
+- Mode démo (`?demo=reveal`) : **mise en scène**, pas une manche jouée. Il place les cinq acteurs et leur donne
+  un script d'actions — quatre ticks de marche, une rafale au tick 6 — pour obtenir un plan impossible en jeu :
+  un Night Lord à 3,2 m dans la gueule du bolter au moment où la rafale part. Le pas de simulation reste le
+  vrai (`step()` calcule les dégâts, les événements, le bruit) et le HUD affiche « MISE EN SCÈNE » dans
+  l'image. Aucune capture de ce mode ne doit être présentée comme du jeu joué (voir `web/models/MANIFESTE.md`).
 - `shots/` : captures 16:9 et 9:16 (prototype du jalon 1)
 - `mesures/`, `jalon1/mesures/`, `runs/*metrics.jsonl` : mesures brutes citées dans les rapports
 

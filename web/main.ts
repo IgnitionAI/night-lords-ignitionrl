@@ -241,11 +241,39 @@ const keys = new Set<string>();
 addEventListener('keydown', e => { keys.add(e.code); if (e.code === 'KeyV') { debug = !debug; if (debug) buildLabels(); } if (e.code === 'KeyP') paused = !paused; if (e.code === 'Enter' && roundOver) startRound(); if (e.code === 'Space') e.preventDefault(); });
 addEventListener('keyup', e => keys.delete(e.code));
 const snap = () => ({ t: [w.t.x, w.t.y, w.t.facing] as [number, number, number], n: w.nls.map(n => [n.x, n.y, n.facing] as [number, number, number]) });
+// ---------- mode démo : mise en scène des ENTRÉES, jamais de la simulation
+// `?demo=reveal` place les cinq acteurs et leur donne un script d'actions. Le pas de simulation reste
+// intact : c'est step(w, ta, acts) qui décide des dégâts, des événements et du bruit. Ce qui est fabriqué,
+// c'est le scénario — positions de départ et entrées —, exactement comme le fait une politique d'autoplay.
+// Toute capture prise ici doit être étiquetée « mise en scène », jamais présentée comme une manche jouée.
+const DEMO = qs.get('demo');
+interface DemoScript { place(w: World): void; player(t: number): TAction; nls(t: number, w: World): number[] }
+const DEMO_SCRIPTS: Record<string, DemoScript> = {
+  reveal: {
+    place(w: World) {
+      w.t.x = 6; w.t.y = 10; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0;
+      // [x, y, facing, vivant] — le premier est la proie éclairée par la rafale, le deuxième frappe dans le flanc
+      const spots = [
+        [9.0, 11.0, Math.PI], // 3,2 m devant, à 18° à droite : dans le cône de bouche
+        [4.6, 10.6, 0.4],     // 1,4 m sur le flanc gauche : à portée de griffe, pas dans le dos
+        [11.4, 8.2, Math.PI * 0.8], // 5,5 m, plus loin à gauche
+        [2.2, 12.4, 1.2],     // 8 m derrière-droite, pour la profondeur
+      ];
+      w.nls.forEach((n, i) => { const [x, y, f] = spots[i]; n.x = x; n.y = y; n.facing = f; n.alive = true; n.hp = 1; n.belief.valid = true; n.belief.x = w.t.x; n.belief.y = w.t.y; n.belief.age = 0; n.belief.seen = true; });
+    },
+    player(t: number): TAction { return { fwd: t < 4 ? 1 : 0, strafe: 0, turn: 0, bolt: t === 6, fist: false }; },
+    // La meute ne bouge plus (action 0 = repos) sauf celle du flanc qui arme sa griffe au tick 12 :
+    // deux ticks d'armement (t12, t13), l'impact tombe au t14.
+    nls(t: number): number[] { return [0, t >= 12 && t <= 13 ? 7 : 0, 0, 0]; },
+  },
+};
+const DEMO_CFG = DEMO ? DEMO_SCRIPTS[DEMO] ?? null : null;
 function startRound() {
   // le build jouable garde l'armement des griffes (défaut) : il n'est plus celui des mesures b3
   roundNo++; roundOver = false; seed = seed + 1; w = newWorld(seed); camYaw = followYaw = w.t.facing; prev = snap(); rec = new Recorder(autoplay ? `autoplay ${autoplay}` : 'joueur'); rng = mulberry32(seed ^ 0x9e3779b9);
   tactic = autoplay ? (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)() : null;
   nlMeshes.forEach(m => { m.rotation.set(0, 0, 0); m.visible = true; });
+  if (DEMO_CFG) { DEMO_CFG.place(w); camYaw = followYaw = w.t.facing; prev = snap(); }
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
 }
 function playerAction(): TAction {
@@ -330,8 +358,8 @@ function updateRigs(dt: number) { // avance d'un pas de simulation, pas du temps
 function panOf(x: number, y: number) { const v = new THREE.Vector3(x, 1.3, y).project(camera); return Math.max(-1, Math.min(1, v.x)); }
 function tick() {
   prev = snap();
-  const ta = tactic ? tactic(w) : playerAction(); rec.record(w, ta);
-  const acts = w.nls.map((n, i) => {
+  const ta = DEMO_CFG ? DEMO_CFG.player(w.tick) : tactic ? tactic(w) : playerAction(); rec.record(w, ta);
+  const acts = DEMO_CFG ? DEMO_CFG.nls(w.tick, w) : w.nls.map((n, i) => {
     if (!n.alive) return 0;
     if (!actor) { const f = nlFrame(n); return f.d < 1.6 ? 7 : 1; }
     const p = softmax(forward(actor, observe(w, i))); const a = sample(p, rng); lastP[i] = p[a]; return a;
@@ -388,7 +416,7 @@ async function loadPolicy() {
 }
 function hud() {
   const t = w.t; const h = document.getElementById('hud')!;
-  h.innerHTML = `<b>TERMINATOR</b> — manche ${roundNo} · meute ${score.pack} / ${score.term} Terminator · ${((MAX_TICKS - w.tick) * DT).toFixed(0)} s<div class="bar"><i style="width:${t.hp / T_CFG.hp * 100}%"></i></div>`
+  h.innerHTML = `${DEMO_CFG ? '<b style="color:#ffb020">MISE EN SCÈNE</b> — ce n\'est pas une manche jouée · ' : ''}<b>TERMINATOR</b> — manche ${roundNo} · meute ${score.pack} / ${score.term} Terminator · ${((MAX_TICKS - w.tick) * DT).toFixed(0)} s<div class="bar"><i style="width:${t.hp / T_CFG.hp * 100}%"></i></div>`
     + `${t.channel ? `<b style="color:#6f6">Téléportation ${Math.round(t.channel / T_CFG.channel * 100)} %</b> · ` : ''}Armure ${t.hp}/${T_CFG.hp} · bolter ${t.boltCd ? '…' : 'prêt'} · gantelet ${t.fistCd ? '…' : 'prêt'} · Night Lords debout : ${w.nls.filter(n => n.alive).length}/4<br><small>${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}</small>`;
   const d = document.getElementById('dbg')!; d.style.display = debug ? 'block' : 'none';
   if (debug) d.innerHTML = `<b>Vue de contrôle — ce que perçoit chaque Night Lord</b><table><tr><th>rôle</th><th>état</th><th>voit</th><th>entend</th><th>vox</th><th>âge</th><th>action (p)</th></tr>`

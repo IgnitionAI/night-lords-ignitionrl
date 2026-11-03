@@ -1,0 +1,31 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+html{width:1900px}body{width:1900px;margin:0;background:#0b0d13;color:#cfd6e4;font:13px/1.45 ui-sans-serif,system-ui,sans-serif}
+h1{font:600 17px/1 ui-sans-serif;letter-spacing:.06em;text-transform:uppercase;margin:18px 22px 4px;color:#eef2f8}
+p.sub{margin:0 22px 14px;color:#7b8798;font-size:12px}
+code{color:#9fb0c8}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 22px 22px}
+figure{margin:0}
+figure img{width:100%;display:block;border-radius:3px}
+figcaption{font-size:11.5px;color:#8d99ab;padding:5px 2px 0}
+figcaption b{color:#e7ecf4;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:11.5px;color:#cfd6e4}
+</style></head><body>
+<h1>Mode démo — la rafale révèle un prédateur</h1>
+<p class="sub">1600×900, <code>?demo=reveal&shot=7</code>, aucun aléa : mêmes entrées, même image. <b style="color:#ffb020">Mise en scène</b> — le pas de simulation est le vrai, mais les positions de départ et les actions sont scriptées. Ce n'est pas une manche jouée, et le HUD le dit dans l'image.</p>
+<div class="grid">
+  <figure><img src="reveal-off.jpg"><figcaption><b>t7, <code>?impact=0</code> — la rafale part, le prédateur n'est qu'une silhouette</b><br>Night Lord à 3,2 m dans l'axe, un second à 1,4 m sur le flanc gauche. La trace du bolter traverse le cadre. Sans flash, on ne lit qu'un contour.</figcaption></figure>
+  <figure><img src="reveal-on.jpg"><figcaption><b>t7, flash de bouche — il apparaît, en pleine poitrine</b><br>Le Night Lord à 3,2 m prend <b>+11,1/255</b> quand le sol devant en prend +2,9 et le mur du fond +0,9. C'est l'inverse du jeu joué, où il ne prenait que +1,6 à 6 m : à 1,9 m du canon, la lumière le sculpte.</figcaption></figure>
+  <figure style="background:#11151d;border:1px solid #1e2530;border-radius:3px;padding:14px 16px;grid-column:1/3"><figcaption style="padding:0">
+    <b>Ce que la démo met en scène, et ce qu'elle ne touche pas</b><br>
+    <span style="color:#8d99ab">Les positions de départ et le script d'actions (4 ticks de marche, une rafale au tick 6). Le reste est la simulation :</span>
+    <table style="margin-top:9px">
+      <tr style="color:#7b8798"><td></td><td>jeu joué (graine 6, t151)</td><td>démo (reveal, t7)</td></tr>
+      <tr><td style="padding:3px 0">distance du prédateur</td><td>6,3 m</td><td><b>3,2 m</b></td></tr>
+      <tr><td style="padding:3px 0">gain de luminance sur lui</td><td>+1,6/255</td><td><b>+11,1/255</b></td></tr>
+      <tr><td style="padding:3px 0">gain sur le sol devant</td><td>+10,6/255</td><td>+2,9/255</td></tr>
+      <tr><td style="padding:3px 0">dégâts, événements, bruit</td><td colspan="2">calculés par <code>step()</code>, identiques dans les deux cas</td></tr>
+    </table>
+    <span style="color:#7b8798;font-size:11px;display:block;margin-top:9px">Autrement dit : le plan est impossible en jeu, non parce que la lumière est mal réglée, mais parce qu'un Night Lord à 3 m dans la gueule du bolter est déjà mort. La démo le place là où le scénario l'exige, et le dit.</span>
+  </figcaption></figure>
+</div>
+</body></html>

@@ -164,6 +164,26 @@ de la passe plein écran dépend de `performance.now()` : deux captures du même
 identiques au pixel, l'écart est le grain. Comparer avec `pix.mjs` (histogramme) ou en blocs de 8 px,
 jamais au pixel.
 
+## Mode démo — mise en scène, jamais présenté comme du jeu joué
+
+`?demo=reveal` existe pour photographier un plan que la simulation ne produit pas : la rafale du bolter qui
+révèle un prédateur. Il **place** les cinq acteurs et **scripte** leurs actions (quatre ticks de marche, une
+rafale au tick 6) ; il ne touche pas à `src/sim.ts`. Le pas de simulation reste le vrai : dégâts, événements,
+bruit, cadence des pas sont calculés par `step()`, exactement comme en autoplay.
+
+| | jeu joué (graine 6, t151) | démo (reveal, t7) |
+|---|---|---|
+| distance du prédateur | 6,3 m | **3,2 m** |
+| gain de luminance sur lui | +1,6/255 | **+11,1/255** |
+| gain sur le sol devant | +10,6/255 | +2,9/255 |
+
+La raison de l'écart est géométrique : la lumière de bouche est 1,9 m devant le Terminator, à 6 m il ne reste
+que 1/r². Le plan est impossible en jeu non parce que la lumière est mal réglée, mais parce qu'un Night Lord à
+3 m dans la gueule du bolter est déjà mort.
+
+**Règle de preuve** : toute capture prise en `?demo=` est étiquetée « mise en scène ». Le HUD l'affiche dans
+l'image elle-même. Une démo ne remplace jamais une mesure de jeu, elle montre une intention.
+
 ## Ce qui n'est pas mesuré ici
 
 - **fps** et coût GPU du skinning : 5 squelettes de 24 os, 120 matrices mises à jour puis envoyées au
