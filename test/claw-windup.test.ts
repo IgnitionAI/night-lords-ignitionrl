@@ -4,7 +4,7 @@
 // Exécution : `npm test` (ou `node --import tsx --test test/claw-windup.test.ts`).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { newWorld, step, dist, NL_CFG, T_CFG, REWARD, type World, type TAction } from '../src/sim.ts';
+import { newWorld, step, dist, NL_CFG, T_CFG, DT, REWARD, type World, type TAction } from '../src/sim.ts';
 
 const IDLE: TAction = { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false };
 const AWAY: TAction = { ...IDLE, fwd: 1 }; // le Terminator recule (facing 0, donc vers +x, à l'opposé de la meute)
@@ -63,16 +63,20 @@ test('armement : aucun dégât au tick T, annonce clawArm, dégâts au tick T+2'
 });
 
 test('armement : la cible qui s\'éloigne ⇒ whiff et zéro dégât', () => {
-  const w = arena(undefined, 1.5); // à portée au moment de l'annonce
+  // Avec l'inertie, deux ticks depuis l'arrêt ne couvrent que 0,09 m (`accel·DT²·3` : 0,03 m puis 0,06 m) : la
+  // cible ne peut s'extraire de la portée que si elle part déjà du bord. C'est une conséquence de game design
+  // assumée — une griffe télégraphiée attrape un Terminator à l'arrêt —, pas une faille du test.
+  const ESCAPE2 = T_CFG.accel * DT * DT * 3; // 0,09 m en 2 ticks de rampe
+  const w = arena(undefined, NL_CFG.clawRange - ESCAPE2 / 2); // à portée au moment de l'annonce, au bord
   const T = w.tick;
 
-  step(w, IDLE, CLAW); // tick T : armement à 1,5 m
+  step(w, IDLE, CLAW); // tick T : armement à 1,70 m
   assert.equal(w.t.hp, T_CFG.hp);
   assert.equal(arms(w).length, 1, 'T : le coup est annoncé');
   assert.equal(claws(w).length, 0);
 
-  step(w, AWAY, HOLD); // tick T+1 : le Terminator recule (1,5 → 2,0 m)
-  step(w, AWAY, HOLD); // tick T+2 : l'impact est re-vérifié à 2,25 m
+  step(w, AWAY, HOLD); // tick T+1 : le Terminator recule (1,70 → 1,73 m)
+  step(w, AWAY, HOLD); // tick T+2 : l'impact est re-vérifié à 1,79 m
   assert.equal(w.tick, T + 3, 'les ticks T, T+1 et T+2 ont été simulés');
   assert.ok(dist(w.nls[0].x, w.nls[0].y, w.t.x, w.t.y) > NL_CFG.clawRange, 'la cible est sortie de portée');
   assert.deepEqual(whiffs(w), [{ type: 'whiff', who: 0 }], 'T+2 : le coup est esquivé');
