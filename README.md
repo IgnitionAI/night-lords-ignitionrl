@@ -43,7 +43,7 @@ node dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1     # PPO m
 node dist/eval.mjs --pack runs/base/actor.json --n 200                    # taux de victoire, seeds 900000+
 scripts/mesures.sh                                                         # mesures du jalon 1
 cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies/current-full.json
-node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0)
+node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0)
 ```
 
 `policies/` contient la politique b3 (prête pour `node dist/server.mjs`). `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
@@ -55,8 +55,17 @@ node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|t
 - `src/ppo.ts`, `src/train.ts` : PPO multi-agents ; `src/eval.ts`, `src/evallib.ts` : évaluation
 - `src/server.ts` : serveur local et ré-entraînement entre manches ; `src/experiment-c.ts` : expérience C
 - `web/` : rendu Three.js et vue de contrôle (touche V)
-- Caméra : couloir derrière le Terminator, 8,2 m / 3,4 m de haut / fov 58 (68 en portrait). Elle se cale
-  derrière son dos et remonte à 4,9 m si son œil tombe dans l'emprise d'un pilier.
+- Caméra à l'épaule (défaut) : 3,55 m derrière le Terminator, 1,15 m sur son épaule droite, 2,5 m du sol,
+  fov 62 (74 en portrait), et un point de visée 5 m devant lui. On est dans l'armure.
+- Caméra de couloir (`?cam=couloir`) : 8,2 m / 3,4 m de haut / fov 58 (68 en portrait). Elle se cale derrière
+  son dos et remonte à 4,9 m si son œil tombe dans l'emprise d'un pilier.
+- Poids : respiration de 5,2 s (±28 mm), appui du pas (un à-coup tous les 1,55 m, 25 mm = 0,40°), recul du
+  bolter (76 mm arrière, 1,09° de nez, ressort amorti) et un flash de bouche de 75 ms qui éclaire les piliers
+  et les silhouettes. Le halo du gantelet pulse en bleu. `?impact=0` coupe le tout (et le flash), pour mesurer
+  ce que le poids coûte : course verticale 83 mm contre 56 mm, rotation identique.
+- Les ressorts sont évalués en forme fermée au moment du rendu, pas intégrés au pas de 100 ms : sinon le poids
+  arrivait par saccades de 10 Hz. Une capture `?shot=` tombe donc exactement sur le tick, à 60 fps tout est lisse.
+- Flou de rotation : 5 prises dans la passe plein écran quand le lacet dépasse le seuil, rien au repos.
 - Pivot (P3) : la caméra se décale de 30 % au plus vers la menace la plus proche quand celle-ci est derrière
   le dos depuis plus d'une seconde. `?pivot=` règle le plafond, `?pivot=0` coupe. Le joueur garde la main,
   rien n'est forcé. `?fog=linear` revient au brouillard 8→38 m, `?grid=1` réaffiche la grille du grey-box.

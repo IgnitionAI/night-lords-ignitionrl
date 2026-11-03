@@ -29,7 +29,13 @@ scene.fog = FOG_MODE === 'linear' ? new THREE.Fog(FOG_COLOR, 8, 38) : new THREE.
 // P1 : l'oeil a hauteur d'homme. A 22 m et 50 degres, un Night Lord fait 55 px de haut et l'arene tient
 // dans le cadre - on regarde un plateau, pas une traque. A 3,4 m et 58 degres il en fait 100 a 120.
 const CAM = { back: 8.2, height: 3.4, highMax: 4.9, ahead: 3.0, eye: 1.2, fov: 58, fovPortrait: 68 };
-const camera = new THREE.PerspectiveCamera(CAM.fov, 1, 0.1, 200);
+// P4 : caméra à l'épaule. On ne regarde plus le Terminator, on est dedans : 3,55 m derrière, 1,15 m sur son
+// épaule droite, 2,5 m du sol, et on regarde 5 m devant lui — le corps occupe le bas-gauche du cadre et la
+// convergence se fait sur l'axe de marche. ?cam=couloir rend la caméra de P1 (comparaison, captures).
+const EPAULE = { back: 3.55, side: 1.15, height: 2.5, ahead: 5.0, eye: 1.45, fov: 62, fovPortrait: 74 };
+const CAM_MODE = qs.get('cam') === 'couloir' ? 'couloir' : 'epaule';
+const IMPACT = qs.get('impact') !== '0'; // ?impact=0 : caméra stable, pour mesurer ce que le poids coûte
+const camera = new THREE.PerspectiveCamera(CAM_MODE === 'epaule' ? EPAULE.fov : CAM.fov, 1, 0.1, 200);
 // Une seule lumière de remplissage, froide et rasante : les formes se lisent par leur bord, pas par leur face.
 scene.add(new THREE.AmbientLight(0x1b2130, 0.30));
 const keyLight = new THREE.DirectionalLight(0x8fb4e8, 0.85); keyLight.position.set(50, 34, 6); scene.add(keyLight);
@@ -168,6 +174,11 @@ const beliefs = ROLES.map((_, i) => { const m = new THREE.Mesh(new THREE.RingGeo
 const links = ROLES.map((_, i) => { const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]); const l = new THREE.Line(g, new THREE.LineDashedMaterial({ color: ROLE_COL[i], dashSize: 0.4, gapSize: 0.3 })); dbgGroup.add(l); return l; });
 const noiseRing = new THREE.Mesh(new THREE.RingGeometry(0.97, 1, 64), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.35, side: THREE.DoubleSide })); noiseRing.rotation.x = -Math.PI / 2; noiseRing.position.y = 0.06; dbgGroup.add(noiseRing);
 const tCone = fan(T_CFG.visionHalf, T_CFG.visionRange, 0xfff0c0, 0.05); dbgGroup.add(tCone);
+// La lumière des armes. Le flash de bouche est une vraie lumière ponctuelle : il éclaire les piliers et
+// découpe les silhouettes une fraction de seconde — c'est lui qui révèle les prédateurs. Le halo du gantelet
+// pulse en continu, bleu, faible. Deux lumières de plus dans la passe principale (aucun draw call).
+const muzzleLight = new THREE.PointLight(0xffd8a8, 0, 11, 2); term.add(muzzleLight); muzzleLight.position.set(1.4, 1.55, 0.7);
+const fistLight = new THREE.PointLight(0x3a63ff, 2.2, 3.2, 2); term.add(fistLight); fistLight.position.set(0.55, 1.1, -0.95);
 const tracer = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), new THREE.LineBasicMaterial({ color: 0xffe080 })); scene.add(tracer); tracer.visible = false;
 
 // Passe plein écran : vignette + grain. Un quad et un shader, aucun addon ; la render target est linéaire
@@ -175,12 +186,18 @@ const tracer = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THRE
 const rt = new THREE.WebGLRenderTarget(2, 2, { samples: 4, colorSpace: THREE.LinearSRGBColorSpace });
 const postScene = new THREE.Scene(); const postCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 const postMat = new THREE.ShaderMaterial({
-  uniforms: { tDiffuse: { value: rt.texture }, uTime: { value: 0 }, uVignette: { value: 0.95 } },
+  uniforms: { tDiffuse: { value: rt.texture }, uTime: { value: 0 }, uVignette: { value: 0.95 }, uBlur: { value: new THREE.Vector2(0, 0) } },
   vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }',
-  fragmentShader: `uniform sampler2D tDiffuse; uniform float uTime, uVignette; varying vec2 vUv;
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float uTime, uVignette; uniform vec2 uBlur; varying vec2 vUv;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
     void main(){
+      // flou directionnel de rotation : 5 prises seulement si la caméra tourne vite (branche morte sinon)
       vec3 c = texture2D(tDiffuse, vUv).rgb;
+      if (dot(uBlur, uBlur) > 1e-8) {
+        c = vec3(0.0);
+        for (int i = 0; i < 5; i++) c += texture2D(tDiffuse, vUv + uBlur * (float(i) * 0.25 - 0.5)).rgb;
+        c /= 5.0;
+      }
       vec2 d = vUv - 0.5;
       c *= clamp(1.0 - dot(d, d) * uVignette * 1.9, 0.0, 1.0);
       c += (hash(vUv * 1024.0 + uTime) - 0.5) * 0.014;
@@ -192,6 +209,23 @@ postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), postMat));
 // ---------- état de jeu
 let w: World, prev: { t: [number, number, number]; n: [number, number, number][] }, rec: Recorder, rng: () => number, tactic: Tactic | null;
 let roundNo = 0, score = { pack: 0, term: 0 }, paused = false, acc = 0, hitstop = 0, shake = 0, lastActs: number[] = [0, 0, 0, 0], lastP: number[] = [0, 0, 0, 0], tracerT = 0;
+// Poids du Terminator : recul du bolter, appui du pas, respiration, inclinaison. Un ressort amorti par effet,
+// mais évalué en forme fermée au moment du rendu et non intégré pas à pas : la simulation avance de 0,1 s et
+// l'image de 16 ms — intégré par pas, tout ce poids arrivait par saccades de 10 Hz. La forme fermée se lit à
+// n'importe quel instant, donc 60 fps lisse et une capture à ?shot=N tombe exactement sur le tick.
+let simT = 0, breathT = 0, roll = 0, rollPrev = 0, camYawPrev = 0, yawRate = 0;
+type Imp = { t0: number; v: number };
+const recImp: Imp[] = [], pitchImp: Imp[] = [], stepImp: Imp[] = []; // recul arrière, nez qui monte, appui du pas
+// x(t) = (v0/wd) e^(-z w t) sin(wd t) : réponse à une vitesse initiale, position nulle au départ.
+function osc(imps: Imp[], t: number, w: number, z: number) {
+  const wd = w * Math.sqrt(1 - z * z); let x = 0;
+  for (const i of imps) { const a = t - i.t0; if (a < 0 || a > 1.2) continue; x += (i.v / wd) * Math.exp(-z * w * a) * Math.sin(wd * a); }
+  return x;
+}
+const REC = { w: 13.8, z: 0.62 }, STP = { w: 23.2, z: 0.60 };
+const FRESH = 1.2; // une impulsion de plus d'1,2 s ne s'entend plus
+let stepRun = 0, stepY = 0, recZ = 0, recPitch = 0;
+let muzzleT = 0, fistT = 0;
 let roundOver = false, lastSummary = '';
 const keys = new Set<string>();
 addEventListener('keydown', e => { keys.add(e.code); if (e.code === 'KeyV') { debug = !debug; if (debug) buildLabels(); } if (e.code === 'KeyP') paused = !paused; if (e.code === 'Enter' && roundOver) startRound(); if (e.code === 'Space') e.preventDefault(); });
@@ -245,6 +279,12 @@ function updateCamYaw() {
   while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI;
   followYaw += d * 0.26; // ~4 rad/s de rotation max : le monde pivote sans fouetter
   camYaw = followYaw + pivotA;
+  // Vitesse de rotation pour l'inclinaison et le flou : prise au pas de simulation, donc reproductible.
+  let dy = camYaw - camYawPrev; while (dy > Math.PI) dy -= 2 * Math.PI; while (dy < -Math.PI) dy += 2 * Math.PI;
+  yawRate = dy / DT;
+  const rollTarget = Math.max(-0.050, Math.min(0.050, -yawRate * 0.100));
+  rollPrev = roll; roll += (rollTarget - roll) * 0.20;
+  camYawPrev = camYaw;
 }
 // Télégraphe de la griffe. La simulation ne donne aucune anticipation : la griffe frappe dans le tick où elle
 // est choisie (src/sim.ts, action 7, distance <= clawRange). Ce qu'on peut montrer honnêtement, c'est la
@@ -284,8 +324,14 @@ function tick() {
     const p = softmax(forward(actor, observe(w, i))); const a = sample(p, rng); lastP[i] = p[a]; return a;
   }); lastActs = acts;
   step(w, ta, acts);
+  // Après le pas, avant les événements : un tick couvre [t, t+DT], et la rafale qui part maintenant doit
+  // porter l'horodatage de la fin du tick, sinon son flash est déjà éteint quand l'image est rendue.
+  updateImpact(DT);
   for (const e of w.events) {
-    if (e.type === 'bolt') { tracer.geometry.setFromPoints([new THREE.Vector3(e.x, 1.5, e.y), new THREE.Vector3(e.tx, 1.2, e.ty)]); tracer.visible = true; tracerT = 0.08; shake = Math.max(shake, 0.15); }
+    if (e.type === 'bolt') {
+      tracer.geometry.setFromPoints([new THREE.Vector3(e.x, 1.5, e.y), new THREE.Vector3(e.tx, 1.2, e.ty)]); tracer.visible = true; tracerT = 0.08; shake = Math.max(shake, 0.15);
+      if (IMPACT) { recImp.push({ t0: simT, v: 2.2 }); pitchImp.push({ t0: simT, v: 0.55 }); } // la rafale pousse la caméra et lève le nez
+    }
     if ((e.type === 'bolt' || e.type === 'fist') && e.kill >= 0) { hitstop = 0.09; shake = 0.5; const n = w.nls[e.kill]; floatText(n.x, n.y, `${ROLES[e.kill]} abattu`, '#ffd27a'); flash(0.25); }
     if (e.type === 'claw') { const n = w.nls[e.who]; if (e.dmg === 0) floatText(n.x, n.y, 'ARMURE', '#9cf'); else { floatText(w.t.x, w.t.y, `-${e.dmg} ${e.zone === 'rear' ? 'DOS' : 'FLANC'}`, '#f44'); shake = Math.max(shake, 0.3); } }
   }
@@ -318,6 +364,16 @@ function hud() {
     + w.nls.map((n, i) => `<tr style="color:${ROLE_CSS[i]}"><td>${ROLES[i]}</td><td>${n.alive ? 'debout' : 'mort'}</td><td>${n.alive && n.belief.seen ? '●' : '·'}</td><td>${n.alive && n.belief.heard ? '●' : '·'}</td><td>${n.alive && n.belief.vox ? '●' : '·'}</td><td>${n.alive && n.belief.valid ? (n.belief.age * DT).toFixed(1) + ' s' : '—'}</td><td>${n.alive ? NL_ACTIONS[lastActs[i]] + (actor ? ` (${lastP[i].toFixed(2)})` : '') : ''}</td></tr>`).join('')
     + `</table>Anneau blanc = portée du bruit du Terminator (${w.t.noise} m). Anneaux colorés = où chaque frère croit qu'il est. Le Terminator perçoit : ${terminatorPerceives(w).map(i => ROLES[i]).join(', ') || 'personne'}.`;
 }
+// Les impulsions, elles, tombent au pas de simulation : c'est la simulation qui décide qu'un pas est posé et
+// qu'une rafale part. Ce qui les met en forme est continu.
+function updateImpact(dt: number) {
+  simT += dt; breathT += dt; fistT += dt;
+  const moved = Math.hypot(w.t.x - prev.t[0], w.t.y - prev.t[1]);
+  stepRun += moved;
+  if (IMPACT && stepRun > 1.55) { stepRun = 0; stepImp.push({ t0: simT, v: -1.95 }); } // contact : la masse tombe
+  for (let n = recImp.length - 1; n >= 0; n--) if (simT - recImp[n].t0 > FRESH) { recImp.splice(n, 1); pitchImp.splice(n, 1); }
+  for (let n = stepImp.length - 1; n >= 0; n--) if (simT - stepImp[n].t0 > FRESH) stepImp.splice(n, 1);
+}
 function render(alpha: number) {
   const lerp = (a: number, b: number) => a + (b - a) * alpha; const la = (a: number, b: number) => { let d = b - a; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return a + d * alpha; };
   const tx = lerp(prev.t[0], w.t.x), ty = lerp(prev.t[1], w.t.y), tf = la(prev.t[2], w.t.facing);
@@ -338,18 +394,49 @@ function render(alpha: number) {
   // Une arête qui passe devant est acceptable — c'est même ce qu'on veut, un Night Lord peut se cacher
   // derrière. Donc pas de raycast de dégagement, seulement un test d'appartenance : si l'oeil tombe dans
   // l'emprise d'un pilier, la caméra monte au-dessus (4,9 m) et regarde par-dessus.
-  const back = portrait ? CAM.back + 1.6 : CAM.back, high = portrait ? CAM.height + 0.9 : CAM.height;
-  const cx = tx - Math.cos(camYaw) * back, cz = ty - Math.sin(camYaw) * back;
-  const inPillar = PILLARS.some(b => cx > b.x0 - 0.55 && cx < b.x1 + 0.55 && cz > b.y0 - 0.55 && cz < b.y1 + 0.55);
-  const cy = inPillar ? CAM.highMax : high;
-  camera.position.set(cx + sx, cy, cz + sz);
-  camera.lookAt(tx + Math.cos(camYaw) * CAM.ahead + sx, CAM.eye, ty + Math.sin(camYaw) * CAM.ahead + sz);
+  const fx = Math.cos(camYaw), fz = Math.sin(camYaw);      // axe de marche
+  const rx = -fz, rz = fx;                                 // son épaule droite
+  if (CAM_MODE === 'couloir') {
+    const back = portrait ? CAM.back + 1.6 : CAM.back, high = portrait ? CAM.height + 0.9 : CAM.height;
+    const cx = tx - fx * back, cz = ty - fz * back;
+    const inPillar = PILLARS.some(b => cx > b.x0 - 0.55 && cx < b.x1 + 0.55 && cz > b.y0 - 0.55 && cz < b.y1 + 0.55);
+    const cy = inPillar ? CAM.highMax : high;
+    camera.position.set(cx + sx, cy, cz + sz);
+    camera.lookAt(tx + fx * CAM.ahead + sx, CAM.eye, ty + fz * CAM.ahead + sz);
+  } else {
+    // À l'épaule : la masse du Terminator se sent dans quatre offsets — la respiration (5,2 s, 2,8 cm),
+    // l'appui du pas (ressort, un à-coup tous les 1,55 m), le recul du bolter (poussée arrière + nez qui
+    // monte), et l'inclinaison dans les virages. La caméra reste 3,55 m derrière : il occupe le cadre.
+    // temps de rendu : on avance dans le tick en cours pour que 60 fps reste lisse et qu'une capture tombe juste
+    const now = simT - DT + alpha * DT;
+    const breath = Math.sin(now * (2 * Math.PI / 5.2)) * 0.028; // 5,2 s par cycle, 2,8 cm
+    recZ = osc(recImp, now, REC.w, REC.z); recPitch = osc(pitchImp, now, REC.w, REC.z);
+    stepY = osc(stepImp, now, STP.w, STP.z);
+    const back = EPAULE.back + recZ * 0.85;
+    const high = EPAULE.height + stepY + breath;
+    const side = portrait ? EPAULE.side * 0.6 : EPAULE.side;
+    camera.position.set(tx - fx * back + rx * side + sx, high, ty - fz * back + rz * side + sz);
+    camera.lookAt(tx + fx * EPAULE.ahead + sx, EPAULE.eye, ty + fz * EPAULE.ahead + sz);
+  }
   camera.up.set(0, 1, 0);
+  if (CAM_MODE === 'epaule') { if (recPitch) camera.rotateX(recPitch); camera.rotateZ(rollPrev + (roll - rollPrev) * alpha); }
+  // flash de bouche : 75 ms après le départ de la rafale, décroissance quadratique. Il éclaire vraiment la
+  // scène — piliers et silhouettes —, ce n'est pas un voile posé sur l'image.
+  let mz = 0;
+  if (CAM_MODE === 'epaule') for (const i of recImp) { const a = 1 - (simT - DT + alpha * DT - i.t0) / 0.075; if (a > mz) mz = a; }
+  muzzleT = Math.max(0, mz);
+  muzzleLight.intensity = 12 * muzzleT * muzzleT;
+  const pulse = 0.72 + 0.28 * Math.sin((simT - DT + alpha * DT) * 3.1);
+  fistLight.intensity = 2.2 * pulse;
+  (fistM.material as THREE.MeshStandardMaterial).emissive.setRGB(0.05 * pulse, 0.12 * pulse, 0.62 * pulse);
+  // Flou de rotation : 5 prises dans la passe plein écran quand la caméra tourne vite, rien sinon.
+  const blur = CAM_MODE === 'epaule' ? Math.max(-0.018, Math.min(0.018, -yawRate * 0.0032)) : 0;
+  postMat.uniforms.uBlur.value.set(blur, 0);
   postMat.uniforms.uTime.value = performance.now() * 0.001;
   renderer.setRenderTarget(rt); renderer.render(scene, camera);
   renderer.setRenderTarget(null); renderer.render(postScene, postCam);
 }
-function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = innerHeight > innerWidth ? CAM.fovPortrait : CAM.fov; camera.updateProjectionMatrix();
+function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = CAM_MODE === 'epaule' ? (innerHeight > innerWidth ? EPAULE.fovPortrait : EPAULE.fov) : (innerHeight > innerWidth ? CAM.fovPortrait : CAM.fov); camera.updateProjectionMatrix();
   const s = renderer.getDrawingBufferSize(new THREE.Vector2()); rt.setSize(s.x, s.y); }
 addEventListener('resize', resize);
 
