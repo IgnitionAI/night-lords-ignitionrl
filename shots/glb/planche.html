@@ -1,0 +1,36 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+:root{--ink:#e8e6e1;--dim:#8f8d88;--bg:#0b0d13;--line:#22262f}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:13px/1.5 ui-monospace,"DejaVu Sans Mono",monospace;padding:26px 30px 30px}
+h1{font-size:15px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+p.sub{color:var(--dim);margin-bottom:20px;font-size:12px}
+.block{margin-bottom:22px;border-top:1px solid var(--line);padding-top:12px}
+h2{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#cbc8c2;margin-bottom:2px}
+.note{color:var(--dim);font-size:11.5px;margin-bottom:10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+figure{background:#05060a;border:1px solid var(--line)}
+figure img{display:block;width:100%;height:auto}
+figcaption{font-size:11px;color:var(--dim);padding:6px 8px;letter-spacing:.04em}
+figcaption b{color:var(--ink);font-weight:600}
+</style></head><body>
+<h1>Night Lords — intégration des modèles riggés</h1>
+<p class="sub">même graine 3, même manche « march », même tick — une capture déterministe ?shot=…&amp;seed=3&amp;autoplay=march · 1920×1080</p>
+
+<div class="block">
+<h2>1 · caméra actuelle (22 m, fov 50) — ce que le jeu montre</h2>
+<div class="note">à cette distance un personnage fait 55 px : les modèles n'achètent rien tant que la caméra de couloir (P1) n'est pas là.</div>
+<div class="row">
+<figure><img src="avant-22m-t115.png"><figcaption><b>avant</b> — capsules · 30 draw calls · 3 594 triangles</figcaption></figure>
+<figure><img src="apres-22m-t115.png"><figcaption><b>après</b> — modèles riggés · 17 draw calls · 62 016 triangles</figcaption></figure>
+</div>
+</div>
+
+<div class="block">
+<h2>2 · caméra locale 3,2 m — vérification du rendu, non commitée</h2>
+<div class="note">la caméra est forcée dans le bundle pour cette capture seule ; le code livré garde la caméra 22 m. c'est ce que la P1 rendra visible.</div>
+<div class="row">
+<figure><img src="avant-proche-t104.png"><figcaption><b>avant</b> — grey-box : des capsules et une boîte</figcaption></figure>
+<figure><img src="apres-proche-t104.png"><figcaption><b>après</b> — 4 Night Lords + Terminator, 2,0 m et 2,6 m, 120 os</figcaption></figure>
+</div>
+</div>
+</body></html>
