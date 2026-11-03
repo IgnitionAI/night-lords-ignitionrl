@@ -177,7 +177,7 @@ const tCone = fan(T_CFG.visionHalf, T_CFG.visionRange, 0xfff0c0, 0.05); dbgGroup
 // La lumière des armes. Le flash de bouche est une vraie lumière ponctuelle : il éclaire les piliers et
 // découpe les silhouettes une fraction de seconde — c'est lui qui révèle les prédateurs. Le halo du gantelet
 // pulse en continu, bleu, faible. Deux lumières de plus dans la passe principale (aucun draw call).
-const muzzleLight = new THREE.PointLight(0xffd8a8, 0, 11, 2); term.add(muzzleLight); muzzleLight.position.set(1.4, 1.55, 0.7);
+const muzzleLight = new THREE.PointLight(0xffd8a8, 0, 13, 2); term.add(muzzleLight); muzzleLight.position.set(1.9, 1.6, 0.6);
 const fistLight = new THREE.PointLight(0x3a63ff, 2.2, 3.2, 2); term.add(fistLight); fistLight.position.set(0.55, 1.1, -0.95);
 const tracer = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), new THREE.LineBasicMaterial({ color: 0xffe080 })); scene.add(tracer); tracer.visible = false;
 
@@ -429,7 +429,7 @@ function render(alpha: number) {
   let mz = 0;
   if (CAM_MODE === 'epaule') for (const i of recImp) { const a = 1 - (simT - DT + alpha * DT - i.t0) / 0.075; if (a > mz) mz = a; }
   muzzleT = Math.max(0, mz);
-  muzzleLight.intensity = 12 * muzzleT * muzzleT;
+  muzzleLight.intensity = 20 * muzzleT * muzzleT;
   const pulse = 0.72 + 0.28 * Math.sin((simT - DT + alpha * DT) * 3.1);
   fistLight.intensity = 2.2 * pulse;
   (fistM.material as THREE.MeshStandardMaterial).emissive.setRGB(0.05 * pulse, 0.12 * pulse, 0.62 * pulse);

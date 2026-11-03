@@ -85,6 +85,10 @@ Une graine différente (`--seed 4`) doit changer les deux. L'éval est elle auss
   bolter (76 mm arrière, 1,09° de nez, ressort amorti) et un flash de bouche de 75 ms qui éclaire les piliers
   et les silhouettes. Le halo du gantelet pulse en bleu. `?impact=0` coupe le tout (et le flash), pour mesurer
   ce que le poids coûte : course verticale 83 mm contre 56 mm, rotation identique.
+- Le flash peint la salle (+11,6/255 sur le sol, +12,5 sur le pilier droit), pas la proie (+1,8) : la lumière
+  est à 1,9 m devant le Terminator, donc tout ce qui est assez près pour l'encaisser est derrière sa propre
+  silhouette. Le Night Lord reste la forme noire **contre** la salle allumée — c'est mesuré, pas choisi
+  (voir `web/models/MANIFESTE.md`).
 - Les ressorts sont évalués en forme fermée au moment du rendu, pas intégrés au pas de 100 ms : sinon le poids
   arrivait par saccades de 10 Hz. Une capture `?shot=` tombe donc exactement sur le tick, à 60 fps tout est lisse.
 - Flou de rotation : 5 prises dans la passe plein écran quand le lacet dépasse le seuil, rien au repos.
