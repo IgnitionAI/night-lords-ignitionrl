@@ -1,11 +1,7 @@
 // Observation du Terminator (ce qu'il perçoit lui-même) et discrétisation de ses actions, pour l'imitation (BC).
 import { type World, type TAction, T_CFG, BEACON, angNorm, dist, terminatorPerceives, beaconHeading, rayFree, MAX_TICKS } from './sim';
 
-export const TOBS_DIM = 29, N_MOVE = 27, N_ATK = 3;
-/** Têtes du fantôme BC factorisé : avancer, pas chassé, pivot, attaque (3 classes chacune). */
-export const BC_HEADS = [3, 3, 3, 3];
-export const moveToHeads = (move: number): [number, number, number] => [Math.floor(move / 9), Math.floor(move / 3) % 3, move % 3];
-export const headsToMove = (f: number, s: number, t: number) => f * 9 + s * 3 + t;
+export const TOBS_DIM = 26, N_MOVE = 27, N_ATK = 3;
 export function tObserve(w: World): number[] {
   const t = w.t, c = Math.cos(t.facing), s = Math.sin(t.facing), o: number[] = [];
   const local = (x: number, y: number): [number, number] => { const dx = x - t.x, dy = y - t.y; return [dx * c + dy * s, -dx * s + dy * c]; };
@@ -17,8 +13,6 @@ export function tObserve(w: World): number[] {
   o.push(rayFree(t.x, t.y, c, s) / 6, rayFree(t.x, t.y, -c, -s) / 6, rayFree(t.x, t.y, -s, c) / 6, rayFree(t.x, t.y, s, -c) / 6);
   const recent = w.tick - t.lastHitTick <= 20; const ha = angNorm(t.lastHitAngle - t.facing);
   o.push(recent ? 1 : 0, recent ? Math.cos(ha) : 0, recent ? Math.sin(ha) : 0);
-  // ajoutés pour le fantôme BC : depuis quand le dernier coup reçu, recharges en cours (le joueur les voit à l'écran)
-  o.push(Math.min(1, (w.tick - t.lastHitTick) / 20), t.boltCd / T_CFG.boltCd, t.fistCd / T_CFG.fistCd);
   return o;
 }
 const sgn = (v: number) => (v > 0 ? 1 : v < 0 ? -1 : 0);
