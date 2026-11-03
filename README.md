@@ -72,7 +72,9 @@ node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|t
 - Télégraphe : un Night Lord dont la griffe est prête (`cd = 0`) et qui est à moins de 6 m voit son liseré de
   silhouette passer du bleu froid au rouge ardent. `?tell=0` le coupe. Il ne dit pas « il est dangereux » mais
   « il peut frapper maintenant » ; la simulation ne donne aucun temps de préparation, la frappe tombe dans le
-  tick où elle est choisie.
+  tick où elle est choisie. 2 ticks d'armement sont décidés côté simulation (Khayon) : quand ils arriveront,
+  le télégraphe se branchera sur l'armement et non sur `cd === 0`, et le build jouable ne sera plus comparable
+  aux mesures b3 (voir `web/models/MANIFESTE.md`).
 - `shots/` : captures 16:9 et 9:16 (prototype du jalon 1)
 - `mesures/`, `jalon1/mesures/`, `runs/*metrics.jsonl` : mesures brutes citées dans les rapports
 
