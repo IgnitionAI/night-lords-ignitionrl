@@ -17,6 +17,33 @@ les modèles, copier les 15 fichiers dans `web/models/` :
 Le chargeur échoue proprement : sans ces fichiers, chaque rôle garde sa capsule et la console signale
 le modèle absent. Le prototype reste jouable.
 
+## Checklist — avant de toucher au chargement
+
+Quatre pièges, tous rencontrés en intégrant ces fichiers. Chacun coûte une heure s'il se découvre à
+l'écran.
+
+1. **`Box3.setFromObject` ment sur un maillage quantifié.** Symptôme : le modèle sort 100 fois trop
+   grand, l'arène est mangée par des formes noires. Cause : `KHR_mesh_quantization` met l'échelle
+   ×0,01 sur le nœud du maillage et les positions dans ±32767 ; `setFromObject` lit la géométrie
+   brute. Correctif : `SkinnedMesh.computeBoundingBox()` (qui applique les os) puis
+   `box.applyMatrix4(mesh.matrixWorld)`. Rend 1,70 m.
+2. **Orientation : les modèles regardent +Z, la simulation regarde +X.** `rotation.y = -facing` seul
+   fait marcher les personnages de travers. Correctif : `rotation.y = π/2` sur le modèle, le groupe
+   garde `-facing`.
+3. **L'échelle se cale sur le collider, pas au goût.** 2,0 m pour un NL (`radius` 0,45), 2,6 m pour
+   le Terminator (`radius` 0,8). Plus grand, le visuel déborde de la boîte de collision, traverse
+   les murs et se chevauche.
+4. **`?shot=` ne reste déterministe que si les mixers avancent d'un `DT`.** Les avancer sur
+   `performance.now()` casse toute comparaison avant/après. Corollaire : la graine de grain de la
+   passe post dépend du temps réel — deux captures ne sont jamais identiques au pixel (l'écart *est*
+   le grain), alors que la simulation l'est.
+
+## Distribution — décision
+
+Les GLB ne rentrent pas dans le dépôt public. Honsou vérifie les termes Genex/Meshy, **Abaddon
+tranche** : un `git add` sur un dépôt public est une décision de conformité, pas de plomberie. Le
+chargeur dégrade proprement vers les capsules, vérifié sur `main` propre.
+
 ## Ce que le code fait
 
 - `GLTFLoader` sur `<role>.glb` (pose + clip de repos) et `<role>-walk.glb` / `<role>-run.glb`.
