@@ -43,7 +43,7 @@ node dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1     # PPO m
 node dist/eval.mjs --pack runs/base/actor.json --n 200                    # taux de victoire, seeds 900000+
 scripts/mesures.sh                                                         # mesures du jalon 1
 cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies/current-full.json
-node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0)
+node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0  ?demo=reveal)
 ```
 
 `policies/` contient la politique b3 (prête pour `node dist/server.mjs`) : `current.json` est `runs/b3@2000` (2 000 mises à jour, seed 3). `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
@@ -109,6 +109,12 @@ Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --see
 - Le pas de la caméra vient de l'**événement de simulation** (`step`, avec son intensité et son pied), plus
   d'un compteur de mètres parcourus : la cadence suit la vitesse par construction, le pied alterne, et le
   pas d'arrêt — le plus lourd — pousse plus fort.
+- Mode démo (`?demo=reveal`) : **mise en scène**, pas une manche jouée. Il place les cinq acteurs et leur donne
+  un script d'actions — quatre ticks de marche, l'armement d'une griffe et une rafale au tick 13 — pour obtenir
+  un plan que la simulation ne produit pas : la salle éclairée par le flash pendant qu'une griffe est armée à
+  1,4 m. Le pas de simulation reste le vrai (`step()` calcule les dégâts, les événements, le bruit) et le HUD
+  affiche « MISE EN SCÈNE » dans l'image. **Aucune capture de ce mode ne se présente comme du jeu joué** ; une
+  démo ne remplace jamais une mesure de graine, elle montre une intention (voir `web/models/MANIFESTE.md`).
 - `shots/` : captures 16:9 et 9:16 (prototype du jalon 1)
 - `mesures/`, `jalon1/mesures/`, `runs/*metrics.jsonl` : mesures brutes citées dans les rapports
 
