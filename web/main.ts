@@ -186,6 +186,117 @@ PILLARS.forEach((b, i) => {
 const beacon = new THREE.Mesh(new THREE.CylinderGeometry(BEACON.r, BEACON.r, 0.1, 32), new THREE.MeshStandardMaterial({ color: 0x3a1a08, emissive: 0xc24a12, emissiveIntensity: 0.85 }));
 beacon.position.set(BEACON.x, 0.05, BEACON.y); scene.add(beacon); const bl = new THREE.PointLight(0xff7a3a, 7, 9, 2); bl.position.set(BEACON.x, 2, BEACON.y); scene.add(bl);
 
+// ================== PROPS SCULPTÉS (Genex) ==================
+// Le décor de #44 est de la géométrie **construite** : il donne l'architecture (tôle, membrures, pilastres),
+// pas les formes qu'un sculpteur produit — l'épave, la tuyauterie, le cadavre. Six props Genex comblent ce
+// trou : débris, caisse, tuyauterie, chaînes, reliquaire, serviteur mort. Barème lu dans l'API : 35 crédits
+// le modèle texturé, 210 pour le lot. Même régime que les personnages — binaires **hors du dépôt** (licence
+// Genex non tranchée), chargés à l'exécution, un prop absent ne casse rien, il manque.
+// `?props=0` rend la scène de #44 tick pour tick ; `?env=0` (grey-box) les coupe aussi, sinon la comparaison
+// grey-box/décor ne voudrait plus rien dire.
+// Un seul appel de rendu par **type** de prop : les instances d'un même modèle partagent géométrie et
+// matériau (`InstancedMesh`), et c'est le seul moyen de poser vingt objets pour six appels.
+const PROPS_ON = qs.get('props') !== '0' && ENV;
+interface PropKind { axis: 'x' | 'y' | 'z'; size: number; dim: number }
+const PROP_KINDS: Record<string, PropKind> = {
+  // `size` = la dimension visée en mètres sur `axis` ; `dim` = facteur d'albedo, comme pour les personnages
+  // (textures calibrées pour un studio, pas pour un couloir à 10 lux).
+  debris: { axis: 'z', size: 1.8, dim: 0.28 },
+  crate: { axis: 'z', size: 1.15, dim: 0.26 },
+  pipes: { axis: 'y', size: 2.4, dim: 0.28 },
+  chains: { axis: 'z', size: 2.6, dim: 0.28 },
+  reliquary: { axis: 'y', size: 2.4, dim: 0.38 },
+  servitor: { axis: 'z', size: 1.5, dim: 0.28 },
+};
+// Tout est posé **contre les murs et le long des piliers**, jamais au milieu : les props ne changent pas la
+// collision (`ARENA`/`PILLARS` de `src/sim.ts`), donc un objet au centre du couloir serait une promesse que
+// le jeu ne tient pas — on le traverserait. Le bord du cadre et la brume, eux, ne mentent pas.
+// `rot` : rotation autour de Y ; le modèle regarde +Z, posé contre la paroi z≈0 il fait donc face à la salle.
+interface PropPlace { kind: string; x: number; z: number; rot: number; y?: number; ceil?: boolean; scale?: number }
+const PROP_PLACES: PropPlace[] = [
+  // Trois familles de supports : les **piliers éclairés** (trois des sept portent une vraie lampe, `i % 3 === 0`),
+  // les **piliers sombres**, et les **parois** mangées par la brume. Un prop est toujours engagé dans son
+  // support : il ne dépasse que de ce qu'on voit, et la collision du pilier le rend infranchissable par
+  // construction — posé au milieu du couloir, on le traverserait, puisque les props ne touchent pas à sim.ts.
+  // Tout ce qui touche le sol reste à l'ouest de x = 26, sauf ce qui est engagé dans P7 : la meute apparaît
+  // dans le rectangle x 26-38 et un Night Lord matérialisé dans une caisse se verrait. Les chaînes pendent à 4,4 m.
+  { kind: 'reliquary', x: 8.9, z: 6.0, rot: -Math.PI / 2 },    // P1 ouest — sous la lampe rouge
+  { kind: 'reliquary', x: 23.6, z: 5.0, rot: -Math.PI / 2 },   // P4 ouest — sous la lampe rouge
+  { kind: 'reliquary', x: 30.6, z: 14.5, rot: -Math.PI / 2 },  // P7 ouest — sous la lampe rouge
+  { kind: 'pipes', x: 13.0, z: 1.0, rot: 0 },                  // paroi sud
+  { kind: 'pipes', x: 20.5, z: 23.0, rot: Math.PI },           // paroi nord
+  { kind: 'pipes', x: 1.0, z: 17.0, rot: Math.PI / 2 },        // paroi ouest
+  { kind: 'chains', x: 10.0, z: 6.0, y: 5.38, rot: 0, ceil: true },   // sous une poutre de plafond (x multiple de 4)
+  { kind: 'chains', x: 18.0, z: 17.0, y: 5.38, rot: 0.7, ceil: true },
+  { kind: 'chains', x: 26.0, z: 9.0, y: 5.38, rot: 1.9, ceil: true },
+  { kind: 'chains', x: 34.0, z: 14.0, y: 5.38, rot: 0.3, ceil: true },
+  { kind: 'crate', x: 10.9, z: 3.3, rot: 0.35 },               // au pied de P1
+  { kind: 'crate', x: 11.45, z: 3.85, rot: 1.15, scale: 0.9 },
+  { kind: 'crate', x: 10.4, z: 2.75, rot: 2.6, scale: 1.05 },
+  { kind: 'crate', x: 23.2, z: 2.6, rot: 2.2 },                // au pied de P4
+  { kind: 'crate', x: 23.9, z: 3.4, rot: 0.8, scale: 0.85 },
+  { kind: 'crate', x: 30.5, z: 12.8, rot: 0.15 },              // au pied de P7
+  { kind: 'debris', x: 8.4, z: 8.6, rot: 0.9 },                // P1, face sud
+  { kind: 'debris', x: 23.3, z: 7.4, rot: 1.3 },               // P4, face sud
+  { kind: 'debris', x: 15.5, z: 22.4, rot: 2.4 },              // paroi nord
+  { kind: 'debris', x: 5.0, z: 1.6, rot: 0.2 },                // paroi sud
+  { kind: 'servitor', x: 30.7, z: 16.1, rot: 0.4 },            // adossé à P7, dans l'ombre de la lampe
+  { kind: 'servitor', x: 1.3, z: 12.0, rot: 0.9 },             // adossé à la paroi ouest
+];
+const PROP_TINT = new THREE.Color(0.74, 0.82, 0.96);
+const propStats = { instances: 0, tris: 0, calls: 0, missing: [] as string[] };
+async function loadProps() {
+  if (!PROPS_ON) return;
+  const byKind = new Map<string, PropPlace[]>();
+  for (const p of PROP_PLACES) { const a = byKind.get(p.kind) ?? []; a.push(p); byKind.set(p.kind, a); }
+  await Promise.all([...byKind].map(async ([kind, places]) => {
+    const spec = PROP_KINDS[kind];
+    let gltf: any;
+    try { gltf = await loadGLB(`/web/models/props/${kind}.glb`); }
+    catch (e) { propStats.missing.push(kind); console.warn(`prop ${kind} absent, la scène reste celle de #44`, e); return; }
+    gltf.scene.updateMatrixWorld(true);
+    let src: any = null;
+    gltf.scene.traverse((o: any) => { if (!src && o.isMesh) src = o; });
+    if (!src) return;
+    const box = new THREE.Box3().setFromObject(gltf.scene);
+    const size = box.getSize(new THREE.Vector3());
+    const k = spec.size / Math.max(size[spec.axis], 1e-4);
+    // modèle -> origine posée au sol (ou au plafond pour ce qui pend), à la taille visée
+    const lift = (places[0].ceil ? -box.max.y : -box.min.y) * k;
+    const norm = new THREE.Matrix4().makeTranslation(0, lift, 0)
+      .multiply(new THREE.Matrix4().makeScale(k, k, k))
+      .multiply(src.matrixWorld);
+    const mat = src.material as THREE.MeshStandardMaterial;
+    if (mat) {
+      // Deux corrections, mesurées à l'œil sur trois captures : l'albedo Genex est calibré pour un studio,
+      // et sa palette tire vers le brun chaud — sous le projecteur du Terminator une caisse devenait un
+      // carton clair. On l'assombrit **et** on le refroidit, comme la coque qui l'entoure.
+      mat.color?.multiplyScalar(spec.dim).multiply(PROP_TINT);
+      mat.envMapIntensity = 0.2;
+      mat.metalness = Math.min(mat.metalness ?? 0.5, 0.35);
+      mat.roughness = Math.max(mat.roughness ?? 0.8, 0.7);
+      mat.fog = true;
+    }
+    const inst = new THREE.InstancedMesh(src.geometry, mat, places.length);
+    const m = new THREE.Matrix4(), q = new THREE.Quaternion(), s = new THREE.Vector3(1, 1, 1), pos = new THREE.Vector3();
+    places.forEach((p, i) => {
+      const j = p.scale ?? 1;
+      q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), p.rot);
+      pos.set(p.x, p.y ?? 0, p.z);
+      s.set(j, j, j);
+      m.compose(pos, q, s).multiply(norm);
+      inst.setMatrixAt(i, m);
+    });
+    inst.instanceMatrix.needsUpdate = true;
+    inst.castShadow = inst.receiveShadow = true;
+    inst.frustumCulled = false; // une instance par modèle : la sphère englobante d'un InstancedMesh ne couvre que l'origine
+    scene.add(inst);
+    propStats.instances += places.length;
+    propStats.calls += 1;
+    const idx = src.geometry.index; propStats.tris += ((idx ? idx.count : src.geometry.attributes.position.count) / 3) * places.length;
+  }));
+}
+
 // ---------- modeles rigges (assets/rigged-opt, 1,21-1,78 Mo piece, 24 os, 1,70 m, face +Z)
 // Le facteur d'echelle est cale sur la hauteur du collider, pas sur un gout : NL radius 0,45 -> 2,0 m de haut,
 // Terminator radius 0,8 -> 2,6 m. Sinon le visuel deborde de la boite de collision et traverse les murs.
@@ -673,8 +784,12 @@ function render(alpha: number) {
   postMat.uniforms.uBlur.value.set(blur, 0);
   postMat.uniforms.uTime.value = performance.now() * 0.001;
   renderer.setRenderTarget(rt); renderer.render(scene, camera);
+  // Compteurs de la passe principale, relevés **avant** la passe plein écran : `renderer.info` se remet à zéro
+  // à chaque `render()`, donc le lire après coup ne compte que le quad final (1 appel, 2 triangles).
+  mainCalls = renderer.info.render.calls; mainTris = renderer.info.render.triangles;
   renderer.setRenderTarget(null); renderer.render(postScene, postCam);
 }
+let mainCalls = 0, mainTris = 0;
 function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = CAM_MODE === 'epaule' ? (innerHeight > innerWidth ? EPAULE.fovPortrait : EPAULE.fov) : (innerHeight > innerWidth ? CAM.fovPortrait : CAM.fov); camera.updateProjectionMatrix();
   const s = renderer.getDrawingBufferSize(new THREE.Vector2()); rt.setSize(s.x, s.y); }
 addEventListener('resize', resize);
@@ -705,7 +820,11 @@ async function loadModels() {
 }
 
 if (debug) buildLabels();
-await Promise.all([loadPolicy(), loadModels(), initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' })]);
+// Sonde de budget : `?debug=1` expose les compteurs de `renderer.info` (appels, triangles, lumières, textures).
+// C'est la seule mesure de coût de rendu qu'on puisse prendre sans GPU — pas une sonde jetable, elle reste.
+if (debug) (window as any).__SC = () => { let lights = 0; scene.traverse(o => { if ((o as any).isLight) lights++; });
+  return { calls: mainCalls, tris: mainTris, lights, textures: renderer.info.memory.textures, geometries: renderer.info.memory.geometries, programs: renderer.info.programs?.length ?? 0, props: { ...propStats } }; };
+await Promise.all([loadPolicy(), loadModels(), loadProps(), initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' })]);
 // Onglet en arrière-plan : le module suspend le contexte, et ne le reprend au retour que s'il tournait.
 audio.attachLifecycle();
 resize(); startRound();
