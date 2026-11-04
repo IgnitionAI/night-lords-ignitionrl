@@ -43,7 +43,7 @@ node dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1     # PPO m
 node dist/eval.mjs --pack runs/base/actor.json --n 200                    # taux de victoire, seeds 900000+
 scripts/mesures.sh                                                         # mesures du jalon 1
 cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies/current-full.json
-node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all)
+node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all  ?props=0)
 ```
 
 `?seed=N` joue **N** (les manches suivantes avancent d'un cran). Avant le 04/11/2026 la première manche
@@ -119,6 +119,14 @@ Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --see
   pas. Tout ce qui se répète est instancié, et les sept lampes rouges des pilastres sont devenues des bandeaux
   émissifs : **quatre lumières en moins** sur cinq maillages skinnés. `?env=0` rend l'ancien grey-box tick pour
   tick, `?lights=all` rend les sept lampes.
+- Six **props sculptés** Genex (débris, caisse, tuyauterie, chaînes, reliquaire, serviteur mort) sont posés en
+  22 instances contre les piliers et les parois, **six appels de rendu** pour les vingt-deux : une
+  `InstancedMesh` par type. Coût mesuré au même tick (t235, graine 18) : **53 → 59 appels, 65 490 → 141 573
+  triangles, aucune lumière de plus**. Les binaires sont **hors du dépôt** (licence Genex non tranchée) comme
+  les personnages ; absents, la scène est celle de #44. `?props=0` la rend tick pour tick (voir `web/PROPS.md`).
+- `?debug=1` publie les compteurs de rendu dans `window.__SC()` — appels, triangles, lumières, textures, et le
+  détail des props. C'est la seule mesure de coût de rendu qu'on puisse prendre sans GPU, et la passe plein écran
+  ne l'écrase pas : le compte est relevé avant elle.
 - Textures : les modèles sont chargés en **512²** quand la variante `<modèle>-512.glb` est présente, ce qui divise
   la VRAM de textures par quatre (80 → 20 Mio) sans écart mesurable au seuil du grain (0,0 % des blocs > 8/255).
   `?tex=1024` force la pleine résolution. La géométrie n'est pas dégradée : elle est bloquée à 8 665 triangles

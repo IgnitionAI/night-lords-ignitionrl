@@ -50,5 +50,6 @@ Ce que ça ne donne pas : les formes organiques qu'un sculpteur produit (tuyaute
 renversées, caillebotis déformé, cadavres). Un pont de vaisseau se prête bien à la boîte ; un décor
 d'épave, non.
 
-Si on veut ces formes-là, il faut un modèle — et donc un budget et une licence à trancher. Le décor actuel
-est la version qui ne demande ni l'un ni l'autre.
+Ces formes-là sont arrivées séparément, en six modèles Genex posés sur cette architecture : voir
+`web/PROPS.md`. Le décor construit reste ce qui tient debout sans crédit ni licence ; les props sont ce
+qu'on ajoute, et qu'on peut retirer d'un `?props=0`.

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head><meta charset="utf-8"><title>Night Lords — props sculptés</title>
+<style>
+  html,body{margin:0;background:#0b0c10;color:#dfe5ef;font:14px/1.5 ui-sans-serif,system-ui,sans-serif}
+  .wrap{width:1600px;margin:0 auto;padding:26px 0 34px}
+  h1{font-size:22px;font-weight:600;margin:0 0 4px;letter-spacing:.2px}
+  .sub{color:#8b93a3;font-size:13px;margin-bottom:22px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+  .cell{position:relative}
+  .cell img{width:100%;display:block;border-radius:3px}
+  .tag{position:absolute;left:8px;top:8px;background:#000a;padding:3px 8px;border-radius:3px;font:12px/1 ui-monospace,monospace;color:#cfd6e2;letter-spacing:.4px}
+  .cap{color:#9aa3b4;font-size:12.5px;margin:2px 0 20px}
+  .mono{font-family:ui-monospace,monospace}
+  .note{border-left:2px solid #2f3644;padding-left:12px;color:#9aa3b4;font-size:12.5px;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Props sculptés — la même image, avec et sans</h1>
+  <div class="sub">Six modèles Genex posés en 22 instances. <span class="mono">?props=0</span> rend la scène de #44 tick pour tick ; <span class="mono">?debug=1</span> publie les compteurs de rendu.</div>
+
+  <div class="row">
+    <div class="cell"><img src="/shots/props/planche/t55-off.jpg"><div class="tag">SANS PROPS · t55 · graine 18</div></div>
+    <div class="cell"><img src="/shots/props/planche/t55-on.jpg"><div class="tag">AVEC PROPS · t55 · graine 18</div></div>
+  </div>
+  <div class="cap">Le projecteur du Terminator tombe sur un tas de tôle déchirée : c'est le seul endroit du cadre où l'on voit la finesse du maillage. La lampe rouge du pilier P1 l'allume par le côté.</div>
+
+  <div class="row">
+    <div class="cell"><img src="/shots/props/planche/t80-off.jpg"><div class="tag">SANS PROPS · t80 · graine 18</div></div>
+    <div class="cell"><img src="/shots/props/planche/t80-on.jpg"><div class="tag">AVEC PROPS · t80 · graine 18</div></div>
+  </div>
+  <div class="cap">Reliquaire engagé dans le pilier P1, sous la seule lampe rouge de ce côté. Le mur derrière le pilier, à gauche, reçoit aussi son ombre portée.</div>
+
+  <div class="row" style="grid-template-columns:1fr">
+    <div class="cell"><img src="/shots/props/planche-genex.jpg"><div class="tag">PLANCHE DES ASSETS · studio neutre, hors jeu</div></div>
+  </div>
+  <div class="cap">Les six modèles tels que Genex les rend, à la taille relative du jeu : débris, caisse, tuyauterie, chaînes, reliquaire, serviteur mort.</div>
+
+  <div class="row" style="grid-template-columns:1fr">
+    <div class="cell"><img src="/shots/props/compare-simplify.jpg"><div class="tag">SIMPLIFICATION · 4 % contre 2,2 %</div></div>
+  </div>
+  <div class="cap">Le maillage brut fait 139 000 à 145 000 triangles par prop ; la scène en supporte 3 000 à 5 700. En haut la version 4 %, en bas la version livrée : la différence ne tient qu'au relief des textures normales.</div>
+
+  <div class="note">Coût mesuré au même tick (t235, graine 18) : <b>53 → 59 appels de rendu</b> (+6), <b>65 490 → 141 573 triangles</b> (×2,16), <b>29 → 47 textures</b>. 1,42 Mo sur disque, 24 Mio de VRAM. Aucune lumière ajoutée.</div>
+</div>
+</body>
+</html>
