@@ -73,6 +73,15 @@ beacon.position.set(BEACON.x, 0.05, BEACON.y); scene.add(beacon); const bl = new
 const NL_HEIGHT = 2.0, TERM_HEIGHT = 2.6;
 const gltfLoader = new GLTFLoader();
 const loadGLB = (url: string) => new Promise<any>((res, rej) => gltfLoader.load(url, res, undefined, rej));
+// LOD de **texture** : c'est le seul levier qui reste sur ces assets, et il est gratuit à l'œil. Les cinq
+// modèles portent 3 textures 1024² chacun, soit 80 Mio de VRAM avec mipmaps ; à 512² ils en font 20, et l'écart
+// mesuré au même tick est de −0,04/255, sous le plancher du grain. `?tex=1024` reprend les fichiers pleine
+// résolution pour comparer. La géométrie n'est pas touchée : elle est bloquée à 8 665 triangles côté outil.
+const TEX = qs.get('tex') === '1024' ? 1024 : 512;
+async function loadModelGLB(name: string) {
+  if (TEX === 512) { try { return await loadGLB(`/web/models/${name}-512.glb`); } catch { /* pas de variante : on prend l'original */ } }
+  return loadGLB(`/web/models/${name}.glb`);
+}
 interface Rig { root: THREE.Object3D; mixer: THREE.AnimationMixer; walk: THREE.AnimationAction | null; run: THREE.AnimationAction | null; idle: THREE.AnimationAction | null; current: THREE.AnimationAction | null; tell: { value: number }; }
 // Box3.setFromObject ignore le skinning : sur un maillage quantifié (KHR_mesh_quantization) il rend 0,02 m
 // au lieu de 1,70 m, et l'échelle devient ×100. On mesure donc la boîte calculée par le skin, transformée
@@ -555,7 +564,7 @@ addEventListener('resize', resize);
 // reste jouable sans réseau ni assets.
 async function loadModels() {
   const load = async (name: string, target: number, dim = 1) => {
-    const model = await loadGLB(`/web/models/${name}.glb`);
+    const model = await loadModelGLB(name);
     const clips: any[] = [...(model.animations ?? [])];
     for (const k of ['walk', 'run']) { try { const a = await loadGLB(`/web/models/${name}-${k}.glb`); clips.push(...(a.animations ?? [])); } catch { /* clip absent, on garde l'idle */ } }
     return rigOf(model, clips, target, dim);
