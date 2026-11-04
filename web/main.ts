@@ -53,16 +53,135 @@ scene.add(new THREE.AmbientLight(0x1b2130, 0.30));
 const keyLight = new THREE.DirectionalLight(0x8fb4e8, 0.85); keyLight.position.set(50, 34, 6); scene.add(keyLight);
 const rimLight = new THREE.DirectionalLight(0x5f7fd0, 1.1); rimLight.position.set(38, 12, 24); scene.add(rimLight);
 const poolLight = new THREE.PointLight(0x8fb0e0, 9, 14, 2); poolLight.position.set(20, 5.5, BEACON.y); scene.add(poolLight);
-const floor = new THREE.Mesh(new THREE.PlaneGeometry(ARENA.w, ARENA.h), new THREE.MeshStandardMaterial({ color: 0x0e1014, metalness: 0.05, roughness: 0.82 }));
+// ================== DÉCOR ==================
+// Le grey-box était un plan, sept boîtes et une grille. Ici, un pont de vaisseau construit : tôle rivetée,
+// membrures, poutres de plafond, panneaux de coque. Tout est **procédural** — aucune texture ni aucun modèle
+// externe, donc pas de crédit dépensé et pas de question de licence — et tout ce qui se répète passe par
+// InstancedMesh : la coque entière coûte une poignée d'appels de rendu.
+// `?env=0` rend l'ancien grey-box, pour la comparaison avant/après. La collision ne bouge pas d'un centimètre :
+// c'est toujours `PILLARS` de la simulation qui décide où l'on passe.
+const ENV = qs.get('env') !== '0';
+const procTex = (size: number, draw: (g: CanvasRenderingContext2D, n: number) => void, repeat: [number, number] = [1, 1]) => {
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const g = c.getContext('2d')!; draw(g, size);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(repeat[0], repeat[1]); t.anisotropy = 4; return t;
+};
+const noiseInto = (g: CanvasRenderingContext2D, n: number, count: number, alpha: number, light: boolean) => {
+  for (let i = 0; i < count; i++) {
+    const v = (Math.random() * 60) | 0;
+    g.fillStyle = light ? `rgba(${180 + v},${185 + v},${195 + v},${alpha})` : `rgba(${v},${v},${v + 4},${alpha})`;
+    g.fillRect(Math.random() * n, Math.random() * n, 1 + Math.random() * 2, 1 + Math.random() * 2);
+  }
+};
+// tôle : fond sombre, plaques de 128, lignes de soudure, rangées de rivets
+const deckMap = procTex(512, (g, n) => {
+  g.fillStyle = '#23282f'; g.fillRect(0, 0, n, n);
+  for (let y = 0; y < n; y += 128) for (let x = 0; x < n; x += 128) {
+    const k = 10 + Math.random() * 12; g.fillStyle = `rgb(${30 + k},${34 + k},${41 + k})`; g.fillRect(x + 2, y + 2, 124, 124);
+  }
+  noiseInto(g, n, 5200, 0.10, false); noiseInto(g, n, 1600, 0.05, true);
+  g.strokeStyle = 'rgba(6,8,10,.85)'; g.lineWidth = 3;
+  for (let y = 0; y <= n; y += 128) { g.beginPath(); g.moveTo(0, y); g.lineTo(n, y); g.stroke(); }
+  for (let x = 0; x <= n; x += 128) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, n); g.stroke(); }
+  for (let y = 16; y < n; y += 128) for (let x = 16; x < n; x += 32) {
+    g.fillStyle = 'rgba(120,128,140,.30)'; g.beginPath(); g.arc(x, y, 2.2, 0, 7); g.fill();
+    g.fillStyle = 'rgba(0,0,0,.45)'; g.beginPath(); g.arc(x + 1, y + 1, 2.4, 0, 7); g.fill();
+  }
+}, [6, 4]);
+// rugosité : les plaques sont mates, les soudures et les rivets accrochent la lumière
+const deckRough = procTex(256, (g, n) => {
+  g.fillStyle = '#c8c8c8'; g.fillRect(0, 0, n, n);
+  noiseInto(g, n, 2600, 0.25, true);
+  g.strokeStyle = 'rgba(168,168,168,.75)'; g.lineWidth = 2;
+  for (let y = 0; y <= n; y += 64) { g.beginPath(); g.moveTo(0, y); g.lineTo(n, y); g.stroke(); }
+  for (let x = 0; x <= n; x += 64) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, n); g.stroke(); }
+}, [6, 4]);
+deckRough.colorSpace = THREE.NoColorSpace;
+const wallMap = procTex(256, (g, n) => {
+  g.fillStyle = '#2a3038'; g.fillRect(0, 0, n, n);
+  for (let y = 0; y < n; y += 64) { const k = 10 + Math.random() * 12; g.fillStyle = `rgb(${40 + k},${44 + k},${52 + k})`; g.fillRect(1, y + 1, n - 2, 62); }
+  noiseInto(g, n, 2600, 0.12, false);
+  g.fillStyle = 'rgba(0,0,0,.5)'; for (let y = 0; y < n; y += 64) g.fillRect(0, y, n, 2);
+}, [6, 2]);
+
+const deckMat = new THREE.MeshStandardMaterial({ map: deckMap, roughnessMap: deckRough, color: 0xd9dee6, metalness: 0.18, roughness: 1 });
+const hullMat = new THREE.MeshStandardMaterial({ map: wallMap, color: 0x8e97a6, metalness: 0.35, roughness: 0.68 });
+const ribMat = new THREE.MeshStandardMaterial({ color: 0x2a2f38, metalness: 0.7, roughness: 0.45 });
+
+const floorMat = ENV ? deckMat : new THREE.MeshStandardMaterial({ color: 0x0e1014, metalness: 0.05, roughness: 0.82 });
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(ARENA.w, ARENA.h), floorMat);
 floor.rotation.x = -Math.PI / 2; floor.position.set(ARENA.w / 2, 0, ARENA.h / 2); floor.receiveShadow = true; scene.add(floor);
-// La grille etait le seul repere d'echelle du grey-box ; a hauteur d'homme elle dessine un plateau de jeu.
-// Gardee derriere ?grid=1 pour le travail sur la geometrie.
+// La grille était le seul repère d'échelle du grey-box ; gardée derrière ?grid=1.
 const grid = new THREE.GridHelper(40, 40, 0x2a2f3a, 0x15181f); grid.position.set(20, 0.01, 20); grid.scale.set(1, 1, 0.6);
 if (qs.get('grid') === '1') scene.add(grid);
-const wallMat = new THREE.MeshStandardMaterial({ color: 0x2b2e36, metalness: 0.5, roughness: 0.6 });
-for (const b of PILLARS) { const m = new THREE.Mesh(new THREE.BoxGeometry(b.x1 - b.x0, 4, b.y1 - b.y0), wallMat); m.position.set((b.x0 + b.x1) / 2, 2, (b.y0 + b.y1) / 2); m.castShadow = m.receiveShadow = true; scene.add(m);
-  const lamp = new THREE.PointLight(0xff2a1a, 11, 11, 2); lamp.position.set((b.x0 + b.x1) / 2, 3.6, b.y0 - 0.3); scene.add(lamp); }
-for (const [w, d, x, z] of [[ARENA.w, 0.4, ARENA.w / 2, -0.2], [ARENA.w, 0.4, ARENA.w / 2, ARENA.h + 0.2], [0.4, ARENA.h, -0.2, ARENA.h / 2], [0.4, ARENA.h, ARENA.w + 0.2, ARENA.h / 2]]) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, 1.2, d), wallMat); m.position.set(x, 0.6, z); scene.add(m); }
+const wallMat = ENV ? hullMat : new THREE.MeshStandardMaterial({ color: 0x2b2e36, metalness: 0.5, roughness: 0.6 });
+const unitBox = new THREE.BoxGeometry(1, 1, 1);
+const inst = (mat: THREE.Material, mats: THREE.Matrix4[], cast = true) => {
+  const m = new THREE.InstancedMesh(unitBox, mat, mats.length);
+  mats.forEach((mx, i) => m.setMatrixAt(i, mx));
+  m.instanceMatrix.needsUpdate = true; m.castShadow = cast; m.receiveShadow = true; scene.add(m); return m;
+};
+const M = (x: number, y: number, z: number, sx: number, sy: number, sz: number) =>
+  new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion(), new THREE.Vector3(sx, sy, sz));
+
+if (ENV) {
+  // membrures de pont : une nervure tous les 3 m dans le sens de la largeur, + les deux lisses de rive
+  const ribs: THREE.Matrix4[] = [];
+  for (let x = 1.5; x < ARENA.w; x += 3) ribs.push(M(x, 0.035, ARENA.h / 2, 0.16, 0.07, ARENA.h));
+  ribs.push(M(ARENA.w / 2, 0.09, 0.55, ARENA.w, 0.18, 0.9), M(ARENA.w / 2, 0.09, ARENA.h - 0.55, ARENA.w, 0.18, 0.9));
+  for (let x = 1.5; x < ARENA.w; x += 2.5) ribs.push(M(x, 2.9, 0.1, 0.16, 5.8, 0.14), M(x, 2.9, ARENA.h - 0.1, 0.16, 5.8, 0.14));
+  for (let z = 1.5; z < ARENA.h; z += 2.5) ribs.push(M(0.1, 2.9, z, 0.14, 5.8, 0.16), M(ARENA.w - 0.1, 2.9, z, 0.14, 5.8, 0.16));
+  inst(ribMat, ribs);
+  // poutres de plafond : elles ferment le cadre et donnent l'occlusion qui manquait au grey-box
+  const beams: THREE.Matrix4[] = [];
+  for (let x = 2; x < ARENA.w; x += 4) beams.push(M(x, 5.55, ARENA.h / 2, 0.34, 0.34, ARENA.h));
+  beams.push(M(ARENA.w / 2, 5.55, 1.2, ARENA.w, 0.42, 0.42), M(ARENA.w / 2, 5.55, ARENA.h - 1.2, ARENA.w, 0.42, 0.42));
+  inst(ribMat, beams);
+  // plafond
+  const ceil = new THREE.Mesh(new THREE.PlaneGeometry(ARENA.w, ARENA.h), new THREE.MeshStandardMaterial({ color: 0x0d1015, metalness: 0.1, roughness: 0.95, side: THREE.DoubleSide }));
+  ceil.rotation.x = Math.PI / 2; ceil.position.set(ARENA.w / 2, 5.75, ARENA.h / 2); scene.add(ceil);
+}
+// Pilastres : socle, fût, chapiteau — la même boîte unitaire, une instance par bloc. La collision reste celle
+// de `PILLARS` ; ce qui change est ce qu'on voit d'elle.
+const shaftM: THREE.Matrix4[] = [], plinthM: THREE.Matrix4[] = [], capM: THREE.Matrix4[] = [], ribVM: THREE.Matrix4[] = [];
+for (const b of PILLARS) {
+  const w = b.x1 - b.x0, d = b.y1 - b.y0, cx = (b.x0 + b.x1) / 2, cz = (b.y0 + b.y1) / 2;
+  shaftM.push(M(cx, 2, cz, w, 4, d));
+  if (ENV) {
+    plinthM.push(M(cx, 0.14, cz, w + 0.5, 0.28, d + 0.5));
+    capM.push(M(cx, 4.15, cz, w + 0.4, 0.3, d + 0.4));
+    // nervures verticales sur les quatre faces : six par face, c'est ce qui donne l'échelle
+    for (let t = -1; t <= 1; t += 2) {
+      for (let k = -1; k <= 1; k++) ribVM.push(M(cx + t * (w / 2 + 0.06), 2.1, cz + k * (d / 2) * 0.62, 0.12, 3.7, 0.22));
+      for (let k = -1; k <= 1; k++) ribVM.push(M(cx + k * (w / 2) * 0.62, 2.1, cz + t * (d / 2 + 0.06), 0.22, 3.7, 0.12));
+    }
+  }
+}
+inst(wallMat, shaftM);
+if (ENV) { inst(ribMat, plinthM); inst(ribMat, capM); inst(ribMat, ribVM); }
+// coque périphérique : panneaux hauts, pour qu'on ne voie plus le vide derrière les piliers
+for (const [w, d, x, z] of [[ARENA.w, 0.4, ARENA.w / 2, -0.2], [ARENA.w, 0.4, ARENA.w / 2, ARENA.h + 0.2], [0.4, ARENA.h, -0.2, ARENA.h / 2], [0.4, ARENA.h, ARENA.w + 0.2, ARENA.h / 2]]) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, ENV ? 5.8 : 1.2, d), wallMat);
+  m.position.set(x, ENV ? 2.9 : 0.6, z); m.castShadow = m.receiveShadow = true; scene.add(m);
+}
+// Bandes de secours : de l'émissif, pas des sources de lumière. Sept lampes ponctuelles coûtaient sept
+// éclairages par pixel sur cinq maillages skinnés ; ici la lueur rouge est peinte, et seules deux vraies
+// lampes éclairent la scène (`?lights=all` rend les sept, pour comparer).
+const stripMat = new THREE.MeshStandardMaterial({ color: 0x1a0b06, emissive: 0xff6a2a, emissiveIntensity: 0.55, fog: true });
+if (ENV) {
+  // Un bandeau courbé sous l'arête de chaque pilastre, et des veilleuses de plafond de 1,2 m. Rien de travers
+  // dans le cadre : une bande émissive de 12 m à 1,5 d'intensité devenait un néon rouge qui mangeait la scène.
+  const strips: THREE.Matrix4[] = [];
+  for (const b of PILLARS) strips.push(M((b.x0 + b.x1) / 2, 3.32, b.y0 - 0.26, (b.x1 - b.x0) * 0.5, 0.045, 0.045));
+  for (let x = 4; x < ARENA.w; x += 8) strips.push(M(x, 5.45, ARENA.h / 2 - 3.2, 1.2, 0.05, 0.08), M(x, 5.45, ARENA.h / 2 + 3.2, 1.2, 0.05, 0.08));
+  inst(stripMat, strips, false);
+}
+const ALL_LIGHTS = qs.get('lights') === 'all';
+PILLARS.forEach((b, i) => {
+  if (ENV && !ALL_LIGHTS && i % 3 !== 0) return; // deux vraies lampes sur sept suffisent avec les bandes
+  const lamp = new THREE.PointLight(0xff2a1a, 11, 11, 2); lamp.position.set((b.x0 + b.x1) / 2, 3.6, b.y0 - 0.3); scene.add(lamp);
+});
 // Rayon de téléportation : une braise, pas un néon. Le vert saturait à 255 et devenait l'objet le plus attractif du plateau.
 const beacon = new THREE.Mesh(new THREE.CylinderGeometry(BEACON.r, BEACON.r, 0.1, 32), new THREE.MeshStandardMaterial({ color: 0x3a1a08, emissive: 0xc24a12, emissiveIntensity: 0.85 }));
 beacon.position.set(BEACON.x, 0.05, BEACON.y); scene.add(beacon); const bl = new THREE.PointLight(0xff7a3a, 7, 9, 2); bl.position.set(BEACON.x, 2, BEACON.y); scene.add(bl);
