@@ -297,7 +297,10 @@ function startRound() {
 }
 function playerAction(): TAction {
   const k = (c: string) => keys.has(c);
-  return { fwd: (k('KeyW') ? 1 : 0) - (k('KeyS') ? 1 : 0), strafe: (k('KeyA') ? 1 : 0) - (k('KeyD') ? 1 : 0), turn: (k('ArrowRight') ? 1 : 0) - (k('ArrowLeft') ? 1 : 0), bolt: k('Space'), fist: k('KeyF') || k('ShiftLeft') };
+  // `e.code` est la touche **physique** : sur un clavier AZERTY, la touche marquée Z est `KeyW`, et celle
+  // marquée A est `KeyQ`. Le bandeau annonçait « ZQSD/WASD » depuis le début alors que Z et Q ne faisaient
+  // rien : sur un Mac français, avancer et aller à gauche étaient muets. On accepte les deux nomenclatures.
+  return { fwd: (k('KeyW') || k('KeyZ') ? 1 : 0) - (k('KeyS') ? 1 : 0), strafe: (k('KeyA') || k('KeyQ') ? 1 : 0) - (k('KeyD') ? 1 : 0), turn: (k('ArrowRight') ? 1 : 0) - (k('ArrowLeft') ? 1 : 0), bolt: k('Space'), fist: k('KeyF') || k('ShiftLeft') };
 }
 function floatText(x: number, y: number, text: string, color: string) {
   const v = new THREE.Vector3(x, 2.5, y).project(camera); const el = document.createElement('div'); el.className = 'float'; el.textContent = text; el.style.color = color;
