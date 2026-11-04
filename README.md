@@ -43,7 +43,7 @@ node dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1     # PPO m
 node dist/eval.mjs --pack runs/base/actor.json --n 200                    # taux de victoire, seeds 900000+
 scripts/mesures.sh                                                         # mesures du jalon 1
 cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies/current-full.json
-node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024)
+node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all)
 ```
 
 `?seed=N` joue **N** (les manches suivantes avancent d'un cran). Avant le 04/11/2026 la première manche
@@ -114,6 +114,11 @@ Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --see
   draw call, aucun triangle, aucune lumière de plus : c'est l'émissif du matériau de l'armure. `?alarme=0`
   coupe l'effet et sa ligne de HUD (mesure avant/après). Sous 25 % d'armure, une seule fois par manche, le HUD
   passe à « servos critiques ».
+- Le décor est un **pont de vaisseau construit** (tôle rivetée, membrures, poutres, coque à nervures), pas le
+  grey-box d'origine : `web/DECOR.md` donne la liste, le budget (29 appels, 64 798 triangles) et ce qu'il n'est
+  pas. Tout ce qui se répète est instancié, et les sept lampes rouges des pilastres sont devenues des bandeaux
+  émissifs : **quatre lumières en moins** sur cinq maillages skinnés. `?env=0` rend l'ancien grey-box tick pour
+  tick, `?lights=all` rend les sept lampes.
 - Textures : les modèles sont chargés en **512²** quand la variante `<modèle>-512.glb` est présente, ce qui divise
   la VRAM de textures par quatre (80 → 20 Mio) sans écart mesurable au seuil du grain (0,0 % des blocs > 8/255).
   `?tex=1024` force la pleine résolution. La géométrie n'est pas dégradée : elle est bloquée à 8 665 triangles
