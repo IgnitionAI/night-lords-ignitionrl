@@ -213,6 +213,21 @@ Ce qui sépare, c'est un seuil que le grain ne franchit jamais — **> 8/255** :
 3,0 à 3,5 % pour le télégraphe, 7,4 % pour le flash. Un maximum isolé n'est pas une mesure ; un comptage de
 blocs au-dessus d'un seuil que le bruit ne franchit pas en est une.
 
+**Le LOD de texture est livré, et il est gratuit.** Les cinq modèles portent trois textures 1024² chacun : 80 Mio
+de VRAM avec mipmaps, contre 20 Mio en 512² — soit **103,9 → 43,9 Mio** au total avec la géométrie. Les variantes
+s'appellent `<modèle>-512.glb`, le chargeur les préfère par défaut et retombe sur l'original quand elles sont
+absentes ; `?tex=1024` reprend les fichiers pleine résolution pour comparer.
+
+| au seuil qui sépare du grain (> 8/255) | écart moyen | > 8 | > 2 |
+|---|---:|---:|---:|
+| 512 vs 1024, NL au contact (t225, graine 6) | −0,03 /255 | **0,0 %** | 6,5 % |
+| 512 vs 1024, meute à 2 m (t235, graine 18) | −0,06 /255 | **0,0 %** | 7,0 % |
+| plancher de grain, même URL deux fois | 0,00 /255 | 0,0 % | 5,4–6,1 % |
+
+Autrement dit : au seuil où le grain ne passe jamais, le LOD de texture est indiscernable. La géométrie, elle,
+n'est pas touchée — elle reste bloquée à 8 665 triangles côté outil, pour la raison déjà écrite (2,0 sommets par
+triangle sur des maillages facettés).
+
 **Une fréquence qui ne se lit pas scintille.** L'alarme de servo bat dans les plaques du Terminator. Réglée
 d'abord à 8 Hz, elle ne dessinait aucun battement : la simulation avance par pas de 0,1 s, donc à 10 Hz, et une
 intensité plus rapide que l'échantillonnage saute d'un tick à l'autre au lieu de pulser. À **2,5 Hz** (période
