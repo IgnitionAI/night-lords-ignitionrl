@@ -21,6 +21,12 @@ export function qualityFor(width: number, requested?: string | null): Quality {
   return width < 700 ? 'low' : 'high';
 }
 
+export function flashFor(reducedMotion: boolean) {
+  return reducedMotion
+    ? { intensity: 22, duration: 65, tracerDuration: 55 }
+    : { intensity: 75, duration: 105, tracerDuration: 90 };
+}
+
 export function percentiles(samples: number[]) {
   if (!samples.length) return { median: 0, p95: 0, p99: 0, count: 0 };
   const sorted = [...samples].sort((a, b) => a - b);

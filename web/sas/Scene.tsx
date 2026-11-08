@@ -6,7 +6,7 @@ import { Line } from '@react-three/drei';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone as cloneSkeleton } from 'three/examples/jsm/utils/SkeletonUtils.js';
-import { INITIAL_CRATES, impulseFor, percentiles, type Quality } from './physics';
+import { INITIAL_CRATES, flashFor, impulseFor, percentiles, type Quality } from './physics';
 
 export type BodyState = { position: { x: number; y: number; z: number }; rotation: { x: number; y: number; z: number; w: number } };
 export type SasDiagnostics = {
@@ -175,8 +175,9 @@ function World({ assets, quality, reducedMotion, onFire, fireRef, resetRef, onRe
   useFrame(() => {
     gl.info.reset();
     const elapsed = performance.now() - lastShot.current;
-    if (flash.current) flash.current.intensity = elapsed < 105 ? 75 * (1 - elapsed / 105) : 0;
-    if (tracer.current) tracer.current.visible = elapsed < 90;
+    const flashParams = flashFor(reducedMotion);
+    if (flash.current) flash.current.intensity = elapsed < flashParams.duration ? flashParams.intensity * (1 - elapsed / flashParams.duration) : 0;
+    if (tracer.current) tracer.current.visible = elapsed < flashParams.tracerDuration;
     if (performance.now() - start.current > 1200) {
       frameTimes.current.push(useFrameClock.delta * 1000);
       if (frameTimes.current.length > 600) frameTimes.current.shift();

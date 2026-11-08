@@ -6,9 +6,10 @@ import { qualityFor, type Quality } from './physics';
 
 declare global { interface Window { __SAS?: SasDiagnostics } }
 
-class WebGLBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+class WebGLBoundary extends Component<{ children: ReactNode; onFailure: () => void }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
+  componentDidCatch() { this.props.onFailure(); }
   render() {
     if (this.state.failed) return <div className="error"><div><h1>Le Sas</h1><p>WebGL n’est pas disponible dans ce navigateur.<br />La démo nécessite un navigateur avec accélération graphique.</p></div></div>;
     return this.props.children;
@@ -39,7 +40,7 @@ export function App() {
   }, [fire, reset]);
 
   return <main className="stage">
-    <WebGLBoundary>{!failed && <Canvas
+    <WebGLBoundary onFailure={() => setFailed(true)}>{!failed && <Canvas
       shadows={quality === 'high'}
       dpr={quality === 'high' ? Math.min(devicePixelRatio, 1.5) : 1}
       camera={{ position: [3.7, 3.15, 8.7], fov: innerWidth < 650 ? 66 : 53, near: 0.1, far: 80 }}

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { INITIAL_CRATES, impulseFor, percentiles, qualityFor } from '../web/sas/physics';
+import { INITIAL_CRATES, flashFor, impulseFor, percentiles, qualityFor } from '../web/sas/physics';
 
 describe('Le Sas — contrat physique pur', () => {
   test('sept caisses, une impulsion finie et dirigée vers le sas pour chacune', () => {
@@ -22,6 +22,12 @@ describe('Le Sas — contrat physique pur', () => {
     expect(qualityFor(390)).toBe('low');
     expect(qualityFor(1440)).toBe('high');
     expect(qualityFor(390, 'high')).toBe('high');
+  });
+  test('reduced motion réduit intensité et durée du flash', () => {
+    const normal = flashFor(false), reduced = flashFor(true);
+    expect(reduced.intensity).toBeLessThan(normal.intensity);
+    expect(reduced.duration).toBeLessThan(normal.duration);
+    expect(reduced.tracerDuration).toBeLessThan(normal.tracerDuration);
   });
   test('les percentiles sont calculés sur la fenêtre réelle', () => {
     expect(percentiles([10, 20, 30, 40])).toEqual({ median: 20, p95: 40, p99: 40, count: 4 });
