@@ -1,4 +1,8 @@
-{ "name": "night-lords-proto", "private": true, "license": "MIT", "type": "module",
+{
+  "name": "night-lords-proto",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "bun run build:web && bun run build:node",
@@ -6,6 +10,24 @@
     "build:node": "bun build.mjs",
     "start": "bun dist/server.mjs",
     "test": "bun test test/",
-    "sweep:noise": "bun scripts/sweep-noise.ts" },
-  "dependencies": { "@tensorflow/tfjs-node": "4.22.0", "three": "0.162.0", "esbuild": "0.24.0" },
-  "devDependencies": { "vite": "7.3.7" } }
+    "sweep:noise": "bun scripts/sweep-noise.ts"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
+    "@react-three/postprocessing": "^3.2.2",
+    "@react-three/rapier": "^2.2.0",
+    "@tensorflow/tfjs-node": "4.22.0",
+    "esbuild": "0.24.0",
+    "postprocessing": "^6.39.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "three": "0.162.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "5.1.4",
+    "vite": "7.3.7"
+  }
+}
