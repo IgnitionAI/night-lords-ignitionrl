@@ -176,7 +176,7 @@ export function runMeasure(opts: {
     fullTrain: {
       status: 'not-started',
       reason: 'le harnais smoke refuse les jobs PPO longs ; voir docs/PROTOCOLE-MESURE-NN.md',
-      command: 'node dist/train.mjs --updates 2000 --envs 32 --out runs/NEW_RUN_ID --seed TRAIN_SEED',
+      command: 'bun dist/train.mjs --updates 2000 --envs 32 --out runs/NEW_RUN_ID --seed TRAIN_SEED',
     },
     wallSeconds: +((performance.now() - t0) / 1000).toFixed(3),
   };
@@ -220,10 +220,10 @@ export function parseHarnessArgs(argv: string[]): {
   const mode = parseMode(modeRaw);
   const n = Number(args.n ?? SMOKE_N);
   if (!Number.isFinite(n) || n < 1 || n > SMOKE_MAX_N) {
-    throw new Error(`n=${n} hors smoke (1..${SMOKE_MAX_N}) ; une éval complète passe par node dist/eval.mjs, pas par ce harnais`);
+    throw new Error(`n=${n} hors smoke (1..${SMOKE_MAX_N}) ; une éval complète passe par bun dist/eval.mjs, pas par ce harnais`);
   }
   if (args.updates !== undefined || args.train === 'true') {
-    throw new Error('entraînement refusé : ce harnais ne lance pas PPO (voir protocole, node dist/train.mjs hors chemins gelés)');
+    throw new Error('entraînement refusé : ce harnais ne lance pas PPO (voir protocole, bun dist/train.mjs hors chemins gelés)');
   }
   return {
     mode,

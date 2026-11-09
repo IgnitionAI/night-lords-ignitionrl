@@ -1,5 +1,5 @@
 // Harnais de mesure NN : idempotence sur une graine, et interdiction d'écraser les artefacts b3 gelés.
-// Exécution : `node --import tsx --test test/nn-harness.test.ts` (aucun entraînement PPO, aucun tfjs).
+// Exécution : `bun test test/nn-harness.test.ts` (aucun entraînement PPO, aucun tfjs).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';

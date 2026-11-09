@@ -2,7 +2,7 @@
 
 Protocole auditable pour entraîner et évaluer la meute (4 Night Lords, politique partagée, Terminator scripté) **sans écraser** la référence gelée **b3**.
 
-La langue de travail du dépôt est le français ; ce document est la source de vérité. English: this is the measurement contract for any future PPO run. Do not overwrite `policies/` or `mesures/eval-b3.json`. Smoke only: `node --import tsx scripts/nn-harness.ts`.
+La langue de travail du dépôt est le français ; ce document est la source de vérité. English: this is the measurement contract for any future PPO run. Do not overwrite `policies/` or `mesures/eval-b3.json`. Smoke only: `bun run nn:smoke`.
 
 ## 1. Référence gelée (b3)
 
@@ -38,13 +38,13 @@ Adversaires (mêmes noms que b3) :
 
 1. **Entraîner** (job long, **hors** de ce harnais smoke) :
    ```sh
-   npm run build            # Vite (navigateur) + esbuild Node ; `node build.mjs` seul affiche « build node ok »
-   node dist/train.mjs --updates 2000 --envs 32 --out runs/NEW_RUN_ID --seed TRAIN_SEED
+   bun run build            # Vite (navigateur) + esbuild Node ; `bun build.mjs` seul affiche « build node ok »
+   bun dist/train.mjs --updates 2000 --envs 32 --out runs/NEW_RUN_ID --seed TRAIN_SEED
    ```
    Seeds d'entraînement : **1..899999**. L'éval réserve **900000+**. La garde C utilise **850000+**. Ne pas réutiliser la seed 3 si on veut une barre d'erreur **entre runs** ; la réutiliser seulement pour une **relecture** de b3 (reproductibilité, encore non prouvée à 2 000 MàJ — voir README).
 2. **Évaluer** dans un fichier **nouveau** :
    ```sh
-   node dist/eval.mjs --pack runs/NEW_RUN_ID/actor.json --n 200 --seedBase 900000 --out mesures/nn/NEW_RUN_ID/eval.json
+   bun dist/eval.mjs --pack runs/NEW_RUN_ID/actor.json --n 200 --seedBase 900000 --out mesures/nn/NEW_RUN_ID/eval.json
    ```
    Pas de `--claw-windup` (ou `--claw-windup false`).
 3. **Comparer à b3** par lecture, jamais par écrasement :
@@ -60,9 +60,9 @@ Hyperparamètres de référence (`src/ppo.ts` `DEFAULT_PPO`, `src/train.ts`) : `
 Commande courte, **une graine**, quelques parties, timeout humain ~2 min :
 
 ```sh
-npm run nn:smoke
+bun run nn:smoke
 # équivalent explicite :
-node --import tsx scripts/nn-harness.ts --n 3 --opps march --seedBase 910000 --pack policies/current.json --out mesures/nn-scratch/smoke.json
+bun scripts/nn-harness.ts --n 3 --opps march --seedBase 910000 --pack policies/current.json --out mesures/nn-scratch/smoke.json
 ```
 
 - Graines smoke : **910000+** (ne recouvrent pas l'éval publiée).
@@ -108,8 +108,8 @@ Une politique candidate **n'est pas** copiée dans `policies/` tant que la compa
 ## 7. Avant un vrai run d'entraînement
 
 - Machine au repos : garde `src/guard.ts` (load, inodes, un seul `train.mjs`).
-- `npm test` vert ; `npm run build` (Vite + `build:node`) vert — `node build.mjs` seul n'émet plus le bundle navigateur (`build node ok`).
-- `node --import tsx scripts/measure-stride.ts` inchangé (locomotion hors protocole NN).
+- `bun test test/` vert ; `bun run build` (Vite + `build:node`) vert — `bun build.mjs` seul n'émet plus le bundle navigateur (`build node ok`).
+- `bun scripts/measure-stride.ts` inchangé (locomotion hors protocole NN).
 - Choisir `NEW_RUN_ID` et `TRAIN_SEED` ≠ chemins gelés.
 - Prévoir l'éval 7×200 parties **après** le run, fichier nouveau.
 - Ne pas toucher `NL_CFG.speed`, `T_CFG.fwd`, pas de sprint Terminator, pas de nouvel asset Genex.
