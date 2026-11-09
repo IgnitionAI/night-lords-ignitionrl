@@ -65,8 +65,8 @@ vers les capsules si un modèle est absent.
 - `GLTFLoader` sur `<role>.glb` (pose + clip de repos) et `<role>-walk.glb` / `<role>-run.glb`.
 - Un `AnimationMixer` par personnage, avancé de `DT` dans `tick()` — pas du temps réel, donc une
   capture `?shot=N` donne la même pose à chaque fois.
-- Passage marche/course selon le déplacement réel du personnage ; fondu de 0,15 s. Le Terminator suit
-  `t.moving`, les Night Lords leur delta de position.
+- Passage marche/course selon la vitesse effective ; fondu de 0,15 s. Un NL étourdi (`stunSpeed`)
+  tombe dans la bande marche ; le Terminator n'a pas de vitesse de course dans la sim.
 - Échelle mesurée, pas devinée : les maillages sont quantifiés (`KHR_mesh_quantization`), et
   `Box3.setFromObject` rend 0,02 m au lieu de 1,70 m — c'est la boîte calculée par le skin
   (`SkinnedMesh.computeBoundingBox`) transformée par la matrice monde qui donne 1,70 m. Hauteur cible
@@ -256,5 +256,5 @@ jamais au pixel.
   environnement (pas de GPU, rendu logiciel à 6–10 fps non transposable). À relever sur une vraie
   machine ; si le cadre passe sous 60 fps, le plan B est un LOD de modèle, **pas** la suppression des
   ombres (elles portent la lecture des silhouettes).
-- Synchronisation pied/sol : les clips sont joués à `timeScale = 1` (course 0,67 s, marche 1,07 s) sans
-  recalage sur la vitesse réelle (6 m/s et 2,5 m/s). Un glissement est visible de près.
+- Synchronisation pied/sol : `timeScale = v · T / foulée` (foulée skinée au sol, même échelle que le
+  chargeur). Le déplacement monde reste celui de la sim ; les clips n'ont pas de root motion horizontal.
