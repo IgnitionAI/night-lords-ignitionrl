@@ -1,4 +1,11 @@
 { "name": "night-lords-proto", "private": true, "license": "MIT", "type": "module",
-  "scripts": { "test": "node --require ./tools/util-shim.cjs --import tsx --test test/hunter-state.test.ts test/determinism.test.ts test/claw-windup.test.ts test/inertia.test.ts test/eval-claw-windup.test.ts test/weapons.test.ts test/damage-feedback.test.ts test/props.test.ts test/locomotion.test.ts test/match-feel.test.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run build:web && npm run build:node",
+    "build:web": "vite build",
+    "build:node": "node build.mjs",
+    "start": "node dist/server.mjs",
+    "test": "node --require ./tools/util-shim.cjs --import tsx --test test/hunter-state.test.ts test/determinism.test.ts test/claw-windup.test.ts test/inertia.test.ts test/eval-claw-windup.test.ts test/weapons.test.ts test/damage-feedback.test.ts test/props.test.ts test/locomotion.test.ts test/match-feel.test.ts",
     "sweep:noise": "node --import tsx scripts/sweep-noise.ts" },
-  "dependencies": { "@tensorflow/tfjs-node": "4.22.0", "three": "0.162.0", "esbuild": "0.24.0", "tsx": "4.19.2" } }
+  "dependencies": { "@tensorflow/tfjs-node": "4.22.0", "three": "0.162.0", "esbuild": "0.24.0", "tsx": "4.19.2" },
+  "devDependencies": { "vite": "7.3.7" } }
