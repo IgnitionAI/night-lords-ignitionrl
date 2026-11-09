@@ -38,7 +38,7 @@ Adversaires (mêmes noms que b3) :
 
 1. **Entraîner** (job long, **hors** de ce harnais smoke) :
    ```sh
-   node build.mjs
+   npm run build            # Vite (navigateur) + esbuild Node ; `node build.mjs` seul affiche « build node ok »
    node dist/train.mjs --updates 2000 --envs 32 --out runs/NEW_RUN_ID --seed TRAIN_SEED
    ```
    Seeds d'entraînement : **1..899999**. L'éval réserve **900000+**. La garde C utilise **850000+**. Ne pas réutiliser la seed 3 si on veut une barre d'erreur **entre runs** ; la réutiliser seulement pour une **relecture** de b3 (reproductibilité, encore non prouvée à 2 000 MàJ — voir README).
@@ -60,7 +60,7 @@ Hyperparamètres de référence (`src/ppo.ts` `DEFAULT_PPO`, `src/train.ts`) : `
 Commande courte, **une graine**, quelques parties, timeout humain ~2 min :
 
 ```sh
-node --import tsx scripts/nn-harness.ts
+npm run nn:smoke
 # équivalent explicite :
 node --import tsx scripts/nn-harness.ts --n 3 --opps march --seedBase 910000 --pack policies/current.json --out mesures/nn-scratch/smoke.json
 ```
@@ -108,7 +108,7 @@ Une politique candidate **n'est pas** copiée dans `policies/` tant que la compa
 ## 7. Avant un vrai run d'entraînement
 
 - Machine au repos : garde `src/guard.ts` (load, inodes, un seul `train.mjs`).
-- `npm test` vert, `node build.mjs` → `build ok`.
+- `npm test` vert ; `npm run build` (Vite + `build:node`) vert — `node build.mjs` seul n'émet plus le bundle navigateur (`build node ok`).
 - `node --import tsx scripts/measure-stride.ts` inchangé (locomotion hors protocole NN).
 - Choisir `NEW_RUN_ID` et `TRAIN_SEED` ≠ chemins gelés.
 - Prévoir l'éval 7×200 parties **après** le run, fichier nouveau.
