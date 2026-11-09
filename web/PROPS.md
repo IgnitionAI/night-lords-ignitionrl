@@ -15,7 +15,7 @@ Six modèles générés le 04/11/2026 par Genex (`kind: model`, prompt texte, te
 | prop | rôle dans la scène | instances | triangles | sur disque |
 |---|---|---:|---:|---:|
 | `debris` | tas de tôle déchirée et de membrures tordues | 4 | 3 537 | 0,24 Mo |
-| `crate` | caisse d'armement renforcée, peinture écaillée | 5 | 3 064 | 0,19 Mo |
+| `crate` | caisse d'armement renforcée, peinture écaillée | 6 | 3 064 | 0,19 Mo |
 | `pipes` | rameau de tuyauterie industrielle, vannes et manomètres | 3 | 4 271 | 0,24 Mo |
 | `chains` | grappe de chaînes et de câbles arrachés, pendant du plafond | 4 | 3 547 | 0,26 Mo |
 | `reliquary` | niche-reliquaire gothique, statue encapuchonnée | 3 | 2 998 | 0,20 Mo |

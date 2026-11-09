@@ -1,4 +1,4 @@
-// Prototype gris : rendu Three.js (cubes et capsules) d'une sim pure à pas fixe (src/sim.ts).
+// Rendu Three.js d'une sim pure à pas fixe (src/sim.ts) : modèles riggés, décor, capsules en repli.
 import * as THREE from 'three';
 import { newWorld, step, observe, nlFrame, terminatorPerceives, DT, MAX_TICKS, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
 import { PROP_PLACES, isPropKind, resolvePropKinds, type PropKind, type PropPlace } from '../src/props';
@@ -9,6 +9,8 @@ import { mulberry32 } from '../src/rng';
 import { hunterState } from '../src/hunter-state';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { publishHunterState, isControlViewEnabled } from './hunter-channel';
+import { gaitTimeScale, pickGait, type Gait } from './locomotion';
+import { NL_HEIGHT, TERM_HEIGHT, measureForwardStride, measureHeight, pickClip } from './stride';
 // Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
 // dépôt, licence Genex non confirmée) chaque appel renvoie false et ne fait rien — le jeu tourne à l'identique.
 import { initAudio, audio, onStep, onServoCharge, onBolterBurst, onFistCharge, onFistImpact, onHit, onServoAlarm, onServoLoop } from './audio/nightlords-audio.js';
@@ -270,7 +272,6 @@ async function loadProps() {
 // ---------- modeles rigges (assets/rigged-opt, 1,21-1,78 Mo piece, 24 os, 1,70 m, face +Z)
 // Le facteur d'echelle est cale sur la hauteur du collider, pas sur un gout : NL radius 0,45 -> 2,0 m de haut,
 // Terminator radius 0,8 -> 2,6 m. Sinon le visuel deborde de la boite de collision et traverse les murs.
-const NL_HEIGHT = 2.0, TERM_HEIGHT = 2.6;
 const gltfLoader = new GLTFLoader();
 const loadGLB = (url: string) => new Promise<any>((res, rej) => gltfLoader.load(url, res, undefined, rej));
 // LOD de **texture** : c'est le seul levier qui reste sur ces assets, et il est gratuit à l'œil. Les cinq
@@ -282,25 +283,21 @@ async function loadModelGLB(name: string) {
   if (TEX === 512) { try { return await loadGLB(`/web/models/${name}-512.glb`); } catch { /* pas de variante : on prend l'original */ } }
   return loadGLB(`/web/models/${name}.glb`);
 }
-interface Rig { root: THREE.Object3D; mixer: THREE.AnimationMixer; walk: THREE.AnimationAction | null; run: THREE.AnimationAction | null; idle: THREE.AnimationAction | null; current: THREE.AnimationAction | null; tell: { value: number }; }
-// Box3.setFromObject ignore le skinning : sur un maillage quantifié (KHR_mesh_quantization) il rend 0,02 m
-// au lieu de 1,70 m, et l'échelle devient ×100. On mesure donc la boîte calculée par le skin, transformée
-// par la matrice monde du maillage (qui porte le facteur 0,01).
-function measureHeight(root: THREE.Object3D): number {
-  root.updateMatrixWorld(true);
-  let h = 0;
-  root.traverse((o: any) => {
-    if (!o.isMesh) return;
-    if (o.isSkinnedMesh) o.computeBoundingBox();
-    if (!o.geometry.boundingBox) o.geometry.computeBoundingBox();
-    const src = o.isSkinnedMesh ? o.boundingBox : o.geometry.boundingBox;
-    if (!src) return;
-    const box = src.clone().applyMatrix4(o.matrixWorld);
-    h = Math.max(h, box.max.y - Math.min(0, box.min.y));
-  });
-  return h > 0.01 ? h : 1.7;
+interface Rig {
+  root: THREE.Object3D; mixer: THREE.AnimationMixer;
+  walk: THREE.AnimationAction | null; run: THREE.AnimationAction | null; idle: THREE.AnimationAction | null;
+  current: THREE.AnimationAction | null; tell: { value: number };
+  strideWalk: number; strideRun: number; allowRun: boolean;
 }
-const rigOf = (model: any, clips: any[], targetHeight: number, dim = 1): Rig => {
+const actionFor = (rig: Rig, gait: Gait): THREE.AnimationAction | null => {
+  switch (gait) {
+    case 'run': return rig.run ?? rig.walk;
+    case 'walk': return rig.walk ?? rig.run;
+    case 'idle': return rig.idle;
+    default: { const _e: never = gait; return _e; }
+  }
+};
+const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, dim = 1, allowRun = true): Rig => {
   const root = model.scene;
   // Un seul objet uniform par modèle, créé ici : tous les programmes compilés plus tard le lisent en direct.
   // (Un uniform créé dans onBeforeCompile n'existe qu'après le premier rendu — en mode capture, les ticks
@@ -328,13 +325,23 @@ const rigOf = (model: any, clips: any[], targetHeight: number, dim = 1): Rig => 
     };
   });
   const mixer = new THREE.AnimationMixer(root);
-  const pick = (n: string) => clips.find(c => c.name.toLowerCase().includes(n)) ?? null;
-  const mk = (c: any) => (c ? mixer.clipAction(c) : null);
-  return { root, mixer, walk: mk(pick('walk')), run: mk(pick('run')), idle: mk(model.animations?.[0] ?? null), current: null, tell };
+  const walkClip = pickClip(clips, 'walk');
+  const runClip = pickClip(clips, 'run');
+  const mk = (c: THREE.AnimationClip | null) => (c ? mixer.clipAction(c) : null);
+  const strideWalk = walkClip ? measureForwardStride(root, walkClip).stride : 0;
+  const strideRun = runClip ? measureForwardStride(root, runClip).stride : 0;
+  return {
+    root, mixer, walk: mk(walkClip), run: mk(runClip), idle: mk(model.animations?.[0] ?? null),
+    current: null, tell, strideWalk, strideRun, allowRun,
+  };
 };
-const playRig = (rig: Rig, want: 'walk' | 'run' | 'idle', dt: number) => {
-  const next = want === 'run' ? (rig.run ?? rig.walk) : want === 'walk' ? (rig.walk ?? rig.run) : rig.idle;
+const playRig = (rig: Rig, want: Gait, dt: number, speed: number) => {
+  const next = actionFor(rig, want);
   if (next && next !== rig.current) { rig.current?.fadeOut(0.15); next.reset().fadeIn(0.15).play(); rig.current = next; }
+  if (next && want !== 'idle') {
+    const stride = want === 'run' ? rig.strideRun : rig.strideWalk;
+    next.timeScale = gaitTimeScale(speed, stride, next.getClip().duration);
+  } else if (next) next.timeScale = 1;
   rig.mixer.update(dt);
 };
 
@@ -575,14 +582,19 @@ function updateTell() {
   }
 }
 function updateRigs(dt: number) { // avance d'un pas de simulation, pas du temps réel : le mode capture reste déterministe
+  const nlWalk = NL_CFG.speed * T_CFG.stunSpeed;
+  const nlRun = NL_CFG.speed;
   for (let i = 0; i < nlRigs.length; i++) {
     const rig = nlRigs[i]; if (!rig) continue;
     const n = w.nls[i];
-    if (!n.alive) { playRig(rig, 'idle', dt); continue; }
-    const moved = Math.hypot(n.x - prev.n[i][0], n.y - prev.n[i][1]) > 0.01;
-    playRig(rig, moved ? 'run' : 'idle', dt);
+    const speed = Math.hypot(n.x - prev.n[i][0], n.y - prev.n[i][1]) / DT;
+    if (!n.alive) { playRig(rig, 'idle', dt, 0); continue; }
+    playRig(rig, pickGait(speed, { allowRun: rig.allowRun, walkSpeed: nlWalk, runSpeed: nlRun }), dt, speed);
   }
-  if (termRig) playRig(termRig, w.t.moving ? 'walk' : 'idle', dt);
+  if (termRig) {
+    const speed = Math.hypot(w.t.vx, w.t.vy);
+    playRig(termRig, pickGait(speed, { allowRun: termRig.allowRun, walkSpeed: T_CFG.fwd, runSpeed: T_CFG.fwd }), dt, speed);
+  }
   updateTell();
 }
 // Panoramique d'une source : sa position écran, pas son angle au joueur (à 3 m la caméra voit autrement).
@@ -767,11 +779,11 @@ addEventListener('resize', resize);
 // Les modèles remplacent les proxies. Un échec de chargement laisse la capsule en place : le prototype
 // reste jouable sans réseau ni assets.
 async function loadModels() {
-  const load = async (name: string, target: number, dim = 1) => {
+  const load = async (name: string, target: number, dim = 1, allowRun = true) => {
     const model = await loadModelGLB(name);
-    const clips: any[] = [...(model.animations ?? [])];
-    for (const k of ['walk', 'run']) { try { const a = await loadGLB(`/web/models/${name}-${k}.glb`); clips.push(...(a.animations ?? [])); } catch { /* clip absent, on garde l'idle */ } }
-    return rigOf(model, clips, target, dim);
+    const clips: THREE.AnimationClip[] = [...(model.animations ?? [])];
+    for (const k of ['walk', 'run'] as const) { try { const a = await loadGLB(`/web/models/${name}-${k}.glb`); clips.push(...(a.animations ?? [])); } catch { /* clip absent, on garde l'idle */ } }
+    return rigOf(model, clips, target, dim, allowRun);
   };
   await Promise.all(ROLES.map(async (_r, i) => {
     try {
@@ -781,7 +793,7 @@ async function loadModels() {
     } catch (e) { console.warn('modèle NL-' + (i + 1) + ' absent, capsule conservée', e); }
   }));
   try {
-    termRig = await load('TERM', TERM_HEIGHT, 0.40);
+    termRig = await load('TERM', TERM_HEIGHT, 0.40, false);
     term.add(termRig.root);
     // Les matériaux de l'armure, pour l'alarme de servo : on garde l'émissif d'origine pour savoir le rendre.
     termRig.root.traverse((o: any) => { const m = o.material; if (m && m.emissive) { if (!m.userData.baseEmissive) m.userData.baseEmissive = m.emissive.clone(); alarmMats.push(m); } });
