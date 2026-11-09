@@ -59,16 +59,18 @@ sont dessinées comme le reste, c'est le brouillard qui les mange.
 
 Trois familles de supports : les **piliers éclairés** (trois des sept portent une vraie lampe, `i % 3 === 0`),
 les **piliers sombres**, et les **parois** mangées par la brume. Un prop est toujours **engagé dans son
-support** : il ne dépasse que de ce qu'on voit, et la collision du pilier le rend infranchissable par
-construction. Posé au milieu du couloir, on le traverserait — les props ne touchent pas à `src/sim.ts`.
+support** : il ne dépasse que de ce qu'on voit. Le pilier reste un obstacle ; le surplus qui entre dans
+le couloir a un **prisme de collision orienté** (`src/props.ts`, activé depuis `src/sim.ts` pour les types
+réellement affichés). Les chaînes, pendues sous les poutres (bas à ~3,1 m), n'occupent pas le sol.
 
 Tout ce qui touche le sol reste à l'ouest de `x = 26`, sauf ce qui est engagé dans P7 : la meute apparaît
 dans le rectangle `x 26-38` et un Night Lord matérialisé dans une caisse se verrait.
 
-**Ce que ça ne garantit pas** : qu'un corps ne traverse jamais un tas de tôle. Un tas de débris de 1 m de
-haut posé contre un pilier est dans le couloir ; si un Night Lord y passe, il le traversera. Le corriger
-demande une collision par prop, donc une modification de la simulation — hors de ce dépôt-ci pour l'instant,
-et à décider côté Khayon.
+Les cœurs 2D sont calés sur l'AABB des GLB **simplifiés** de `web/models/props/` après le `k` et le `lift`
+du chargeur, puis réduits (82 % debris/servitor, 80 % pipes, 85 % reliquary, 92 % crate) — ce n'est pas la
+boîte englobante des bruts Genex. Hauteurs mesurées : debris 0,85 m, crate 0,55 m, servitor 1,11 m, pipes
+et reliquary 2,40 m, chaînes 2,25 m pendues depuis 5,38 m. `?props=0` et l'absence d'un GLB laissent la
+simulation identique à #44, tick pour tick, pour les types manquants.
 
 ## Matières
 
@@ -82,5 +84,6 @@ rugosité plancher à 0,70 : la lumière accroche les arêtes, pas les faces.
 - **Pas les sources brutes.** Les six versions optimisées sont versionnées dans `web/models/props/`, sur
   décision explicite de Salim. Les sources restent dans `Shared/team/pipeline/demo-night-lords/assets/props/`.
   Si un binaire est supprimé, `loadProps()` échoue proprement et la scène est exactement celle de #44.
-- **Pas de la simulation.** Aucune collision, aucun rôle de jeu : ce sont des objets de décor.
+- **Collision optionnelle.** Un volume par instance posée, seulement si le type est affiché. Headless et
+  `?props=0` : aucun volume, même RNG. Les personnages riggés ne reçoivent pas de volume supplémentaire.
 - **Pas un asset Games Workshop.** Tout est généré, aucun élément extrait d'une publication.

@@ -14,7 +14,7 @@ export function tObserve(w: World): number[] {
   const [bx, by] = local(BEACON.x, BEACON.y); o.push(bx / 40, by / 40);
   const h = angNorm(beaconHeading(t.x, t.y) - t.facing); o.push(Math.cos(h), Math.sin(h));
   o.push(t.boltCd === 0 ? 1 : 0, t.fistCd === 0 ? 1 : 0, t.hp / T_CFG.hp, t.channel / T_CFG.channel, p.length / 4, w.tick / MAX_TICKS);
-  o.push(rayFree(t.x, t.y, c, s) / 6, rayFree(t.x, t.y, -c, -s) / 6, rayFree(t.x, t.y, -s, c) / 6, rayFree(t.x, t.y, s, -c) / 6);
+  o.push(rayFree(t.x, t.y, c, s, 6, w.propSolids) / 6, rayFree(t.x, t.y, -c, -s, 6, w.propSolids) / 6, rayFree(t.x, t.y, -s, c, 6, w.propSolids) / 6, rayFree(t.x, t.y, s, -c, 6, w.propSolids) / 6);
   const recent = w.tick - t.lastHitTick <= 20; const ha = angNorm(t.lastHitAngle - t.facing);
   o.push(recent ? 1 : 0, recent ? Math.cos(ha) : 0, recent ? Math.sin(ha) : 0);
   // ajoutés pour le fantôme BC : depuis quand le dernier coup reçu, recharges en cours (le joueur les voit à l'écran)
