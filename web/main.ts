@@ -11,6 +11,10 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { publishHunterState, isControlViewEnabled } from './hunter-channel';
 import { gaitTimeScale, pickGait, type Gait } from './locomotion';
 import { NL_HEIGHT, TERM_HEIGHT, measureForwardStride, measureHeight, pickClip } from './stride';
+import {
+  applyRendererAtmosphere, applySceneAtmosphere, installCorridorLights, configureHunterSpot,
+  CAM, EPAULE, FOLLOW_YAW_BLEND, POST_VIGNETTE, LAMP, STRIP_EMISSIVE,
+} from './atmosphere';
 // Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
 // dépôt, licence Genex non confirmée) chaque appel renvoie false et ne fait rien — le jeu tourne à l'identique.
 import { initAudio, audio, onStep, onServoCharge, onBolterBurst, onFistCharge, onFistImpact, onHit, onServoAlarm, onServoLoop } from './audio/nightlords-audio.js';
@@ -32,30 +36,18 @@ const ROLE_CSS = ['#d8d8ff', '#ff3030', '#ffa020', '#30d0ff'];
 // ---------- scène
 const canvas = document.getElementById('c') as HTMLCanvasElement;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
-renderer.setPixelRatio(Math.min(2, devicePixelRatio)); renderer.shadowMap.enabled = true;
-// palette filmique : sans tone mapping les hautes lumières écrasent le reste du cadre
-renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.6;
-// Brouillard : FogExp2 par defaut, ~25 m de visibilite utile. `?fog=linear` revient a la rampe 8 -> 38 m,
-// disponible tant que la camera de couloir (P1) n'est pas mergee. Meme couleur que le fond, sinon une ligne
-// d'horizon se dessine la ou la geometrie s'efface.
-const FOG_COLOR = 0x0b0d13, FOG_MODE = qs.get('fog') ?? 'exp2';
-const scene = new THREE.Scene(); scene.background = new THREE.Color(FOG_COLOR);
-scene.fog = FOG_MODE === 'linear' ? new THREE.Fog(FOG_COLOR, 8, 38) : new THREE.FogExp2(FOG_COLOR, 0.052);
-// P1 : l'oeil a hauteur d'homme. A 22 m et 50 degres, un Night Lord fait 55 px de haut et l'arene tient
-// dans le cadre - on regarde un plateau, pas une traque. A 3,4 m et 58 degres il en fait 100 a 120.
-const CAM = { back: 8.2, height: 3.4, highMax: 4.9, ahead: 3.0, eye: 1.2, fov: 58, fovPortrait: 68 };
-// P4 : caméra à l'épaule. On ne regarde plus le Terminator, on est dedans : 3,55 m derrière, 1,15 m sur son
-// épaule droite, 2,5 m du sol, et on regarde 5 m devant lui — le corps occupe le bas-gauche du cadre et la
-// convergence se fait sur l'axe de marche. ?cam=couloir rend la caméra de P1 (comparaison, captures).
-const EPAULE = { back: 3.55, side: 1.15, height: 2.5, ahead: 5.0, eye: 1.45, fov: 62, fovPortrait: 74 };
+renderer.setPixelRatio(Math.min(2, devicePixelRatio));
+applyRendererAtmosphere(renderer);
+// Brouillard : FogExp2 par défaut (densité 0,070, visibilité utile ~14–18 m). `?fog=linear` rampe 5→26 m.
+// Même couleur que le fond, sinon une ligne d'horizon se dessine là où la géométrie s'efface.
+const FOG_MODE = qs.get('fog') ?? 'exp2';
+const scene = new THREE.Scene();
+applySceneAtmosphere(scene, FOG_MODE);
+// Cadrage : constantes dans `web/atmosphere.ts`. `?cam=couloir` rend P1 (comparaison, captures).
 const CAM_MODE = qs.get('cam') === 'couloir' ? 'couloir' : 'epaule';
 const IMPACT = qs.get('impact') !== '0'; // ?impact=0 : caméra stable, pour mesurer ce que le poids coûte
 const camera = new THREE.PerspectiveCamera(CAM_MODE === 'epaule' ? EPAULE.fov : CAM.fov, 1, 0.1, 200);
-// Une seule lumière de remplissage, froide et rasante : les formes se lisent par leur bord, pas par leur face.
-scene.add(new THREE.AmbientLight(0x1b2130, 0.30));
-const keyLight = new THREE.DirectionalLight(0x8fb4e8, 0.85); keyLight.position.set(50, 34, 6); scene.add(keyLight);
-const rimLight = new THREE.DirectionalLight(0x5f7fd0, 1.1); rimLight.position.set(38, 12, 24); scene.add(rimLight);
-const poolLight = new THREE.PointLight(0x8fb0e0, 9, 14, 2); poolLight.position.set(20, 5.5, BEACON.y); scene.add(poolLight);
+installCorridorLights(scene, BEACON.y);
 // ================== DÉCOR ==================
 // Le grey-box était un plan, sept boîtes et une grille. Ici, un pont de vaisseau construit : tôle rivetée,
 // membrures, poutres de plafond, panneaux de coque. Tout est **procédural** — aucune texture ni aucun modèle
@@ -171,7 +163,7 @@ for (const [w, d, x, z] of [[ARENA.w, 0.4, ARENA.w / 2, -0.2], [ARENA.w, 0.4, AR
 // Bandes de secours : de l'émissif, pas des sources de lumière. Sept lampes ponctuelles coûtaient sept
 // éclairages par pixel sur cinq maillages skinnés ; ici la lueur rouge est peinte, et seules deux vraies
 // lampes éclairent la scène (`?lights=all` rend les sept, pour comparer).
-const stripMat = new THREE.MeshStandardMaterial({ color: 0x1a0b06, emissive: 0xff6a2a, emissiveIntensity: 0.55, fog: true });
+const stripMat = new THREE.MeshStandardMaterial({ color: 0x1a0b06, emissive: 0xff6a2a, emissiveIntensity: STRIP_EMISSIVE, fog: true });
 if (ENV) {
   // Un bandeau courbé sous l'arête de chaque pilastre, et des veilleuses de plafond de 1,2 m. Rien de travers
   // dans le cadre : une bande émissive de 12 m à 1,5 d'intensité devenait un néon rouge qui mangeait la scène.
@@ -183,7 +175,7 @@ if (ENV) {
 const ALL_LIGHTS = qs.get('lights') === 'all';
 PILLARS.forEach((b, i) => {
   if (ENV && !ALL_LIGHTS && i % 3 !== 0) return; // deux vraies lampes sur sept suffisent avec les bandes
-  const lamp = new THREE.PointLight(0xff2a1a, 11, 11, 2); lamp.position.set((b.x0 + b.x1) / 2, 3.6, b.y0 - 0.3); scene.add(lamp);
+  const lamp = new THREE.PointLight(LAMP.color, LAMP.intensity, LAMP.distance, LAMP.decay); lamp.position.set((b.x0 + b.x1) / 2, 3.6, b.y0 - 0.3); scene.add(lamp);
 });
 // Rayon de téléportation : une braise, pas un néon. Le vert saturait à 255 et devenait l'objet le plus attractif du plateau.
 const beacon = new THREE.Mesh(new THREE.CylinderGeometry(BEACON.r, BEACON.r, 0.1, 32), new THREE.MeshStandardMaterial({ color: 0x3a1a08, emissive: 0xc24a12, emissiveIntensity: 0.85 }));
@@ -354,7 +346,8 @@ add(term, new THREE.BoxGeometry(0.55, 0.5, 0.55), bone, 0.35, 2.35, 0);
 add(term, new THREE.BoxGeometry(0.12, 0.12, 0.4), new THREE.MeshBasicMaterial({ color: 0xff2020 }), 0.64, 2.38, 0);
 add(term, new THREE.BoxGeometry(1.3, 0.3, 0.3), new THREE.MeshStandardMaterial({ color: 0x333 }), 0.75, 1.5, 0.9); // storm bolter
 const fistM = add(term, new THREE.BoxGeometry(0.6, 0.6, 0.6), new THREE.MeshStandardMaterial({ color: 0x3355ff, emissive: 0x1122aa }), 0.55, 1.1, -0.95);
-const spot = new THREE.SpotLight(0xfff2d0, 34, T_CFG.visionRange + 4, T_CFG.visionHalf * 0.75, 0.5, 1.4); spot.position.set(0.7, 2.4, 0); spot.castShadow = true;
+const spot = new THREE.SpotLight(0xfff2d0, 34, T_CFG.visionRange + 4, T_CFG.visionHalf * 0.75, 0.5, 1.4); spot.position.set(0.7, 2.4, 0);
+configureHunterSpot(spot, T_CFG.visionRange + 4);
 term.add(spot); const tLamp = new THREE.PointLight(0xffe8c0, 6, 4, 2); tLamp.position.set(-1.2, 4, 0); term.add(tLamp); const spotTarget = new THREE.Object3D(); spotTarget.position.set(8, 0, 0); term.add(spotTarget); spot.target = spotTarget; scene.add(term);
 
 // Un Night Lord : un corps noir qu'on devine à son liseré, et deux yeux. Aucun marqueur de rôle au sol
@@ -421,7 +414,7 @@ const tracer = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THRE
 const rt = new THREE.WebGLRenderTarget(2, 2, { samples: 4, colorSpace: THREE.LinearSRGBColorSpace });
 const postScene = new THREE.Scene(); const postCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 const postMat = new THREE.ShaderMaterial({
-  uniforms: { tDiffuse: { value: rt.texture }, uTime: { value: 0 }, uVignette: { value: 0.95 }, uBlur: { value: new THREE.Vector2(0, 0) } },
+  uniforms: { tDiffuse: { value: rt.texture }, uTime: { value: 0 }, uVignette: { value: POST_VIGNETTE }, uBlur: { value: new THREE.Vector2(0, 0) } },
   vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }',
   fragmentShader: `uniform sampler2D tDiffuse; uniform float uTime, uVignette; uniform vec2 uBlur; varying vec2 vUv;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -554,7 +547,7 @@ function updateCamYaw() {
   // dans le même lissage, un joueur qui tourne annule la moitié du pivot (mesuré : 12° au lieu de 48°).
   let d = w.t.facing - followYaw;
   while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI;
-  followYaw += d * 0.26; // ~4 rad/s de rotation max : le monde pivote sans fouetter
+  followYaw += d * FOLLOW_YAW_BLEND; // ~3,5 rad/s : un cran plus cinématique, le monde ne fouette toujours pas
   camYaw = followYaw + pivotA;
   // Vitesse de rotation pour l'inclinaison et le flou : prise au pas de simulation, donc reproductible.
   let dy = camYaw - camYawPrev; while (dy > Math.PI) dy -= 2 * Math.PI; while (dy < -Math.PI) dy += 2 * Math.PI;
@@ -707,8 +700,7 @@ function render(alpha: number) {
       links[i].visible = n.alive && b.valid; links[i].geometry.setFromPoints([new THREE.Vector3(n.x, 0.1, n.y), new THREE.Vector3(b.x, 0.1, b.y)]); links[i].computeLineDistances(); });
     noiseRing.position.set(w.t.x, 0.06, w.t.y); noiseRing.scale.setScalar(w.t.noise); tCone.position.set(w.t.x, 0.04, w.t.y); tCone.rotation.y = -w.t.facing;
   }
-  // caméra de couloir : 8,2 m derrière le Terminator, à 3,4 m du sol, qui regarde 3 m devant lui.
-  // Le personnage occupe le tiers bas du cadre et la meute arrive de face, à sa hauteur.
+  // caméra de couloir : constantes CAM (8,2 m, 3,15 m, FOV 54). Le personnage occupe le tiers bas.
   const portrait = innerHeight > innerWidth;
   const sx = (Math.random() - 0.5) * shake, sz = (Math.random() - 0.5) * shake;
   // Un pilier de 4 m suffit à avaler le cadre : la caméra ne doit jamais se retrouver *dans* un pilier.
@@ -725,9 +717,7 @@ function render(alpha: number) {
     camera.position.set(cx + sx, cy, cz + sz);
     camera.lookAt(tx + fx * CAM.ahead + sx, CAM.eye, ty + fz * CAM.ahead + sz);
   } else {
-    // À l'épaule : la masse du Terminator se sent dans quatre offsets — la respiration (5,2 s, 2,8 cm),
-    // l'appui du pas (ressort, un à-coup tous les 1,55 m), le recul du bolter (poussée arrière + nez qui
-    // monte), et l'inclinaison dans les virages. La caméra reste 3,55 m derrière : il occupe le cadre.
+    // À l'épaule : quatre offsets (respiration, pas, recul, inclinaison). Cadrage EPAULE : 3,4 m derrière.
     // temps de rendu : on avance dans le tick en cours pour que 60 fps reste lisse et qu'une capture tombe juste
     const now = simT - DT + alpha * DT;
     const breath = Math.sin(now * (2 * Math.PI / 5.2)) * 0.028; // 5,2 s par cycle, 2,8 cm
