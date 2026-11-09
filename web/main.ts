@@ -9,7 +9,7 @@ import { mulberry32 } from '../src/rng';
 import { hunterState } from '../src/hunter-state';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { publishHunterState, isControlViewEnabled } from './hunter-channel';
-import { gaitTimeScale, pickGait, type Gait } from './locomotion';
+import { advanceMixer, gaitTimeScale, mixerSubstepCount, pickGait, type Gait } from './locomotion';
 import { NL_HEIGHT, TERM_HEIGHT, measureForwardStride, measureHeight, pickClip } from './stride';
 // Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
 // dépôt, licence Genex non confirmée) chaque appel renvoie false et ne fait rien — le jeu tourne à l'identique.
@@ -342,7 +342,9 @@ const playRig = (rig: Rig, want: Gait, dt: number, speed: number) => {
     const stride = want === 'run' ? rig.strideRun : rig.strideWalk;
     next.timeScale = gaitTimeScale(speed, stride, next.getClip().duration);
   } else if (next) next.timeScale = 1;
-  rig.mixer.update(dt);
+  // DT total inchangé ; sous-pas pour ne pas sauter 0,3 s de clip d'un coup (timeScale≈3).
+  const ts = next?.timeScale ?? 1;
+  advanceMixer(rig.mixer, dt, mixerSubstepCount(dt, ts));
 };
 
 // Terminator : cubes (os/or loyaliste), front marqué par le visor et le storm bolter

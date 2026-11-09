@@ -4,8 +4,11 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { NL_CFG, T_CFG } from '../src/sim.ts';
-import { cycleDistance, gaitTimeScale, pickGait } from '../web/locomotion.ts';
+import * as THREE from 'three';
+import { DT, NL_CFG, T_CFG } from '../src/sim.ts';
+import {
+  MIXER_MAX_ANIM_STEP, advanceMixer, cycleDistance, gaitTimeScale, mixerSubstepCount, pickGait,
+} from '../web/locomotion.ts';
 import {
   NL_HEIGHT, TERM_HEIGHT, measureForwardStride, measureHeight, parseGlb, pickClip,
 } from '../web/stride.ts';
@@ -97,4 +100,72 @@ test('foulée skinée et distance par cycle avant/après timeScale', async () =>
     assert.ok(sample.poseT0VsFirst < 1e-4, 't=0 clamp sur la première clé : pas de saut bind');
     assert.ok(sample.poseFirstVsLast < 1e-4, 'boucle first≈last au skin');
   }
+});
+
+test('sous-pas mixer : même timeScale et même temps final, plus de poses intermédiaires', async () => {
+  const jobs: { name: string; gait: 'walk' | 'run'; speed: number }[] = [
+    { name: 'NL-1', gait: 'run', speed: NL_CFG.speed },
+    { name: 'NL-1', gait: 'walk', speed: NL_CFG.speed * T_CFG.stunSpeed },
+    { name: 'TERM', gait: 'walk', speed: T_CFG.fwd },
+  ];
+  console.log('\n# locomotion — sous-pas mixer (DT inchangé, timeScale inchangé)');
+  console.log('# N = ceil(|dt·timeScale| / (1/30)) ; somme des sous-pas = DT ; pose finale = un seul update(DT)');
+  assert.equal(DT, 0.1);
+  assert.equal(MIXER_MAX_ANIM_STEP, 1 / 30);
+  assert.equal(mixerSubstepCount(0, 3), 1);
+  assert.equal(mixerSubstepCount(DT, 0), 1);
+  assert.equal(mixerSubstepCount(DT, 3), 9);
+  const loadedBy = new Map<string, Awaited<ReturnType<typeof loadScaled>>>();
+  for (const job of jobs) {
+    if (!loadedBy.has(job.name)) loadedBy.set(job.name, await loadScaled(job.name));
+    const loaded = loadedBy.get(job.name)!;
+    const clip = job.gait === 'walk' ? loaded.walk : loaded.run;
+    const sample = measureForwardStride(loaded.root, clip);
+    const ts = gaitTimeScale(job.speed, sample.stride, sample.duration);
+    const n = mixerSubstepCount(DT, ts);
+    assert.ok(n >= 2, `${job.name} ${job.gait} doit sous-échantillonner DT`);
+
+    const mk = () => {
+      const mixer = new THREE.AnimationMixer(loaded.root);
+      const action = mixer.clipAction(clip);
+      action.play();
+      action.timeScale = ts;
+      return { mixer, action };
+    };
+    const one = mk();
+    one.mixer.update(DT);
+    const coarseTime = one.action.time;
+    const coarseMixer = one.mixer.time;
+
+    const fine = mk();
+    const times: number[] = [];
+    const steps: number[] = [];
+    advanceMixer(fine.mixer, DT, n, (_i, h) => {
+      times.push(fine.action.time);
+      steps.push(h);
+    });
+    const row = {
+      role: job.name, gait: job.gait, speed_mps: job.speed,
+      DT, timeScale: ts, substeps: n,
+      stepDt: DT / n, animStep_s: (DT / n) * ts,
+      mixerTime_one: coarseMixer, mixerTime_sub: fine.mixer.time,
+      actionTime_one: coarseTime, actionTime_sub: fine.action.time,
+      intermediatePoses: times.length,
+      stepSum: steps.reduce((a, b) => a + b, 0),
+    };
+    console.log(JSON.stringify(row, null, 2));
+    assert.equal(fine.action.timeScale, ts, 'timeScale figé pendant les sous-pas');
+    assert.equal(one.action.timeScale, ts);
+    assert.equal(times.length, n);
+    assert.ok(Math.abs(steps.reduce((a, b) => a + b, 0) - DT) < 1e-12, 'somme des sous-pas = DT');
+    assert.ok(Math.abs(fine.mixer.time - coarseMixer) < 1e-9, 'même temps mixer final');
+    assert.ok(Math.abs(fine.action.time - coarseTime) < 1e-9, 'même temps clip final');
+    assert.ok(Math.abs(fine.mixer.time - DT) < 1e-9, 'mixer.timeScale=1 : temps mixer = DT');
+    const unique = new Set(times.map((t) => t.toFixed(9)));
+    assert.ok(unique.size >= 2, 'plus d\'une pose clip sur le DT');
+    assert.ok((DT / n) * ts <= MIXER_MAX_ANIM_STEP + 1e-12, 'pas d\'anim par sous-pas ≤ 1/30 s');
+    assert.equal(job.gait === 'run' ? NL_CFG.speed : job.name === 'TERM' ? T_CFG.fwd : NL_CFG.speed * T_CFG.stunSpeed, job.speed);
+  }
+  assert.equal(NL_CFG.speed, 6);
+  assert.equal(T_CFG.fwd, 2.5);
 });

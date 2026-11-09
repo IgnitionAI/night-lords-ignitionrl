@@ -63,8 +63,9 @@ vers les capsules si un modèle est absent.
 ## Ce que le code fait
 
 - `GLTFLoader` sur `<role>.glb` (pose + clip de repos) et `<role>-walk.glb` / `<role>-run.glb`.
-- Un `AnimationMixer` par personnage, avancé de `DT` dans `tick()` — pas du temps réel, donc une
-  capture `?shot=N` donne la même pose à chaque fois.
+- Un `AnimationMixer` par personnage, avancé d'un `DT` total dans `tick()` (pas du temps réel),
+  découpé en sous-pas pour que le temps clip par évaluation reste ≤ 1/30 s. Une capture `?shot=N`
+  donne la même pose finale qu'un seul `mixer.update(DT)` par tick.
 - Passage marche/course selon la vitesse effective ; fondu de 0,15 s. Un NL étourdi (`stunSpeed`)
   tombe dans la bande marche ; le Terminator n'a pas de vitesse de course dans la sim.
 - Échelle mesurée, pas devinée : les maillages sont quantifiés (`KHR_mesh_quantization`), et
