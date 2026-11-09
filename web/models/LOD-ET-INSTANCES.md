@@ -28,7 +28,7 @@ textures **sans mipmaps, et sans la géométrie**. three.js génère les mipmaps
 total est **104 Mio**, dont 80 de textures et 24 de géométrie. C'est ce chiffre-là que ton budget doit
 encaisser, pas 60.
 
-Clips d'animation : **10 fichiers `anims/*.glb`, 532 Kio au total, 0 triangle** (squelette seul, 26 nœuds).
+Clips d'animation : **10 fichiers `anims/*.glb`, 522 208 o au total, 0 triangle** (squelette seul, 26 nœuds).
 Les 5 modèles ont **les mêmes 24 os et les mêmes noms de nœuds** (vérifié) : un clip peut donc piloter
 n'importe lequel des cinq, et il n'y a qu'un jeu de 10 fichiers à charger.
 

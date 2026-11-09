@@ -11,7 +11,7 @@ bun dist/server.mjs      # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|t
 
 Un Terminator surpuissant, piloté par un joueur, contre une meute de 4 Night Lords entraînés par apprentissage par renforcement (PPO multi-agents). Chaque Night Lord, seul, meurt en un coup : la meute ne gagne qu'en se coordonnant (appât, flanc, finition), à partir d'observations limitées (cône de vision, bruit, vox entre frères). Pas de triche : la meute et le Terminator suivent les mêmes règles de simulation.
 
-Prototype « gris » (cubes, pas d'habillage), construit à partir du framework RL navigateur [IgnitionAI/ignition](https://github.com/IgnitionAI/ignition) (IgnitionRL).
+Rendu Three.js (modèles riggés versionnés, capsules en repli), construit à partir du framework RL navigateur [IgnitionAI/ignition](https://github.com/IgnitionAI/ignition) (IgnitionRL).
 
 > **Statut : prototype de recherche.** Tous les chiffres ci-dessous sont des **mesures de prototype** sur une seule machine (8 CPU, tfjs-node sur CPU). Le run b3 repose sur **une seule graine** (seed 3), sans barre d'erreur entre runs. L'expérience C utilise un **joueur synthétique** (une tactique scriptée), pas un humain. Les règles (armure, portées, vitesses) sont des valeurs de prototype, sans réglage ni référence.
 
@@ -19,7 +19,7 @@ Prototype « gris » (cubes, pas d'habillage), construit à partir du framework 
 
 ## English summary
 
-A grey-box prototype where one overpowered, player-controlled Terminator faces a pack of four Night Lords trained with multi-agent PPO (TensorFlow.js, headless Node). The pack only sees what its rules allow (vision cone, noise, explicit vox relay). The b3 run (2,000 updates, 1,967 s of compute, single seed) beats the training tactics 111–196/200 and unseen tactics 57–127/200; games last a median 17–28 s. Neither goal is met yet (85 % wins everywhere, 30–90 s games). Mechanism C (fine-tuning against a "ghost" cloned from the player between rounds) currently *hurts*: −0.225 win rate versus a no-ghost control, measured on 3 seeds against a synthetic player. All numbers are prototype measurements.
+A prototype where one overpowered, player-controlled Terminator faces a pack of four Night Lords trained with multi-agent PPO (TensorFlow.js, headless Node). The pack only sees what its rules allow (vision cone, noise, explicit vox relay). The b3 run (2,000 updates, 1,967 s of compute, single seed) beats the training tactics 111–196/200 and unseen tactics 57–127/200; games last a median 17–28 s. Neither goal is met yet (85 % wins everywhere, 30–90 s games). Mechanism C (fine-tuning against a "ghost" cloned from the player between rounds) currently *hurts*: −0.225 win rate versus a no-ghost control, measured on 3 seeds against a synthetic player. All numbers are prototype measurements.
 
 ## Résultats mesurés (b3)
 
@@ -174,8 +174,9 @@ Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --see
 - Six **props sculptés** Genex (débris, caisse, tuyauterie, chaînes, reliquaire, serviteur mort) sont posés en
   22 instances contre les piliers et les parois, **six appels de rendu** pour les vingt-deux : une
   `InstancedMesh` par type. Coût mesuré au même tick (t235, graine 18) : **53 → 59 appels, 65 490 → 141 573
-  triangles, aucune lumière de plus**. Les binaires sont **hors du dépôt** (licence Genex non tranchée) comme
-  les personnages ; absents, la scène est celle de #44. `?props=0` la rend tick pour tick (voir `web/PROPS.md`).
+  triangles, aucune lumière de plus**. Les versions optimisées des personnages, animations et props sont
+  versionnées dans `web/models/` ; si un fichier est absent, le rendu garde son repli. `?props=0` rend la
+  scène sans props tick pour tick (voir `web/PROPS.md`).
 - `?debug=1` publie les compteurs de rendu dans `window.__SC()` — appels, triangles, lumières, textures, et le
   détail des props. C'est la seule mesure de coût de rendu qu'on puisse prendre sans GPU, et la passe plein écran
   ne l'écrase pas : le compte est relevé avant elle.

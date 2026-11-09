@@ -10,7 +10,7 @@ export type Tactic = (w: World) => TAction;
 function heading(w: World, tx: number, ty: number): number {
   const t = w.t;
   if (tx === BEACON.x && ty === BEACON.y) return beaconHeading(t.x, t.y);
-  if (!los(t.x, t.y, tx, ty)) return beaconHeading(t.x, t.y); let hx = tx - t.x, hy = ty - t.y; const d = Math.hypot(hx, hy) || 1; hx /= d; hy /= d;
+  if (!los(t.x, t.y, tx, ty, w.propSolids)) return beaconHeading(t.x, t.y); let hx = tx - t.x, hy = ty - t.y; const d = Math.hypot(hx, hy) || 1; hx /= d; hy /= d;
   for (const b of PILLARS) { // répulsion simple des piliers
     const cx = Math.min(b.x1, Math.max(b.x0, t.x)), cy = Math.min(b.y1, Math.max(b.y0, t.y));
     const dx = t.x - cx, dy = t.y - cy, dd = Math.hypot(dx, dy);
@@ -109,7 +109,7 @@ export function elite(): Tactic {
     if (w.tick - t.lastHitTick <= 8 && (!tg || tg.d > 3)) { a.turn = turnTo(w, t.lastHitAngle); a.fist = true; return a; }
     if (tg) {
       a.turn = turnTo(w, tg.a); fire(w, tg, a);
-      if (p.length >= 2 && rayFree(t.x, t.y, -Math.cos(t.facing), -Math.sin(t.facing), 3) > 1.2) a.fwd = -1;
+      if (p.length >= 2 && rayFree(t.x, t.y, -Math.cos(t.facing), -Math.sin(t.facing), 3, w.propSolids) > 1.2) a.fwd = -1;
       return a;
     }
     walk(w, BEACON.x, BEACON.y, a); if (!a.fwd && Math.abs(a.turn) === 0) a.turn = Math.floor(w.tick / 15) % 2 ? 1 : -1;
