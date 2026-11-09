@@ -7,15 +7,12 @@ déjà payés. Source sur le disque partagé :
 `Shared/team/pipeline/demo-night-lords/assets/rigged-opt/` et `.../anims/`.
 Optimisation `gltf-transform 4.5.1` (quantize + textures WebP) : voir `MANIFESTE.md` du pipeline.
 
-**Ces fichiers ne sont pas dans le dépôt.** Les termes de redistribution des sorties Genex n'ont pas
-été vérifiés, et le dépôt est public. `web/models/` est donc ignoré par git ; pour lancer la démo avec
-les modèles, copier les 15 fichiers dans `web/models/` :
+**Les versions optimisées sont versionnées dans le dépôt**, sur décision explicite de Salim : 5 personnages
+en 1024² et 512², 10 clips et 6 props, soit 26 GLB pour 14,2 Mo. Les sources lourdes restent uniquement
+dans le stockage partagé. Les sons demeurent hors du dépôt.
 
-    cp -r <assets>/rigged-opt/NL-{1,2,3,4}.glb <assets>/rigged-opt/TERM.glb web/models/
-    for f in <assets>/anims/*.glb; do cp "$f" "web/models/$(basename "$f" .glb | sed 's/_walk$/-walk/;s/_run$/-run/').glb"; done
-
-Le chargeur échoue proprement : sans ces fichiers, chaque rôle garde sa capsule et la console signale
-le modèle absent. Le prototype reste jouable.
+Le chargeur échoue toujours proprement si un fichier est supprimé : le rôle concerné garde sa capsule et
+la console signale le modèle absent. Le prototype reste jouable.
 
 ## Checklist — avant de toucher au chargement
 
@@ -55,28 +52,21 @@ l'écran.
 
 ## Distribution — décision
 
-Les GLB **restent hors du dépôt public**. Deux raisons distinctes, dans cet ordre :
+Salim a explicitement demandé la publication des modèles optimisés dans le dépôt public. Cette décision
+lève le repli précédent vers un stockage privé ; elle ne constitue pas une validation juridique des droits
+de Games Workshop ni des conditions de redistribution de Genex.
 
-1. **Propriété intellectuelle Games Workshop.** Ce sont des Night Lords : un dépôt public qui
-   distribue un maillage reproduisant leur design engage un risque de droits d'auteur, et cela
-   indépendamment de l'outil qui a produit le maillage. C'est la raison qui suffit.
-2. **Appartenance des fichiers.** Le compte Genex est payant (3 699 crédits achetés). La FAQ tarifs de
-   Meshy, le moteur derrière Genex, écrit que sur un plan payant *you own all assets you create*
-   (sur le plan gratuit, c'est CC BY 4.0 avec attribution) — donc les modèles nous appartiennent et le
-   doute sur la redistribution disparaît de ce côté. Source : FAQ tarifs Meshy, consultée par Abaddon.
-
-Le dossier `Shared/team/pipeline/demo-night-lords/assets/rigged-opt/` reste la copie de travail. Le
-chargeur dégrade proprement vers les capsules quand `web/models/*.glb` est absent, vérifié sur `main`
-propre. Un déploiement de démonstration servira les fichiers depuis un stockage privé, pas depuis le
-dépôt. La question ne se rouvre pas, sauf décision de Salim de publier des assets GW assumés.
+Le dossier `Shared/team/pipeline/demo-night-lords/assets/rigged-opt/` reste la copie de travail des sources
+optimisées. Les GLB bruts de 46 à 50 Mo ne sont pas copiés dans le dépôt. Le chargeur dégrade proprement
+vers les capsules si un modèle est absent.
 
 ## Ce que le code fait
 
 - `GLTFLoader` sur `<role>.glb` (pose + clip de repos) et `<role>-walk.glb` / `<role>-run.glb`.
 - Un `AnimationMixer` par personnage, avancé de `DT` dans `tick()` — pas du temps réel, donc une
   capture `?shot=N` donne la même pose à chaque fois.
-- Passage marche/course selon le déplacement réel du personnage ; fondu de 0,15 s. Le Terminator suit
-  `t.moving`, les Night Lords leur delta de position.
+- Passage marche/course selon la vitesse effective ; fondu de 0,15 s. Un NL étourdi (`stunSpeed`)
+  tombe dans la bande marche ; le Terminator n'a pas de vitesse de course dans la sim.
 - Échelle mesurée, pas devinée : les maillages sont quantifiés (`KHR_mesh_quantization`), et
   `Box3.setFromObject` rend 0,02 m au lieu de 1,70 m — c'est la boîte calculée par le skin
   (`SkinnedMesh.computeBoundingBox`) transformée par la matrice monde qui donne 1,70 m. Hauteur cible
@@ -266,5 +256,5 @@ jamais au pixel.
   environnement (pas de GPU, rendu logiciel à 6–10 fps non transposable). À relever sur une vraie
   machine ; si le cadre passe sous 60 fps, le plan B est un LOD de modèle, **pas** la suppression des
   ombres (elles portent la lecture des silhouettes).
-- Synchronisation pied/sol : les clips sont joués à `timeScale = 1` (course 0,67 s, marche 1,07 s) sans
-  recalage sur la vitesse réelle (6 m/s et 2,5 m/s). Un glissement est visible de près.
+- Synchronisation pied/sol : `timeScale = v · T / foulée` (foulée skinée au sol, même échelle que le
+  chargeur). Le déplacement monde reste celui de la sim ; les clips n'ont pas de root motion horizontal.

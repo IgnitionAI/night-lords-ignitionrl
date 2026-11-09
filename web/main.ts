@@ -1,6 +1,7 @@
-// Prototype gris : rendu Three.js (cubes et capsules) d'une sim pure à pas fixe (src/sim.ts).
+// Rendu Three.js d'une sim pure à pas fixe (src/sim.ts) : modèles riggés, décor, capsules en repli.
 import * as THREE from 'three';
 import { newWorld, step, observe, nlFrame, terminatorPerceives, DT, MAX_TICKS, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
+import { PROP_PLACES, isPropKind, resolvePropKinds, type PropKind, type PropPlace } from '../src/props';
 import { POOL, UNSEEN, type Tactic } from '../src/tactics';
 import { Recorder } from '../src/recorder';
 import { forward, softmax, sample, type ActorJSON } from '../src/policy';
@@ -8,6 +9,8 @@ import { mulberry32 } from '../src/rng';
 import { hunterState } from '../src/hunter-state';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { publishHunterState, isControlViewEnabled } from './hunter-channel';
+import { gaitTimeScale, pickGait, type Gait } from './locomotion';
+import { NL_HEIGHT, TERM_HEIGHT, measureForwardStride, measureHeight, pickClip } from './stride';
 // Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
 // dépôt, licence Genex non confirmée) chaque appel renvoie false et ne fait rien — le jeu tourne à l'identique.
 import { initAudio, audio, onStep, onServoCharge, onBolterBurst, onFistCharge, onFistImpact, onHit, onServoAlarm, onServoLoop } from './audio/nightlords-audio.js';
@@ -190,15 +193,16 @@ beacon.position.set(BEACON.x, 0.05, BEACON.y); scene.add(beacon); const bl = new
 // Le décor de #44 est de la géométrie **construite** : il donne l'architecture (tôle, membrures, pilastres),
 // pas les formes qu'un sculpteur produit — l'épave, la tuyauterie, le cadavre. Six props Genex comblent ce
 // trou : débris, caisse, tuyauterie, chaînes, reliquaire, serviteur mort. Barème lu dans l'API : 35 crédits
-// le modèle texturé, 210 pour le lot. Même régime que les personnages — binaires **hors du dépôt** (licence
-// Genex non tranchée), chargés à l'exécution, un prop absent ne casse rien, il manque.
+// le modèle texturé, 210 pour le lot. Versions optimisées versionnées comme les personnages, chargées à
+// l'exécution ; un prop absent ne casse rien, il manque.
 // `?props=0` rend la scène de #44 tick pour tick ; `?env=0` (grey-box) les coupe aussi, sinon la comparaison
 // grey-box/décor ne voudrait plus rien dire.
 // Un seul appel de rendu par **type** de prop : les instances d'un même modèle partagent géométrie et
 // matériau (`InstancedMesh`), et c'est le seul moyen de poser vingt objets pour six appels.
 const PROPS_ON = qs.get('props') !== '0' && ENV;
-interface PropKind { axis: 'x' | 'y' | 'z'; size: number; dim: number }
-const PROP_KINDS: Record<string, PropKind> = {
+let loadedPropKinds: PropKind[] = [];
+interface PropView { axis: 'x' | 'y' | 'z'; size: number; dim: number }
+const PROP_VIEW: Record<string, PropView> = {
   // `size` = la dimension visée en mètres sur `axis` ; `dim` = facteur d'albedo, comme pour les personnages
   // (textures calibrées pour un studio, pas pour un couloir à 10 lux).
   debris: { axis: 'z', size: 1.8, dim: 0.28 },
@@ -208,41 +212,8 @@ const PROP_KINDS: Record<string, PropKind> = {
   reliquary: { axis: 'y', size: 2.4, dim: 0.38 },
   servitor: { axis: 'z', size: 1.5, dim: 0.28 },
 };
-// Tout est posé **contre les murs et le long des piliers**, jamais au milieu : les props ne changent pas la
-// collision (`ARENA`/`PILLARS` de `src/sim.ts`), donc un objet au centre du couloir serait une promesse que
-// le jeu ne tient pas — on le traverserait. Le bord du cadre et la brume, eux, ne mentent pas.
-// `rot` : rotation autour de Y ; le modèle regarde +Z, posé contre la paroi z≈0 il fait donc face à la salle.
-interface PropPlace { kind: string; x: number; z: number; rot: number; y?: number; ceil?: boolean; scale?: number }
-const PROP_PLACES: PropPlace[] = [
-  // Trois familles de supports : les **piliers éclairés** (trois des sept portent une vraie lampe, `i % 3 === 0`),
-  // les **piliers sombres**, et les **parois** mangées par la brume. Un prop est toujours engagé dans son
-  // support : il ne dépasse que de ce qu'on voit, et la collision du pilier le rend infranchissable par
-  // construction — posé au milieu du couloir, on le traverserait, puisque les props ne touchent pas à sim.ts.
-  // Tout ce qui touche le sol reste à l'ouest de x = 26, sauf ce qui est engagé dans P7 : la meute apparaît
-  // dans le rectangle x 26-38 et un Night Lord matérialisé dans une caisse se verrait. Les chaînes pendent à 4,4 m.
-  { kind: 'reliquary', x: 8.9, z: 6.0, rot: -Math.PI / 2 },    // P1 ouest — sous la lampe rouge
-  { kind: 'reliquary', x: 23.6, z: 5.0, rot: -Math.PI / 2 },   // P4 ouest — sous la lampe rouge
-  { kind: 'reliquary', x: 30.6, z: 14.5, rot: -Math.PI / 2 },  // P7 ouest — sous la lampe rouge
-  { kind: 'pipes', x: 13.0, z: 1.0, rot: 0 },                  // paroi sud
-  { kind: 'pipes', x: 20.5, z: 23.0, rot: Math.PI },           // paroi nord
-  { kind: 'pipes', x: 1.0, z: 17.0, rot: Math.PI / 2 },        // paroi ouest
-  { kind: 'chains', x: 10.0, z: 6.0, y: 5.38, rot: 0, ceil: true },   // sous une poutre de plafond (x multiple de 4)
-  { kind: 'chains', x: 18.0, z: 17.0, y: 5.38, rot: 0.7, ceil: true },
-  { kind: 'chains', x: 26.0, z: 9.0, y: 5.38, rot: 1.9, ceil: true },
-  { kind: 'chains', x: 34.0, z: 14.0, y: 5.38, rot: 0.3, ceil: true },
-  { kind: 'crate', x: 10.9, z: 3.3, rot: 0.35 },               // au pied de P1
-  { kind: 'crate', x: 11.45, z: 3.85, rot: 1.15, scale: 0.9 },
-  { kind: 'crate', x: 10.4, z: 2.75, rot: 2.6, scale: 1.05 },
-  { kind: 'crate', x: 23.2, z: 2.6, rot: 2.2 },                // au pied de P4
-  { kind: 'crate', x: 23.9, z: 3.4, rot: 0.8, scale: 0.85 },
-  { kind: 'crate', x: 30.5, z: 12.8, rot: 0.15 },              // au pied de P7
-  { kind: 'debris', x: 8.4, z: 8.6, rot: 0.9 },                // P1, face sud
-  { kind: 'debris', x: 23.3, z: 7.4, rot: 1.3 },               // P4, face sud
-  { kind: 'debris', x: 15.5, z: 22.4, rot: 2.4 },              // paroi nord
-  { kind: 'debris', x: 5.0, z: 1.6, rot: 0.2 },                // paroi sud
-  { kind: 'servitor', x: 30.7, z: 16.1, rot: 0.4 },            // adossé à P7, dans l'ombre de la lampe
-  { kind: 'servitor', x: 1.3, z: 12.0, rot: 0.9 },             // adossé à la paroi ouest
-];
+// Poses : `PROP_PLACES` (`src/props.ts`), partagées avec la simulation. `rot` autour de Y ; le modèle
+// regarde +Z. #46 : un prisme orienté par instance **affichée** ; `?props=0` ou asset manquant = #44.
 const PROP_TINT = new THREE.Color(0.74, 0.82, 0.96);
 const propStats = { instances: 0, tris: 0, calls: 0, missing: [] as string[] };
 async function loadProps() {
@@ -250,7 +221,7 @@ async function loadProps() {
   const byKind = new Map<string, PropPlace[]>();
   for (const p of PROP_PLACES) { const a = byKind.get(p.kind) ?? []; a.push(p); byKind.set(p.kind, a); }
   await Promise.all([...byKind].map(async ([kind, places]) => {
-    const spec = PROP_KINDS[kind];
+    const spec = PROP_VIEW[kind];
     let gltf: any;
     try { gltf = await loadGLB(`/web/models/props/${kind}.glb`); }
     catch (e) { propStats.missing.push(kind); console.warn(`prop ${kind} absent, la scène reste celle de #44`, e); return; }
@@ -291,6 +262,7 @@ async function loadProps() {
     inst.castShadow = inst.receiveShadow = true;
     inst.frustumCulled = false; // une instance par modèle : la sphère englobante d'un InstancedMesh ne couvre que l'origine
     scene.add(inst);
+    if (isPropKind(kind)) loadedPropKinds.push(kind);
     propStats.instances += places.length;
     propStats.calls += 1;
     const idx = src.geometry.index; propStats.tris += ((idx ? idx.count : src.geometry.attributes.position.count) / 3) * places.length;
@@ -300,7 +272,6 @@ async function loadProps() {
 // ---------- modeles rigges (assets/rigged-opt, 1,21-1,78 Mo piece, 24 os, 1,70 m, face +Z)
 // Le facteur d'echelle est cale sur la hauteur du collider, pas sur un gout : NL radius 0,45 -> 2,0 m de haut,
 // Terminator radius 0,8 -> 2,6 m. Sinon le visuel deborde de la boite de collision et traverse les murs.
-const NL_HEIGHT = 2.0, TERM_HEIGHT = 2.6;
 const gltfLoader = new GLTFLoader();
 const loadGLB = (url: string) => new Promise<any>((res, rej) => gltfLoader.load(url, res, undefined, rej));
 // LOD de **texture** : c'est le seul levier qui reste sur ces assets, et il est gratuit à l'œil. Les cinq
@@ -312,25 +283,21 @@ async function loadModelGLB(name: string) {
   if (TEX === 512) { try { return await loadGLB(`/web/models/${name}-512.glb`); } catch { /* pas de variante : on prend l'original */ } }
   return loadGLB(`/web/models/${name}.glb`);
 }
-interface Rig { root: THREE.Object3D; mixer: THREE.AnimationMixer; walk: THREE.AnimationAction | null; run: THREE.AnimationAction | null; idle: THREE.AnimationAction | null; current: THREE.AnimationAction | null; tell: { value: number }; }
-// Box3.setFromObject ignore le skinning : sur un maillage quantifié (KHR_mesh_quantization) il rend 0,02 m
-// au lieu de 1,70 m, et l'échelle devient ×100. On mesure donc la boîte calculée par le skin, transformée
-// par la matrice monde du maillage (qui porte le facteur 0,01).
-function measureHeight(root: THREE.Object3D): number {
-  root.updateMatrixWorld(true);
-  let h = 0;
-  root.traverse((o: any) => {
-    if (!o.isMesh) return;
-    if (o.isSkinnedMesh) o.computeBoundingBox();
-    if (!o.geometry.boundingBox) o.geometry.computeBoundingBox();
-    const src = o.isSkinnedMesh ? o.boundingBox : o.geometry.boundingBox;
-    if (!src) return;
-    const box = src.clone().applyMatrix4(o.matrixWorld);
-    h = Math.max(h, box.max.y - Math.min(0, box.min.y));
-  });
-  return h > 0.01 ? h : 1.7;
+interface Rig {
+  root: THREE.Object3D; mixer: THREE.AnimationMixer;
+  walk: THREE.AnimationAction | null; run: THREE.AnimationAction | null; idle: THREE.AnimationAction | null;
+  current: THREE.AnimationAction | null; tell: { value: number };
+  strideWalk: number; strideRun: number; allowRun: boolean;
 }
-const rigOf = (model: any, clips: any[], targetHeight: number, dim = 1): Rig => {
+const actionFor = (rig: Rig, gait: Gait): THREE.AnimationAction | null => {
+  switch (gait) {
+    case 'run': return rig.run ?? rig.walk;
+    case 'walk': return rig.walk ?? rig.run;
+    case 'idle': return rig.idle;
+    default: { const _e: never = gait; return _e; }
+  }
+};
+const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, dim = 1, allowRun = true): Rig => {
   const root = model.scene;
   // Un seul objet uniform par modèle, créé ici : tous les programmes compilés plus tard le lisent en direct.
   // (Un uniform créé dans onBeforeCompile n'existe qu'après le premier rendu — en mode capture, les ticks
@@ -358,13 +325,23 @@ const rigOf = (model: any, clips: any[], targetHeight: number, dim = 1): Rig => 
     };
   });
   const mixer = new THREE.AnimationMixer(root);
-  const pick = (n: string) => clips.find(c => c.name.toLowerCase().includes(n)) ?? null;
-  const mk = (c: any) => (c ? mixer.clipAction(c) : null);
-  return { root, mixer, walk: mk(pick('walk')), run: mk(pick('run')), idle: mk(model.animations?.[0] ?? null), current: null, tell };
+  const walkClip = pickClip(clips, 'walk');
+  const runClip = pickClip(clips, 'run');
+  const mk = (c: THREE.AnimationClip | null) => (c ? mixer.clipAction(c) : null);
+  const strideWalk = walkClip ? measureForwardStride(root, walkClip).stride : 0;
+  const strideRun = runClip ? measureForwardStride(root, runClip).stride : 0;
+  return {
+    root, mixer, walk: mk(walkClip), run: mk(runClip), idle: mk(model.animations?.[0] ?? null),
+    current: null, tell, strideWalk, strideRun, allowRun,
+  };
 };
-const playRig = (rig: Rig, want: 'walk' | 'run' | 'idle', dt: number) => {
-  const next = want === 'run' ? (rig.run ?? rig.walk) : want === 'walk' ? (rig.walk ?? rig.run) : rig.idle;
+const playRig = (rig: Rig, want: Gait, dt: number, speed: number) => {
+  const next = actionFor(rig, want);
   if (next && next !== rig.current) { rig.current?.fadeOut(0.15); next.reset().fadeIn(0.15).play(); rig.current = next; }
+  if (next && want !== 'idle') {
+    const stride = want === 'run' ? rig.strideRun : rig.strideWalk;
+    next.timeScale = gaitTimeScale(speed, stride, next.getClip().duration);
+  } else if (next) next.timeScale = 1;
   rig.mixer.update(dt);
 };
 
@@ -528,7 +505,7 @@ const DEMO_CFG = DEMO ? DEMO_SCRIPTS[DEMO] ?? null : null;
 function startRound() {
   // le build jouable garde l'armement des griffes (défaut) : il n'est plus celui des mesures b3
   roundNo++; roundOver = false; if (roundNo > 1) seed += 1; // manche suivante : la graine d'après, jamais la même
-  w = newWorld(seed); camYaw = followYaw = w.t.facing; prev = snap();
+  w = newWorld(seed, undefined, { propKinds: resolvePropKinds({ propsOn: PROPS_ON, loaded: loadedPropKinds }) }); camYaw = followYaw = w.t.facing; prev = snap();
   if (DEMO_CFG) { DEMO_CFG.place(w); camYaw = followYaw = w.t.facing; prev = snap(); } rec = new Recorder(autoplay ? `autoplay ${autoplay}` : 'joueur'); rng = mulberry32(seed ^ 0x9e3779b9);
   tactic = autoplay ? (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)() : null;
   nlMeshes.forEach(m => { m.rotation.set(0, 0, 0); m.visible = true; });
@@ -605,14 +582,19 @@ function updateTell() {
   }
 }
 function updateRigs(dt: number) { // avance d'un pas de simulation, pas du temps réel : le mode capture reste déterministe
+  const nlWalk = NL_CFG.speed * T_CFG.stunSpeed;
+  const nlRun = NL_CFG.speed;
   for (let i = 0; i < nlRigs.length; i++) {
     const rig = nlRigs[i]; if (!rig) continue;
     const n = w.nls[i];
-    if (!n.alive) { playRig(rig, 'idle', dt); continue; }
-    const moved = Math.hypot(n.x - prev.n[i][0], n.y - prev.n[i][1]) > 0.01;
-    playRig(rig, moved ? 'run' : 'idle', dt);
+    const speed = Math.hypot(n.x - prev.n[i][0], n.y - prev.n[i][1]) / DT;
+    if (!n.alive) { playRig(rig, 'idle', dt, 0); continue; }
+    playRig(rig, pickGait(speed, { allowRun: rig.allowRun, walkSpeed: nlWalk, runSpeed: nlRun }), dt, speed);
   }
-  if (termRig) playRig(termRig, w.t.moving ? 'walk' : 'idle', dt);
+  if (termRig) {
+    const speed = Math.hypot(w.t.vx, w.t.vy);
+    playRig(termRig, pickGait(speed, { allowRun: termRig.allowRun, walkSpeed: T_CFG.fwd, runSpeed: T_CFG.fwd }), dt, speed);
+  }
   updateTell();
 }
 // Panoramique d'une source : sa position écran, pas son angle au joueur (à 3 m la caméra voit autrement).
@@ -797,11 +779,11 @@ addEventListener('resize', resize);
 // Les modèles remplacent les proxies. Un échec de chargement laisse la capsule en place : le prototype
 // reste jouable sans réseau ni assets.
 async function loadModels() {
-  const load = async (name: string, target: number, dim = 1) => {
+  const load = async (name: string, target: number, dim = 1, allowRun = true) => {
     const model = await loadModelGLB(name);
-    const clips: any[] = [...(model.animations ?? [])];
-    for (const k of ['walk', 'run']) { try { const a = await loadGLB(`/web/models/${name}-${k}.glb`); clips.push(...(a.animations ?? [])); } catch { /* clip absent, on garde l'idle */ } }
-    return rigOf(model, clips, target, dim);
+    const clips: THREE.AnimationClip[] = [...(model.animations ?? [])];
+    for (const k of ['walk', 'run'] as const) { try { const a = await loadGLB(`/web/models/${name}-${k}.glb`); clips.push(...(a.animations ?? [])); } catch { /* clip absent, on garde l'idle */ } }
+    return rigOf(model, clips, target, dim, allowRun);
   };
   await Promise.all(ROLES.map(async (_r, i) => {
     try {
@@ -811,7 +793,7 @@ async function loadModels() {
     } catch (e) { console.warn('modèle NL-' + (i + 1) + ' absent, capsule conservée', e); }
   }));
   try {
-    termRig = await load('TERM', TERM_HEIGHT, 0.40);
+    termRig = await load('TERM', TERM_HEIGHT, 0.40, false);
     term.add(termRig.root);
     // Les matériaux de l'armure, pour l'alarme de servo : on garde l'émissif d'origine pour savoir le rendre.
     termRig.root.traverse((o: any) => { const m = o.material; if (m && m.emissive) { if (!m.userData.baseEmissive) m.userData.baseEmissive = m.emissive.clone(); alarmMats.push(m); } });

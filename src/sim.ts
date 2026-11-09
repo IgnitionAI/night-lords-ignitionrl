@@ -2,6 +2,8 @@
 // Principe repris de The Crucible (IgnitionAI/ignition, packages/demo-cage-duel) : tick fixe de 100 ms,
 // la sim fait foi pour le rendu comme pour l'entraînement.
 import { mulberry32, gauss, type Rng } from './rng';
+import { propPrisms, resolvePrisms, distSegPrism, distPointPrism, type PropKind, type PropPrism } from './props';
+export type { PropKind, PropPrism };
 
 export const DT = 0.1;
 export const MAX_TICKS = 1200; // 120 s simulées
@@ -103,11 +105,13 @@ export type Ev =
   // le pas est un événement de simulation (et non un détail de rendu) : il porte le pied, la position et
   // l'intensité, pour que le son et l'animation n'aient pas à réinventer la cadence. `intensity: 0` = pas d'arrêt.
   | { type: 'step'; x: number; y: number; foot: 0 | 1; intensity: number };
-/** Options de simulation. `clawWindup` : armement de 2 ticks avant l'impact des griffes (défaut `true`). */
-export interface WorldOpts { clawWindup?: boolean }
+/** Options de simulation. `clawWindup` : armement de 2 ticks avant l'impact des griffes (défaut `true`).
+ * `propKinds` : types de props **affichés** (assets chargés). Vide / absent = scène #44, tick pour tick. */
+export interface WorldOpts { clawWindup?: boolean; propKinds?: readonly PropKind[] }
 export interface World {
   seed: number; tick: number; rng: Rng; t: Term; nls: NL[]; opts: Required<WorldOpts>;
   done: boolean; winner: 'pack' | 'terminator' | null; reason: string; events: Ev[];
+  propSolids: readonly PropPrism[];
 }
 export const NL_ACTIONS = ['tenir', 'approcher', 'reculer', 'flanc G', 'flanc D', 'diag G', 'diag D', 'griffes'] as const;
 export const N_ACT = NL_ACTIONS.length;
@@ -127,14 +131,16 @@ export function segHitsBox(ax: number, ay: number, bx: number, by: number, b: Bo
   }
   return true;
 }
-export function los(ax: number, ay: number, bx: number, by: number): boolean {
+export function los(ax: number, ay: number, bx: number, by: number, solids: readonly PropPrism[] = []): boolean {
   for (const b of PILLARS) if (segHitsBox(ax, ay, bx, by, b)) return false;
+  for (const o of solids) if (o.floor && distSegPrism(ax, ay, bx, by, o).d === 0) return false;
   return true;
 }
-function insideAny(x: number, y: number, m: number) {
-  return PILLARS.some(b => x > b.x0 - m && x < b.x1 + m && y > b.y0 - m && y < b.y1 + m);
+function insideAny(x: number, y: number, m: number, solids: readonly PropPrism[] = []) {
+  if (PILLARS.some(b => x > b.x0 - m && x < b.x1 + m && y > b.y0 - m && y < b.y1 + m)) return true;
+  return solids.some(o => o.floor && distPointPrism(x, y, o) <= m);
 }
-export function collide(p: { x: number; y: number }, r: number) {
+export function collide(p: { x: number; y: number }, r: number, solids: readonly PropPrism[] = [], from?: { x: number; y: number }) {
   p.x = Math.min(ARENA.w - r, Math.max(r, p.x)); p.y = Math.min(ARENA.h - r, Math.max(r, p.y));
   for (const b of PILLARS) {
     const cx = Math.min(b.x1, Math.max(b.x0, p.x)), cy = Math.min(b.y1, Math.max(b.y0, p.y));
@@ -146,18 +152,21 @@ export function collide(p: { x: number; y: number }, r: number) {
       if (i === 0) p.x = b.x0 - r; else if (i === 1) p.x = b.x1 + r; else if (i === 2) p.y = b.y0 - r; else p.y = b.y1 + r;
     }
   }
+  if (solids.length) resolvePrisms(from ?? p, p, r, solids);
 }
 // Distance libre le long d'un rayon (pas de 0,25 m), plafonnée.
-export function rayFree(x: number, y: number, dx: number, dy: number, max = 6): number {
+export function rayFree(x: number, y: number, dx: number, dy: number, max = 6, solids: readonly PropPrism[] = []): number {
   for (let s = 0.25; s <= max; s += 0.25) {
     const px = x + dx * s, py = y + dy * s;
-    if (px < 0 || py < 0 || px > ARENA.w || py > ARENA.h || insideAny(px, py, 0)) return s;
+    if (px < 0 || py < 0 || px > ARENA.w || py > ARENA.h || insideAny(px, py, 0, solids)) return s;
   }
   return max;
 }
 
 export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: number }, opts: WorldOpts = {}): World {
   const rng = mulberry32(seed);
+  const propKinds = (opts.propKinds ?? []) as PropKind[];
+  const propSolids = propKinds.length ? propPrisms(propKinds) : [];
   const t: Term = { x: 3, y: 6 + rng() * 12, facing: 0, hp: T_CFG.hp, boltCd: 0, fistCd: 0, noise: T_CFG.noiseIdle, moving: false, channel: 0, lastHitTick: -999, lastHitAngle: 0,
     vx: 0, vy: 0, turnVel: 0, strideAcc: 0, foot: 0,
     ammo: T_CFG.boltAmmo, burstLeft: 0, burstCd: 0, reloadLeft: 0, fistCharge: 0,
@@ -166,12 +175,12 @@ export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: 
   const nls: NL[] = [];
   for (let i = 0; i < N_NL; i++) {
     let x = 0, y = 0;
-    do { x = 26 + rng() * 12; y = 2 + rng() * 20; } while (insideAny(x, y, 0.8) || dist(x, y, t.x, t.y) < 12);
+    do { x = 26 + rng() * 12; y = 2 + rng() * 20; } while (insideAny(x, y, 0.8, propSolids) || dist(x, y, t.x, t.y) < 12);
     nls.push({ role: i, x, y, facing: Math.PI, alive: true, cd: 0, armTicks: 0, lastAction: 0, noise: 0, mates: [], stunTicks: 0,
       belief: { valid: false, x: BEACON.x, y: BEACON.y, age: 99, facing: null, seen: false, heard: false, vox: false } });
   }
   for (const n of nls) n.mates = nls.map(() => ({ known: false, x: n.x, y: n.y, age: 99, alive: true }));
-  const w: World = { seed, tick: 0, rng, t, nls, opts: { clawWindup: opts.clawWindup ?? true }, done: false, winner: null, reason: '', events: [] };
+  const w: World = { seed, tick: 0, rng, t, nls, opts: { clawWindup: opts.clawWindup ?? true, propKinds }, done: false, winner: null, reason: '', events: [], propSolids };
   perceive(w);
   return w;
 }
@@ -181,7 +190,7 @@ export function nlSees(w: World, n: NL): boolean {
   if (d > NL_CFG.visionRange) return false;
   const a = Math.atan2(t.y - n.y, t.x - n.x);
   if (Math.abs(angNorm(a - n.facing)) > NL_CFG.visionHalf + Math.atan2(T_CFG.radius, d)) return false;
-  return los(n.x, n.y, t.x, t.y);
+  return los(n.x, n.y, t.x, t.y, w.propSolids);
 }
 // Ce que le Terminator perçoit : cône de vision + auspex court (même logique, pas d'omniscience).
 export function terminatorPerceives(w: World): number[] {
@@ -192,15 +201,15 @@ export function terminatorPerceives(w: World): number[] {
     if (d <= T_CFG.auspex) { out.push(i); continue; }
     if (d > T_CFG.visionRange) continue;
     if (Math.abs(angNorm(Math.atan2(n.y - t.y, n.x - t.x) - t.facing)) > T_CFG.visionHalf) continue;
-    if (los(t.x, t.y, n.x, n.y)) out.push(i);
+    if (los(t.x, t.y, n.x, n.y, w.propSolids)) out.push(i);
   }
   return out;
 }
 
-function nlSeesPoint(n: NL, x: number, y: number, r: number): boolean {
+function nlSeesPoint(n: NL, x: number, y: number, r: number, solids: readonly PropPrism[]): boolean {
   const d = dist(n.x, n.y, x, y); if (d > NL_CFG.visionRange) return false;
   if (Math.abs(angNorm(Math.atan2(y - n.y, x - n.x) - n.facing)) > NL_CFG.visionHalf + Math.atan2(r, d)) return false;
-  return los(n.x, n.y, x, y);
+  return los(n.x, n.y, x, y, solids);
 }
 function perceive(w: World) {
   const t = w.t;
@@ -220,7 +229,7 @@ function perceive(w: World) {
     // frères : vus, entendus (bruit de leurs pas / griffes) ou à portée de vox ; sinon dernière position connue qui vieillit
     w.nls.forEach((m, j) => {
       if (j === n.role) return; const k = n.mates[j]; const d = dist(n.x, n.y, m.x, m.y);
-      const known = d <= NL_CFG.voxRange || (m.alive && (d <= m.noise || nlSeesPoint(n, m.x, m.y, NL_CFG.radius))) || (!m.alive && nlSeesPoint(n, m.x, m.y, NL_CFG.radius));
+      const known = d <= NL_CFG.voxRange || (m.alive && (d <= m.noise || nlSeesPoint(n, m.x, m.y, NL_CFG.radius, w.propSolids))) || (!m.alive && nlSeesPoint(n, m.x, m.y, NL_CFG.radius, w.propSolids));
       k.known = known; if (known) { k.x = m.x; k.y = m.y; k.age = 0; k.alive = m.alive; } else k.age++;
     });
   }
@@ -249,7 +258,7 @@ export function observe(w: World, i: number): number[] {
     const dx = k.x - n.x, dy = k.y - n.y, live = k.alive && k.age < 99;
     o.push(k.known ? 1 : 0, Math.min(1, k.age / 50), live ? (dx * f.ux + dy * f.uy) / 20 : 0, live ? (dx * f.vx + dy * f.vy) / 20 : 0);
   }
-  o.push(rayFree(n.x, n.y, f.ux, f.uy) / 6, rayFree(n.x, n.y, -f.ux, -f.uy) / 6, rayFree(n.x, n.y, f.vx, f.vy) / 6, rayFree(n.x, n.y, -f.vx, -f.vy) / 6);
+  o.push(rayFree(n.x, n.y, f.ux, f.uy, 6, w.propSolids) / 6, rayFree(n.x, n.y, -f.ux, -f.uy, 6, w.propSolids) / 6, rayFree(n.x, n.y, f.vx, f.vy, 6, w.propSolids) / 6, rayFree(n.x, n.y, -f.vx, -f.vy, 6, w.propSolids) / 6);
   o.push(w.tick / MAX_TICKS);
   return o;
 }
@@ -356,7 +365,8 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   const vLat = 0; // `strafeAccel = 0` : aucune accélération latérale, donc jamais de vitesse latérale
   t.vx = cx * vLong - cy * vLat; t.vy = cy * vLong + cx * vLat;
   const wasMoving = t.moving; // avant de recalculer : sert au pas d'arrêt (un seul, pas un par tick)
-  t.x += t.vx * DT; t.y += t.vy * DT; collide(t, T_CFG.radius);
+  const tx0 = t.x, ty0 = t.y;
+  t.x += t.vx * DT; t.y += t.vy * DT; collide(t, T_CFG.radius, w.propSolids, { x: tx0, y: ty0 });
   const speed = Math.abs(vLong);
   t.moving = speed > 1e-6; // la vitesse réelle, pas l'entrée : le Terminator reste bruyant en glissant
   t.noise = t.moving ? T_CFG.noiseMove : T_CFG.noiseIdle;
@@ -396,7 +406,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
       w.nls.forEach((n, i) => {
         if (!n.alive) return; const d = dist(n.x, n.y, t.x, t.y); if (d > T_CFG.boltRange) return;
         const e = Math.abs(angNorm(Math.atan2(n.y - t.y, n.x - t.x) - t.facing));
-        if (e <= half + Math.atan2(NL_CFG.radius, d) && d < bd && los(t.x, t.y, n.x, n.y)) { bd = d; best = i; }
+        if (e <= half + Math.atan2(NL_CFG.radius, d) && d < bd && los(t.x, t.y, n.x, n.y, w.propSolids)) { bd = d; best = i; }
       });
       const ex = best >= 0 ? w.nls[best].x : t.x + cx * T_CFG.boltRange, ey = best >= 0 ? w.nls[best].y : t.y + cy * T_CFG.boltRange;
       if (best >= 0) { w.nls[best].alive = false; died[best] = true; }
@@ -439,11 +449,13 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
       const dirs: Record<number, [number, number]> = { 1: [1, 0], 2: [-1, 0], 3: [0, 1], 4: [0, -1], 5: [0.7071, 0.7071], 6: [0.7071, -0.7071] };
       const [du, dv] = dirs[a]; const mx = f.ux * du + f.vx * dv, my = f.uy * du + f.vy * dv;
       const sp = NL_CFG.speed * (stunned ? T_CFG.stunSpeed : 1); // étourdi : il se traîne
+      const nx0 = n.x, ny0 = n.y;
       n.x += mx * sp * DT; n.y += my * sp * DT; n.facing = Math.atan2(my, mx); n.noise = NL_CFG.noiseMove;
+      collide(n, NL_CFG.radius, w.propSolids, { x: nx0, y: ny0 });
     } else n.facing = Math.atan2(f.uy, f.ux);
-    collide(n, NL_CFG.radius);
+    collide(n, NL_CFG.radius, w.propSolids);
     const d = dist(n.x, n.y, t.x, t.y), mind = NL_CFG.radius + T_CFG.radius;
-    if (d < mind && d > 0) { n.x = t.x + (n.x - t.x) / d * mind; n.y = t.y + (n.y - t.y) / d * mind; collide(n, NL_CFG.radius); }
+    if (d < mind && d > 0) { n.x = t.x + (n.x - t.x) / d * mind; n.y = t.y + (n.y - t.y) / d * mind; collide(n, NL_CFG.radius, w.propSolids); }
     if (n.stunTicks > 0) n.stunTicks--; // décompte en fin de tick : la valeur pleine reste lisible au tick d'impact
     if (n.role === 1 && n.belief.facing !== null) { // Uzas : se savoir (vu ou vox) dans le cône avant, proche = appât
       const b = n.belief, rel = Math.abs(angNorm(Math.atan2(n.y - b.y, n.x - b.x) - b.facing!));
