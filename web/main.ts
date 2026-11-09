@@ -1,6 +1,7 @@
 // Prototype gris : rendu Three.js (cubes et capsules) d'une sim pure à pas fixe (src/sim.ts).
 import * as THREE from 'three';
 import { newWorld, step, observe, nlFrame, terminatorPerceives, DT, MAX_TICKS, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
+import { PROP_PLACES, isPropKind, resolvePropKinds, type PropKind, type PropPlace } from '../src/props';
 import { POOL, UNSEEN, type Tactic } from '../src/tactics';
 import { Recorder } from '../src/recorder';
 import { forward, softmax, sample, type ActorJSON } from '../src/policy';
@@ -197,8 +198,9 @@ beacon.position.set(BEACON.x, 0.05, BEACON.y); scene.add(beacon); const bl = new
 // Un seul appel de rendu par **type** de prop : les instances d'un même modèle partagent géométrie et
 // matériau (`InstancedMesh`), et c'est le seul moyen de poser vingt objets pour six appels.
 const PROPS_ON = qs.get('props') !== '0' && ENV;
-interface PropKind { axis: 'x' | 'y' | 'z'; size: number; dim: number }
-const PROP_KINDS: Record<string, PropKind> = {
+let loadedPropKinds: PropKind[] = [];
+interface PropView { axis: 'x' | 'y' | 'z'; size: number; dim: number }
+const PROP_VIEW: Record<string, PropView> = {
   // `size` = la dimension visée en mètres sur `axis` ; `dim` = facteur d'albedo, comme pour les personnages
   // (textures calibrées pour un studio, pas pour un couloir à 10 lux).
   debris: { axis: 'z', size: 1.8, dim: 0.28 },
@@ -208,41 +210,8 @@ const PROP_KINDS: Record<string, PropKind> = {
   reliquary: { axis: 'y', size: 2.4, dim: 0.38 },
   servitor: { axis: 'z', size: 1.5, dim: 0.28 },
 };
-// Tout est posé **contre les murs et le long des piliers**, jamais au milieu : les props ne changent pas la
-// collision (`ARENA`/`PILLARS` de `src/sim.ts`), donc un objet au centre du couloir serait une promesse que
-// le jeu ne tient pas — on le traverserait. Le bord du cadre et la brume, eux, ne mentent pas.
-// `rot` : rotation autour de Y ; le modèle regarde +Z, posé contre la paroi z≈0 il fait donc face à la salle.
-interface PropPlace { kind: string; x: number; z: number; rot: number; y?: number; ceil?: boolean; scale?: number }
-const PROP_PLACES: PropPlace[] = [
-  // Trois familles de supports : les **piliers éclairés** (trois des sept portent une vraie lampe, `i % 3 === 0`),
-  // les **piliers sombres**, et les **parois** mangées par la brume. Un prop est toujours engagé dans son
-  // support : il ne dépasse que de ce qu'on voit, et la collision du pilier le rend infranchissable par
-  // construction — posé au milieu du couloir, on le traverserait, puisque les props ne touchent pas à sim.ts.
-  // Tout ce qui touche le sol reste à l'ouest de x = 26, sauf ce qui est engagé dans P7 : la meute apparaît
-  // dans le rectangle x 26-38 et un Night Lord matérialisé dans une caisse se verrait. Les chaînes pendent à 4,4 m.
-  { kind: 'reliquary', x: 8.9, z: 6.0, rot: -Math.PI / 2 },    // P1 ouest — sous la lampe rouge
-  { kind: 'reliquary', x: 23.6, z: 5.0, rot: -Math.PI / 2 },   // P4 ouest — sous la lampe rouge
-  { kind: 'reliquary', x: 30.6, z: 14.5, rot: -Math.PI / 2 },  // P7 ouest — sous la lampe rouge
-  { kind: 'pipes', x: 13.0, z: 1.0, rot: 0 },                  // paroi sud
-  { kind: 'pipes', x: 20.5, z: 23.0, rot: Math.PI },           // paroi nord
-  { kind: 'pipes', x: 1.0, z: 17.0, rot: Math.PI / 2 },        // paroi ouest
-  { kind: 'chains', x: 10.0, z: 6.0, y: 5.38, rot: 0, ceil: true },   // sous une poutre de plafond (x multiple de 4)
-  { kind: 'chains', x: 18.0, z: 17.0, y: 5.38, rot: 0.7, ceil: true },
-  { kind: 'chains', x: 26.0, z: 9.0, y: 5.38, rot: 1.9, ceil: true },
-  { kind: 'chains', x: 34.0, z: 14.0, y: 5.38, rot: 0.3, ceil: true },
-  { kind: 'crate', x: 10.9, z: 3.3, rot: 0.35 },               // au pied de P1
-  { kind: 'crate', x: 11.45, z: 3.85, rot: 1.15, scale: 0.9 },
-  { kind: 'crate', x: 10.4, z: 2.75, rot: 2.6, scale: 1.05 },
-  { kind: 'crate', x: 23.2, z: 2.6, rot: 2.2 },                // au pied de P4
-  { kind: 'crate', x: 23.9, z: 3.4, rot: 0.8, scale: 0.85 },
-  { kind: 'crate', x: 30.5, z: 12.8, rot: 0.15 },              // au pied de P7
-  { kind: 'debris', x: 8.4, z: 8.6, rot: 0.9 },                // P1, face sud
-  { kind: 'debris', x: 23.3, z: 7.4, rot: 1.3 },               // P4, face sud
-  { kind: 'debris', x: 15.5, z: 22.4, rot: 2.4 },              // paroi nord
-  { kind: 'debris', x: 5.0, z: 1.6, rot: 0.2 },                // paroi sud
-  { kind: 'servitor', x: 30.7, z: 16.1, rot: 0.4 },            // adossé à P7, dans l'ombre de la lampe
-  { kind: 'servitor', x: 1.3, z: 12.0, rot: 0.9 },             // adossé à la paroi ouest
-];
+// Poses : `PROP_PLACES` (`src/props.ts`), partagées avec la simulation. `rot` autour de Y ; le modèle
+// regarde +Z. #46 : un prisme orienté par instance **affichée** ; `?props=0` ou asset manquant = #44.
 const PROP_TINT = new THREE.Color(0.74, 0.82, 0.96);
 const propStats = { instances: 0, tris: 0, calls: 0, missing: [] as string[] };
 async function loadProps() {
@@ -250,7 +219,7 @@ async function loadProps() {
   const byKind = new Map<string, PropPlace[]>();
   for (const p of PROP_PLACES) { const a = byKind.get(p.kind) ?? []; a.push(p); byKind.set(p.kind, a); }
   await Promise.all([...byKind].map(async ([kind, places]) => {
-    const spec = PROP_KINDS[kind];
+    const spec = PROP_VIEW[kind];
     let gltf: any;
     try { gltf = await loadGLB(`/web/models/props/${kind}.glb`); }
     catch (e) { propStats.missing.push(kind); console.warn(`prop ${kind} absent, la scène reste celle de #44`, e); return; }
@@ -291,6 +260,7 @@ async function loadProps() {
     inst.castShadow = inst.receiveShadow = true;
     inst.frustumCulled = false; // une instance par modèle : la sphère englobante d'un InstancedMesh ne couvre que l'origine
     scene.add(inst);
+    if (isPropKind(kind)) loadedPropKinds.push(kind);
     propStats.instances += places.length;
     propStats.calls += 1;
     const idx = src.geometry.index; propStats.tris += ((idx ? idx.count : src.geometry.attributes.position.count) / 3) * places.length;
@@ -528,7 +498,7 @@ const DEMO_CFG = DEMO ? DEMO_SCRIPTS[DEMO] ?? null : null;
 function startRound() {
   // le build jouable garde l'armement des griffes (défaut) : il n'est plus celui des mesures b3
   roundNo++; roundOver = false; if (roundNo > 1) seed += 1; // manche suivante : la graine d'après, jamais la même
-  w = newWorld(seed); camYaw = followYaw = w.t.facing; prev = snap();
+  w = newWorld(seed, undefined, { propKinds: resolvePropKinds({ propsOn: PROPS_ON, loaded: loadedPropKinds }) }); camYaw = followYaw = w.t.facing; prev = snap();
   if (DEMO_CFG) { DEMO_CFG.place(w); camYaw = followYaw = w.t.facing; prev = snap(); } rec = new Recorder(autoplay ? `autoplay ${autoplay}` : 'joueur'); rng = mulberry32(seed ^ 0x9e3779b9);
   tactic = autoplay ? (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)() : null;
   nlMeshes.forEach(m => { m.rotation.set(0, 0, 0); m.visible = true; });
