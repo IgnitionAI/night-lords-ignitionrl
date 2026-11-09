@@ -9,6 +9,10 @@ runs/b3/*
 !runs/base/
 runs/base/*
 !runs/base/metrics.jsonl
+# Scratch du harnais de mesure NN (jamais les artefacts b3)
+mesures/nn-scratch/
+runs/nn-scratch/
+
 recordings/
 .env*
 *.log

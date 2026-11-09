@@ -83,6 +83,7 @@ Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --see
 - `src/sim.ts` : simulation à pas fixe (100 ms), observations, récompenses
 - `src/tactics.ts` : Terminators scriptés et fantôme ; `src/recorder.ts`, `src/bc.ts`, `src/tobs.ts` : enregistrement et clonage de comportement
 - `src/ppo.ts`, `src/train.ts` : PPO multi-agents ; `src/eval.ts`, `src/evallib.ts` : évaluation
+- `docs/PROTOCOLE-MESURE-NN.md`, `scripts/nn-harness.ts` : protocole auditable et smoke de mesure (n'écrase pas b3)
 - `src/server.ts` : serveur local et ré-entraînement entre manches ; `src/experiment-c.ts` : expérience C
 - `web/` : rendu Three.js et vue de contrôle (touche V)
 - Caméra à l'épaule (défaut) : 3,55 m derrière le Terminator, 1,15 m sur son épaule droite, 2,5 m du sol,
