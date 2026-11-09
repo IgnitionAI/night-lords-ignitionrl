@@ -79,9 +79,8 @@ rugosité plancher à 0,70 : la lumière accroche les arêtes, pas les faces.
 
 ## Ce que ce n'est pas
 
-- **Pas dans le dépôt.** Comme les cinq personnages : la licence Genex n'autorise pas explicitement la
-  redistribution, le dépôt est public. Les binaires vivent dans `web/models/props/` en local (ignoré par
-  git) et dans `Shared/team/pipeline/demo-night-lords/assets/props/`. Absents, `loadProps()` échoue
-  proprement et la scène est exactement celle de #44.
+- **Pas les sources brutes.** Les six versions optimisées sont versionnées dans `web/models/props/`, sur
+  décision explicite de Salim. Les sources restent dans `Shared/team/pipeline/demo-night-lords/assets/props/`.
+  Si un binaire est supprimé, `loadProps()` échoue proprement et la scène est exactement celle de #44.
 - **Pas de la simulation.** Aucune collision, aucun rôle de jeu : ce sont des objets de décor.
 - **Pas un asset Games Workshop.** Tout est généré, aucun élément extrait d'une publication.

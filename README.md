@@ -122,8 +122,9 @@ Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --see
 - Six **props sculptés** Genex (débris, caisse, tuyauterie, chaînes, reliquaire, serviteur mort) sont posés en
   22 instances contre les piliers et les parois, **six appels de rendu** pour les vingt-deux : une
   `InstancedMesh` par type. Coût mesuré au même tick (t235, graine 18) : **53 → 59 appels, 65 490 → 141 573
-  triangles, aucune lumière de plus**. Les binaires sont **hors du dépôt** (licence Genex non tranchée) comme
-  les personnages ; absents, la scène est celle de #44. `?props=0` la rend tick pour tick (voir `web/PROPS.md`).
+  triangles, aucune lumière de plus**. Les versions optimisées des personnages, animations et props sont
+  versionnées dans `web/models/` ; si un fichier est absent, le rendu garde son repli. `?props=0` rend la
+  scène sans props tick pour tick (voir `web/PROPS.md`).
 - `?debug=1` publie les compteurs de rendu dans `window.__SC()` — appels, triangles, lumières, textures, et le
   détail des props. C'est la seule mesure de coût de rendu qu'on puisse prendre sans GPU, et la passe plein écran
   ne l'écrase pas : le compte est relevé avant elle.

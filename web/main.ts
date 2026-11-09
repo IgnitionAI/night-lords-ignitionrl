@@ -190,8 +190,8 @@ beacon.position.set(BEACON.x, 0.05, BEACON.y); scene.add(beacon); const bl = new
 // Le décor de #44 est de la géométrie **construite** : il donne l'architecture (tôle, membrures, pilastres),
 // pas les formes qu'un sculpteur produit — l'épave, la tuyauterie, le cadavre. Six props Genex comblent ce
 // trou : débris, caisse, tuyauterie, chaînes, reliquaire, serviteur mort. Barème lu dans l'API : 35 crédits
-// le modèle texturé, 210 pour le lot. Même régime que les personnages — binaires **hors du dépôt** (licence
-// Genex non tranchée), chargés à l'exécution, un prop absent ne casse rien, il manque.
+// le modèle texturé, 210 pour le lot. Versions optimisées versionnées comme les personnages, chargées à
+// l'exécution ; un prop absent ne casse rien, il manque.
 // `?props=0` rend la scène de #44 tick pour tick ; `?env=0` (grey-box) les coupe aussi, sinon la comparaison
 // grey-box/décor ne voudrait plus rien dire.
 // Un seul appel de rendu par **type** de prop : les instances d'un même modèle partagent géométrie et
