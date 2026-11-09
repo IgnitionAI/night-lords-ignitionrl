@@ -3,8 +3,15 @@
 <style>
 html,body{margin:0;height:100%;background:#000;color:#ddd;font:13px/1.35 system-ui,sans-serif;overflow:hidden}
 #c{position:fixed;inset:0}
-#hud{position:fixed;left:12px;top:10px;pointer-events:none;text-shadow:0 1px 2px #000}
-#hud .bar{width:220px;height:12px;background:#311;border:1px solid #a85;margin:4px 0}#hud .bar i{display:block;height:100%;background:linear-gradient(90deg,#d9b25a,#f3e3b0)}
+#hud{position:fixed;left:12px;top:10px;pointer-events:none;text-shadow:0 1px 2px #000;max-width:min(420px,92vw)}
+#hud .obj{opacity:.9;margin:2px 0 4px}
+#hud .clock{font-variant-numeric:tabular-nums;font-weight:700}
+#hud .clock.warn{color:#ff8a6a}
+#hud .bar{width:220px;height:10px;background:#311;border:1px solid #a85;margin:3px 0}#hud .bar i{display:block;height:100%;background:linear-gradient(90deg,#d9b25a,#f3e3b0)}
+#hud .bar.beacon{height:6px;background:#132;border-color:#385}#hud .bar.beacon i{background:linear-gradient(90deg,#2a8,#8fc)}
+#hud .roster{margin-top:3px}#hud .roster .down{opacity:.45;text-decoration:line-through}
+#hud .alarm{color:#ff5a2a}#hud .crit{color:#8a3a2a}#hud .stagger{color:#f88}#hud .demo{color:#ffb020}#hud .burn{color:#8f98a8}
+#msg .how{margin:.6em 0;opacity:.9}
 #dbg{position:fixed;right:8px;top:8px;background:rgba(5,8,16,.82);border:1px solid #345;padding:6px 8px;font:11px/1.3 ui-monospace,monospace;max-width:46vw}
 #dbg table{border-collapse:collapse}#dbg td,#dbg th{padding:1px 5px;text-align:left}
 #msg{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.8);border:1px solid #a85;padding:16px 22px;max-width:80vw;text-align:center;display:none;font-size:15px}
@@ -15,5 +22,5 @@ html,body{margin:0;height:100%;background:#000;color:#ddd;font:13px/1.35 system-
 </style></head><body>
 <canvas id="c"></canvas><div id="flash"></div>
 <div id="hud"></div><div id="dbg"></div><div id="msg"></div>
-<div id="help">ZQSD ou WASD bouger · ←/→ pivoter (lent) · Espace storm bolter · F ou Maj gantelet · V vue de contrôle · Entrée manche suivante · P pause</div>
+<div id="help">Victoire Terminator : balise 6 s, meute à terre, ou 2:00 tenues. Défaite : armure à 0.<br>ZQSD ou WASD bouger · ←/→ pivoter (lent) · Espace storm bolter · F ou Maj gantelet · V vue de contrôle · Entrée manche suivante · P pause</div>
 <script type="module" src="/web/dist/main.js"></script></body></html>
