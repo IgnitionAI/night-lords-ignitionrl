@@ -1,5 +1,5 @@
 {
-  "bunTest": { "pass": 87, "fail": 0, "skip": 1 },
+  "bunTest": { "pass": 96, "fail": 0, "skip": 1, "afterMerge": "2a576432" },
   "bunRunBuild": 0,
   "measureStride": {
     "NL-1-run": 1.3335077670385962,
