@@ -140,8 +140,9 @@ def main() -> int:
     cas2 = first("620929", "318964", "778028")
     spark = first("449719", "536793", "189630", "675755")
     # 675760 tesla coil: recorded, but stacked harmonics — not used.
-    slash = first("441666", "442903", "868049")
-    swo2 = first("256911", "342984", "848212")
+    # 441666 sword slash has a ~1.3 s harmonic ring (~2.5 kHz + partials).
+    slash = first("442903", "426322", "868049")
+    swo2 = first("342984", "568834")
     sword = first("426322", "364531", "442769")
     sword2 = first("326795", "547041", "475416")
     # 837389 « Heavy Robot Footsteps » is CC0 but the author describes it as
@@ -150,7 +151,8 @@ def main() -> int:
     step_m = first("562195", "394036", "253735")
     step_n = first("398554", "421151", "19310")
     jet = first("534856", "622406", "152509")
-    whoosh = first("256911", "568834", "342984")
+    # 256911 « Whoosh,Metal,Alien » is a tonal pack — skip.
+    whoosh = first("568834", "342984")
     rocket = first("774245", "854476", "591146")
     scream = first("169628", "556976", "243382")
     scream2 = first("173942", "173945", "320740")
@@ -212,11 +214,17 @@ def main() -> int:
     layer("claw-crackle-02.ogg", [(spark, {"dur": 0.65, "pitch": 0.95, "vol": 1.0}), (spark, {"dur": 0.4, "pitch": 1.4, "vol": 0.5})], "40k")
     layer("claw-crackle-03.ogg", [(spark, {"dur": 0.55, "start": 0.1, "pitch": 0.88, "vol": 1.05})], "40k")
     layer("claw-swoosh.ogg", [
-        (slash, {"dur": 0.45, "pitch": 0.85, "vol": 1.0}),
-        (whoosh, {"dur": 0.4, "pitch": 1.1, "vol": 0.65}),
+        (slash, {"dur": 0.22, "pitch": 0.9, "vol": 1.0}),
+        (whoosh, {"dur": 0.2, "pitch": 1.05, "vol": 0.7}),
     ], "36k")
-    layer("claw-swoosh-02.ogg", [(swo2, {"dur": 0.5, "pitch": 0.9, "vol": 1.0}), (slash, {"dur": 0.3, "pitch": 1.2, "vol": 0.4})], "36k")
-    layer("claw-swoosh-03.ogg", [(whoosh, {"dur": 0.45, "pitch": 0.75, "vol": 1.0}), (swo2, {"dur": 0.35, "pitch": 1.3, "vol": 0.45})], "36k")
+    layer("claw-swoosh-02.ogg", [
+        (swo2, {"start": 8.2, "dur": 0.24, "pitch": 0.95, "vol": 1.0}),
+        (slash, {"dur": 0.16, "pitch": 1.15, "vol": 0.4}),
+    ], "36k")
+    layer("claw-swoosh-03.ogg", [
+        (whoosh, {"dur": 0.2, "pitch": 0.8, "vol": 1.0}),
+        (swo2, {"start": 9.8, "dur": 0.2, "pitch": 1.2, "vol": 0.45}),
+    ], "36k")
     layer("claw-metal.ogg", [
         (sword, {"dur": 0.5, "pitch": 0.82, "vol": 1.1}),
         (met, {"dur": 0.3, "pitch": 0.7, "vol": 0.7}),
@@ -273,7 +281,7 @@ def main() -> int:
     layer("nl-step-03.ogg", [(step_h, {"dur": 0.4, "pitch": 1.18, "vol": 0.9}), (step_n, {"dur": 0.35, "pitch": 1.0, "vol": 0.5})], "36k")
     layer("nl-jump.ogg", [
         (rocket, {"dur": 0.7, "pitch": 1.05, "vol": 0.9}),
-        (whoosh, {"dur": 0.45, "pitch": 0.85, "vol": 0.7}),
+        (whoosh, {"dur": 0.22, "pitch": 0.85, "vol": 0.7}),
         (jet, {"dur": 0.55, "pitch": 1.3, "vol": 0.35, "hp": 300}),
     ], "48k")
 
@@ -417,7 +425,9 @@ exige un compte. Ce sont les **mêmes enregistrements**, sous la même licence C
 837389 (Artem_Zaitsev, « Heavy Robot Footsteps ») est CC0 mais décrit par
 l'auteur comme **fully synthesized** — non utilisé. 675760 (tesla coil) et
 382611 (sirène de Prague) sont des prises réelles CC0 mais trop tonales en
-boucle (bandes 2–9 kHz) : retirés des lits musique/ambiance.
+boucle : retirés des lits. 441666 (sword slash, ring harmonique ~2,5 kHz)
+et 256911 (Whoosh Metal Alien) : raies 8–20 s via claw-swoosh — remplacés
+par 442903 / 568834 / 342984, transitoires courts.
 
 | id Freesound | titre | auteur | licence | source |
 |---|---|---|---|---|

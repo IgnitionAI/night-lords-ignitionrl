@@ -89,10 +89,27 @@ def main() -> int:
             v = int(max(-1.0, min(1.0, s * g)) * 32767)
             buf += struct.pack("<h", v)
         w.writeframes(buf)
+    measure = subprocess.check_output(
+        ["ffmpeg", "-hide_banner", "-i", str(raw_wav),
+         "-af", "loudnorm=I=-15:TP=-1.5:LRA=11:print_format=json",
+         "-f", "null", "-"],
+        stderr=subprocess.STDOUT, text=True,
+    )
+    start = measure.rfind("{")
+    end = measure.rfind("}")
+    stats = json.loads(measure[start:end + 1]) if start >= 0 and end > start else {}
+    ln = (
+        "loudnorm=I=-15:TP=-1.5:LRA=11"
+        + f":measured_I={stats.get('input_i', -18)}"
+        + f":measured_LRA={stats.get('input_lra', 5)}"
+        + f":measured_TP={stats.get('input_tp', -2)}"
+        + f":measured_thresh={stats.get('input_thresh', -28)}"
+        + f":offset={stats.get('target_offset', 0)}"
+        + ":linear=true"
+    )
     subprocess.check_call(
         ["ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-i", str(raw_wav),
-         "-af", "loudnorm=I=-15:TP=-1.0:LRA=11",
-         "-ac", "2", "-ar", str(SR), str(out_wav)],
+         "-af", ln, "-ac", "2", "-ar", str(SR), str(out_wav)],
     )
     raw_wav.unlink(missing_ok=True)
     print(f"wrote {out_wav} duration={duration:.2f}s cues={len(cues)}")

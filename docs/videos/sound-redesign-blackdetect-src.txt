@@ -1,12 +1,12 @@
-Input #0, matroska,webm, from '/agent/repos/night-lords-ignitionrl/docs/videos/page@9250eb9cbcbb535fd23c0b45e9f4388f.webm':
+Input #0, matroska,webm, from '/agent/repos/night-lords-ignitionrl/docs/videos/page@ef743ff9ad8a2eb09070b912f6739d6f.webm':
   Metadata:
-    creation_time   : 2026-11-10T18:39:25.830000Z
+    creation_time   : 2026-11-10T18:50:51.557000Z
     ENCODER         : Lavf61.1.100
-  Duration: 00:00:57.76, start: 0.000000, bitrate: 5572 kb/s
+  Duration: 00:00:53.92, start: 0.000000, bitrate: 5598 kb/s
   Stream #0:0(eng): Video: vp9 (Profile 0), yuv420p(tv, progressive), 1280x720, SAR 1:1 DAR 16:9, 25 fps, 25 tbr, 1k tbn (default)
     Metadata:
       ENCODER         : Lavc61.3.100 libvpx-vp9
-      DURATION        : 00:00:57.760000000
+      DURATION        : 00:00:53.920000000
 Stream mapping:
   Stream #0:0 -> #0:0 (vp9 (native) -> wrapped_avframe (native))
 Press [q] to stop, [?] for help
@@ -15,8 +15,8 @@ Output #0, null, to 'pipe:':
     encoder         : Lavf60.16.100
   Stream #0:0(eng): Video: wrapped_avframe, yuv420p(tv, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 25 fps, 25 tbn (default)
     Metadata:
-      DURATION        : 00:00:57.760000000
+      DURATION        : 00:00:53.920000000
       encoder         : Lavc60.31.102 wrapped_avframe
-frame=    0 fps=0.0 q=-0.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    [blackdetect @ 0x7f8004005980] black_start:0.04 black_end:1.56 black_duration:1.52
-frame=  195 fps=0.0 q=-0.0 size=N/A time=00:00:07.80 bitrate=N/A speed=  15x    frame=  396 fps=381 q=-0.0 size=N/A time=00:00:15.80 bitrate=N/A speed=15.2x    frame=  605 fps=390 q=-0.0 size=N/A time=00:00:24.20 bitrate=N/A speed=15.6x    frame=  799 fps=388 q=-0.0 size=N/A time=00:00:31.96 bitrate=N/A speed=15.5x    frame= 1025 fps=395 q=-0.0 size=N/A time=00:00:41.00 bitrate=N/A speed=15.8x    frame= 1223 fps=395 q=-0.0 size=N/A time=00:00:48.92 bitrate=N/A speed=15.8x    frame= 1413 fps=393 q=-0.0 size=N/A time=00:00:56.52 bitrate=N/A speed=15.7x    [out#0/null @ 0x5555f1aec700] video:677kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
-frame= 1444 fps=398 q=-0.0 Lsize=N/A time=00:00:57.72 bitrate=N/A speed=15.9x    
+frame=    0 fps=0.0 q=-0.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    [blackdetect @ 0x7f6fa8001100] black_start:0 black_end:1.84 black_duration:1.84
+frame=  241 fps=0.0 q=-0.0 size=N/A time=00:00:09.64 bitrate=N/A speed=18.3x    frame=  464 fps=445 q=-0.0 size=N/A time=00:00:18.52 bitrate=N/A speed=17.8x    frame=  702 fps=454 q=-0.0 size=N/A time=00:00:28.08 bitrate=N/A speed=18.2x    frame=  927 fps=452 q=-0.0 size=N/A time=00:00:37.08 bitrate=N/A speed=18.1x    frame= 1145 fps=446 q=-0.0 size=N/A time=00:00:45.80 bitrate=N/A speed=17.9x    [out#0/null @ 0x5635a6d73700] video:632kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+frame= 1348 fps=446 q=-0.0 Lsize=N/A time=00:00:53.88 bitrate=N/A speed=17.8x    
