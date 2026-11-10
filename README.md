@@ -1,5 +1,5 @@
 ```sh
-bun install              # three, esbuild, vite, @tensorflow/tfjs-node 4.22 — 145 paquets, ~5 s
+bun install              # three, esbuild, vite, @tensorflow/tfjs-node 4.22 — 139 paquets
 bun run build            # vite (navigateur -> web/dist/main.js) + esbuild (Node -> dist/*.mjs)
 bun run dev              # serveur de développement Vite, HMR, http://127.0.0.1:18230/web/index.html
 bun dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1      # PPO multi-agents headless
@@ -57,7 +57,7 @@ Trois contraintes ont guidé la migration, et chacune est vérifiée :
 2. **L'image ne bouge pas.** Même tick, même graine, build Vite contre build esbuild : **0,0 % des blocs au-dessus du seuil de 8/255** (moyenne −0,07/255 à t235 et +0,01/255 à t55). Le serveur de développement contre le build : **0,0 %** aussi, une fois `/policy/*` relayé vers `policies/*` (sans ce relais, la page de dev joue sans politique chargée et l'image change).
 3. **Le poids ne bouge pas.** 643 623 octets pour esbuild minifié, 647 925 pour Vite (+0,7 %) — la différence de 1 159 737 à 647 925 octets venait de la minification, que la configuration esbuild ne faisait pas, pas du bundler.
 
-**Bun, mesuré et non supposé.** `bun install` : 145 paquets en 5 s (le postinstall de `core-js` est bloqué par défaut, sans conséquence). `bun test` : 39/39, sans `tsx` ni shim `util`. `@tensorflow/tfjs-node` se charge sous Bun et calcule sur le backend natif (`tensorflow`, vérifié par une somme de tenseur). `bun run build` : mêmes 647 925 octets. `bun dist/server.mjs` sert la page, et l'image reste identique — **0,0 % des blocs au-dessus du seuil de 8/255** à t235 et t55 entre le build servi par Bun et celui servi par Node.
+**Bun, mesuré et non supposé.** `bun install` : 139 paquets en 2,63 s (le postinstall de `core-js` est bloqué par défaut, sans conséquence). `bun test` : 50/50, sans `tsx` ni shim `util` (props #51 et locomotion #53 inclus via `bun test test/`). `@tensorflow/tfjs-node` se charge sous Bun et calcule sur le backend natif (`tensorflow`, vérifié par une somme de tenseur). `bun run build` : Vite émet `web/dist/index.html` + `web/dist/main.js` (655 860 octets, sans hash). `bun dist/server.mjs` sert `/` → `/web/dist/index.html`. L'image Bun vs Node (0,0 % des blocs > 8/255 à t235 et t55) a été mesurée sur #48 avant le merge de `feat/vite` ; elle n'est pas rejouée ici.
 
 Ce qui n'a **pas** pu être mesuré : l'entraînement comparé sous les deux runtimes. `src/guard.ts` met la machine en pause (« tests=true ») et refuse de démarrer sur cette machine, quel que soit le runtime — c'est un garde-fou de charge, pas une propriété de Bun. Une chose à savoir au passage : ce garde reconnaît un test en cours en cherchant `vitest` ou `bun test` **dans la ligne de commande de n'importe quel process**, donc une commande qui contient ces mots (un `grep`, une revue de logs) suffit à bloquer un entraînement.
 
@@ -68,7 +68,7 @@ Ce qui n'a **pas** pu être mesuré : l'entraînement comparé sous les deux run
 Bun 1.4, CPU suffisant.
 
 ```sh
-bun install              # three, esbuild, vite, @tensorflow/tfjs-node 4.22 — 145 paquets, ~5 s
+bun install              # three, esbuild, vite, @tensorflow/tfjs-node 4.22 — 139 paquets
 bun run build            # vite (navigateur -> web/dist/main.js) + esbuild (Node -> dist/*.mjs)
 bun run dev              # serveur de développement Vite, HMR, http://127.0.0.1:18230/web/index.html
 bun dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1      # PPO multi-agents headless
@@ -135,6 +135,7 @@ Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --see
 - `src/sim.ts` : simulation à pas fixe (100 ms), observations, récompenses
 - `src/tactics.ts` : Terminators scriptés et fantôme ; `src/recorder.ts`, `src/bc.ts`, `src/tobs.ts` : enregistrement et clonage de comportement
 - `src/ppo.ts`, `src/train.ts` : PPO multi-agents ; `src/eval.ts`, `src/evallib.ts` : évaluation
+- `docs/PROTOCOLE-MESURE-NN.md`, `scripts/nn-harness.ts` : protocole auditable et smoke de mesure (n'écrase pas b3)
 - `src/server.ts` : serveur local et ré-entraînement entre manches ; `src/experiment-c.ts` : expérience C
 - `web/` : rendu Three.js et vue de contrôle (touche V)
 - Caméra à l'épaule (défaut) : 3,55 m derrière le Terminator, 1,15 m sur son épaule droite, 2,5 m du sol,

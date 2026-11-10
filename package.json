@@ -10,7 +10,8 @@
     "build:node": "bun build.mjs",
     "start": "bun dist/server.mjs",
     "test": "bun test test/",
-    "sweep:noise": "bun scripts/sweep-noise.ts"
+    "sweep:noise": "bun scripts/sweep-noise.ts",
+    "nn:smoke": "bun scripts/nn-harness.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
