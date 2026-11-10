@@ -86,6 +86,23 @@ incrémentait la graine : les captures étiquetées par leur URL avant cette dat
 
 `policies/` contient la politique b3 (prête pour `node dist/server.mjs`) : `current.json` est `runs/b3@2000` (2 000 mises à jour, seed 3). `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
 
+## Le Sas — vignette R3F + Rapier (IGN-116)
+
+Une scène autonome, sans toucher à la simulation RL : sept caisses Genex dynamiques, une rafale qui
+leur applique de vraies impulsions, et un Night Lord révélé derrière. React 19, React Three Fiber,
+React Three Rapier, Vite ; caméra épaule, ACES, bloom borné et mode Éco pour petit viewport.
+
+```bash
+bun run dev                          # http://127.0.0.1:18230/web/sas.html?debug=1
+bun run build && bun dist/server.mjs # http://127.0.0.1:18190/sas?debug=1
+```
+
+Espace ou **Rafale** tire, **R** ou **Recommencer** restaure les sept corps. Le mode mobile conserve
+la physique, réduit DPR, ombres et post-traitement. `prefers-reduced-motion` réduit l'impulsion
+verticale. Sans GLB, un repli procédural est affiché explicitement ; les assets Genex restent hors
+dépôt. `?quality=low|high` force la qualité. Le diagnostic `window.__SAS` expose positions, compteurs
+et frame times. Voir `docs/LE-SAS-CONTRAT-VISUEL.md` et `docs/LE-SAS-RECETTE.md`.
+
 ## Rejouer une mesure
 
 Tout l'aléatoire passe par `--seed` : initialisation des poids (BC et PPO, graine dérivée par couche), brassage des mini-lots, tirages d'actions, seeds des mondes et des tactiques `randomized()`, et seeds d'éval (900 000+). Deux exécutions avec la même graine et les mêmes arguments produisent **les mêmes poids et les mêmes métriques** ; seules les durées (`seconds`, `updateSeconds`, `wallSeconds`) relèvent de l'horloge murale.

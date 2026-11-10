@@ -1,0 +1,116 @@
+{
+  "notice": true,
+  "status": "Système prêtR3F · Rapier",
+  "bodies": 7,
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "type": "warning",
+      "text": "using deprecated parameters for the initialization function; pass a single object instead"
+    }
+  ],
+  "pageErrors": [],
+  "networkFailed": [
+    {
+      "url": "http://127.0.0.1:18190/web/models/props/crate.glb",
+      "failure": "blocked-glb",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:18190/web/models/NL-1.glb",
+      "failure": "blocked-glb",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:18190/web/models/TERM.glb",
+      "failure": "blocked-glb",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:18190/web/models/props/pipes.glb",
+      "failure": "blocked-glb",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:18190/web/models/props/debris.glb",
+      "failure": "blocked-glb",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:18190/web/models/props/chains.glb",
+      "failure": "blocked-glb",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:18190/web/models/props/crate.glb",
+      "failure": "net::ERR_FAILED",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:18190/web/models/NL-1.glb",
+      "failure": "net::ERR_FAILED",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:18190/web/models/TERM.glb",
+      "failure": "net::ERR_FAILED",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:18190/web/models/props/pipes.glb",
+      "failure": "net::ERR_FAILED",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:18190/web/models/props/debris.glb",
+      "failure": "net::ERR_FAILED",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:18190/web/models/props/chains.glb",
+      "failure": "net::ERR_FAILED",
+      "method": "GET"
+    }
+  ],
+  "metrics": {
+    "backend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "quality": "high",
+    "reducedMotion": false,
+    "bodies": 7,
+    "calls": 168,
+    "triangles": 4529,
+    "textures": 19,
+    "geometries": 83,
+    "collisions": 12,
+    "frameTimesMs": {
+      "median": 6644.5,
+      "p95": 6644.5,
+      "p99": 6644.5,
+      "count": 1
+    },
+    "uptimeMs": 7437.700000000186
+  }
+}

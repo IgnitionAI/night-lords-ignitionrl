@@ -8,16 +8,18 @@
 //    sert le serveur.
 import { resolve } from 'node:path';
 import { existsSync, renameSync, rmSync } from 'node:fs';
+import react from '@vitejs/plugin-react';
 
 const ROOT = import.meta.dirname;
 
-/** Remonte l'HTML émis de `web/dist/web/index.html` vers `web/dist/index.html`. */
+/** Remonte les HTML émis de `web/dist/web/*.html` vers `web/dist/*.html`. */
 const flattenHtml = () => ({
   name: 'nl-flatten-html',
   closeBundle() {
-    const from = resolve(ROOT, 'web/dist/web/index.html'), to = resolve(ROOT, 'web/dist/index.html');
-    if (!existsSync(from)) return;
-    renameSync(from, to);
+    for (const name of ['index.html', 'sas.html']) {
+      const from = resolve(ROOT, `web/dist/web/${name}`), to = resolve(ROOT, `web/dist/${name}`);
+      if (existsSync(from)) renameSync(from, to);
+    }
     rmSync(resolve(ROOT, 'web/dist/web'), { recursive: true, force: true });
   },
 });
@@ -40,7 +42,7 @@ export default ({ command }) => ({
   // sous /web/dist/ avec `main.js`, exactement l'URL que servait esbuild.
   base: command === 'build' ? '/web/dist/' : '/',
   publicDir: false,
-  plugins: [flattenHtml(), policyAlias()],
+  plugins: [react(), flattenHtml(), policyAlias()],
   build: {
     outDir: 'web/dist',
     emptyOutDir: true,
@@ -48,12 +50,11 @@ export default ({ command }) => ({
     sourcemap: false,
     chunkSizeWarningLimit: 900,
     rollupOptions: {
-      input: resolve(ROOT, 'web/index.html'),
+      input: { index: resolve(ROOT, 'web/index.html'), sas: resolve(ROOT, 'web/sas.html') },
       output: {
-        entryFileNames: 'main.js',
+        entryFileNames: chunk => chunk.name === 'index' ? 'main.js' : '[name].js',
         chunkFileNames: '[name].js',
         assetFileNames: '[name][extname]',
-        inlineDynamicImports: true,
       },
     },
   },
