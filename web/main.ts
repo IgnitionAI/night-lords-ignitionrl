@@ -825,7 +825,11 @@ if (debug) buildLabels();
 // C'est la seule mesure de coût de rendu qu'on puisse prendre sans GPU — pas une sonde jetable, elle reste.
 if (debug) (window as any).__SC = () => { let lights = 0; scene.traverse(o => { if ((o as any).isLight) lights++; });
   return { calls: mainCalls, tris: mainTris, lights, textures: renderer.info.memory.textures, geometries: renderer.info.memory.geometries, programs: renderer.info.programs?.length ?? 0, props: { ...propStats } }; };
-await Promise.all([loadPolicy(), loadModels(), loadProps(), initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' })]);
+await Promise.all([
+  loadPolicy(), loadModels(), loadProps(),
+  // capture `?shot=` : pas de fetch audio (sinon 404 console sur le manifeste hors dépôt)
+  shot ? Promise.resolve() : initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }),
+]);
 // Onglet en arrière-plan : le module suspend le contexte, et ne le reprend au retour que s'il tournait.
 audio.attachLifecycle();
 resize(); startRound();

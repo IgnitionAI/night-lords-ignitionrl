@@ -12,7 +12,7 @@ const PREFIX = process.env.PREFIX ?? 'apres';
 const BASE = `http://127.0.0.1:${PORT}`;
 const TRACE = join(OUT, `trace-${PREFIX}.zip`);
 
-const SHOTS = [
+const DEFAULT_SHOTS = [
   { name: 'ensemble-couloir-t40-s3', qs: 'shot=40&seed=3&autoplay=march&cam=couloir' },
   { name: 'nl-couloir-t115-s3', qs: 'shot=115&seed=3&autoplay=march&cam=couloir' },
   { name: 'terminator-epaule-t115-s3', qs: 'shot=115&seed=3&autoplay=march' },
@@ -20,6 +20,11 @@ const SHOTS = [
   { name: 'meute-t235-s18', qs: 'shot=235&seed=18&autoplay=march' },
   { name: 'ensemble-couloir-t14-s18', qs: 'shot=14&demo=reveal&seed=18&cam=couloir' },
 ];
+const COMBO_SHOTS = [
+  { name: 'combo-epaule-t115-s3', qs: 'shot=115&seed=3&autoplay=march' },
+  { name: 'combo-reveal-t14-s18', qs: 'shot=14&demo=reveal&seed=18' },
+];
+const SHOTS = process.env.SHOTS === 'combo' ? COMBO_SHOTS : DEFAULT_SHOTS;
 
 mkdirSync(OUT, { recursive: true });
 
@@ -70,7 +75,7 @@ try {
           renderer: dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
         };
       });
-      const png = join(OUT, `${PREFIX}-${shot.name}.png`);
+      const png = join(OUT, PREFIX ? `${PREFIX}-${shot.name}.png` : `${shot.name}.png`);
       await page.screenshot({ path: png, type: 'png' });
       rec.ok = true;
       rec.png = png;
