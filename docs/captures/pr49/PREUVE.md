@@ -21,3 +21,5 @@ Fallback : 6 GLB bloqués (12 requêtes en échec, StrictMode), bandeau « Asset
 ## / (prototype)
 
 `?shot=8&seed=3&autoplay=march` (prêt), `?shot=14&seed=3&demo=reveal` (impact), `?shot=235&seed=18&autoplay=march` (après). Title `READY`. Un 404 attendu : `web/sfx/nightlords/manifest.json` (banque hors dépôt).
+
+HUD #56 (sans `?debug=1`) : `proto-1440-hud.png` / `proto-390-hud.png` — panneau objectifs, horloge 1:59, barre d'armure, roster Talos/Uzas/Xarl/Cyrion.

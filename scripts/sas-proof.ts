@@ -132,6 +132,7 @@ try {
     { name: 'ready', url: '/?shot=8&seed=3&autoplay=march&debug=1' },
     { name: 'impact', url: '/?shot=14&seed=3&demo=reveal&debug=1' },
     { name: 'after', url: '/?shot=235&seed=18&autoplay=march&debug=1' },
+    { name: 'hud', url: '/?shot=8&seed=3&autoplay=march' },
   ];
   for (const vp of [{ w: 1440, h: 900, tag: '1440' }, { w: 390, h: 844, tag: '390' }]) {
     for (const step of proto) {

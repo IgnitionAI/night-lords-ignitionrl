@@ -35,6 +35,15 @@
       ],
       "pageErrors": []
     },
+    "proto-1440-hud": {
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "pageErrors": []
+    },
     "proto-390-ready": {
       "consoleErrors": [
         {
@@ -54,6 +63,15 @@
       "pageErrors": []
     },
     "proto-390-after": {
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "pageErrors": []
+    },
+    "proto-390-hud": {
       "consoleErrors": [
         {
           "type": "error",
