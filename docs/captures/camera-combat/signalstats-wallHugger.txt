@@ -1,0 +1,24 @@
+# signalstats b6p-wallhugger.mp4
+# trim blackdetect: black_start:0.08 black_end:1.76 (pix_th=0.10)
+# duration=115.53s bytes=4570486 H.264 1280x720 + AAC
+# lecture ×1,75 — carton de fin collé 2,6 s
+
+--- t=0 ---
+lavfi.signalstats.YAVG=33.7613
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YMAX=244
+
+--- t=0.5 ---
+lavfi.signalstats.YAVG=30.8635
+
+--- t=1 ---
+lavfi.signalstats.YAVG=30.8438
+
+--- rest (échantillon 10s) ---
+t=10 YAVG=30.6365
+t=30 YAVG=30.8355
+t=50 YAVG=30.8337
+t=70 YAVG=30.8071
+t=90 YAVG=30.8825
+t=110 YAVG=30.8777
+mean rest=30.812

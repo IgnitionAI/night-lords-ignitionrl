@@ -6,6 +6,7 @@ import { newWorld, step, observe, nlFrame, DT, type TAction } from '../src/sim.t
 import { POOL, UNSEEN } from '../src/tactics.ts';
 import { forward, softmax, sample, type ActorJSON } from '../src/policy.ts';
 import { mulberry32 } from '../src/rng.ts';
+import { policyFileFromQuery } from '../src/train-b4.ts';
 import { createMockAudioContext } from '../web/audio/mock-context.ts';
 import { engine } from '../web/audio/engine.ts';
 import { AudioDirector } from '../web/audio/director.ts';
@@ -32,7 +33,8 @@ engine.duck = () => { /* headless : pas de rAF */ };
 
 let actor: ActorJSON | null = null;
 try {
-  actor = JSON.parse(readFileSync(join(ROOT, 'policies/current.json'), 'utf8')) as ActorJSON;
+  const sel = policyFileFromQuery(process.env.POLICY);
+  actor = JSON.parse(readFileSync(join(ROOT, 'policies', sel.file), 'utf8')) as ActorJSON;
 } catch { /* naïve */ }
 
 const tactic = (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)();

@@ -27,8 +27,8 @@ import {
   sceneRenderTargetOptions, POST_FRAGMENT_SHADER,
 } from './atmosphere';
 import {
-  COMBAT_CAM, FOG_CLEAR_M, applyCombatCamera, desiredCombatPose, isReadableOnScreen,
-  offscreenMarker, parseCamMode, smoothCombatPose,
+  COMBAT_CAM, FOG_CLEAR_M, TERM_MODEL_H, applyCombatCamera, desiredCombatPose, inFrustum,
+  isReadableOnScreen, losClear, offscreenMarker, parseCamMode, smoothCombatPose,
   type CombatPose, type CamMode,
 } from './combat-cam';
 import { applyTerminatorLook } from './terminator-look';
@@ -61,6 +61,7 @@ const scene = new THREE.Scene();
 applySceneAtmosphere(scene, FOG_MODE);
 // Cadrage : défaut = caméra de combat. `?cam=couloir` garde P1 ; `?cam=epaule` et `?cam=troisquarts` restent.
 const CAM_MODE: CamMode = parseCamMode(qs.get('cam'));
+const PLAY_SPEED = Math.max(1, Math.min(2, Number(qs.get('speed') ?? 1) || 1));
 const PROBE_READ = qs.get('probe') === 'read';
 /** `?focus=0..3` cadre un Night Lord (captures combat). Défaut : Terminator. */
 const FOCUS_NL = ((): number | null => {
@@ -950,7 +951,7 @@ async function endRound() {
   const msg = document.getElementById('msg')!; msg.style.display = 'block';
   const card = roundCard(w, { roundNo });
   msg.innerHTML = roundMarkup(card) + '<p>La meute étudie ta tactique…</p>';
-  if (shot) return;
+  if (shot || PLAY_SPEED !== 1 || qs.get('until') === 'end') return;
   try {
     const r = await fetch('/api/round', { method: 'POST', body: JSON.stringify(rec.toJSON(`${w.winner} — ${w.reason}`)) }).then(r => r.json());
     lastSummary = r.summary;
@@ -980,6 +981,7 @@ function burnIn() {
   if (qs.get('shot')) parts.push(`shot=${qs.get('shot')}`);
   if (FOCUS_NL !== null) parts.push(`focus=${FOCUS_NL}`);
   if (qs.get('proc') === 'legacy') parts.push('proc=legacy');
+  if (PLAY_SPEED !== 1) parts.push(`lecture ×${String(PLAY_SPEED).replace('.', ',')}`);
   return parts.join(' · ');
 }
 function hud() {
@@ -989,10 +991,11 @@ function hud() {
     servoAlarm: w.t.servoAlarm > 0, servoCritical: w.t.servoCriticalSent,
     policyLine: `${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}`,
     burnIn: burnIn(),
+    playSpeed: PLAY_SPEED !== 1 ? `lecture ×${String(PLAY_SPEED).replace('.', ',')}` : undefined,
   });
   (window as unknown as { __NL?: unknown }).__NL = {
-    tick: w.tick, done: w.done, winner: w.winner, seed, muted: engine.muted,
-    audio: engine.status(),
+    tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, muted: engine.muted,
+    audio: engine.status(), playSpeed: PLAY_SPEED,
   };
   const d = document.getElementById('dbg')!; d.style.display = debug ? 'block' : 'none';
   if (debug) d.innerHTML = `<b>Vue de contrôle — ce que perçoit chaque Night Lord</b><table><tr><th>rôle</th><th>état</th><th>voit</th><th>entend</th><th>vox</th><th>âge</th><th>action (p)</th></tr>`
@@ -1145,21 +1148,39 @@ function updateOffmarks() {
 }
 
 function screenReadability() {
-  const rows: { i: number; ndc: { x: number; y: number; z: number }; distCam: number; readable: boolean }[] = [];
+  const rows: { i: number; ndc: { x: number; y: number; z: number }; distCam: number; readable: boolean; distTerm: number }[] = [];
+  let closeLiving = 0;
+  let closeOnScreen = false;
   for (let i = 0; i < w.nls.length; i++) {
     const n = w.nls[i]!;
     if (!n.alive && !(nlCamHold[i]! > 0)) continue;
     const world = new THREE.Vector3(n.x, 1.4, n.y);
     const v = world.clone().project(camera);
     const distCam = camera.position.distanceTo(world);
+    const distTerm = Math.hypot(n.x - w.t.x, n.y - w.t.y);
     const ndc = { x: v.x, y: v.y, z: v.z };
-    rows.push({ i, ndc, distCam, readable: isReadableOnScreen(ndc, distCam, FOG_CLEAR_M) });
+    const readable = isReadableOnScreen(ndc, distCam, FOG_CLEAR_M);
+    const inFrame = inFrustum(ndc, 0.96);
+    rows.push({ i, ndc, distCam, readable, distTerm });
+    if (distTerm <= COMBAT_CAM.nlIncludeM) {
+      closeLiving++;
+      if (inFrame) closeOnScreen = true;
+    }
   }
+  const chest = new THREE.Vector3(w.t.x, 1.4, w.t.y).project(camera);
+  const feet = new THREE.Vector3(w.t.x, 0, w.t.y).project(camera);
+  const head = new THREE.Vector3(w.t.x, TERM_MODEL_H, w.t.y).project(camera);
+  const termNdc = { x: chest.x, y: chest.y, z: chest.z };
+  const termOnScreen = inFrustum(termNdc, COMBAT_CAM.termMargin);
+  const termScreenH = Math.abs(head.y - feet.y) / 2;
+  const termLos = losClear(camera.position.x, camera.position.y, camera.position.z, w.t.x, 1.4, w.t.y, PILLARS);
   return {
     tick: w.tick,
     living: rows.length,
-    anyOnScreen: rows.length === 0 || rows.some((r) => r.readable),
+    closeLiving,
+    anyOnScreen: closeLiving === 0 || closeOnScreen,
     nls: rows,
+    termOnScreen, termScreenH, termLos,
   };
 }
 
@@ -1226,7 +1247,9 @@ function termPoseReport() {
   };
 }
 await Promise.all([
-  loadPolicy(), loadModels(), loadProps(),
+  loadPolicy(),
+  PROBE_READ ? Promise.resolve() : loadModels(),
+  PROBE_READ ? Promise.resolve() : loadProps(),
   shot || PROBE_READ ? Promise.resolve() : initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }),
 ]);
 // Onglet en arrière-plan : le module suspend le contexte, et ne le reprend au retour que s'il tournait.
@@ -1265,27 +1288,47 @@ if (PROBE_READ) {
       }
     }
   }
-  const living = frames.filter((f) => f.living > 0);
+  const living = frames.filter((f) => f.closeLiving > 0);
   const frameShare = living.length ? living.filter((f) => f.anyOnScreen).length / living.length : 1;
   const killShare = kills.length ? kills.filter((k) => k.readable).length / kills.length : 1;
+  const termFrames = frames.length ? frames.filter((f) => f.termOnScreen).length / frames.length : 1;
+  const heights = frames.map((f) => f.termScreenH).sort((a, b) => a - b);
+  const termScreenHMedian = heights.length ? heights[Math.floor(heights.length / 2)]! : 0;
+  const termLosShare = frames.length ? frames.filter((f) => f.termLos).length / frames.length : 1;
   (window as any).__READ_REPORT = {
     cam: CAM_MODE, policy: policyLabel, seed, fogClearM: FOG_CLEAR_M,
     ticks: w.tick, winner: w.winner, reason: w.reason,
     frames: living.length, frameShare, kills: kills.length, killShare,
     killMiss: kills.filter((k) => !k.readable),
+    termOnScreen: termFrames, termScreenHMedian, termLosShare,
+  };
+  document.title = 'READY';
+} else if (qs.get('until') === 'end') {
+  while (w.tick < MAX_TICKS && !w.done) tick();
+  hitstop = 0; shake = 0; prev = snap(); hud(); render(1);
+  if (w.done) await endRound();
+  (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY = true;
+  (window as unknown as { __NL?: unknown }).__NL = {
+    tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, playSpeed: PLAY_SPEED,
   };
   document.title = 'READY';
 } else if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
   while (w.tick < shot && !w.done) tick();
   hitstop = 0; shake = 0; prev = snap(); hud(); render(1);
   (window as any).__termPose = termPoseReport();
+  (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY = true;
   document.title = 'READY';
 } else {
   let last = performance.now();
+  let pumping = false;
   const loop = (now: number) => {
-    let dt = Math.min(0.25, (now - last) / 1000); last = now;
+    if (pumping) return;
+    pumping = true;
+    let dt = Math.min(0.35, (now - last) / 1000);
+    last = now;
+    if (PLAY_SPEED !== 1) dt = Math.max(dt, 0.2);
     if (hitstop > 0) { hitstop -= dt; dt = 0; }
-    if (!paused && !roundOver) { acc += dt; while (acc >= DT) { acc -= DT; tick(); if (roundOver) break; } }
+    if (!paused && !roundOver) { acc += dt * PLAY_SPEED; while (acc >= DT) { acc -= DT; tick(); if (roundOver) break; } }
     if (!shot && !paused) {
       const alpha = roundOver ? 1 : acc / DT;
       const displaySim = Math.max(0, simT - DT + alpha * DT);
@@ -1296,7 +1339,11 @@ if (PROBE_READ) {
     // d'ici : aucune donnée du canal ne touche le DOM du joueur.
     if (CONTROL_VIEW && w.tick !== publishedTick) { publishHunterState(hunterState(w)); publishedTick = w.tick; }
     shake *= 0.85; if (tracerT > 0) { tracerT -= dt; if (tracerT <= 0) { tracer.visible = false; tracerBolt.visible = false; tracerHit.visible = false; } }
-    hud(); render(roundOver ? 1 : acc / DT); requestAnimationFrame(loop);
+    hud(); render(roundOver ? 1 : acc / DT);
+    (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY = true;
+    pumping = false;
+    if (PLAY_SPEED === 1) requestAnimationFrame(loop);
   };
-  requestAnimationFrame(loop);
+  if (PLAY_SPEED !== 1) setInterval(() => loop(performance.now()), 50);
+  else requestAnimationFrame(loop);
 }

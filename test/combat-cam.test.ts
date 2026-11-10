@@ -8,15 +8,23 @@ import {
   desiredCombatPose,
   inFrustum,
   isReadableOnScreen,
+  losClear,
   offscreenMarker,
   parseCamMode,
   pickFocusNl,
   projectWorld,
+  screenHeightFrac,
   smoothCombatPose,
   worldDist,
 } from '../web/combat-cam.ts';
 
 const ASPECT = 16 / 9;
+
+function poseOf(term: { x: number; y: number; facing: number }, nls: { x: number; y: number; alive: boolean; armTicks?: number }[]) {
+  return desiredCombatPose({
+    term, nls, aspect: ASPECT, portrait: false, pillars: PILLARS, arena: ARENA,
+  });
+}
 
 test('pickFocusNl : le plus proche vivant, sinon le plus menaçant (griffes armées)', () => {
   const term = { x: 10, y: 12, facing: 0 };
@@ -41,36 +49,42 @@ test('pickFocusNl : le plus proche vivant, sinon le plus menaçant (griffes arm�
   assert.equal(armed, 1);
 });
 
-test('caméra combat : cadre le Terminator et un NL à 30–35 m (camp hors cône)', () => {
+test('caméra combat : Terminator toujours cadré (marge) et ≥ 8 % de hauteur, camp à 31 m hors priorité', () => {
   const term = { x: 5, y: 12, facing: 0 };
   const nl = { x: 36, y: 12, alive: true, armTicks: 0 };
-  const pose = desiredCombatPose({
-    term, nls: [nl],
-    aspect: ASPECT, portrait: false,
-    pillars: PILLARS, arena: ARENA,
-  });
+  const pose = poseOf(term, [nl]);
+  const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
+  assert.ok(inFrustum(t, COMBAT_CAM.termMargin), `T hors marge ndc=${t.x.toFixed(2)},${t.y.toFixed(2)},${t.z.toFixed(2)}`);
+  const h = screenHeightFrac(term.x, term.y, pose, ASPECT);
+  assert.ok(h >= COMBAT_CAM.termMinScreen, `T trop petit ${(h * 100).toFixed(1)} %`);
+  const dT = worldDist(pose.camX, pose.camY, pose.camZ, term.x, 1.4, term.y);
+  assert.ok(isReadableOnScreen(t, dT, FOG_CLEAR_M), `T brouillard d=${dT.toFixed(1)}`);
+  assert.ok(losClear(pose.camX, pose.camY, pose.camZ, term.x, 1.4, term.y, PILLARS), 'LOS T bouché');
+});
+
+test('caméra combat : NL à ~18 m dans le cadre avec le Terminator', () => {
+  const term = { x: 8, y: 12, facing: 0 };
+  const nl = { x: 26, y: 12, alive: true, armTicks: 0 };
+  const pose = poseOf(term, [nl]);
   const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
   const n = projectWorld(nl.x, 1.4, nl.y, pose, ASPECT);
-  assert.ok(inFrustum(t), `T hors frustum ndc=${t.x.toFixed(2)},${t.y.toFixed(2)},${t.z.toFixed(2)}`);
-  assert.ok(inFrustum(n), `NL hors frustum ndc=${n.x.toFixed(2)},${n.y.toFixed(2)},${n.z.toFixed(2)}`);
-  const dT = worldDist(pose.camX, pose.camZ, pose.camY, term.x, term.y, 1.4);
-  const dN = worldDist(pose.camX, pose.camZ, pose.camY, nl.x, nl.y, 1.4);
-  assert.ok(isReadableOnScreen(t, dT, FOG_CLEAR_M), `T brouillard d=${dT.toFixed(1)}`);
+  assert.ok(inFrustum(t, COMBAT_CAM.termMargin), `T hors marge ${t.x.toFixed(2)}`);
+  assert.ok(inFrustum(n, 0.96), `NL hors frustum ndc=${n.x.toFixed(2)},${n.y.toFixed(2)}`);
+  const dN = worldDist(pose.camX, pose.camY, pose.camZ, nl.x, 1.4, nl.y);
   assert.ok(isReadableOnScreen(n, dN, FOG_CLEAR_M), `NL brouillard d=${dN.toFixed(1)}`);
+  assert.ok(screenHeightFrac(term.x, term.y, pose, ASPECT) >= COMBAT_CAM.termMinScreen);
 });
 
 test('caméra combat : un NL dans le dos sort du cadre couloir mais pas du cadre combat', () => {
   const term = { x: 20, y: 12, facing: 0 };
   const rear = { x: 8, y: 12, alive: true, armTicks: 0 };
-  const pose = desiredCombatPose({
-    term, nls: [rear],
-    aspect: ASPECT, portrait: false,
-    pillars: PILLARS, arena: ARENA,
-  });
+  const pose = poseOf(term, [rear]);
   const n = projectWorld(rear.x, 1.4, rear.y, pose, ASPECT);
-  const dN = worldDist(pose.camX, pose.camZ, pose.camY, rear.x, rear.y, 1.4);
+  const dN = worldDist(pose.camX, pose.camY, pose.camZ, rear.x, 1.4, rear.y);
   assert.ok(inFrustum(n) && isReadableOnScreen(n, dN, FOG_CLEAR_M), `dos ndc=${n.x.toFixed(2)} d=${dN.toFixed(1)}`);
   assert.ok(Math.abs(pose.orbit) <= COMBAT_CAM.orbitMax + 1e-6);
+  const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
+  assert.ok(inFrustum(t, COMBAT_CAM.termMargin), `T perdu en cadrant le dos`);
 });
 
 test('évitement des murs : l\'œil ne reste pas dans un pilier ni hors de l\'arène', () => {
@@ -79,6 +93,16 @@ test('évitement des murs : l\'œil ne reste pas dans un pilier ni hors de l\'ar
   const out = avoidWalls(-4, 12, 3.2, PILLARS, ARENA);
   assert.ok(out.camX >= 0.6 && out.camX <= ARENA.w - 0.6);
   assert.ok(out.camZ >= 0.6 && out.camZ <= ARENA.h - 0.6);
+});
+
+test('raycast : la pose combat ne traverse pas un pilier entre l\'œil et le Terminator', () => {
+  const term = { x: 20, y: 12, facing: 0 };
+  const nl = { x: 28, y: 12, alive: true, armTicks: 0 };
+  const pose = poseOf(term, [nl]);
+  assert.ok(
+    losClear(pose.camX, pose.camY, pose.camZ, term.x, 1.4, term.y, PILLARS),
+    `LOS T cam=(${pose.camX.toFixed(1)},${pose.camY.toFixed(1)},${pose.camZ.toFixed(1)})`,
+  );
 });
 
 test('lissage : un saut de pose est absorbé, pas un à-coup', () => {

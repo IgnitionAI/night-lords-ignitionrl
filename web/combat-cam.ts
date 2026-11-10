@@ -1,25 +1,30 @@
-// Caméra de combat : cadre le Terminator et le NL vivant le plus menaçant / le plus proche.
+// Caméra de combat : ancrée sur le Terminator (toujours dans le cadre), NL proche en two-shot court.
 // Rien ici ne touche la simulation (pas de step, pas de NL_CFG / T_CFG).
 import * as THREE from 'three';
 import type { Box } from '../src/sim';
 
 export const FOG_CLEAR_M = 22;
+export const TERM_MODEL_H = 2.6;
+export const PILLAR_TOP = 4.3;
 
 export const COMBAT_CAM = {
-  fov: 58,
+  fov: 56,
   fovPortrait: 68,
-  fovMax: 82,
-  minBack: 7.2,
-  maxBack: 16.5,
-  height: 3.55,
-  highMax: 5.6,
+  fovMax: 72,
+  minBack: 5.0,
+  maxBack: 9.4,
+  height: 2.82,
+  highMax: 5.55,
   eye: 1.38,
-  orbitMax: 2.05,
+  orbitMax: 1.18,
   posLerp: 0.18,
   lookLerp: 0.20,
-  side: 4.6,
+  side: 1.28,
   along: 0.36,
-  lookMix: 0.58,
+  lookMix: 0.28,
+  nlIncludeM: 30,
+  termMargin: 0.78,
+  termMinScreen: 0.08,
 };
 
 export type CombatNl = { x: number; y: number; alive: boolean; armTicks?: number };
@@ -96,16 +101,76 @@ export function avoidWalls(
   return { camX: x, camZ: z, camY: y };
 }
 
-function sideSign(term: CombatTerm, alongX: number, alongZ: number, arena: { w: number; h: number }): number {
-  const sx = -alongZ, sz = alongX;
-  const probe = 6;
-  const a = term.x + sx * probe, b = term.y + sz * probe;
-  const c = term.x - sx * probe, d = term.y - sz * probe;
-  const inA = a > 1 && a < arena.w - 1 && b > 1 && b < arena.h - 1;
-  const inC = c > 1 && c < arena.w - 1 && d > 1 && d < arena.h - 1;
-  if (inA && !inC) return 1;
-  if (inC && !inA) return -1;
-  return 1;
+/** Intersection rayon 3D / AABB (méthode des slabs). */
+function rayHitsAabb(
+  ox: number, oy: number, oz: number,
+  dx: number, dy: number, dz: number,
+  tMax: number,
+  minX: number, minY: number, minZ: number,
+  maxX: number, maxY: number, maxZ: number,
+): boolean {
+  let t0 = 0, t1 = tMax;
+  const clip = (p: number, q: number): boolean => {
+    if (Math.abs(p) < 1e-12) return q >= 0;
+    const r = q / p;
+    if (p < 0) {
+      if (r > t1) return false;
+      if (r > t0) t0 = r;
+    } else {
+      if (r < t0) return false;
+      if (r < t1) t1 = r;
+    }
+    return true;
+  };
+  if (!clip(-dx, ox - minX)) return false;
+  if (!clip(dx, maxX - ox)) return false;
+  if (!clip(-dy, oy - minY)) return false;
+  if (!clip(dy, maxY - oy)) return false;
+  if (!clip(-dz, oz - minZ)) return false;
+  if (!clip(dz, maxZ - oz)) return false;
+  return t1 >= t0;
+}
+
+export function losClear(
+  camX: number, camY: number, camZ: number,
+  tx: number, ty: number, tz: number,
+  pillars: Box[],
+  pad = 0.22,
+): boolean {
+  const dx = tx - camX, dy = ty - camY, dz = tz - camZ;
+  const len = Math.hypot(dx, dy, dz);
+  if (len < 0.15) return true;
+  for (const b of pillars) {
+    if (rayHitsAabb(
+      camX, camY, camZ, dx, dy, dz, len,
+      b.x0 - pad, -0.2, b.y0 - pad,
+      b.x1 + pad, PILLAR_TOP + pad, b.y1 + pad,
+    )) return false;
+  }
+  return true;
+}
+
+function pullForLos(
+  camX: number, camY: number, camZ: number,
+  tx: number, ty: number, tz: number,
+  pillars: Box[],
+): { camX: number; camY: number; camZ: number } {
+  if (losClear(camX, camY, camZ, tx, ty, tz, pillars)) {
+    return { camX, camY, camZ };
+  }
+  const raisedY = COMBAT_CAM.highMax;
+  if (losClear(camX, raisedY, camZ, tx, ty, tz, pillars)) {
+    return { camX, camY: raisedY, camZ };
+  }
+  for (let k = 1; k <= 10; k++) {
+    const u = k / 10;
+    const x = camX + (tx - camX) * u;
+    const y = camY + (ty - camY) * u;
+    const z = camZ + (tz - camZ) * u;
+    if (losClear(x, y, z, tx, ty, tz, pillars)) return { camX: x, camY: Math.max(y, 2.4), camZ: z };
+    if (losClear(x, raisedY, z, tx, ty, tz, pillars)) return { camX: x, camY: raisedY, camZ: z };
+  }
+  return { camX, camY: raisedY, camZ };
 }
 
 export function desiredCombatPose(input: {
@@ -120,76 +185,84 @@ export function desiredCombatPose(input: {
   const fi = pickFocusNl(term, nls);
   const nl = fi === null ? null : nls[fi]!;
   const span = nl ? Math.hypot(nl.x - term.x, nl.y - term.y) : 8;
-  let alongX = Math.cos(term.facing), alongZ = Math.sin(term.facing);
-  if (nl && span > 0.15) {
-    alongX = (nl.x - term.x) / span;
-    alongZ = (nl.y - term.y) / span;
-  }
-  const sgn = sideSign(term, alongX, alongZ, arena);
-  const sideX = -alongZ * sgn, sideZ = alongX * sgn;
-  const lookMix = nl ? 0.5 : 0.18;
-  const lookX = term.x + alongX * (nl ? span * lookMix : 5.5);
-  const lookZ = term.y + alongZ * (nl ? span * lookMix : 5.5);
-  const lookY = COMBAT_CAM.eye;
-  const pairYaw = Math.atan2(alongZ, alongX);
-  const orbit = clamp(wrapPi(pairYaw - term.facing), -COMBAT_CAM.orbitMax, COMBAT_CAM.orbitMax);
+  const includeNl = !!nl && span <= COMBAT_CAM.nlIncludeM + 1e-6;
   const fov0 = portrait ? COMBAT_CAM.fovPortrait : COMBAT_CAM.fov;
+  let orbitWant = 0;
+  if (includeNl && nl) {
+    const toNl = Math.atan2(nl.y - term.y, nl.x - term.x);
+    orbitWant = clamp(wrapPi(toNl - term.facing), -COMBAT_CAM.orbitMax, COMBAT_CAM.orbitMax);
+  }
 
-  const make = (alongT: number, lateral: number, height: number, fovTry: number): CombatPose => {
-    const rawX = term.x + alongX * alongT + sideX * lateral;
-    const rawZ = term.y + alongZ * alongT + sideZ * lateral;
-    const cleared = avoidWalls(rawX, rawZ, height, pillars, arena);
-    return {
-      camX: cleared.camX, camY: cleared.camY, camZ: cleared.camZ,
-      lookX, lookY, lookZ, fov: fovTry, orbit,
-      back: Math.hypot(cleared.camX - lookX, cleared.camZ - lookZ),
-    };
-  };
+  const orbits = includeNl
+    ? [orbitWant, orbitWant * 0.55, 0]
+    : [0, 0.5, -0.5];
+  const fogBack = includeNl ? clamp(FOG_CLEAR_M - span - 1.4, 3.7, COMBAT_CAM.maxBack) : COMBAT_CAM.maxBack;
+  const backs = includeNl
+    ? [clamp(fogBack * 0.82, 3.7, fogBack), fogBack]
+    : [5.2, 6.4, 7.4];
+  const sides = [1.12, -1.12];
+  const heights = [COMBAT_CAM.height, COMBAT_CAM.highMax];
+  const fovs = includeNl ? [62, 68, COMBAT_CAM.fovMax] : [fov0];
 
   const scorePose = (p: CombatPose): number => {
     const tNdc = projectWorld(term.x, 1.4, term.y, p, input.aspect);
     const dT = worldDist(p.camX, p.camY, p.camZ, term.x, 1.4, term.y);
+    const hT = screenHeightFrac(term.x, term.y, p, input.aspect);
     let s = 0;
-    if (inFrustum(tNdc, 0.84)) s += 5;
-    else if (inFrustum(tNdc, 0.999)) s += 2;
-    if (dT <= FOG_CLEAR_M && dT > 0.7) s += 6; else s -= 12;
-    if (nl) {
+    if (inFrustum(tNdc, COMBAT_CAM.termMargin)) s += 50;
+    else if (inFrustum(tNdc, 0.92)) s += 4 - Math.abs(tNdc.x) * 20;
+    else s -= 80;
+    s -= Math.max(0, Math.abs(tNdc.x) - COMBAT_CAM.termMargin) * 90;
+    if (hT >= COMBAT_CAM.termMinScreen) s += 25 + Math.min(18, (hT - COMBAT_CAM.termMinScreen) * 40);
+    else s -= 50;
+    if (dT <= FOG_CLEAR_M && dT > 0.9) s += 8; else s -= 20;
+    if (losClear(p.camX, p.camY, p.camZ, term.x, 1.4, term.y, pillars)) s += 30;
+    else s -= 60;
+    if (includeNl && nl) {
       const nNdc = projectWorld(nl.x, 1.4, nl.y, p, input.aspect);
       const dN = worldDist(p.camX, p.camY, p.camZ, nl.x, 1.4, nl.y);
-      if (inFrustum(nNdc, 0.84)) s += 5;
-      else if (inFrustum(nNdc, 0.999)) s += 2;
-      if (dN <= FOG_CLEAR_M && dN > 0.7) s += 8; else s -= 16;
+      if (inFrustum(nNdc, 0.92)) s += 22;
+      else if (inFrustum(nNdc, 0.999)) s += 8;
+      else s -= 40;
+      if (dN <= FOG_CLEAR_M && dN > 0.7) s += 16; else s -= 35;
+      if (losClear(p.camX, p.camY, p.camZ, nl.x, 1.4, nl.y, pillars)) s += 6;
     }
     return s;
   };
 
-  const candidates: CombatPose[] = [];
-  if (!nl) {
-    candidates.push(make(-7.2, 1.1, COMBAT_CAM.height, fov0));
-  } else {
-    // Plan latéral (two-shot) : les deux sujets devant la caméra, profondeur = écartement.
-    const midAlong = span * lookMix;
-    for (const lat of [10, 12, 14, 16, 8.5, 7]) {
-      for (const f of [COMBAT_CAM.fovMax, 76, 68, 64, fov0]) {
-        candidates.push(make(midAlong, lat, COMBAT_CAM.height + 0.55, f));
-      }
-    }
-    // Plan oblique : recul derrière le T, zoom pour un NL plus proche.
-    for (const a of [-5.5, -4, -2.5, span * 0.08]) {
-      for (const lat of [2.4, 3.6, 5]) {
-        candidates.push(make(a, lat, COMBAT_CAM.height, fov0));
+  let best: CombatPose | null = null;
+  let bestS = -1e9;
+  for (const orb of orbits) {
+    const yaw = term.facing + orb;
+    const fx = Math.cos(yaw), fz = Math.sin(yaw);
+    const rx = -fz, rz = fx;
+    const mixes = includeNl && nl ? [0.10, 0.20] : [0];
+    for (const lookMix of mixes) {
+      const lookX = includeNl && nl ? term.x + (nl.x - term.x) * lookMix : term.x + fx * 3.5;
+      const lookZ = includeNl && nl ? term.y + (nl.y - term.y) * lookMix : term.y + fz * 3.5;
+      for (const side of sides) {
+        for (const back of backs) {
+          for (const h of heights) {
+            for (const fovTry of fovs) {
+              const rawX = term.x - fx * back + rx * side;
+              const rawZ = term.y - fz * back + rz * side;
+              const cleared = avoidWalls(rawX, rawZ, h, pillars, arena);
+              const pulled = pullForLos(cleared.camX, cleared.camY, cleared.camZ, term.x, 1.4, term.y, pillars);
+              const p: CombatPose = {
+                camX: pulled.camX, camY: pulled.camY, camZ: pulled.camZ,
+                lookX, lookY: COMBAT_CAM.eye, lookZ,
+                fov: fovTry, orbit: orb,
+                back: Math.hypot(pulled.camX - term.x, pulled.camZ - term.y),
+              };
+              const sc = scorePose(p);
+              if (sc > bestS) { bestS = sc; best = p; }
+            }
+          }
+        }
       }
     }
   }
-
-  let best = candidates[0]!;
-  let bestS = -1;
-  for (const p of candidates) {
-    const s = scorePose(p);
-    if (s > bestS) { bestS = s; best = p; }
-    if (s >= 17) return p;
-  }
-  return best;
+  return best!;
 }
 
 export function smoothCombatPose(prev: CombatPose, next: CombatPose, dt: number): CombatPose {
@@ -228,6 +301,13 @@ export function projectWorld(wx: number, wy: number, wz: number, pose: CombatPos
 
 export function inFrustum(ndc: Ndc, margin = 0.999): boolean {
   return Math.abs(ndc.x) <= margin && Math.abs(ndc.y) <= margin && ndc.z >= -1 && ndc.z <= 1;
+}
+
+export function screenHeightFrac(wx: number, wz: number, pose: CombatPose, aspect: number, height = TERM_MODEL_H): number {
+  const feet = projectWorld(wx, 0, wz, pose, aspect);
+  const head = projectWorld(wx, height, wz, pose, aspect);
+  if (feet.z < -1 || head.z > 1) return 0;
+  return Math.abs(head.y - feet.y) / 2;
 }
 
 export function isReadableOnScreen(ndc: Ndc, distCam: number, fogM: number): boolean {

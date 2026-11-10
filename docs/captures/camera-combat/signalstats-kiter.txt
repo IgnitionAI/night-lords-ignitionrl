@@ -1,0 +1,24 @@
+# signalstats b6p-match.mp4
+# trim blackdetect: black_start:0.04 black_end:1.88 (pix_th=0.10)
+# duration=133.30s bytes=5108489 H.264 1280x720 + AAC
+# lecture ×1,75 — carton de fin collé 2,6 s
+
+--- t=0 ---
+lavfi.signalstats.YAVG=32.9921
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YMAX=244
+
+--- t=0.5 ---
+lavfi.signalstats.YAVG=32.7244
+
+--- t=1 ---
+lavfi.signalstats.YAVG=32.698
+
+--- rest (échantillon 10s) ---
+t=10 YAVG=30.498
+t=30 YAVG=30.4205
+t=50 YAVG=30.6244
+t=70 YAVG=30.5575
+t=90 YAVG=30.5676
+t=110 YAVG=30.5716
+mean rest=30.540

@@ -1,5 +1,5 @@
-// HUD b6p, vidéos combat, planche couloir vs combat (SwiftShader).
-import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
+// HUD b6p, vidéos combat (manche réelle + carton + son #70), planche, frames.
+import { mkdirSync, writeFileSync, existsSync, readFileSync, rmSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn, spawnSync } from 'node:child_process';
@@ -7,11 +7,14 @@ import { chromium } from 'playwright';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'docs/captures/camera-combat');
+const FRAMES = join(OUT, 'frames');
 const VID = join(ROOT, 'docs/videos');
 const PORT = Number(process.env.PORT ?? 18197);
 const PHASE = process.env.PHASE ?? 'all';
+const PLAY = Math.max(1.5, Math.min(2, Number(process.env.PLAY_SPEED ?? 1.75)));
 
 mkdirSync(OUT, { recursive: true });
+mkdirSync(FRAMES, { recursive: true });
 mkdirSync(VID, { recursive: true });
 
 function waitListen(child: ReturnType<typeof spawn>, needle: string, ms: number) {
@@ -47,6 +50,11 @@ const swiftArgs = [
   '--ignore-gpu-blocklist',
   '--disable-gpu-sandbox',
   '--disable-dev-shm-usage',
+  '--autoplay-policy=no-user-gesture-required',
+  '--disable-frame-rate-limit',
+  '--disable-background-timer-throttling',
+  '--disable-renderer-backgrounding',
+  '--disable-backgrounding-occluded-windows',
 ];
 
 async function waitTitle(page: { title: () => Promise<string> }, want: string, ms: number) {
@@ -56,6 +64,41 @@ async function waitTitle(page: { title: () => Promise<string> }, want: string, m
     await new Promise((r) => setTimeout(r, 200));
   }
   throw new Error(`title ≠ ${want} (${await page.title()})`);
+}
+
+function ff(args: string[]) {
+  return spawnSync('ffmpeg', args, { encoding: 'utf8' });
+}
+
+function blackEnd(webm: string): { end: number; raw: string } {
+  const r = spawnSync('ffmpeg', [
+    '-hide_banner', '-i', webm, '-vf', 'blackdetect=d=0.05:pix_th=0.10', '-an', '-f', 'null', '-',
+  ], { encoding: 'utf8' });
+  const raw = (r.stderr || '') + (r.stdout || '');
+  const hits = [...raw.matchAll(/black_start:([0-9.]+)\s+black_end:([0-9.]+)/g)];
+  if (!hits.length) return { end: 0, raw };
+  const start = Number(hits[0]![1]);
+  const end = Number(hits[0]![2]);
+  if (start > 0.08) return { end: 0, raw };
+  return { end: end + 0.02, raw };
+}
+
+function signalstatsAt(src: string, t: string, outFile: string): { yavg: number; raw: string } {
+  const r = ff([
+    '-hide_banner', '-ss', t, '-i', src, '-vframes', '1',
+    '-vf', `signalstats,metadata=print:file=${outFile}`,
+    '-f', 'null', '-',
+  ]);
+  const raw = (existsSync(outFile) ? readFileSync(outFile, 'utf8') : '') + '\n' + (r.stderr || '');
+  const m = raw.match(/YAVG=([0-9.]+)/);
+  return { yavg: m ? Number(m[1]) : NaN, raw };
+}
+
+function durationSec(src: string): number {
+  const p = spawnSync('ffprobe', [
+    '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', src,
+  ], { encoding: 'utf8' });
+  return Number(p.stdout.trim());
 }
 
 async function stills() {
@@ -74,51 +117,120 @@ async function stills() {
   });
 }
 
+function dumpAndMix(opp: string, seed: number, wallDuration: number): string {
+  const cuesPath = join(VID, `cues-${opp}.json`);
+  const dump = spawnSync('bun', ['scripts/dump-match-cues.ts'], {
+    cwd: ROOT,
+    env: { ...process.env, SEED: String(seed), AUTOPLAY: opp, POLICY: 'b6p', OUT: cuesPath },
+    encoding: 'utf8',
+  });
+  process.stdout.write(dump.stdout);
+  process.stderr.write(dump.stderr);
+  if (dump.status !== 0) throw new Error(`dump cues ${opp}`);
+  const data = JSON.parse(readFileSync(cuesPath, 'utf8')) as {
+    duration: number; cues: { t: number; name: string; gain: number }[];
+  };
+  for (const c of data.cues) c.t /= PLAY;
+  data.duration = Math.max(wallDuration - 2.4, (data.duration || 0) / PLAY);
+  const scaled = join(VID, `cues-${opp}-wall.json`);
+  writeFileSync(scaled, JSON.stringify(data, null, 2));
+  const wav = join(VID, `audio-${opp}.wav`);
+  const mix = spawnSync('python3', ['scripts/mix-match-audio.py', scaled, wav], { cwd: ROOT, encoding: 'utf8' });
+  process.stdout.write(mix.stdout);
+  process.stderr.write(mix.stderr);
+  if (mix.status !== 0) throw new Error(`mix ${opp}`);
+  return wav;
+}
+
 async function recordMatch(opp: string, outName: string) {
   const tmp = join(OUT, `_clip-${opp}`);
+  rmSync(tmp, { recursive: true, force: true });
   mkdirSync(tmp, { recursive: true });
+  let nl: unknown = null;
   await withServer(async (base) => {
     const browser = await chromium.launch({ headless: true, args: swiftArgs });
     const context = await browser.newContext({
-      viewport: { width: 960, height: 540 },
-      recordVideo: { dir: tmp, size: { width: 960, height: 540 } },
+      viewport: { width: 1280, height: 720 },
+      recordVideo: { dir: tmp, size: { width: 1280, height: 720 } },
     });
+    context.setDefaultTimeout(240000);
     const page = await context.newPage();
-    const url = `${base}/?policy=b6p&autoplay=${opp}&seed=900000&cam=combat&tex=256&env=0`;
+    page.setDefaultTimeout(240000);
+    const url = `${base}/?policy=b6p&autoplay=${opp}&seed=900000&cam=combat&tex=512&speed=${PLAY}`;
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
-    await page.waitForSelector('#hud', { timeout: 180000 });
+    await page.waitForFunction(() => (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY === true, { timeout: 180000 });
+    await page.mouse.click(640, 360);
     const t0 = Date.now();
-    while (Date.now() - t0 < 420000) {
-      const st = await page.evaluate(() => {
-        const msg = document.getElementById('msg');
-        return { msgOn: !!msg && getComputedStyle(msg).display !== 'none' };
-      });
-      if (st.msgOn) break;
-      await new Promise((r) => setTimeout(r, 1000));
+    let last: { done?: boolean; tick?: number; winner?: string } | undefined;
+    while (Date.now() - t0 < 360000) {
+      last = await page.evaluate(() => (window as unknown as { __NL?: { done?: boolean; tick?: number; winner?: string } }).__NL);
+      console.log('tick', opp, last?.tick, last?.done, last?.winner);
+      if (last?.done || (last?.tick ?? 0) >= 1199) break;
+      await page.waitForTimeout(1000);
     }
-    const end = await page.evaluate(() => {
-      const msg = document.getElementById('msg');
-      return !!msg && getComputedStyle(msg).display !== 'none';
-    });
-    if (!end) throw new Error(`manche ${opp} non terminée`);
-    await page.waitForTimeout(2500);
+    if (!last?.done && (last?.tick ?? 0) < 1199) throw new Error(`manche ${opp} non terminée tick=${last?.tick}`);
+    await page.waitForTimeout(2800);
+    nl = await page.evaluate(() => (window as unknown as { __NL?: unknown }).__NL);
+    const video = page.video();
+    await page.close();
+    if (video) await video.path();
     await context.close();
     await browser.close();
   });
+  writeFileSync(join(OUT, `nl-${opp}.json`), JSON.stringify(nl, null, 2));
   const webm = spawnSync('bash', ['-lc', `ls -1t "${tmp}"/*.webm | head -1`], { encoding: 'utf8' }).stdout.trim();
   if (!webm || !existsSync(webm)) throw new Error(`pas de webm ${opp}`);
+  const bd = blackEnd(webm);
+  writeFileSync(join(OUT, `blackdetect-${opp}.txt`), bd.raw);
+  const ss = bd.end;
+  const trimmed = Math.max(1, durationSec(webm) - ss);
+  const wav = dumpAndMix(opp, 900000, trimmed);
   const out = join(VID, outName);
-  const enc = spawnSync('ffmpeg', [
-    '-y', '-i', webm, '-an', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30',
-    '-crf', '28', '-preset', 'veryfast', '-movflags', '+faststart',
-    '-vf', 'scale=1280:720',
+  const enc = ff([
+    '-y', '-hide_banner', '-ss', String(ss), '-i', webm, '-i', wav,
+    '-map', '0:v:0', '-map', '1:a:0',
+    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30',
+    '-crf', '30', '-preset', 'veryfast',
+    '-c:a', 'aac', '-b:a', '128k',
+    '-movflags', '+faststart',
     out,
-  ], { encoding: 'utf8' });
-  if (enc.status !== 0) throw new Error(enc.stderr);
+  ]);
+  if (enc.status !== 0 || !existsSync(out)) throw new Error(`enc ${opp}: ${enc.stderr}`);
   const bytes = Number(spawnSync('stat', ['-c', '%s', out], { encoding: 'utf8' }).stdout.trim());
   if (bytes > 15 * 1024 * 1024) throw new Error(`video trop lourde ${bytes}`);
   if (bytes < 50_000) throw new Error(`video trop courte ${bytes}`);
-  console.log('video', out, 'bytes', bytes);
+  const dur = durationSec(out);
+  const stats: string[] = [`# signalstats ${outName} trim_ss=${ss} duration=${dur} bytes=${bytes} play=×${PLAY}\n`];
+  const samples = ['0', '0.5', '1'];
+  const yavgs: { t: string; yavg: number }[] = [];
+  for (const t of samples) {
+    const f = join(OUT, `signalstats-${opp}-t${t}.txt`);
+    const s = signalstatsAt(out, t, f);
+    yavgs.push({ t, yavg: s.yavg });
+    stats.push(`--- t=${t} ---\n${s.raw}\n`);
+  }
+  const rest: number[] = [];
+  for (let t = 2; t < dur - 0.2; t += 2) {
+    const f = join(OUT, `signalstats-${opp}-rest${t}.txt`);
+    const s = signalstatsAt(out, String(t), f);
+    if (Number.isFinite(s.yavg)) rest.push(s.yavg);
+  }
+  const meanRest = rest.length ? rest.reduce((a, b) => a + b, 0) / rest.length : NaN;
+  stats.push(`YAVG t=0,0.5,1: ${yavgs.map((x) => x.yavg).join(', ')}\nmean rest (2s..): ${meanRest}\n`);
+  writeFileSync(join(OUT, `signalstats-${opp}.txt`), stats.join('\n'));
+  console.log('video', out, 'bytes', bytes, 'dur', dur, 'nl', JSON.stringify(nl), 'yavg', yavgs, 'rest', meanRest);
+}
+
+function extractEight(src: string, prefix: string) {
+  const dur = durationSec(src);
+  const fracs = [0.04, 0.16, 0.30, 0.45, 0.60, 0.75, 0.90, 0.97];
+  for (let i = 0; i < fracs.length; i++) {
+    const t = Math.max(0, Math.min(dur - 0.05, dur * fracs[i]!));
+    const png = join(FRAMES, `${prefix}-${String(i + 1).padStart(2, '0')}.png`);
+    const r = ff(['-y', '-ss', t.toFixed(3), '-i', src, '-vframes', '1', png]);
+    if (r.status !== 0) throw new Error(r.stderr);
+    console.log('frame', png, 't', t.toFixed(2));
+  }
 }
 
 const PLANCHE_TICKS = [50, 160, 300];
@@ -139,11 +251,11 @@ async function planche() {
         const png = join(dir, `${cam}-t${tick}.png`);
         await page.screenshot({ path: png, type: 'png' });
         const lab = join(dir, `lab-${cam}-t${tick}.png`);
-        const r = spawnSync('ffmpeg', [
+        const r = ff([
           '-y', '-i', png, '-vf',
           `scale=640:360,drawtext=text='${cam} t${tick}':x=12:y=12:fontsize=22:fontcolor=white:borderw=2`,
           lab,
-        ], { encoding: 'utf8' });
+        ]);
         if (r.status !== 0) throw new Error(r.stderr);
         labeled.push(lab);
         console.log('planche', cam, tick);
@@ -153,11 +265,11 @@ async function planche() {
     const row1 = join(dir, 'row-couloir.png');
     const row2 = join(dir, 'row-combat.png');
     const board = join(OUT, 'planche-6.png');
-    const h1 = spawnSync('ffmpeg', ['-y', '-i', labeled[0], '-i', labeled[1], '-i', labeled[2], '-filter_complex', 'hstack=inputs=3', row1], { encoding: 'utf8' });
+    const h1 = ff(['-y', '-i', labeled[0]!, '-i', labeled[1]!, '-i', labeled[2]!, '-filter_complex', 'hstack=inputs=3', row1]);
     if (h1.status !== 0) throw new Error(h1.stderr);
-    const h2 = spawnSync('ffmpeg', ['-y', '-i', labeled[3], '-i', labeled[4], '-i', labeled[5], '-filter_complex', 'hstack=inputs=3', row2], { encoding: 'utf8' });
+    const h2 = ff(['-y', '-i', labeled[3]!, '-i', labeled[4]!, '-i', labeled[5]!, '-filter_complex', 'hstack=inputs=3', row2]);
     if (h2.status !== 0) throw new Error(h2.stderr);
-    const v = spawnSync('ffmpeg', ['-y', '-i', row1, '-i', row2, '-filter_complex', 'vstack=inputs=2', board], { encoding: 'utf8' });
+    const v = ff(['-y', '-i', row1, '-i', row2, '-filter_complex', 'vstack=inputs=2', board]);
     if (v.status !== 0) throw new Error(v.stderr);
     console.log('planche', board);
   });
@@ -167,7 +279,13 @@ if (PHASE === 'stills' || PHASE === 'all') await stills();
 if (PHASE === 'video' || PHASE === 'all') {
   await recordMatch('kiter', 'b6p-match.mp4');
   await recordMatch('wallHugger', 'b6p-wallhugger.mp4');
+  extractEight(join(VID, 'b6p-match.mp4'), 'b6p-match');
+  extractEight(join(VID, 'b6p-wallhugger.mp4'), 'b6p-wallhugger');
 }
 if (PHASE === 'planche' || PHASE === 'all') await planche();
+if (PHASE === 'frames') {
+  extractEight(join(VID, 'b6p-match.mp4'), 'b6p-match');
+  extractEight(join(VID, 'b6p-wallhugger.mp4'), 'b6p-wallhugger');
+}
 console.log('capture-b6p ok', PHASE);
 process.exit(0);
