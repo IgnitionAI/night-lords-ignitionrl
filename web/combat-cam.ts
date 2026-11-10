@@ -261,14 +261,15 @@ export function desiredCombatPose(input: {
       distToPillars(nl.x, nl.y, pillars),
       distToPillars(midX, midZ, pillars),
     ) < 1.85;
-    const lookX = hullNear ? term.x * 0.72 + nl.x * 0.28 : term.x * 0.82 + nl.x * 0.18;
-    const lookZ = hullNear ? term.y * 0.72 + nl.y * 0.28 : term.y * 0.82 + nl.y * 0.18;
+    const lookX = hullNear ? term.x * 0.52 + nl.x * 0.48 : term.x * 0.82 + nl.x * 0.18;
+    const lookZ = hullNear ? term.y * 0.52 + nl.y * 0.48 : term.y * 0.82 + nl.y * 0.18;
+    const lookY = hullNear ? 1.22 : COMBAT_CAM.eye;
     const toNlX = nl.x - term.x, toNlZ = nl.y - term.y;
     const toLen = Math.hypot(toNlX, toNlZ) || 1;
     const ux = toNlX / toLen, uz = toNlZ / toLen;
     const px = -uz, pz = ux;
-    const heights = hullNear ? [3.12, 3.58, MELEE_LIFT] : [COMBAT_CAM.height, 3.6, MELEE_LIFT];
-    const radii = hullNear ? [3.45, 4.25, 5.1] : [2.9, 3.5, 4.2];
+    const heights = hullNear ? [3.34, 3.58, 4.12, MELEE_LIFT] : [COMBAT_CAM.height, 3.6, MELEE_LIFT];
+    const radii = hullNear ? [3.45, 4.25, 5.1, 5.9] : [2.9, 3.5, 4.2];
     const fovs = hullNear ? [58, 64, 70] : [58, 64, 70];
     let pick: CombatPose | null = null;
     let pickS = -1e9;
@@ -293,24 +294,26 @@ export function desiredCombatPose(input: {
           const cdx = lookX - parked.camX, cdz = lookZ - parked.camZ;
           const clen = Math.hypot(cdx, cdz) || 1;
           const alongPunch = (cdx / clen) * ux + (cdz / clen) * uz;
-          if (hullNear && alongPunch > 0.32) continue;
+          if (hullNear && alongPunch > 0.72) continue;
           for (const fovTry of fovs) {
             const p: CombatPose = {
               camX: parked.camX, camY, camZ: parked.camZ,
-              lookX, lookY: COMBAT_CAM.eye, lookZ,
+              lookX, lookY, lookZ,
               fov: fovTry, orbit: 0,
               back: Math.hypot(parked.camX - term.x, parked.camZ - term.y),
             };
             const tNdc = projectWorld(term.x, 1.4, term.y, p, input.aspect);
             const nNdc = projectWorld(nl.x, 1.4, nl.y, p, input.aspect);
-            if (!inFrustum(tNdc, 0.92) || !inFrustum(nNdc, 0.92)) continue;
+            if (!inFrustum(tNdc, 0.72) || !inFrustum(nNdc, 0.72)) continue;
             let s = 220;
             if (inFrustum(tNdc, COMBAT_CAM.termMargin)) s += 50;
             s += screenHeightFrac(term.x, term.y, p, input.aspect) * 40;
-            s -= Math.abs(camY - (hullNear ? 3.12 : COMBAT_CAM.height)) * 14;
-            s -= Math.abs(tNdc.x) * 12;
+            s += screenHeightFrac(nl.x, nl.y, p, input.aspect) * 36;
+            s -= Math.abs(camY - (hullNear ? 3.58 : COMBAT_CAM.height)) * 14;
+            s -= Math.abs(tNdc.x) * 24;
+            s -= Math.abs(nNdc.x) * 52;
             s += distToPillars(parked.camX, parked.camZ, pillars) * 8;
-            s -= Math.abs(alongPunch) * (hullNear ? 70 : 12);
+            s -= Math.abs(alongPunch) * (hullNear ? 28 : 12);
             if (s > pickS) { pickS = s; pick = p; }
           }
         }

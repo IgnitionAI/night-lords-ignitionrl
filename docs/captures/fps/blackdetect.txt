@@ -1,0 +1,32 @@
+ --enable-librav1e --enable-pocketsphinx --enable-librsvg --enable-libjxl --enable-shared
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, matroska,webm, from '/agent/repos/night-lords-ignitionrl/docs/captures/fps/_vid/page@5e893f1adc1d070f9143f5c03df1411c.webm':
+  Metadata:
+    creation_time   : 2026-11-10T19:48:00.763000Z
+    ENCODER         : Lavf61.1.100
+  Duration: 00:01:44.72, start: 0.000000, bitrate: 4428 kb/s
+  Stream #0:0(eng): Video: vp9 (Profile 0), yuv420p(tv, progressive), 1280x720, SAR 1:1 DAR 16:9, 25 fps, 25 tbr, 1k tbn (default)
+    Metadata:
+      ENCODER         : Lavc61.3.100 libvpx-vp9
+      DURATION        : 00:01:44.720000000
+Stream mapping:
+  Stream #0:0 -> #0:0 (vp9 (native) -> wrapped_avframe (native))
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    encoder         : Lavf60.16.100
+  Stream #0:0(eng): Video: wrapped_avframe, yuv420p(tv, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 25 fps, 25 tbn (default)
+    Metadata:
+      DURATION        : 00:01:44.720000000
+      encoder         : Lavc60.31.102 wrapped_avframe
+frame=    0 fps=0.0 q=-0.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    [blackdetect @ 0x7fc300006c40] black_start:0.04 black_end:1.6 black_duration:1.56
+frame=  257 fps=0.0 q=-0.0 size=N/A time=00:00:10.28 bitrate=N/A speed=20.1x    frame=  495 fps=489 q=-0.0 size=N/A time=00:00:19.80 bitrate=N/A speed=19.5x    frame=  846 fps=559 q=-0.0 size=N/A time=00:00:33.84 bitrate=N/A speed=22.4x    frame= 1153 fps=568 q=-0.0 size=N/A time=00:00:46.12 bitrate=N/A speed=22.7x    frame= 1499 fps=592 q=-0.0 size=N/A time=00:00:59.96 bitrate=N/A speed=23.7x    frame= 1825 fps=598 q=-0.0 size=N/A time=00:01:13.00 bitrate=N/A speed=23.9x    frame= 2069 fps=582 q=-0.0 size=N/A time=00:01:22.76 bitrate=N/A speed=23.3x    frame= 2302 fps=567 q=-0.0 size=N/A time=00:01:32.08 bitrate=N/A speed=22.7x    frame= 2526 fps=554 q=-0.0 size=N/A time=00:01:41.04 bitrate=N/A speed=22.2x    [out#0/null @ 0x5569968286c0] video:1227kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+frame= 2618 fps=555 q=-0.0 Lsize=N/A time=00:01:44.68 bitrate=N/A speed=22.2x    
+

@@ -24,10 +24,37 @@ html,body{margin:0;height:100%;background:#000;color:#ddd;font:13px/1.35 system-
 .float{position:fixed;font-weight:700;pointer-events:none;transition:transform .7s,opacity .7s;text-shadow:0 1px 3px #000}
 #flash{position:fixed;inset:0;background:transparent;opacity:0;pointer-events:none}
 .offmark{position:fixed;width:18px;height:18px;margin:-9px 0 0 -9px;border:2px solid #ff3a18;background:rgba(255,40,10,.35);border-radius:2px;transform:rotate(45deg);pointer-events:none;display:none;box-shadow:0 0 10px #ff2a10,0 0 2px #000;z-index:4}
+#fps-fx{position:fixed;inset:0;pointer-events:none}
+#reticle{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border:1px solid rgba(230,210,160,.75);border-radius:50%;box-shadow:0 0 0 1px rgba(0,0,0,.45)}
+#reticle:before,#reticle:after{content:"";position:absolute;background:rgba(230,210,160,.85)}
+#reticle:before{left:8px;top:-5px;width:1px;height:28px}
+#reticle:after{left:-5px;top:8px;width:28px;height:1px}
+#hitmark{position:absolute;left:50%;top:50%;width:22px;height:22px;margin:-11px 0 0 -11px;opacity:0;border:2px solid #ffd27a;transform:rotate(45deg)}
+#hitmark.kill{border-color:#ff6a3a}
+#dmg i{position:absolute;width:0;height:0;opacity:0;border:18px solid transparent;filter:drop-shadow(0 0 6px #f30)}
+#dmg .front{left:50%;top:8%;margin-left:-18px;border-bottom-color:#ff3a22;border-top:0}
+#dmg .back{left:50%;bottom:10%;margin-left:-18px;border-top-color:#ff3a22;border-bottom:0}
+#dmg .left{left:6%;top:50%;margin-top:-18px;border-right-color:#ff3a22;border-left:0}
+#dmg .right{right:6%;top:50%;margin-top:-18px;border-left-color:#ff3a22;border-right:0}
+#dmg i.on{opacity:.9}
+#threats .threat{position:absolute;width:0;height:0;border:8px solid transparent;border-bottom-color:#ff2a18;transform:translate(-50%,-50%) rotate(180deg);opacity:.7}
+#threats .threat.armed{border-bottom-color:#ffd27a;opacity:1}
+body.fps #hud{left:auto;right:14px;top:auto;bottom:12px;max-width:280px;background:rgba(6,8,14,.42);border-color:rgba(196,162,98,.28);font-size:12px;padding:6px 8px}
+body.fps #hud .helm{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}
+body.fps #hud .cell span{display:block;font-size:9px;letter-spacing:.08em;opacity:.7}
+body.fps #hud .cell b{font-variant-numeric:tabular-nums}
+body.fps #hud .pip{display:block;height:4px;background:#211;margin-top:2px}
+body.fps #hud .pip u{display:block;height:100%;background:#d9b25a}
+body.fps #hud .pack{margin-top:4px;letter-spacing:.2em}
+body.fps #hud .alarms{min-height:1.1em}
+body.fps #help{opacity:.45}
+body.fps #fps-fx{display:block}
+#fps-fx{display:none}
 @media (max-aspect-ratio:1/1){#dbg{left:8px;right:8px;top:auto;bottom:30px;max-width:none}}
 </style></head><body>
 <canvas id="c"></canvas><div id="flash"></div>
 <div id="om0" class="offmark"></div><div id="om1" class="offmark"></div><div id="om2" class="offmark"></div><div id="om3" class="offmark"></div>
+<div id="fps-fx"><div id="reticle"></div><div id="hitmark"></div><div id="dmg"><i class="front"></i><i class="back"></i><i class="left"></i><i class="right"></i></div><div id="threats"></div></div>
 <div id="hud"></div><div id="dbg"></div><div id="msg"></div>
-<div id="help">Victoire Terminator : balise 6 s, meute à terre, ou 2:00 tenues. Défaite : armure à 0.<br>ZQSD ou WASD bouger · ←/→ pivoter (lent) · Espace storm bolter · F ou Maj gantelet · V vue de contrôle · M couper le son · Entrée manche suivante · P pause</div>
+<div id="help">Victoire Terminator : balise 6 s, meute à terre, ou 2:00 tenues. Défaite : armure à 0.<br>ZQSD ou WASD bouger · souris viser (clic pour verrouiller) · ←/→ pivoter · Espace storm bolter · F ou Maj gantelet · V vue de contrôle · M couper le son · Entrée manche suivante · P pause · ?cam=fps|combat|couloir|epaule|troisquarts</div>
 <script type="module" src="/web/main.ts"></script></body></html>

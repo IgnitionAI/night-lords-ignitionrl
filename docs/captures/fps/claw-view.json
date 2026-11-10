@@ -1,0 +1,879 @@
+{
+  "autoplay": "kiter",
+  "policy": "policies/current.json",
+  "meleeAimM": 3,
+  "seeds": [
+    900007,
+    900002,
+    900004,
+    900010,
+    900017
+  ],
+  "hits": 90,
+  "inFov": 88,
+  "share": 0.9777777777777777,
+  "target": 0.8,
+  "ok": true,
+  "perSeed": [
+    {
+      "seed": 900007,
+      "hits": 19,
+      "inFov": 19,
+      "share": 1,
+      "winner": "pack",
+      "tick": 265,
+      "claws": [
+        {
+          "tick": 119,
+          "t": 11.9,
+          "who": 2,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 2.533
+        },
+        {
+          "tick": 127,
+          "t": 12.7,
+          "who": 2,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -2.522
+        },
+        {
+          "tick": 135,
+          "t": 13.5,
+          "who": 2,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -1.606
+        },
+        {
+          "tick": 144,
+          "t": 14.4,
+          "who": 2,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 0.569
+        },
+        {
+          "tick": 152,
+          "t": 15.2,
+          "who": 2,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 1.673
+        },
+        {
+          "tick": 160,
+          "t": 16,
+          "who": 2,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 3.037
+        },
+        {
+          "tick": 168,
+          "t": 16.8,
+          "who": 2,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -1.877
+        },
+        {
+          "tick": 176,
+          "t": 17.6,
+          "who": 2,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -0.474
+        },
+        {
+          "tick": 184,
+          "t": 18.4,
+          "who": 2,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 0.462
+        },
+        {
+          "tick": 192,
+          "t": 19.2,
+          "who": 2,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 1.75
+        },
+        {
+          "tick": 200,
+          "t": 20,
+          "who": 2,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -3.07
+        },
+        {
+          "tick": 208,
+          "t": 20.8,
+          "who": 2,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -2.269
+        },
+        {
+          "tick": 216,
+          "t": 21.6,
+          "who": 2,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -0.899
+        },
+        {
+          "tick": 224,
+          "t": 22.4,
+          "who": 2,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 0.949
+        },
+        {
+          "tick": 232,
+          "t": 23.2,
+          "who": 2,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 1.356
+        },
+        {
+          "tick": 240,
+          "t": 24,
+          "who": 2,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -2.686
+        },
+        {
+          "tick": 248,
+          "t": 24.8,
+          "who": 2,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -1.402
+        },
+        {
+          "tick": 256,
+          "t": 25.6,
+          "who": 2,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -1.379
+        },
+        {
+          "tick": 265,
+          "t": 26.5,
+          "who": 2,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 0.634
+        }
+      ]
+    },
+    {
+      "seed": 900002,
+      "hits": 20,
+      "inFov": 19,
+      "share": 0.95,
+      "winner": "pack",
+      "tick": 217,
+      "claws": [
+        {
+          "tick": 88,
+          "t": 8.8,
+          "who": 3,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 1.648
+        },
+        {
+          "tick": 97,
+          "t": 9.7,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -0.059
+        },
+        {
+          "tick": 124,
+          "t": 12.4,
+          "who": 3,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 1.249
+        },
+        {
+          "tick": 132,
+          "t": 13.2,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 3.021
+        },
+        {
+          "tick": 140,
+          "t": 14,
+          "who": 3,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -2.138
+        },
+        {
+          "tick": 149,
+          "t": 14.9,
+          "who": 3,
+          "zone": "side",
+          "d": 1.245,
+          "inFov": true,
+          "yaw": -0.837
+        },
+        {
+          "tick": 157,
+          "t": 15.7,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.358,
+          "inFov": true,
+          "yaw": 1.483
+        },
+        {
+          "tick": 161,
+          "t": 16.1,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 1.869
+        },
+        {
+          "tick": 165,
+          "t": 16.5,
+          "who": 3,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 1.87
+        },
+        {
+          "tick": 169,
+          "t": 16.9,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.315,
+          "inFov": true,
+          "yaw": 2.758
+        },
+        {
+          "tick": 174,
+          "t": 17.4,
+          "who": 3,
+          "zone": "side",
+          "d": 1.329,
+          "inFov": true,
+          "yaw": 2.972
+        },
+        {
+          "tick": 177,
+          "t": 17.7,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.302,
+          "inFov": true,
+          "yaw": -2.388
+        },
+        {
+          "tick": 184,
+          "t": 18.4,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -1.044
+        },
+        {
+          "tick": 185,
+          "t": 18.5,
+          "who": 0,
+          "zone": "side",
+          "d": 1.31,
+          "inFov": true,
+          "yaw": -1.673
+        },
+        {
+          "tick": 193,
+          "t": 19.3,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.277,
+          "inFov": true,
+          "yaw": 0.532
+        },
+        {
+          "tick": 201,
+          "t": 20.1,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": false,
+          "yaw": 0.463
+        },
+        {
+          "tick": 201,
+          "t": 20.1,
+          "who": 3,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 0.463
+        },
+        {
+          "tick": 209,
+          "t": 20.9,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 2.989
+        },
+        {
+          "tick": 210,
+          "t": 21,
+          "who": 3,
+          "zone": "side",
+          "d": 1.321,
+          "inFov": true,
+          "yaw": 2.289
+        },
+        {
+          "tick": 217,
+          "t": 21.7,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.284,
+          "inFov": true,
+          "yaw": -1.773
+        }
+      ]
+    },
+    {
+      "seed": 900004,
+      "hits": 16,
+      "inFov": 16,
+      "share": 1,
+      "winner": "pack",
+      "tick": 230,
+      "claws": [
+        {
+          "tick": 95,
+          "t": 9.5,
+          "who": 0,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -1.441
+        },
+        {
+          "tick": 112,
+          "t": 11.2,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 0.781
+        },
+        {
+          "tick": 126,
+          "t": 12.6,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 2.082
+        },
+        {
+          "tick": 134,
+          "t": 13.4,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -3.046
+        },
+        {
+          "tick": 142,
+          "t": 14.2,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -1.721
+        },
+        {
+          "tick": 150,
+          "t": 15,
+          "who": 0,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -0.504
+        },
+        {
+          "tick": 158,
+          "t": 15.8,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 0.902
+        },
+        {
+          "tick": 166,
+          "t": 16.6,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 2.283
+        },
+        {
+          "tick": 174,
+          "t": 17.4,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -3
+        },
+        {
+          "tick": 182,
+          "t": 18.2,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -1.265
+        },
+        {
+          "tick": 190,
+          "t": 19,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 0.043
+        },
+        {
+          "tick": 198,
+          "t": 19.8,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 1.147
+        },
+        {
+          "tick": 206,
+          "t": 20.6,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 2.157
+        },
+        {
+          "tick": 214,
+          "t": 21.4,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 2.981
+        },
+        {
+          "tick": 222,
+          "t": 22.2,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -1.434
+        },
+        {
+          "tick": 230,
+          "t": 23,
+          "who": 0,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -0.251
+        }
+      ]
+    },
+    {
+      "seed": 900010,
+      "hits": 19,
+      "inFov": 18,
+      "share": 0.9473684210526315,
+      "winner": "pack",
+      "tick": 185,
+      "claws": [
+        {
+          "tick": 89,
+          "t": 8.9,
+          "who": 1,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -3.006
+        },
+        {
+          "tick": 104,
+          "t": 10.4,
+          "who": 1,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -0.073
+        },
+        {
+          "tick": 113,
+          "t": 11.3,
+          "who": 1,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 1.912
+        },
+        {
+          "tick": 121,
+          "t": 12.1,
+          "who": 1,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -2.467
+        },
+        {
+          "tick": 129,
+          "t": 12.9,
+          "who": 1,
+          "zone": "rear",
+          "d": 1.305,
+          "inFov": true,
+          "yaw": -1.21
+        },
+        {
+          "tick": 129,
+          "t": 12.9,
+          "who": 2,
+          "zone": "rear",
+          "d": 1.335,
+          "inFov": true,
+          "yaw": -1.21
+        },
+        {
+          "tick": 137,
+          "t": 13.7,
+          "who": 1,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -0.493
+        },
+        {
+          "tick": 138,
+          "t": 13.8,
+          "who": 2,
+          "zone": "side",
+          "d": 1.36,
+          "inFov": true,
+          "yaw": -1.217
+        },
+        {
+          "tick": 145,
+          "t": 14.5,
+          "who": 1,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -0.274
+        },
+        {
+          "tick": 147,
+          "t": 14.7,
+          "who": 2,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 0.448
+        },
+        {
+          "tick": 153,
+          "t": 15.3,
+          "who": 1,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": false,
+          "yaw": 1.397
+        },
+        {
+          "tick": 155,
+          "t": 15.5,
+          "who": 2,
+          "zone": "rear",
+          "d": 1.382,
+          "inFov": true,
+          "yaw": 1.713
+        },
+        {
+          "tick": 161,
+          "t": 16.1,
+          "who": 1,
+          "zone": "rear",
+          "d": 1.309,
+          "inFov": true,
+          "yaw": -3.115
+        },
+        {
+          "tick": 164,
+          "t": 16.4,
+          "who": 2,
+          "zone": "side",
+          "d": 1.323,
+          "inFov": true,
+          "yaw": 2.851
+        },
+        {
+          "tick": 169,
+          "t": 16.9,
+          "who": 1,
+          "zone": "rear",
+          "d": 1.309,
+          "inFov": true,
+          "yaw": -1.814
+        },
+        {
+          "tick": 173,
+          "t": 17.3,
+          "who": 2,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -1.932
+        },
+        {
+          "tick": 177,
+          "t": 17.7,
+          "who": 1,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -0.299
+        },
+        {
+          "tick": 181,
+          "t": 18.1,
+          "who": 2,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -0.913
+        },
+        {
+          "tick": 185,
+          "t": 18.5,
+          "who": 1,
+          "zone": "rear",
+          "d": 1.298,
+          "inFov": true,
+          "yaw": 0.684
+        }
+      ]
+    },
+    {
+      "seed": 900017,
+      "hits": 16,
+      "inFov": 16,
+      "share": 1,
+      "winner": "pack",
+      "tick": 244,
+      "claws": [
+        {
+          "tick": 108,
+          "t": 10.8,
+          "who": 3,
+          "zone": "side",
+          "d": 1.244,
+          "inFov": true,
+          "yaw": -1.451
+        },
+        {
+          "tick": 125,
+          "t": 12.5,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 1.962
+        },
+        {
+          "tick": 139,
+          "t": 13.9,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 0.664
+        },
+        {
+          "tick": 147,
+          "t": 14.7,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -0.795
+        },
+        {
+          "tick": 156,
+          "t": 15.6,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.147,
+          "inFov": true,
+          "yaw": -2.07
+        },
+        {
+          "tick": 164,
+          "t": 16.4,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 3.139
+        },
+        {
+          "tick": 172,
+          "t": 17.2,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 1.797
+        },
+        {
+          "tick": 180,
+          "t": 18,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 1.088
+        },
+        {
+          "tick": 188,
+          "t": 18.8,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -0.65
+        },
+        {
+          "tick": 196,
+          "t": 19.6,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -2.405
+        },
+        {
+          "tick": 204,
+          "t": 20.4,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -3.073
+        },
+        {
+          "tick": 212,
+          "t": 21.2,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 1.977
+        },
+        {
+          "tick": 220,
+          "t": 22,
+          "who": 3,
+          "zone": "side",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 0.927
+        },
+        {
+          "tick": 228,
+          "t": 22.8,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -0.153
+        },
+        {
+          "tick": 236,
+          "t": 23.6,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": -2.441
+        },
+        {
+          "tick": 244,
+          "t": 24.4,
+          "who": 3,
+          "zone": "rear",
+          "d": 1.25,
+          "inFov": true,
+          "yaw": 2.918
+        }
+      ]
+    }
+  ]
+}

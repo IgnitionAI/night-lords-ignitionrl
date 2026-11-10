@@ -261,3 +261,19 @@ test('?mute=1 coupe le moteur à l’init', async () => {
   assert.equal(engine.muted, true);
   assert.equal(engine.enabled, false);
 });
+
+test('tape WebAudio : beginTape branche le limiteur #75', async () => {
+  const ctx = createMockAudioContext();
+  const engine = new AudioEngine();
+  await engine.init({
+    context: ctx as never,
+    manifest: { version: 1, polyphony: 8, samples: [] },
+    autounlock: false,
+    enabled: true,
+    search: '',
+  });
+  assert.equal(engine.beginTape(), true);
+  const t = engine.endTape();
+  assert.ok(t.sampleRate > 0);
+  assert.equal(t.frames, 0);
+});

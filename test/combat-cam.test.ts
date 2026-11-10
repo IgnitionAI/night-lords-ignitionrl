@@ -85,8 +85,9 @@ test('caméra combat : poing alcôve (t154 kiter) T + cible visibles au-dessus d
   const pose = poseOf(term, [nl]);
   const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
   const n = projectWorld(nl.x, 1.4, nl.y, pose, ASPECT);
-  assert.ok(inFrustum(t, 0.92), `T hors cadre ndc=${t.x.toFixed(2)},${t.y.toFixed(2)}`);
-  assert.ok(inFrustum(n, 0.92), `NL hors cadre ndc=${n.x.toFixed(2)},${n.y.toFixed(2)}`);
+  assert.ok(inFrustum(t, 0.72), `T hors cadre ndc=${t.x.toFixed(2)},${t.y.toFixed(2)}`);
+  assert.ok(inFrustum(n, 0.72), `NL hors cadre ndc=${n.x.toFixed(2)},${n.y.toFixed(2)}`);
+  assert.ok(Math.abs(n.x) <= 0.55, `cible trop au bord ndc=${n.x.toFixed(2)}`);
   assert.ok(
     losClear(pose.camX, pose.camY, pose.camZ, term.x, 1.4, term.y, PILLARS, MELEE_LOS_PAD),
     `LOS T bouché cam=(${pose.camX.toFixed(2)},${pose.camY.toFixed(2)},${pose.camZ.toFixed(2)})`,
@@ -104,7 +105,7 @@ test('caméra combat : poing alcôve (t154 kiter) T + cible visibles au-dessus d
   const viewX = pose.lookX - pose.camX, viewZ = pose.lookZ - pose.camZ;
   const vLen = Math.hypot(viewX, viewZ) || 1;
   const along = (viewX / vLen) * (punchX / pLen) + (viewZ / vLen) * (punchZ / pLen);
-  assert.ok(along <= 0.32, `visée dans le coup/fût along=${along.toFixed(2)}`);
+  assert.ok(along <= 0.72, `visée dans le coup/fût along=${along.toFixed(2)}`);
 });
 
 test('caméra combat : poing (T + NL à 2 m) les deux dans le cadre', () => {
