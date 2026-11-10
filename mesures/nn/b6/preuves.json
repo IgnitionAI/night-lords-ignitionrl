@@ -36,5 +36,13 @@
   "videoB5Bytes": 6337148,
   "replayBefore": "mesures/nn/b6/seed900000-before.json",
   "replayAfter": "mesures/nn/b6/seed900000-after.json",
+  "attemptsFromVis2": {
+    "n": 2,
+    "wallHuggerStillBelow85": true,
+    "retained": "runs/b6-vis2@700",
+    "evalAttempt1": "mesures/nn/b6/attempt1-wh-turret-eval.json",
+    "evalAttempt2": "mesures/nn/b6/attempt2-walltrack-eval.json",
+    "evalPr66": "mesures/nn/b6/eval-pr66.json"
+  },
   "captureConsoleErrors": ["404 /web/sfx/nightlords/manifest.json"]
 }

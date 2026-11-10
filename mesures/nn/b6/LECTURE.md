@@ -1,24 +1,37 @@
-# Lecture b6 vs b5
+# Lecture b5 vs b6 (#66) vs b6 lisibilité (vis2)
 
-Politique candidate **b6** (`runs/b6-vis2@700`) : fine-tune lisibilité depuis le candidat mergé (spawn-camp hors cône). Shaping **hors** `src/sim.ts` : cône de vision, flancs hors couloir de bolter, pénalité stall/spawn. `NL_CFG.speed` et `T_CFG.fwd` inchangés. **Défaut inchangé** : `current.json` reste b5. Jouable : `?policy=b6`.
+Politique candidate **b6** retenue : `runs/b6-vis2@700` (`policies/candidates/b6/`). Fine-tune lisibilité depuis le candidat mergé #66. **Défaut inchangé** : `current.json` = b5. Jouable : `?policy=b6`. `src/sim.ts`, `NL_CFG.speed` (6), `T_CFG.fwd` (2.5) inchangés.
 
-Éval : 200 parties / adversaire, seeds **900000..900199**, `clawWindup: false` — même protocole que `mesures/nn/b5/eval.json`.
+Éval : 200 parties / adversaire, seeds **900000..900199**, `clawWindup: false`.
 
-Objectifs : médiane **30–90 s** chaque adversaire ; WR ≥ 85 % ; pas plus de 5 pts sous b5 ; pool ≥ 88 %.
+Deux tentatives depuis vis2 pour remonter wallHugger/turret (curriculum + intercept ; puis wallTrack + lr 8e-6) : **wallHugger reste < 85 %**. vis2 reste le meilleur compromis mesuré.
 
-## Tableau comparatif (n=200, mêmes seeds)
+## Tableau b5 / b6 #66 / b6 vis2 (n=200, mêmes seeds)
 
-| Adversaire | b5 WR (IC 95 %) | b6 WR (IC 95 %) | Δ WR | NL tués | Téléports | b5 médiane (p25–p75) | b6 médiane (p25–p75) | engagements | ticks visibles | morts sans dégât T |
-|---|---|---|---|---|---|---|---|---|---|---|
-| march | 98,5 % (95,7 %–99,5 %) | 98,5 % (95,7 %–99,5 %) | +0,0 pts | 0.46 → 0.79 | 0 → 0 (0/p) | 18,2 s (16,3–21,5) | 37,3 s (35,2–39,8) | 1.04 | 0.69 | 0 |
-| turret | 95,0 % (91,0 %–97,3 %) | 89,0 % (83,9 %–92,6 %) | -6,0 pts | 0.96 → 1.39 | 0 → 0 (0/p) | 21,1 s (18,1–26,2) | 38,2 s (36,1–41,4) | 1.01 | 0.556 | 0 |
-| brawler | 97,5 % (94,3 %–98,9 %) | 96,0 % (92,3 %–98,0 %) | -1,5 pts | 0.83 → 1.23 | 0 → 1 (0.005/p) | 19 s (17,1–22,6) | 38,4 s (36–40,9) | 0.99 | 0.653 | 0 |
-| backpedal | 99,5 % (97,2 %–99,9 %) | 100,0 % (98,1 %–100,0 %) | +0,5 pts | 0.3 → 0.59 | 0 → 0 (0/p) | 17,7 s (15,6–21) | 37,1 s (34,7–39,2) | 1.05 | 0.664 | 0 |
-| wallHugger | 96,0 % (92,3 %–98,0 %) | 84,0 % (78,3 %–88,4 %) | -12,0 pts | 0.74 → 1.5 | 2 → 17 (0.085/p) | 20,1 s (17,4–25) | 39,3 s (36,8–42,6) | 1.01 | 0.607 | 0 |
-| kiter | 87,5 % (82,2 %–91,4 %) | 89,0 % (83,9 %–92,6 %) | +1,5 pts | 1.26 → 1.69 | 0 → 0 (0/p) | 21,4 s (18–26,5) | 40,1 s (37,6–43,9) | 1 | 0.621 | 0 |
-| elite | 88,5 % (83,3 %–92,2 %) | 88,5 % (83,3 %–92,2 %) | +0,0 pts | 1.24 → 1.67 | 0 → 0 (0/p) | 20,7 s (18,1–25,8) | 40,2 s (36,7–43,2) | 0.95 | 0.615 | 0 |
+| Adversaire | b5 WR | b6 #66 WR | b6 vis2 WR | Δ vis2 vs b5 | médiane #66 | médiane vis2 | vis vis2 | morts sans dégât T | téléports vis2 |
+|---|---|---|---|---|---|---|---|---|---|
+| march | 98,5 % | 97,5 % | 98,5 % | +0,0 | 38,4 s | 37,3 s | 0,690 | 0 | 0 |
+| turret | 95,0 % | 91,0 % | 89,0 % | −6,0 | 43,8 s | 38,2 s | 0,556 | 0 | 0 |
+| brawler | 97,5 % | 95,5 % | 96,0 % | −1,5 | 38,7 s | 38,4 s | 0,653 | 0 | 0,005/p |
+| backpedal | 99,5 % | 100,0 % | 100,0 % | +0,5 | 37,3 s | 37,1 s | 0,664 | 0 | 0 |
+| wallHugger | 96,0 % | 91,5 % | 84,0 % | −12,0 | 39,0 s | 39,3 s | 0,607 | 0 | 0,085/p |
+| kiter | 87,5 % | 86,5 % | 89,0 % | +1,5 | 41,2 s | 40,1 s | 0,621 | 0 | 0 |
+| elite | 88,5 % | 87,0 % | 88,5 % | +0,0 | 40,8 s | 40,2 s | 0,615 | 0 | 0 |
 
-Pool moyen : b5 **94,6 %** → b6 **92,1 %**.
+Pool : b5 **94,6 %** → #66 **92,7 %** → vis2 **92,1 %**. Moyenne `shareTicksVisible` vis2 **0,629** (≥ 0,6).
+
+## Tentatives wallHugger/turret depuis vis2 (arrêt après 2)
+
+| | vis2 (retenu) | essai 1 (curriculum WH+turret, intercept élargi, 160 upd) | essai 2 (wallTrack mur nord, 180 upd lr 8e-6) |
+|---|---|---|---|
+| turret WR | 89,0 % (−6,0) | **90,5 % (−4,5)** | **90,5 % (−4,5)** |
+| wallHugger WR | **84,0 %** (17 téléports) | 82,0 % (24 téléports) | 81,5 % (22 téléports) |
+| kiter WR | **89,0 %** | 78,0 % | 88,0 % |
+| elite WR | 88,5 % | 81,5 % | 90,5 % |
+| pool | 92,1 % | 89,1 % | 91,5 % |
+| vis pool | 0,629 | 0,652 | 0,657 |
+
+Cause : wallHugger colle le mur nord (`y=22,5`) puis la balise. Le shaping de lisibilité tire la meute dans le **cône / couloir** (facing 0). Intercepter le mur sort du cône → `unseenPack` / `outOfCone` combattent l’interception. Forcer le mur (essai 1–2) augmente les téléports et, si on pousse trop, casse kiter.
 
 ## Commandes
 
