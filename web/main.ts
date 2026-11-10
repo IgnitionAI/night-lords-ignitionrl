@@ -940,6 +940,7 @@ async function loadPolicy() {
   try {
     const j = await fetch(`/policy/${sel.file}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null);
     if (j) {
+      actor = j;
       const q = qs.get('policy');
       policyLabel = `politique ${j.version}${q && sel.id !== 'current' ? ` (?policy=${sel.id})` : ''}`;
     }

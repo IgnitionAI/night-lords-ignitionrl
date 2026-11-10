@@ -108,16 +108,24 @@ const B3_FULL_SHA256 = '7c4e37f9c625e5217103b9d1125ad830508ed1a4454ce87250ba5659
 /** b4 promu puis archivé — policies/b4/ byte-identique à l'acteur déployé avant b5. */
 const B4_ACTOR_SHA256 = 'd43de9da64f008b7027ed4d6aa0c48fb35e3ea4fd571e6dfa87f6843f4c006c7';
 const B4_FULL_SHA256 = '32b7ea45fcefc2dff408d32e94a101f3299c4d82876749c33b030f880f97fbb1';
+const B5_ACTOR_SHA256 = '27a6f675ee1de5ffbf9601f73d3a5c6e25abb5da0cc9ba443a4f8fba4321b0f3';
+const B5_FULL_SHA256 = '223c14edf51bbb3f467fbe49fa7259883674009cbc61e24912820cd58b44cd63';
 
-test('archives b3/b4 byte-identiques ; current.json est b5', () => {
+test('archives b3/b4 byte-identiques ; current.json est b5 (pas b6)', () => {
   const archivedB3 = join(ROOT, 'policies/b3/current.json');
   const archivedB3Full = join(ROOT, 'policies/b3/current-full.json');
   const archivedB4 = join(ROOT, 'policies/b4/current.json');
   const archivedB4Full = join(ROOT, 'policies/b4/current-full.json');
+  const candB5 = join(ROOT, 'policies/candidates/b5/actor.json');
+  const candB5Full = join(ROOT, 'policies/candidates/b5/full.json');
   assert.equal(sha(archivedB3), B3_ACTOR_SHA256);
   assert.equal(sha(archivedB3Full), B3_FULL_SHA256);
   assert.equal(sha(archivedB4), B4_ACTOR_SHA256);
   assert.equal(sha(archivedB4Full), B4_FULL_SHA256);
+  assert.equal(sha(candB5), B5_ACTOR_SHA256);
+  assert.equal(sha(candB5Full), B5_FULL_SHA256);
+  assert.equal(sha(POLICY), B5_ACTOR_SHA256);
+  assert.equal(sha(POLICY_FULL), B5_FULL_SHA256);
   const deployed = JSON.parse(readFileSync(POLICY, 'utf8')) as { version: string };
   const b3 = JSON.parse(readFileSync(archivedB3, 'utf8')) as { version: string };
   const b4 = JSON.parse(readFileSync(archivedB4, 'utf8')) as { version: string };
