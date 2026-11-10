@@ -59,11 +59,14 @@ export const B6_SHAPE = {
   chase: 0.01,
   intercept: 0.02,
   packAlive: 0.004,
-  stallFar: -0.02,
+  stallFar: -0.04,
   meleeEarly: -0.1,
   harass: 0.014,
   feint: 0.014,
   commitLate: 0.022,
+  visible: 0.022,
+  outOfCone: -0.016,
+  unseenPack: -0.025,
   earlyHit: -5,
   lateHit: 0.22,
   earlyWin: -12,
@@ -242,9 +245,12 @@ export function applyB6Shaping(w: World, rewards: number[], died: boolean[]): nu
     out[i] += B6_SHAPE.band * Math.exp(-((d - B6_SHAPE.bandMu) ** 2) / B6_SHAPE.bandVar);
     const rel = Math.abs(angNorm(Math.atan2(w.nls[i].y - t.y, w.nls[i].x - t.x) - t.facing));
     if (rel < 0.7 && d < 7) out[i] += B6_SHAPE.front;
-    if (rel > 2.0 && d < 8) out[i] += B6_SHAPE.rear;
+    if (rel > 2.0 && d < 8 && earlyFrac === 0) out[i] += B6_SHAPE.rear;
     if (d > 9) out[i] += B6_SHAPE.chase * Math.min(1, (d - 9) / 8);
-    if (d > 16) out[i] += B6_SHAPE.stallFar * Math.min(1, (d - 16) / 6);
+    if (d > 12) out[i] += B6_SHAPE.stallFar * Math.min(1, (d - 12) / 8);
+    const inCone = rel < T_CFG.visionHalf && d <= T_CFG.visionRange && d > 3.2;
+    if (inCone) out[i] += B6_SHAPE.visible;
+    else if (d > 4) out[i] += B6_SHAPE.outOfCone;
     if (earlyFrac > 0 && d < 3.2) out[i] += B6_SHAPE.meleeEarly * earlyFrac;
     if (d > 5.5 && d < 12) out[i] += B6_SHAPE.harass;
     if (rel < 0.85 && d > 4 && d < 9.5) out[i] += B6_SHAPE.feint;
@@ -265,6 +271,14 @@ export function applyB6Shaping(w: World, rewards: number[], died: boolean[]): nu
   }
   if (aliveIdx.length >= 3) {
     for (const i of aliveIdx) out[i] += B6_SHAPE.packAlive;
+  }
+  const anyoneVisible = aliveIdx.some(i => {
+    const d = dist(w.nls[i].x, w.nls[i].y, t.x, t.y);
+    const rel = Math.abs(angNorm(Math.atan2(w.nls[i].y - t.y, w.nls[i].x - t.x) - t.facing));
+    return rel < T_CFG.visionHalf && d <= T_CFG.visionRange;
+  });
+  if (aliveIdx.length && !anyoneVisible) {
+    for (const i of aliveIdx) out[i] += B6_SHAPE.unseenPack;
   }
   if (aliveIdx.length >= 2) {
     const angs = aliveIdx.map(i => Math.atan2(w.nls[i].y - t.y, w.nls[i].x - t.x));

@@ -23,7 +23,7 @@ const cmpTable = rows.map(({ k, a, b, c }) => {
   const p75 = String(b.p75Seconds ?? '—').replace('.', ',');
   const p25a = String(a.p25Seconds ?? '—').replace('.', ',');
   const p75a = String(a.p75Seconds ?? '—').replace('.', ',');
-  return `| ${k} | ${pct(a.packWinRate)} (${ci(c.b3)}) | ${pct(b.packWinRate)} (${ci(c.cand)}) | ${dWr} | ${a.meanNightLordsKilled} → ${b.meanNightLordsKilled} | ${telA} → ${telB} | ${String(a.medianSeconds).replace('.', ',')} s (${p25a}–${p75a}) | ${String(b.medianSeconds).replace('.', ',')} s (${p25}–${p75}) | ${b.meanEngagements ?? '—'} | ${b.shareTicksFar ?? '—'} |`;
+  return `| ${k} | ${pct(a.packWinRate)} (${ci(c.b3)}) | ${pct(b.packWinRate)} (${ci(c.cand)}) | ${dWr} | ${a.meanNightLordsKilled} → ${b.meanNightLordsKilled} | ${telA} → ${telB} (${b.meanTeleports ?? '—'}/p) | ${String(a.medianSeconds).replace('.', ',')} s (${p25a}–${p75a}) | ${String(b.medianSeconds).replace('.', ',')} s (${p25}–${p75}) | ${b.meanEngagements ?? '—'} | ${b.shareTicksVisible ?? '—'} | ${b.deathsWithoutTermDamage ?? '—'} |`;
 }).join('\n');
 
 const md = `# Lecture b6 vs b5
@@ -36,8 +36,8 @@ Objectifs : médiane **30–90 s** chaque adversaire ; WR ≥ 85 % ; pas plus de
 
 ## Tableau comparatif (n=200, mêmes seeds)
 
-| Adversaire | b5 WR (IC 95 %) | b6 WR (IC 95 %) | Δ WR | NL tués | Téléports | b5 médiane (p25–p75) | b6 médiane (p25–p75) | engagements | ticks loin |
-|---|---|---|---|---|---|---|---|---|---|
+| Adversaire | b5 WR (IC 95 %) | b6 WR (IC 95 %) | Δ WR | NL tués | Téléports | b5 médiane (p25–p75) | b6 médiane (p25–p75) | engagements | ticks visibles | morts sans dégât T |
+|---|---|---|---|---|---|---|---|---|---|---|
 ${cmpTable}
 
 Pool moyen : b5 **${pct(avgB5)}** → b6 **${pct(avgB6)}**.

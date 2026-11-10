@@ -249,6 +249,32 @@ test('shaping b6 : harcèlement / encerclement > fuite ; melee tôt pénalisée 
   assert.ok(B6_SHAPE.earlyHit <= -5);
   assert.ok(B6_SHAPE.stallFar < 0);
   assert.ok(B6_SHAPE.hpHold > 0);
+  assert.ok(B6_SHAPE.visible > 0);
+  assert.ok(B6_SHAPE.unseenPack < 0);
+  assert.ok(B6_SHAPE.outOfCone < 0);
+});
+
+test('shaping b6 : cône de vision du T récompensé ; camp hors champ / spawn pénalisés', () => {
+  const vis = newWorld(17, undefined, { clawWindup: false });
+  vis.t.x = 20; vis.t.y = 12; vis.t.facing = 0; vis.tick = 80;
+  vis.nls[0].alive = true; vis.nls[0].x = 28; vis.nls[0].y = 12;
+  vis.nls[1].alive = vis.nls[2].alive = vis.nls[3].alive = false;
+  const visR = applyB6Shaping(vis, [0, 0, 0, 0], [false, false, false, false])[0];
+
+  const rearFar = newWorld(17, undefined, { clawWindup: false });
+  rearFar.t.x = 20; rearFar.t.y = 12; rearFar.t.facing = 0; rearFar.tick = 80;
+  rearFar.nls[0].alive = true; rearFar.nls[0].x = 12; rearFar.nls[0].y = 12;
+  rearFar.nls[1].alive = rearFar.nls[2].alive = rearFar.nls[3].alive = false;
+  const rearR = applyB6Shaping(rearFar, [0, 0, 0, 0], [false, false, false, false])[0];
+
+  const spawnCamp = newWorld(17, undefined, { clawWindup: false });
+  spawnCamp.t.x = 3; spawnCamp.t.y = 6.6; spawnCamp.t.facing = 0; spawnCamp.tick = 80;
+  spawnCamp.nls[0].alive = true; spawnCamp.nls[0].x = 33; spawnCamp.nls[0].y = 12;
+  spawnCamp.nls[1].alive = spawnCamp.nls[2].alive = spawnCamp.nls[3].alive = false;
+  const campR = applyB6Shaping(spawnCamp, [0, 0, 0, 0], [false, false, false, false])[0];
+
+  assert.ok(visR > rearR, `cône ${visR} vs dos hors champ ${rearR}`);
+  assert.ok(visR > campR, `cône ${visR} vs spawn ${campR}`);
 });
 
 test('shaping n\'appelle pas step : la sim reste la source des rewards de base', () => {

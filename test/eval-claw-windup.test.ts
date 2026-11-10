@@ -29,3 +29,10 @@ test('option absente ⇒ identique à clawWindup: false (aucun changement par d�
   assert.equal(def.clawArms, 0);
   assert.deepEqual(def, off, 'les valeurs par défaut des mesures existantes ne bougent pas');
 });
+
+test('lisibilité : morts sans dégât T = 0 ; métriques présentes', () => {
+  const s = runGames('naive', march, N, SEED);
+  assert.equal(s.deathsWithoutTermDamage, 0);
+  assert.ok(s.shareTicksVisible >= 0 && s.shareTicksVisible <= 1);
+  assert.ok(s.meanTeleports >= 0);
+});
