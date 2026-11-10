@@ -8,6 +8,7 @@ export { director, AudioDirector } from './director';
 export { VoicePool } from './voices';
 export { buildMixer, duckMusic, setBusGain, setMasterMuted } from './mixer';
 export { createMockAudioContext } from './mock-context';
+export { occluded } from './occlusion';
 
 export async function initAudio(opts?: {
   base?: string;

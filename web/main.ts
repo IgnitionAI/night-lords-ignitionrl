@@ -1582,7 +1582,9 @@ function termPoseReport() {
 subscribeAnimCues((cue) => { director.onAnimCue(cue); fx.onAnimCue(cue); vm?.ingestCue(cue); });
 await Promise.all([
   loadPolicy(), loadModels(), loadProps(),
-  initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }),
+  initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }).then(() => {
+    engine.setOccluders(PILLARS);
+  }),
 ]);
 // Onglet en arrière-plan : le module suspend le contexte, et ne le reprend au retour que s'il tournait.
 audio.attachLifecycle();

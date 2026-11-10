@@ -26,6 +26,8 @@ docs/captures/vfx-whoa/_vid/
 web/sfx/genex/
 
 # Intermédiaires de capture (webm / concat) — la vidéo finale est dans docs/videos/.
+docs/videos/*.webm
+docs/videos/match-audio.wav
 docs/captures/anim-impact/_clips/
 docs/captures/anim-impact/_vid/
 docs/captures/fps/_vid/

@@ -1,4 +1,5 @@
 import { buildMixer, duckMusic, setMasterMuted, type MixerGraph } from './mixer';
+import { occluded, type Aabb } from './occlusion';
 import { BUS_GAINS, DEFAULT_POLYPHONY, type AudioManifest, type BusName, type InitResult, type MixerStatus, type MusicPhase, type PlayOpts, type SampleName } from './types';
 import { VoicePool } from './voices';
 
@@ -15,6 +16,7 @@ interface LiveVoice {
   gain: GainNode;
   pan?: StereoPannerNode;
   panner?: PannerNode;
+  occlude?: BiquadFilterNode;
 }
 
 const MIN_INTERVAL_MS = 28;
@@ -43,6 +45,9 @@ export class AudioEngine {
   private nlStepIndex = 0;
   private base = '/web/sfx/nightlords/';
   private varyRng = 1;
+  private occluders: Aabb[] = [];
+  private listenerXZ = { x: 0, z: 0 };
+  private convolver: ConvolverNode | null = null;
 
   queryMuted(search = typeof location !== 'undefined' ? location.search : ''): boolean {
     const q = new URLSearchParams(search.startsWith('?') ? search.slice(1) : search);
@@ -87,8 +92,14 @@ export class AudioEngine {
       this.pool = new VoicePool(opts.polyphony ?? this.manifest.polyphony ?? DEFAULT_POLYPHONY);
       this.ready = true;
       if (opts.autounlock !== false) this.installUnlock();
-      const hot = ['bolter-shot', 'fist-impact', 'term-step-01', 'claw-metal', 'amb-drone', 'music-explore'];
+      this.wireReverb();
+      const hot = ['bolter-shot', 'fist-impact', 'term-step-01', 'claw-metal', 'amb-drone', 'music-explore', 'ir-corridor'];
       for (const n of hot) void this.decodeName(n, opts.fetchImpl);
+      if (this.manifest) {
+        for (const s of this.manifest.samples) {
+          if (!hot.includes(s.name)) void this.decodeName(s.name, opts.fetchImpl);
+        }
+      }
       return { ok: true, samples: this.manifest.samples.length, missing: [...this.missing] };
     } catch (e) {
       this.ready = false;
@@ -159,6 +170,19 @@ export class AudioEngine {
     return this.base + file.replace(/^\//, '');
   }
 
+  setOccluders(boxes: readonly Aabb[]): void {
+    this.occluders = [...boxes];
+  }
+
+  private wireReverb(): void {
+    if (!this.ctx || !this.graph) return;
+    if (typeof this.ctx.createConvolver !== 'function') return;
+    this.convolver = this.ctx.createConvolver();
+    this.convolver.normalize = true;
+    this.graph.reverbSend.connect(this.convolver);
+    this.convolver.connect(this.graph.reverbReturn);
+  }
+
   async decodeName(name: string, fetchImpl?: typeof fetch): Promise<AudioBuffer | null> {
     if (this.buffers.has(name) || this.missing.has(name) || !this.ctx) return this.buffers.get(name) ?? null;
     const entry = this.entry(name);
@@ -170,21 +194,34 @@ export class AudioEngine {
       const data = await res.arrayBuffer();
       return await this.ctx!.decodeAudioData(data.slice(0));
     };
-    try {
-      const buf = await tryFile(entry.file);
-      this.buffers.set(name, buf);
-      return buf;
-    } catch {
-      if (entry.fallback) {
-        try {
-          const buf = await tryFile(entry.fallback);
+    const files = [entry.file, ...(entry.variants ?? [])];
+    let primary: AudioBuffer | null = null;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      try {
+        const buf = await tryFile(file);
+        if (i === 0) {
           this.buffers.set(name, buf);
-          return buf;
-        } catch { /* fall through */ }
+          primary = buf;
+        } else {
+          this.buffers.set(name + '::' + file, buf);
+        }
+      } catch {
+        if (i === 0 && entry.fallback) {
+          try {
+            const buf = await tryFile(entry.fallback);
+            this.buffers.set(name, buf);
+            primary = buf;
+          } catch { /* */ }
+        }
       }
+    }
+    if (!primary) {
       this.missing.add(name);
       return null;
     }
+    if (name === 'ir-corridor' && this.convolver) this.convolver.buffer = primary;
+    return primary;
   }
 
   private vary(): { rate: number; gain: number } {
@@ -199,7 +236,7 @@ export class AudioEngine {
     if (!this.enabled || this.muted || !this.ready || !this.ctx || !this.graph) return false;
     const now = typeof performance !== 'undefined' ? performance.now() : Date.now();
     if (!opts.force && this.lastPlay.has(name) && now - this.lastPlay.get(name)! < MIN_INTERVAL_MS) return false;
-    const buf = this.buffers.get(name);
+    const buf = this.pickBuffer(name);
     if (!buf) { void this.decodeName(name); return false; }
     if (this.ctx.state === 'suspended') void this.ctx.resume();
 
@@ -222,6 +259,7 @@ export class AudioEngine {
     let tail: AudioNode = g;
     src.connect(g);
     const spatial = opts.x !== undefined || entry?.spatial;
+    let occlude: BiquadFilterNode | undefined;
     if (spatial && typeof opts.x === 'number') {
       const panner = this.ctx.createPanner();
       panner.panningModel = 'HRTF';
@@ -232,7 +270,14 @@ export class AudioEngine {
       this.setPannerPos(panner, opts.x, opts.z ?? 1.4, opts.y ?? 0);
       g.connect(panner);
       tail = panner;
-      const live: LiveVoice = { id, src, gain: g, panner };
+      if (this.occluders.length && occluded(this.listenerXZ.x, this.listenerXZ.z, opts.x, opts.y ?? 0, this.occluders)) {
+        occlude = this.ctx.createBiquadFilter();
+        occlude.type = 'lowpass';
+        occlude.frequency.value = 620;
+        panner.connect(occlude);
+        tail = occlude;
+      }
+      const live: LiveVoice = { id, src, gain: g, panner, occlude };
       this.live.set(id, live);
       if (src.loop) this.loops.set(name, live);
     } else if (this.ctx.createStereoPanner && typeof opts.pan === 'number') {
@@ -249,6 +294,13 @@ export class AudioEngine {
       if (src.loop) this.loops.set(name, live);
     }
     tail.connect(this.graph.buses[busName]);
+    const send = opts.send ?? (spatial ? 0.35 : 0);
+    if (send > 0 && this.graph.reverbSend) {
+      const sg = this.ctx.createGain();
+      sg.gain.value = send;
+      tail.connect(sg);
+      sg.connect(this.graph.reverbSend);
+    }
     src.onended = () => {
       this.pool.release(id);
       this.live.delete(id);
@@ -258,6 +310,19 @@ export class AudioEngine {
     try { src.start(opts.when ?? 0); } catch { return false; }
     this.lastPlay.set(name, now);
     return true;
+  }
+
+  private pickBuffer(name: string): AudioBuffer | undefined {
+    const entry = this.entry(name);
+    const variants = entry?.variants ?? [];
+    if (variants.length && this.buffers.has(name)) {
+      this.varyRng = (this.varyRng * 1103515245 + 12345) >>> 0;
+      const files = [entry!.file, ...variants];
+      const pick = files[this.varyRng % files.length];
+      if (pick === entry!.file) return this.buffers.get(name);
+      return this.buffers.get(name + '::' + pick) ?? this.buffers.get(name);
+    }
+    return this.buffers.get(name);
   }
 
   private setPannerPos(panner: PannerNode, x: number, y: number, z: number): void {
@@ -281,6 +346,7 @@ export class AudioEngine {
       L.setPosition?.(x, y, z);
       L.setOrientation?.(fx, fy, fz, ux, uy, uz);
     }
+    this.listenerXZ = { x, z };
   }
 
   duck(amount = 0.28): void {
