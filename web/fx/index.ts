@@ -4,5 +4,5 @@ export {
   freshFeel, punchFeel, simDelta, advanceFeel, shakeOffset, type FeelState,
 } from './feel';
 export { clipRayToAabbs, type ClipHit, type Aabb } from './hits';
-export { eventsToFxPulses, type FxPulse, type FxKind } from './events';
+export { eventsToFxPulses, fxCueFor, FX_CUE_FALLBACK, type FxPulse, type FxKind, type FxCueGate } from './events';
 export { createFxSystem, type FxSystem, type FxWorldView } from './system';

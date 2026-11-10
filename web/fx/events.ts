@@ -18,6 +18,42 @@ export type FxKind =
   | 'death'
   | 'servoCritical';
 
+export type FxCueGate = 'anticipation' | 'impact' | 'fire' | 'land';
+
+/** Cales présentation : le pulse attend le marqueur d'anim, pas le tick de sim. */
+export function fxCueFor(kind: FxKind): FxCueGate | null {
+  switch (kind) {
+    case 'bolt':
+    case 'boltImpact':
+    case 'boltKill':
+      return 'fire';
+    case 'clawArm':
+      return 'anticipation';
+    case 'claw':
+    case 'clawArmor':
+    case 'whiff':
+    case 'fist':
+    case 'fistKill':
+      return 'impact';
+    case 'death':
+      return 'land';
+    case 'hit':
+    case 'servoCritical':
+      return null;
+    default: {
+      const _n: never = kind;
+      return _n;
+    }
+  }
+}
+
+export const FX_CUE_FALLBACK: Record<FxCueGate, number> = {
+  fire: 0.18,
+  anticipation: 0.08,
+  impact: 0.18,
+  land: 0.48,
+};
+
 export interface FxPulse {
   kind: FxKind;
   x: number;

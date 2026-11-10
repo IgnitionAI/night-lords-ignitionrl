@@ -1135,6 +1135,7 @@ function hud() {
   (window as unknown as { __NL?: unknown }).__NL = {
     tick: w.tick, done: w.done, winner: w.winner, seed, muted: engine.muted,
     hp: w.t.hp, nlsAlive: w.nls.filter((n) => n.alive).length,
+    fistCharge: w.t.fistCharge,
     events: w.events.map((e) => e.type),
     msgShown: document.getElementById('msg')?.style.display === 'block',
     audio: engine.status(),
@@ -1333,7 +1334,7 @@ function termPoseReport() {
   };
 }
 (window as any).__animCues = peekAnimCues;
-subscribeAnimCues((cue) => { director.onAnimCue(cue); });
+subscribeAnimCues((cue) => { director.onAnimCue(cue); fx.onAnimCue(cue); });
 await Promise.all([
   loadPolicy(), loadModels(), loadProps(),
   initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }),
@@ -1384,7 +1385,9 @@ if (shot) { // capture : on avance la sim de N ticks sans attendre le temps rée
     // d'ici : aucune donnée du canal ne touche le DOM du joueur.
     if (CONTROL_VIEW && w.tick !== publishedTick) { publishHunterState(hunterState(w)); publishedTick = w.tick; }
     if (tracerT > 0) { tracerT -= dt; if (tracerT <= 0) tracer.visible = false; }
-    hud(); render(roundOver ? 1 : acc / DT); requestAnimationFrame(loop);
+    hud(); render(roundOver ? 1 : acc / DT);
+    (window as any).__termPose = termPoseReport();
+    requestAnimationFrame(loop);
   };
   requestAnimationFrame(loop);
 }

@@ -1,9 +1,11 @@
 // Captures SwiftShader avant (?proc=legacy) / après + vidéo < 15 Mo.
-import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
+import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn, spawnSync } from 'node:child_process';
 import { chromium } from 'playwright';
+import { decodePngRgba } from '../web/png-rgba.ts';
+import { meanLuma } from '../web/banding.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'docs/captures/anim-impact');
@@ -11,6 +13,9 @@ const VID = join(ROOT, 'docs/videos');
 const PORT = Number(process.env.PORT ?? 18194);
 const BASE = `http://127.0.0.1:${PORT}`;
 const PHASE = process.env.PHASE ?? 'all';
+const VIDEO_SEED = process.env.VIDEO_SEED ?? '900002';
+const VIDEO_AUTO = process.env.VIDEO_AUTO ?? 'kiter';
+const COMBAT_EVENTS = ['bolt', 'fist', 'claw', 'hit', 'clawArm', 'fistCharge'];
 
 mkdirSync(OUT, { recursive: true });
 mkdirSync(VID, { recursive: true });
@@ -34,6 +39,14 @@ const ACTIONS: {
   { id: 'term-fist', demo: 'impact-term-fist', focus: '', shots: [5, 11, 12], labels: ['anticipation', 'impact', 'recovery'] },
   { id: 'term-hit', demo: 'impact-term-hit', focus: '', shots: [5, 6, 7], labels: ['anticipation', 'impact', 'recovery'] },
   { id: 'term-walk', demo: 'impact-term-walk', focus: '', shots: [6, 10, 14], labels: ['anticipation', 'impact', 'recovery'] },
+];
+
+const SW = [
+  '--use-angle=swiftshader',
+  '--enable-unsafe-swiftshader',
+  '--use-gl=angle',
+  '--ignore-gpu-blocklist',
+  '--disable-gpu-sandbox',
 ];
 
 function waitListen(child: ReturnType<typeof spawn>, needle: string, ms: number) {
@@ -77,16 +90,7 @@ async function captureStills(legacy: boolean) {
   const pageErrors: string[] = [];
   const net: { status: number; url: string }[] = [];
   await withServer(async (base) => {
-    const browser = await chromium.launch({
-      headless: true,
-      args: [
-        '--use-angle=swiftshader',
-        '--enable-unsafe-swiftshader',
-        '--use-gl=angle',
-        '--ignore-gpu-blocklist',
-        '--disable-gpu-sandbox',
-      ],
-    });
+    const browser = await chromium.launch({ headless: true, args: SW });
     const context = await browser.newContext({ viewport: { width: 1280, height: 720 } });
     context.setDefaultTimeout(180000);
     const urls: Record<string, string> = {};
@@ -163,7 +167,7 @@ function encodeH264(webm: string, mp4: string, ss: number, maxT?: number): numbe
   const args = [
     '-y', '-hide_banner', '-loglevel', 'error',
     '-ss', String(start), '-i', webm,
-    '-an', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30', '-crf', '26',
+    '-an', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-s', '1280x720', '-r', '30', '-crf', '26',
   ];
   if (maxT !== undefined) args.push('-t', String(maxT));
   args.push(mp4);
@@ -181,18 +185,78 @@ function ffprobeDur(path: string): number {
   return Number(probe.stdout.trim());
 }
 
+function ffprobeJson(path: string): unknown {
+  const probe = spawnSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration,size,bit_rate:stream=codec_name,codec_type,width,height,sample_rate,channels', '-of', 'json', path], { encoding: 'utf8' });
+  return JSON.parse(probe.stdout || '{}');
+}
+
+function ebur128(path: string): { integrated?: string; raw: string } {
+  const r = spawnSync('ffmpeg', ['-hide_banner', '-i', path, '-filter_complex', 'ebur128=peak=true', '-f', 'null', '-'], { encoding: 'utf8' });
+  const raw = `${r.stderr ?? ''}\n${r.stdout ?? ''}`;
+  const m = raw.match(/I:\s+([-\d.]+)\s+LUFS/);
+  return { integrated: m?.[1], raw: raw.slice(-2000) };
+}
+
+function headStats(path: string, t: number) {
+  const r = spawnSync('ffmpeg', [
+    '-hide_banner', '-ss', String(t), '-t', '0.12', '-i', path,
+    '-vf', 'blackdetect=d=0.04:pix_th=0.10,signalstats,metadata=print:file=-',
+    '-an', '-f', 'null', '-',
+  ], { encoding: 'utf8' });
+  const text = `${r.stderr ?? ''}\n${r.stdout ?? ''}`;
+  const yavg = [...text.matchAll(/lavfi\.signalstats\.YAVG=([\d.]+)/g)].map((x) => Number(x[1]));
+  const black = [...text.matchAll(/black_start:([\d.]+)/g)].map((x) => Number(x[1]));
+  return { t, yavg: yavg[0] ?? null, blackStarts: black, snippet: text.slice(-800) };
+}
+
+async function waitLit(page: import('playwright').Page) {
+  for (let i = 0; i < 80; i++) {
+    const buf = await page.screenshot({ type: 'png' });
+    const { rgba, width, height } = decodePngRgba(buf);
+    const luma = meanLuma(rgba, width, height, { x: 0, y: 0, w: width, h: height });
+    if (luma > 4) return luma;
+    await page.waitForTimeout(250);
+  }
+  throw new Error('canvas resté noir');
+}
+
+function mixAac(cuesJson: string, wav: string, aac: string) {
+  const mix = spawnSync('python3', [join(ROOT, 'scripts/mix-match-audio.py'), cuesJson, wav], { cwd: ROOT, encoding: 'utf8' });
+  if (mix.status !== 0) throw new Error(mix.stderr || mix.stdout);
+  const aacEnc = spawnSync('ffmpeg', [
+    '-y', '-hide_banner', '-loglevel', 'error', '-i', wav, '-c:a', 'aac', '-b:a', '96k', aac,
+  ], { encoding: 'utf8' });
+  if (aacEnc.status !== 0) throw new Error(aacEnc.stderr);
+  return mix.stdout.trim();
+}
+
+function muxUnder15(silent: string, aac: string | null, delay: number, out: string) {
+  let crf = 28;
+  const tmp = join(OUT, '_vid', 'scaled.mp4');
+  mkdirSync(join(OUT, '_vid'), { recursive: true });
+  while (crf <= 36) {
+    const scale = spawnSync('ffmpeg', [
+      '-y', '-hide_banner', '-loglevel', 'error', '-i', silent,
+      '-vf', 'scale=1280:720,fps=24,format=yuv420p',
+      '-c:v', 'libx264', '-preset', 'veryfast', '-crf', String(crf), tmp,
+    ], { encoding: 'utf8' });
+    if (scale.status !== 0) throw new Error(scale.stderr);
+    const args = aac
+      ? ['-y', '-hide_banner', '-loglevel', 'error', '-i', tmp, '-itsoffset', String(delay), '-i', aac,
+        '-c:v', 'copy', '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', out]
+      : ['-y', '-hide_banner', '-loglevel', 'error', '-i', tmp, '-c:v', 'copy', '-an', '-movflags', '+faststart', out];
+    const mux = spawnSync('ffmpeg', args, { encoding: 'utf8' });
+    if (mux.status !== 0) throw new Error(mux.stderr);
+    const bytes = Number(spawnSync('stat', ['-c', '%s', out], { encoding: 'utf8' }).stdout.trim());
+    if (bytes <= 15 * 1024 * 1024) return { crf, bytes };
+    crf += 2;
+  }
+  throw new Error(`video trop lourde ${out}`);
+}
+
 async function liveConsole(base: string) {
-  const browser = await chromium.launch({
-    headless: true,
-    args: [
-      '--use-angle=swiftshader',
-      '--enable-unsafe-swiftshader',
-      '--use-gl=angle',
-      '--ignore-gpu-blocklist',
-      '--disable-gpu-sandbox',
-    ],
-  });
-  const context = await browser.newContext({ viewport: { width: 960, height: 540 } });
+  const browser = await chromium.launch({ headless: true, args: SW });
+  const context = await browser.newContext({ viewport: { width: 1280, height: 720 } });
   const page = await context.newPage();
   const consoleLines: string[] = [];
   const pageErrors: string[] = [];
@@ -200,191 +264,238 @@ async function liveConsole(base: string) {
   page.on('console', (m) => consoleLines.push(`${m.type()}: ${m.text()}`));
   page.on('pageerror', (e) => pageErrors.push(String(e)));
   page.on('response', (r) => net.push({ status: r.status(), url: r.url() }));
-  await page.goto(`${base}/?autoplay=kiter&cam=troisquarts&seed=900000&tex=512`, {
-    waitUntil: 'domcontentloaded', timeout: 60000,
-  });
+  const url = `${base}/?autoplay=${VIDEO_AUTO}&cam=epaule&seed=${VIDEO_SEED}&tex=512&props=0`;
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
   await page.waitForSelector('#hud', { timeout: 180000 });
-  await page.mouse.click(480, 270);
+  await page.mouse.click(640, 360);
   await page.waitForFunction(() => {
-    const n = (window as unknown as { __NL?: { tick?: number } }).__NL;
+    const n = (window as unknown as { __NL?: { tick?: number; done?: boolean } }).__NL;
     return (n?.tick ?? 0) > 20;
-  }, undefined, { timeout: 30000 });
-  await page.waitForTimeout(2500);
+  }, undefined, { timeout: 60000 });
+  const tposeHits: number[] = [];
+  await page.waitForFunction(() => {
+    const n = (window as unknown as { __NL?: { done?: boolean; tick?: number } }).__NL;
+    const pose = (window as unknown as { __termPose?: { tpose?: boolean } }).__termPose;
+    if (pose?.tpose) (window as unknown as { __tposeHit?: boolean }).__tposeHit = true;
+    return Boolean(n?.done) || (n?.tick ?? 0) >= 200;
+  }, undefined, { timeout: 120000 });
+  await page.waitForTimeout(800);
+  const pose = await page.evaluate(() => {
+    return (window as unknown as { __termPose?: { tpose?: boolean } }).__termPose ?? null;
+  });
+  const tposeDuring = await page.evaluate(() => Boolean((window as unknown as { __tposeHit?: boolean }).__tposeHit));
+  if (tposeDuring || pose?.tpose) tposeHits.push(1);
   const nl = await page.evaluate(() => (window as unknown as { __NL?: unknown }).__NL ?? null);
   await browser.close();
   const manifest = net.filter((r) => r.url.includes('/web/sfx/nightlords/manifest.json'));
   const consoleErrors = consoleLines.filter((l) => l.startsWith('error:'));
   const failed = net.filter((r) => r.status >= 400);
   const report = {
-    mode: 'live-match',
-    url: `${base}/?autoplay=kiter&cam=troisquarts&seed=900000&tex=512`,
-    nl, console: consoleLines, consoleErrors, pageErrors,
-    networkFailed: failed,
-    manifest,
+    mode: 'live-match-fx',
+    url, nl, pose, console: consoleLines, consoleErrors, pageErrors,
+    networkFailed: failed, manifest,
   };
   writeFileSync(join(OUT, 'playwright-live.json'), JSON.stringify(report, null, 2));
   if (pageErrors.length) throw new Error(`pageerror live: ${pageErrors.join('\n')}`);
   if (consoleErrors.length) throw new Error(`console live: ${consoleErrors.join('\n')}`);
   if (failed.length) throw new Error(`net live: ${failed.map((n) => `${n.status} ${n.url}`).join('\n')}`);
   if (!manifest.some((m) => m.status === 200)) throw new Error('manifeste sfx pas en 200');
-  console.log('live-console ok', JSON.stringify({ tick: (nl as { tick?: number } | null)?.tick, manifest: manifest.map((m) => m.status) }));
+  if (tposeHits.length) throw new Error('T-pose détectée en match live');
+  console.log('live-console ok', JSON.stringify({
+    tick: (nl as { tick?: number } | null)?.tick,
+    done: (nl as { done?: boolean } | null)?.done,
+    tpose: pose?.tpose ?? false,
+    manifest: manifest.map((m) => m.status),
+  }));
 }
 
-async function video() {
+async function matchVideo() {
+  const tmp = join(OUT, '_vid');
+  mkdirSync(tmp, { recursive: true });
+  const got: Record<string, boolean> = {};
+  await withServer(async (base) => {
+    await liveConsole(base);
+    const browser = await chromium.launch({ headless: true, args: SW });
+    const context = await browser.newContext({
+      viewport: { width: 1280, height: 720 },
+      recordVideo: { dir: tmp, size: { width: 1280, height: 720 } },
+    });
+    context.setDefaultTimeout(300000);
+    const page = await context.newPage();
+    await page.route('**/api/round', async (route) => {
+      await route.fulfill({
+        status: 200, contentType: 'application/json',
+        body: JSON.stringify({ ok: false, reason: 'capture', summary: 'capture anim+fx' }),
+      });
+    });
+    const q = new URLSearchParams({
+      autoplay: VIDEO_AUTO, seed: VIDEO_SEED, cam: 'epaule', tex: '512', props: '0',
+    });
+    const tNav = Date.now();
+    await page.goto(`${base}/?${q}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await page.waitForSelector('#hud', { timeout: 180000 });
+    await page.mouse.click(640, 360);
+    await waitLit(page);
+    const litAt = (Date.now() - tNav) / 1000;
+    await page.waitForFunction((kinds: string[]) => {
+      const nl = (window as unknown as { __NL?: { events?: string[] } }).__NL;
+      const ev = nl?.events ?? [];
+      const w = window as unknown as { __combatSeen?: boolean };
+      if (ev.some((e) => kinds.includes(e))) w.__combatSeen = true;
+      return !!w.__combatSeen;
+    }, COMBAT_EVENTS, { timeout: 180000 });
+    const contactAt = (Date.now() - tNav) / 1000;
+
+    const grab = async (key: string, path: string) => {
+      if (got[key]) return;
+      got[key] = true;
+      await page.screenshot({ path, type: 'png' });
+      console.log('still', key);
+    };
+
+    const deadline = Date.now() + 240000;
+    while (Date.now() < deadline) {
+      const st = await page.evaluate(() => {
+        const nl = (window as unknown as { __NL?: { tick?: number; done?: boolean; events?: string[]; winner?: string } }).__NL;
+        const msg = document.getElementById('msg');
+        return {
+          tick: nl?.tick ?? 0,
+          done: !!nl?.done,
+          events: nl?.events ?? [],
+          winner: nl?.winner,
+          msg: msg ? getComputedStyle(msg).display : 'missing',
+          text: msg?.textContent ?? '',
+        };
+      });
+      if (st.events.includes('clawArm')) await grab('windup', join(OUT, 'match-windup.png'));
+      if (st.events.includes('claw') || st.events.includes('clawArmor')) await grab('claw', join(OUT, 'match-claw-impact.png'));
+      if (st.events.includes('fist')) await grab('fist', join(OUT, 'match-fist.png'));
+      if (st.events.includes('bolt')) await grab('bolter', join(OUT, 'match-bolter.png'));
+      if (st.events.some((e) => e === 'bolt' || e === 'fist') && st.events.includes('hit')) {
+        /* keep polling */
+      }
+      const nls = await page.evaluate(() => (window as unknown as { __NL?: { nlsAlive?: number } }).__NL?.nlsAlive);
+      if (typeof nls === 'number' && nls < 4) await grab('death', join(OUT, 'match-nl-death.png'));
+      if (st.done && st.msg === 'block' && /gagne|abattu|tenu/i.test(st.text)) {
+        await page.waitForTimeout(2200);
+        await grab('end', join(OUT, 'match-end-card.png'));
+        break;
+      }
+      await page.waitForTimeout(200);
+    }
+    if (!got.end) {
+      await page.waitForTimeout(2200);
+      await grab('end', join(OUT, 'match-end-card.png'));
+    }
+    await context.close();
+    await browser.close();
+
+    const webm = spawnSync('bash', ['-lc', `ls -1t "${tmp}"/*.webm | head -1`], { encoding: 'utf8' }).stdout.trim();
+    if (!webm) throw new Error('pas de webm match');
+    const detect = spawnSync('ffmpeg', [
+      '-i', webm, '-vf', 'blackdetect=d=0.08:pix_th=0.10', '-an', '-f', 'null', '-',
+    ], { encoding: 'utf8' });
+    const blackLog = `${detect.stderr}\n${detect.stdout}`;
+    let ss = Math.max(0, contactAt - 0.4);
+    const blackEnd = [...blackLog.matchAll(/black_end:([\d.]+)/g)].map((m) => Number(m[1]!));
+    if (blackEnd.length && blackEnd[0]! > 0) ss = Math.max(ss, blackEnd[0]! + 0.04);
+    ss = Math.max(ss, litAt - 0.1, 0);
+    const body = join(tmp, 'match-body.mp4');
+    encodeH264(webm, body, ss);
+
+    const cuesJson = join(tmp, 'match-cues.json');
+    const dump = spawnSync('bun', [join(ROOT, 'scripts/dump-match-cues.ts')], {
+      cwd: ROOT,
+      env: { ...process.env, SEED: VIDEO_SEED, AUTOPLAY: VIDEO_AUTO, PROPS: '0', OUT: cuesJson },
+      encoding: 'utf8',
+    });
+    if (dump.status !== 0) throw new Error(dump.stderr || dump.stdout);
+    const dumpData = JSON.parse(readFileSync(cuesJson, 'utf8')) as { duration?: number; cues: { t: number; name: string; gain: number }[] };
+    const bodyDur = ffprobeDur(body);
+    const simDur = Number(dumpData.duration) || bodyDur;
+    const scale = bodyDur / Math.max(0.5, simDur);
+    for (const c of dumpData.cues) c.t *= scale;
+    dumpData.duration = bodyDur;
+    writeFileSync(cuesJson, JSON.stringify(dumpData));
+    const wav = join(tmp, 'match.wav');
+    const aac = join(tmp, 'match.m4a');
+    mixAac(cuesJson, wav, aac);
+    const out = join(VID, 'anim-impact.mp4');
+    const enc = muxUnder15(body, aac, 0, out);
+    const probe = ffprobeJson(out);
+    const lufs = ebur128(out);
+    const heads = [0, 0.5, 1].map((t) => headStats(out, t));
+    writeFileSync(join(OUT, 'video-probe.json'), JSON.stringify({
+      out, enc, probe, lufs: lufs.integrated, lufsRaw: lufs.raw, heads, ss, litAt, contactAt, dump: dump.stdout.trim(), got,
+    }, null, 2));
+    console.log('match-video', out, enc, 'lufs', lufs.integrated);
+  });
+}
+
+async function demosVideo() {
   const tmp = join(OUT, '_clips');
   mkdirSync(tmp, { recursive: true });
   const clips: string[] = [];
-  let demoDur = 0;
-  let matchDur = 0;
-  const swift = [
-    '--use-angle=swiftshader',
-    '--enable-unsafe-swiftshader',
-    '--use-gl=angle',
-    '--ignore-gpu-blocklist',
-    '--disable-gpu-sandbox',
-  ];
   await withServer(async (base) => {
-    const browser = await chromium.launch({ headless: true, args: swift });
+    const browser = await chromium.launch({ headless: true, args: SW });
     for (const a of ACTIONS) {
-      const mp4 = join(tmp, `${a.id}.mp4`);
-      if (existsSync(mp4) && ffprobeDur(mp4) >= 2) {
-        const d = ffprobeDur(mp4);
-        demoDur += d;
-        clips.push(mp4);
-        console.log('clip reuse', a.id, d);
-        continue;
-      }
       const dir = join(tmp, a.id);
       mkdirSync(dir, { recursive: true });
       const context = await browser.newContext({
-        viewport: { width: 960, height: 540 },
-        recordVideo: { dir, size: { width: 960, height: 540 } },
+        viewport: { width: 1280, height: 720 },
+        recordVideo: { dir, size: { width: 1280, height: 720 } },
       });
       context.setDefaultTimeout(180000);
       const page = await context.newPage();
-      const p = new URLSearchParams({ demo: a.demo, cam: 'troisquarts', impact: '0', tex: '512', seed: '1' });
+      const p = new URLSearchParams({ demo: a.demo, cam: 'troisquarts', tex: '512', seed: '1' });
       if (a.focus) p.set('focus', a.focus);
-      const t0 = Date.now();
       await page.goto(`${base}/?${p}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
       await page.waitForFunction(() => {
         const n = (window as unknown as { __NL?: { tick?: number } }).__NL;
         const h = document.getElementById('hud');
         return (n?.tick ?? 0) >= 1 && !!h && (h.textContent?.length ?? 0) > 40;
       }, undefined, { timeout: 180000 });
-      await page.mouse.click(480, 270);
-      const loadS = (Date.now() - t0) / 1000;
-      await page.waitForTimeout(4000);
+      await page.mouse.click(640, 360);
+      await waitLit(page).catch(() => undefined);
+      await page.waitForTimeout(2800);
       await context.close();
       const webm = spawnSync('bash', ['-lc', `ls -1 "${dir}"/*.webm | head -1`], { encoding: 'utf8' }).stdout.trim();
-      if (!webm) throw new Error(`pas de webm pour ${a.id}`);
+      if (!webm) throw new Error(`pas de webm ${a.id}`);
+      const mp4 = join(tmp, `${a.id}.mp4`);
       const d = encodeH264(webm, mp4, Math.max(0, ffprobeDur(webm) - 2.25), 2.2);
-      void loadS;
-      demoDur += d;
       clips.push(mp4);
-      console.log('clip', a.id, d);
+      console.log('demo', a.id, d);
     }
     await browser.close();
-
-    const matchMp4Existing = join(tmp, 'match.mp4');
-    if (existsSync(matchMp4Existing) && ffprobeDur(matchMp4Existing) > 200) {
-      matchDur = ffprobeDur(matchMp4Existing);
-      clips.push(matchMp4Existing);
-      console.log('match reuse', matchDur);
-    } else {
-
-    const matchBrowser = await chromium.launch({ headless: true, args: swift });
-    const matchDir = join(tmp, 'match');
-    mkdirSync(matchDir, { recursive: true });
-    const matchCtx = await matchBrowser.newContext({
-      viewport: { width: 960, height: 540 },
-      recordVideo: { dir: matchDir, size: { width: 960, height: 540 } },
-    });
-    matchCtx.setDefaultTimeout(120000);
-    const matchPage = await matchCtx.newPage();
-    const matchUrl = `${base}/?autoplay=kiter&cam=troisquarts&tex=512&seed=900000`;
-    const tMatch = Date.now();
-    await matchPage.goto(matchUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
-    await matchPage.waitForFunction(() => {
-      const n = (window as unknown as { __NL?: { tick?: number } }).__NL;
-      return (n?.tick ?? 0) >= 1;
-    }, undefined, { timeout: 120000 });
-    await matchPage.mouse.click(480, 270);
-    const matchLoadS = (Date.now() - tMatch) / 1000;
-    const deadline = Date.now() + 420000;
-    let last: { tick?: number; done?: boolean; winner?: string } | null = null;
-    while (Date.now() < deadline) {
-      last = await matchPage.evaluate(() => (window as unknown as { __NL?: { tick?: number; done?: boolean; winner?: string } }).__NL ?? null);
-      const msg = await matchPage.evaluate(() => {
-        const el = document.getElementById('msg');
-        return el ? getComputedStyle(el).display : 'missing';
-      });
-      console.log('match-poll', JSON.stringify({ last, msg, wall: ((Date.now() - tMatch) / 1000).toFixed(1) }));
-      if (last?.done || msg === 'block') break;
-      await matchPage.waitForTimeout(1500);
-    }
-    await matchPage.waitForTimeout(1600);
-    await matchPage.screenshot({ path: join(OUT, 'match-end.png'), type: 'png' });
-    await matchCtx.close();
-    await matchBrowser.close();
-    const matchWebm = spawnSync('bash', ['-lc', `ls -1 "${matchDir}"/*.webm | head -1`], { encoding: 'utf8' }).stdout.trim();
-    const matchMp4 = join(tmp, 'match.mp4');
-    matchDur = encodeH264(matchWebm, matchMp4, Math.max(0, matchLoadS - 0.2));
-    clips.push(matchMp4);
-    console.log('match', matchDur, last);
-    }
   });
-  const cuesJson = join(tmp, 'match-cues.json');
-  const dump = spawnSync('bun', [join(ROOT, 'scripts/dump-match-cues.ts')], {
-    cwd: ROOT,
-    env: { ...process.env, SEED: '900000', AUTOPLAY: 'kiter', OUT: cuesJson },
-    encoding: 'utf8',
-  });
-  if (dump.status !== 0) throw new Error(dump.stderr || dump.stdout);
-  const wav = join(tmp, 'match.wav');
-  const mix = spawnSync('python3', [join(ROOT, 'scripts/mix-match-audio.py'), cuesJson, wav], {
-    cwd: ROOT, encoding: 'utf8',
-  });
-  if (mix.status !== 0) throw new Error(mix.stderr || mix.stdout);
-  const aac = join(tmp, 'match.m4a');
-  const aacEnc = spawnSync('ffmpeg', [
-    '-y', '-hide_banner', '-loglevel', 'error', '-i', wav,
-    '-c:a', 'aac', '-b:a', '96k', aac,
-  ], { encoding: 'utf8' });
-  if (aacEnc.status !== 0) throw new Error(aacEnc.stderr);
-  const list = join(tmp, 'list.txt');
+  const list = join(tmp, 'demos.txt');
   writeFileSync(list, clips.map((c) => `file '${c}'`).join('\n'));
-  const silent = join(tmp, 'concat-silent.mp4');
+  const silent = join(tmp, 'demos-silent.mp4');
   const cat = spawnSync('ffmpeg', [
-    '-y', '-hide_banner', '-loglevel', 'error',
-    '-f', 'concat', '-safe', '0', '-i', list,
-    '-vf', 'scale=854:480,fps=24,format=yuv420p',
-    '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '34',
-    silent,
+    '-y', '-hide_banner', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', list,
+    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-s', '1280x720', '-r', '30', '-crf', '28', silent,
   ], { encoding: 'utf8' });
   if (cat.status !== 0) throw new Error(cat.stderr);
-  const out = join(VID, 'anim-impact.mp4');
-  const mux = spawnSync('ffmpeg', [
-    '-y', '-hide_banner', '-loglevel', 'error',
-    '-i', silent, '-itsoffset', String(demoDur), '-i', aac,
-    '-c:v', 'copy', '-c:a', 'aac', '-b:a', '64k',
-    '-movflags', '+faststart',
-    '-metadata', 'title=anim-impact whoa + match kiter seed 900000',
-    out,
-  ], { encoding: 'utf8' });
-  if (mux.status !== 0) throw new Error(mux.stderr);
-  const bytes = Number(spawnSync('stat', ['-c', '%s', out], { encoding: 'utf8' }).stdout.trim());
-  if (bytes > 15 * 1024 * 1024) throw new Error(`video trop lourde ${bytes}`);
-  const dur = ffprobeDur(out);
-  writeFileSync(join(OUT, 'video-probe.json'), JSON.stringify({
-    out, bytes, duration: dur, demoDur, matchDur, dump: dump.stdout.trim(), mix: mix.stdout.trim(),
-  }, null, 2));
-  console.log('video', out, 'bytes', bytes, 'ffprobe', dur, 'demo', demoDur, 'match', matchDur);
+  const demoDur = ffprobeDur(silent);
+  const cuesJson = join(tmp, 'demos-cues.json');
+  writeFileSync(cuesJson, JSON.stringify({ duration: demoDur, cues: [] }));
+  const wav = join(tmp, 'demos.wav');
+  const aac = join(tmp, 'demos.m4a');
+  mixAac(cuesJson, wav, aac);
+  const out = join(VID, 'anim-demos.mp4');
+  const enc = muxUnder15(silent, aac, 0, out);
+  const probe = ffprobeJson(out);
+  const lufs = ebur128(out);
+  const heads = [0, 0.5, 1].map((t) => headStats(out, t));
+  writeFileSync(join(OUT, 'demos-probe.json'), JSON.stringify({ out, enc, probe, lufs: lufs.integrated, heads }, null, 2));
+  console.log('demos-video', out, enc);
 }
 
 if (PHASE === 'avant' || PHASE === 'all') await captureStills(true);
 if (PHASE === 'apres' || PHASE === 'all') await captureStills(false);
 if (PHASE === 'combo' || PHASE === 'all') combo();
 if (PHASE === 'live') await withServer((base) => liveConsole(base));
-if (PHASE === 'video' || PHASE === 'all') await video();
+if (PHASE === 'match' || PHASE === 'video' || PHASE === 'all') await matchVideo();
+if (PHASE === 'demos' || PHASE === 'video' || PHASE === 'all') await demosVideo();
 console.log('capture-anim-impact ok', PHASE);
 process.exit(0);

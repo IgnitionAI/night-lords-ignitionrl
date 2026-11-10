@@ -27,4 +27,5 @@ web/sfx/genex/
 
 # Intermédiaires de capture (webm / concat) — la vidéo finale est dans docs/videos/.
 docs/captures/anim-impact/_clips/
+docs/captures/anim-impact/_vid/
 

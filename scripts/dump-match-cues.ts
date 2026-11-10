@@ -37,7 +37,8 @@ try {
 } catch { /* naïve */ }
 
 const tactic = (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)();
-const w = newWorld(seed, undefined, { propKinds: [...PROP_KINDS] });
+const propsOn = process.env.PROPS !== '0';
+const w = newWorld(seed, undefined, { propKinds: propsOn ? [...PROP_KINDS] : [] });
 const rng = mulberry32(seed ^ 0x9e3779b9);
 const dir = new AudioDirector();
 dir.beginRound();

@@ -1,12 +1,17 @@
 {
-  "mode": "live-match",
-  "url": "http://127.0.0.1:18194/?autoplay=kiter&cam=troisquarts&seed=900000&tex=512",
+  "mode": "live-match-fx",
+  "url": "http://127.0.0.1:18194/?autoplay=kiter&cam=epaule&seed=900002&tex=512&props=0",
   "nl": {
-    "tick": 31,
+    "tick": 204,
     "done": false,
     "winner": null,
-    "seed": 900000,
+    "seed": 900002,
     "muted": false,
+    "hp": 4,
+    "nlsAlive": 3,
+    "fistCharge": 0,
+    "events": [],
+    "msgShown": false,
     "audio": {
       "ok": true,
       "enabled": true,
@@ -14,31 +19,68 @@
       "unlocked": true,
       "state": "running",
       "decoded": [
-        "term-step-01",
-        "fist-impact",
         "bolter-shot",
+        "fist-impact",
+        "term-step-01",
         "claw-metal",
         "music-explore",
         "amb-drone",
-        "music-tension",
-        "amb-duct",
         "music-combat",
-        "nl-step-01",
+        "amb-duct",
         "nl-step-02",
+        "nl-step-01",
+        "music-tension",
         "nl-step-03",
         "nl-jump",
         "term-servo",
         "term-hydraulic",
         "term-step-02",
-        "term-step-03"
+        "term-step-03",
+        "nl-death",
+        "bolter-casing",
+        "bolter-explode",
+        "bolter-echo",
+        "claw-swoosh",
+        "alarm-klaxon",
+        "claw-crackle",
+        "nl-scream",
+        "nl-vox-come-for-you"
       ],
       "missing": [],
       "samples": 29,
-      "activeVoices": 8,
+      "activeVoices": 11,
       "polyphony": 18,
-      "musicPhase": "explore",
+      "musicPhase": "combat",
       "ducked": false
     }
+  },
+  "pose": {
+    "clip": "Armature|walking_man|baselayer",
+    "timeScale": 0.8371820612333472,
+    "actionTime": 0.20929551530833684,
+    "LeftHand": {
+      "x": 7.995718925887361,
+      "y": 1.2335010927980665,
+      "z": 9.757525026391844
+    },
+    "RightHand": {
+      "x": 9.322156848421848,
+      "y": 1.3909215213986992,
+      "z": 9.96479555389755
+    },
+    "LeftFoot": {
+      "x": 8.829268146461812,
+      "y": 0.3672836426834452,
+      "z": 9.294131700544206
+    },
+    "RightFoot": {
+      "x": 8.515773286730433,
+      "y": 0.3095485046466834,
+      "z": 10.250657314756216
+    },
+    "handSpan": 1.3517321573636205,
+    "footDx": 0.3134948597313798,
+    "tpose": false
   },
   "console": [],
   "consoleErrors": [],
