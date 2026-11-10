@@ -2,13 +2,13 @@ $ bun run build:web && bun run build:node
 $ vite build
 vite v7.3.7 building client environment for production...
 transforming...
-✓ 620 modules transformed.
+✓ 621 modules transformed.
 rendering chunks...
 computing gzip size...
 web/dist/web/sas.html        0.58 kB │ gzip:   0.36 kB
 web/dist/web/index.html      2.84 kB │ gzip:   1.40 kB
 web/dist/sas.css             3.76 kB │ gzip:   1.43 kB
-web/dist/main.js            79.59 kB │ gzip:  31.44 kB
+web/dist/main.js            78.44 kB │ gzip:  31.01 kB
 web/dist/GLTFLoader.js     720.21 kB │ gzip: 187.76 kB
 web/dist/sas.js          2,782.29 kB │ gzip: 999.99 kB
 
@@ -16,7 +16,6 @@ web/dist/sas.js          2,782.29 kB │ gzip: 999.99 kB
 - Using dynamic import() to code-split the application
 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
-✓ built in 4.33s
+✓ built in 4.38s
 $ bun build.mjs
 build node ok (le bundle navigateur appartient à vite : bun run build:web)
-bun run build exit: 0
