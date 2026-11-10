@@ -23,7 +23,7 @@ const SHOTS: { id: string; demo: string; shot: number; cam: string; focus?: stri
   { id: 'griffe', demo: 'polish-claw', shot: 6, cam: 'troisquarts' },
   { id: 'poing', demo: 'combat-term-fist', shot: 12, cam: 'troisquarts' },
   { id: 'mort-nl', demo: 'vfx-death', shot: 5, cam: 'troisquarts', focus: '0' },
-  { id: 'mort-nl-t8', demo: 'vfx-death', shot: 8, cam: 'troisquarts', focus: '0' },
+  { id: 'mort-nl', demo: 'vfx-death', shot: 6, cam: 'troisquarts', focus: '0' },
   { id: 'armure-basse', demo: 'vfx-armor', shot: 8, cam: 'epaule' },
 ];
 
@@ -77,8 +77,10 @@ async function stills() {
     const context = await browser.newContext({ viewport: { width: 1280, height: 720 } });
     context.setDefaultTimeout(180000);
     const urls: Record<string, string> = {};
+    const only = process.env.ONLY;
     for (const tag of ['avant', 'apres'] as const) {
       for (const a of SHOTS) {
+        if (only && a.id !== only) continue;
         const q = new URLSearchParams({
           demo: a.demo, cam: a.cam, shot: String(a.shot), tex: '512', seed: '1',
         });
@@ -181,23 +183,42 @@ async function waitLit(page: import('playwright').Page) {
   throw new Error('canvas resté noir');
 }
 
-function encodeMp4(webm: string, ss: number, mp4: string) {
-  const args = [
-    '-y', '-ss', ss.toFixed(3), '-i', webm, '-an',
-    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30',
-    '-crf', '28', '-preset', 'veryfast', '-movflags', '+faststart', mp4,
-  ];
-  let enc = spawnSync('ffmpeg', args, { encoding: 'utf8' });
-  if (enc.status !== 0) throw new Error(enc.stderr);
-  let crf = 28;
-  while (existsSync(mp4) && readFileSync(mp4).length > 15 * 1024 * 1024 && crf < 36) {
-    crf += 2;
-    enc = spawnSync('ffmpeg', [
-      '-y', '-ss', ss.toFixed(3), '-i', webm, '-an',
+function encodeMp4(webm: string, ss: number, mp4: string, cardPng?: string) {
+  const tmp = join(OUT, '_vid', 'body.mp4');
+  const run = (crf: number, out: string, extraIn: string[] = [], extraMap: string[] = []) => {
+    const enc = spawnSync('ffmpeg', [
+      '-y', '-ss', ss.toFixed(3), '-i', webm, ...extraIn, '-an',
+      ...extraMap,
       '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30',
-      '-crf', String(crf), '-preset', 'veryfast', '-movflags', '+faststart', mp4,
+      '-crf', String(crf), '-preset', 'veryfast', '-movflags', '+faststart', out,
     ], { encoding: 'utf8' });
     if (enc.status !== 0) throw new Error(enc.stderr);
+  };
+  let crf = 28;
+  if (cardPng && existsSync(cardPng)) {
+    run(crf, tmp);
+    const concat = spawnSync('ffmpeg', [
+      '-y', '-i', tmp, '-loop', '1', '-t', '2.8', '-i', cardPng,
+      '-filter_complex', '[0:v][1:v]concat=n=2:v=1:a=0,format=yuv420p',
+      '-c:v', 'libx264', '-r', '30', '-crf', String(crf), '-preset', 'veryfast',
+      '-movflags', '+faststart', mp4,
+    ], { encoding: 'utf8' });
+    if (concat.status !== 0) throw new Error(concat.stderr);
+  } else {
+    run(crf, mp4);
+  }
+  while (existsSync(mp4) && readFileSync(mp4).length > 15 * 1024 * 1024 && crf < 36) {
+    crf += 2;
+    if (cardPng && existsSync(cardPng)) {
+      run(crf, tmp);
+      const concat = spawnSync('ffmpeg', [
+        '-y', '-i', tmp, '-loop', '1', '-t', '2.8', '-i', cardPng,
+        '-filter_complex', '[0:v][1:v]concat=n=2:v=1:a=0,format=yuv420p',
+        '-c:v', 'libx264', '-r', '30', '-crf', String(crf), '-preset', 'veryfast',
+        '-movflags', '+faststart', mp4,
+      ], { encoding: 'utf8' });
+      if (concat.status !== 0) throw new Error(concat.stderr);
+    } else run(crf, mp4);
   }
   return { crf, bytes: existsSync(mp4) ? readFileSync(mp4).length : 0 };
 }
@@ -219,26 +240,34 @@ async function video() {
     });
     const q = new URLSearchParams({
       autoplay: VIDEO_AUTO, seed: VIDEO_SEED, cam: 'epaule', tex: '512',
+      // Sans props : même trajectoire que la sim de preuve (poing, mort, armure).
+      props: '0',
     });
     const tNav = Date.now();
     await page.goto(`${base}/?${q}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await page.waitForSelector('#hud', { timeout: 180000 });
     await waitLit(page);
     const litAt = (Date.now() - tNav) / 1000;
-    const contact = await page.waitForFunction((kinds: string[]) => {
+    context.setDefaultTimeout(300000);
+    page.setDefaultTimeout(300000);
+    await page.waitForFunction((kinds: string[]) => {
       const nl = (window as unknown as { __NL?: { events?: string[] } }).__NL;
       const ev = nl?.events ?? [];
       const w = window as unknown as { __combatSeen?: boolean };
       if (ev.some((e) => kinds.includes(e))) w.__combatSeen = true;
       return !!w.__combatSeen;
     }, COMBAT_EVENTS, { timeout: 180000 });
-    void contact;
     const contactAt = (Date.now() - tNav) / 1000;
     await page.waitForFunction(() => {
-      const nl = (window as unknown as { __NL?: { done?: boolean; msgShown?: boolean } }).__NL;
-      return !!(nl?.done && nl.msgShown);
-    }, { timeout: 240000 });
-    await page.waitForTimeout(2800);
+      const nl = (window as unknown as { __NL?: { done?: boolean } }).__NL;
+      const msg = document.getElementById('msg');
+      const text = msg?.textContent ?? '';
+      return !!(nl?.done && msg?.style.display === 'block' && text.includes('gagne'));
+    }, null, { timeout: 240000 });
+    await page.waitForTimeout(2500);
+    const cardPng = join(OUT, 'carton-fin-match.png');
+    await page.screenshot({ path: cardPng, type: 'png' });
+    await page.waitForTimeout(1500);
     const meta = await page.evaluate(() => (window as unknown as { __NL?: unknown }).__NL);
     await context.close();
     await browser.close();
@@ -253,7 +282,7 @@ async function video() {
     if (blackEnd.length && blackEnd[0]! > 0) ss = Math.max(ss, blackEnd[0]! + 0.04);
     ss = Math.max(ss, litAt - 0.1, 0);
     const mp4 = join(VID, 'vfx-whoa.mp4');
-    const enc = encodeMp4(webm, ss, mp4);
+    const enc = encodeMp4(webm, ss, mp4, join(OUT, 'carton-fin-match.png'));
     const probe = spawnSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration,size,format_name', '-show_streams', '-of', 'json', mp4], { encoding: 'utf8' });
     writeFileSync(join(OUT, 'video.json'), JSON.stringify({
       url: `${base}/?${q}`, seed: VIDEO_SEED, autoplay: VIDEO_AUTO, litAt, contactAt, ss, enc, meta, probe: probe.stdout, blackLog: blackLog.slice(-1500),

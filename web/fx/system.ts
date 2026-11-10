@@ -135,7 +135,7 @@ export function createFxSystem(scene: THREE.Scene, quality: FxQuality): FxSystem
   dg.fillRect(0, 0, 32, 32);
   const darkMap = new THREE.CanvasTexture(darkCanvas);
   const dMat = new THREE.PointsMaterial({
-    size: 0.55, vertexColors: true, transparent: true, opacity: 0.94, map: darkMap,
+    size: 0.72, vertexColors: true, transparent: true, opacity: 0.96, map: darkMap,
     depthWrite: false, blending: THREE.NormalBlending, sizeAttenuation: true,
   });
   const darkPoints = new THREE.Points(darkGeo, dMat);
@@ -235,11 +235,16 @@ export function createFxSystem(scene: THREE.Scene, quality: FxQuality): FxSystem
   let seed = 1;
 
   function takeParticle(): Particle | null {
+    for (const p of parts) {
+      if (!p.live && p.kind !== PKind.Dust && p.kind !== PKind.Ember) return p;
+    }
     for (const p of parts) if (!p.live) return p;
-    let worst = parts[0] ?? null;
-    if (!worst) return null;
-    for (const p of parts) if (p.life < worst.life) worst = p;
-    return worst;
+    let worst: Particle | null = null;
+    for (const p of parts) {
+      if (p.kind === PKind.Dust || p.kind === PKind.Ember) continue;
+      if (!worst || p.life < worst.life) worst = p;
+    }
+    return worst ?? parts[0] ?? null;
   }
 
   function burst(
@@ -359,9 +364,9 @@ export function createFxSystem(scene: THREE.Scene, quality: FxQuality): FxSystem
         break;
       }
       case 'boltKill': {
-        burst(PKind.Spark, p.x, y, p.y, 20, 4.8, [1, 0.58, 0.22], 0.14, 0.42, 1.4);
-        burst(PKind.Smoke, p.x, y, p.y, 5, 0.5, [0.2, 0.18, 0.16], 0.3, 0.65, 0.8);
-        lightPunch(p.x, y, p.y, 0xff8844, 13);
+        burst(PKind.Spark, p.x, y, p.y, 7, 3.6, [1, 0.62, 0.28], 0.1, 0.28, 1.1);
+        burst(PKind.Smoke, p.x, y, p.y, 4, 0.45, [0.18, 0.16, 0.14], 0.28, 0.7, 0.7);
+        lightPunch(p.x, y, p.y, 0xff7744, 7);
         punchFeel(feel, HITSTOP_S.boltKill, SHAKE_AMP.boltKill, p.x - p.tx, p.y - p.ty, true);
         break;
       }
@@ -404,12 +409,12 @@ export function createFxSystem(scene: THREE.Scene, quality: FxQuality): FxSystem
       case 'hit':
         break;
       case 'death': {
-        burst(PKind.Blood, p.x, 1.45, p.y, 26, 3.6, [0.55, 0.03, 0.04], 0.2, 1.15, 1.35);
-        burst(PKind.Oil, p.x, 1.35, p.y, 18, 2.6, [0.06, 0.06, 0.05], 0.16, 1.25, 0.55);
-        burst(PKind.Spark, p.x, 1.55, p.y, 16, 4.2, [1, 0.62, 0.22], 0.11, 0.55, 1.15);
-        spawnDecal(p.x, 0.04, p.y, 0, 1, 0, 1.1, 0.7, [0.12, 0.02, 0.02], 8);
-        lightPunch(p.x, 1.4, p.y, 0xff4422, 8);
-        if (p.who >= 0 && p.who < 4) eyeOut[p.who] = 1;
+        burst(PKind.Blood, p.x, 1.5, p.y, 42, 4.2, [0.82, 0.04, 0.05], 0.28, 1.35, 1.55);
+        burst(PKind.Oil, p.x, 1.25, p.y, 24, 2.8, [0.07, 0.07, 0.05], 0.2, 1.4, 0.45);
+        burst(PKind.Spark, p.x, 1.6, p.y, 10, 4.4, [1, 0.7, 0.28], 0.09, 0.48, 1.2);
+        spawnDecal(p.x, 0.04, p.y, 0, 1, 0, 1.35, 0.85, [0.18, 0.02, 0.02], 10);
+        lightPunch(p.x, 1.4, p.y, 0xcc3311, 5);
+        if (p.who >= 0 && p.who < 4) eyeOut[p.who] = 0.55;
         break;
       }
       case 'servoCritical':

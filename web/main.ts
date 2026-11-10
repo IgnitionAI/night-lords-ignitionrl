@@ -1232,6 +1232,11 @@ if (shot) { // capture : on avance la sim de N ticks sans attendre le temps rée
   fx.feel.shake = 0; fx.feel.hitstop = 0; fx.feel.killcam = 0;
   // Les particules de mort / d'impact naissent à l'ingest du dernier tick : 80 ms les écartent du corps.
   fx.advance(0.08, w.tick * DT, w.t.hp / T_CFG.hp);
+  if (DEMO === 'vfx-death') {
+    // Recul de rafale : on recadre le mort, sans changer la sim hors de cette planche.
+    camYaw = followYaw = 0;
+    w.t.facing = 0;
+  }
   prev = snap(); hud(); render(1);
   (window as any).__termPose = termPoseReport();
   document.title = 'READY';
