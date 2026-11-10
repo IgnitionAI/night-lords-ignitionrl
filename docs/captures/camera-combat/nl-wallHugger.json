@@ -1,10 +1,18 @@
 {
-  "tick": 1200,
+  "tick": 484,
   "done": true,
-  "winner": "terminator",
-  "reason": "temps écoulé, il a tenu",
+  "winner": "pack",
+  "reason": "Terminator abattu",
   "seed": 900000,
   "muted": false,
+  "hp": 0,
+  "nlsAlive": 2,
+  "fistCharge": 0,
+  "events": [
+    "claw",
+    "hit"
+  ],
+  "msgShown": true,
   "audio": {
     "ok": true,
     "enabled": true,
@@ -12,15 +20,15 @@
     "unlocked": true,
     "state": "running",
     "decoded": [
-      "bolter-shot",
       "fist-impact",
-      "term-step-01",
       "claw-metal",
-      "amb-drone",
+      "bolter-shot",
+      "term-step-01",
       "music-explore",
+      "amb-drone",
       "music-tension",
-      "amb-duct",
       "music-combat",
+      "amb-duct",
       "nl-step-02",
       "nl-step-03",
       "nl-step-01",
@@ -30,18 +38,64 @@
       "term-step-02",
       "term-step-03",
       "amb-drip",
-      "bolter-casing",
-      "bolter-echo",
       "nl-death",
       "bolter-explode",
-      "stinger-victory"
+      "bolter-echo",
+      "bolter-casing",
+      "nl-vox-come-for-you",
+      "claw-swoosh",
+      "claw-crackle",
+      "alarm-klaxon",
+      "nl-scream"
     ],
     "missing": [],
     "samples": 29,
-    "activeVoices": 0,
+    "activeVoices": 7,
     "polyphony": 18,
     "musicPhase": "stinger",
     "ducked": false
   },
-  "playSpeed": 1.75
+  "playSpeed": 1.75,
+  "bodies": [
+    {
+      "i": 0,
+      "alive": false,
+      "kind": "death",
+      "clip": "proc-death-throw",
+      "loco": false,
+      "skinned": 1,
+      "visibleSkinned": 0,
+      "proxyVisible": false
+    },
+    {
+      "i": 1,
+      "alive": false,
+      "kind": "death",
+      "clip": "proc-death-throw",
+      "loco": false,
+      "skinned": 1,
+      "visibleSkinned": 0,
+      "proxyVisible": false
+    },
+    {
+      "i": 2,
+      "alive": true,
+      "kind": "walk",
+      "clip": "Armature|walking_man|baselayer",
+      "loco": true,
+      "skinned": 1,
+      "visibleSkinned": 1,
+      "proxyVisible": false
+    },
+    {
+      "i": 3,
+      "alive": true,
+      "kind": "attack",
+      "clip": "proc-combo",
+      "loco": false,
+      "skinned": 1,
+      "visibleSkinned": 1,
+      "proxyVisible": false
+    }
+  ]
 }

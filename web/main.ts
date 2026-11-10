@@ -68,6 +68,7 @@ applySceneAtmosphere(scene, FOG_MODE);
 const CAM_MODE: CamMode = parseCamMode(qs.get('cam'));
 const PLAY_SPEED = Math.max(1, Math.min(2, Number(qs.get('speed') ?? 1) || 1));
 const PROBE_READ = qs.get('probe') === 'read';
+const CAP_STEP = qs.get('cap') === '1';
 /** `?focus=0..3` cadre un Night Lord (captures combat). Défaut : Terminator. */
 const FOCUS_NL = ((): number | null => {
   const raw = qs.get('focus');
@@ -1147,7 +1148,7 @@ async function endRound() {
   const msg = document.getElementById('msg')!; msg.style.display = 'block';
   const card = roundCard(w, { roundNo });
   msg.innerHTML = roundMarkup(card) + '<p>La meute étudie ta tactique…</p>';
-  if (shot || PLAY_SPEED !== 1 || qs.get('until') === 'end') return;
+  if (shot || PLAY_SPEED !== 1 || qs.get('until') === 'end' || PROBE_READ || CAP_STEP) return;
   try {
     const r = await fetch('/api/round', { method: 'POST', body: JSON.stringify(rec.toJSON(`${w.winner} — ${w.reason}`)) }).then(r => r.json());
     lastSummary = r.summary;
@@ -1316,7 +1317,7 @@ function render(alpha: number) {
         nls, aspect: Math.max(0.2, innerWidth / Math.max(1, innerHeight)), portrait,
         pillars: PILLARS, arena: ARENA,
       });
-      combatPose = (shot || PROBE_READ || !combatPose) ? want : smoothCombatPose(combatPose, want, 1 / 60);
+      combatPose = (shot || PROBE_READ || CAP_STEP || !combatPose) ? want : smoothCombatPose(combatPose, want, 1 / 60);
       applyCombatCamera(camera, combatPose, sx, sz);
       break;
     }
@@ -1549,6 +1550,22 @@ if (PROBE_READ) {
     termOnScreen: termFrames, termScreenHMedian, termLosShare,
   };
   document.title = 'READY';
+} else if (CAP_STEP) {
+  (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY = true;
+  (window as unknown as { __capStep?: (n?: number) => unknown }).__capStep = (n = 1) => {
+    const steps = Math.max(1, Math.min(12, n));
+    for (let i = 0; i < steps && !roundOver; i++) {
+      tick();
+      fx.advance(DT, w.tick * DT, w.t.hp / T_CFG.hp);
+    }
+    hud();
+    render(1);
+    return {
+      tick: w.tick, done: w.done, winner: w.winner, reason: w.reason,
+      msgShown: document.getElementById('msg')?.style.display === 'block',
+    };
+  };
+  hud(); render(1);
 } else if (qs.get('until') === 'end') {
   while (w.tick < MAX_TICKS && !w.done) tick();
   hitstop = 0; shake = 0; prev = snap(); hud(); render(1);

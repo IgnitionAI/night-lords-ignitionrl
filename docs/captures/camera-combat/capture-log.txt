@@ -1,0 +1,80 @@
+{"out":"/agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/events-kiter.json","winner":"pack","ticks":501,"fistHit":{"tick":154,"videoT":8.8},"clawHit":{"tick":395,"videoT":22.571428571428573,"dmg":2},"boltKill":{"tick":359,"videoT":20.514285714285712,"kill":0},"nFist":1,"nClaw":19,"nBoltKill":1}
+proto sur http://127.0.0.1:18197/
+tick kiter 1 false null
+tick kiter 41 false null
+tick kiter 81 false null
+tick kiter 121 false null
+tick kiter 161 false null
+tick kiter 201 false null
+tick kiter 241 false null
+tick kiter 281 false null
+tick kiter 321 false null
+tick kiter 361 false null
+tick kiter 401 false null
+tick kiter 441 false null
+tick kiter 481 false null
+{"seed":900002,"autoplay":"kiter","winner":"pack","ticks":501,"duration":50.1,"cues":709,"out":"/agent/repos/night-lords-ignitionrl/docs/videos/cues-kiter.json"}
+wrote /agent/repos/night-lords-ignitionrl/docs/videos/audio-kiter.wav duration=31.13s cues=709
+video /agent/repos/night-lords-ignitionrl/docs/videos/b6p-match.mp4 bytes 4891149 dur 31.129 nl {"tick":490,"done":true,"winner":"pack","reason":"Terminator abattu","seed":900002,"muted":false,"hp":0,"nlsAlive":2,"fistCharge":0,"events":["claw","hit"],"msgShown":true,"audio":{"ok":true,"enabled":true,"muted":false,"unlocked":true,"state":"running","decoded":["bolter-shot","claw-metal","term-step-01","fist-impact","music-explore","amb-drone","music-tension","amb-duct","music-combat","nl-step-03","nl-step-01","nl-step-02","nl-jump","term-servo","term-hydraulic","term-step-02","term-step-03","nl-death","bolter-echo","bolter-casing","bolter-explode","nl-vox-come-for-you","amb-drip","claw-crackle","claw-swoosh","alarm-klaxon","nl-scream"],"missing":[],"samples":29,"activeVoices":5,"polyphony":18,"musicPhase":"stinger","ducked":false},"playSpeed":1.75,"bodies":[{"i":0,"alive":false,"kind":"death","clip":"proc-death-throw","loco":false,"skinned":1,"visibleSkinned":0,"proxyVisible":false},{"i":1,"alive":true,"kind":"attack","clip":"proc-leap","loco":false,"skinned":1,"visibleSkinned":1,"proxyVisible":false},{"i":2,"alive":true,"kind":"run","clip":"Armature|running|baselayer","loco":true,"skinned":1,"visibleSkinned":1,"proxyVisible":false},{"i":3,"alive":false,"kind":"death","clip":"proc-death-dismember","loco":false,"skinned":1,"visibleSkinned":0,"proxyVisible":false}]} yavg [
+  {
+    t: "0",
+    yavg: 33.8927,
+  }, {
+    t: "0.5",
+    yavg: 32.397,
+  }, {
+    t: "1",
+    yavg: 31.5971,
+  }
+] rest 30.601166666666664
+hit-frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-match-fist.png t 8.80
+hit-frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-match-claw.png t 22.57
+hit-frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-match-bolter-kill.png t 20.51
+{"out":"/agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/events-wallHugger.json","winner":"pack","ticks":487,"clawHit":{"tick":402,"videoT":22.97142857142857,"dmg":2},"boltKill":{"tick":371,"videoT":21.2,"kill":0},"nFist":0,"nClaw":18,"nBoltKill":2}
+proto sur http://127.0.0.1:18197/
+tick wallHugger 1 false null
+tick wallHugger 41 false null
+tick wallHugger 81 false null
+tick wallHugger 121 false null
+tick wallHugger 161 false null
+tick wallHugger 201 false null
+tick wallHugger 241 false null
+tick wallHugger 281 false null
+tick wallHugger 321 false null
+tick wallHugger 361 false null
+tick wallHugger 401 false null
+tick wallHugger 441 false null
+tick wallHugger 481 false null
+{"seed":900000,"autoplay":"wallHugger","winner":"pack","ticks":487,"duration":48.7,"cues":766,"out":"/agent/repos/night-lords-ignitionrl/docs/videos/cues-wallHugger.json"}
+wrote /agent/repos/night-lords-ignitionrl/docs/videos/audio-wallHugger.wav duration=30.43s cues=766
+video /agent/repos/night-lords-ignitionrl/docs/videos/b6p-wallhugger.mp4 bytes 5044702 dur 30.433 nl {"tick":484,"done":true,"winner":"pack","reason":"Terminator abattu","seed":900000,"muted":false,"hp":0,"nlsAlive":2,"fistCharge":0,"events":["claw","hit"],"msgShown":true,"audio":{"ok":true,"enabled":true,"muted":false,"unlocked":true,"state":"running","decoded":["fist-impact","claw-metal","bolter-shot","term-step-01","music-explore","amb-drone","music-tension","music-combat","amb-duct","nl-step-02","nl-step-03","nl-step-01","nl-jump","term-servo","term-hydraulic","term-step-02","term-step-03","amb-drip","nl-death","bolter-explode","bolter-echo","bolter-casing","nl-vox-come-for-you","claw-swoosh","claw-crackle","alarm-klaxon","nl-scream"],"missing":[],"samples":29,"activeVoices":7,"polyphony":18,"musicPhase":"stinger","ducked":false},"playSpeed":1.75,"bodies":[{"i":0,"alive":false,"kind":"death","clip":"proc-death-throw","loco":false,"skinned":1,"visibleSkinned":0,"proxyVisible":false},{"i":1,"alive":false,"kind":"death","clip":"proc-death-throw","loco":false,"skinned":1,"visibleSkinned":0,"proxyVisible":false},{"i":2,"alive":true,"kind":"walk","clip":"Armature|walking_man|baselayer","loco":true,"skinned":1,"visibleSkinned":1,"proxyVisible":false},{"i":3,"alive":true,"kind":"attack","clip":"proc-combo","loco":false,"skinned":1,"visibleSkinned":1,"proxyVisible":false}]} yavg [
+  {
+    t: "0",
+    yavg: 34.9182,
+  }, {
+    t: "0.5",
+    yavg: 31.0491,
+  }, {
+    t: "1",
+    yavg: 30.3818,
+  }
+] rest 31.62508
+hit-frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-wallhugger-claw.png t 22.97
+hit-frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-wallhugger-bolter-kill.png t 21.20
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-match-01.png t 1.25
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-match-02.png t 4.98
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-match-03.png t 9.34
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-match-04.png t 14.01
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-match-05.png t 18.68
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-match-06.png t 23.35
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-match-07.png t 28.02
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-match-08.png t 30.20
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-wallhugger-01.png t 1.22
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-wallhugger-02.png t 4.87
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-wallhugger-03.png t 9.13
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-wallhugger-04.png t 13.69
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-wallhugger-05.png t 18.26
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-wallhugger-06.png t 22.82
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-wallhugger-07.png t 27.39
+frame /agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/frames/b6p-wallhugger-08.png t 29.52
+capture-b6p ok video

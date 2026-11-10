@@ -12,6 +12,9 @@ const VID = join(ROOT, 'docs/videos');
 const PORT = Number(process.env.PORT ?? 18197);
 const PHASE = process.env.PHASE ?? 'all';
 const PLAY = Math.max(1.5, Math.min(2, Number(process.env.PLAY_SPEED ?? 1.75)));
+const MATCH_SEED = Number(process.env.MATCH_SEED ?? 900002); // kiter : fist + griffe + kill bolter
+const WH_SEED = Number(process.env.WH_SEED ?? 900000);
+const VIDEO_PROPS = '0'; // collision props off : même manche lisible (FX/anims/coque restent)
 
 mkdirSync(OUT, { recursive: true });
 mkdirSync(FRAMES, { recursive: true });
@@ -106,7 +109,7 @@ async function stills() {
     const browser = await chromium.launch({ headless: true, args: swiftArgs });
     const context = await browser.newContext({ viewport: { width: 1280, height: 720 } });
     const page = await context.newPage();
-    const url = `${base}/?policy=b6p&autoplay=kiter&seed=900000&cam=combat&shot=40&tex=512`;
+    const url = `${base}/?policy=b6p&autoplay=kiter&seed=${MATCH_SEED}&cam=combat&shot=40&tex=512&props=${VIDEO_PROPS}`;
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await waitTitle(page, 'READY', 60000);
     const hud = await page.evaluate(() => document.getElementById('hud')?.textContent ?? '');
@@ -121,7 +124,7 @@ function dumpAndMix(opp: string, seed: number, wallDuration: number): string {
   const cuesPath = join(VID, `cues-${opp}.json`);
   const dump = spawnSync('bun', ['scripts/dump-match-cues.ts'], {
     cwd: ROOT,
-    env: { ...process.env, SEED: String(seed), AUTOPLAY: opp, POLICY: 'b6p', OUT: cuesPath },
+    env: { ...process.env, SEED: String(seed), AUTOPLAY: opp, POLICY: 'b6p', PROPS: VIDEO_PROPS, OUT: cuesPath },
     encoding: 'utf8',
   });
   process.stdout.write(dump.stdout);
@@ -142,52 +145,68 @@ function dumpAndMix(opp: string, seed: number, wallDuration: number): string {
   return wav;
 }
 
-async function recordMatch(opp: string, outName: string) {
+async function recordMatch(opp: string, outName: string, seed: number) {
   const tmp = join(OUT, `_clip-${opp}`);
   rmSync(tmp, { recursive: true, force: true });
   mkdirSync(tmp, { recursive: true });
+  const fpsCap = PLAY / 0.1; // un tick (0,1 s sim) → 1 image, lecture ×PLAY
   let nl: unknown = null;
+  let nFrames = 0;
   await withServer(async (base) => {
     const browser = await chromium.launch({ headless: true, args: swiftArgs });
-    const context = await browser.newContext({
-      viewport: { width: 1280, height: 720 },
-      recordVideo: { dir: tmp, size: { width: 1280, height: 720 } },
-    });
+    const context = await browser.newContext({ viewport: { width: 1280, height: 720 } });
     context.setDefaultTimeout(240000);
     const page = await context.newPage();
     page.setDefaultTimeout(240000);
-    const url = `${base}/?policy=b6p&autoplay=${opp}&seed=900000&cam=combat&tex=512&speed=${PLAY}`;
+    const url = `${base}/?policy=b6p&autoplay=${opp}&seed=${seed}&cam=combat&tex=512&speed=${PLAY}&props=${VIDEO_PROPS}&cap=1`;
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await page.waitForFunction(() => (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY === true, { timeout: 180000 });
     await page.mouse.click(640, 360);
-    const t0 = Date.now();
-    let last: { done?: boolean; tick?: number; winner?: string } | undefined;
-    while (Date.now() - t0 < 360000) {
-      last = await page.evaluate(() => (window as unknown as { __NL?: { done?: boolean; tick?: number; winner?: string } }).__NL);
-      console.log('tick', opp, last?.tick, last?.done, last?.winner);
-      if (last?.done || (last?.tick ?? 0) >= 1199) break;
-      await page.waitForTimeout(1000);
+    const cdp = await context.newCDPSession(page);
+    const grab = async (path: string) => {
+      const shot = await cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: 80, fromSurface: true });
+      writeFileSync(path, Buffer.from(shot.data, 'base64'));
+    };
+    let last: { done?: boolean; tick?: number; winner?: string; reason?: string } | undefined;
+    await grab(join(tmp, `${String(nFrames).padStart(4, '0')}.jpg`));
+    nFrames++;
+    for (let i = 0; i < 1400; i++) {
+      last = await page.evaluate(() => (
+        window as unknown as { __capStep?: (n?: number) => { done?: boolean; tick?: number; winner?: string; reason?: string } }
+      ).__capStep?.(1));
+      await grab(join(tmp, `${String(nFrames).padStart(4, '0')}.jpg`));
+      nFrames++;
+      if (i % 40 === 0) console.log('tick', opp, last?.tick, last?.done, last?.winner);
+      if (last?.done) break;
     }
-    if (!last?.done && (last?.tick ?? 0) < 1199) throw new Error(`manche ${opp} non terminée tick=${last?.tick}`);
-    await page.waitForTimeout(2800);
+    if (!last?.done) throw new Error(`manche ${opp} non terminée tick=${last?.tick}`);
+    const hold = Math.round(2.6 * fpsCap);
+    const lastJpg = join(tmp, `${String(nFrames - 1).padStart(4, '0')}.jpg`);
+    for (let h = 0; h < hold; h++) {
+      const png = join(tmp, `${String(nFrames).padStart(4, '0')}.jpg`);
+      spawnSync('cp', [lastJpg, png]);
+      nFrames++;
+    }
     nl = await page.evaluate(() => (window as unknown as { __NL?: unknown }).__NL);
-    const video = page.video();
-    await page.close();
-    if (video) await video.path();
-    await context.close();
     await browser.close();
   });
   writeFileSync(join(OUT, `nl-${opp}.json`), JSON.stringify(nl, null, 2));
-  const webm = spawnSync('bash', ['-lc', `ls -1t "${tmp}"/*.webm | head -1`], { encoding: 'utf8' }).stdout.trim();
-  if (!webm || !existsSync(webm)) throw new Error(`pas de webm ${opp}`);
-  const bd = blackEnd(webm);
+  const silent = join(tmp, 'cap.mp4');
+  const seq = ff([
+    '-y', '-hide_banner', '-framerate', String(fpsCap),
+    '-i', join(tmp, '%04d.jpg'),
+    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30', '-crf', '30', '-preset', 'veryfast',
+    silent,
+  ]);
+  if (seq.status !== 0 || !existsSync(silent)) throw new Error(`seq ${opp}: ${seq.stderr}`);
+  const bd = blackEnd(silent);
   writeFileSync(join(OUT, `blackdetect-${opp}.txt`), bd.raw);
   const ss = bd.end;
-  const trimmed = Math.max(1, durationSec(webm) - ss);
-  const wav = dumpAndMix(opp, 900000, trimmed);
+  const trimmed = Math.max(1, durationSec(silent) - ss);
+  const wav = dumpAndMix(opp, seed, trimmed);
   const out = join(VID, outName);
   const enc = ff([
-    '-y', '-hide_banner', '-ss', String(ss), '-i', webm, '-i', wav,
+    '-y', '-hide_banner', '-ss', String(ss), '-i', silent, '-i', wav,
     '-map', '0:v:0', '-map', '1:a:0',
     '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30',
     '-crf', '30', '-preset', 'veryfast',
@@ -221,6 +240,48 @@ async function recordMatch(opp: string, outName: string) {
   console.log('video', out, 'bytes', bytes, 'dur', dur, 'nl', JSON.stringify(nl), 'yavg', yavgs, 'rest', meanRest);
 }
 
+async function grabEndCard(opp: string, seed: number): Promise<string> {
+  const png = join(OUT, `end-card-${opp}.png`);
+  await withServer(async (base) => {
+    const browser = await chromium.launch({ headless: true, args: swiftArgs });
+    const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+    const url = `${base}/?policy=b6p&autoplay=${opp}&seed=${seed}&cam=combat&tex=512&until=end&props=${VIDEO_PROPS}`;
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 120000 });
+    await waitTitle(page, 'READY', 180000);
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: png, type: 'png' });
+    await browser.close();
+  });
+  return png;
+}
+
+function appendEndCard(src: string, still: string, seconds: number): void {
+  const tmp = src.replace(/\.mp4$/, '-with-card.mp4');
+  const recode = ff([
+    '-y', '-i', src, '-loop', '1', '-t', String(seconds), '-i', still,
+    '-filter_complex',
+    '[1:v]scale=1280:720,fps=30,setsar=1,format=yuv420p[card];[0:v][card]concat=n=2:v=1:a=0[v]',
+    '-map', '[v]', '-map', '0:a?',
+    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30', '-crf', '30', '-preset', 'veryfast',
+    '-c:a', 'aac', '-b:a', '128k',
+    '-movflags', '+faststart', tmp,
+  ]);
+  if (recode.status !== 0) throw new Error(recode.stderr);
+  spawnSync('mv', ['-f', tmp, src]);
+  const bytes = Number(spawnSync('stat', ['-c', '%s', src], { encoding: 'utf8' }).stdout.trim());
+  if (bytes > 15 * 1024 * 1024) throw new Error(`video trop lourde après carton ${bytes}`);
+}
+
+function extractHits(src: string, prefix: string, hits: { label: string; t: number }[]) {
+  for (const h of hits) {
+    if (!Number.isFinite(h.t) || h.t < 0) continue;
+    const png = join(FRAMES, `${prefix}-${h.label}.png`);
+    const r = ff(['-y', '-ss', Math.max(0, h.t).toFixed(3), '-i', src, '-vframes', '1', png]);
+    if (r.status !== 0) throw new Error(r.stderr);
+    console.log('hit-frame', png, 't', h.t.toFixed(2));
+  }
+}
+
 function extractEight(src: string, prefix: string) {
   const dur = durationSec(src);
   const fracs = [0.04, 0.16, 0.30, 0.45, 0.60, 0.75, 0.90, 0.97];
@@ -245,7 +306,7 @@ async function planche() {
     const labeled: string[] = [];
     for (const cam of ['couloir', 'combat'] as const) {
       for (const tick of PLANCHE_TICKS) {
-        const url = `${base}/?policy=b6p&autoplay=kiter&seed=900000&cam=${cam}&shot=${tick}&tex=512`;
+        const url = `${base}/?policy=b6p&autoplay=kiter&seed=${MATCH_SEED}&cam=${cam}&shot=${tick}&tex=512&props=${VIDEO_PROPS}`;
         await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
         await waitTitle(page, 'READY', 60000);
         const png = join(dir, `${cam}-t${tick}.png`);
@@ -277,8 +338,28 @@ async function planche() {
 
 if (PHASE === 'stills' || PHASE === 'all') await stills();
 if (PHASE === 'video' || PHASE === 'all') {
-  await recordMatch('kiter', 'b6p-match.mp4');
-  await recordMatch('wallHugger', 'b6p-wallhugger.mp4');
+  for (const [opp, name, seed] of [['kiter', 'b6p-match.mp4', MATCH_SEED], ['wallHugger', 'b6p-wallhugger.mp4', WH_SEED]] as const) {
+    const evPath = join(OUT, `events-${opp}.json`);
+    const dump = spawnSync('bun', ['scripts/dump-match-events.ts'], {
+      cwd: ROOT,
+      env: {
+        ...process.env, SEED: String(seed), AUTOPLAY: opp, POLICY: 'b6p', PROPS: VIDEO_PROPS,
+        PLAY_SPEED: String(PLAY), OUT: evPath,
+      },
+      encoding: 'utf8',
+    });
+    process.stdout.write(dump.stdout);
+    process.stderr.write(dump.stderr);
+    await recordMatch(opp, name, seed);
+    const ev = JSON.parse(readFileSync(evPath, 'utf8')) as {
+      fistHit?: { videoT: number }; clawHit?: { videoT: number }; boltKill?: { videoT: number };
+    };
+    extractHits(join(VID, name), name.replace('.mp4', ''), [
+      { label: 'fist', t: (ev.fistHit?.videoT ?? -1) },
+      { label: 'claw', t: (ev.clawHit?.videoT ?? -1) },
+      { label: 'bolter-kill', t: (ev.boltKill?.videoT ?? -1) },
+    ]);
+  }
   extractEight(join(VID, 'b6p-match.mp4'), 'b6p-match');
   extractEight(join(VID, 'b6p-wallhugger.mp4'), 'b6p-wallhugger');
 }

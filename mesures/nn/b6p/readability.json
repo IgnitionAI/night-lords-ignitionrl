@@ -11,11 +11,11 @@
   ],
   "byCam": {
     "couloir": {
-      "frameShare": 0.9728824770428414,
+      "frameShare": 0.9060563177042871,
       "killShare": 1,
-      "termOnScreen": 1,
-      "termScreenHMedian": 0.29493732013053553,
-      "termLosShare": 0.5666795257024656,
+      "termOnScreen": 0.9573500759292166,
+      "termScreenHMedian": 0.29871490184633953,
+      "termLosShare": 1,
       "seeds": [
         {
           "cam": "couloir",
@@ -24,12 +24,12 @@
           "winner": "pack",
           "reason": "Terminator abattu",
           "frames": 401,
-          "frameShare": 1,
+          "frameShare": 0.9052369077306733,
           "kills": 3,
           "killShare": 1,
-          "termOnScreen": 1,
-          "termScreenHMedian": 0.29493732013053553,
-          "termLosShare": 0.4796380090497738
+          "termOnScreen": 0.9592760180995475,
+          "termScreenHMedian": 0.30672987294056225,
+          "termLosShare": 1
         },
         {
           "cam": "couloir",
@@ -38,12 +38,12 @@
           "winner": "terminator",
           "reason": "meute anéantie",
           "frames": 309,
-          "frameShare": 0.9611650485436893,
+          "frameShare": 0.8737864077669902,
           "kills": 4,
           "killShare": 1,
-          "termOnScreen": 1,
-          "termScreenHMedian": 0.29493732013053553,
-          "termLosShare": 0.5954692556634305
+          "termOnScreen": 0.9093851132686084,
+          "termScreenHMedian": 0.29493732013053564,
+          "termLosShare": 1
         },
         {
           "cam": "couloir",
@@ -52,12 +52,12 @@
           "winner": "pack",
           "reason": "Terminator abattu",
           "frames": 490,
-          "frameShare": 0.9346938775510204,
+          "frameShare": 0.8510204081632653,
           "kills": 2,
           "killShare": 1,
-          "termOnScreen": 1,
-          "termScreenHMedian": 0.29493732013053553,
-          "termLosShare": 0.4959183673469388
+          "termOnScreen": 0.9285714285714286,
+          "termScreenHMedian": 0.3061556123213905,
+          "termLosShare": 1
         },
         {
           "cam": "couloir",
@@ -66,12 +66,12 @@
           "winner": "pack",
           "reason": "Terminator abattu",
           "frames": 477,
-          "frameShare": 0.9685534591194969,
+          "frameShare": 0.909853249475891,
           "kills": 1,
           "killShare": 1,
-          "termOnScreen": 1,
-          "termScreenHMedian": 0.2949373201305356,
-          "termLosShare": 0.6205450733752621
+          "termOnScreen": 0.989517819706499,
+          "termScreenHMedian": 0.29871490184633953,
+          "termLosShare": 1
         },
         {
           "cam": "couloir",
@@ -80,12 +80,12 @@
           "winner": "pack",
           "reason": "Terminator abattu",
           "frames": 416,
-          "frameShare": 1,
+          "frameShare": 0.9903846153846154,
           "kills": 1,
           "killShare": 1,
           "termOnScreen": 1,
-          "termScreenHMedian": 0.29493732013053553,
-          "termLosShare": 0.6418269230769231
+          "termScreenHMedian": 0.29774355050319584,
+          "termLosShare": 1
         }
       ]
     },
@@ -177,12 +177,12 @@
       "winner": "pack",
       "reason": "Terminator abattu",
       "frames": 401,
-      "frameShare": 1,
+      "frameShare": 0.9052369077306733,
       "kills": 3,
       "killShare": 1,
-      "termOnScreen": 1,
-      "termScreenHMedian": 0.29493732013053553,
-      "termLosShare": 0.4796380090497738
+      "termOnScreen": 0.9592760180995475,
+      "termScreenHMedian": 0.30672987294056225,
+      "termLosShare": 1
     },
     {
       "cam": "couloir",
@@ -191,12 +191,12 @@
       "winner": "terminator",
       "reason": "meute anéantie",
       "frames": 309,
-      "frameShare": 0.9611650485436893,
+      "frameShare": 0.8737864077669902,
       "kills": 4,
       "killShare": 1,
-      "termOnScreen": 1,
-      "termScreenHMedian": 0.29493732013053553,
-      "termLosShare": 0.5954692556634305
+      "termOnScreen": 0.9093851132686084,
+      "termScreenHMedian": 0.29493732013053564,
+      "termLosShare": 1
     },
     {
       "cam": "couloir",
@@ -205,12 +205,12 @@
       "winner": "pack",
       "reason": "Terminator abattu",
       "frames": 490,
-      "frameShare": 0.9346938775510204,
+      "frameShare": 0.8510204081632653,
       "kills": 2,
       "killShare": 1,
-      "termOnScreen": 1,
-      "termScreenHMedian": 0.29493732013053553,
-      "termLosShare": 0.4959183673469388
+      "termOnScreen": 0.9285714285714286,
+      "termScreenHMedian": 0.3061556123213905,
+      "termLosShare": 1
     },
     {
       "cam": "couloir",
@@ -219,12 +219,12 @@
       "winner": "pack",
       "reason": "Terminator abattu",
       "frames": 477,
-      "frameShare": 0.9685534591194969,
+      "frameShare": 0.909853249475891,
       "kills": 1,
       "killShare": 1,
-      "termOnScreen": 1,
-      "termScreenHMedian": 0.2949373201305356,
-      "termLosShare": 0.6205450733752621
+      "termOnScreen": 0.989517819706499,
+      "termScreenHMedian": 0.29871490184633953,
+      "termLosShare": 1
     },
     {
       "cam": "couloir",
@@ -233,12 +233,12 @@
       "winner": "pack",
       "reason": "Terminator abattu",
       "frames": 416,
-      "frameShare": 1,
+      "frameShare": 0.9903846153846154,
       "kills": 1,
       "killShare": 1,
       "termOnScreen": 1,
-      "termScreenHMedian": 0.29493732013053553,
-      "termLosShare": 0.6418269230769231
+      "termScreenHMedian": 0.29774355050319584,
+      "termLosShare": 1
     },
     {
       "cam": "combat",

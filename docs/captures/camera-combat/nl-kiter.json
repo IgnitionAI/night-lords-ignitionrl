@@ -1,10 +1,18 @@
 {
-  "tick": 1200,
+  "tick": 490,
   "done": true,
-  "winner": "terminator",
-  "reason": "temps écoulé, il a tenu",
-  "seed": 900000,
+  "winner": "pack",
+  "reason": "Terminator abattu",
+  "seed": 900002,
   "muted": false,
+  "hp": 0,
+  "nlsAlive": 2,
+  "fistCharge": 0,
+  "events": [
+    "claw",
+    "hit"
+  ],
+  "msgShown": true,
   "audio": {
     "ok": true,
     "enabled": true,
@@ -13,35 +21,81 @@
     "state": "running",
     "decoded": [
       "bolter-shot",
+      "claw-metal",
       "term-step-01",
       "fist-impact",
-      "claw-metal",
       "music-explore",
       "amb-drone",
+      "music-tension",
       "amb-duct",
       "music-combat",
-      "music-tension",
-      "nl-step-02",
       "nl-step-03",
       "nl-step-01",
+      "nl-step-02",
       "nl-jump",
       "term-servo",
       "term-hydraulic",
       "term-step-02",
       "term-step-03",
-      "amb-drip",
+      "nl-death",
       "bolter-echo",
       "bolter-casing",
-      "nl-death",
       "bolter-explode",
-      "stinger-victory"
+      "nl-vox-come-for-you",
+      "amb-drip",
+      "claw-crackle",
+      "claw-swoosh",
+      "alarm-klaxon",
+      "nl-scream"
     ],
     "missing": [],
     "samples": 29,
-    "activeVoices": 0,
+    "activeVoices": 5,
     "polyphony": 18,
     "musicPhase": "stinger",
     "ducked": false
   },
-  "playSpeed": 1.75
+  "playSpeed": 1.75,
+  "bodies": [
+    {
+      "i": 0,
+      "alive": false,
+      "kind": "death",
+      "clip": "proc-death-throw",
+      "loco": false,
+      "skinned": 1,
+      "visibleSkinned": 0,
+      "proxyVisible": false
+    },
+    {
+      "i": 1,
+      "alive": true,
+      "kind": "attack",
+      "clip": "proc-leap",
+      "loco": false,
+      "skinned": 1,
+      "visibleSkinned": 1,
+      "proxyVisible": false
+    },
+    {
+      "i": 2,
+      "alive": true,
+      "kind": "run",
+      "clip": "Armature|running|baselayer",
+      "loco": true,
+      "skinned": 1,
+      "visibleSkinned": 1,
+      "proxyVisible": false
+    },
+    {
+      "i": 3,
+      "alive": false,
+      "kind": "death",
+      "clip": "proc-death-dismember",
+      "loco": false,
+      "skinned": 1,
+      "visibleSkinned": 0,
+      "proxyVisible": false
+    }
+  ]
 }

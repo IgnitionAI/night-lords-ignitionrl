@@ -1,22 +1,28 @@
-Input #0, matroska,webm, from '/agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/_clip-kiter/page@be7465b4b344519d9020840715c08264.webm':
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/agent/repos/night-lords-ignitionrl/docs/captures/camera-combat/_clip-kiter/cap.mp4':
   Metadata:
-    creation_time   : 2026-11-10T17:10:35.811000Z
-    ENCODER         : Lavf61.1.100
-  Duration: 00:02:12.48, start: 0.000000, bitrate: 1946 kb/s
-  Stream #0:0(eng): Video: vp9 (Profile 0), yuv420p(tv, progressive), 1280x720, SAR 1:1 DAR 16:9, 25 fps, 25 tbr, 1k tbn (default)
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:30.70, start: 0.000000, bitrate: 1647 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], 1644 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
     Metadata:
-      ENCODER         : Lavc61.3.100 libvpx-vp9
-      DURATION        : 00:02:12.480000000
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 libx264
 Stream mapping:
-  Stream #0:0 -> #0:0 (vp9 (native) -> wrapped_avframe (native))
+  Stream #0:0 -> #0:0 (h264 (native) -> wrapped_avframe (native))
 Press [q] to stop, [?] for help
 Output #0, null, to 'pipe:':
   Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
     encoder         : Lavf60.16.100
-  Stream #0:0(eng): Video: wrapped_avframe, yuv420p(tv, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 25 fps, 25 tbn (default)
+  Stream #0:0(und): Video: wrapped_avframe, yuv420p(tv, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 30 fps, 30 tbn (default)
     Metadata:
-      DURATION        : 00:02:12.480000000
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
       encoder         : Lavc60.31.102 wrapped_avframe
-frame=    0 fps=0.0 q=-0.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    [blackdetect @ 0x7ff7b8005980] black_start:0.04 black_end:1.88 black_duration:1.84
-frame=  341 fps=0.0 q=-0.0 size=N/A time=00:00:13.64 bitrate=N/A speed=27.1x    frame=  769 fps=753 q=-0.0 size=N/A time=00:00:30.76 bitrate=N/A speed=30.1x    frame= 1193 fps=782 q=-0.0 size=N/A time=00:00:47.72 bitrate=N/A speed=31.3x    frame= 1627 fps=803 q=-0.0 size=N/A time=00:01:05.08 bitrate=N/A speed=32.1x    frame= 2049 fps=809 q=-0.0 size=N/A time=00:01:21.96 bitrate=N/A speed=32.4x    frame= 2503 fps=825 q=-0.0 size=N/A time=00:01:40.12 bitrate=N/A speed=  33x    frame= 2945 fps=827 q=-0.0 size=N/A time=00:01:57.80 bitrate=N/A speed=33.1x    [out#0/null @ 0x55e31bc1d700] video:1552kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
-frame= 3312 fps=842 q=-0.0 Lsize=N/A time=00:02:12.44 bitrate=N/A speed=33.7x    
+frame=    0 fps=0.0 q=-0.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    frame=  305 fps=0.0 q=-0.0 size=N/A time=00:00:10.16 bitrate=N/A speed=  20x    frame=  638 fps=632 q=-0.0 size=N/A time=00:00:21.26 bitrate=N/A speed=21.1x    [out#0/null @ 0x55deb78e9f00] video:432kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+frame=  921 fps=679 q=-0.0 Lsize=N/A time=00:00:30.66 bitrate=N/A speed=22.6x    
