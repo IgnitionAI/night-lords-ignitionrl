@@ -161,16 +161,17 @@ export function hudMarkup(s: MatchStatus, extra: {
   const stagger = s.weapons.staggered ? ' · <b class="stagger">choc</b>' : '';
   const roster = s.roster.map(r =>
     `<b class="${r.alive ? 'up' : 'down'}">${r.role}${r.alive ? '' : ' †'}</b>`).join(' ');
-  const policy = extra.policyLine ? `<br><small>${extra.policyLine}</small>` : '';
-  const burn = extra.burnIn ? `<br><small class="burn">${extra.burnIn}</small>` : '';
-  return `${demo}<b>TERMINATOR</b> — manche ${extra.roundNo} · meute ${extra.score.pack} / ${extra.score.term} Terminator`
-    + ` · <span class="${clockCls}">${s.clock}</span>`
+  const policy = extra.policyLine ? `<div class="meta">${extra.policyLine}</div>` : '';
+  const burn = extra.burnIn ? `<div class="burn">${extra.burnIn}</div>` : '';
+  return `${demo}<div class="head"><b>TERMINATOR</b> — manche ${extra.roundNo}`
+    + ` · <span class="score">meute ${extra.score.pack} · Terminator ${extra.score.term}</span>`
+    + ` · <span class="${clockCls}">${s.clock}</span></div>`
     + `<div class="obj">${s.objectiveLine}</div>`
-    + `<div class="bar armor"><i style="width:${armorPct}%"></i></div>`
-    + `<div class="bar beacon"><i style="width:${beaconPct}%"></i></div>`
-    + `Armure ${s.armor.hp}/${s.armor.max}${alarm}${stagger}`
+    + `<div class="bar armor" title="armure"><i style="width:${armorPct}%"></i></div>`
+    + `<div class="bar beacon" title="canalisation"><i style="width:${beaconPct}%"></i></div>`
+    + `<div class="vitals">Armure ${s.armor.hp}/${s.armor.max}${alarm}${stagger}`
     + ` · bolter ${s.weapons.bolterLabel} · gantelet ${s.weapons.fistLabel}`
-    + ` · ${s.weapons.ammo}/${s.weapons.ammoMax}`
+    + ` · munitions ${s.weapons.ammo}/${s.weapons.ammoMax}</div>`
     + `<div class="roster">${roster}</div>`
     + policy + burn;
 }

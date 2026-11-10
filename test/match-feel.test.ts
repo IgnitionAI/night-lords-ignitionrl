@@ -205,6 +205,9 @@ test('HUD : objectifs, horloge, roster, munitions — pas seulement une barre d\
   assert.match(html, /bolter/i);
   assert.match(html, /gantelet/i);
   assert.match(html, /Objectif/);
+  assert.match(html, /meute 0 · Terminator 0/);
+  assert.match(html, /munitions 30\/30/);
+  assert.doesNotMatch(html, /meute 0 \/ 0 Terminator/);
 });
 
 test('carte de fin : raison historique + durée + survivants', () => {
