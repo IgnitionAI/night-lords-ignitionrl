@@ -1,6 +1,7 @@
 // Rendu Three.js d'une sim pure à pas fixe (src/sim.ts) : modèles riggés, décor, capsules en repli.
 import * as THREE from 'three';
-import { newWorld, step, observe, nlFrame, terminatorPerceives, DT, MAX_TICKS, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
+import { newWorld, step, observe, nlFrame, terminatorPerceives, DT, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
+import { hudMarkup, matchBeats, matchStatus, roundCard, roundMarkup, type MatchStatus } from '../src/match';
 import { PROP_PLACES, isPropKind, resolvePropKinds, type PropKind, type PropPlace } from '../src/props';
 import { POOL, UNSEEN, type Tactic } from '../src/tactics';
 import { Recorder } from '../src/recorder';
@@ -464,6 +465,7 @@ const FRESH = 1.2; // une impulsion de plus d'1,2 s ne s'entend plus
 let stepY = 0, recZ = 0, recPitch = 0;
 let muzzleT = 0, fistT = 0;
 let roundOver = false, lastSummary = '';
+let lastMatch: MatchStatus | null = null;
 const keys = new Set<string>();
 addEventListener('keydown', e => { keys.add(e.code); if (e.code === 'KeyV') { debug = !debug; if (debug) buildLabels(); } if (e.code === 'KeyP') paused = !paused; if (e.code === 'Enter' && roundOver) startRound(); if (e.code === 'Space') e.preventDefault(); });
 addEventListener('keyup', e => keys.delete(e.code));
@@ -508,6 +510,7 @@ function startRound() {
   w = newWorld(seed, undefined, { propKinds: resolvePropKinds({ propsOn: PROPS_ON, loaded: loadedPropKinds }) }); camYaw = followYaw = w.t.facing; prev = snap();
   if (DEMO_CFG) { DEMO_CFG.place(w); camYaw = followYaw = w.t.facing; prev = snap(); } rec = new Recorder(autoplay ? `autoplay ${autoplay}` : 'joueur'); rng = mulberry32(seed ^ 0x9e3779b9);
   tactic = autoplay ? (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)() : null;
+  lastMatch = null;
   nlMeshes.forEach(m => { m.rotation.set(0, 0, 0); m.visible = true; });
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
 }
@@ -640,6 +643,23 @@ function tick() {
     // `step` : le pas est désormais un événement de simulation (position, pied, intensité). Le rendu le laisse
     // au cycle d'animation pour l'instant ; le son pourra s'y accrocher sans recompter les mètres.
   }
+  const nowMatch = matchStatus(w);
+  for (const b of matchBeats(lastMatch, nowMatch)) {
+    switch (b.kind) {
+      case 'channelStart': floatText(BEACON.x, BEACON.y, 'CANALISATION', '#6f6'); break;
+      case 'channelBreak': floatText(w.t.x, w.t.y, 'CANAL COUPÉ', '#fb6'); break;
+      case 'lastStand': {
+        const last = w.nls.find(n => n.alive);
+        if (last) floatText(last.x, last.y, 'DERNIER', '#ffd27a');
+        break;
+      }
+      case 'timePressure': floatText(w.t.x, w.t.y, `${nowMatch.clock}`, '#f88'); break;
+      case 'reload': floatText(w.t.x, w.t.y, 'RECHARGE', '#9cf'); break;
+      case 'fistCharge': break; // déjà annoncé par l'événement fistCharge
+      default: { const _n: never = b.kind; void _n; }
+    }
+  }
+  lastMatch = nowMatch;
   // Lit de servomoteurs : la charge suit la vitesse réelle, 0 = ralenti. Le silence est aussi un son —
   // c'est le contraste entre le ralenti et la charge qui fait entendre la masse.
   const sp = Math.hypot(w.t.vx, w.t.vy);
@@ -655,15 +675,15 @@ function flash(o: number) { const f = document.getElementById('flash')!; f.style
 async function endRound() {
   roundOver = true; onServoLoop.stop({ fade: 0.5 }); if (w.winner === 'pack') score.pack++; else score.term++;
   const msg = document.getElementById('msg')!; msg.style.display = 'block';
-  msg.innerHTML = `<b>Manche ${roundNo} : ${w.winner === 'pack' ? 'la meute gagne' : 'le Terminator gagne'}</b> (${w.reason})<br>La meute étudie ta tactique…`;
+  const card = roundCard(w, { roundNo });
+  msg.innerHTML = roundMarkup(card) + '<p>La meute étudie ta tactique…</p>';
   if (shot) return;
   try {
     const r = await fetch('/api/round', { method: 'POST', body: JSON.stringify(rec.toJSON(`${w.winner} — ${w.reason}`)) }).then(r => r.json());
     lastSummary = r.summary;
-    if (r.ok) { await loadPolicy(); msg.innerHTML += `<br>Ce qu'elle a lu : ${r.summary}.<br>Fantôme appris par imitation sur tes ${r.roundsUsed} dernière(s) manche(s), meute ré-entraînée contre lui (${r.updates} mises à jour PPO, ${r.seconds.toFixed(0)} s).`; }
-    else msg.innerHTML += `<br>Ce qu'elle a lu : ${r.summary}.<br>Pas de ré-entraînement : ${r.reason ?? 'échec'}.`;
-  } catch { msg.innerHTML += '<br>Serveur local absent : pas de ré-entraînement.'; }
-  msg.innerHTML += '<br><br>Entrée : manche suivante';
+    if (r.ok) { await loadPolicy(); msg.innerHTML += `<p>Ce qu'elle a lu : ${r.summary}.<br>Fantôme appris par imitation sur tes ${r.roundsUsed} dernière(s) manche(s), meute ré-entraînée contre lui (${r.updates} mises à jour PPO, ${r.seconds.toFixed(0)} s).</p>`; }
+    else msg.innerHTML += `<p>Ce qu'elle a lu : ${r.summary}.<br>Pas de ré-entraînement : ${r.reason ?? 'échec'}.</p>`;
+  } catch { msg.innerHTML += '<p>Serveur local absent : pas de ré-entraînement.</p>'; }
 }
 async function loadPolicy() {
   try { const j = await fetch('/policy/current.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null); if (j) { actor = j; policyLabel = `politique ${j.version}`; } } catch { /* naïve */ }
@@ -680,9 +700,13 @@ function burnIn() {
   return parts.join(' · ');
 }
 function hud() {
-  const t = w.t; const h = document.getElementById('hud')!;
-  h.innerHTML = `${DEMO_CFG ? '<b style="color:#ffb020">MISE EN SCÈNE</b> — ce n\'est pas une manche jouée · ' : ''}<b>TERMINATOR</b> — manche ${roundNo} · meute ${score.pack} / ${score.term} Terminator · ${((MAX_TICKS - w.tick) * DT).toFixed(0)} s<div class="bar"><i style="width:${t.hp / T_CFG.hp * 100}%"></i></div>`
-    + `${t.channel ? `<b style="color:#6f6">Téléportation ${Math.round(t.channel / T_CFG.channel * 100)} %</b> · ` : ''}Armure ${t.hp}/${T_CFG.hp}${ALARM_ON && t.servoAlarm > 0 ? ' <b style="color:#ff5a2a">■ ALARME SERVO</b>' : t.servoCriticalSent ? ' <b style="color:#8a3a2a">servos critiques</b>' : ''} · bolter ${t.boltCd ? '…' : 'prêt'} · gantelet ${t.fistCd ? '…' : 'prêt'} · Night Lords debout : ${w.nls.filter(n => n.alive).length}/4<br><small>${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}</small><br><small style="color:#8f98a8">${burnIn()}</small>`;
+  const h = document.getElementById('hud')!;
+  h.innerHTML = hudMarkup(matchStatus(w), {
+    roundNo, score, demo: !!DEMO_CFG, alarmOn: ALARM_ON,
+    servoAlarm: w.t.servoAlarm > 0, servoCritical: w.t.servoCriticalSent,
+    policyLine: `${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}`,
+    burnIn: burnIn(),
+  });
   const d = document.getElementById('dbg')!; d.style.display = debug ? 'block' : 'none';
   if (debug) d.innerHTML = `<b>Vue de contrôle — ce que perçoit chaque Night Lord</b><table><tr><th>rôle</th><th>état</th><th>voit</th><th>entend</th><th>vox</th><th>âge</th><th>action (p)</th></tr>`
     + w.nls.map((n, i) => `<tr style="color:${ROLE_CSS[i]}"><td>${ROLES[i]}</td><td>${n.alive ? 'debout' : 'mort'}</td><td>${n.alive && n.belief.seen ? '●' : '·'}</td><td>${n.alive && n.belief.heard ? '●' : '·'}</td><td>${n.alive && n.belief.vox ? '●' : '·'}</td><td>${n.alive && n.belief.valid ? (n.belief.age * DT).toFixed(1) + ' s' : '—'}</td><td>${n.alive ? NL_ACTIONS[lastActs[i]] + (actor ? ` (${lastP[i].toFixed(2)})` : '') : ''}</td></tr>`).join('')
