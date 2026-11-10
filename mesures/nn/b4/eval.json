@@ -1,0 +1,129 @@
+{
+ "pack": "policies/candidates/b4/actor.json",
+ "clawWindup": false,
+ "seeds": "900000..900199",
+ "wallSeconds": 45.5,
+ "results": {
+  "march": {
+   "unseen": false,
+   "games": 200,
+   "packWins": 185,
+   "packWinRate": 0.925,
+   "meanSeconds": 22.8,
+   "medianSeconds": 21.7,
+   "p10Seconds": 16.8,
+   "p90Seconds": 30.9,
+   "share30to90": 0.1,
+   "meanNightLordsKilled": 1.05,
+   "clawArms": 0,
+   "reasons": {
+    "Terminator abattu": 185,
+    "meute anéantie": 15
+   }
+  },
+  "turret": {
+   "unseen": false,
+   "games": 200,
+   "packWins": 174,
+   "packWinRate": 0.87,
+   "meanSeconds": 28.8,
+   "medianSeconds": 26.6,
+   "p10Seconds": 19.6,
+   "p90Seconds": 43.2,
+   "share30to90": 0.355,
+   "meanNightLordsKilled": 1.48,
+   "clawArms": 0,
+   "reasons": {
+    "Terminator abattu": 174,
+    "meute anéantie": 26
+   }
+  },
+  "brawler": {
+   "unseen": false,
+   "games": 200,
+   "packWins": 181,
+   "packWinRate": 0.905,
+   "meanSeconds": 23.2,
+   "medianSeconds": 21.9,
+   "p10Seconds": 16.5,
+   "p90Seconds": 31.2,
+   "share30to90": 0.105,
+   "meanNightLordsKilled": 1.57,
+   "clawArms": 0,
+   "reasons": {
+    "Terminator abattu": 181,
+    "meute anéantie": 19
+   }
+  },
+  "backpedal": {
+   "unseen": false,
+   "games": 200,
+   "packWins": 200,
+   "packWinRate": 1,
+   "meanSeconds": 20.6,
+   "medianSeconds": 19.8,
+   "p10Seconds": 16.2,
+   "p90Seconds": 26.5,
+   "share30to90": 0.025,
+   "meanNightLordsKilled": 0.16,
+   "clawArms": 0,
+   "reasons": {
+    "Terminator abattu": 200
+   }
+  },
+  "wallHugger": {
+   "unseen": true,
+   "games": 200,
+   "packWins": 167,
+   "packWinRate": 0.835,
+   "meanSeconds": 27.3,
+   "medianSeconds": 25.2,
+   "p10Seconds": 18.7,
+   "p90Seconds": 40.1,
+   "share30to90": 0.28,
+   "meanNightLordsKilled": 1.59,
+   "clawArms": 0,
+   "reasons": {
+    "Terminator abattu": 167,
+    "meute anéantie": 26,
+    "téléporté": 7
+   }
+  },
+  "kiter": {
+   "unseen": true,
+   "games": 200,
+   "packWins": 137,
+   "packWinRate": 0.685,
+   "meanSeconds": 26.3,
+   "medianSeconds": 24.8,
+   "p10Seconds": 17.9,
+   "p90Seconds": 37.4,
+   "share30to90": 0.27,
+   "meanNightLordsKilled": 2.21,
+   "clawArms": 0,
+   "reasons": {
+    "meute anéantie": 62,
+    "Terminator abattu": 137,
+    "téléporté": 1
+   }
+  },
+  "elite": {
+   "unseen": true,
+   "games": 200,
+   "packWins": 143,
+   "packWinRate": 0.715,
+   "meanSeconds": 26.6,
+   "medianSeconds": 25.2,
+   "p10Seconds": 18.4,
+   "p90Seconds": 37.6,
+   "share30to90": 0.275,
+   "meanNightLordsKilled": 2.21,
+   "clawArms": 0,
+   "reasons": {
+    "Terminator abattu": 143,
+    "meute anéantie": 56,
+    "téléporté": 1
+   }
+  }
+ }
+}

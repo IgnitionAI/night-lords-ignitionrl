@@ -9,15 +9,19 @@ import type { ActorJSON } from './policy';
 import { summarize, type Recording } from './recorder';
 import { mulberry32 } from './rng';
 import { checkGuard } from './guard';
+import { applyB4Shaping, parseTrainPreset, pickB4Opp, B4_TRAIN } from './train-b4';
 
 const args = Object.fromEntries(process.argv.slice(2).reduce<[string, string][]>((acc, a, i, arr) => { if (a.startsWith('--')) acc.push([a.slice(2), arr[i + 1]?.startsWith('--') || arr[i + 1] === undefined ? 'true' : arr[i + 1]]); return acc; }, []));
-const U = Number(args.updates ?? 100), E = Number(args.envs ?? 16), K = Number(args.steps ?? 128);
+const preset = parseTrainPreset(args);
+const U = Number(args.updates ?? (preset.preset === 'b4' ? B4_TRAIN.updates : 100));
+const E = Number(args.envs ?? (preset.preset === 'b4' ? B4_TRAIN.envs : 16));
+const K = Number(args.steps ?? 128);
 const out = args.out ?? 'runs/dev'; mkdirSync(out, { recursive: true });
-const seed0 = Number(args.seed ?? 1); // seeds d'entraînement : 1..899 999 ; l'éval utilise 900 000+
+const seed0 = Number(args.seed ?? preset.seed); // seeds d'entraînement : 1..899 999 ; l'éval utilise 900 000+
 const ghostShare = Number(args.ghostShare ?? 0.7);
 checkGuard('début entraînement');
 
-const ppo = new PPO(OBS_DIM, N_ACT, { ...DEFAULT_PPO, lr: Number(args.lr ?? DEFAULT_PPO.lr) }, seed0);
+const ppo = new PPO(OBS_DIM, N_ACT, { ...DEFAULT_PPO, lr: preset.lr, entCoef: preset.entCoef }, seed0);
 if (args.init) ppo.load(args.init);
 const ghostBC: ActorJSON | null = args.ghostBC ? JSON.parse(readFileSync(args.ghostBC, 'utf8')) : null;
 const ghostSummary = args.ghost ? summarize(JSON.parse(readFileSync(args.ghost, 'utf8')) as Recording) : null;
@@ -30,12 +34,17 @@ let nextSeed = 1 + (seed0 * 104729) % 700000; // seeds d'entraînement < 900 000
 interface Traj { obs: number[][]; act: number[]; lp: number[]; val: number[]; rew: number[]; done: boolean }
 interface Env { w: World; tactic: Tactic; opp: string; traj: Traj[] }
 const poolNames = Object.keys(POOL);
+let trainProgress = 0;
 function makeEnv(): Env {
   const s = nextSeed++; let tactic: Tactic, opp: string, w: World;
   // entraînement : sans armement, pour rester comparable aux mesures b3 (le build jouable, lui, arme les griffes)
   const O = { clawWindup: false };
   if (ghostBC && rng() < ghostShare) { opp = 'ghostBC'; tactic = bcGhost(ghostBC, s); w = newWorld(s, undefined, O); }
   else if (ghostSummary && rng() < ghostShare) { opp = 'ghost'; tactic = ghost(ghostSummary, s); w = newWorld(s, ghostSummary.spawn, O); }
+  else if (preset.curriculumB4) {
+    const picked = pickB4Opp(rng, trainProgress);
+    opp = picked.opp; tactic = picked.tactic; w = newWorld(s, undefined, O);
+  }
   else { const fixed = poolNames.filter(k => k !== 'randomized'); opp = rng() < 0.5 ? 'randomized' : fixed[Math.floor(rng() * fixed.length)]; tactic = opp === 'randomized' ? randomized(s) : POOL[opp](); w = newWorld(s, undefined, O); }
   return { w, tactic, opp, traj: Array.from({ length: N_NL }, () => ({ obs: [], act: [], lp: [], val: [], rew: [], done: false })) };
 }
@@ -44,6 +53,7 @@ const finished: Traj[] = []; const recent: { opp: string; winner: string; ticks:
 const t0 = performance.now(); let transitions = 0;
 
 for (let u = 1; u <= U; u++) {
+  trainProgress = (u - 1) / Math.max(1, U);
   if (u % 10 === 0) checkGuard(`update ${u}`);
   const tu = performance.now();
   for (let k = 0; k < K; k++) {
@@ -58,7 +68,9 @@ for (let u = 1; u <= U; u++) {
       tr.obs.push(obs.slice(q * OBS_DIM, (q + 1) * OBS_DIM)); tr.act.push(a); tr.lp.push(Math.log(probs[q * N_ACT + a] + 1e-8)); tr.val.push(values[q]);
     });
     envs.forEach((e, ei) => {
-      const { rewards, died } = step(e.w, e.tactic(e.w), acts[ei]);
+      const stepped = step(e.w, e.tactic(e.w), acts[ei]);
+      const died = stepped.died;
+      const rewards = preset.shapeB4 ? applyB4Shaping(e.w, stepped.rewards, died) : stepped.rewards;
       e.traj.forEach((tr, i) => { if (tr.obs.length > tr.rew.length) { tr.rew.push(rewards[i]); if (died[i]) { tr.done = true; finished.push(tr); e.traj[i] = { obs: [], act: [], lp: [], val: [], rew: [], done: false }; } } });
       if (e.w.done) {
         e.traj.forEach(tr => { if (tr.obs.length) { tr.done = true; finished.push(tr); } });
@@ -90,7 +102,7 @@ for (let u = 1; u <= U; u++) {
   appendFileSync(`${out}/metrics.jsonl`, JSON.stringify(line) + '\n');
   if (u % 5 === 0 || u === U) console.log(JSON.stringify(line));
   if (u % 25 === 0 || u === U) {
-    const meta = { updates: u, transitions, seconds: line.seconds, ghost: !!ghostSummary, ghostBC: args.ghostBC ?? null, init: args.init ?? null };
+    const meta = { updates: u, transitions, seconds: line.seconds, ghost: !!ghostSummary, ghostBC: args.ghostBC ?? null, init: args.init ?? null, preset: preset.preset || null, shapeB4: preset.shapeB4, curriculumB4: preset.curriculumB4, lr: preset.lr, entCoef: preset.entCoef, seed: seed0 };
     ppo.save(`${out}/full.json`, meta); writeFileSync(`${out}/actor.json`, JSON.stringify(ppo.exportActor(`${out}@${u}`, meta)));
   }
 }
