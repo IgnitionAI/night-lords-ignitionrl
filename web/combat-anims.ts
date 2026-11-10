@@ -1,6 +1,7 @@
 // Machine d'états d'animation de combat (rendu seulement).
-// Les clips Genex ne portent que idle/walk/run : attack/hit/dodge/death sont procéduraux
-// si aucun clip nommé n'est présent. La sim n'est pas lue ici — seulement des drapeaux.
+// Les clips Genex ne portent que idle/walk/run tant que les GLB combat ne sont pas livrés.
+// attack/hit/dodge/death/shoot : fichiers `<role>-<kind>.glb` via combat-clips.ts, sinon procédural.
+// La sim n'est pas lue ici — seulement des drapeaux.
 
 import type { Gait } from './locomotion';
 
@@ -115,7 +116,24 @@ export function resolveKind(current: CombatKind, remaining: number, intent: Comb
   return intent.gait;
 }
 
-export function tickMachine(m: CombatMachine, intent: CombatIntent, dt: number): CombatMachine {
+export type ShotDurations = Partial<Record<'attack' | 'shoot' | 'hit' | 'dodge' | 'death', number>>;
+
+export function shotDuration(
+  kind: CombatKind,
+  style: AttackStyle,
+  durs?: ShotDurations,
+): number {
+  if (!isOneShot(kind)) return 0;
+  if (kind === 'attack' && style === 'shoot') return durs?.shoot ?? durs?.attack ?? ONE_SHOT.attack;
+  return durs?.[kind] ?? ONE_SHOT[kind];
+}
+
+export function tickMachine(
+  m: CombatMachine,
+  intent: CombatIntent,
+  dt: number,
+  durs?: ShotDurations,
+): CombatMachine {
   const next = resolveKind(m.state, m.remaining, intent);
   const flashDecay = dt > 0 ? dt / HIT_FLASH_DECAY : 0;
   let hitFlash = Math.max(0, m.hitFlash - flashDecay);
@@ -123,14 +141,14 @@ export function tickMachine(m: CombatMachine, intent: CombatIntent, dt: number):
   const style = next === 'attack' ? intent.attackStyle : m.attackStyle;
 
   if (next !== m.state) {
-    const remaining = isOneShot(next) ? ONE_SHOT[next] : 0;
+    const remaining = shotDuration(next, style, durs);
     return { state: next, remaining, attackStyle: style, hitFlash, restart: true };
   }
   if (next === 'hit' && intent.hit) {
-    return { state: 'hit', remaining: ONE_SHOT.hit, attackStyle: style, hitFlash, restart: true };
+    return { state: 'hit', remaining: shotDuration('hit', style, durs), attackStyle: style, hitFlash, restart: true };
   }
-  if (next === 'dodge' && intent.dodge && m.remaining < ONE_SHOT.dodge * 0.5) {
-    return { state: 'dodge', remaining: ONE_SHOT.dodge, attackStyle: style, hitFlash, restart: true };
+  if (next === 'dodge' && intent.dodge && m.remaining < shotDuration('dodge', style, durs) * 0.5) {
+    return { state: 'dodge', remaining: shotDuration('dodge', style, durs), attackStyle: style, hitFlash, restart: true };
   }
   if (next === 'death') {
     return { ...m, state: 'death', remaining: Math.max(0, m.remaining - dt), hitFlash, restart: false };

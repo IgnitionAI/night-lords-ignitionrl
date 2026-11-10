@@ -13,10 +13,13 @@ import { publishHunterState, isControlViewEnabled } from './hunter-channel';
 import { advanceMixer, displayMixerDelta, gaitTimeScale, mixerSubstepCount, pickGait, type Gait } from './locomotion';
 import { NL_HEIGHT, TERM_HEIGHT, measureForwardStride, measureHeight, pickClip } from './stride';
 import {
-  type CombatKind, type CombatMachine, crossFadeFor, eventsToFlags, freshMachine,
-  isLoco, nlIntent, pickNamedClip, COMBAT_CLIP_KEYS, termIntent, tickMachine,
+  type CombatKind, type CombatMachine, type ShotDurations, crossFadeFor, eventsToFlags, freshMachine,
+  isLoco, nlIntent, pickNamedClip, termIntent, tickMachine,
 } from './combat-anims';
 import { bindOneShot, makeCombatClips } from './proc-clips';
+import {
+  extraAnimBasenames, IDLE_CLIP_KEYS, oneShotDurations, remapClip, resolveCombatClips,
+} from './combat-clips';
 import {
   applyRendererAtmosphere, applySceneAtmosphere, installCorridorLights, configureHunterSpot,
   CAM, EPAULE, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, LAMP, STRIP_EMISSIVE,
@@ -289,6 +292,7 @@ interface Rig {
   current: THREE.AnimationAction | null; tell: { value: number };
   strideWalk: number; strideRun: number; allowRun: boolean;
   combat: CombatMachine; kind: CombatKind;
+  clipDurations: ShotDurations;
 }
 const actionForKind = (rig: Rig, kind: CombatKind, style: CombatMachine['attackStyle']): THREE.AnimationAction | null => {
   switch (kind) {
@@ -333,26 +337,22 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   const walkClip = pickClip(clips, 'walk');
   const runClip = pickClip(clips, 'run');
   const proc = makeCombatClips(root);
-  const named = {
-    attack: pickNamedClip(clips, COMBAT_CLIP_KEYS.attack),
-    shoot: pickNamedClip(clips, COMBAT_CLIP_KEYS.shoot),
-    hit: pickNamedClip(clips, COMBAT_CLIP_KEYS.hit),
-    dodge: pickNamedClip(clips, COMBAT_CLIP_KEYS.dodge),
-    death: pickNamedClip(clips, COMBAT_CLIP_KEYS.death),
-  };
+  const resolved = resolveCombatClips(clips, proc);
   const mk = (c: THREE.AnimationClip | null) => (c ? mixer.clipAction(c) : null);
   const mkShot = (c: THREE.AnimationClip, hold: boolean) => bindOneShot(mixer.clipAction(c), hold);
   const strideWalk = walkClip ? measureForwardStride(root, walkClip).stride : 0;
   const strideRun = runClip ? measureForwardStride(root, runClip).stride : 0;
   return {
-    root, mixer, walk: mk(walkClip), run: mk(runClip), idle: mk(model.animations?.[0] ?? null),
-    attack: mkShot(named.attack ?? proc.attack, false),
-    shoot: mkShot(named.shoot ?? proc.shoot, false),
-    hit: mkShot(named.hit ?? proc.hit, false),
-    dodge: mkShot(named.dodge ?? proc.dodge, false),
-    death: mkShot(named.death ?? proc.death, true),
+    root, mixer, walk: mk(walkClip), run: mk(runClip),
+    idle: mk(pickNamedClip(clips, IDLE_CLIP_KEYS) ?? model.animations?.[0] ?? null),
+    attack: mkShot(resolved.attack, false),
+    shoot: mkShot(resolved.shoot, false),
+    hit: mkShot(resolved.hit, false),
+    dodge: mkShot(resolved.dodge, false),
+    death: mkShot(resolved.death, true),
     current: null, tell, strideWalk, strideRun, allowRun,
     combat: freshMachine(), kind: 'idle',
+    clipDurations: oneShotDurations(resolved),
   };
 };
 const playKind = (rig: Rig, speed: number) => {
@@ -552,6 +552,24 @@ const DEMO_SCRIPTS: Record<string, DemoScript> = {
     nls(t: number): number[] { return [0, t === 13 ? 7 : 0, 0, 0]; },
   },
   // Planches de combat : positions + actions, le pas de sim décide encore des événements.
+  idle: {
+    place(w: World) {
+      w.t.x = 8; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0;
+      const spots = [
+        [10.2, 13.4, Math.PI * 0.9],
+        [9.4, 10.6, 0.4],
+        [11.6, 11.2, Math.PI],
+        [7.2, 13.8, 4.0],
+      ];
+      w.nls.forEach((n, i) => {
+        const [x, y, f] = spots[i];
+        n.x = x; n.y = y; n.facing = f; n.alive = true;
+        n.cd = 20; n.armTicks = 0; n.stunTicks = 0;
+      });
+    },
+    player(): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false }; },
+    nls(): number[] { return [0, 0, 0, 0]; },
+  },
   'combat-attack': {
     place(w: World) {
       w.t.x = 8; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0;
@@ -594,6 +612,17 @@ const DEMO_SCRIPTS: Record<string, DemoScript> = {
     },
     player(): TAction { return { fwd: -1, strafe: 0, turn: 0, bolt: false, fist: false }; },
     nls(t: number): number[] { return [0, t === 1 ? 7 : 0, 0, 0]; },
+  },
+  'combat-fist': {
+    place(w: World) {
+      w.t.x = 8; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0;
+      w.t.fistCd = 0; w.t.fistCharge = 0;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 20; n.armTicks = 0; n.stunTicks = 0; });
+      w.nls[0].x = 9.6; w.nls[0].y = 12.1; w.nls[0].facing = Math.PI;
+      w.nls[1].x = 16; w.nls[1].y = 8; w.nls[2].x = 16; w.nls[2].y = 16; w.nls[3].x = 20; w.nls[3].y = 12;
+    },
+    player(t: number): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: t === 2 }; },
+    nls(): number[] { return [0, 0, 0, 0]; },
   },
   'combat-shot': {
     place(w: World) {
@@ -709,7 +738,7 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
       alive: n.alive, armTicks: n.armTicks, stunTicks: n.stunTicks, prevStun: nlPrevStun[i],
       lastAction: n.lastAction, prevAction: nlPrevAction[i], gait, flags, index: i,
     });
-    rig.combat = tickMachine(rig.combat, intent, DT);
+    rig.combat = tickMachine(rig.combat, intent, DT, rig.clipDurations);
     playKind(rig, speed);
     nlPrevStun[i] = n.stunTicks;
     nlPrevAction[i] = n.lastAction;
@@ -718,7 +747,7 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
     const speed = Math.hypot(w.t.vx, w.t.vy);
     const gait = pickGait(speed, { allowRun: termRig.allowRun, walkSpeed: T_CFG.fwd, runSpeed: T_CFG.fwd });
     const intent = termIntent({ gait, fistCharge: w.t.fistCharge, burstLeft: w.t.burstLeft, flags });
-    termRig.combat = tickMachine(termRig.combat, intent, DT);
+    termRig.combat = tickMachine(termRig.combat, intent, DT, termRig.clipDurations);
     playKind(termRig, speed);
   }
   updateTell();
@@ -935,7 +964,13 @@ async function loadModels() {
   const load = async (name: string, target: number, dim = 1, allowRun = true) => {
     const model = await loadModelGLB(name);
     const clips: THREE.AnimationClip[] = [...(model.animations ?? [])];
-    for (const k of ['walk', 'run'] as const) { try { const a = await loadGLB(`/web/models/${name}-${k}.glb`); clips.push(...(a.animations ?? [])); } catch { /* clip absent, on garde l'idle */ } }
+    for (const k of ['walk', 'run'] as const) { try { const a = await loadGLB(`/web/models/${name}-${k}.glb`); clips.push(...(a.animations ?? [])); } catch { /* clip absent, on garde l'idle de pose */ } }
+    for (const file of extraAnimBasenames(name)) {
+      try {
+        const a = await loadGLB(`/web/models/${file}`);
+        clips.push(...(a.animations ?? []).map((c) => remapClip(c)));
+      } catch { /* extra absent */ }
+    }
     return rigOf(model, clips, target, dim, allowRun);
   };
   await Promise.all(ROLES.map(async (_r, i) => {
