@@ -1,0 +1,1402 @@
+{
+  "urls": {
+    "avant-nl-combo-anticipation-t4": "http://127.0.0.1:18194/?demo=impact-combo&cam=troisquarts&shot=4&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-combo-impact-t7": "http://127.0.0.1:18194/?demo=impact-combo&cam=troisquarts&shot=7&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-combo-recovery-t12": "http://127.0.0.1:18194/?demo=impact-combo&cam=troisquarts&shot=12&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-leap-anticipation-t5": "http://127.0.0.1:18194/?demo=impact-leap&cam=troisquarts&shot=5&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-leap-impact-t8": "http://127.0.0.1:18194/?demo=impact-leap&cam=troisquarts&shot=8&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-leap-recovery-t11": "http://127.0.0.1:18194/?demo=impact-leap&cam=troisquarts&shot=11&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-dodge-l-anticipation-t3": "http://127.0.0.1:18194/?demo=impact-dodge-l&cam=troisquarts&shot=3&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-dodge-l-impact-t4": "http://127.0.0.1:18194/?demo=impact-dodge-l&cam=troisquarts&shot=4&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-dodge-l-recovery-t6": "http://127.0.0.1:18194/?demo=impact-dodge-l&cam=troisquarts&shot=6&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-dodge-r-anticipation-t3": "http://127.0.0.1:18194/?demo=impact-dodge-r&cam=troisquarts&shot=3&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-dodge-r-impact-t4": "http://127.0.0.1:18194/?demo=impact-dodge-r&cam=troisquarts&shot=4&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-dodge-r-recovery-t6": "http://127.0.0.1:18194/?demo=impact-dodge-r&cam=troisquarts&shot=6&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-hit-front-anticipation-t12": "http://127.0.0.1:18194/?demo=impact-hit-front&cam=troisquarts&shot=12&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-hit-front-impact-t13": "http://127.0.0.1:18194/?demo=impact-hit-front&cam=troisquarts&shot=13&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-hit-front-recovery-t15": "http://127.0.0.1:18194/?demo=impact-hit-front&cam=troisquarts&shot=15&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-hit-back-anticipation-t12": "http://127.0.0.1:18194/?demo=impact-hit-back&cam=troisquarts&shot=12&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-hit-back-impact-t13": "http://127.0.0.1:18194/?demo=impact-hit-back&cam=troisquarts&shot=13&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-hit-back-recovery-t15": "http://127.0.0.1:18194/?demo=impact-hit-back&cam=troisquarts&shot=15&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-hit-left-anticipation-t12": "http://127.0.0.1:18194/?demo=impact-hit-left&cam=troisquarts&shot=12&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-hit-left-impact-t13": "http://127.0.0.1:18194/?demo=impact-hit-left&cam=troisquarts&shot=13&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-hit-left-recovery-t15": "http://127.0.0.1:18194/?demo=impact-hit-left&cam=troisquarts&shot=15&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-hit-right-anticipation-t12": "http://127.0.0.1:18194/?demo=impact-hit-right&cam=troisquarts&shot=12&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-hit-right-impact-t13": "http://127.0.0.1:18194/?demo=impact-hit-right&cam=troisquarts&shot=13&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-hit-right-recovery-t15": "http://127.0.0.1:18194/?demo=impact-hit-right&cam=troisquarts&shot=15&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-stagger-anticipation-t5": "http://127.0.0.1:18194/?demo=impact-stagger&cam=troisquarts&shot=5&impact=0&tex=512&seed=1&focus=0&proc=legacy",
+    "avant-nl-stagger-impact-t6": "http://127.0.0.1:18194/?demo=impact-stagger&cam=troisquarts&shot=6&impact=0&tex=512&seed=1&focus=0&proc=legacy",
+    "avant-nl-stagger-recovery-t8": "http://127.0.0.1:18194/?demo=impact-stagger&cam=troisquarts&shot=8&impact=0&tex=512&seed=1&focus=0&proc=legacy",
+    "avant-nl-death-throw-anticipation-t5": "http://127.0.0.1:18194/?demo=impact-death-throw&cam=troisquarts&shot=5&impact=0&tex=512&seed=1&focus=0&proc=legacy",
+    "avant-nl-death-throw-impact-t8": "http://127.0.0.1:18194/?demo=impact-death-throw&cam=troisquarts&shot=8&impact=0&tex=512&seed=1&focus=0&proc=legacy",
+    "avant-nl-death-throw-recovery-t13": "http://127.0.0.1:18194/?demo=impact-death-throw&cam=troisquarts&shot=13&impact=0&tex=512&seed=1&focus=0&proc=legacy",
+    "avant-nl-death-collapse-anticipation-t12": "http://127.0.0.1:18194/?demo=impact-death-collapse&cam=troisquarts&shot=12&impact=0&tex=512&seed=1&focus=0&proc=legacy",
+    "avant-nl-death-collapse-impact-t14": "http://127.0.0.1:18194/?demo=impact-death-collapse&cam=troisquarts&shot=14&impact=0&tex=512&seed=1&focus=0&proc=legacy",
+    "avant-nl-death-collapse-recovery-t16": "http://127.0.0.1:18194/?demo=impact-death-collapse&cam=troisquarts&shot=16&impact=0&tex=512&seed=1&focus=0&proc=legacy",
+    "avant-nl-death-dismember-anticipation-t12": "http://127.0.0.1:18194/?demo=impact-death-dismember&cam=troisquarts&shot=12&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-death-dismember-impact-t14": "http://127.0.0.1:18194/?demo=impact-death-dismember&cam=troisquarts&shot=14&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-nl-death-dismember-recovery-t16": "http://127.0.0.1:18194/?demo=impact-death-dismember&cam=troisquarts&shot=16&impact=0&tex=512&seed=1&focus=1&proc=legacy",
+    "avant-term-recoil-anticipation-t4": "http://127.0.0.1:18194/?demo=impact-term-recoil&cam=troisquarts&shot=4&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-recoil-impact-t5": "http://127.0.0.1:18194/?demo=impact-term-recoil&cam=troisquarts&shot=5&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-recoil-recovery-t6": "http://127.0.0.1:18194/?demo=impact-term-recoil&cam=troisquarts&shot=6&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-fist-anticipation-t5": "http://127.0.0.1:18194/?demo=impact-term-fist&cam=troisquarts&shot=5&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-fist-impact-t11": "http://127.0.0.1:18194/?demo=impact-term-fist&cam=troisquarts&shot=11&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-fist-recovery-t12": "http://127.0.0.1:18194/?demo=impact-term-fist&cam=troisquarts&shot=12&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-hit-anticipation-t5": "http://127.0.0.1:18194/?demo=impact-term-hit&cam=troisquarts&shot=5&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-hit-impact-t6": "http://127.0.0.1:18194/?demo=impact-term-hit&cam=troisquarts&shot=6&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-hit-recovery-t7": "http://127.0.0.1:18194/?demo=impact-term-hit&cam=troisquarts&shot=7&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-walk-anticipation-t6": "http://127.0.0.1:18194/?demo=impact-term-walk&cam=troisquarts&shot=6&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-walk-impact-t10": "http://127.0.0.1:18194/?demo=impact-term-walk&cam=troisquarts&shot=10&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-walk-recovery-t14": "http://127.0.0.1:18194/?demo=impact-term-walk&cam=troisquarts&shot=14&impact=0&tex=512&seed=1&proc=legacy"
+  },
+  "poses": {
+    "avant-nl-combo-anticipation-t4": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.39999999999999997,
+      "LeftHand": {
+        "x": 8.19522622955649,
+        "y": 1.346770894436291,
+        "z": 11.406025243373628
+      },
+      "RightHand": {
+        "x": 8.220624585752038,
+        "y": 1.403903710009127,
+        "z": 12.62761343435761
+      },
+      "LeftFoot": {
+        "x": 8.13472364585707,
+        "y": 0.22331324867522284,
+        "z": 11.842574343533194
+      },
+      "RightFoot": {
+        "x": 8.172328074517258,
+        "y": 0.22037503978201356,
+        "z": 12.312127697268815
+      },
+      "handSpan": 1.223187207039148,
+      "footDx": 0.037604428660188205,
+      "tpose": false
+    },
+    "avant-nl-combo-impact-t7": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.7,
+      "LeftHand": {
+        "x": 8.205364312170195,
+        "y": 1.328227825081725,
+        "z": 11.418906957232023
+      },
+      "RightHand": {
+        "x": 8.252695614087488,
+        "y": 1.3936410386109306,
+        "z": 12.637172529020965
+      },
+      "LeftFoot": {
+        "x": 8.131929072366976,
+        "y": 0.22392134180647838,
+        "z": 11.844812843766546
+      },
+      "RightFoot": {
+        "x": 8.169893387980832,
+        "y": 0.22101238555700287,
+        "z": 12.313348417530275
+      },
+      "handSpan": 1.2209382228645482,
+      "footDx": 0.037964315613855604,
+      "tpose": false
+    },
+    "avant-nl-combo-recovery-t12": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 1.2000000000000004,
+      "LeftHand": {
+        "x": 8.200434137420102,
+        "y": 1.3181524578412491,
+        "z": 11.430980416157524
+      },
+      "RightHand": {
+        "x": 8.242036603605925,
+        "y": 1.3745761626908002,
+        "z": 12.634596126489674
+      },
+      "LeftFoot": {
+        "x": 8.129862882837513,
+        "y": 0.22438121223122642,
+        "z": 11.847346463607856
+      },
+      "RightFoot": {
+        "x": 8.167972262920026,
+        "y": 0.22146540383128566,
+        "z": 12.315296396569618
+      },
+      "handSpan": 1.2056554971549946,
+      "footDx": 0.03810938008251341,
+      "tpose": false
+    },
+    "avant-nl-leap-anticipation-t5": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.49999999999999994,
+      "LeftHand": {
+        "x": 8.195572320368596,
+        "y": 1.3392545193707595,
+        "z": 11.411074029111656
+      },
+      "RightHand": {
+        "x": 8.231700391842242,
+        "y": 1.3992806813655652,
+        "z": 12.634154273020812
+      },
+      "LeftFoot": {
+        "x": 8.133025162821987,
+        "y": 0.22356458502461973,
+        "z": 11.843641069920828
+      },
+      "RightFoot": {
+        "x": 8.170734709922183,
+        "y": 0.22066756206357474,
+        "z": 12.312719104194043
+      },
+      "handSpan": 1.2250851646775873,
+      "footDx": 0.037709547100195806,
+      "tpose": false
+    },
+    "avant-nl-leap-impact-t8": {
+      "clip": "proc-dodge",
+      "timeScale": 1,
+      "actionTime": 0.19999999999999998,
+      "LeftHand": {
+        "x": 8.004862126737395,
+        "y": 1.352900163829331,
+        "z": 12.085035629427303
+      },
+      "RightHand": {
+        "x": 8.000383966432167,
+        "y": 1.349386426261035,
+        "z": 12.103378892205061
+      },
+      "LeftFoot": {
+        "x": 8.003178425588324,
+        "y": 1.3378408344720807,
+        "z": 12.08859653598789
+      },
+      "RightFoot": {
+        "x": 8.00296744453167,
+        "y": 1.3370384277522593,
+        "z": 12.098417925036983
+      },
+      "handSpan": 0.019206133414929393,
+      "footDx": 0.00021098105665373623,
+      "tpose": false
+    },
+    "avant-nl-leap-recovery-t11": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.1,
+      "LeftHand": {
+        "x": 8.214734348761676,
+        "y": 1.3652120357277386,
+        "z": 11.396419650312465
+      },
+      "RightHand": {
+        "x": 8.208200367547416,
+        "y": 1.4110626190089177,
+        "z": 12.62801170872441
+      },
+      "LeftFoot": {
+        "x": 8.141879409577445,
+        "y": 0.22289166719414732,
+        "z": 11.831125039030223
+      },
+      "RightFoot": {
+        "x": 8.178858413033804,
+        "y": 0.21977996809215072,
+        "z": 12.301725241079307
+      },
+      "handSpan": 1.2324625622066998,
+      "footDx": 0.036979003456359294,
+      "tpose": false
+    },
+    "avant-nl-dodge-l-anticipation-t3": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.3,
+      "LeftHand": {
+        "x": 8.199754481089268,
+        "y": 1.3535806865782445,
+        "z": 11.400475946291893
+      },
+      "RightHand": {
+        "x": 8.214098629480018,
+        "y": 1.4086914638877903,
+        "z": 12.624974902482935
+      },
+      "LeftFoot": {
+        "x": 8.136888102988337,
+        "y": 0.22310303310797963,
+        "z": 11.840241957039195
+      },
+      "RightFoot": {
+        "x": 8.174381533833968,
+        "y": 0.22010237634795282,
+        "z": 12.310281561896547
+      },
+      "handSpan": 1.2258224366039598,
+      "footDx": 0.037493430845630726,
+      "tpose": false
+    },
+    "avant-nl-dodge-l-impact-t4": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.39999999999999997,
+      "LeftHand": {
+        "x": 8.19522622955649,
+        "y": 1.346770894436291,
+        "z": 11.406025243373628
+      },
+      "RightHand": {
+        "x": 8.220624585752038,
+        "y": 1.403903710009127,
+        "z": 12.62761343435761
+      },
+      "LeftFoot": {
+        "x": 8.13472364585707,
+        "y": 0.22331324867522284,
+        "z": 11.842574343533194
+      },
+      "RightFoot": {
+        "x": 8.172328074517258,
+        "y": 0.22037503978201356,
+        "z": 12.312127697268815
+      },
+      "handSpan": 1.223187207039148,
+      "footDx": 0.037604428660188205,
+      "tpose": false
+    },
+    "avant-nl-dodge-l-recovery-t6": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.6,
+      "LeftHand": {
+        "x": 8.199891496330304,
+        "y": 1.3337505691153329,
+        "z": 11.41565668914294
+      },
+      "RightHand": {
+        "x": 8.245245937549148,
+        "y": 1.3960066404696247,
+        "z": 12.638825419291212
+      },
+      "LeftFoot": {
+        "x": 8.132243515909519,
+        "y": 0.22378578937956572,
+        "z": 11.844263085141554
+      },
+      "RightFoot": {
+        "x": 8.170058009713111,
+        "y": 0.22089282541633581,
+        "z": 12.312985452067577
+      },
+      "handSpan": 1.225591525007937,
+      "footDx": 0.0378144938035927,
+      "tpose": false
+    },
+    "avant-nl-dodge-r-anticipation-t3": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.3,
+      "LeftHand": {
+        "x": 8.199754481089268,
+        "y": 1.3535806865782445,
+        "z": 11.400475946291893
+      },
+      "RightHand": {
+        "x": 8.214098629480018,
+        "y": 1.4086914638877903,
+        "z": 12.624974902482935
+      },
+      "LeftFoot": {
+        "x": 8.136888102988337,
+        "y": 0.22310303310797963,
+        "z": 11.840241957039195
+      },
+      "RightFoot": {
+        "x": 8.174381533833968,
+        "y": 0.22010237634795282,
+        "z": 12.310281561896547
+      },
+      "handSpan": 1.2258224366039598,
+      "footDx": 0.037493430845630726,
+      "tpose": false
+    },
+    "avant-nl-dodge-r-impact-t4": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.39999999999999997,
+      "LeftHand": {
+        "x": 8.19522622955649,
+        "y": 1.346770894436291,
+        "z": 11.406025243373628
+      },
+      "RightHand": {
+        "x": 8.220624585752038,
+        "y": 1.403903710009127,
+        "z": 12.62761343435761
+      },
+      "LeftFoot": {
+        "x": 8.13472364585707,
+        "y": 0.22331324867522284,
+        "z": 11.842574343533194
+      },
+      "RightFoot": {
+        "x": 8.172328074517258,
+        "y": 0.22037503978201356,
+        "z": 12.312127697268815
+      },
+      "handSpan": 1.223187207039148,
+      "footDx": 0.037604428660188205,
+      "tpose": false
+    },
+    "avant-nl-dodge-r-recovery-t6": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.6,
+      "LeftHand": {
+        "x": 8.199891496330304,
+        "y": 1.3337505691153329,
+        "z": 11.41565668914294
+      },
+      "RightHand": {
+        "x": 8.245245937549148,
+        "y": 1.3960066404696247,
+        "z": 12.638825419291212
+      },
+      "LeftFoot": {
+        "x": 8.132243515909519,
+        "y": 0.22378578937956572,
+        "z": 11.844263085141554
+      },
+      "RightFoot": {
+        "x": 8.170058009713111,
+        "y": 0.22089282541633581,
+        "z": 12.312985452067577
+      },
+      "handSpan": 1.225591525007937,
+      "footDx": 0.0378144938035927,
+      "tpose": false
+    },
+    "avant-nl-hit-front-anticipation-t12": {
+      "clip": "proc-attack",
+      "timeScale": 1,
+      "actionTime": 0.46,
+      "LeftHand": {
+        "x": 8.001781444165397,
+        "y": 1.0512267759098797,
+        "z": 11.990497442458663
+      },
+      "RightHand": {
+        "x": 8.00187444495361,
+        "y": 1.0508968116035213,
+        "z": 12.009700516019015
+      },
+      "LeftFoot": {
+        "x": 8.00250532524795,
+        "y": 1.037434878777107,
+        "z": 11.995116749058324
+      },
+      "RightFoot": {
+        "x": 8.002486184499755,
+        "y": 1.0373688913748744,
+        "z": 12.005345430691209
+      },
+      "handSpan": 0.01920613338895563,
+      "footDx": 0.000019140748195312085,
+      "tpose": false
+    },
+    "avant-nl-hit-front-impact-t13": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.1,
+      "LeftHand": {
+        "x": 8.214734356660278,
+        "y": 1.3652123725573455,
+        "z": 11.396419561697314
+      },
+      "RightHand": {
+        "x": 8.208200372138075,
+        "y": 1.4110629765892664,
+        "z": 12.62801180902352
+      },
+      "LeftFoot": {
+        "x": 8.14187939613264,
+        "y": 0.22289173182118283,
+        "z": 11.831125067301363
+      },
+      "RightFoot": {
+        "x": 8.178858418956857,
+        "y": 0.2197800246143038,
+        "z": 12.301725268197009
+      },
+      "handSpan": 1.2324627517770426,
+      "footDx": 0.036979022824215946,
+      "tpose": false
+    },
+    "avant-nl-hit-front-recovery-t15": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.3,
+      "LeftHand": {
+        "x": 8.199754481089268,
+        "y": 1.3535806865782445,
+        "z": 11.400475946291893
+      },
+      "RightHand": {
+        "x": 8.214098629480018,
+        "y": 1.4086914638877903,
+        "z": 12.624974902482935
+      },
+      "LeftFoot": {
+        "x": 8.136888102988337,
+        "y": 0.22310303310797963,
+        "z": 11.840241957039195
+      },
+      "RightFoot": {
+        "x": 8.174381533833968,
+        "y": 0.22010237634795282,
+        "z": 12.310281561896547
+      },
+      "handSpan": 1.2258224366039598,
+      "footDx": 0.037493430845630726,
+      "tpose": false
+    },
+    "avant-nl-hit-back-anticipation-t12": {
+      "clip": "proc-attack",
+      "timeScale": 1,
+      "actionTime": 0.46,
+      "LeftHand": {
+        "x": 8.001781444165397,
+        "y": 1.0512267759098797,
+        "z": 11.990497442458663
+      },
+      "RightHand": {
+        "x": 8.00187444495361,
+        "y": 1.0508968116035213,
+        "z": 12.009700516019015
+      },
+      "LeftFoot": {
+        "x": 8.00250532524795,
+        "y": 1.037434878777107,
+        "z": 11.995116749058324
+      },
+      "RightFoot": {
+        "x": 8.002486184499755,
+        "y": 1.0373688913748744,
+        "z": 12.005345430691209
+      },
+      "handSpan": 0.01920613338895563,
+      "footDx": 0.000019140748195312085,
+      "tpose": false
+    },
+    "avant-nl-hit-back-impact-t13": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.1,
+      "LeftHand": {
+        "x": 8.214734356660278,
+        "y": 1.3652123725573455,
+        "z": 11.396419561697314
+      },
+      "RightHand": {
+        "x": 8.208200372138075,
+        "y": 1.4110629765892664,
+        "z": 12.62801180902352
+      },
+      "LeftFoot": {
+        "x": 8.14187939613264,
+        "y": 0.22289173182118283,
+        "z": 11.831125067301363
+      },
+      "RightFoot": {
+        "x": 8.178858418956857,
+        "y": 0.2197800246143038,
+        "z": 12.301725268197009
+      },
+      "handSpan": 1.2324627517770426,
+      "footDx": 0.036979022824215946,
+      "tpose": false
+    },
+    "avant-nl-hit-back-recovery-t15": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.3,
+      "LeftHand": {
+        "x": 8.199754481089268,
+        "y": 1.3535806865782445,
+        "z": 11.400475946291893
+      },
+      "RightHand": {
+        "x": 8.214098629480018,
+        "y": 1.4086914638877903,
+        "z": 12.624974902482935
+      },
+      "LeftFoot": {
+        "x": 8.136888102988337,
+        "y": 0.22310303310797963,
+        "z": 11.840241957039195
+      },
+      "RightFoot": {
+        "x": 8.174381533833968,
+        "y": 0.22010237634795282,
+        "z": 12.310281561896547
+      },
+      "handSpan": 1.2258224366039598,
+      "footDx": 0.037493430845630726,
+      "tpose": false
+    },
+    "avant-nl-hit-left-anticipation-t12": {
+      "clip": "proc-attack",
+      "timeScale": 1,
+      "actionTime": 0.46,
+      "LeftHand": {
+        "x": 8.001781444165397,
+        "y": 1.0512267759098797,
+        "z": 11.990497442458663
+      },
+      "RightHand": {
+        "x": 8.00187444495361,
+        "y": 1.0508968116035213,
+        "z": 12.009700516019015
+      },
+      "LeftFoot": {
+        "x": 8.00250532524795,
+        "y": 1.037434878777107,
+        "z": 11.995116749058324
+      },
+      "RightFoot": {
+        "x": 8.002486184499755,
+        "y": 1.0373688913748744,
+        "z": 12.005345430691209
+      },
+      "handSpan": 0.01920613338895563,
+      "footDx": 0.000019140748195312085,
+      "tpose": false
+    },
+    "avant-nl-hit-left-impact-t13": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.1,
+      "LeftHand": {
+        "x": 8.214734356660278,
+        "y": 1.3652123725573455,
+        "z": 11.396419561697314
+      },
+      "RightHand": {
+        "x": 8.208200372138075,
+        "y": 1.4110629765892664,
+        "z": 12.62801180902352
+      },
+      "LeftFoot": {
+        "x": 8.14187939613264,
+        "y": 0.22289173182118283,
+        "z": 11.831125067301363
+      },
+      "RightFoot": {
+        "x": 8.178858418956857,
+        "y": 0.2197800246143038,
+        "z": 12.301725268197009
+      },
+      "handSpan": 1.2324627517770426,
+      "footDx": 0.036979022824215946,
+      "tpose": false
+    },
+    "avant-nl-hit-left-recovery-t15": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.3,
+      "LeftHand": {
+        "x": 8.199754481089268,
+        "y": 1.3535806865782445,
+        "z": 11.400475946291893
+      },
+      "RightHand": {
+        "x": 8.214098629480018,
+        "y": 1.4086914638877903,
+        "z": 12.624974902482935
+      },
+      "LeftFoot": {
+        "x": 8.136888102988337,
+        "y": 0.22310303310797963,
+        "z": 11.840241957039195
+      },
+      "RightFoot": {
+        "x": 8.174381533833968,
+        "y": 0.22010237634795282,
+        "z": 12.310281561896547
+      },
+      "handSpan": 1.2258224366039598,
+      "footDx": 0.037493430845630726,
+      "tpose": false
+    },
+    "avant-nl-hit-right-anticipation-t12": {
+      "clip": "proc-attack",
+      "timeScale": 1,
+      "actionTime": 0.46,
+      "LeftHand": {
+        "x": 8.001781444165397,
+        "y": 1.0512267759098797,
+        "z": 11.990497442458663
+      },
+      "RightHand": {
+        "x": 8.00187444495361,
+        "y": 1.0508968116035213,
+        "z": 12.009700516019015
+      },
+      "LeftFoot": {
+        "x": 8.00250532524795,
+        "y": 1.037434878777107,
+        "z": 11.995116749058324
+      },
+      "RightFoot": {
+        "x": 8.002486184499755,
+        "y": 1.0373688913748744,
+        "z": 12.005345430691209
+      },
+      "handSpan": 0.01920613338895563,
+      "footDx": 0.000019140748195312085,
+      "tpose": false
+    },
+    "avant-nl-hit-right-impact-t13": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.1,
+      "LeftHand": {
+        "x": 8.214734356660278,
+        "y": 1.3652123725573455,
+        "z": 11.396419561697314
+      },
+      "RightHand": {
+        "x": 8.208200372138075,
+        "y": 1.4110629765892664,
+        "z": 12.62801180902352
+      },
+      "LeftFoot": {
+        "x": 8.14187939613264,
+        "y": 0.22289173182118283,
+        "z": 11.831125067301363
+      },
+      "RightFoot": {
+        "x": 8.178858418956857,
+        "y": 0.2197800246143038,
+        "z": 12.301725268197009
+      },
+      "handSpan": 1.2324627517770426,
+      "footDx": 0.036979022824215946,
+      "tpose": false
+    },
+    "avant-nl-hit-right-recovery-t15": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.3,
+      "LeftHand": {
+        "x": 8.199754481089268,
+        "y": 1.3535806865782445,
+        "z": 11.400475946291893
+      },
+      "RightHand": {
+        "x": 8.214098629480018,
+        "y": 1.4086914638877903,
+        "z": 12.624974902482935
+      },
+      "LeftFoot": {
+        "x": 8.136888102988337,
+        "y": 0.22310303310797963,
+        "z": 11.840241957039195
+      },
+      "RightFoot": {
+        "x": 8.174381533833968,
+        "y": 0.22010237634795282,
+        "z": 12.310281561896547
+      },
+      "handSpan": 1.2258224366039598,
+      "footDx": 0.037493430845630726,
+      "tpose": false
+    },
+    "avant-nl-stagger-anticipation-t5": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.49999999999999994,
+      "LeftHand": {
+        "x": 8.127587536510763,
+        "y": 1.3406271924034772,
+        "z": 11.416742577877722
+      },
+      "RightHand": {
+        "x": 8.087552850519083,
+        "y": 1.3872735483020682,
+        "z": 12.348486774671658
+      },
+      "LeftFoot": {
+        "x": 8.133025162821987,
+        "y": 0.22356458502461973,
+        "z": 11.843641069920828
+      },
+      "RightFoot": {
+        "x": 8.170734709922183,
+        "y": 0.22066756206357474,
+        "z": 12.312719104194043
+      },
+      "handSpan": 0.9337697290340095,
+      "footDx": 0.037709547100195806,
+      "tpose": false
+    },
+    "avant-nl-stagger-impact-t6": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.6,
+      "LeftHand": {
+        "x": 8.115451876305356,
+        "y": 1.3496149773883783,
+        "z": 11.41502660250359
+      },
+      "RightHand": {
+        "x": 8.066502460296794,
+        "y": 1.3911195309622162,
+        "z": 12.302720045009092
+      },
+      "LeftFoot": {
+        "x": 8.132243515909519,
+        "y": 0.22378578937956572,
+        "z": 11.844263085141554
+      },
+      "RightFoot": {
+        "x": 8.170058009713111,
+        "y": 0.22089282541633581,
+        "z": 12.312985452067577
+      },
+      "handSpan": 0.8900102927282433,
+      "footDx": 0.0378144938035927,
+      "tpose": false
+    },
+    "avant-nl-stagger-recovery-t8": {
+      "clip": "proc-attack",
+      "timeScale": 1,
+      "actionTime": 0.1,
+      "LeftHand": {
+        "x": 8.004188445026202,
+        "y": 1.0556547191456147,
+        "z": 11.990908881356168
+      },
+      "RightHand": {
+        "x": 8.002302636721888,
+        "y": 1.053810999182301,
+        "z": 12.00601512044812
+      },
+      "LeftFoot": {
+        "x": 8.002543700837066,
+        "y": 1.0412254897114168,
+        "z": 11.995090268772012
+      },
+      "RightFoot": {
+        "x": 8.002015900459673,
+        "y": 1.0410912992130754,
+        "z": 12.005304775879457
+      },
+      "handSpan": 0.015334732986491212,
+      "footDx": 0.0005278003773927509,
+      "tpose": false
+    },
+    "avant-nl-death-throw-anticipation-t5": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.49999999999999994,
+      "LeftHand": {
+        "x": 8.127587536510763,
+        "y": 1.3406271924034772,
+        "z": 11.416742577877722
+      },
+      "RightHand": {
+        "x": 8.087552850519083,
+        "y": 1.3872735483020682,
+        "z": 12.348486774671658
+      },
+      "LeftFoot": {
+        "x": 8.133025162821987,
+        "y": 0.22356458502461973,
+        "z": 11.843641069920828
+      },
+      "RightFoot": {
+        "x": 8.170734709922183,
+        "y": 0.22066756206357474,
+        "z": 12.312719104194043
+      },
+      "handSpan": 0.9337697290340095,
+      "footDx": 0.037709547100195806,
+      "tpose": false
+    },
+    "avant-nl-death-throw-impact-t8": {
+      "clip": "proc-attack",
+      "timeScale": 1,
+      "actionTime": 0.1,
+      "LeftHand": {
+        "x": 8.004188445026202,
+        "y": 1.0556547191456147,
+        "z": 11.990908881356168
+      },
+      "RightHand": {
+        "x": 8.002302636721888,
+        "y": 1.053810999182301,
+        "z": 12.00601512044812
+      },
+      "LeftFoot": {
+        "x": 8.002543700837066,
+        "y": 1.0412254897114168,
+        "z": 11.995090268772012
+      },
+      "RightFoot": {
+        "x": 8.002015900459673,
+        "y": 1.0410912992130754,
+        "z": 12.005304775879457
+      },
+      "handSpan": 0.015334732986491212,
+      "footDx": 0.0005278003773927509,
+      "tpose": false
+    },
+    "avant-nl-death-throw-recovery-t13": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.39999999999999997,
+      "LeftHand": {
+        "x": 8.19522622955649,
+        "y": 1.346770894436291,
+        "z": 11.406025243373628
+      },
+      "RightHand": {
+        "x": 8.220624585752038,
+        "y": 1.403903710009127,
+        "z": 12.62761343435761
+      },
+      "LeftFoot": {
+        "x": 8.13472364585707,
+        "y": 0.22331324867522284,
+        "z": 11.842574343533194
+      },
+      "RightFoot": {
+        "x": 8.172328074517258,
+        "y": 0.22037503978201356,
+        "z": 12.312127697268815
+      },
+      "handSpan": 1.223187207039148,
+      "footDx": 0.037604428660188205,
+      "tpose": false
+    },
+    "avant-nl-death-collapse-anticipation-t12": {
+      "clip": "proc-attack",
+      "timeScale": 1,
+      "actionTime": 0.46,
+      "LeftHand": {
+        "x": 8.001781444165397,
+        "y": 1.0512267759098797,
+        "z": 11.990497442458663
+      },
+      "RightHand": {
+        "x": 8.00187444495361,
+        "y": 1.0508968116035213,
+        "z": 12.009700516019015
+      },
+      "LeftFoot": {
+        "x": 8.00250532524795,
+        "y": 1.037434878777107,
+        "z": 11.995116749058324
+      },
+      "RightFoot": {
+        "x": 8.002486184499755,
+        "y": 1.0373688913748744,
+        "z": 12.005345430691209
+      },
+      "handSpan": 0.01920613338895563,
+      "footDx": 0.000019140748195312085,
+      "tpose": false
+    },
+    "avant-nl-death-collapse-impact-t14": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.19999999999999998,
+      "LeftHand": {
+        "x": 8.206896291016468,
+        "y": 1.3598435402140527,
+        "z": 11.396519877335075
+      },
+      "RightHand": {
+        "x": 8.209708371378762,
+        "y": 1.4114524801964272,
+        "z": 12.625363210283949
+      },
+      "LeftFoot": {
+        "x": 8.13940593360082,
+        "y": 0.22296624443099833,
+        "z": 11.836325932371595
+      },
+      "RightFoot": {
+        "x": 8.17663687619271,
+        "y": 0.2198801090524818,
+        "z": 12.306796159604081
+      },
+      "handSpan": 1.2299298058893293,
+      "footDx": 0.03723094259188997,
+      "tpose": false
+    },
+    "avant-nl-death-collapse-recovery-t16": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.39999999999999997,
+      "LeftHand": {
+        "x": 8.19522622955649,
+        "y": 1.346770894436291,
+        "z": 11.406025243373628
+      },
+      "RightHand": {
+        "x": 8.220624585752038,
+        "y": 1.403903710009127,
+        "z": 12.62761343435761
+      },
+      "LeftFoot": {
+        "x": 8.13472364585707,
+        "y": 0.22331324867522284,
+        "z": 11.842574343533194
+      },
+      "RightFoot": {
+        "x": 8.172328074517258,
+        "y": 0.22037503978201356,
+        "z": 12.312127697268815
+      },
+      "handSpan": 1.223187207039148,
+      "footDx": 0.037604428660188205,
+      "tpose": false
+    },
+    "avant-nl-death-dismember-anticipation-t12": {
+      "clip": "proc-attack",
+      "timeScale": 1,
+      "actionTime": 0.46,
+      "LeftHand": {
+        "x": 8.001781444165397,
+        "y": 1.0512267759098797,
+        "z": 11.990497442458663
+      },
+      "RightHand": {
+        "x": 8.00187444495361,
+        "y": 1.0508968116035213,
+        "z": 12.009700516019015
+      },
+      "LeftFoot": {
+        "x": 8.00250532524795,
+        "y": 1.037434878777107,
+        "z": 11.995116749058324
+      },
+      "RightFoot": {
+        "x": 8.002486184499755,
+        "y": 1.0373688913748744,
+        "z": 12.005345430691209
+      },
+      "handSpan": 0.01920613338895563,
+      "footDx": 0.000019140748195312085,
+      "tpose": false
+    },
+    "avant-nl-death-dismember-impact-t14": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.19999999999999998,
+      "LeftHand": {
+        "x": 8.206896291016468,
+        "y": 1.3598435402140527,
+        "z": 11.396519877335075
+      },
+      "RightHand": {
+        "x": 8.209708371378762,
+        "y": 1.4114524801964272,
+        "z": 12.625363210283949
+      },
+      "LeftFoot": {
+        "x": 8.13940593360082,
+        "y": 0.22296624443099833,
+        "z": 11.836325932371595
+      },
+      "RightFoot": {
+        "x": 8.17663687619271,
+        "y": 0.2198801090524818,
+        "z": 12.306796159604081
+      },
+      "handSpan": 1.2299298058893293,
+      "footDx": 0.03723094259188997,
+      "tpose": false
+    },
+    "avant-nl-death-dismember-recovery-t16": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.39999999999999997,
+      "LeftHand": {
+        "x": 8.19522622955649,
+        "y": 1.346770894436291,
+        "z": 11.406025243373628
+      },
+      "RightHand": {
+        "x": 8.220624585752038,
+        "y": 1.403903710009127,
+        "z": 12.62761343435761
+      },
+      "LeftFoot": {
+        "x": 8.13472364585707,
+        "y": 0.22331324867522284,
+        "z": 11.842574343533194
+      },
+      "RightFoot": {
+        "x": 8.172328074517258,
+        "y": 0.22037503978201356,
+        "z": 12.312127697268815
+      },
+      "handSpan": 1.223187207039148,
+      "footDx": 0.037604428660188205,
+      "tpose": false
+    },
+    "avant-term-recoil-anticipation-t4": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.39999999999999997,
+      "LeftHand": {
+        "x": 8.126996232010413,
+        "y": 1.3481440379021796,
+        "z": 11.411752241731174
+      },
+      "RightHand": {
+        "x": 8.083812361312422,
+        "y": 1.3946071502858128,
+        "z": 12.338052090504604
+      },
+      "LeftFoot": {
+        "x": 8.13472364585707,
+        "y": 0.22331324867522284,
+        "z": 11.842574343533194
+      },
+      "RightFoot": {
+        "x": 8.172328074517258,
+        "y": 0.22037503978201356,
+        "z": 12.312127697268815
+      },
+      "handSpan": 0.9284692118420055,
+      "footDx": 0.037604428660188205,
+      "tpose": false
+    },
+    "avant-term-recoil-impact-t5": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.49999999999999994,
+      "LeftHand": {
+        "x": 8.110816428907368,
+        "y": 1.3554019306937406,
+        "z": 11.411035259179995
+      },
+      "RightHand": {
+        "x": 8.061951375829308,
+        "y": 1.3982866490137473,
+        "z": 12.293651519549805
+      },
+      "LeftFoot": {
+        "x": 8.133025162821987,
+        "y": 0.22356458502461973,
+        "z": 11.843641069920828
+      },
+      "RightFoot": {
+        "x": 8.170734709922183,
+        "y": 0.22066756206357474,
+        "z": 12.312719104194043
+      },
+      "handSpan": 0.8850075454745547,
+      "footDx": 0.037709547100195806,
+      "tpose": false
+    },
+    "avant-term-recoil-recovery-t6": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.6,
+      "LeftHand": {
+        "x": 8.141221696742518,
+        "y": 1.3454798050522423,
+        "z": 11.413489283070247
+      },
+      "RightHand": {
+        "x": 8.08532860526065,
+        "y": 1.3715277880716394,
+        "z": 12.365416481141324
+      },
+      "LeftFoot": {
+        "x": 8.132243515909519,
+        "y": 0.22378578937956572,
+        "z": 11.844263085141554
+      },
+      "RightFoot": {
+        "x": 8.170058009713111,
+        "y": 0.22089282541633581,
+        "z": 12.312985452067577
+      },
+      "handSpan": 0.9539223896744596,
+      "footDx": 0.0378144938035927,
+      "tpose": false
+    },
+    "avant-term-fist-anticipation-t5": {
+      "clip": "proc-attack",
+      "timeScale": 1,
+      "actionTime": 0.19999999999999998,
+      "LeftHand": {
+        "x": 8.001723021829426,
+        "y": 1.0510694536858254,
+        "z": 11.990696587961613
+      },
+      "RightHand": {
+        "x": 8.000200097946445,
+        "y": 1.0513675194789502,
+        "z": 12.006845913391398
+      },
+      "LeftFoot": {
+        "x": 8.001771936191233,
+        "y": 1.0373594864371642,
+        "z": 11.995169938263608
+      },
+      "RightFoot": {
+        "x": 8.002439471934427,
+        "y": 1.0373759990455051,
+        "z": 12.005377032464832
+      },
+      "handSpan": 0.016223712651778546,
+      "footDx": 0.0006675357431937812,
+      "tpose": false
+    },
+    "avant-term-fist-impact-t11": {
+      "clip": "proc-attack",
+      "timeScale": 1,
+      "actionTime": 0.46,
+      "LeftHand": {
+        "x": 8.001781444165397,
+        "y": 1.0512267759098797,
+        "z": 11.990497442458663
+      },
+      "RightHand": {
+        "x": 8.00187444495361,
+        "y": 1.0508968116035213,
+        "z": 12.009700516019015
+      },
+      "LeftFoot": {
+        "x": 8.00250532524795,
+        "y": 1.037434878777107,
+        "z": 11.995116749058324
+      },
+      "RightFoot": {
+        "x": 8.002486184499755,
+        "y": 1.0373688913748744,
+        "z": 12.005345430691209
+      },
+      "handSpan": 0.01920613338895563,
+      "footDx": 0.000019140748195312085,
+      "tpose": false
+    },
+    "avant-term-fist-recovery-t12": {
+      "clip": "proc-attack",
+      "timeScale": 1,
+      "actionTime": 0.46,
+      "LeftHand": {
+        "x": 8.001781444165397,
+        "y": 1.0512267759098797,
+        "z": 11.990497442458663
+      },
+      "RightHand": {
+        "x": 8.00187444495361,
+        "y": 1.0508968116035213,
+        "z": 12.009700516019015
+      },
+      "LeftFoot": {
+        "x": 8.00250532524795,
+        "y": 1.037434878777107,
+        "z": 11.995116749058324
+      },
+      "RightFoot": {
+        "x": 8.002486184499755,
+        "y": 1.0373688913748744,
+        "z": 12.005345430691209
+      },
+      "handSpan": 0.01920613338895563,
+      "footDx": 0.000019140748195312085,
+      "tpose": false
+    },
+    "avant-term-hit-anticipation-t5": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.49999999999999994,
+      "LeftHand": {
+        "x": 8.164612865343695,
+        "y": 1.3612031254129118,
+        "z": 11.373201314249394
+      },
+      "RightHand": {
+        "x": 8.31018172904513,
+        "y": 1.3088141156111495,
+        "z": 12.588478546660399
+      },
+      "LeftFoot": {
+        "x": 8.104479554574313,
+        "y": 0.17158887350353869,
+        "z": 11.826257551103613
+      },
+      "RightFoot": {
+        "x": 8.161257418851376,
+        "y": 0.16204063951898928,
+        "z": 12.293322546914723
+      },
+      "handSpan": 1.225085161955644,
+      "footDx": 0.05677786427706266,
+      "tpose": false
+    },
+    "avant-term-hit-impact-t6": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.6,
+      "LeftHand": {
+        "x": 8.194404261183774,
+        "y": 1.3414319200399174,
+        "z": 11.398134275137924
+      },
+      "RightHand": {
+        "x": 8.285309322443888,
+        "y": 1.3524119590571893,
+        "z": 12.62030050460544
+      },
+      "LeftFoot": {
+        "x": 8.119591483253254,
+        "y": 0.20041550473489023,
+        "z": 11.836831384830695
+      },
+      "RightFoot": {
+        "x": 8.165860540625312,
+        "y": 0.19449180389138687,
+        "z": 12.304766259079889
+      },
+      "handSpan": 1.225591524069244,
+      "footDx": 0.04626905737205789,
+      "tpose": false
+    },
+    "avant-term-hit-recovery-t7": {
+      "clip": "Idle_3",
+      "timeScale": 1,
+      "actionTime": 0.7,
+      "LeftHand": {
+        "x": 8.205364312170195,
+        "y": 1.328227825081725,
+        "z": 11.418906957232023
+      },
+      "RightHand": {
+        "x": 8.252695614087488,
+        "y": 1.3936410386109306,
+        "z": 12.637172529020965
+      },
+      "LeftFoot": {
+        "x": 8.131929072366976,
+        "y": 0.22392134180647838,
+        "z": 11.844812843766546
+      },
+      "RightFoot": {
+        "x": 8.169893387980832,
+        "y": 0.22101238555700287,
+        "z": 12.313348417530275
+      },
+      "handSpan": 1.2209382228645482,
+      "footDx": 0.037964315613855604,
+      "tpose": false
+    },
+    "avant-term-walk-anticipation-t6": {
+      "clip": "Armature|walking_man|baselayer",
+      "timeScale": 2.0116435887760695,
+      "actionTime": 0.14031955017726203,
+      "LeftHand": {
+        "x": 7.525764951200336,
+        "y": 1.2662054278789454,
+        "z": 11.472379996616441
+      },
+      "RightHand": {
+        "x": 8.080417273416545,
+        "y": 1.3829675748396988,
+        "z": 12.591391198883178
+      },
+      "LeftFoot": {
+        "x": 8.16157531095108,
+        "y": 0.36001334625293124,
+        "z": 11.805648681742182
+      },
+      "RightFoot": {
+        "x": 7.556323518026967,
+        "y": 0.3159262167257195,
+        "z": 12.215132221529867
+      },
+      "handSpan": 1.2543758082413605,
+      "footDx": 0.6052517929241121,
+      "tpose": false
+    },
+    "avant-term-walk-impact-t10": {
+      "clip": "Armature|walking_man|baselayer",
+      "timeScale": 2.0116435887760695,
+      "actionTime": 0.9449769856876893,
+      "LeftHand": {
+        "x": 9.113729327627984,
+        "y": 1.2765357368948527,
+        "z": 11.535260190255167
+      },
+      "RightHand": {
+        "x": 8.56205360176145,
+        "y": 1.1716781272947887,
+        "z": 12.584503779493469
+      },
+      "LeftFoot": {
+        "x": 8.302253133280573,
+        "y": 0.5310405770539383,
+        "z": 11.807920735058012
+      },
+      "RightFoot": {
+        "x": 8.96067177308726,
+        "y": 0.3019403406330149,
+        "z": 12.195272723294053
+      },
+      "handSpan": 1.1900644244573821,
+      "footDx": 0.6584186398066869,
+      "tpose": false
+    },
+    "avant-term-walk-recovery-t14": {
+      "clip": "Armature|walking_man|baselayer",
+      "timeScale": 2.0116435887760695,
+      "actionTime": 0.6829678181097378,
+      "LeftHand": {
+        "x": 10.241485903004385,
+        "y": 1.4289059491316332,
+        "z": 11.650691160451553
+      },
+      "RightHand": {
+        "x": 9.408629662993455,
+        "y": 1.2414130236744836,
+        "z": 12.551263751040315
+      },
+      "LeftFoot": {
+        "x": 9.480788520983273,
+        "y": 0.3137011854036902,
+        "z": 11.835883168323551
+      },
+      "RightFoot": {
+        "x": 10.189181164805412,
+        "y": 0.37775768836948653,
+        "z": 12.259905790771766
+      },
+      "handSpan": 1.2409005216137907,
+      "footDx": 0.7083926438221386,
+      "tpose": false
+    }
+  },
+  "console": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "networkFailed": []
+}

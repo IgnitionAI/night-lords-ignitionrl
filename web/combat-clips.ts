@@ -238,6 +238,7 @@ export function resolveCombatClips(
   };
   const procedural = (Object.keys(source) as CombatClipKind[]).every((k) => source[k] === 'procedural');
   return {
+    ...proc,
     attack: named.attack ?? proc.attack,
     shoot: named.shoot ?? proc.shoot,
     hit: named.hit ?? proc.hit,
@@ -248,12 +249,17 @@ export function resolveCombatClips(
   };
 }
 
-export function oneShotDurations(set: Pick<CombatClipSet, CombatClipKind>): Record<CombatClipKind, number> {
+export function oneShotDurations(set: CombatClipSet): Record<CombatClipKind, number> & {
+  combo: number; leap: number; stagger: number;
+} {
   return {
     attack: set.attack.duration,
     shoot: set.shoot.duration,
     hit: set.hit.duration,
     dodge: set.dodge.duration,
     death: set.death.duration,
+    combo: set.combo.duration,
+    leap: set.leap.duration,
+    stagger: set.stagger.duration,
   };
 }

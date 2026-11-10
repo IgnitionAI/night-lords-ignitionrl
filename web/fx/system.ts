@@ -5,7 +5,8 @@ import { FX_BUDGET, type FxQuality } from './quality';
 import {
   HITSTOP_S, SHAKE_AMP, advanceFeel, freshFeel, punchFeel, shakeOffset, simDelta, type FeelState,
 } from './feel';
-import { eventsToFxPulses, type FxPulse } from './events';
+import type { AnimCue } from '../anim-cues';
+import { eventsToFxPulses, fxCueFor, FX_CUE_FALLBACK, type FxCueGate, type FxPulse } from './events';
 import type { Ev } from '../../src/sim';
 
 const MUZZLE_LOCAL = new THREE.Vector3(1.9, 1.55, 0.55);
@@ -54,6 +55,7 @@ export interface FxSystem {
   quality: FxQuality;
   feel: FeelState;
   ingestWorld(w: FxWorldView): void;
+  onAnimCue(cue: AnimCue): boolean;
   advance(dt: number, now: number, armorFrac: number): void;
   sync(w: FxWorldView, term: THREE.Object3D, nls: THREE.Object3D[]): void;
   applyPost(u: {
@@ -459,13 +461,45 @@ export function createFxSystem(scene: THREE.Scene, quality: FxQuality): FxSystem
   seedAmbience();
 
   let clock = 0;
+  let lastFacing = 0;
+  const pending: { pulse: FxPulse; gate: FxCueGate; who: number | 'term'; due: number; flushed: boolean }[] = [];
+
+  function queueOrPlay(p: FxPulse, facing: number) {
+    const gate = fxCueFor(p.kind);
+    if (!gate) {
+      applyPulse(p, facing);
+      return;
+    }
+    const who: number | 'term' = gate === 'fire' || p.kind === 'fist' || p.kind === 'fistKill'
+      ? 'term'
+      : p.who;
+    pending.push({ pulse: p, gate, who, due: clock + FX_CUE_FALLBACK[gate], flushed: false });
+  }
+
+  function playPending(row: (typeof pending)[number]) {
+    if (row.flushed) return;
+    row.flushed = true;
+    applyPulse(row.pulse, lastFacing);
+  }
+
+  function flushGate(gate: FxCueGate, who?: number | 'term'): boolean {
+    let any = false;
+    for (const row of pending) {
+      if (row.flushed || row.gate !== gate) continue;
+      if (who !== undefined && row.who !== who) continue;
+      playPending(row);
+      any = true;
+    }
+    return any;
+  }
 
   const sys: FxSystem = {
     quality,
     feel,
     ingestWorld(w) {
+      lastFacing = w.t.facing;
       const pulses = eventsToFxPulses(w.events, w);
-      for (const p of pulses) applyPulse(p, w.t.facing);
+      for (const p of pulses) queueOrPlay(p, w.t.facing);
       if (!high) {
         feel.killcam = 0;
         feel.bloom = 0;
@@ -473,8 +507,21 @@ export function createFxSystem(scene: THREE.Scene, quality: FxQuality): FxSystem
         feel.shake = Math.min(feel.shake, 0.12);
       }
     },
+    onAnimCue(cue) {
+      if (cue.kind === 'fire' && cue.who === 'term') return flushGate('fire');
+      if (cue.kind === 'anticipation' && cue.who !== 'term') return flushGate('anticipation', cue.who);
+      if (cue.kind === 'impact') {
+        if (cue.who === 'term' && cue.clip.includes('punch')) return flushGate('impact', 'term');
+        if (cue.who !== 'term') return flushGate('impact', cue.who);
+      }
+      if (cue.kind === 'land' && cue.who !== 'term') return flushGate('land', cue.who);
+      return false;
+    },
     advance(dt, now, armorFrac) {
       clock = now;
+      for (const row of pending) {
+        if (!row.flushed && clock >= row.due) playPending(row);
+      }
       advanceFeel(feel, dt, armorFrac, now, high);
       for (let i = 0; i < 4; i++) {
         if (eyeOut[i]! > 0) eyeOut[i] = Math.max(0, eyeOut[i]! - dt / 0.42);
@@ -715,6 +762,7 @@ export function createFxSystem(scene: THREE.Scene, quality: FxQuality): FxSystem
     },
     bindEyes(mats) { eyeMats = mats; },
     resetRound() {
+      pending.length = 0;
       feel.hitstop = 0; feel.killcam = 0; feel.shake = 0; feel.ca = 0; feel.vignettePulse = 0;
       feel.bloom = high ? 0.20 : 0;
       for (const p of parts) {

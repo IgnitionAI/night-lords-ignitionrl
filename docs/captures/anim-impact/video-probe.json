@@ -1,0 +1,47 @@
+{
+  "path": "docs/videos/anim-impact.mp4",
+  "duration": 47.417,
+  "size": 8930174,
+  "streams": [
+    {
+      "codec_name": "h264",
+      "codec_type": "video",
+      "width": 1280,
+      "height": 720,
+      "sample_rate": null,
+      "channels": null,
+      "duration": "47.416667"
+    },
+    {
+      "codec_name": "aac",
+      "codec_type": "audio",
+      "width": null,
+      "height": null,
+      "sample_rate": "96000",
+      "channels": 1,
+      "duration": "47.417000"
+    }
+  ],
+  "blackdetect": [],
+  "headStats": {
+    "0": {
+      "t": 0,
+      "YAVG": 32.7747,
+      "YMIN": 0.0,
+      "YMAX": 252.0
+    },
+    "0.5": {
+      "t": 0.5,
+      "YAVG": 39.8294,
+      "YMIN": 0.0,
+      "YMAX": 255.0
+    },
+    "1": {
+      "t": 1,
+      "YAVG": 32.4826,
+      "YMIN": 0.0,
+      "YMAX": 254.0
+    }
+  },
+  "lufs": -13.7
+}

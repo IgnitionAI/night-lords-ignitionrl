@@ -1,0 +1,72 @@
+{
+  "path": "docs/videos/anim-demos.mp4",
+  "duration": 37.707,
+  "size": 5643150,
+  "bit_rate": "1197263",
+  "streams": [
+    {
+      "codec_name": "h264",
+      "codec_type": "video",
+      "width": 1280,
+      "height": 720,
+      "sample_rate": null,
+      "channels": null,
+      "duration": "35.250000"
+    },
+    {
+      "codec_name": "aac",
+      "codec_type": "audio",
+      "width": null,
+      "height": null,
+      "sample_rate": "96000",
+      "channels": 1,
+      "duration": "37.707000"
+    }
+  ],
+  "blackdetect": [
+    {
+      "start": "2.25",
+      "end": "3.375",
+      "dur": "1.125"
+    },
+    {
+      "start": "11.0833",
+      "end": "12.2083",
+      "dur": "1.125"
+    },
+    {
+      "start": "19.875",
+      "end": "21",
+      "dur": "1.125"
+    },
+    {
+      "start": "22.0833",
+      "end": "23.2083",
+      "dur": "1.125"
+    }
+  ],
+  "headStats": {
+    "0": {
+      "t": 0,
+      "YAVG": 32.5227,
+      "YMIN": 0.0,
+      "YMAX": 254.0,
+      "black_start": []
+    },
+    "0.5": {
+      "t": 0.5,
+      "YAVG": 32.5192,
+      "YMIN": 0.0,
+      "YMAX": 254.0,
+      "black_start": []
+    },
+    "1": {
+      "t": 1,
+      "YAVG": 32.5185,
+      "YMIN": 0.0,
+      "YMAX": 254.0,
+      "black_start": []
+    }
+  },
+  "lufs": -16.2
+}

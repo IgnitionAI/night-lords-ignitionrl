@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { newWorld, step, type TAction } from '../src/sim.ts';
-import { parseFxQuality, FX_BUDGET, HITSTOP_S, KILLCAM_S, eventsToFxPulses, clipRayToAabbs, punchFeel, freshFeel, simDelta, advanceFeel } from '../web/fx/index.ts';
+import { parseFxQuality, FX_BUDGET, HITSTOP_S, KILLCAM_S, eventsToFxPulses, fxCueFor, clipRayToAabbs, punchFeel, freshFeel, simDelta, advanceFeel } from '../web/fx/index.ts';
 import { FOG_EXP2_DENSITY, TONE_MAPPING_EXPOSURE, POST_FRAGMENT_SHADER, POST_GRAIN } from '../web/atmosphere.ts';
 import { NL_CFG, T_CFG } from '../src/sim.ts';
 
@@ -53,6 +53,16 @@ test('un bolt qui rate est clippé sur un pilier (événement de présentation)'
   assert.ok(Math.abs(hit.x - 9) < 0.05, `x=${hit.x}`);
   assert.equal(hit.y, 6);
   assert.ok(hit.nx < 0);
+});
+
+test('cues anim : fire/impact/land calent tracer, étincelles, nuage de mort', () => {
+  assert.equal(fxCueFor('bolt'), 'fire');
+  assert.equal(fxCueFor('boltImpact'), 'fire');
+  assert.equal(fxCueFor('clawArm'), 'anticipation');
+  assert.equal(fxCueFor('claw'), 'impact');
+  assert.equal(fxCueFor('fist'), 'impact');
+  assert.equal(fxCueFor('death'), 'land');
+  assert.equal(fxCueFor('hit'), null);
 });
 
 test('bolt + kill émettent tracer, impact, mort — sans toucher la sim', () => {

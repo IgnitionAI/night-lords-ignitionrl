@@ -66,13 +66,16 @@ test('one-shot : attaque / coup / esquive reviennent à la locomotion', () => {
 
 test('mort : sticky, clamp (remaining → 0, état death)', () => {
   let m = freshMachine();
-  const die = { death: true, hit: true, attack: false, dodge: false, gait: idleGait, attackStyle: 'melee' as const };
+  const die = { death: true, hit: true, attack: false, dodge: false, gait: idleGait, attackStyle: 'melee' as const, deathKind: 'throw' as const };
   m = tickMachine(m, die, DT);
   assert.equal(m.state, 'death');
-  const after = { death: true, hit: false, attack: true, dodge: true, gait, attackStyle: 'shoot' as const };
+  assert.equal(m.deathKind, 'throw');
+  const after = { death: true, hit: false, attack: true, dodge: true, gait, attackStyle: 'shoot' as const, deathKind: 'collapse' as const };
   for (let i = 0; i < 20; i++) m = tickMachine(m, after, DT);
   assert.equal(m.state, 'death');
   assert.equal(m.remaining, 0);
+  assert.equal(m.deathKind, 'throw', 'le clip de mort ne change plus après le tick du kill');
+  assert.equal(m.restart, false);
 });
 
 test('coup interrompt l\'attaque ; esquive n\'interrompt pas l\'attaque', () => {
