@@ -1,6 +1,6 @@
 // Rendu Three.js d'une sim pure à pas fixe (src/sim.ts) : modèles riggés, décor, capsules en repli.
 import * as THREE from 'three';
-import { newWorld, step, observe, nlFrame, terminatorPerceives, DT, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
+import { newWorld, step, observe, nlFrame, terminatorPerceives, DT, MAX_TICKS, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
 import { hudMarkup, matchBeats, matchStatus, roundCard, roundMarkup, type MatchStatus } from '../src/match';
 import { PROP_PLACES, isPropKind, resolvePropKinds, type PropKind, type PropPlace } from '../src/props';
 import { POOL, UNSEEN, type Tactic } from '../src/tactics';
@@ -26,6 +26,11 @@ import {
   CAM, EPAULE, TROIS_QUARTS, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, POST_DITHER_SRGB, LAMP, STRIP_EMISSIVE,
   sceneRenderTargetOptions, POST_FRAGMENT_SHADER,
 } from './atmosphere';
+import {
+  COMBAT_CAM, FOG_CLEAR_M, applyCombatCamera, desiredCombatPose, isReadableOnScreen,
+  offscreenMarker, parseCamMode, smoothCombatPose,
+  type CombatPose, type CamMode,
+} from './combat-cam';
 import { applyTerminatorLook } from './terminator-look';
 // Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
 // dépôt, licence Genex non confirmée) chaque appel renvoie false et ne fait rien — le jeu tourne à l'identique.
@@ -55,14 +60,9 @@ applyRendererAtmosphere(renderer);
 const FOG_MODE = qs.get('fog') ?? 'exp2';
 const scene = new THREE.Scene();
 applySceneAtmosphere(scene, FOG_MODE);
-// Cadrage : constantes dans `web/atmosphere.ts`. `?cam=couloir` rend P1 ; `?cam=troisquarts` le plan de preuve.
-type CamMode = 'couloir' | 'epaule' | 'troisquarts';
-const parseCam = (raw: string | null): CamMode => {
-  if (raw === 'couloir') return 'couloir';
-  if (raw === 'troisquarts') return 'troisquarts';
-  return 'epaule';
-};
-const CAM_MODE = parseCam(qs.get('cam'));
+// Cadrage : défaut = caméra de combat. `?cam=couloir` garde P1 ; `?cam=epaule` et `?cam=troisquarts` restent.
+const CAM_MODE: CamMode = parseCamMode(qs.get('cam'));
+const PROBE_READ = qs.get('probe') === 'read';
 /** `?focus=0..3` cadre un Night Lord (captures combat). Défaut : Terminator. */
 const FOCUS_NL = ((): number | null => {
   const raw = qs.get('focus');
@@ -75,6 +75,7 @@ const camFov = (portrait: boolean): number => {
     case 'couloir': return portrait ? CAM.fovPortrait : CAM.fov;
     case 'epaule': return portrait ? EPAULE.fovPortrait : EPAULE.fov;
     case 'troisquarts': return portrait ? TROIS_QUARTS.fovPortrait : TROIS_QUARTS.fov;
+    case 'combat': return portrait ? COMBAT_CAM.fovPortrait : COMBAT_CAM.fov;
     default: { const _e: never = CAM_MODE; throw new Error(String(_e)); }
   }
 };
@@ -461,7 +462,10 @@ function buildLabels() { // différé : aucune texture de nom allouée tant que 
 const nlMeshes = ROLES.map((name, i) => {
   const g = new THREE.Group();
   nlProxy.push(add(g, new THREE.CapsuleGeometry(NL_CFG.radius, 1.1, 6, 12), nlBodyMat, 0, 1.0, 0));
-  for (const z of [-0.11, 0.11]) nlProxy.push(add(g, new THREE.SphereGeometry(0.045, 8, 8), new THREE.MeshBasicMaterial({ color: 0xff1a08 }), 0.42, 1.66, z)); // yeux, seule source chaude
+  for (const z of [-0.11, 0.11]) nlProxy.push(add(g, new THREE.SphereGeometry(0.045, 8, 8), new THREE.MeshBasicMaterial({ color: 0xff1a08, fog: false }), 0.42, 1.66, z)); // yeux, seule source chaude
+  // Lueur d'yeux / réacteur : MeshBasic sans fog, lisible dans le brouillard même si le GLB a remplacé la capsule.
+  add(g, new THREE.SphereGeometry(0.07, 8, 8), new THREE.MeshBasicMaterial({ color: 0xff2a0c, fog: false, transparent: true, opacity: 0.92 }), 0.38, 1.64, 0);
+  add(g, new THREE.SphereGeometry(0.09, 8, 8), new THREE.MeshBasicMaterial({ color: 0x19c8ff, fog: false, transparent: true, opacity: 0.85 }), -0.22, 1.15, 0);
   const ring = new THREE.Mesh(new THREE.RingGeometry(0.55, 0.75, 24), new THREE.MeshBasicMaterial({ color: ROLE_COL[i], transparent: true, opacity: 0.5, side: THREE.DoubleSide })); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.04; ring.visible = false; g.add(ring); nlMarkers.push(ring);
   // Etiquette : le canvas n'est peint qu'a la premiere ouverture de la vue de controle, et le sprite teste la
   // profondeur (il s'affichait a travers les piliers). La teinte vient du materiau, le texte est blanc.
@@ -502,7 +506,22 @@ const fistLight = new THREE.PointLight(0x3a63ff, 2.2, 3.2, 2); term.add(fistLigh
 const ALARM_ON = qs.get('alarme') !== '0'; // ?alarme=0 pour la comparaison avant/après
 const ALARM_COLOR = new THREE.Color(0xff2a0e);
 const alarmMats: THREE.MeshStandardMaterial[] = []; // rempli au chargement du Terminator
-const tracer = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), new THREE.LineBasicMaterial({ color: 0xffe080 })); scene.add(tracer); tracer.visible = false;
+const tracer = new THREE.Line(
+  new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]),
+  new THREE.LineBasicMaterial({ color: 0xfff0a8, fog: false, transparent: true, opacity: 0.95 }),
+);
+scene.add(tracer); tracer.visible = false;
+const tracerBolt = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.045, 0.018, 1, 7),
+  new THREE.MeshBasicMaterial({ color: 0xffc44a, fog: false, transparent: true, opacity: 0.88 }),
+);
+tracerBolt.visible = false; scene.add(tracerBolt);
+const tracerHit = new THREE.Mesh(
+  new THREE.SphereGeometry(0.16, 10, 10),
+  new THREE.MeshBasicMaterial({ color: 0xffe8a0, fog: false }),
+);
+tracerHit.visible = false; scene.add(tracerHit);
+const TRACER_SEC = 0.42;
 
 // Passe plein écran : vignette + grain. Un quad et un shader, aucun addon. La RT est HalfFloat linéaire
 // (ACES y tient sans quantifier les noirs) ; ce shader encode en pow(c,0.4545) comme avant, puis dithers.
@@ -527,6 +546,7 @@ postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), postMat));
 let w: World, prev: { t: [number, number, number]; n: [number, number, number][] }, rec: Recorder, rng: () => number, tactic: Tactic | null;
 let roundNo = 0, score = { pack: 0, term: 0 }, paused = false, acc = 0, mixerSim = 0, hitstop = 0, shake = 0, lastActs: number[] = [0, 0, 0, 0], lastP: number[] = [0, 0, 0, 0], tracerT = 0;
 let nlPrevStun = [0, 0, 0, 0], nlPrevAction = [0, 0, 0, 0];
+let nlCamHold = [0, 0, 0, 0];
 // Dernier tick publié sur le canal d'ambiance : garantit « une fois par tick au plus », même en pause.
 let publishedTick = -1;
 // Poids du Terminator : recul du bolter, appui du pas, respiration, inclinaison. Un ressort amorti par effet,
@@ -769,6 +789,7 @@ function floatText(x: number, y: number, text: string, color: string) {
 // caméra plein ouest marchait ; à 3,4 m un axe fixe met un pilier de 4 m entre l'œil et la meute dès
 // que le joueur longe un mur (vu à t77). Il est avancé d'un pas de simulation, donc ?shot= reste juste.
 let camYaw = 0, followYaw = 0;
+let combatPose: CombatPose | null = null;
 // P3 — le pivot. Mesure de l'état des lieux : la meute passe à plus de 90° dans le dos dès 8,3 s de
 // manche, jusqu'à 174°. La caméra se décale donc *un peu* vers la menace la plus proche, jamais plus de
 // 30 % de l'angle, et seulement si elle est derrière depuis plus d'une seconde : c'est un signal de
@@ -884,15 +905,26 @@ function tick() {
     else if (e.type === 'hit' && (e as any).servoAlarm > 0) onServoAlarm(0); // l'armure encaisse : les servos hurlent 1 s
     else if (e.type === 'servoCritical') onServoAlarm(0);                    // une fois par manche, sous 25 % d'armure
     if (e.type === 'bolt') {
-      tracer.geometry.setFromPoints([new THREE.Vector3(e.x, 1.5, e.y), new THREE.Vector3(e.tx, 1.2, e.ty)]); tracer.visible = true; tracerT = 0.08; shake = Math.max(shake, 0.15);
+      const a = new THREE.Vector3(e.x, 1.55, e.y), b = new THREE.Vector3(e.tx, 1.22, e.ty);
+      tracer.geometry.setFromPoints([a, b]); tracer.visible = true; tracerT = TRACER_SEC; shake = Math.max(shake, 0.15);
+      const dir = b.clone().sub(a); const len = Math.max(0.2, dir.length());
+      tracerBolt.position.copy(a).add(b).multiplyScalar(0.5);
+      tracerBolt.scale.set(1, len, 1);
+      tracerBolt.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize());
+      tracerBolt.visible = true;
+      tracerHit.position.copy(b); tracerHit.visible = true;
       if (IMPACT) { recImp.push({ t0: simT, v: 2.2 }); pitchImp.push({ t0: simT, v: 0.55 }); } // la rafale pousse la caméra et lève le nez
     }
-    if ((e.type === 'bolt' || e.type === 'fist') && e.kill >= 0) { hitstop = 0.09; shake = 0.5; const n = w.nls[e.kill]; floatText(n.x, n.y, `${ROLES[e.kill]} abattu`, '#ffd27a'); flash(0.25); }
+    if ((e.type === 'bolt' || e.type === 'fist') && e.kill >= 0) {
+      hitstop = 0.09; shake = 0.5; const n = w.nls[e.kill]; floatText(n.x, n.y, `${ROLES[e.kill]} abattu`, '#ffd27a'); flash(0.25);
+      nlCamHold[e.kill] = 8;
+    }
     if (e.type === 'clawArm') { const n = w.nls[e.who]; floatText(n.x, n.y, 'GRIFFES', '#fb6'); shake = Math.max(shake, 0.08); } // annonce : l'impact tombe 2 ticks plus tard
     if (e.type === 'claw') { const n = w.nls[e.who]; if (e.dmg === 0) floatText(n.x, n.y, 'ARMURE', '#9cf'); else { floatText(w.t.x, w.t.y, `-${e.dmg} ${e.zone === 'rear' ? 'DOS' : 'FLANC'}`, '#f44'); shake = Math.max(shake, 0.3); } }
     // `step` : le pas est désormais un événement de simulation (position, pied, intensité). Le rendu le laisse
     // au cycle d'animation pour l'instant ; le son pourra s'y accrocher sans recompter les mètres.
   }
+  for (let i = 0; i < nlCamHold.length; i++) if (nlCamHold[i]! > 0) nlCamHold[i]!--;
   const nowMatch = matchStatus(w);
   for (const b of matchBeats(lastMatch, nowMatch)) {
     switch (b.kind) {
@@ -1040,17 +1072,35 @@ function render(alpha: number) {
       camera.lookAt(subjX + fx * q.ahead + sx, q.eye, subjY + fz * q.ahead + sz);
       break;
     }
+    case 'combat': {
+      const now = simT - DT + alpha * DT;
+      recZ = osc(recImp, now, REC.w, REC.z);
+      recPitch = osc(pitchImp, now, REC.w, REC.z);
+      const nls = w.nls.map((n, i) => ({
+        x: lerp(prev.n[i][0], n.x), y: lerp(prev.n[i][1], n.y),
+        alive: n.alive || nlCamHold[i]! > 0,
+        armTicks: n.alive ? n.armTicks : (nlCamHold[i]! > 0 ? 2 : 0),
+      }));
+      const want = desiredCombatPose({
+        term: { x: tx, y: ty, facing: tf },
+        nls, aspect: Math.max(0.2, innerWidth / Math.max(1, innerHeight)), portrait,
+        pillars: PILLARS, arena: ARENA,
+      });
+      combatPose = (shot || PROBE_READ || !combatPose) ? want : smoothCombatPose(combatPose, want, 1 / 60);
+      applyCombatCamera(camera, combatPose, sx, sz);
+      break;
+    }
     default: {
       const _e: never = CAM_MODE;
       throw new Error(String(_e));
     }
   }
   camera.up.set(0, 1, 0);
-  if (CAM_MODE === 'epaule') { if (recPitch) camera.rotateX(recPitch); camera.rotateZ(rollPrev + (roll - rollPrev) * alpha); }
+  if (CAM_MODE === 'epaule' || CAM_MODE === 'combat') { if (recPitch) camera.rotateX(recPitch * (CAM_MODE === 'combat' ? 0.45 : 1)); camera.rotateZ(rollPrev + (roll - rollPrev) * alpha); }
   // flash de bouche : 75 ms après le départ de la rafale, décroissance quadratique. Il éclaire vraiment la
   // scène — piliers et silhouettes —, ce n'est pas un voile posé sur l'image.
   let mz = 0;
-  if (CAM_MODE === 'epaule') for (const i of recImp) { const a = 1 - (simT - DT + alpha * DT - i.t0) / 0.075; if (a > mz) mz = a; }
+  if (CAM_MODE === 'epaule' || CAM_MODE === 'combat') for (const i of recImp) { const a = 1 - (simT - DT + alpha * DT - i.t0) / 0.075; if (a > mz) mz = a; }
   muzzleT = Math.max(0, mz);
   muzzleLight.intensity = 20 * muzzleT * muzzleT;
   const pulse = 0.72 + 0.28 * Math.sin((simT - DT + alpha * DT) * 3.1);
@@ -1071,6 +1121,7 @@ function render(alpha: number) {
   const blur = CAM_MODE === 'epaule' ? Math.max(-0.018, Math.min(0.018, -yawRate * 0.0032)) : 0;
   postMat.uniforms.uBlur.value.set(blur, 0);
   postMat.uniforms.uTime.value = performance.now() * 0.001;
+  updateOffmarks();
   renderer.setRenderTarget(rt); renderer.render(scene, camera);
   // Compteurs de la passe principale, relevés **avant** la passe plein écran : `renderer.info` se remet à zéro
   // à chaque `render()`, donc le lire après coup ne compte que le quad final (1 appel, 2 triangles).
@@ -1078,6 +1129,40 @@ function render(alpha: number) {
   renderer.setRenderTarget(null); renderer.render(postScene, postCam);
 }
 let mainCalls = 0, mainTris = 0;
+function updateOffmarks() {
+  for (let i = 0; i < 4; i++) {
+    const el = document.getElementById('om' + i);
+    if (!el) continue;
+    const n = w.nls[i];
+    if (!n?.alive) { el.style.display = 'none'; continue; }
+    const v = new THREE.Vector3(n.x, 1.45, n.y).project(camera);
+    const mark = offscreenMarker({ x: v.x, y: v.y, z: v.z });
+    if (!mark.visible) { el.style.display = 'none'; continue; }
+    el.style.display = 'block';
+    el.style.left = `${(mark.nx * 0.46 + 0.5) * innerWidth}px`;
+    el.style.top = `${(-mark.ny * 0.46 + 0.5) * innerHeight}px`;
+  }
+}
+
+function screenReadability() {
+  const rows: { i: number; ndc: { x: number; y: number; z: number }; distCam: number; readable: boolean }[] = [];
+  for (let i = 0; i < w.nls.length; i++) {
+    const n = w.nls[i]!;
+    if (!n.alive && !(nlCamHold[i]! > 0)) continue;
+    const world = new THREE.Vector3(n.x, 1.4, n.y);
+    const v = world.clone().project(camera);
+    const distCam = camera.position.distanceTo(world);
+    const ndc = { x: v.x, y: v.y, z: v.z };
+    rows.push({ i, ndc, distCam, readable: isReadableOnScreen(ndc, distCam, FOG_CLEAR_M) });
+  }
+  return {
+    tick: w.tick,
+    living: rows.length,
+    anyOnScreen: rows.length === 0 || rows.some((r) => r.readable),
+    nls: rows,
+  };
+}
+
 function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = camFov(innerHeight > innerWidth); camera.updateProjectionMatrix();
   const s = renderer.getDrawingBufferSize(new THREE.Vector2()); rt.setSize(s.x, s.y); }
 addEventListener('resize', resize);
@@ -1143,7 +1228,7 @@ function termPoseReport() {
 await Promise.all([
   loadPolicy(), loadModels(), loadProps(),
   // capture `?shot=` : pas de fetch audio (sinon 404 console sur le manifeste hors dépôt)
-  shot ? Promise.resolve() : initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }),
+  shot || PROBE_READ ? Promise.resolve() : initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }),
 ]);
 // Onglet en arrière-plan : le module suspend le contexte, et ne le reprend au retour que s'il tournait.
 audio.attachLifecycle();
@@ -1158,7 +1243,39 @@ if (Number(qs.get('hitscan') ?? 0)) {
   }
   (window as any).__hits = out; document.title = 'HITS';
 }
-if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
+if (PROBE_READ) {
+  const frames: ReturnType<typeof screenReadability>[] = [];
+  const kills: { tick: number; i: number; type: string; readable: boolean; distCam: number }[] = [];
+  while (w.tick < MAX_TICKS && !w.done) {
+    tick();
+    hitstop = 0; shake = 0;
+    hud(); render(1);
+    const snapR = screenReadability();
+    frames.push(snapR);
+    for (const e of w.events) {
+      if ((e.type === 'bolt' || e.type === 'fist') && e.kill >= 0) {
+        const n = w.nls[e.kill]!;
+        const world = new THREE.Vector3(n.x, 1.4, n.y);
+        const v = world.clone().project(camera);
+        const distCam = camera.position.distanceTo(world);
+        kills.push({
+          tick: w.tick, i: e.kill, type: e.type, distCam,
+          readable: isReadableOnScreen({ x: v.x, y: v.y, z: v.z }, distCam, FOG_CLEAR_M),
+        });
+      }
+    }
+  }
+  const living = frames.filter((f) => f.living > 0);
+  const frameShare = living.length ? living.filter((f) => f.anyOnScreen).length / living.length : 1;
+  const killShare = kills.length ? kills.filter((k) => k.readable).length / kills.length : 1;
+  (window as any).__READ_REPORT = {
+    cam: CAM_MODE, policy: policyLabel, seed, fogClearM: FOG_CLEAR_M,
+    ticks: w.tick, winner: w.winner, reason: w.reason,
+    frames: living.length, frameShare, kills: kills.length, killShare,
+    killMiss: kills.filter((k) => !k.readable),
+  };
+  document.title = 'READY';
+} else if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
   while (w.tick < shot && !w.done) tick();
   hitstop = 0; shake = 0; prev = snap(); hud(); render(1);
   (window as any).__termPose = termPoseReport();
@@ -1178,7 +1295,7 @@ if (shot) { // capture : on avance la sim de N ticks sans attendre le temps rée
     // Ambiance : au plus une publication par tick, et seulement si `?control=1`. Le HUD, lui, ne lit rien
     // d'ici : aucune donnée du canal ne touche le DOM du joueur.
     if (CONTROL_VIEW && w.tick !== publishedTick) { publishHunterState(hunterState(w)); publishedTick = w.tick; }
-    shake *= 0.85; if (tracerT > 0) { tracerT -= dt; if (tracerT <= 0) tracer.visible = false; }
+    shake *= 0.85; if (tracerT > 0) { tracerT -= dt; if (tracerT <= 0) { tracer.visible = false; tracerBolt.visible = false; tracerHit.visible = false; } }
     hud(); render(roundOver ? 1 : acc / DT); requestAnimationFrame(loop);
   };
   requestAnimationFrame(loop);

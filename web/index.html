@@ -23,9 +23,11 @@ html,body{margin:0;height:100%;background:#000;color:#ddd;font:13px/1.35 system-
 #help{position:fixed;left:12px;bottom:8px;opacity:.65;font-size:11px}
 .float{position:fixed;font-weight:700;pointer-events:none;transition:transform .7s,opacity .7s;text-shadow:0 1px 3px #000}
 #flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none}
+.offmark{position:fixed;width:18px;height:18px;margin:-9px 0 0 -9px;border:2px solid #ff3a18;background:rgba(255,40,10,.35);border-radius:2px;transform:rotate(45deg);pointer-events:none;display:none;box-shadow:0 0 10px #ff2a10,0 0 2px #000;z-index:4}
 @media (max-aspect-ratio:1/1){#dbg{left:8px;right:8px;top:auto;bottom:30px;max-width:none}}
 </style></head><body>
 <canvas id="c"></canvas><div id="flash"></div>
+<div id="om0" class="offmark"></div><div id="om1" class="offmark"></div><div id="om2" class="offmark"></div><div id="om3" class="offmark"></div>
 <div id="hud"></div><div id="dbg"></div><div id="msg"></div>
 <div id="help">Victoire Terminator : balise 6 s, meute à terre, ou 2:00 tenues. Défaite : armure à 0.<br>ZQSD ou WASD bouger · ←/→ pivoter (lent) · Espace storm bolter · F ou Maj gantelet · V vue de contrôle · Entrée manche suivante · P pause</div>
 <script type="module" src="/web/main.ts"></script></body></html>

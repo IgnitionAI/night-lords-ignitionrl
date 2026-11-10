@@ -1,0 +1,248 @@
+{
+  "opp": "kiter",
+  "policy": "b6p",
+  "nSeeds": 5,
+  "seeds": [
+    900000,
+    900001,
+    900002,
+    900003,
+    900004
+  ],
+  "byCam": {
+    "combat": {
+      "frameShare": 0.9993527508090615,
+      "killShare": 1,
+      "seeds": [
+        {
+          "cam": "combat",
+          "seed": 900000,
+          "ticks": 442,
+          "winner": "pack",
+          "reason": "Terminator abattu",
+          "frames": 442,
+          "frameShare": 1,
+          "kills": 3,
+          "killShare": 1
+        },
+        {
+          "cam": "combat",
+          "seed": 900001,
+          "ticks": 309,
+          "winner": "terminator",
+          "reason": "meute an\u00e9antie",
+          "frames": 309,
+          "frameShare": 0.9967637540453075,
+          "kills": 4,
+          "killShare": 1
+        },
+        {
+          "cam": "combat",
+          "seed": 900002,
+          "ticks": 490,
+          "winner": "pack",
+          "reason": "Terminator abattu",
+          "frames": 490,
+          "frameShare": 1,
+          "kills": 2,
+          "killShare": 1
+        },
+        {
+          "cam": "combat",
+          "seed": 900003,
+          "ticks": 477,
+          "winner": "pack",
+          "reason": "Terminator abattu",
+          "frames": 477,
+          "frameShare": 1,
+          "kills": 1,
+          "killShare": 1
+        },
+        {
+          "cam": "combat",
+          "seed": 900004,
+          "ticks": 416,
+          "winner": "pack",
+          "reason": "Terminator abattu",
+          "frames": 416,
+          "frameShare": 1,
+          "kills": 1,
+          "killShare": 1
+        }
+      ]
+    },
+    "couloir": {
+      "frameShare": 0.5703495925352592,
+      "killShare": 1.0,
+      "seeds": [
+        {
+          "cam": "couloir",
+          "seed": 900000,
+          "ticks": 442,
+          "winner": "pack",
+          "reason": "Terminator abattu",
+          "frames": 442,
+          "frameShare": 0.5452488687782805,
+          "kills": 3,
+          "killShare": 1
+        },
+        {
+          "cam": "couloir",
+          "seed": 900001,
+          "ticks": 309,
+          "winner": "terminator",
+          "reason": "meute an\u00e9antie",
+          "frames": 308,
+          "frameShare": 0.33116883116883117,
+          "kills": 4,
+          "killShare": 1
+        },
+        {
+          "cam": "couloir",
+          "seed": 900002,
+          "ticks": 490,
+          "winner": "pack",
+          "reason": "Terminator abattu",
+          "frames": 490,
+          "frameShare": 0.45918367346938777,
+          "kills": 2,
+          "killShare": 1
+        },
+        {
+          "cam": "couloir",
+          "seed": 900003,
+          "ticks": 477,
+          "winner": "pack",
+          "reason": "Terminator abattu",
+          "frames": 477,
+          "frameShare": 0.660377358490566,
+          "kills": 1,
+          "killShare": 1
+        },
+        {
+          "cam": "couloir",
+          "seed": 900004,
+          "ticks": 416,
+          "winner": "pack",
+          "reason": "Terminator abattu",
+          "frames": 416,
+          "frameShare": 0.8557692307692307,
+          "kills": 1,
+          "killShare": 1
+        }
+      ]
+    }
+  },
+  "rows": [
+    {
+      "cam": "couloir",
+      "seed": 900000,
+      "ticks": 442,
+      "winner": "pack",
+      "reason": "Terminator abattu",
+      "frames": 442,
+      "frameShare": 0.5452488687782805,
+      "kills": 3,
+      "killShare": 1
+    },
+    {
+      "cam": "couloir",
+      "seed": 900001,
+      "ticks": 309,
+      "winner": "terminator",
+      "reason": "meute an\u00e9antie",
+      "frames": 308,
+      "frameShare": 0.33116883116883117,
+      "kills": 4,
+      "killShare": 1
+    },
+    {
+      "cam": "couloir",
+      "seed": 900002,
+      "ticks": 490,
+      "winner": "pack",
+      "reason": "Terminator abattu",
+      "frames": 490,
+      "frameShare": 0.45918367346938777,
+      "kills": 2,
+      "killShare": 1
+    },
+    {
+      "cam": "couloir",
+      "seed": 900003,
+      "ticks": 477,
+      "winner": "pack",
+      "reason": "Terminator abattu",
+      "frames": 477,
+      "frameShare": 0.660377358490566,
+      "kills": 1,
+      "killShare": 1
+    },
+    {
+      "cam": "couloir",
+      "seed": 900004,
+      "ticks": 416,
+      "winner": "pack",
+      "reason": "Terminator abattu",
+      "frames": 416,
+      "frameShare": 0.8557692307692307,
+      "kills": 1,
+      "killShare": 1
+    },
+    {
+      "cam": "combat",
+      "seed": 900000,
+      "ticks": 442,
+      "winner": "pack",
+      "reason": "Terminator abattu",
+      "frames": 442,
+      "frameShare": 1,
+      "kills": 3,
+      "killShare": 1
+    },
+    {
+      "cam": "combat",
+      "seed": 900001,
+      "ticks": 309,
+      "winner": "terminator",
+      "reason": "meute an\u00e9antie",
+      "frames": 309,
+      "frameShare": 0.9967637540453075,
+      "kills": 4,
+      "killShare": 1
+    },
+    {
+      "cam": "combat",
+      "seed": 900002,
+      "ticks": 490,
+      "winner": "pack",
+      "reason": "Terminator abattu",
+      "frames": 490,
+      "frameShare": 1,
+      "kills": 2,
+      "killShare": 1
+    },
+    {
+      "cam": "combat",
+      "seed": 900003,
+      "ticks": 477,
+      "winner": "pack",
+      "reason": "Terminator abattu",
+      "frames": 477,
+      "frameShare": 1,
+      "kills": 1,
+      "killShare": 1
+    },
+    {
+      "cam": "combat",
+      "seed": 900004,
+      "ticks": 416,
+      "winner": "pack",
+      "reason": "Terminator abattu",
+      "frames": 416,
+      "frameShare": 1,
+      "kills": 1,
+      "killShare": 1
+    }
+  ]
+}
