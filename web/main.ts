@@ -21,7 +21,7 @@ import { bindAdditive, bindOneShot, makeCombatClips } from './proc-clips';
 import {
   extraAnimBasenames, IDLE_CLIP_KEYS, oneShotDurations, remapClip, resolveCombatClips,
 } from './combat-clips';
-import { emitAnimCue, peekAnimCues, roleOfIndex, scanClipMarkers } from './anim-cues';
+import { emitAnimCue, peekAnimCues, roleOfIndex, scanClipMarkers, subscribeAnimCues } from './anim-cues';
 import { applyFootIk } from './foot-ik';
 import { impulseFall, stepFall, type FallBody } from './death-physics';
 import { IMPACT_DEMOS } from './impact-demos';
@@ -1265,6 +1265,7 @@ function termPoseReport() {
   };
 }
 (window as any).__animCues = peekAnimCues;
+subscribeAnimCues((cue) => { director.onAnimCue(cue); });
 await Promise.all([
   loadPolicy(), loadModels(), loadProps(),
   initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }),

@@ -1,3 +1,4 @@
+import type { AnimCue } from '../anim-cues';
 import { engine } from './engine';
 import type { MusicPhase } from './types';
 
@@ -14,6 +15,25 @@ const NL_RUN_STRIDE = 1.3335077670385962;
 const NL_WALK_STRIDE = 1.1002657971633205;
 const NL_WALK_SPEED = 6 * 0.5;
 
+/** Délais de repli (= marqueurs de clip) si le mixer n'émet pas le cue. */
+const CUE_FALLBACK: Record<'bolt' | 'clawArm' | 'claw' | 'whiff' | 'fist', number> = {
+  bolt: 0.18,
+  clawArm: 0.08,
+  claw: 0.18,
+  whiff: 0.26,
+  fist: 0.66,
+};
+
+type PendingKind = keyof typeof CUE_FALLBACK;
+
+interface PendingSound {
+  kind: PendingKind;
+  who: number | 'term';
+  ev: SimEv;
+  due: number;
+  flushed: boolean;
+}
+
 export class AudioDirector {
   private nlAcc = [0, 0, 0, 0];
   private nlPrev = [{ x: 0, y: 0, alive: true }, { x: 0, y: 0, alive: true }, { x: 0, y: 0, alive: true }, { x: 0, y: 0, alive: true }];
@@ -25,6 +45,8 @@ export class AudioDirector {
   private roundEnded = false;
   private started = false;
   private time = 0;
+  private pending: PendingSound[] = [];
+  private lastWorld: DirectorWorld | null = null;
 
   reset(): void {
     this.nlAcc = [0, 0, 0, 0];
@@ -36,6 +58,8 @@ export class AudioDirector {
     this.roundEnded = false;
     this.started = false;
     this.time = 0;
+    this.pending = [];
+    this.lastWorld = null;
   }
 
   beginRound(): void {
@@ -47,6 +71,7 @@ export class AudioDirector {
   }
 
   handleEvent(e: SimEv, w: DirectorWorld): boolean {
+    this.lastWorld = w;
     const pos = (x: number, y: number) => ({ x, y, z: 1.35 });
     switch (e.type) {
       case 'step': {
@@ -58,18 +83,10 @@ export class AudioDirector {
         return ok;
       }
       case 'bolt': {
-        const x = Number(e.x ?? w.t.x);
-        const y = Number(e.y ?? w.t.y);
-        const tx = Number(e.tx ?? x);
-        const ty = Number(e.ty ?? y);
-        engine.play('bolter-shot', { ...pos(x, y), priority: 9, pan: 0.05 });
-        engine.play('bolter-echo', { ...pos(x, y), priority: 6, gain: 0.7 });
-        engine.play('bolter-casing', { ...pos(x, y), priority: 4, gain: 0.55 });
-        engine.play('bolter-explode', { x: tx, y: ty, z: 1.2, priority: 8 });
-        engine.duck(0.3);
         this.combatUntil = this.time + 4;
         const kill = Number(e.kill ?? -1);
         if (kill >= 0) this.onNlDeath(kill, w);
+        this.queue('bolt', 'term', e);
         return true;
       }
       case 'fistCharge':
@@ -77,36 +94,30 @@ export class AudioDirector {
       case 'fistReady':
         return engine.play('term-hydraulic', { ...pos(w.t.x, w.t.y), priority: 5 });
       case 'fist': {
-        engine.play('fist-impact', { ...pos(w.t.x, w.t.y), priority: 10 });
-        engine.duck(0.22);
         this.combatUntil = this.time + 4;
         const kill = Number(e.kill ?? -1);
         if (kill >= 0) this.onNlDeath(kill, w);
+        this.queue('fist', 'term', e);
         return true;
       }
       case 'clawArm': {
-        const n = w.nls[Number(e.who)];
-        if (!n) return false;
-        engine.play('claw-crackle', { ...pos(n.x, n.y), priority: 7 });
-        return engine.play('claw-swoosh', { ...pos(n.x, n.y), priority: 6, gain: 0.7 });
+        const who = Number(e.who);
+        if (!w.nls[who]) return false;
+        this.queue('clawArm', who, e);
+        return true;
       }
       case 'claw': {
-        const n = w.nls[Number(e.who)];
-        if (!n) return false;
-        const dmg = Number(e.dmg ?? 0);
-        engine.play('claw-swoosh', { ...pos(n.x, n.y), priority: 7, gain: 0.5 });
-        engine.play('claw-metal', { ...pos(n.x, n.y), priority: 8 });
-        if (dmg > 0) {
-          engine.play('nl-scream', { ...pos(n.x, n.y), priority: 6, gain: 0.45 });
-          engine.duck(0.34);
-        }
+        const who = Number(e.who);
+        if (!w.nls[who]) return false;
         this.combatUntil = this.time + 5;
+        this.queue('claw', who, e);
         return true;
       }
       case 'whiff': {
-        const n = w.nls[Number(e.who)];
-        if (!n) return false;
-        return engine.play('claw-swoosh', { ...pos(n.x, n.y), priority: 5, gain: 0.55 });
+        const who = Number(e.who);
+        if (!w.nls[who]) return false;
+        this.queue('whiff', who, e);
+        return true;
       }
       case 'hit': {
         if (Number(e.servoAlarm ?? 0) > 0) this.alarm();
@@ -116,6 +127,99 @@ export class AudioDirector {
         return this.alarm();
       default:
         return false;
+    }
+  }
+
+  /** Cales bolter / griffes / poing sur les frames fire / anticipation / impact. */
+  onAnimCue(cue: AnimCue): boolean {
+    const w = this.lastWorld;
+    if (!w) return false;
+    if (cue.kind === 'fire' && cue.who === 'term') return this.flushKind('bolt', w);
+    if (cue.kind === 'anticipation' && cue.who !== 'term') return this.flushKind('clawArm', w, cue.who);
+    if (cue.kind === 'impact') {
+      if (cue.who === 'term' && cue.clip.includes('punch')) return this.flushKind('fist', w);
+      if (cue.who !== 'term') {
+        const claw = this.flushKind('claw', w, cue.who);
+        const whiff = this.flushKind('whiff', w, cue.who);
+        return claw || whiff;
+      }
+    }
+    return false;
+  }
+
+  private queue(kind: PendingKind, who: number | 'term', ev: SimEv): void {
+    this.pending.push({ kind, who, ev, due: this.time + CUE_FALLBACK[kind], flushed: false });
+  }
+
+  private flushKind(kind: PendingKind, w: DirectorWorld, who?: number | 'term'): boolean {
+    let any = false;
+    for (const p of this.pending) {
+      if (p.flushed || p.kind !== kind) continue;
+      if (who !== undefined && p.who !== who) continue;
+      this.playPending(p, w);
+      any = true;
+    }
+    return any;
+  }
+
+  private flushDue(w: DirectorWorld): void {
+    for (const p of this.pending) {
+      if (p.flushed || this.time < p.due) continue;
+      this.playPending(p, w);
+    }
+  }
+
+  private playPending(p: PendingSound, w: DirectorWorld): void {
+    p.flushed = true;
+    const pos = (x: number, y: number) => ({ x, y, z: 1.35 });
+    const e = p.ev;
+    switch (p.kind) {
+      case 'bolt': {
+        const x = Number(e.x ?? w.t.x);
+        const y = Number(e.y ?? w.t.y);
+        const tx = Number(e.tx ?? x);
+        const ty = Number(e.ty ?? y);
+        engine.play('bolter-shot', { ...pos(x, y), priority: 9, pan: 0.05 });
+        engine.play('bolter-echo', { ...pos(x, y), priority: 6, gain: 0.7 });
+        engine.play('bolter-casing', { ...pos(x, y), priority: 4, gain: 0.55 });
+        engine.play('bolter-explode', { x: tx, y: ty, z: 1.2, priority: 8 });
+        engine.duck(0.3);
+        return;
+      }
+      case 'fist': {
+        engine.play('fist-impact', { ...pos(w.t.x, w.t.y), priority: 10 });
+        engine.duck(0.22);
+        return;
+      }
+      case 'clawArm': {
+        const n = w.nls[Number(e.who)];
+        if (!n) return;
+        engine.play('claw-crackle', { ...pos(n.x, n.y), priority: 7 });
+        engine.play('claw-swoosh', { ...pos(n.x, n.y), priority: 6, gain: 0.7 });
+        return;
+      }
+      case 'claw': {
+        const n = w.nls[Number(e.who)];
+        if (!n) return;
+        const dmg = Number(e.dmg ?? 0);
+        engine.play('claw-swoosh', { ...pos(n.x, n.y), priority: 7, gain: 0.5 });
+        engine.play('claw-metal', { ...pos(n.x, n.y), priority: 8 });
+        if (dmg > 0) {
+          engine.play('nl-scream', { ...pos(n.x, n.y), priority: 6, gain: 0.45 });
+          engine.duck(0.34);
+        }
+        return;
+      }
+      case 'whiff': {
+        const n = w.nls[Number(e.who)];
+        if (!n) return;
+        engine.play('claw-swoosh', { ...pos(n.x, n.y), priority: 5, gain: 0.55 });
+        return;
+      }
+      default: {
+        const _n: never = p.kind;
+        void _n;
+      }
     }
   }
 
@@ -145,8 +249,10 @@ export class AudioDirector {
 
   tick(w: DirectorWorld, dt: number, events: SimEv[], extras?: { nlJump?: number[] }): void {
     if (!this.started) this.beginRound();
+    this.lastWorld = w;
     this.time += dt;
     for (const e of events) this.handleEvent(e, w);
+    this.flushDue(w);
 
     const sp = Math.hypot(w.t.vx, w.t.vy);
     if (sp > 0.08) {

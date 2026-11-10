@@ -1,0 +1,53 @@
+{
+  "mode": "live-match",
+  "url": "http://127.0.0.1:18194/?autoplay=kiter&cam=troisquarts&seed=900000&tex=512",
+  "nl": {
+    "tick": 31,
+    "done": false,
+    "winner": null,
+    "seed": 900000,
+    "muted": false,
+    "audio": {
+      "ok": true,
+      "enabled": true,
+      "muted": false,
+      "unlocked": true,
+      "state": "running",
+      "decoded": [
+        "term-step-01",
+        "fist-impact",
+        "bolter-shot",
+        "claw-metal",
+        "music-explore",
+        "amb-drone",
+        "music-tension",
+        "amb-duct",
+        "music-combat",
+        "nl-step-01",
+        "nl-step-02",
+        "nl-step-03",
+        "nl-jump",
+        "term-servo",
+        "term-hydraulic",
+        "term-step-02",
+        "term-step-03"
+      ],
+      "missing": [],
+      "samples": 29,
+      "activeVoices": 8,
+      "polyphony": 18,
+      "musicPhase": "explore",
+      "ducked": false
+    }
+  },
+  "console": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "networkFailed": [],
+  "manifest": [
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18194/web/sfx/nightlords/manifest.json"
+    }
+  ]
+}

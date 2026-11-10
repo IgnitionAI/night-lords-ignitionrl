@@ -24,3 +24,6 @@ recordings/
 # La banque CC0 / procédurale `web/sfx/nightlords/` EST versionnée.
 web/sfx/genex/
 
+# Intermédiaires de capture (webm / concat) — la vidéo finale est dans docs/videos/.
+docs/captures/anim-impact/_clips/
+

@@ -3,6 +3,7 @@ import { writeFileSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { newWorld, step, observe, nlFrame, DT, type TAction } from '../src/sim.ts';
+import { PROP_KINDS } from '../src/props.ts';
 import { POOL, UNSEEN } from '../src/tactics.ts';
 import { forward, softmax, sample, type ActorJSON } from '../src/policy.ts';
 import { mulberry32 } from '../src/rng.ts';
@@ -36,7 +37,7 @@ try {
 } catch { /* naïve */ }
 
 const tactic = (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)();
-const w = newWorld(seed);
+const w = newWorld(seed, undefined, { propKinds: [...PROP_KINDS] });
 const rng = mulberry32(seed ^ 0x9e3779b9);
 const dir = new AudioDirector();
 dir.beginRound();

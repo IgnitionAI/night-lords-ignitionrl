@@ -1,0 +1,26 @@
+{
+  "programs": [],
+  "streams": [
+    {
+      "codec_name": "h264",
+      "codec_type": "video",
+      "width": 854,
+      "height": 480
+    },
+    {
+      "codec_name": "aac",
+      "codec_type": "audio",
+      "sample_rate": "96000"
+    }
+  ],
+  "format": {
+    "duration": "304.041667",
+    "size": "2830578",
+    "bit_rate": "74478"
+  },
+  "bytes": 2830578,
+  "seed": 900000,
+  "autoplay": "kiter",
+  "demoDur": 35.2,
+  "matchDur": 268.833333
+}
