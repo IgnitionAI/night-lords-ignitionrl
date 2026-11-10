@@ -14,6 +14,8 @@ export const TONE_MAPPING_EXPOSURE = 1.34;
 export const CAM = { back: 8.2, height: 3.28, highMax: 4.9, ahead: 2.8, eye: 1.18, fov: 54, fovPortrait: 64 };
 // Épaule : FOV 62 → 56 (moins de grand-angle), 2,32 m d'œil, look 4,6 m. Le Terminator tient le tiers bas-gauche.
 export const EPAULE = { back: 3.4, side: 1.18, height: 2.32, ahead: 4.6, eye: 1.32, fov: 56, fovPortrait: 68 };
+// Capture 3/4 plein cadre (`?cam=troisquarts`) : plus près, plus de côté que l'épaule jouable.
+export const TROIS_QUARTS = { back: 4.2, side: 2.85, height: 1.55, ahead: 0.15, eye: 1.05, fov: 46, fovPortrait: 54 };
 export const FOLLOW_YAW_BLEND = 0.22; // était 0,26 : un peu plus d'inertie, toujours ~3,5 rad/s
 export const POST_VIGNETTE = 1.00;
 export const POST_GRAIN = 0.014; // grain film, linéaire ; un dither 1,5/255 est ajouté après le gamma dans le shader
@@ -26,6 +28,21 @@ export const POOL = { color: 0x5e7aa3, intensity: 4.6, distance: 12, decay: 2, x
 export const LAMP = { color: 0xff2a1a, intensity: 8.2, distance: 9, decay: 2 };
 export const STRIP_EMISSIVE = 0.48;
 export const SPOT_SHADOW_MAP = 1024;
+
+// Finish Terminator (couloir sombre) : le GLB Genex porte un `BakedMaterial` et une carte
+// metallicRoughness dummy orange (B≈5/255 → métal 0,02). Le chargeur générique faisait
+// encore `metalness *= 0,3` et `roughness ≥ 0,72` : l'armure lisait comme un MeshStandard
+// plastique. Constantes calées sur l'expo 1,34 / rake 0,32 — pas un studio.
+export const TERM_LOOK = {
+  albedoDim: 0.78,
+  warmth: { r: 1.04, g: 0.97, b: 0.86 },
+  metalness: 0.72,
+  roughness: 0.40,
+  dummyMetalMax: 0.08,
+  dummyRoughMin: 0.35,
+  visor: { r: 1.65, g: 0.05, b: 0.016, gain: 2.4, lumMax: 0.01 },
+  rim: { r: 0.52, g: 0.38, b: 0.16, pow: 4.2, amt: 0.40 },
+};
 
 export function applyRendererAtmosphere(renderer: THREE.WebGLRenderer): void {
   renderer.shadowMap.enabled = true;
