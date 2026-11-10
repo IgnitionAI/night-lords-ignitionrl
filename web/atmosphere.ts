@@ -14,6 +14,8 @@ export const TONE_MAPPING_EXPOSURE = 1.34;
 export const CAM = { back: 8.2, height: 3.28, highMax: 4.9, ahead: 2.8, eye: 1.18, fov: 54, fovPortrait: 64 };
 // Épaule : FOV 62 → 56 (moins de grand-angle), 2,32 m d'œil, look 4,6 m. Le Terminator tient le tiers bas-gauche.
 export const EPAULE = { back: 3.4, side: 1.18, height: 2.32, ahead: 4.6, eye: 1.32, fov: 56, fovPortrait: 68 };
+// Capture 3/4 plein cadre (`?cam=troisquarts`) : plus près, plus de côté que l'épaule jouable.
+export const TROIS_QUARTS = { back: 4.2, side: 2.85, height: 1.55, ahead: 0.15, eye: 1.05, fov: 46, fovPortrait: 54 };
 export const FOLLOW_YAW_BLEND = 0.22; // était 0,26 : un peu plus d'inertie, toujours ~3,5 rad/s
 export const POST_VIGNETTE = 1.00;
 export const POST_GRAIN = 0.014; // grain film, linéaire ; un dither 1,5/255 est ajouté après le gamma dans le shader

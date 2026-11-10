@@ -30,6 +30,7 @@ function waitListen(child: ReturnType<typeof spawn>, needle: string, ms: number)
 const SHOTS = [
   { name: 'gros-plan', qs: 'shot=115&seed=3&autoplay=march' },
   { name: 'jeu-hud', qs: 'shot=40&seed=3&autoplay=march&cam=couloir' },
+  { name: 'marche-trois-quarts', qs: 'shot=80&seed=3&autoplay=march&cam=troisquarts' },
 ];
 
 const ownServer = process.env.NO_SERVER !== '1';
@@ -70,6 +71,7 @@ try {
     await page.waitForFunction(() => document.title === 'READY', { timeout: 180000 });
     const png = join(OUT, `${PREFIX}-${shot.name}.png`);
     await page.screenshot({ path: png, type: 'png' });
+    const pose = await page.evaluate(() => (window as unknown as { __termPose?: unknown }).__termPose ?? null);
     const webgl = await page.evaluate(() => {
       const c = document.getElementById('c') as HTMLCanvasElement | null;
       const gl = c?.getContext('webgl2') || c?.getContext('webgl');
@@ -85,6 +87,7 @@ try {
       name: shot.name,
       url,
       png,
+      pose,
       webgl,
       console: consoleLines,
       pageErrors,
@@ -99,12 +102,19 @@ try {
 }
 
 writeFileSync(join(OUT, `${PREFIX}-console-network.json`), JSON.stringify(log, null, 2));
+writeFileSync(join(OUT, `${PREFIX}-pose.json`), JSON.stringify(log.shots.map((s) => {
+  const shot = s as { name: string; pose?: unknown };
+  return { name: shot.name, pose: shot.pose };
+}), null, 2));
 const known404 = (u: string) => u.includes('/web/sfx/nightlords/manifest.json');
-for (const s of log.shots as Array<{ name: string; pageErrors: string[]; console: { type: string; text: string }[]; networkFailed: { status: number; url: string }[] }>) {
+for (const s of log.shots as Array<{ name: string; pageErrors: string[]; console: { type: string; text: string }[]; networkFailed: { status: number; url: string }[]; pose?: { tpose?: boolean; clip?: string | null; footDx?: number } }>) {
   const hardConsole = s.console.filter((l) => l.type === 'error' && !l.text.includes('404') && !l.text.includes("Couldn't load texture"));
   const hardNet = s.networkFailed.filter((r) => !known404(r.url));
   if (s.pageErrors.length || hardConsole.length || hardNet.length) {
     throw new Error(`${s.name}: ${JSON.stringify({ pageErrors: s.pageErrors, hardConsole, hardNet })}`);
+  }
+  if (s.pose?.tpose) {
+    throw new Error(`${s.name}: T-pose (clip=${s.pose.clip} footDx=${s.pose.footDx})`);
   }
 }
 console.log(JSON.stringify({ prefix: PREFIX, shots: (log.shots as { name: string }[]).map((s) => s.name) }, null, 2));

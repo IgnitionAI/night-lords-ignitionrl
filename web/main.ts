@@ -14,7 +14,7 @@ import { advanceMixer, displayMixerDelta, gaitTimeScale, mixerSubstepCount, pick
 import { NL_HEIGHT, TERM_HEIGHT, measureForwardStride, measureHeight, pickClip } from './stride';
 import {
   applyRendererAtmosphere, applySceneAtmosphere, installCorridorLights, configureHunterSpot,
-  CAM, EPAULE, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, LAMP, STRIP_EMISSIVE,
+  CAM, EPAULE, TROIS_QUARTS, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, LAMP, STRIP_EMISSIVE,
 } from './atmosphere';
 import { applyTerminatorLook } from './terminator-look';
 // Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
@@ -45,10 +45,24 @@ applyRendererAtmosphere(renderer);
 const FOG_MODE = qs.get('fog') ?? 'exp2';
 const scene = new THREE.Scene();
 applySceneAtmosphere(scene, FOG_MODE);
-// Cadrage : constantes dans `web/atmosphere.ts`. `?cam=couloir` rend P1 (comparaison, captures).
-const CAM_MODE = qs.get('cam') === 'couloir' ? 'couloir' : 'epaule';
+// Cadrage : constantes dans `web/atmosphere.ts`. `?cam=couloir` rend P1 ; `?cam=troisquarts` le plan de preuve.
+type CamMode = 'couloir' | 'epaule' | 'troisquarts';
+const parseCam = (raw: string | null): CamMode => {
+  if (raw === 'couloir') return 'couloir';
+  if (raw === 'troisquarts') return 'troisquarts';
+  return 'epaule';
+};
+const CAM_MODE = parseCam(qs.get('cam'));
+const camFov = (portrait: boolean): number => {
+  switch (CAM_MODE) {
+    case 'couloir': return portrait ? CAM.fovPortrait : CAM.fov;
+    case 'epaule': return portrait ? EPAULE.fovPortrait : EPAULE.fov;
+    case 'troisquarts': return portrait ? TROIS_QUARTS.fovPortrait : TROIS_QUARTS.fov;
+    default: { const _e: never = CAM_MODE; throw new Error(String(_e)); }
+  }
+};
 const IMPACT = qs.get('impact') !== '0'; // ?impact=0 : caméra stable, pour mesurer ce que le poids coûte
-const camera = new THREE.PerspectiveCamera(CAM_MODE === 'epaule' ? EPAULE.fov : CAM.fov, 1, 0.1, 200);
+const camera = new THREE.PerspectiveCamera(camFov(false), 1, 0.1, 200);
 installCorridorLights(scene, BEACON.y);
 // ================== DÉCOR ==================
 // Le grey-box était un plan, sept boîtes et une grille. Ici, un pont de vaisseau construit : tôle rivetée,
@@ -761,27 +775,41 @@ function render(alpha: number) {
   // l'emprise d'un pilier, la caméra monte au-dessus (4,9 m) et regarde par-dessus.
   const fx = Math.cos(camYaw), fz = Math.sin(camYaw);      // axe de marche
   const rx = -fz, rz = fx;                                 // son épaule droite
-  if (CAM_MODE === 'couloir') {
-    const back = portrait ? CAM.back + 1.6 : CAM.back, high = portrait ? CAM.height + 0.9 : CAM.height;
-    // 8,2 m derrière un Terminator à x≈3 sort de la coque (caméra dans le vide = image noire).
-    const cx = Math.min(ARENA.w - 0.6, Math.max(0.6, tx - fx * back));
-    const cz = Math.min(ARENA.h - 0.6, Math.max(0.6, ty - fz * back));
-    const inPillar = PILLARS.some(b => cx > b.x0 - 0.55 && cx < b.x1 + 0.55 && cz > b.y0 - 0.55 && cz < b.y1 + 0.55);
-    const cy = inPillar ? CAM.highMax : high;
-    camera.position.set(cx + sx, cy, cz + sz);
-    camera.lookAt(tx + fx * CAM.ahead + sx, CAM.eye, ty + fz * CAM.ahead + sz);
-  } else {
-    // À l'épaule : quatre offsets (respiration, pas, recul, inclinaison). Cadrage EPAULE : 3,4 m derrière.
-    // temps de rendu : on avance dans le tick en cours pour que 60 fps reste lisse et qu'une capture tombe juste
-    const now = simT - DT + alpha * DT;
-    const breath = Math.sin(now * (2 * Math.PI / 5.2)) * 0.028; // 5,2 s par cycle, 2,8 cm
-    recZ = osc(recImp, now, REC.w, REC.z); recPitch = osc(pitchImp, now, REC.w, REC.z);
-    stepY = osc(stepImp, now, STP.w, STP.z);
-    const back = EPAULE.back + recZ * 0.85;
-    const high = EPAULE.height + stepY + breath;
-    const side = portrait ? EPAULE.side * 0.6 : EPAULE.side;
-    camera.position.set(tx - fx * back + rx * side + sx, high, ty - fz * back + rz * side + sz);
-    camera.lookAt(tx + fx * EPAULE.ahead + sx, EPAULE.eye, ty + fz * EPAULE.ahead + sz);
+  switch (CAM_MODE) {
+    case 'couloir': {
+      const back = portrait ? CAM.back + 1.6 : CAM.back, high = portrait ? CAM.height + 0.9 : CAM.height;
+      // 8,2 m derrière un Terminator à x≈3 sort de la coque (caméra dans le vide = image noire).
+      const cx = Math.min(ARENA.w - 0.6, Math.max(0.6, tx - fx * back));
+      const cz = Math.min(ARENA.h - 0.6, Math.max(0.6, ty - fz * back));
+      const inPillar = PILLARS.some(b => cx > b.x0 - 0.55 && cx < b.x1 + 0.55 && cz > b.y0 - 0.55 && cz < b.y1 + 0.55);
+      const cy = inPillar ? CAM.highMax : high;
+      camera.position.set(cx + sx, cy, cz + sz);
+      camera.lookAt(tx + fx * CAM.ahead + sx, CAM.eye, ty + fz * CAM.ahead + sz);
+      break;
+    }
+    case 'epaule': {
+      // À l'épaule : quatre offsets (respiration, pas, recul, inclinaison). Cadrage EPAULE : 3,4 m derrière.
+      const now = simT - DT + alpha * DT;
+      const breath = Math.sin(now * (2 * Math.PI / 5.2)) * 0.028; // 5,2 s par cycle, 2,8 cm
+      recZ = osc(recImp, now, REC.w, REC.z); recPitch = osc(pitchImp, now, REC.w, REC.z);
+      stepY = osc(stepImp, now, STP.w, STP.z);
+      const back = EPAULE.back + recZ * 0.85;
+      const high = EPAULE.height + stepY + breath;
+      const side = portrait ? EPAULE.side * 0.6 : EPAULE.side;
+      camera.position.set(tx - fx * back + rx * side + sx, high, ty - fz * back + rz * side + sz);
+      camera.lookAt(tx + fx * EPAULE.ahead + sx, EPAULE.eye, ty + fz * EPAULE.ahead + sz);
+      break;
+    }
+    case 'troisquarts': {
+      const q = TROIS_QUARTS;
+      camera.position.set(tx - fx * q.back + rx * q.side + sx, q.height, ty - fz * q.back + rz * q.side + sz);
+      camera.lookAt(tx + fx * q.ahead + sx, q.eye, ty + fz * q.ahead + sz);
+      break;
+    }
+    default: {
+      const _e: never = CAM_MODE;
+      throw new Error(String(_e));
+    }
   }
   camera.up.set(0, 1, 0);
   if (CAM_MODE === 'epaule') { if (recPitch) camera.rotateX(recPitch); camera.rotateZ(rollPrev + (roll - rollPrev) * alpha); }
@@ -816,7 +844,7 @@ function render(alpha: number) {
   renderer.setRenderTarget(null); renderer.render(postScene, postCam);
 }
 let mainCalls = 0, mainTris = 0;
-function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = CAM_MODE === 'epaule' ? (innerHeight > innerWidth ? EPAULE.fovPortrait : EPAULE.fov) : (innerHeight > innerWidth ? CAM.fovPortrait : CAM.fov); camera.updateProjectionMatrix();
+function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = camFov(innerHeight > innerWidth); camera.updateProjectionMatrix();
   const s = renderer.getDrawingBufferSize(new THREE.Vector2()); rt.setSize(s.x, s.y); }
 addEventListener('resize', resize);
 
@@ -850,6 +878,28 @@ if (debug) buildLabels();
 // C'est la seule mesure de coût de rendu qu'on puisse prendre sans GPU — pas une sonde jetable, elle reste.
 if (debug) (window as any).__SC = () => { let lights = 0; scene.traverse(o => { if ((o as any).isLight) lights++; });
   return { calls: mainCalls, tris: mainTris, lights, textures: renderer.info.memory.textures, geometries: renderer.info.memory.geometries, programs: renderer.info.programs?.length ?? 0, props: { ...propStats } }; };
+function termPoseReport() {
+  const bonePos: Record<string, { x: number; y: number; z: number }> = {};
+  termRig?.root.updateMatrixWorld(true);
+  termRig?.root.traverse((o) => {
+    if (!(o as THREE.Bone).isBone) return;
+    const p = new THREE.Vector3();
+    o.getWorldPosition(p);
+    bonePos[o.name] = { x: p.x, y: p.y, z: p.z };
+  });
+  const lh = bonePos.LeftHand, rh = bonePos.RightHand, lf = bonePos.LeftFoot, rf = bonePos.RightFoot;
+  const handSpan = lh && rh ? Math.hypot(lh.x - rh.x, lh.y - rh.y, lh.z - rh.z) : 0;
+  const footDx = lf && rf ? Math.abs(lf.x - rf.x) : 0;
+  // Bind T-pose : bras en croix (mains loin), pieds presque au même X. La marche écarte les pieds sur +X.
+  const tpose = handSpan > 1.55 && footDx < 0.18;
+  return {
+    clip: termRig?.current?.getClip().name ?? null,
+    timeScale: termRig?.current?.timeScale ?? null,
+    actionTime: termRig?.current?.time ?? null,
+    LeftHand: lh, RightHand: rh, LeftFoot: lf, RightFoot: rf,
+    handSpan, footDx, tpose,
+  };
+}
 await Promise.all([
   loadPolicy(), loadModels(), loadProps(),
   // capture `?shot=` : pas de fetch audio (sinon 404 console sur le manifeste hors dépôt)
@@ -871,6 +921,7 @@ if (Number(qs.get('hitscan') ?? 0)) {
 if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
   while (w.tick < shot && !w.done) tick();
   hitstop = 0; shake = 0; prev = snap(); hud(); render(1);
+  (window as any).__termPose = termPoseReport();
   document.title = 'READY';
 } else {
   let last = performance.now();
