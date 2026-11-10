@@ -1,0 +1,33 @@
+{
+  "prefix": "avant",
+  "shots": [
+    {
+      "name": "gros-plan",
+      "url": "http://127.0.0.1:18190/?shot=115&seed=3&autoplay=march",
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/terminator/avant-gros-plan.png",
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "console": [],
+      "pageErrors": [],
+      "networkFailed": [],
+      "networkOk": 58
+    },
+    {
+      "name": "jeu-hud",
+      "url": "http://127.0.0.1:18190/?shot=40&seed=3&autoplay=march&cam=couloir",
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/terminator/avant-jeu-hud.png",
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "console": [],
+      "pageErrors": [],
+      "networkFailed": [],
+      "networkOk": 58
+    }
+  ]
+}
