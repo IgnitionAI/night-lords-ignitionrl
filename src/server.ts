@@ -12,7 +12,10 @@ import { gateDecision } from './gate';
 const ROOT = process.cwd(), PORT = Number(process.env.PORT ?? 18190), FT_UPDATES = Number(process.env.FT_UPDATES ?? 30);
 mkdirSync(join(ROOT, 'recordings'), { recursive: true }); mkdirSync(join(ROOT, 'policies'), { recursive: true });
 let busy = false, round = 0; const session: string[] = []; // manches de la session, pour le fantôme BC
-const types: Record<string, string> = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.json': 'application/json', '.css': 'text/css' };
+const types: Record<string, string> = {
+  '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.json': 'application/json', '.css': 'text/css',
+  '.ogg': 'audio/ogg', '.oga': 'audio/ogg', '.mp3': 'audio/mpeg', '.opus': 'audio/opus', '.wav': 'audio/wav',
+};
 createServer(async (req, res) => {
   const url = new URL(req.url ?? '/', 'http://x');
   if (req.method === 'POST' && url.pathname === '/api/round') {
