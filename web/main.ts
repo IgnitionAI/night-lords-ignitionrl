@@ -448,7 +448,7 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   if (walkWeight) { walkWeight.setEffectiveWeight(0.38); walkWeight.play(); }
   return {
     root, mixer, walk, run: mk(runClip), idle,
-    attack: mkShot(resolved.attack, look === 'term'),
+    attack: look === 'term' ? mkAdd(mixer, resolved.attack, false) : mkShot(resolved.attack, false),
     shoot: mkAdd(mixer, resolved.shoot, false),
     hit: mkAdd(mixer, resolved.hit, false),
     dodge: mkShot(resolved.dodge, false),
@@ -491,7 +491,8 @@ const playKind = (rig: Rig, speed: number) => {
     return;
   }
   const fade = crossFadeFor(rig.kind, want);
-  const additive = want === 'hit' || (want === 'attack' && rig.combat.attackStyle === 'shoot');
+  const additive = want === 'hit'
+    || (want === 'attack' && (rig.combat.attackStyle === 'shoot' || rig.look === 'term'));
   const loco = actionForKind(rig, rig.combat.lastLoco, rig.combat);
   if (rig.walkWeight) {
     rig.walkWeight.setEffectiveWeight(isLoco(want) && lookWeight(rig) ? 0.38 : 0.12);
@@ -1329,8 +1330,13 @@ function render(alpha: number) {
     }
     case 'combat': {
       const now = simT - DT + alpha * DT;
-      recZ = osc(recImp, now, REC.w, REC.z);
-      recPitch = osc(pitchImp, now, REC.w, REC.z);
+      if (!(shot || CAP_STEP)) {
+        recZ = osc(recImp, now, REC.w, REC.z);
+        recPitch = osc(pitchImp, now, REC.w, REC.z);
+      } else {
+        recZ = 0;
+        recPitch = 0;
+      }
       const nls = w.nls.map((n, i) => ({
         x: lerp(prev.n[i][0], n.x), y: lerp(prev.n[i][1], n.y),
         alive: n.alive || nlCamHold[i]! > 0,

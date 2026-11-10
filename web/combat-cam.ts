@@ -6,6 +6,10 @@ import type { Box } from '../src/sim';
 export const FOG_CLEAR_M = 22;
 export const TERM_MODEL_H = 2.6;
 export const PILLAR_TOP = 4.3;
+/** Au-dessus du fût visuel (~4 m) + AABB paddée (~4,52 m), sous les poutres (5,55 m) et le plafond (5,75 m). */
+export const MELEE_LIFT = 4.72;
+/** Pad visuel : le fût rendu est plus large que la boîte de collision. */
+export const MELEE_LOS_PAD = 0.28;
 
 export const COMBAT_CAM = {
   fov: 56,
@@ -80,6 +84,28 @@ export function pickFocusNl(term: CombatTerm, nls: CombatNl[]): number | null {
 
 function inPillar(x: number, z: number, pillars: Box[]): boolean {
   return pillars.some((b) => x > b.x0 - 0.55 && x < b.x1 + 0.55 && z > b.y0 - 0.55 && z < b.y1 + 0.55);
+}
+
+export function distToPillars(x: number, z: number, pillars: Box[]): number {
+  let best = Infinity;
+  for (const b of pillars) {
+    const cx = clamp(x, b.x0, b.x1);
+    const cz = clamp(z, b.y0, b.y1);
+    const inside = x >= b.x0 && x <= b.x1 && z >= b.y0 && z <= b.y1;
+    best = Math.min(best, inside ? 0 : Math.hypot(x - cx, z - cz));
+  }
+  return best;
+}
+
+function segNearPillar(
+  ax: number, az: number, bx: number, bz: number,
+  pillars: Box[], minD: number,
+): boolean {
+  for (let i = 1; i <= 10; i++) {
+    const u = i / 11;
+    if (distToPillars(ax + (bx - ax) * u, az + (bz - az) * u, pillars) <= minD) return true;
+  }
+  return false;
 }
 
 export function avoidWalls(
@@ -163,17 +189,25 @@ export function liftFollowIfOccluded(
   pillars: Box[],
   arena: { w: number; h: number },
   highMax: number,
+  targetX?: number,
+  targetY?: number,
 ): { camX: number; camY: number; camZ: number } {
   const eye = 1.4;
   let x = camX, y = camY, z = camZ;
   const parked = avoidWalls(x, z, y, pillars, arena);
   x = parked.camX; y = parked.camY; z = parked.camZ;
-  if (losClear(x, y, z, subjX, eye, subjY, pillars)) return { camX: x, camY: y, camZ: z };
+  const subjClear = losClear(x, y, z, subjX, eye, subjY, pillars);
+  const tgtClear = targetX === undefined || targetY === undefined
+    || losClear(x, y, z, targetX, eye, targetY, pillars, MELEE_LOS_PAD);
+  if (subjClear && tgtClear) return { camX: x, camY: y, camZ: z };
   x = subjX - fwdX * (back * 0.45) + rx * (side + 1.35);
   z = subjY - fz * (back * 0.45) + rz * (side + 1.35);
-  y = Math.max(y, highMax);
+  y = Math.max(y, highMax === COMBAT_CAM.highMax ? MELEE_LIFT : highMax);
   const cleared = avoidWalls(x, z, y, pillars, arena);
-  return pullForLos(cleared.camX, cleared.camY, cleared.camZ, subjX, eye, subjY, pillars);
+  const pulled = pullForLos(cleared.camX, cleared.camY, cleared.camZ, subjX, eye, subjY, pillars);
+  if (targetX === undefined || targetY === undefined) return pulled;
+  if (losClear(pulled.camX, pulled.camY, pulled.camZ, targetX, eye, targetY, pillars, MELEE_LOS_PAD)) return pulled;
+  return pullForLos(pulled.camX, MELEE_LIFT, pulled.camZ, targetX, eye, targetY, pillars);
 }
 
 function pullForLos(
@@ -184,7 +218,7 @@ function pullForLos(
   if (losClear(camX, camY, camZ, tx, ty, tz, pillars)) {
     return { camX, camY, camZ };
   }
-  const raisedY = COMBAT_CAM.highMax;
+  const raisedY = MELEE_LIFT;
   if (losClear(camX, raisedY, camZ, tx, ty, tz, pillars)) {
     return { camX, camY: raisedY, camZ };
   }
@@ -221,40 +255,80 @@ export function desiredCombatPose(input: {
 
   const melee = includeNl && span <= 3.2;
   if (melee && nl) {
-    const mx = (term.x + nl.x) * 0.5;
-    const mz = (term.y + nl.y) * 0.5;
-    const dx = term.x - nl.x, dz = term.y - nl.y;
-    const len = Math.hypot(dx, dz) || 1;
-    const rx = -dz / len, rz = dx / len;
-    const h = COMBAT_CAM.height;
-    const offsets: [number, number][] = [
-      [rx * 2.5, rz * 2.5], [-rx * 2.5, -rz * 2.5],
-      [2.7, 1.8], [-2.7, 1.8], [2.7, -1.8], [-2.7, -1.8],
-      [0, 2.8], [0, -2.8], [2.8, 0], [-2.8, 0],
-    ];
+    const midX = (term.x + nl.x) * 0.5, midZ = (term.y + nl.y) * 0.5;
+    const hullNear = Math.min(
+      distToPillars(term.x, term.y, pillars),
+      distToPillars(nl.x, nl.y, pillars),
+      distToPillars(midX, midZ, pillars),
+    ) < 1.85;
+    const lookX = hullNear ? term.x * 0.72 + nl.x * 0.28 : term.x * 0.82 + nl.x * 0.18;
+    const lookZ = hullNear ? term.y * 0.72 + nl.y * 0.28 : term.y * 0.82 + nl.y * 0.18;
+    const toNlX = nl.x - term.x, toNlZ = nl.y - term.y;
+    const toLen = Math.hypot(toNlX, toNlZ) || 1;
+    const ux = toNlX / toLen, uz = toNlZ / toLen;
+    const px = -uz, pz = ux;
+    const heights = hullNear ? [3.12, 3.58, MELEE_LIFT] : [COMBAT_CAM.height, 3.6, MELEE_LIFT];
+    const radii = hullNear ? [3.45, 4.25, 5.1] : [2.9, 3.5, 4.2];
+    const fovs = hullNear ? [58, 64, 70] : [58, 64, 70];
     let pick: CombatPose | null = null;
     let pickS = -1e9;
-    for (const [ox, oz] of offsets) {
-      const camX = clamp(mx + ox, 0.6, arena.w - 0.6);
-      const camZ = clamp(mz + oz, 0.6, arena.h - 0.6);
-      const p: CombatPose = {
-        camX, camY: h, camZ,
-        lookX: mx, lookY: COMBAT_CAM.eye, lookZ: mz,
-        fov: 68, orbit: 0,
-        back: Math.hypot(camX - term.x, camZ - term.y),
-      };
-      const tNdc = projectWorld(term.x, 1.4, term.y, p, input.aspect);
-      const nNdc = projectWorld(nl.x, 1.4, nl.y, p, input.aspect);
-      let s = 0;
-      if (inFrustum(tNdc, COMBAT_CAM.termMargin)) s += 50;
-      if (inFrustum(nNdc, 0.92)) s += 40;
-      if (losClear(camX, h, camZ, term.x, 1.4, term.y, pillars)) s += 80;
-      else s -= 50;
-      if (losClear(camX, h, camZ, nl.x, 1.4, nl.y, pillars)) s += 40;
-      s += screenHeightFrac(term.x, term.y, p, input.aspect) * 50;
-      if (s > pickS) { pickS = s; pick = p; }
+    for (const h of heights) {
+      for (const r of radii) {
+        for (let i = 0; i < 16; i++) {
+          const a = (i / 16) * Math.PI * 2;
+          const ox = Math.cos(a) * r;
+          const oz = Math.sin(a) * r;
+          const rawX = clamp(term.x + ox, 0.6, arena.w - 0.6);
+          const rawZ = clamp(term.y + oz, 0.6, arena.h - 0.6);
+          if (inPillar(rawX, rawZ, pillars)) continue;
+          const parked = avoidWalls(rawX, rawZ, h, pillars, arena);
+          if (inPillar(parked.camX, parked.camZ, pillars)) continue;
+          const camY = parked.camY > COMBAT_CAM.highMax - 0.05 ? MELEE_LIFT : parked.camY;
+          const overShaft = camY >= PILLAR_TOP + 0.2;
+          if (!overShaft && segNearPillar(parked.camX, parked.camZ, term.x, term.y, pillars, 0.45)) continue;
+          if (!overShaft && segNearPillar(parked.camX, parked.camZ, nl.x, nl.y, pillars, 0.45)) continue;
+          if (!losClear(parked.camX, camY, parked.camZ, term.x, 1.4, term.y, pillars, MELEE_LOS_PAD)) continue;
+          if (!losClear(parked.camX, camY, parked.camZ, nl.x, 1.4, nl.y, pillars, MELEE_LOS_PAD)) continue;
+          if (distToPillars(lookX, lookZ, pillars) < 0.85) continue;
+          const cdx = lookX - parked.camX, cdz = lookZ - parked.camZ;
+          const clen = Math.hypot(cdx, cdz) || 1;
+          const alongPunch = (cdx / clen) * ux + (cdz / clen) * uz;
+          if (hullNear && alongPunch > 0.32) continue;
+          for (const fovTry of fovs) {
+            const p: CombatPose = {
+              camX: parked.camX, camY, camZ: parked.camZ,
+              lookX, lookY: COMBAT_CAM.eye, lookZ,
+              fov: fovTry, orbit: 0,
+              back: Math.hypot(parked.camX - term.x, parked.camZ - term.y),
+            };
+            const tNdc = projectWorld(term.x, 1.4, term.y, p, input.aspect);
+            const nNdc = projectWorld(nl.x, 1.4, nl.y, p, input.aspect);
+            if (!inFrustum(tNdc, 0.92) || !inFrustum(nNdc, 0.92)) continue;
+            let s = 220;
+            if (inFrustum(tNdc, COMBAT_CAM.termMargin)) s += 50;
+            s += screenHeightFrac(term.x, term.y, p, input.aspect) * 40;
+            s -= Math.abs(camY - (hullNear ? 3.12 : COMBAT_CAM.height)) * 14;
+            s -= Math.abs(tNdc.x) * 12;
+            s += distToPillars(parked.camX, parked.camZ, pillars) * 8;
+            s -= Math.abs(alongPunch) * (hullNear ? 70 : 12);
+            if (s > pickS) { pickS = s; pick = p; }
+          }
+        }
+      }
     }
-    return pick!;
+    if (pick) return pick;
+    const sideA = distToPillars(term.x + px * 4.2, term.y + pz * 4.2, pillars);
+    const sideB = distToPillars(term.x - px * 4.2, term.y - pz * 4.2, pillars);
+    const sign = sideA >= sideB ? 1 : -1;
+    const camX = clamp(term.x + px * 4.2 * sign, 0.6, arena.w - 0.6);
+    const camZ = clamp(term.y + pz * 4.2 * sign, 0.6, arena.h - 0.6);
+    const parked = avoidWalls(camX, camZ, MELEE_LIFT, pillars, arena);
+    return {
+      camX: parked.camX, camY: MELEE_LIFT, camZ: parked.camZ,
+      lookX: term.x, lookY: COMBAT_CAM.eye, lookZ: term.y,
+      fov: 68, orbit: 0,
+      back: Math.hypot(parked.camX - term.x, parked.camZ - term.y),
+    };
   }
   const orbits = melee
     ? [orbitWant, clamp(orbitWant + 0.85, -COMBAT_CAM.orbitMax, COMBAT_CAM.orbitMax), clamp(orbitWant - 0.85, -COMBAT_CAM.orbitMax, COMBAT_CAM.orbitMax), 0]

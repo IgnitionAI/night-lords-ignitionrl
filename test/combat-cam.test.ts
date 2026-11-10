@@ -4,7 +4,10 @@ import { ARENA, PILLARS } from '../src/sim.ts';
 import {
   COMBAT_CAM,
   FOG_CLEAR_M,
+  MELEE_LIFT,
+  MELEE_LOS_PAD,
   avoidWalls,
+  distToPillars,
   desiredCombatPose,
   inFrustum,
   isReadableOnScreen,
@@ -76,6 +79,34 @@ test('caméra combat : NL à ~18 m dans le cadre avec le Terminator', () => {
   assert.ok(screenHeightFrac(term.x, term.y, pose, ASPECT) >= COMBAT_CAM.termMinScreen);
 });
 
+test('caméra combat : poing alcôve (t154 kiter) T + cible visibles au-dessus du fût', () => {
+  const term = { x: 12.30, y: 8.33, facing: 2.4 };
+  const nl = { x: 10.06, y: 9.46, alive: true, armTicks: 2 };
+  const pose = poseOf(term, [nl]);
+  const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
+  const n = projectWorld(nl.x, 1.4, nl.y, pose, ASPECT);
+  assert.ok(inFrustum(t, 0.92), `T hors cadre ndc=${t.x.toFixed(2)},${t.y.toFixed(2)}`);
+  assert.ok(inFrustum(n, 0.92), `NL hors cadre ndc=${n.x.toFixed(2)},${n.y.toFixed(2)}`);
+  assert.ok(
+    losClear(pose.camX, pose.camY, pose.camZ, term.x, 1.4, term.y, PILLARS, MELEE_LOS_PAD),
+    `LOS T bouché cam=(${pose.camX.toFixed(2)},${pose.camY.toFixed(2)},${pose.camZ.toFixed(2)})`,
+  );
+  assert.ok(
+    losClear(pose.camX, pose.camY, pose.camZ, nl.x, 1.4, nl.y, PILLARS, MELEE_LOS_PAD),
+    `LOS cible bouché cam=(${pose.camX.toFixed(2)},${pose.camY.toFixed(2)},${pose.camZ.toFixed(2)})`,
+  );
+  assert.ok(pose.camY <= MELEE_LIFT + 0.02, `caméra dans les poutres y=${pose.camY.toFixed(2)}`);
+  assert.ok(pose.camY >= 3.05, `caméra trop basse dans l'alcôve y=${pose.camY.toFixed(2)}`);
+  assert.ok(distToPillars(pose.lookX, pose.lookZ, PILLARS) > 0.85, 'regard collé au fût');
+  assert.ok(pose.back >= 3.2, `too close back=${pose.back.toFixed(2)}`);
+  const punchX = nl.x - term.x, punchZ = nl.y - term.y;
+  const pLen = Math.hypot(punchX, punchZ) || 1;
+  const viewX = pose.lookX - pose.camX, viewZ = pose.lookZ - pose.camZ;
+  const vLen = Math.hypot(viewX, viewZ) || 1;
+  const along = (viewX / vLen) * (punchX / pLen) + (viewZ / vLen) * (punchZ / pLen);
+  assert.ok(along <= 0.32, `visée dans le coup/fût along=${along.toFixed(2)}`);
+});
+
 test('caméra combat : poing (T + NL à 2 m) les deux dans le cadre', () => {
   const term = { x: 20, y: 12, facing: 0.4 };
   const nl = { x: 21.6, y: 13.1, alive: true, armTicks: 2 };
@@ -123,6 +154,29 @@ test('liftFollowIfOccluded : même losClear que le combat, monte si le rayon cou
   );
   assert.ok(losClear(lifted.camX, lifted.camY, lifted.camZ, term.x, 1.4, term.y, PILLARS), 'LOS encore bouché après lift');
   if (blocked) assert.ok(lifted.camY >= 4.89 || Math.hypot(lifted.camX - term.x, lifted.camZ - term.y) < 5.8);
+});
+
+test('liftFollowIfOccluded : cible melee derrière un fût → lift au-dessus du chapiteau', () => {
+  const term = { x: 12.30, y: 8.33 };
+  const nl = { x: 10.06, y: 9.46 };
+  const camX = 13.88, camY = 2.82, camZ = 7.10;
+  const lifted = liftFollowIfOccluded(
+    camX, camY, camZ,
+    term.x, term.y,
+    1, 0, 0, 1,
+    2.6, 0.4,
+    PILLARS, ARENA, COMBAT_CAM.highMax,
+    nl.x, nl.y,
+  );
+  assert.ok(
+    losClear(lifted.camX, lifted.camY, lifted.camZ, term.x, 1.4, term.y, PILLARS, MELEE_LOS_PAD),
+    'LOS T après lift cible',
+  );
+  assert.ok(
+    losClear(lifted.camX, lifted.camY, lifted.camZ, nl.x, 1.4, nl.y, PILLARS, MELEE_LOS_PAD),
+    `LOS cible après lift cam=(${lifted.camX.toFixed(2)},${lifted.camY.toFixed(2)},${lifted.camZ.toFixed(2)})`,
+  );
+  assert.ok(lifted.camY <= MELEE_LIFT + 0.05, `lift dans les poutres ${lifted.camY}`);
 });
 
 test('raycast : la pose combat ne traverse pas un pilier entre l\'œil et le Terminator', () => {

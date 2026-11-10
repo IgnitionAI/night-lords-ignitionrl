@@ -252,7 +252,8 @@ async function recordMatch(opp: string, outName: string, seed: number) {
   const meanRest = rest.length ? rest.reduce((a, b) => a + b, 0) / rest.length : NaN;
   const ebu = spawnSync('ffmpeg', ['-hide_banner', '-i', out, '-filter_complex', 'ebur128=peak=true', '-f', 'null', '-'], { encoding: 'utf8' });
   const ebuRaw = `${ebu.stderr ?? ''}\n${ebu.stdout ?? ''}`;
-  const lufs = ebuRaw.match(/I:\s+([-\d.]+)\s+LUFS/);
+  const lufsHits = [...ebuRaw.matchAll(/I:\s+([-\d.]+)\s+LUFS/g)];
+  const lufs = lufsHits.at(-1);
   writeFileSync(join(OUT, `ebur128-${opp}.txt`), ebuRaw.slice(-2500));
   stats.push(`YAVG t=0,0.5,1: ${yavgs.map((x) => x.yavg).join(', ')}\nmean rest (2s..): ${meanRest}\nLUFS I=${lufs?.[1] ?? '?'}\n`);
   writeFileSync(join(OUT, `signalstats-${opp}.txt`), stats.join('\n'));

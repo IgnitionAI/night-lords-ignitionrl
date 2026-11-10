@@ -1,5 +1,740 @@
-# signalstats b6p-match.mp4 trim_ss=0 duration=31.128 bytes=7938702 play=×1.75
-YAVG t=0,0.5,1: 36.6674, 36.9449, 34.9799
-mean rest (2s..): 36.370
-LUFS I=-15.4
-blackdetect: none (no black_start)
+# signalstats b6p-match.mp4 trim_ss=0 duration=31.128 bytes=14514925 play=×1.75
+
+--- t=0 ---
+frame:0    pts:0       pts_time:0
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=20
+lavfi.signalstats.YAVG=36.7354
+lavfi.signalstats.YHIGH=56
+lavfi.signalstats.YMAX=250
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.889
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=149
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=128.795
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=173
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.05132
+lavfi.signalstats.SATHIGH=3
+lavfi.signalstats.SATMAX=49
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=207.883
+lavfi.signalstats.YDIF=0
+lavfi.signalstats.UDIF=0
+lavfi.signalstats.VDIF=0
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:1    pts:512     pts_time:0.0333333
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=22
+lavfi.signalstats.YAVG=36.9954
+lavfi.signalstats.YHIGH=56
+lavfi.signalstats.YMAX=250
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=129.02
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=149
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=128.889
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=173
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.14543
+lavfi.signalstats.SATHIGH=3
+lavfi.signalstats.SATMAX=49
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=210.537
+lavfi.signalstats.YDIF=1.61846
+lavfi.signalstats.UDIF=0.137352
+lavfi.signalstats.VDIF=0.0997917
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:2    pts:1024    pts_time:0.0666667
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=23
+lavfi.signalstats.YAVG=36.9786
+lavfi.signalstats.YHIGH=56
+lavfi.signalstats.YMAX=250
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.94
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=148
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=128.882
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=156
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.05518
+lavfi.signalstats.SATHIGH=3
+lavfi.signalstats.SATMAX=45
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=210.757
+lavfi.signalstats.YDIF=2.46529
+lavfi.signalstats.UDIF=0.227674
+lavfi.signalstats.VDIF=0.119366
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:3    pts:1536    pts_time:0.1
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=23
+lavfi.signalstats.YAVG=37.0441
+lavfi.signalstats.YHIGH=56
+lavfi.signalstats.YMAX=250
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.953
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=149
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=128.922
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=156
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.09951
+lavfi.signalstats.SATHIGH=3
+lavfi.signalstats.SATMAX=45
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=210.906
+lavfi.signalstats.YDIF=1.73276
+lavfi.signalstats.UDIF=0.065829
+lavfi.signalstats.VDIF=0.0944531
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:4    pts:2048    pts_time:0.133333
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=22
+lavfi.signalstats.YAVG=36.7838
+lavfi.signalstats.YHIGH=56
+lavfi.signalstats.YMAX=252
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.733
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=149
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=128.766
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=156
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=1.90871
+lavfi.signalstats.SATHIGH=3
+lavfi.signalstats.SATMAX=45
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=211.654
+lavfi.signalstats.YDIF=1.42642
+lavfi.signalstats.UDIF=0.226879
+lavfi.signalstats.VDIF=0.164136
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:5    pts:3072    pts_time:0.2
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=23
+lavfi.signalstats.YAVG=36.935
+lavfi.signalstats.YHIGH=56
+lavfi.signalstats.YMAX=252
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.938
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=148
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=128.857
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=156
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.08979
+lavfi.signalstats.SATHIGH=3
+lavfi.signalstats.SATMAX=45
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=211.681
+lavfi.signalstats.YDIF=3.22248
+lavfi.signalstats.UDIF=0.312578
+lavfi.signalstats.VDIF=0.280955
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:6    pts:4096    pts_time:0.266667
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=22
+lavfi.signalstats.YAVG=36.7902
+lavfi.signalstats.YHIGH=56
+lavfi.signalstats.YMAX=252
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.89
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=149
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=128.859
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=178
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=0
+lavfi.signalstats.SATAVG=2.08435
+lavfi.signalstats.SATHIGH=4
+lavfi.signalstats.SATMAX=50
+lavfi.signalstats.HUEMED=206
+lavfi.signalstats.HUEAVG=207.522
+lavfi.signalstats.YDIF=3.3379
+lavfi.signalstats.UDIF=0.340729
+lavfi.signalstats.VDIF=0.242131
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/agent/repos/night-lords-ignitionrl/docs/videos/b6p-match.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:31.13, start: 0.000000, bitrate: 3730 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], 3644 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 127 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> wrapped_avframe (native))
+  Stream #0:1 -> #0:1 (aac (native) -> pcm_s16le (native))
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0(und): Video: wrapped_avframe, yuv420p(tv, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 30 fps, 30 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 wrapped_avframe
+  Stream #0:1(und): Audio: pcm_s16le, 48000 Hz, stereo, s16, 1536 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 pcm_s16le
+frame=    0 fps=0.0 q=-0.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    [out#0/null @ 0x557fce261500] video:0kB audio:4kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+frame=    1 fps=0.0 q=-0.0 Lsize=N/A time=00:00:00.00 bitrate=N/A speed=   0x    
+
+
+--- t=0.5 ---
+frame:0    pts:0       pts_time:0
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=23
+lavfi.signalstats.YAVG=37.0403
+lavfi.signalstats.YHIGH=52
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.526
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=168
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=129.739
+lavfi.signalstats.VHIGH=131
+lavfi.signalstats.VMAX=222
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.94464
+lavfi.signalstats.SATHIGH=5
+lavfi.signalstats.SATMAX=99
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=210.656
+lavfi.signalstats.YDIF=0
+lavfi.signalstats.UDIF=0
+lavfi.signalstats.VDIF=0
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:1    pts:512     pts_time:0.0333333
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=22
+lavfi.signalstats.YAVG=36.8551
+lavfi.signalstats.YHIGH=52
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.405
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=168
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=129.626
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=222
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.85743
+lavfi.signalstats.SATHIGH=4
+lavfi.signalstats.SATMAX=99
+lavfi.signalstats.HUEMED=206
+lavfi.signalstats.HUEAVG=209.267
+lavfi.signalstats.YDIF=1.38844
+lavfi.signalstats.UDIF=0.162309
+lavfi.signalstats.VDIF=0.134527
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:2    pts:1024    pts_time:0.0666667
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=23
+lavfi.signalstats.YAVG=36.5312
+lavfi.signalstats.YHIGH=51
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.529
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=150
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=129.748
+lavfi.signalstats.VHIGH=131
+lavfi.signalstats.VMAX=210
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.90053
+lavfi.signalstats.SATHIGH=5
+lavfi.signalstats.SATMAX=88
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=210
+lavfi.signalstats.YDIF=4.48013
+lavfi.signalstats.UDIF=0.659067
+lavfi.signalstats.VDIF=0.881406
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:3    pts:1536    pts_time:0.1
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=23
+lavfi.signalstats.YAVG=36.4328
+lavfi.signalstats.YHIGH=51
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.467
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=150
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=129.685
+lavfi.signalstats.VHIGH=131
+lavfi.signalstats.VMAX=210
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.83973
+lavfi.signalstats.SATHIGH=4
+lavfi.signalstats.SATMAX=88
+lavfi.signalstats.HUEMED=216
+lavfi.signalstats.HUEAVG=208.545
+lavfi.signalstats.YDIF=1.49223
+lavfi.signalstats.UDIF=0.105321
+lavfi.signalstats.VDIF=0.113607
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:4    pts:2048    pts_time:0.133333
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=23
+lavfi.signalstats.YAVG=36.6475
+lavfi.signalstats.YHIGH=51
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.541
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=159
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=129.688
+lavfi.signalstats.VHIGH=131
+lavfi.signalstats.VMAX=217
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.84493
+lavfi.signalstats.SATHIGH=5
+lavfi.signalstats.SATMAX=94
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=208.683
+lavfi.signalstats.YDIF=4.14459
+lavfi.signalstats.UDIF=0.550495
+lavfi.signalstats.VDIF=0.730343
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:5    pts:2560    pts_time:0.166667
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=22
+lavfi.signalstats.YAVG=36.4347
+lavfi.signalstats.YHIGH=52
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.405
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=159
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=129.533
+lavfi.signalstats.VHIGH=131
+lavfi.signalstats.VMAX=217
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.7464
+lavfi.signalstats.SATHIGH=4
+lavfi.signalstats.SATMAX=94
+lavfi.signalstats.HUEMED=206
+lavfi.signalstats.HUEAVG=204.949
+lavfi.signalstats.YDIF=1.48855
+lavfi.signalstats.UDIF=0.184805
+lavfi.signalstats.VDIF=0.197431
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:6    pts:4608    pts_time:0.3
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=22
+lavfi.signalstats.YAVG=36.226
+lavfi.signalstats.YHIGH=52
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.341
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=148
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=129.591
+lavfi.signalstats.VHIGH=131
+lavfi.signalstats.VMAX=209
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.74981
+lavfi.signalstats.SATHIGH=4
+lavfi.signalstats.SATMAX=88
+lavfi.signalstats.HUEMED=206
+lavfi.signalstats.HUEAVG=203.466
+lavfi.signalstats.YDIF=6.56911
+lavfi.signalstats.UDIF=0.920964
+lavfi.signalstats.VDIF=1.17035
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/agent/repos/night-lords-ignitionrl/docs/videos/b6p-match.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:31.13, start: 0.000000, bitrate: 3730 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], 3644 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 127 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> wrapped_avframe (native))
+  Stream #0:1 -> #0:1 (aac (native) -> pcm_s16le (native))
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0(und): Video: wrapped_avframe, yuv420p(tv, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 30 fps, 30 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 wrapped_avframe
+  Stream #0:1(und): Audio: pcm_s16le, 48000 Hz, stereo, s16, 1536 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 pcm_s16le
+frame=    0 fps=0.0 q=-0.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    [out#0/null @ 0x560c935db500] video:0kB audio:6kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+frame=    1 fps=0.0 q=-0.0 Lsize=N/A time=00:00:00.01 bitrate=N/A speed=0.238x    
+
+
+--- t=1 ---
+frame:0    pts:0       pts_time:0
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=23
+lavfi.signalstats.YAVG=35.0554
+lavfi.signalstats.YHIGH=49
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.554
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=148
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=129.364
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=217
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.56506
+lavfi.signalstats.SATHIGH=3
+lavfi.signalstats.SATMAX=93
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=210.825
+lavfi.signalstats.YDIF=0
+lavfi.signalstats.UDIF=0
+lavfi.signalstats.VDIF=0
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:1    pts:512     pts_time:0.0333333
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=23
+lavfi.signalstats.YAVG=35.1628
+lavfi.signalstats.YHIGH=49
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.598
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=148
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=129.515
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=223
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.6977
+lavfi.signalstats.SATHIGH=4
+lavfi.signalstats.SATMAX=100
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=211.131
+lavfi.signalstats.YDIF=3.90925
+lavfi.signalstats.UDIF=0.528611
+lavfi.signalstats.VDIF=0.722166
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:2    pts:1024    pts_time:0.0666667
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=21
+lavfi.signalstats.YAVG=34.9996
+lavfi.signalstats.YHIGH=50
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.463
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=148
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=129.382
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=223
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.59332
+lavfi.signalstats.SATHIGH=4
+lavfi.signalstats.SATMAX=100
+lavfi.signalstats.HUEMED=206
+lavfi.signalstats.HUEAVG=207.334
+lavfi.signalstats.YDIF=1.73663
+lavfi.signalstats.UDIF=0.185486
+lavfi.signalstats.VDIF=0.182248
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:3    pts:1536    pts_time:0.1
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=23
+lavfi.signalstats.YAVG=35.3622
+lavfi.signalstats.YHIGH=50
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.567
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=148
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=129.579
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=212
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.78074
+lavfi.signalstats.SATHIGH=4
+lavfi.signalstats.SATMAX=90
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=209.324
+lavfi.signalstats.YDIF=4.87531
+lavfi.signalstats.UDIF=0.639553
+lavfi.signalstats.VDIF=0.904332
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:4    pts:2048    pts_time:0.133333
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=22
+lavfi.signalstats.YAVG=35.1354
+lavfi.signalstats.YHIGH=50
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.62
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=148
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=129.199
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=216
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.52899
+lavfi.signalstats.SATHIGH=3
+lavfi.signalstats.SATMAX=94
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=206.21
+lavfi.signalstats.YDIF=4.52026
+lavfi.signalstats.UDIF=0.612266
+lavfi.signalstats.VDIF=0.830738
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:5    pts:2560    pts_time:0.166667
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=23
+lavfi.signalstats.YAVG=35.3079
+lavfi.signalstats.YHIGH=49
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.692
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=148
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=128
+lavfi.signalstats.VAVG=129.33
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=216
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.60652
+lavfi.signalstats.SATHIGH=4
+lavfi.signalstats.SATMAX=94
+lavfi.signalstats.HUEMED=225
+lavfi.signalstats.HUEAVG=210.745
+lavfi.signalstats.YDIF=1.96674
+lavfi.signalstats.UDIF=0.124245
+lavfi.signalstats.VDIF=0.176888
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+frame:6    pts:3072    pts_time:0.2
+lavfi.signalstats.YMIN=0
+lavfi.signalstats.YLOW=21
+lavfi.signalstats.YAVG=35.1036
+lavfi.signalstats.YHIGH=50
+lavfi.signalstats.YMAX=255
+lavfi.signalstats.UMIN=87
+lavfi.signalstats.ULOW=127
+lavfi.signalstats.UAVG=128.477
+lavfi.signalstats.UHIGH=131
+lavfi.signalstats.UMAX=148
+lavfi.signalstats.VMIN=104
+lavfi.signalstats.VLOW=127
+lavfi.signalstats.VAVG=129.269
+lavfi.signalstats.VHIGH=130
+lavfi.signalstats.VMAX=215
+lavfi.signalstats.SATMIN=0
+lavfi.signalstats.SATLOW=1
+lavfi.signalstats.SATAVG=2.58524
+lavfi.signalstats.SATHIGH=4
+lavfi.signalstats.SATMAX=94
+lavfi.signalstats.HUEMED=206
+lavfi.signalstats.HUEAVG=204.251
+lavfi.signalstats.YDIF=3.83366
+lavfi.signalstats.UDIF=0.596693
+lavfi.signalstats.VDIF=0.6875
+lavfi.signalstats.YBITDEPTH=8
+lavfi.signalstats.UBITDEPTH=8
+lavfi.signalstats.VBITDEPTH=8
+
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/agent/repos/night-lords-ignitionrl/docs/videos/b6p-match.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:00:31.13, start: 0.000000, bitrate: 3730 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], 3644 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 127 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> wrapped_avframe (native))
+  Stream #0:1 -> #0:1 (aac (native) -> pcm_s16le (native))
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0(und): Video: wrapped_avframe, yuv420p(tv, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 30 fps, 30 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 wrapped_avframe
+  Stream #0:1(und): Audio: pcm_s16le, 48000 Hz, stereo, s16, 1536 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 pcm_s16le
+frame=    0 fps=0.0 q=-0.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    [out#0/null @ 0x558d08a51500] video:0kB audio:4kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+frame=    1 fps=0.0 q=-0.0 Lsize=N/A time=00:00:00.00 bitrate=N/A speed=0.0398x    
+
+
+YAVG t=0,0.5,1: 36.7354, 37.0403, 35.0554
+mean rest (2s..): 38.248720000000006
+LUFS I=-70.0
