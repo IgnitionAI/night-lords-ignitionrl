@@ -1,0 +1,1332 @@
+{
+  "origin": "http://127.0.0.1:18190",
+  "swiftshader": [
+    "--use-angle=swiftshader",
+    "--enable-unsafe-swiftshader"
+  ],
+  "dpr": 1,
+  "sas-1440": {
+    "viewport": {
+      "w": 1440,
+      "h": 900,
+      "tag": "1440"
+    },
+    "consoleErrors": [],
+    "pageErrors": [],
+    "before": {
+      "ready": true,
+      "shots": 0,
+      "bodies": [
+        {
+          "position": {
+            "x": -1.740001916885376,
+            "y": 0.4687151312828064,
+            "z": -1.1999989748001099
+          },
+          "rotation": {
+            "x": 8.211367941157732e-8,
+            "y": 4.545753995444102e-9,
+            "z": -4.4431690326973694e-8,
+            "w": 1
+          }
+        },
+        {
+          "position": {
+            "x": -0.5810745358467102,
+            "y": 0.4682846963405609,
+            "z": -1.2498730421066284
+          },
+          "rotation": {
+            "x": -0.000003821369773504557,
+            "y": -0.00013909726112615317,
+            "z": -0.0005689798854291439,
+            "w": 0.9999998807907104
+          }
+        },
+        {
+          "position": {
+            "x": 0.5800927877426147,
+            "y": 0.4682851731777191,
+            "z": -1.2010189294815063
+          },
+          "rotation": {
+            "x": 0.00009119433525484055,
+            "y": 0.000015293227988877334,
+            "z": 0.0005094365333206952,
+            "w": 0.9999999403953552
+          }
+        },
+        {
+          "position": {
+            "x": 1.7399981021881104,
+            "y": 0.4687151312828064,
+            "z": -1.249998927116394
+          },
+          "rotation": {
+            "x": 8.2167460391247e-8,
+            "y": 4.545755771800941e-9,
+            "z": -4.4287531864029006e-8,
+            "w": 1
+          }
+        },
+        {
+          "position": {
+            "x": -0.5996134281158447,
+            "y": 1.4064722061157227,
+            "z": -1.230019211769104
+          },
+          "rotation": {
+            "x": -0.00003551238842192106,
+            "y": 0.00014068855671212077,
+            "z": -0.000991232693195343,
+            "w": 0.9999995827674866
+          }
+        },
+        {
+          "position": {
+            "x": 0.5979394912719727,
+            "y": 1.4064654111862183,
+            "z": -1.230774164199829
+          },
+          "rotation": {
+            "x": 0.00007113240280887112,
+            "y": -0.0002010207244893536,
+            "z": 0.000987830338999629,
+            "w": 0.9999995231628418
+          }
+        },
+        {
+          "position": {
+            "x": -0.00024143673363141716,
+            "y": 2.3450629711151123,
+            "z": -1.2316398620605469
+          },
+          "rotation": {
+            "x": -0.00006491383828688413,
+            "y": 0.00012483572936616838,
+            "z": -0.00004604619607562199,
+            "w": 1
+          }
+        }
+      ],
+      "metrics": {
+        "backend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "quality": "high",
+        "reducedMotion": false,
+        "bodies": 7,
+        "calls": 121,
+        "triangles": 187860,
+        "textures": 39,
+        "geometries": 57,
+        "collisions": 12,
+        "frameTimesMs": {
+          "median": 4917.300000000047,
+          "p95": 4917.300000000047,
+          "p99": 4917.300000000047,
+          "count": 1
+        },
+        "uptimeMs": 5602.200000000186
+      },
+      "fallback": false,
+      "status": "Système prêtR3F · Rapier"
+    },
+    "impact": {
+      "ready": true,
+      "shots": 1,
+      "bodies": [
+        {
+          "position": {
+            "x": -2.932957410812378,
+            "y": 0.9407184720039368,
+            "z": -2.545377016067505
+          },
+          "rotation": {
+            "x": 0.0008767683757469058,
+            "y": -0.4493190348148346,
+            "z": 0.8848263025283813,
+            "w": 0.12326440215110779
+          }
+        },
+        {
+          "position": {
+            "x": -0.6020302772521973,
+            "y": 0.5107882618904114,
+            "z": -3.0604145526885986
+          },
+          "rotation": {
+            "x": 0.044058773666620255,
+            "y": -0.07784134894609451,
+            "z": 0.0008109050104394555,
+            "w": 0.9959914684295654
+          }
+        },
+        {
+          "position": {
+            "x": 0.6643233895301819,
+            "y": 0.5337138772010803,
+            "z": -2.7753050327301025
+          },
+          "rotation": {
+            "x": 0.035283442586660385,
+            "y": -0.025496196001768112,
+            "z": 0.03494489938020706,
+            "w": 0.9984407424926758
+          }
+        },
+        {
+          "position": {
+            "x": 1.8065210580825806,
+            "y": 0.8864498734474182,
+            "z": -2.824158191680908
+          },
+          "rotation": {
+            "x": 0.20203565061092377,
+            "y": -0.018449407070875168,
+            "z": 0.11362749338150024,
+            "w": 0.9725893139839172
+          }
+        },
+        {
+          "position": {
+            "x": -0.5841478705406189,
+            "y": 1.542373776435852,
+            "z": -2.865384578704834
+          },
+          "rotation": {
+            "x": 0.12101052701473236,
+            "y": -0.08544351160526276,
+            "z": -0.03295120969414711,
+            "w": 0.9884179830551147
+          }
+        },
+        {
+          "position": {
+            "x": 1.43940269947052,
+            "y": 2.3349947929382324,
+            "z": -2.891150951385498
+          },
+          "rotation": {
+            "x": -0.08098705857992172,
+            "y": -0.03033684380352497,
+            "z": -0.6191670894622803,
+            "w": 0.7804825901985168
+          }
+        },
+        {
+          "position": {
+            "x": -0.981035053730011,
+            "y": 3.5014822483062744,
+            "z": -2.4548885822296143
+          },
+          "rotation": {
+            "x": 0.11884419620037079,
+            "y": -0.07213608175516129,
+            "z": 0.8643256425857544,
+            "w": 0.48333603143692017
+          }
+        }
+      ],
+      "metrics": {
+        "backend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "quality": "high",
+        "reducedMotion": false,
+        "bodies": 7,
+        "calls": 121,
+        "triangles": 187860,
+        "textures": 39,
+        "geometries": 57,
+        "collisions": 20,
+        "frameTimesMs": {
+          "median": 16.699999999953434,
+          "p95": 667.8999999999069,
+          "p99": 4917.300000000047,
+          "count": 32
+        },
+        "uptimeMs": 8568.300000000047
+      },
+      "fallback": false,
+      "status": "Système prêtR3F · Rapier"
+    },
+    "after": {
+      "ready": true,
+      "shots": 1,
+      "bodies": [
+        {
+          "position": {
+            "x": -4.53336238861084,
+            "y": 0.49873480200767517,
+            "z": -3.466679573059082
+          },
+          "rotation": {
+            "x": -0.12860552966594696,
+            "y": 0.1286056488752365,
+            "z": 0.6953126192092896,
+            "w": -0.6953140497207642
+          }
+        },
+        {
+          "position": {
+            "x": -0.4558631479740143,
+            "y": 0.47872212529182434,
+            "z": -4.1820902824401855
+          },
+          "rotation": {
+            "x": -0.7048089504241943,
+            "y": -0.05695062130689621,
+            "z": -0.056950509548187256,
+            "w": 0.7048103213310242
+          }
+        },
+        {
+          "position": {
+            "x": 0.7377620935440063,
+            "y": 0.4687154293060303,
+            "z": -3.255615234375
+          },
+          "rotation": {
+            "x": -1.4894733446624286e-8,
+            "y": -0.010335400700569153,
+            "z": 5.145621151392277e-10,
+            "w": 0.9999465942382812
+          }
+        },
+        {
+          "position": {
+            "x": 1.9659510850906372,
+            "y": 0.4687155783176422,
+            "z": -3.893831491470337
+          },
+          "rotation": {
+            "x": -1.3039280766236061e-8,
+            "y": 0.11224448680877686,
+            "z": 1.0771325165137569e-8,
+            "w": 0.9936806559562683
+          }
+        },
+        {
+          "position": {
+            "x": -0.38814547657966614,
+            "y": 0.47872188687324524,
+            "z": -5.184825897216797
+          },
+          "rotation": {
+            "x": -0.7052819728851318,
+            "y": -0.05077625438570976,
+            "z": -0.05077624320983887,
+            "w": 0.7052807211875916
+          }
+        },
+        {
+          "position": {
+            "x": 3.4509167671203613,
+            "y": 0.49873480200767517,
+            "z": -5.72766637802124
+          },
+          "rotation": {
+            "x": -0.341674268245697,
+            "y": -0.3416743874549866,
+            "z": -0.6190783977508545,
+            "w": -0.6190794706344604
+          }
+        },
+        {
+          "position": {
+            "x": -4.153975963592529,
+            "y": 0.4987350106239319,
+            "z": -4.5297651290893555
+          },
+          "rotation": {
+            "x": 0.013861050829291344,
+            "y": 0.013861079700291157,
+            "z": -0.7069702744483948,
+            "w": -0.7069716453552246
+          }
+        }
+      ],
+      "metrics": {
+        "backend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "quality": "high",
+        "reducedMotion": false,
+        "bodies": 7,
+        "calls": 120,
+        "triangles": 184796,
+        "textures": 39,
+        "geometries": 57,
+        "collisions": 37,
+        "frameTimesMs": {
+          "median": 276.79999999981374,
+          "p95": 679.1000000000931,
+          "p99": 4917.300000000047,
+          "count": 63
+        },
+        "uptimeMs": 19716.100000000093
+      },
+      "fallback": false,
+      "status": "Système prêtR3F · Rapier"
+    },
+    "reset": {
+      "ready": true,
+      "shots": 0,
+      "bodies": [
+        {
+          "position": {
+            "x": -1.7400012016296387,
+            "y": 0.4687131643295288,
+            "z": -1.1999974250793457
+          },
+          "rotation": {
+            "x": 0.0000018690976730795228,
+            "y": 4.545714027415215e-9,
+            "z": -0.0000013507755056707538,
+            "w": 1
+          }
+        },
+        {
+          "position": {
+            "x": -0.578887939453125,
+            "y": 0.46828141808509827,
+            "z": -1.2505583763122559
+          },
+          "rotation": {
+            "x": 0.00010029089025920257,
+            "y": 0.000029329168683034368,
+            "z": 0.0002469537721481174,
+            "w": 1
+          }
+        },
+        {
+          "position": {
+            "x": 0.5775562524795532,
+            "y": 0.46825534105300903,
+            "z": -1.2006464004516602
+          },
+          "rotation": {
+            "x": -0.00006917280552443117,
+            "y": 0.000015835952581255697,
+            "z": -0.0003969929239246994,
+            "w": 1
+          }
+        },
+        {
+          "position": {
+            "x": 1.7399988174438477,
+            "y": 0.4687131643295288,
+            "z": -1.2499973773956299
+          },
+          "rotation": {
+            "x": 0.0000018691332570597297,
+            "y": 4.545716691950474e-9,
+            "z": -0.0000013507037692761514,
+            "w": 1
+          }
+        },
+        {
+          "position": {
+            "x": -0.5991299152374268,
+            "y": 1.4064180850982666,
+            "z": -1.230390191078186
+          },
+          "rotation": {
+            "x": 0.00006932595715625212,
+            "y": -0.00011452944454504177,
+            "z": 0.00033726601395756006,
+            "w": 0.9999999403953552
+          }
+        },
+        {
+          "position": {
+            "x": 0.5983502864837646,
+            "y": 1.4063550233840942,
+            "z": -1.2306867837905884
+          },
+          "rotation": {
+            "x": -0.00008224700286518782,
+            "y": 0.0000144982814163086,
+            "z": -0.00040895777055993676,
+            "w": 0.9999999403953552
+          }
+        },
+        {
+          "position": {
+            "x": -0.0009270682348869741,
+            "y": 2.3452796936035156,
+            "z": -1.2313470840454102
+          },
+          "rotation": {
+            "x": -5.787925374534098e-7,
+            "y": -0.0000997859679046087,
+            "z": 0.0000684646365698427,
+            "w": 1
+          }
+        }
+      ],
+      "metrics": {
+        "backend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "quality": "high",
+        "reducedMotion": false,
+        "bodies": 7,
+        "calls": 121,
+        "triangles": 187860,
+        "textures": 39,
+        "geometries": 57,
+        "collisions": 12,
+        "frameTimesMs": {
+          "median": 322.69999999995343,
+          "p95": 667.8999999999069,
+          "p99": 4917.300000000047,
+          "count": 89
+        },
+        "uptimeMs": 28787.800000000047
+      },
+      "fallback": false,
+      "status": "Système prêtR3F · Rapier"
+    },
+    "moved": 7,
+    "distances": [
+      3.59744420945654,
+      2.934907967225797,
+      2.0606372245483255,
+      2.6534704405402927,
+      4.067669513203254,
+      5.402360019294769,
+      5.616054463262005
+    ],
+    "afterAboveGround": true,
+    "resetAboveGround": true,
+    "collisions": 37,
+    "backend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "calls": 120,
+    "triangles": 184796
+  },
+  "sas-390": {
+    "viewport": {
+      "w": 390,
+      "h": 844,
+      "tag": "390"
+    },
+    "consoleErrors": [],
+    "pageErrors": [],
+    "before": {
+      "ready": true,
+      "shots": 0,
+      "bodies": [
+        {
+          "position": {
+            "x": -1.740001916885376,
+            "y": 0.4687151312828064,
+            "z": -1.1999989748001099
+          },
+          "rotation": {
+            "x": 9.593691885356748e-8,
+            "y": 4.545753551354892e-9,
+            "z": -5.2659149929468185e-8,
+            "w": 1
+          }
+        },
+        {
+          "position": {
+            "x": -0.5810770988464355,
+            "y": 0.46827632188796997,
+            "z": -1.249872088432312
+          },
+          "rotation": {
+            "x": 0.000008017576874408405,
+            "y": -0.0001237657415913418,
+            "z": -0.0005475792568176985,
+            "w": 0.9999998807907104
+          }
+        },
+        {
+          "position": {
+            "x": 0.5800763964653015,
+            "y": 0.46829941868782043,
+            "z": -1.2010024785995483
+          },
+          "rotation": {
+            "x": 0.00009560074977343902,
+            "y": 0.00003809674672083929,
+            "z": 0.0005091357161290944,
+            "w": 0.9999999403953552
+          }
+        },
+        {
+          "position": {
+            "x": 1.7399981021881104,
+            "y": 0.4687151312828064,
+            "z": -1.249998927116394
+          },
+          "rotation": {
+            "x": 9.598657868536975e-8,
+            "y": 4.545755327711731e-9,
+            "z": -5.251601109534931e-8,
+            "w": 1
+          }
+        },
+        {
+          "position": {
+            "x": -0.5996330380439758,
+            "y": 1.4064600467681885,
+            "z": -1.23001229763031
+          },
+          "rotation": {
+            "x": -0.00003981018016929738,
+            "y": 0.0001356614666292444,
+            "z": -0.0009911167435348034,
+            "w": 0.9999995827674866
+          }
+        },
+        {
+          "position": {
+            "x": 0.5979099273681641,
+            "y": 1.4064881801605225,
+            "z": -1.2307608127593994
+          },
+          "rotation": {
+            "x": 0.00006117792509030551,
+            "y": -0.00018596385780256242,
+            "z": 0.0009972291300073266,
+            "w": 0.9999995231628418
+          }
+        },
+        {
+          "position": {
+            "x": -0.00027514956309460104,
+            "y": 2.3450725078582764,
+            "z": -1.2316207885742188
+          },
+          "rotation": {
+            "x": -0.00005083856012788601,
+            "y": 0.0001197823221446015,
+            "z": -0.000032650834327796474,
+            "w": 1
+          }
+        }
+      ],
+      "metrics": {
+        "backend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "quality": "low",
+        "reducedMotion": false,
+        "bodies": 7,
+        "calls": 52,
+        "triangles": 60885,
+        "textures": 17,
+        "geometries": 46,
+        "collisions": 12,
+        "frameTimesMs": {
+          "median": 836.1000000000931,
+          "p95": 836.1000000000931,
+          "p99": 836.1000000000931,
+          "count": 1
+        },
+        "uptimeMs": 1500.8999999999069
+      },
+      "fallback": false,
+      "status": "Système prêtR3F · Rapier"
+    },
+    "impact": {
+      "ready": true,
+      "shots": 1,
+      "bodies": [
+        {
+          "position": {
+            "x": -2.3938939571380615,
+            "y": 0.9562700390815735,
+            "z": -1.9373732805252075
+          },
+          "rotation": {
+            "x": 0.00023181180586107075,
+            "y": -0.3249834179878235,
+            "z": 0.6401312351226807,
+            "w": 0.6961449384689331
+          }
+        },
+        {
+          "position": {
+            "x": -0.6007785201072693,
+            "y": 0.6923130750656128,
+            "z": -2.2830746173858643
+          },
+          "rotation": {
+            "x": 0.09150464832782745,
+            "y": -0.05014904588460922,
+            "z": 0.00928797759115696,
+            "w": 0.9944977164268494
+          }
+        },
+        {
+          "position": {
+            "x": 0.6426528692245483,
+            "y": 0.7171976566314697,
+            "z": -2.0796945095062256
+          },
+          "rotation": {
+            "x": 0.07330137491226196,
+            "y": -0.030916661024093628,
+            "z": 0.03439684584736824,
+            "w": 0.9962369203567505
+          }
+        },
+        {
+          "position": {
+            "x": 1.7455109357833862,
+            "y": 0.9352449774742126,
+            "z": -2.106506824493408
+          },
+          "rotation": {
+            "x": 0.1135907992720604,
+            "y": -0.01399591937661171,
+            "z": 0.0883505716919899,
+            "w": 0.9894924759864807
+          }
+        },
+        {
+          "position": {
+            "x": -0.5848134756088257,
+            "y": 1.6845736503601074,
+            "z": -2.1178090572357178
+          },
+          "rotation": {
+            "x": 0.079746313393116,
+            "y": -0.04935285076498985,
+            "z": -0.037576060742139816,
+            "w": 0.9948834180831909
+          }
+        },
+        {
+          "position": {
+            "x": 1.071472406387329,
+            "y": 2.128481864929199,
+            "z": -2.144439220428467
+          },
+          "rotation": {
+            "x": -0.03730666637420654,
+            "y": 0.0013339421711862087,
+            "z": -0.3647697865962982,
+            "w": 0.9303491115570068
+          }
+        },
+        {
+          "position": {
+            "x": -0.5371652245521545,
+            "y": 3.206937074661255,
+            "z": -1.9006085395812988
+          },
+          "rotation": {
+            "x": 0.0760379359126091,
+            "y": -0.04599945619702339,
+            "z": 0.5496866703033447,
+            "w": 0.8306304812431335
+          }
+        }
+      ],
+      "metrics": {
+        "backend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "quality": "low",
+        "reducedMotion": false,
+        "bodies": 7,
+        "calls": 52,
+        "triangles": 60885,
+        "textures": 17,
+        "geometries": 47,
+        "collisions": 16,
+        "frameTimesMs": {
+          "median": 16.600000000093132,
+          "p95": 20.700000000186265,
+          "p99": 836.1000000000931,
+          "count": 35
+        },
+        "uptimeMs": 2044.5
+      },
+      "fallback": false,
+      "status": "Système prêtR3F · Rapier"
+    },
+    "after": {
+      "ready": true,
+      "shots": 1,
+      "bodies": [
+        {
+          "position": {
+            "x": -4.533364772796631,
+            "y": 0.4987347424030304,
+            "z": -3.4666764736175537
+          },
+          "rotation": {
+            "x": -0.12860488891601562,
+            "y": 0.12860511243343353,
+            "z": 0.6953127384185791,
+            "w": -0.6953141093254089
+          }
+        },
+        {
+          "position": {
+            "x": -0.45087864995002747,
+            "y": 0.4787222743034363,
+            "z": -4.181755542755127
+          },
+          "rotation": {
+            "x": -0.7047508358955383,
+            "y": -0.057666510343551636,
+            "z": -0.05766628310084343,
+            "w": 0.7047521471977234
+          }
+        },
+        {
+          "position": {
+            "x": 0.7337011098861694,
+            "y": 0.46871548891067505,
+            "z": -3.2543160915374756
+          },
+          "rotation": {
+            "x": -1.4134195147619266e-8,
+            "y": -0.006643739063292742,
+            "z": 1.5835991407087135e-9,
+            "w": 0.9999779462814331
+          }
+        },
+        {
+          "position": {
+            "x": 1.9875928163528442,
+            "y": 0.46871548891067505,
+            "z": -3.783482313156128
+          },
+          "rotation": {
+            "x": -1.4979718798713293e-8,
+            "y": 0.16747677326202393,
+            "z": 2.2971418101036534e-9,
+            "w": 0.9858760833740234
+          }
+        },
+        {
+          "position": {
+            "x": -0.4367874264717102,
+            "y": 0.4787220060825348,
+            "z": -5.285548210144043
+          },
+          "rotation": {
+            "x": -0.7052000761032104,
+            "y": -0.051900651305913925,
+            "z": -0.051900506019592285,
+            "w": 0.7051989436149597
+          }
+        },
+        {
+          "position": {
+            "x": 2.2970738410949707,
+            "y": 0.4787222743034363,
+            "z": -6.815296649932861
+          },
+          "rotation": {
+            "x": 0.5217801332473755,
+            "y": -0.47722798585891724,
+            "z": -0.47722765803337097,
+            "w": -0.5217784643173218
+          }
+        },
+        {
+          "position": {
+            "x": -4.15535831451416,
+            "y": 0.498734712600708,
+            "z": -4.519870758056641
+          },
+          "rotation": {
+            "x": 0.012832538224756718,
+            "y": 0.012832416221499443,
+            "z": -0.7069897055625916,
+            "w": -0.7069909572601318
+          }
+        }
+      ],
+      "metrics": {
+        "backend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "quality": "low",
+        "reducedMotion": false,
+        "bodies": 7,
+        "calls": 52,
+        "triangles": 60885,
+        "textures": 17,
+        "geometries": 46,
+        "collisions": 40,
+        "frameTimesMs": {
+          "median": 40.5,
+          "p95": 75.60000000009313,
+          "p99": 132.4000000001397,
+          "count": 125
+        },
+        "uptimeMs": 5869.800000000047
+      },
+      "fallback": false,
+      "status": "Système prêtR3F · Rapier"
+    },
+    "reset": {
+      "ready": true,
+      "shots": 0,
+      "bodies": [
+        {
+          "position": {
+            "x": -1.7400013208389282,
+            "y": 0.4687136709690094,
+            "z": -1.1999977827072144
+          },
+          "rotation": {
+            "x": 0.0000015972112805684446,
+            "y": 4.545777976261434e-9,
+            "z": -0.0000011236496675337548,
+            "w": 1
+          }
+        },
+        {
+          "position": {
+            "x": -0.578873872756958,
+            "y": 0.4682804346084595,
+            "z": -1.250586748123169
+          },
+          "rotation": {
+            "x": 0.00007676966924918815,
+            "y": 0.00003570486660464667,
+            "z": 0.0002491693594492972,
+            "w": 1
+          }
+        },
+        {
+          "position": {
+            "x": 0.5775192975997925,
+            "y": 0.46826061606407166,
+            "z": -1.2006183862686157
+          },
+          "rotation": {
+            "x": -0.00005210364906815812,
+            "y": 0.000025629093215684406,
+            "z": -0.00037300342228263617,
+            "w": 1
+          }
+        },
+        {
+          "position": {
+            "x": 1.739998698234558,
+            "y": 0.4687136709690094,
+            "z": -1.2499977350234985
+          },
+          "rotation": {
+            "x": 0.0000015972441360645462,
+            "y": 4.545780640796693e-9,
+            "z": -0.0000011235762258365867,
+            "w": 1
+          }
+        },
+        {
+          "position": {
+            "x": -0.5991258025169373,
+            "y": 1.4064326286315918,
+            "z": -1.2304315567016602
+          },
+          "rotation": {
+            "x": 0.00008208423241740093,
+            "y": -0.00014117953833192587,
+            "z": 0.000348353642039001,
+            "w": 0.9999999403953552
+          }
+        },
+        {
+          "position": {
+            "x": 0.5983073115348816,
+            "y": 1.4063832759857178,
+            "z": -1.2306530475616455
+          },
+          "rotation": {
+            "x": -0.00010060756176244467,
+            "y": 0.000015389259715448134,
+            "z": -0.00042976331315003335,
+            "w": 0.9999999403953552
+          }
+        },
+        {
+          "position": {
+            "x": -0.0009335805079899728,
+            "y": 2.345283269882202,
+            "z": -1.231333613395691
+          },
+          "rotation": {
+            "x": 0.00001342743962595705,
+            "y": -0.0001264336024178192,
+            "z": 0.00006810238846810535,
+            "w": 1
+          }
+        }
+      ],
+      "metrics": {
+        "backend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "quality": "low",
+        "reducedMotion": false,
+        "bodies": 7,
+        "calls": 52,
+        "triangles": 60885,
+        "textures": 17,
+        "geometries": 46,
+        "collisions": 12,
+        "frameTimesMs": {
+          "median": 40.800000000046566,
+          "p95": 79.10000000009313,
+          "p99": 132.4000000001397,
+          "count": 168
+        },
+        "uptimeMs": 7785
+      },
+      "fallback": false,
+      "status": "Système prêtR3F · Rapier"
+    },
+    "moved": 7,
+    "distances": [
+      3.5974441073464636,
+      2.934791533269234,
+      2.0590525779504216,
+      2.545553222743889,
+      4.1634826891716745,
+      5.910579336956481,
+      5.611262533838306
+    ],
+    "afterAboveGround": true,
+    "resetAboveGround": true,
+    "collisions": 40,
+    "backend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "calls": 52,
+    "triangles": 60885
+  },
+  "fallback": {
+    "notice": true,
+    "status": "Système prêtR3F · Rapier",
+    "bodies": 7,
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED"
+      },
+      {
+        "type": "warning",
+        "text": "using deprecated parameters for the initialization function; pass a single object instead"
+      }
+    ],
+    "pageErrors": [],
+    "networkFailed": [
+      {
+        "url": "http://127.0.0.1:18190/web/models/props/crate.glb",
+        "failure": "blocked-glb",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:18190/web/models/NL-1.glb",
+        "failure": "blocked-glb",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:18190/web/models/TERM.glb",
+        "failure": "blocked-glb",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:18190/web/models/props/pipes.glb",
+        "failure": "blocked-glb",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:18190/web/models/props/debris.glb",
+        "failure": "blocked-glb",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:18190/web/models/props/chains.glb",
+        "failure": "blocked-glb",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:18190/web/models/props/crate.glb",
+        "failure": "net::ERR_FAILED",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:18190/web/models/NL-1.glb",
+        "failure": "net::ERR_FAILED",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:18190/web/models/TERM.glb",
+        "failure": "net::ERR_FAILED",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:18190/web/models/props/pipes.glb",
+        "failure": "net::ERR_FAILED",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:18190/web/models/props/debris.glb",
+        "failure": "net::ERR_FAILED",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:18190/web/models/props/chains.glb",
+        "failure": "net::ERR_FAILED",
+        "method": "GET"
+      }
+    ],
+    "metrics": {
+      "backend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "quality": "high",
+      "reducedMotion": false,
+      "bodies": 7,
+      "calls": 168,
+      "triangles": 4529,
+      "textures": 19,
+      "geometries": 83,
+      "collisions": 12,
+      "frameTimesMs": {
+        "median": 6090.5,
+        "p95": 6090.5,
+        "p99": 6090.5,
+        "count": 1
+      },
+      "uptimeMs": 6908.59999999986
+    }
+  },
+  "proto-1440-ready": {
+    "url": "/?shot=8&seed=3&autoplay=march&debug=1",
+    "viewport": {
+      "w": 1440,
+      "h": 900,
+      "tag": "1440"
+    },
+    "title": "READY",
+    "sc": {
+      "calls": 49,
+      "tris": 141329,
+      "lights": 12,
+      "textures": 47,
+      "geometries": 31,
+      "programs": 16,
+      "props": {
+        "instances": 22,
+        "tris": 76083,
+        "calls": 6,
+        "missing": []
+      }
+    },
+    "consoleErrors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      }
+    ],
+    "pageErrors": [],
+    "networkFailed": [
+      {
+        "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+        "failure": "404",
+        "method": "GET"
+      }
+    ]
+  },
+  "proto-1440-impact": {
+    "url": "/?shot=14&seed=3&demo=reveal&debug=1",
+    "viewport": {
+      "w": 1440,
+      "h": 900,
+      "tag": "1440"
+    },
+    "title": "READY",
+    "sc": {
+      "calls": 58,
+      "tris": 131429,
+      "lights": 12,
+      "textures": 42,
+      "geometries": 38,
+      "programs": 18,
+      "props": {
+        "instances": 22,
+        "tris": 76083,
+        "calls": 6,
+        "missing": []
+      }
+    },
+    "consoleErrors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      }
+    ],
+    "pageErrors": [],
+    "networkFailed": [
+      {
+        "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+        "failure": "404",
+        "method": "GET"
+      }
+    ]
+  },
+  "proto-1440-after": {
+    "url": "/?shot=235&seed=18&autoplay=march&debug=1",
+    "viewport": {
+      "w": 1440,
+      "h": 900,
+      "tag": "1440"
+    },
+    "title": "READY",
+    "sc": {
+      "calls": 49,
+      "tris": 141329,
+      "lights": 12,
+      "textures": 47,
+      "geometries": 31,
+      "programs": 16,
+      "props": {
+        "instances": 22,
+        "tris": 76083,
+        "calls": 6,
+        "missing": []
+      }
+    },
+    "consoleErrors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      }
+    ],
+    "pageErrors": [],
+    "networkFailed": [
+      {
+        "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+        "failure": "404",
+        "method": "GET"
+      }
+    ]
+  },
+  "proto-390-ready": {
+    "url": "/?shot=8&seed=3&autoplay=march&debug=1",
+    "viewport": {
+      "w": 390,
+      "h": 844,
+      "tag": "390"
+    },
+    "title": "READY",
+    "sc": {
+      "calls": 49,
+      "tris": 141329,
+      "lights": 12,
+      "textures": 47,
+      "geometries": 31,
+      "programs": 16,
+      "props": {
+        "instances": 22,
+        "tris": 76083,
+        "calls": 6,
+        "missing": []
+      }
+    },
+    "consoleErrors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      }
+    ],
+    "pageErrors": [],
+    "networkFailed": [
+      {
+        "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+        "failure": "404",
+        "method": "GET"
+      }
+    ]
+  },
+  "proto-390-impact": {
+    "url": "/?shot=14&seed=3&demo=reveal&debug=1",
+    "viewport": {
+      "w": 390,
+      "h": 844,
+      "tag": "390"
+    },
+    "title": "READY",
+    "sc": {
+      "calls": 58,
+      "tris": 131429,
+      "lights": 12,
+      "textures": 42,
+      "geometries": 38,
+      "programs": 18,
+      "props": {
+        "instances": 22,
+        "tris": 76083,
+        "calls": 6,
+        "missing": []
+      }
+    },
+    "consoleErrors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      }
+    ],
+    "pageErrors": [],
+    "networkFailed": [
+      {
+        "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+        "failure": "404",
+        "method": "GET"
+      }
+    ]
+  },
+  "proto-390-after": {
+    "url": "/?shot=235&seed=18&autoplay=march&debug=1",
+    "viewport": {
+      "w": 390,
+      "h": 844,
+      "tag": "390"
+    },
+    "title": "READY",
+    "sc": {
+      "calls": 49,
+      "tris": 141329,
+      "lights": 12,
+      "textures": 47,
+      "geometries": 31,
+      "programs": 16,
+      "props": {
+        "instances": 22,
+        "tris": 76083,
+        "calls": 6,
+        "missing": []
+      }
+    },
+    "consoleErrors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      }
+    ],
+    "pageErrors": [],
+    "networkFailed": [
+      {
+        "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+        "failure": "404",
+        "method": "GET"
+      }
+    ]
+  }
+}
