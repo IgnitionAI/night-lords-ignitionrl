@@ -241,10 +241,13 @@ function muxUnder15(silent: string, aac: string | null, delay: number, out: stri
       '-c:v', 'libx264', '-preset', 'veryfast', '-crf', String(crf), tmp,
     ], { encoding: 'utf8' });
     if (scale.status !== 0) throw new Error(scale.stderr);
+    const vdur = ffprobeDur(tmp);
     const args = aac
       ? ['-y', '-hide_banner', '-loglevel', 'error', '-i', tmp, '-itsoffset', String(delay), '-i', aac,
-        '-c:v', 'copy', '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', out]
-      : ['-y', '-hide_banner', '-loglevel', 'error', '-i', tmp, '-c:v', 'copy', '-an', '-movflags', '+faststart', out];
+        '-c:v', 'copy', '-c:a', 'aac', '-b:a', '96k', '-t', String(vdur),
+        '-map', '0:v:0', '-map', '1:a:0', '-movflags', '+faststart', out]
+      : ['-y', '-hide_banner', '-loglevel', 'error', '-i', tmp, '-c:v', 'copy', '-an', '-t', String(vdur),
+        '-movflags', '+faststart', out];
     const mux = spawnSync('ffmpeg', args, { encoding: 'utf8' });
     if (mux.status !== 0) throw new Error(mux.stderr);
     const bytes = Number(spawnSync('stat', ['-c', '%s', out], { encoding: 'utf8' }).stdout.trim());
@@ -274,10 +277,11 @@ async function liveConsole(base: string) {
   }, undefined, { timeout: 60000 });
   const tposeHits: number[] = [];
   await page.waitForFunction(() => {
-    const n = (window as unknown as { __NL?: { done?: boolean; tick?: number } }).__NL;
+    const n = (window as unknown as { __NL?: { done?: boolean; tick?: number; nlsAlive?: number } }).__NL;
     const pose = (window as unknown as { __termPose?: { tpose?: boolean } }).__termPose;
     if (pose?.tpose) (window as unknown as { __tposeHit?: boolean }).__tposeHit = true;
-    return Boolean(n?.done) || (n?.tick ?? 0) >= 200;
+    const dead = (n?.nlsAlive ?? 4) < 4;
+    return Boolean(n?.done) || dead || (n?.tick ?? 0) >= 220;
   }, undefined, { timeout: 120000 });
   await page.waitForTimeout(800);
   const pose = await page.evaluate(() => {
@@ -301,10 +305,14 @@ async function liveConsole(base: string) {
   if (failed.length) throw new Error(`net live: ${failed.map((n) => `${n.status} ${n.url}`).join('\n')}`);
   if (!manifest.some((m) => m.status === 200)) throw new Error('manifeste sfx pas en 200');
   if (tposeHits.length) throw new Error('T-pose détectée en match live');
+  const bodies = (nl as { bodies?: { alive: boolean; loco: boolean; kind: string | null; clip: string | null; visibleSkinned?: number }[] } | null)?.bodies ?? [];
+  const ghost = bodies.filter((b) => !b.alive && (b.loco || (b.visibleSkinned ?? 0) > 0));
+  if (ghost.length) throw new Error(`NL mort encore visible/loco: ${JSON.stringify(ghost)}`);
   console.log('live-console ok', JSON.stringify({
     tick: (nl as { tick?: number } | null)?.tick,
     done: (nl as { done?: boolean } | null)?.done,
     tpose: pose?.tpose ?? false,
+    bodies,
     manifest: manifest.map((m) => m.status),
   }));
 }
@@ -354,34 +362,47 @@ async function matchVideo() {
     };
 
     const deadline = Date.now() + 240000;
+    let prevFistCharge = 0;
     while (Date.now() < deadline) {
       const st = await page.evaluate(() => {
-        const nl = (window as unknown as { __NL?: { tick?: number; done?: boolean; events?: string[]; winner?: string } }).__NL;
+        const nl = (window as unknown as { __NL?: { tick?: number; done?: boolean; events?: string[]; winner?: string; fistCharge?: number } }).__NL;
         const msg = document.getElementById('msg');
         return {
           tick: nl?.tick ?? 0,
           done: !!nl?.done,
           events: nl?.events ?? [],
           winner: nl?.winner,
+          fistCharge: nl?.fistCharge ?? 0,
           msg: msg ? getComputedStyle(msg).display : 'missing',
           text: msg?.textContent ?? '',
         };
       });
       if (st.events.includes('clawArm')) await grab('windup', join(OUT, 'match-windup.png'));
       if (st.events.includes('claw') || st.events.includes('clawArmor')) await grab('claw', join(OUT, 'match-claw-impact.png'));
-      if (st.events.includes('fist')) await grab('fist', join(OUT, 'match-fist.png'));
-      if (st.events.includes('bolt')) await grab('bolter', join(OUT, 'match-bolter.png'));
-      if (st.events.some((e) => e === 'bolt' || e === 'fist') && st.events.includes('hit')) {
-        /* keep polling */
+      if ((st.events.includes('fist') || (prevFistCharge > 0 && st.fistCharge === 0)) && !got.fist) {
+        await page.waitForTimeout(50);
+        await grab('fist', join(OUT, 'match-fist.png'));
       }
-      const nls = await page.evaluate(() => (window as unknown as { __NL?: { nlsAlive?: number } }).__NL?.nlsAlive);
-      if (typeof nls === 'number' && nls < 4) await grab('death', join(OUT, 'match-nl-death.png'));
+      prevFistCharge = st.fistCharge;
+      if (st.events.includes('bolt')) await grab('bolter', join(OUT, 'match-bolter.png'));
+      const bodies = await page.evaluate(() => (
+        window as unknown as { __NL?: { nlsAlive?: number; bodies?: { alive: boolean; loco: boolean; kind: string | null; visibleSkinned?: number }[] } }
+      ).__NL);
+      if (bodies?.bodies) {
+        const ghost = bodies.bodies.filter((b) => !b.alive && (b.loco || (b.visibleSkinned ?? 0) > 0));
+        if (ghost.length) throw new Error(`fantôme locomotion ${JSON.stringify(ghost)} tick=${st.tick}`);
+        const corpse = bodies.bodies.find((b) => !b.alive && b.kind === 'death');
+        if (corpse && !got.death) {
+          await page.waitForTimeout(180);
+          await grab('death', join(OUT, 'match-nl-death.png'));
+        }
+      }
       if (st.done && st.msg === 'block' && /gagne|abattu|tenu/i.test(st.text)) {
         await page.waitForTimeout(2200);
         await grab('end', join(OUT, 'match-end-card.png'));
         break;
       }
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(50);
     }
     if (!got.end) {
       await page.waitForTimeout(2200);
@@ -491,11 +512,11 @@ async function demosVideo() {
   console.log('demos-video', out, enc);
 }
 
-if (PHASE === 'avant' || PHASE === 'all') await captureStills(true);
-if (PHASE === 'apres' || PHASE === 'all') await captureStills(false);
-if (PHASE === 'combo' || PHASE === 'all') combo();
+if (PHASE === 'avant') await captureStills(true);
+if (PHASE === 'apres') await captureStills(false);
+if (PHASE === 'combo') combo();
 if (PHASE === 'live') await withServer((base) => liveConsole(base));
 if (PHASE === 'match' || PHASE === 'video' || PHASE === 'all') await matchVideo();
-if (PHASE === 'demos' || PHASE === 'video' || PHASE === 'all') await demosVideo();
+if (PHASE === 'demos') await demosVideo();
 console.log('capture-anim-impact ok', PHASE);
 process.exit(0);

@@ -231,14 +231,24 @@ export function tickMachine(
     const remaining = shotDuration(next, style, durs, durOpts);
     return { state: next, remaining, restart: true, ...pack };
   }
+  // Une fois mort : ne plus changer de clip (throw → collapse au tick suivant
+  // relançait un fondu et laissait la walk en poids).
+  if (m.state === 'death') {
+    return {
+      ...m,
+      state: 'death',
+      remaining: Math.max(0, m.remaining - dt),
+      restart: false,
+      hitFlash,
+      deathKind: m.deathKind,
+      lastLoco: m.lastLoco,
+    };
+  }
   if (next === 'hit' && intent.hit) {
     return { state: 'hit', remaining: shotDuration('hit', style, durs, durOpts), restart: true, ...pack };
   }
   if (next === 'dodge' && intent.dodge && m.remaining < shotDuration('dodge', style, durs) * 0.5) {
     return { state: 'dodge', remaining: shotDuration('dodge', style, durs), restart: true, ...pack };
-  }
-  if (next === 'death') {
-    return { ...m, ...pack, state: 'death', remaining: Math.max(0, m.remaining - dt), restart: false };
   }
   if (isOneShot(next)) {
     let remaining = m.remaining - dt;

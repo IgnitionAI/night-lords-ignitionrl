@@ -2,12 +2,12 @@
   "mode": "live-match-fx",
   "url": "http://127.0.0.1:18194/?autoplay=kiter&cam=epaule&seed=900002&tex=512&props=0",
   "nl": {
-    "tick": 204,
+    "tick": 51,
     "done": false,
     "winner": null,
     "seed": 900002,
     "muted": false,
-    "hp": 4,
+    "hp": 30,
     "nlsAlive": 3,
     "fistCharge": 0,
     "events": [],
@@ -25,61 +25,98 @@
         "claw-metal",
         "music-explore",
         "amb-drone",
-        "music-combat",
-        "amb-duct",
-        "nl-step-02",
-        "nl-step-01",
         "music-tension",
-        "nl-step-03",
+        "amb-duct",
+        "nl-step-01",
         "nl-jump",
+        "nl-step-02",
+        "music-combat",
+        "nl-step-03",
         "term-servo",
         "term-hydraulic",
         "term-step-02",
         "term-step-03",
-        "nl-death",
         "bolter-casing",
-        "bolter-explode",
         "bolter-echo",
-        "claw-swoosh",
-        "alarm-klaxon",
-        "claw-crackle",
-        "nl-scream",
-        "nl-vox-come-for-you"
+        "bolter-explode",
+        "nl-death"
       ],
       "missing": [],
       "samples": 29,
-      "activeVoices": 11,
+      "activeVoices": 9,
       "polyphony": 18,
       "musicPhase": "combat",
-      "ducked": false
-    }
+      "ducked": true
+    },
+    "bodies": [
+      {
+        "i": 0,
+        "alive": true,
+        "kind": "dodge",
+        "clip": "proc-dodge-left",
+        "loco": false,
+        "skinned": 1,
+        "visibleSkinned": 1,
+        "proxyVisible": false
+      },
+      {
+        "i": 1,
+        "alive": false,
+        "kind": "death",
+        "clip": "proc-death-throw",
+        "loco": false,
+        "skinned": 1,
+        "visibleSkinned": 0,
+        "proxyVisible": false
+      },
+      {
+        "i": 2,
+        "alive": true,
+        "kind": "dodge",
+        "clip": "proc-dodge",
+        "loco": false,
+        "skinned": 1,
+        "visibleSkinned": 1,
+        "proxyVisible": false
+      },
+      {
+        "i": 3,
+        "alive": true,
+        "kind": "run",
+        "clip": "Armature|running|baselayer",
+        "loco": true,
+        "skinned": 1,
+        "visibleSkinned": 1,
+        "proxyVisible": false
+      }
+    ]
   },
   "pose": {
     "clip": "Armature|walking_man|baselayer",
-    "timeScale": 0.8371820612333472,
-    "actionTime": 0.20929551530833684,
+    "timeScale": 1.1839529024490578,
+    "actionTime": 0.29598822561226235,
     "LeftHand": {
-      "x": 7.995718925887361,
-      "y": 1.2335010927980665,
-      "z": 9.757525026391844
+      "x": 6.795815711767487,
+      "y": 1.1905019579901477,
+      "z": 8.475477234827393
     },
     "RightHand": {
-      "x": 9.322156848421848,
-      "y": 1.3909215213986992,
-      "z": 9.96479555389755
+      "x": 6.650595317384398,
+      "y": 1.3621906255788445,
+      "z": 9.83777723029815
     },
     "LeftFoot": {
-      "x": 8.829268146461812,
-      "y": 0.3672836426834452,
-      "z": 9.294131700544206
+      "x": 7.219020809231123,
+      "y": 0.3048093178672827,
+      "z": 9.277652556137944
     },
     "RightFoot": {
-      "x": 8.515773286730433,
-      "y": 0.3095485046466834,
-      "z": 10.250657314756216
+      "x": 6.207720594862139,
+      "y": 0.3438306544103242,
+      "z": 8.925503192892847
     },
-    "handSpan": 1.3517321573636205,
-    "footDx": 0.3134948597313798,
+    "handSpan": 1.3807343115830741,
+    "footDx": 1.0113002143689842,
     "tpose": false
   },
   "console": [],

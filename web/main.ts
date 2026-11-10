@@ -472,6 +472,20 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
 const playKind = (rig: Rig, speed: number) => {
   const want = rig.combat.state;
   const next = actionForKind(rig, want, rig.combat);
+  if (want === 'death' && next) {
+    if (rig.kind === 'death' && rig.current === next) return;
+    rig.mixer.stopAllAction();
+    if (rig.walkWeight) rig.walkWeight.stop();
+    next.reset().setEffectiveWeight(1).setLoop(THREE.LoopOnce, 1);
+    next.clampWhenFinished = true;
+    next.timeScale = 1;
+    next.play();
+    rig.overlay = null;
+    rig.current = next;
+    rig.kind = 'death';
+    rig.cueTime = 0;
+    return;
+  }
   const fade = crossFadeFor(rig.kind, want);
   const additive = want === 'hit' || (want === 'attack' && rig.combat.attackStyle === 'shoot');
   const loco = actionForKind(rig, rig.combat.lastLoco, rig.combat);
@@ -915,6 +929,7 @@ function startRound() {
     rig.overlay = null;
     rig.cueTime = 0;
     rig.mixer.stopAllAction();
+    rig.root.visible = true;
     if (rig.walkWeight) { rig.walkWeight.reset().setEffectiveWeight(0.38).play(); }
   }
   nlFall[0] = nlFall[1] = nlFall[2] = nlFall[3] = null;
@@ -1010,9 +1025,19 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
     const wasDeath = rig.combat.state === 'death';
     rig.combat = tickMachine(rig.combat, intent, DT, rig.clipDurations);
     if (rig.combat.state === 'death' && rig.combat.restart && !wasDeath) {
-      nlFall[i] = impulseFall(rig.combat.deathKind, n.facing, NL_CFG.radius);
+      const fall = impulseFall(rig.combat.deathKind, n.facing, NL_CFG.radius);
+      // Un throw à 7 m/s sur un mesh encore debout traverse le cadre (fantôme magenta à côté du T).
+      if (rig.combat.deathKind === 'throw') {
+        fall.vx *= 0.25;
+        fall.vz *= 0.25;
+      }
+      nlFall[i] = fall;
+      rig.root.visible = true;
     }
     playKind(rig, speed);
+    // Dissolution : le mesh ne reste jamais debout / en walk sans entité vivante (fantôme magenta).
+    // Le clip tourne hors écran pour les cues ; le nuage de mort est le visible.
+    if (rig.combat.state === 'death') rig.root.visible = false;
     nlPrevStun[i] = n.stunTicks;
     nlPrevAction[i] = n.lastAction;
   }
@@ -1124,6 +1149,27 @@ function burnIn() {
   if (FX_QUALITY === 'low') parts.push('fx=low');
   return parts.join(' · ');
 }
+function nlBodyReport() {
+  return nlRigs.map((rig, i) => {
+    const n = w.nls[i]!;
+    let skinned = 0;
+    let visibleSkinned = 0;
+    const rootOn = (nlMeshes[i]?.visible !== false) && (rig?.root.visible !== false);
+    nlMeshes[i]!.traverse((o) => {
+      if (!(o as THREE.SkinnedMesh).isSkinnedMesh) return;
+      skinned++;
+      if (rootOn && o.visible) visibleSkinned++;
+    });
+    const proxyVisible = nlProxy.slice(i * 3, i * 3 + 3).some((p) => p.visible);
+    const clip = rig?.current?.getClip().name ?? null;
+    const kind = rig?.kind ?? null;
+    return {
+      i, alive: n.alive, kind, clip,
+      loco: kind ? isLoco(kind) : false,
+      skinned, visibleSkinned, proxyVisible,
+    };
+  });
+}
 function hud() {
   const h = document.getElementById('hud')!;
   h.innerHTML = hudMarkup(matchStatus(w), {
@@ -1139,6 +1185,7 @@ function hud() {
     events: w.events.map((e) => e.type),
     msgShown: document.getElementById('msg')?.style.display === 'block',
     audio: engine.status(),
+    bodies: nlBodyReport(),
   };
   const d = document.getElementById('dbg')!; d.style.display = debug ? 'block' : 'none';
   if (debug) d.innerHTML = `<b>Vue de contrôle — ce que perçoit chaque Night Lord</b><table><tr><th>rôle</th><th>état</th><th>voit</th><th>entend</th><th>vox</th><th>âge</th><th>action (p)</th></tr>`
@@ -1163,8 +1210,11 @@ function render(alpha: number) {
     const fall = nlFall[i];
     const ox = fall?.ox ?? 0, oy = fall?.oy ?? 0, oz = fall?.oz ?? 0;
     g.position.set(lerp(prev.n[i][0], n.x) + ox, oy, lerp(prev.n[i][1], n.y) + oz);
-    if (n.alive || nlRigs[i]) g.rotation.y = -la(prev.n[i][2], n.facing);
-    else { g.rotation.set(Math.PI / 2, 0, 0); g.position.y = 0.4 + oy; }
+    if (nlRigs[i]) g.rotation.y = -la(prev.n[i][2], n.facing);
+    else if (!n.alive) { g.rotation.set(Math.PI / 2, 0, 0); g.position.y = 0.4 + oy; }
+    else g.rotation.y = -la(prev.n[i][2], n.facing);
+    // Match : pas de mesh orphelin. Les planches `?demo=` gardent le clip de mort à l'écran.
+    g.visible = n.alive || !!DEMO_CFG;
   });
   hitGlowNL.forEach((l, i) => { l.intensity = 5.5 * (nlRigs[i]?.combat.hitFlash ?? 0); });
   hitGlowT.intensity = 6.5 * (termRig?.combat.hitFlash ?? 0);
@@ -1206,7 +1256,27 @@ function render(alpha: number) {
       const back = EPAULE.back + recZ * 0.85;
       const high = EPAULE.height + stepY + breath;
       const side = portrait ? EPAULE.side * 0.6 : EPAULE.side;
-      camera.position.set(subjX - fwdX * back + rx * side + sx, high, subjY - fz * back + rz * side + sz);
+      let cx = subjX - fwdX * back + rx * side + sx;
+      let cz = subjY - fz * back + rz * side + sz;
+      let cy = high;
+      const inPillar = PILLARS.some((b) => cx > b.x0 - 0.55 && cx < b.x1 + 0.55 && cz > b.y0 - 0.55 && cz < b.y1 + 0.55);
+      let blocked = inPillar;
+      if (!blocked) {
+        for (const b of PILLARS) {
+          for (let i = 1; i <= 10; i++) {
+            const x = cx + (subjX - cx) * (i / 10);
+            const z = cz + (subjY - cz) * (i / 10);
+            if (x > b.x0 && x < b.x1 && z > b.y0 && z < b.y1) { blocked = true; break; }
+          }
+          if (blocked) break;
+        }
+      }
+      if (blocked) {
+        cy = CAM.highMax;
+        cx = subjX - fwdX * (back * 0.45) + rx * (side + 1.35) + sx;
+        cz = subjY - fz * (back * 0.45) + rz * (side + 1.35) + sz;
+      }
+      camera.position.set(cx, cy, cz);
       camera.lookAt(subjX + fwdX * EPAULE.ahead + sx, EPAULE.eye, subjY + fz * EPAULE.ahead + sz);
       break;
     }
@@ -1366,6 +1436,7 @@ if (shot) { // capture : on avance la sim de N ticks sans attendre le temps rée
   }
   prev = snap(); hud(); render(1);
   (window as any).__termPose = termPoseReport();
+  (window as any).__nlBodies = nlBodyReport();
   document.title = 'READY';
 } else {
   let last = performance.now();
@@ -1387,6 +1458,7 @@ if (shot) { // capture : on avance la sim de N ticks sans attendre le temps rée
     if (tracerT > 0) { tracerT -= dt; if (tracerT <= 0) tracer.visible = false; }
     hud(); render(roundOver ? 1 : acc / DT);
     (window as any).__termPose = termPoseReport();
+    (window as any).__nlBodies = nlBodyReport();
     requestAnimationFrame(loop);
   };
   requestAnimationFrame(loop);

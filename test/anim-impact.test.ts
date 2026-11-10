@@ -15,6 +15,7 @@ import { applyFootIk } from '../web/foot-ik.ts';
 import { impulseFall, stepFall } from '../web/death-physics.ts';
 import { gaitTimeScale, pickGait } from '../web/locomotion.ts';
 import { measureForwardStride, pickClip } from '../web/stride.ts';
+import { remapClip } from '../web/combat-clips.ts';
 
 const MODELS = join(dirname(fileURLToPath(import.meta.url)), '..', 'web/models');
 
@@ -145,6 +146,33 @@ test('clips whoa : durées, bond, combo 3 impacts, pas de T-pose', async () => {
   assert.ok(Math.abs(punch.attack.duration - 0.80) < 1e-9);
   assert.ok(punch.walkWeight, 'poids de marche TERM');
   assert.ok(punch.shoot.tracks.length >= 8, 'recul bolter : épaule + bras');
+});
+
+test('mort : stoppe la locomotion, pose au sol, pas de walk résiduelle', async () => {
+  const pose = await parseGlb(readFileSync(join(MODELS, 'NL-1.glb')));
+  const walkGlb = await parseGlb(readFileSync(join(MODELS, 'NL-1-walk.glb')));
+  const walkClip = remapClip(walkGlb.animations[0]!);
+  assert.ok(walkClip);
+  const proc = makeCombatClips(pose.scene, 'nl');
+  const mixer = new THREE.AnimationMixer(pose.scene);
+  const walk = mixer.clipAction(walkClip);
+  const death = bindOneShot(mixer.clipAction(proc.deathThrow), true);
+  walk.play();
+  mixer.update(0.25);
+  mixer.stopAllAction();
+  death.reset().setEffectiveWeight(1).setLoop(THREE.LoopOnce, 1);
+  death.clampWhenFinished = true;
+  death.play();
+  mixer.update(proc.deathThrow.duration);
+  pose.scene.updateMatrixWorld(true);
+  assert.equal(walk.isRunning(), false);
+  assert.ok(death.enabled);
+  assert.ok(death.getEffectiveWeight() > 0.9);
+  let hips: THREE.Bone | null = null;
+  pose.scene.traverse((o) => { if ((o as THREE.Bone).isBone && o.name === 'Hips') hips = o as THREE.Bone; });
+  const p = new THREE.Vector3();
+  hips!.getWorldPosition(p);
+  assert.ok(p.y < 1.15, `hanches au sol après mort y=${p.y}`);
 });
 
 test('hooks d\'événements : impact et fire', () => {
