@@ -1,4 +1,13 @@
-# Night Lords sur IgnitionRL — prototype « La Meute »
+```sh
+bun install              # three, esbuild, vite, @tensorflow/tfjs-node 4.22 — 139 paquets
+bun run build            # vite (navigateur -> web/dist/main.js) + esbuild (Node -> dist/*.mjs)
+bun run dev              # serveur de développement Vite, HMR, http://127.0.0.1:18230/web/index.html
+bun dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1      # PPO multi-agents headless
+bun dist/eval.mjs --pack runs/base/actor.json --n 200                     # taux de victoire, seeds 900000+
+scripts/mesures.sh                                                         # mesures du jalon 1
+cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies/current-full.json
+bun dist/server.mjs      # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all  ?props=0)
+```# Night Lords sur IgnitionRL — prototype « La Meute »
 
 Un Terminator surpuissant, piloté par un joueur, contre une meute de 4 Night Lords entraînés par apprentissage par renforcement (PPO multi-agents). Chaque Night Lord, seul, meurt en un coup : la meute ne gagne qu'en se coordonnant (appât, flanc, finition), à partir d'observations limitées (cône de vision, bruit, vox entre frères). Pas de triche : la meute et le Terminator suivent les mêmes règles de simulation.
 
@@ -32,19 +41,45 @@ Run b3 : 2 000 mises à jour PPO, 32 environnements, seed 3, 1 967 s de calcul. 
 
 Détails et historique : `RAPPORT.md` (état du 31/10) et `jalon1/RAPPORT-jalon1.md`. Cadrage initial : `CONCEPT.md`.
 
+## La pile
+
+| quoi | outil | sortie |
+|---|---|---|
+| la page et le rendu (navigateur) | **Vite 7** | `web/dist/index.html` + `web/dist/main.js` |
+| la simulation, l'entraînement, le serveur | esbuild → **Bun** | `dist/*.mjs` |
+| installation, scripts, tests | **Bun** (`bun install`, `bun run`, `bun test`) | `bun.lock` |
+
+Deux outils, une raison : Vite est fait pour un graphe de modules navigateur (HMR, TypeScript, minification), esbuild pour six bundles Node en ESM avec `@tensorflow/tfjs-node` en externe et un polyfill `util` pour Node 24. Mettre Node dans Vite n'apporterait rien et casserait les bundles ; mettre le navigateur dans esbuild privait du serveur de développement.
+
+Trois contraintes ont guidé la migration, et chacune est vérifiée :
+
+1. **Les URL ne bougent pas.** `main.js` est émis sans hash, et `src/server.ts` sert `/web/dist/index.html` — exactement les chemins d'avant. Tout le harnais de capture (`?shot=N`, `?seed=`) continue de fonctionner sans une ligne de changement.
+2. **L'image ne bouge pas.** Même tick, même graine, build Vite contre build esbuild : **0,0 % des blocs au-dessus du seuil de 8/255** (moyenne −0,07/255 à t235 et +0,01/255 à t55). Le serveur de développement contre le build : **0,0 %** aussi, une fois `/policy/*` relayé vers `policies/*` (sans ce relais, la page de dev joue sans politique chargée et l'image change).
+3. **Le poids ne bouge pas.** 643 623 octets pour esbuild minifié, 647 925 pour Vite (+0,7 %) — la différence de 1 159 737 à 647 925 octets venait de la minification, que la configuration esbuild ne faisait pas, pas du bundler.
+
+**Bun, mesuré et non supposé.** `bun install` : 139 paquets en 2,63 s (le postinstall de `core-js` est bloqué par défaut, sans conséquence). `bun test` : 50/50, sans `tsx` ni shim `util` (props #51 et locomotion #53 inclus via `bun test test/`). `@tensorflow/tfjs-node` se charge sous Bun et calcule sur le backend natif (`tensorflow`, vérifié par une somme de tenseur). `bun run build` : Vite émet `web/dist/index.html` + `web/dist/main.js` (655 860 octets, sans hash). `bun dist/server.mjs` sert `/` → `/web/dist/index.html`. L'image Bun vs Node (0,0 % des blocs > 8/255 à t235 et t55) a été mesurée sur #48 avant le merge de `feat/vite` ; elle n'est pas rejouée ici.
+
+Ce qui n'a **pas** pu être mesuré : l'entraînement comparé sous les deux runtimes. `src/guard.ts` met la machine en pause (« tests=true ») et refuse de démarrer sur cette machine, quel que soit le runtime — c'est un garde-fou de charge, pas une propriété de Bun. Une chose à savoir au passage : ce garde reconnaît un test en cours en cherchant `vitest` ou `bun test` **dans la ligne de commande de n'importe quel process**, donc une commande qui contient ces mots (un `grep`, une revue de logs) suffit à bloquer un entraînement.
+
+**R3F n'est pas dans cette PR.** La scène reste impérative : cinq acteurs, des uniformes créés avant compilation, des impulsions en forme fermée au tick. Le passage à React Three Fiber est un chantier à part, avec la même exigence de preuve — image identique au seuil du grain, budget identique — et il commence par une question de game design : qui possède la boucle de rendu.
+
 ## Lancer
 
-Node 24, CPU suffisant.
+Bun 1.4, CPU suffisant.
 
 ```sh
-npm install              # three, esbuild, tsx, @tensorflow/tfjs-node 4.22 (polyfill util pour Node 24 dans build.mjs)
-node build.mjs           # dist/*.mjs (Node) + web/dist/main.js (navigateur)
-node dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1     # PPO multi-agents headless
-node dist/eval.mjs --pack runs/base/actor.json --n 200                    # taux de victoire, seeds 900000+
+bun install              # three, esbuild, vite, @tensorflow/tfjs-node 4.22 — 139 paquets
+bun run build            # vite (navigateur -> web/dist/main.js) + esbuild (Node -> dist/*.mjs)
+bun run dev              # serveur de développement Vite, HMR, http://127.0.0.1:18230/web/index.html
+bun dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1      # PPO multi-agents headless
+bun dist/eval.mjs --pack runs/base/actor.json --n 200                     # taux de victoire, seeds 900000+
 scripts/mesures.sh                                                         # mesures du jalon 1
 cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies/current-full.json
-node dist/server.mjs     # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all  ?props=0)
+bun dist/server.mjs      # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all  ?props=0)
 ```
+
+Node reste possible (`node dist/server.mjs` fonctionne) mais n'est plus la cible : `bun test` remplace `node --test`,
+`bun build.mjs` remplace `node build.mjs`, et `tsx` n'est plus une dépendance — Bun lit le TypeScript nativement.
 
 `?seed=N` joue **N** (les manches suivantes avancent d'un cran). Avant le 04/11/2026 la première manche
 incrémentait la graine : les captures étiquetées par leur URL avant cette date sont décalées d'un cran.
@@ -83,6 +118,7 @@ Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --see
 - `src/sim.ts` : simulation à pas fixe (100 ms), observations, récompenses
 - `src/tactics.ts` : Terminators scriptés et fantôme ; `src/recorder.ts`, `src/bc.ts`, `src/tobs.ts` : enregistrement et clonage de comportement
 - `src/ppo.ts`, `src/train.ts` : PPO multi-agents ; `src/eval.ts`, `src/evallib.ts` : évaluation
+- `docs/PROTOCOLE-MESURE-NN.md`, `scripts/nn-harness.ts` : protocole auditable et smoke de mesure (n'écrase pas b3)
 - `src/server.ts` : serveur local et ré-entraînement entre manches ; `src/experiment-c.ts` : expérience C
 - `web/` : rendu Three.js et vue de contrôle (touche V)
 - Caméra à l'épaule (défaut) : 3,55 m derrière le Terminator, 1,15 m sur son épaule droite, 2,5 m du sol,
