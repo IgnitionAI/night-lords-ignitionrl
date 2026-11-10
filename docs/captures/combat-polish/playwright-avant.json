@@ -1,0 +1,32 @@
+{
+  "urls": {
+    "avant-nl-claw-anticipation-t4": "http://127.0.0.1:18193/?demo=polish-claw&cam=troisquarts&shot=4&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-nl-claw-impact-t6": "http://127.0.0.1:18193/?demo=polish-claw&cam=troisquarts&shot=6&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-nl-claw-fin-t7": "http://127.0.0.1:18193/?demo=polish-claw&cam=troisquarts&shot=7&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-nl-hit-anticipation-t11": "http://127.0.0.1:18193/?demo=polish-nl-hit&cam=troisquarts&shot=11&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-nl-hit-impact-t12": "http://127.0.0.1:18193/?demo=polish-nl-hit&cam=troisquarts&shot=12&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-nl-hit-fin-t14": "http://127.0.0.1:18193/?demo=polish-nl-hit&cam=troisquarts&shot=14&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-nl-dodge-anticipation-t3": "http://127.0.0.1:18193/?demo=polish-nl-dodge&cam=troisquarts&shot=3&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-nl-dodge-impact-t4": "http://127.0.0.1:18193/?demo=polish-nl-dodge&cam=troisquarts&shot=4&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-nl-dodge-fin-t5": "http://127.0.0.1:18193/?demo=polish-nl-dodge&cam=troisquarts&shot=5&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-nl-death-anticipation-t5": "http://127.0.0.1:18193/?demo=polish-death&cam=troisquarts&shot=5&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-nl-death-impact-t8": "http://127.0.0.1:18193/?demo=polish-death&cam=troisquarts&shot=8&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-nl-death-fin-t13": "http://127.0.0.1:18193/?demo=polish-death&cam=troisquarts&shot=13&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-hit-anticipation-t5": "http://127.0.0.1:18193/?demo=combat-hit&cam=troisquarts&shot=5&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-hit-impact-t6": "http://127.0.0.1:18193/?demo=combat-hit&cam=troisquarts&shot=6&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-hit-fin-t7": "http://127.0.0.1:18193/?demo=combat-hit&cam=troisquarts&shot=7&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-dodge-anticipation-t4": "http://127.0.0.1:18193/?demo=combat-dodge&cam=troisquarts&shot=4&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-dodge-impact-t5": "http://127.0.0.1:18193/?demo=combat-dodge&cam=troisquarts&shot=5&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-dodge-fin-t6": "http://127.0.0.1:18193/?demo=combat-dodge&cam=troisquarts&shot=6&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-fist-anticipation-t5": "http://127.0.0.1:18193/?demo=combat-term-fist&cam=troisquarts&shot=5&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-fist-impact-t11": "http://127.0.0.1:18193/?demo=combat-term-fist&cam=troisquarts&shot=11&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-fist-fin-t12": "http://127.0.0.1:18193/?demo=combat-term-fist&cam=troisquarts&shot=12&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-shoot-anticipation-t4": "http://127.0.0.1:18193/?demo=combat-shot&cam=troisquarts&shot=4&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-shoot-impact-t5": "http://127.0.0.1:18193/?demo=combat-shot&cam=troisquarts&shot=5&impact=0&tex=512&seed=1&proc=legacy",
+    "avant-term-shoot-fin-t6": "http://127.0.0.1:18193/?demo=combat-shot&cam=troisquarts&shot=6&impact=0&tex=512&seed=1&proc=legacy"
+  },
+  "console": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "networkFailed": []
+}

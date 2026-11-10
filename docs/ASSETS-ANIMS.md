@@ -9,9 +9,16 @@ part ; sans eux le rendu reste sur le procédural `#59`. Pas de touche à `src/s
 **Statut :**
 
 - **Idle Genex livré** (`Idle_3`, 9,97 s, 30 fps, 72 pistes, in-place) : `web/models/<role>-idle.glb`.
-- **Combat Genex** : compte en attente de vérif e-mail. Repli procédural `#59` (`proc-*`) jusqu’à réception.
-- Repli CC0 (Quaternius UAL) possible via mapping Mixamo→Genex, **pas livré**. Mixamo (Adobe) interdit
-  si licence incompatible MIT.
+- **Combat Genex** : compte en attente de vérif e-mail. Pas de clips combat versionnés.
+- **Combat procédural polish** (`proc-*`, option a) : poses clés (anticipation / impact / récupération),
+  courbes d’easing, poids (hanches + jambes), recul du torse, chute + rebond pour la mort.
+  Griffes NL 0,46 s ; poing TERM 0,80 s (durée de charge). `?proc=legacy` rejoue les clips `#59`
+  pour les planches avant/après. Captures : `docs/captures/combat-polish/`, vidéo
+  `docs/videos/combat-polish.mp4`.
+- Repli CC0 (Quaternius UAL) **écarté** : le retarget Mixamo→Genex (Spine vs Spine02) et les poses
+  de repos `Hips` distinctes par perso casseraient la silhouette ; les durées one-shot (0,28–0,80 s)
+  ne matchent pas les clips packs. Mixamo (Adobe) interdit si licence incompatible MIT. Aucun GLB
+  combat n’est ingéré (`SHIPPED_EXTRA_ANIMS` = idle seulement).
 
 ## Fichiers attendus (chargés au runtime)
 
@@ -123,7 +130,8 @@ si le nœud a le préfixe `mixamorig` :
 | NL-1…4, TERM + walk/run | Genex, déjà dans le dépôt | voir `web/models/MANIFESTE.md` (décision Salim ; CGU Genex / IP GW non tranchées juridiquement) |
 | idle Genex `Idle_3` | Genex, 2026-11-10, un clip par perso | même régime ; `*-idle.glb` ~124 Ko, animation seule |
 | clips combat Genex | à recevoir (compte Genex, vérif e-mail) | même régime, à documenter à l’arrivée |
-| procédural `proc-*` | ce dépôt | MIT |
-| Quaternius UAL | non livré | CC0 — repli d’urgence uniquement |
+| procédural `proc-*` (polish) | ce dépôt (`web/proc-clips.ts`) | MIT |
+| procédural `proc-*` legacy `#59` | ce dépôt, `?proc=legacy` | MIT |
+| Quaternius UAL | non livré (écarté) | CC0 — mapping Mixamo documenté ci-dessus, pas utilisé |
 
 Aucun clip Mixamo n’est versionné ici.
