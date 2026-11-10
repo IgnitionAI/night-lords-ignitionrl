@@ -1,0 +1,24 @@
+{
+  "id": "b7",
+  "init": "policies/candidates/b6/full.json",
+  "seed": 8,
+  "updates": 220,
+  "lr": 8e-6,
+  "envs": 32,
+  "preset": "b7",
+  "entCoef": 0.02,
+  "retained": "runs/b7-t2@220",
+  "defaultInGame": false,
+  "loadVia": "?policy=b7",
+  "b6Via": "?policy=b6",
+  "b5Via": "/",
+  "eval": "mesures/nn/b7/eval.json",
+  "obsNote": "Pas de 33e feature : observe() n'expose pas T→balise ; OBS_DIM 32 pour charger vis2.",
+  "shaping": [
+    "vis2 hors menace balise",
+    "cône/stall/unseenPack atténués si dist(T, balise) < 16 m",
+    "piquet/garde corde seulement si T < 10 m de la balise",
+    "wallCut devant le T au mur nord",
+    "earlyCamp si camp balise pendant hug nord"
+  ]
+}

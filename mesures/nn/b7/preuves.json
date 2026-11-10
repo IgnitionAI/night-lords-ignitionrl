@@ -1,0 +1,47 @@
+{
+  "bunTest": { "pass": 127, "fail": 0, "skip": 1 },
+  "bunRunBuild": 0,
+  "measureStride": {
+    "NL-1-run": 1.3335077670385962,
+    "NL-1-walk": 1.1002657971633205,
+    "TERM-walk": 1.325615791286074,
+    "slip_after": 0
+  },
+  "nnSmoke": { "overwroteFrozen": false, "packVersion": "runs/b5@2000" },
+  "b3ArchiveSha256": {
+    "policies/b3/current.json": "950b924f4ac96602836f53f6faac04a40ae6868d0a65f5aedd29dec81c1fef9f",
+    "policies/b3/current-full.json": "7c4e37f9c625e5217103b9d1125ad830508ed1a4454ce87250ba56596ff1ba4c"
+  },
+  "b4ArchiveSha256": {
+    "policies/b4/current.json": "d43de9da64f008b7027ed4d6aa0c48fb35e3ea4fd571e6dfa87f6843f4c006c7",
+    "policies/b4/current-full.json": "32b7ea45fcefc2dff408d32e94a101f3299c4d82876749c33b030f880f97fbb1"
+  },
+  "b5Sha256": {
+    "policies/candidates/b5/actor.json": "27a6f675ee1de5ffbf9601f73d3a5c6e25abb5da0cc9ba443a4f8fba4321b0f3",
+    "policies/candidates/b5/full.json": "223c14edf51bbb3f467fbe49fa7259883674009cbc61e24912820cd58b44cd63",
+    "policies/current.json": "27a6f675ee1de5ffbf9601f73d3a5c6e25abb5da0cc9ba443a4f8fba4321b0f3"
+  },
+  "b6ActorSha256": "8ece382294339596152859f123117337e1013d247ed540686beaf6d0f263f5ee",
+  "b6FullSha256": "c6d675ad97e072208325d1a812e55451db337bb6bf90dd5cc9241185246a4028",
+  "b7ActorSha256": "a3a7c2460530d3136731ad7e8c07fe8a9b10e2232ab8fffa6e4764717fc9cb42",
+  "deployed": { "file": "policies/current.json", "version": "runs/b5@2000", "unchanged": true },
+  "candidate": { "file": "policies/candidates/b7/actor.json", "version": "runs/b7-t2@220" },
+  "simTs": "unchanged",
+  "nlCfgSpeed": 6,
+  "tCfgFwd": 2.5,
+  "capture": "docs/captures/nn-b7/policy-b7-hud.png",
+  "planche": "docs/captures/nn-b7/planche-6.png",
+  "hudPolicy": "politique runs/b7-t2@220 (?policy=b7)",
+  "usedQueryPolicy": true,
+  "video": "docs/videos/b7-match.mp4",
+  "videoBytes": 11350513,
+  "videoWallHugger": "docs/videos/b7-wallhugger.mp4",
+  "videoWallHuggerBytes": 2500140,
+  "attempts": {
+    "n": 3,
+    "retained": "runs/b7-t2@220",
+    "evalAttempt1": "mesures/nn/b7/attempt1-eval.json",
+    "evalAttempt2": "mesures/nn/b7/attempt2-eval.json",
+    "evalAttempt3": "mesures/nn/b7/attempt3-eval.json"
+  }
+}
