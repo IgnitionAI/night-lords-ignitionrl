@@ -36,7 +36,8 @@ import { createFxSystem, parseFxQuality } from './fx';
 import { initAudio, audio, engine, director } from './audio/index.ts';
 import {
   parseCamMode, fpsFov, fpsPose, applyFpsCamera, applyLookDelta, turnTowardYaw, freshLook,
-  pushStepImpulse, offscreenMarks, FPS_EXPOSURE, FPS_FOG_DENSITY, type FpsLook,
+  pushStepImpulse, offscreenMarks, pickFpsThreat, eventAimHint, steerFpsLook, wrapPi,
+  FPS_EXPOSURE, FPS_FOG_DENSITY, type FpsLook,
 } from './camera/fps';
 import { createViewmodel, renderViewmodel, type Viewmodel } from './camera/viewmodel';
 import { fpsHudMarkup, dmgSide, marksHtml } from './camera/fps-hud';
@@ -46,6 +47,7 @@ const qs = new URLSearchParams(location.search);
 // C'est un flag distinct de `?debug=1` (vue de contrôle historique, touche V), et rien de ce canal ne va au HUD.
 const CONTROL_VIEW = isControlViewEnabled(location.search);
 const autoplay = qs.get('autoplay'); const shot = Number(qs.get('shot') ?? 0);
+const CAP_FRAMES = qs.get('cap') === '1';
 let debug = qs.get('debug') === '1';
 // `?seed=N` joue **N**. La manche 1 prend la graine telle quelle ; les manches suivantes avancent d'un cran,
 // pour qu'« Entrée » ne rejoue pas la même partie. Avant, `startRound()` incrémentait dès la première manche :
@@ -1078,7 +1080,9 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
     playKind(rig, speed);
     // Dissolution : le mesh ne reste jamais debout / en walk sans entité vivante (fantôme magenta).
     // Le clip tourne hors écran pour les cues ; le nuage de mort est le visible.
-    if (rig.combat.state === 'death') rig.root.visible = false;
+    if (rig.combat.state === 'death') {
+      rig.root.visible = CAM_MODE === 'fps' && rig.combat.remaining > 0.18;
+    }
     nlPrevStun[i] = n.stunTicks;
     nlPrevAction[i] = n.lastAction;
   }
@@ -1157,7 +1161,17 @@ function tick() {
   }
   director.tick(w, DT, w.events, { nlJump });
   updateRigs(); if (shot) advanceRigs(DT); updateCamYaw();
-  if (CAM_MODE === 'fps' && (autoplay || DEMO_CFG)) fpsLook.yaw = w.t.facing;
+  if (CAM_MODE === 'fps') {
+    if (DEMO_CFG) {
+      fpsLook.yaw = w.t.facing;
+      fpsLook.pitch = -0.06;
+    } else if (autoplay) {
+      const hint = eventAimHint(w.events, w.nls, w.t);
+      const focus = pickFpsThreat(w.t, w.nls, hint);
+      if (focus) steerFpsLook(fpsLook, focus, !!hint);
+      else fpsLook.yaw += wrapPi(w.t.facing - fpsLook.yaw) * 0.22;
+    }
+  }
   if (w.done) endRound();
 }
 function flash(_o: number) { /* remplacé par un retour localisé (hitGlow / impact light / post). */ }
@@ -1235,6 +1249,13 @@ function hud() {
     hp: w.t.hp, nlsAlive: w.nls.filter((n) => n.alive).length,
     fistCharge: w.t.fistCharge,
     events: w.events.map((e) => e.type),
+    seen: (() => {
+      const wany = window as unknown as { __seenEv?: string[] };
+      const s = wany.__seenEv ?? (wany.__seenEv = []);
+      for (const e of w.events) if (!s.includes(e.type)) s.push(e.type);
+      return s;
+    })(),
+    eventWho: w.events.map((e) => ('who' in e ? (e as { who?: number }).who : ('kill' in e ? (e as { kill?: number }).kill : null))),
     msgShown: document.getElementById('msg')?.style.display === 'block',
     audio: engine.status(),
     bodies: nlBodyReport(),
@@ -1300,12 +1321,28 @@ function render(alpha: number) {
   switch (CAM_MODE) {
     case 'fps': {
       const now = simT - DT + alpha * DT;
-      const yaw = autoplay || DEMO_CFG ? tf : fpsLook.yaw;
+      const yaw = fpsLook.yaw;
       const pose = fpsPose({
         x: tx, y: ty, yaw, pitch: fpsLook.pitch, now, steps: fpsSteps,
         shake: { sx, sz }, pillars: PILLARS, arena: ARENA, impact: IMPACT,
       });
       applyFpsCamera(camera, pose);
+      if (autoplay && !DEMO_CFG) {
+        const hint = eventAimHint(w.events, w.nls, w.t);
+        const focus = pickFpsThreat(w.t, w.nls, hint);
+        if (focus) {
+          const n = focus.i >= 0 ? w.nls[focus.i] : null;
+          const lx = n ? n.x : hint?.x ?? pose.lookX;
+          const lz = n ? n.y : hint?.y ?? pose.lookZ;
+          const dx = lx - pose.camX;
+          const dz = lz - pose.camZ;
+          const d = Math.hypot(dx, dz);
+          if (d > 0.05) {
+            const s = 4.2;
+            camera.lookAt(pose.camX + (dx / d) * s, pose.camY - 0.42, pose.camZ + (dz / d) * s);
+          }
+        }
+      }
       vm?.update(DT * 0.16, now, pose.bobY, pose.bobY, Math.hypot(w.t.vx, w.t.vy) > 0.2);
       break;
     }
@@ -1428,7 +1465,7 @@ function render(alpha: number) {
     const threats = document.getElementById('threats');
     if (threats) {
       threats.innerHTML = marksHtml(offscreenMarks(
-        { x: tx, y: ty, yaw: CAM_MODE === 'fps' ? (autoplay || DEMO_CFG ? tf : fpsLook.yaw) : camYaw },
+        { x: tx, y: ty, yaw: CAM_MODE === 'fps' ? fpsLook.yaw : camYaw },
         w.nls,
         camera,
       ));
@@ -1450,6 +1487,23 @@ function render(alpha: number) {
   // à chaque `render()`, donc le lire après coup ne compte que le quad final (1 appel, 2 triangles).
   mainCalls = renderer.info.render.calls; mainTris = renderer.info.render.triangles;
   renderer.setRenderTarget(null); renderer.render(postScene, postCam);
+  if (CAP_FRAMES) {
+    const store = (window as unknown as { __fpsCaps?: Record<string, { tick: number; png: string }> });
+    const caps = store.__fpsCaps ?? (store.__fpsCaps = {});
+    const snap = (key: string) => {
+      if (caps[key]) return;
+      caps[key] = { tick: w.tick, png: canvas.toDataURL('image/png') };
+    };
+    for (const e of w.events) {
+      if (e.type === 'bolt') snap('bolter');
+      if (e.type === 'clawArm' && !caps.claw) snap('claw');
+      if (e.type === 'claw') caps.claw = { tick: w.tick, png: canvas.toDataURL('image/png') };
+      if (e.type === 'fistCharge') snap('fist');
+      if (e.type === 'fist' && !caps.fist) snap('fist');
+      if (e.type === 'hit' && !caps.claw) snap('claw');
+    }
+    if (w.nls.filter((n) => n.alive).length < 4) snap('death');
+  }
 }
 let mainCalls = 0, mainTris = 0;
 function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = camFov(innerHeight > innerWidth); camera.updateProjectionMatrix();

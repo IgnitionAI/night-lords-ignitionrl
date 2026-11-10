@@ -4,8 +4,9 @@ import { PILLARS, ARENA, T_CFG, NL_CFG } from '../src/sim.ts';
 import {
   parseCamMode, fpsPose, unclipEye, applyLookDelta, freshLook, turnTowardYaw,
   FPS_EYE, FPS_PITCH_MIN, FPS_PITCH_MAX, FPS_BOB, FPS_EXPOSURE, FPS_FOG_DENSITY,
-  pushStepImpulse, bobAt, wrapPi,
+  pushStepImpulse, bobAt, wrapPi, pickFpsThreat, eventAimHint, steerFpsLook,
 } from '../web/camera/fps.ts';
+import { createViewmodel } from '../web/camera/viewmodel.ts';
 import { TONE_MAPPING_EXPOSURE, FOG_EXP2_DENSITY } from '../web/atmosphere.ts';
 import { fpsHudMarkup, dmgSide } from '../web/camera/fps-hud.ts';
 import { matchStatus, hudMarkup } from '../src/match.ts';
@@ -104,4 +105,42 @@ test('invariants sim inchangés (cette PR ne touche pas src/sim.ts)', () => {
 test('FPS éclaire plus que le couloir 3e personne (expo / fog)', () => {
   assert.ok(FPS_EXPOSURE > TONE_MAPPING_EXPOSURE);
   assert.ok(FPS_FOG_DENSITY < FOG_EXP2_DENSITY);
+});
+
+test('visée autoplay : griffe armée derrière gagne sur un NL inoffensif devant', () => {
+  const term = { x: 10, y: 12, facing: 0 };
+  const nls = [
+    { x: 14, y: 12, alive: true, armTicks: 0 },
+    { x: 7, y: 12, alive: true, armTicks: 2 },
+  ];
+  const f = pickFpsThreat(term, nls);
+  assert.ok(f);
+  assert.equal(f!.i, 1);
+  assert.ok(Math.abs(wrapPi(f!.yaw - Math.PI)) < 0.2);
+});
+
+test('hint d\'événement : claw.who et bolt.tx/ty', () => {
+  const nls = [
+    { x: 1, y: 2, alive: true, armTicks: 0 },
+    { x: 8, y: 9, alive: true, armTicks: 1 },
+  ];
+  const claw = eventAimHint([{ type: 'claw', who: 1 }], nls);
+  assert.deepEqual(claw, { x: 8, y: 9 });
+  const bolt = eventAimHint([{ type: 'bolt', tx: 3.2, ty: 4.1 }], nls);
+  assert.deepEqual(bolt, { x: 3.2, y: 4.1 });
+  const look = freshLook(0);
+  steerFpsLook(look, { yaw: 1.2, pitch: -0.2 }, true);
+  assert.equal(look.yaw, 1.2);
+});
+
+test('viewmodel : storm bolter (canons + mag) et poing (doigts) identifiables', () => {
+  const vm = createViewmodel();
+  assert.ok(vm.bolter.children.length >= 12, `bolter trop pauvre ${vm.bolter.children.length}`);
+  assert.ok(vm.fist.children.length >= 14, `poing trop pauvre ${vm.fist.children.length}`);
+  assert.equal(vm.bolter.name, 'storm-bolter');
+  assert.equal(vm.fist.name, 'power-fist');
+  let lights = 0;
+  vm.scene.traverse((o) => { if ((o as { isLight?: boolean }).isLight) lights++; });
+  assert.ok(lights >= 6, `lumières viewmodel ${lights}`);
+  vm.dispose();
 });

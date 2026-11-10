@@ -14,7 +14,7 @@ const VID = join(ROOT, 'docs/videos');
 const PORT = Number(process.env.PORT ?? 18196);
 const BASE = `http://127.0.0.1:${PORT}`;
 const PHASE = process.env.PHASE ?? 'all';
-const VIDEO_SEED = process.env.VIDEO_SEED ?? '900002';
+const VIDEO_SEED = process.env.VIDEO_SEED ?? '900007';
 const VIDEO_AUTO = process.env.VIDEO_AUTO ?? 'kiter';
 
 mkdirSync(OUT, { recursive: true });
@@ -214,24 +214,79 @@ async function fpsBench() {
   console.log('fps', JSON.stringify(report, null, 2));
 }
 
-function encodeH264(webm: string, out: string, ss: number) {
+function writeWav(path: string, interleaved: Float32Array, sampleRate: number, channels = 2) {
+  const n = interleaved.length;
+  const i16 = Buffer.alloc(n * 2);
+  for (let i = 0; i < n; i++) {
+    const s = Math.max(-1, Math.min(1, interleaved[i]!));
+    i16.writeInt16LE((s * 32767) | 0, i * 2);
+  }
+  const dataSize = i16.length;
+  const hdr = Buffer.alloc(44);
+  hdr.write('RIFF', 0);
+  hdr.writeUInt32LE(36 + dataSize, 4);
+  hdr.write('WAVE', 8);
+  hdr.write('fmt ', 12);
+  hdr.writeUInt32LE(16, 16);
+  hdr.writeUInt16LE(1, 20);
+  hdr.writeUInt16LE(channels, 22);
+  hdr.writeUInt32LE(sampleRate, 24);
+  hdr.writeUInt32LE(sampleRate * channels * 2, 28);
+  hdr.writeUInt16LE(channels * 2, 32);
+  hdr.writeUInt16LE(16, 34);
+  hdr.write('data', 36);
+  hdr.writeUInt32LE(dataSize, 40);
+  writeFileSync(path, Buffer.concat([hdr, i16]));
+}
+
+function loudnormAac(wav: string, aac: string) {
+  const meas = spawnSync('ffmpeg', [
+    '-hide_banner', '-i', wav, '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json', '-f', 'null', '-',
+  ], { encoding: 'utf8' });
+  const raw = `${meas.stderr ?? ''}\n${meas.stdout ?? ''}`;
+  const jsonMatch = raw.match(/\{[\s\S]*"input_i"[\s\S]*\}/);
+  const measured = jsonMatch ? JSON.parse(jsonMatch[0]) as Record<string, string> : {};
+  const af = [
+    'loudnorm=I=-14:TP=-1.5:LRA=11',
+    measured.input_i != null ? `measured_I=${measured.input_i}` : '',
+    measured.input_tp != null ? `measured_TP=${measured.input_tp}` : '',
+    measured.input_lra != null ? `measured_LRA=${measured.input_lra}` : '',
+    measured.input_thresh != null ? `measured_thresh=${measured.input_thresh}` : '',
+    measured.target_offset != null ? `offset=${measured.target_offset}` : '',
+    'linear=true',
+  ].filter(Boolean).join(':');
+  const enc = spawnSync('ffmpeg', [
+    '-y', '-hide_banner', '-loglevel', 'error', '-i', wav, '-af', af, '-c:a', 'aac', '-b:a', '128k', aac,
+  ], { encoding: 'utf8' });
+  if (enc.status !== 0) throw new Error(enc.stderr || 'loudnorm aac');
+  const ebu = spawnSync('ffmpeg', [
+    '-hide_banner', '-i', aac, '-filter_complex', 'ebur128=peak=true', '-f', 'null', '-',
+  ], { encoding: 'utf8' });
+  const ebuRaw = `${ebu.stderr ?? ''}\n${ebu.stdout ?? ''}`;
+  writeFileSync(join(OUT, 'loudnorm.txt'), raw.slice(-3500) + '\n--- ebur128 aac ---\n' + ebuRaw.slice(-2000));
+  return { raw, measured, ebuRaw, af };
+}
+
+function encodeH264(webm: string, aac: string | null, out: string, ss: number, audioSkip: number) {
   let crf = 28;
   while (crf <= 36) {
-    const r = spawnSync('ffmpeg', [
-      '-y', '-hide_banner', '-loglevel', 'error', '-ss', ss.toFixed(3), '-i', webm,
+    const args = [
+      '-y', '-hide_banner', '-loglevel', 'error',
+      '-ss', ss.toFixed(3), '-i', webm,
+    ];
+    if (aac && existsSync(aac)) {
+      if (audioSkip > 0) args.push('-ss', audioSkip.toFixed(3));
+      args.push('-i', aac, '-map', '0:v:0', '-map', '1:a:0', '-c:a', 'aac', '-b:a', '128k', '-shortest');
+    } else {
+      args.push('-an');
+    }
+    args.push(
       '-vf', 'scale=1280:720,fps=24,format=yuv420p',
       '-c:v', 'libx264', '-preset', 'veryfast', '-crf', String(crf),
-      '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', out,
-    ], { encoding: 'utf8' });
-    if (r.status !== 0) {
-      const silent = spawnSync('ffmpeg', [
-        '-y', '-hide_banner', '-loglevel', 'error', '-ss', ss.toFixed(3), '-i', webm,
-        '-vf', 'scale=1280:720,fps=24,format=yuv420p',
-        '-c:v', 'libx264', '-preset', 'veryfast', '-crf', String(crf),
-        '-an', '-movflags', '+faststart', out,
-      ], { encoding: 'utf8' });
-      if (silent.status !== 0) throw new Error(silent.stderr || r.stderr);
-    }
+      '-movflags', '+faststart', out,
+    );
+    const r = spawnSync('ffmpeg', args, { encoding: 'utf8' });
+    if (r.status !== 0) throw new Error(r.stderr || 'encode');
     const bytes = existsSync(out) ? readFileSync(out).length : 1e12;
     if (bytes <= 15 * 1024 * 1024) return { crf, bytes };
     crf += 2;
@@ -239,11 +294,55 @@ function encodeH264(webm: string, out: string, ss: number) {
   throw new Error('video trop lourde');
 }
 
+async function pullTape(page: import('playwright').Page): Promise<{ sampleRate: number; peak: number; frames: number; interleaved: Float32Array }> {
+  const meta = await page.evaluate(() => {
+    const eng = (window as unknown as { __AUDIO?: { endTape: () => { sampleRate: number; interleaved: Float32Array; peak: number; frames: number } } }).__AUDIO;
+    if (!eng) return { sampleRate: 0, peak: 0, frames: 0, n: 0 };
+    const t = eng.endTape();
+    (window as unknown as { __tapeI16?: Int16Array; __tapeMeta?: { sampleRate: number; peak: number; frames: number; n: number } }).__tapeI16 = (() => {
+      const i16 = new Int16Array(t.interleaved.length);
+      for (let i = 0; i < t.interleaved.length; i++) {
+        const s = Math.max(-1, Math.min(1, t.interleaved[i]!));
+        i16[i] = (s * 32767) | 0;
+      }
+      return i16;
+    })();
+    return { sampleRate: t.sampleRate, peak: t.peak, frames: t.frames, n: t.interleaved.length };
+  });
+  const interleaved = new Float32Array(meta.n);
+  const chunk = 48000;
+  for (let off = 0; off < meta.n; off += chunk) {
+    const slice = await page.evaluate(({ off, chunk }) => {
+      const i16 = (window as unknown as { __tapeI16?: Int16Array }).__tapeI16;
+      if (!i16) return [];
+      const end = Math.min(i16.length, off + chunk);
+      const out: number[] = [];
+      for (let i = off; i < end; i++) out.push(i16[i]!);
+      return out;
+    }, { off, chunk });
+    for (let i = 0; i < slice.length; i++) interleaved[off + i] = slice[i]! / 32767;
+  }
+  return { sampleRate: meta.sampleRate, peak: meta.peak, frames: meta.frames, interleaved };
+}
+
+function grabFrame(mp4: string, t: number, dest: string) {
+  const r = spawnSync('ffmpeg', [
+    '-y', '-hide_banner', '-loglevel', 'error',
+    '-ss', Math.max(0, t).toFixed(3), '-i', mp4, '-frames:v', '1', dest,
+  ], { encoding: 'utf8' });
+  if (r.status !== 0 || !existsSync(dest)) throw new Error(`frame ${dest}: ${r.stderr}`);
+}
+
 async function matchVideo() {
   const tmp = join(OUT, '_vid');
   const stamps: Record<string, number> = {};
+  const ticks: Record<string, number> = {};
   await withServer(async (base) => {
-    const browser = await chromium.launch({ headless: true, args: SW });
+    const browser = await chromium.launch({
+      headless: true,
+      ignoreDefaultArgs: ['--mute-audio'],
+      args: [...SW, '--autoplay-policy=no-user-gesture-required'],
+    });
     const context = await browser.newContext({
       viewport: { width: 1280, height: 720 },
       recordVideo: { dir: tmp, size: { width: 1280, height: 720 } },
@@ -257,12 +356,46 @@ async function matchVideo() {
       });
     });
     const q = new URLSearchParams({
-      autoplay: VIDEO_AUTO, seed: VIDEO_SEED, cam: 'fps', tex: '512', props: '0',
+      autoplay: VIDEO_AUTO, seed: VIDEO_SEED, cam: 'fps', tex: '512', props: '0', cap: '1',
     });
     const tNav = Date.now();
     await page.goto(`${base}/?${q}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await page.waitForSelector('#hud', { timeout: 180000 });
     await page.mouse.click(640, 360);
+    await page.waitForFunction(() => {
+      const nl = (window as unknown as { __NL?: { audio?: { state?: string; decoded?: string[] } } }).__NL;
+      return nl?.audio?.state === 'running' && (nl.audio.decoded?.length ?? 0) >= 3;
+    }, undefined, { timeout: 60000 }).catch(() => null);
+    const tTape = Date.now();
+    const tapeOn = await page.evaluate(async () => {
+      const eng = (window as unknown as {
+        __AUDIO?: {
+          unlock: () => boolean;
+          beginTape: () => boolean;
+          captureStream: () => MediaStream | null;
+          ctx?: AudioContext;
+        };
+      }).__AUDIO;
+      if (!eng) return { tape: false, rec: false, state: 'none' };
+      eng.unlock();
+      if (eng.ctx && eng.ctx.state !== 'running') await eng.ctx.resume();
+      const tape = eng.beginTape();
+      const stream = eng.captureStream();
+      let rec = false;
+      if (stream && typeof MediaRecorder !== 'undefined') {
+        const types = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg'];
+        const mime = types.find((t) => MediaRecorder.isTypeSupported(t)) ?? '';
+        const recorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+        const chunks: Blob[] = [];
+        recorder.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
+        recorder.start(200);
+        (window as unknown as { __rec?: MediaRecorder; __recChunks?: Blob[] }).__rec = recorder;
+        (window as unknown as { __recChunks?: Blob[] }).__recChunks = chunks;
+        rec = true;
+      }
+      return { tape, rec, state: eng.ctx?.state ?? 'none' };
+    });
+    console.log('tapeOn', tapeOn);
     await waitLit(page);
     const litAt = (Date.now() - tNav) / 1000;
     await page.waitForFunction((kinds: string[]) => {
@@ -288,24 +421,85 @@ async function matchVideo() {
         };
       });
       const t = (Date.now() - tNav) / 1000;
-      if (st.events.includes('bolt') && stamps.bolter === undefined) stamps.bolter = t;
-      if ((st.events.includes('claw') || st.events.includes('hit')) && stamps.claw === undefined) stamps.claw = t;
-      if ((st.events.includes('fist') || (prevFist > 0 && st.fistCharge === 0)) && stamps.fist === undefined) stamps.fist = t;
-      if ((st.nlsAlive ?? 4) < 4 && stamps.death === undefined) stamps.death = t;
+      if (st.events.includes('bolt') && stamps.bolter === undefined) {
+        stamps.bolter = t; ticks.bolter = st.tick;
+      }
+      if ((st.events.includes('claw') || st.events.includes('hit')) && stamps.claw === undefined) {
+        stamps.claw = t; ticks.claw = st.tick;
+      }
+      if (st.events.includes('fistCharge') && stamps.fistCharge === undefined) {
+        stamps.fistCharge = t; ticks.fistCharge = st.tick;
+      }
+      if ((st.events.includes('fist') || (prevFist > 0 && st.fistCharge === 0)) && stamps.fist === undefined) {
+        stamps.fist = t; ticks.fist = st.tick;
+      }
+      if ((st.nlsAlive ?? 4) < 4 && stamps.death === undefined) {
+        stamps.death = t; ticks.death = st.tick;
+      }
       prevFist = st.fistCharge;
       if (st.done && st.msg === 'block' && /gagne|abattu|tenu/i.test(st.text)) {
         await page.waitForTimeout(2300);
         stamps.end = (Date.now() - tNav) / 1000;
+        ticks.end = st.tick;
         await page.screenshot({ path: join(OUT, 'end-card.png'), type: 'png' });
         break;
       }
-      await page.waitForTimeout(50);
+      await page.waitForTimeout(30);
     }
     if (!existsSync(join(OUT, 'end-card.png'))) {
       await page.waitForTimeout(2200);
       await page.screenshot({ path: join(OUT, 'end-card.png'), type: 'png' });
       stamps.end = (Date.now() - tNav) / 1000;
     }
+    const caps = await page.evaluate(() => {
+      return (window as unknown as { __fpsCaps?: Record<string, { tick: number; png: string }> }).__fpsCaps ?? {};
+    });
+    const writeCap = (key: string, file: string) => {
+      const cap = caps[key];
+      if (!cap?.png) return false;
+      const b64 = cap.png.replace(/^data:image\/png;base64,/, '');
+      writeFileSync(join(OUT, file), Buffer.from(b64, 'base64'));
+      ticks[`${key}Cap`] = cap.tick;
+      return true;
+    };
+    writeCap('bolter', 'bolter-fire.png');
+    writeCap('claw', 'claw-hit.png');
+    writeCap('fist', 'fist.png');
+    if (!writeCap('death', 'nl-death.png') || (caps.death && caps.bolter && caps.death.tick === caps.bolter.tick)) {
+      ticks.deathOffset = 1;
+    }
+    const seen = await page.evaluate(() => (window as unknown as { __NL?: { seen?: string[] } }).__NL?.seen ?? []);
+    console.log('caps', Object.keys(caps), 'seen', seen);
+    const tape = await pullTape(page);
+    const recB64 = await page.evaluate(async () => {
+      const w = window as unknown as { __rec?: MediaRecorder; __recChunks?: Blob[] };
+      if (!w.__rec) return '';
+      const stopped = new Promise<void>((resolve) => { w.__rec!.onstop = () => resolve(); });
+      try { w.__rec.stop(); } catch { return ''; }
+      await stopped;
+      const blob = new Blob(w.__recChunks ?? [], { type: 'audio/webm' });
+      const buf = await blob.arrayBuffer();
+      const bytes = new Uint8Array(buf);
+      const chunk = 0x8000;
+      let bin = '';
+      for (let i = 0; i < bytes.length; i += chunk) {
+        bin += String.fromCharCode(...bytes.subarray(i, i + chunk));
+      }
+      return btoa(bin);
+    });
+    const wav = join(tmp, 'webaudio.wav');
+    const aac = join(tmp, 'webaudio.m4a');
+    const recWebm = join(tmp, 'webaudio.webm');
+    let audioIn = wav;
+    if (tape.peak >= 1e-4 && tape.frames > 1000) {
+      writeWav(wav, tape.interleaved, tape.sampleRate || 44100, 2);
+    } else if (recB64 && recB64.length > 200) {
+      writeFileSync(recWebm, Buffer.from(recB64, 'base64'));
+      audioIn = recWebm;
+    } else {
+      throw new Error(`tape WebAudio silencieuse peak=${tape.peak} frames=${tape.frames} rec=${recB64.length}`);
+    }
+    const ln = loudnormAac(audioIn, aac);
     await context.close();
     await browser.close();
 
@@ -315,22 +509,41 @@ async function matchVideo() {
       '-i', webm, '-vf', 'blackdetect=d=0.08:pix_th=0.10', '-an', '-f', 'null', '-',
     ], { encoding: 'utf8' });
     const blackLog = `${detect.stderr}\n${detect.stdout}`;
-    let ss = Math.max(0, contactAt - 0.4);
+    let ss = Math.max(0, litAt - 0.12);
     const blackEnd = [...blackLog.matchAll(/black_end:([\d.]+)/g)].map((m) => Number(m[1]!));
     if (blackEnd.length && blackEnd[0]! > 0) ss = Math.max(ss, blackEnd[0]! + 0.04);
-    ss = Math.max(ss, litAt - 0.1, 0);
+    const tapeOffset = (tTape - tNav) / 1000;
+    const audioSkip = Math.max(0, ss - tapeOffset);
     const mp4 = join(VID, 'fps-match.mp4');
-    const enc = encodeH264(webm, mp4, ss);
+    const enc = encodeH264(webm, aac, mp4, ss, audioSkip);
     const sig = spawnSync('ffmpeg', [
       '-i', mp4, '-vf', 'blackdetect=d=0.08:pix_th=0.10,signalstats', '-frames:v', '36', '-an', '-f', 'null', '-',
     ], { encoding: 'utf8' });
     const signal = `${sig.stderr}\n${sig.stdout}`;
+    const videoStamps: Record<string, number> = {};
+    for (const [k, v] of Object.entries(stamps)) videoStamps[k] = Math.max(0, v - ss);
+    const liveShots = {
+      bolter: existsSync(join(OUT, 'bolter-fire.png')),
+      claw: existsSync(join(OUT, 'claw-hit.png')),
+      fist: existsSync(join(OUT, 'fist.png')),
+      death: existsSync(join(OUT, 'nl-death.png')),
+    };
+    if (!liveShots.bolter && videoStamps.bolter != null) grabFrame(mp4, videoStamps.bolter, join(OUT, 'bolter-fire.png'));
+    if (!liveShots.claw && videoStamps.claw != null) grabFrame(mp4, videoStamps.claw, join(OUT, 'claw-hit.png'));
+    const fistT = videoStamps.fistCharge ?? videoStamps.fist;
+    if (!liveShots.fist && fistT != null) grabFrame(mp4, fistT, join(OUT, 'fist.png'));
+    if ((!liveShots.death || ticks.deathOffset) && videoStamps.death != null) {
+      const deathT = videoStamps.death + 0.55;
+      grabFrame(mp4, deathT, join(OUT, 'nl-death.png'));
+    }
     writeFileSync(join(OUT, 'blackdetect.txt'), blackLog.slice(-2500));
     writeFileSync(join(OUT, 'signalstats.txt'), signal.slice(-2500));
     writeFileSync(join(OUT, 'video.json'), JSON.stringify({
-      url: `${base}/?${q}`, seed: VIDEO_SEED, autoplay: VIDEO_AUTO, litAt, contactAt, ss, enc, stamps,
+      url: `${base}/?${q}`, seed: VIDEO_SEED, autoplay: VIDEO_AUTO, litAt, contactAt, ss,
+      tapeOffset, audioSkip, tape: { peak: tape.peak, frames: tape.frames, sampleRate: tape.sampleRate },
+      enc, stamps, videoStamps, ticks, loudnorm: ln.measured, af: ln.af,
     }, null, 2));
-    console.log('video', mp4, enc, 'stamps', stamps);
+    console.log('video', mp4, enc, 'stamps', videoStamps, 'peak', tape.peak);
   });
 }
 

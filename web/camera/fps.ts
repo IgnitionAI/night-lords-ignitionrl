@@ -215,6 +215,125 @@ export interface OffscreenMark {
   armed: boolean;
 }
 
+export interface FpsThreatNL {
+  x: number;
+  y: number;
+  alive: boolean;
+  armTicks: number;
+}
+
+export interface FpsAimHint {
+  x: number;
+  y: number;
+}
+
+export interface FpsThreatFocus {
+  yaw: number;
+  pitch: number;
+  dist: number;
+  i: number;
+}
+
+/** Hint de visée à partir des événements du tick (présentation seulement). */
+export function eventAimHint(
+  events: readonly { type: string; who?: number; tx?: number; ty?: number; kill?: number }[],
+  nls: readonly FpsThreatNL[],
+  term?: { x: number; y: number },
+): FpsAimHint | null {
+  for (const e of events) {
+    if (e.type === 'claw' || e.type === 'clawArm' || e.type === 'whiff') {
+      const n = typeof e.who === 'number' ? nls[e.who] : undefined;
+      if (n) return { x: n.x, y: n.y };
+    }
+    if (e.type === 'bolt' && typeof e.tx === 'number' && typeof e.ty === 'number') {
+      return { x: e.tx, y: e.ty };
+    }
+    if (e.type === 'fistCharge') {
+      if (!term) continue;
+      let best: FpsThreatNL | null = null;
+      let bestD = Infinity;
+      for (const n of nls) {
+        if (!n.alive) continue;
+        const d = Math.hypot(n.x - term.x, n.y - term.y);
+        if (d < bestD) { bestD = d; best = n; }
+      }
+      if (best) return { x: best.x, y: best.y };
+    }
+    if (e.type === 'fist') {
+      if (typeof e.kill === 'number' && e.kill >= 0 && nls[e.kill]) {
+        const n = nls[e.kill]!;
+        return { x: n.x, y: n.y };
+      }
+      if (!term) continue;
+      let best: FpsThreatNL | null = null;
+      let bestD = Infinity;
+      for (const n of nls) {
+        if (!n.alive) continue;
+        const d = Math.hypot(n.x - term.x, n.y - term.y);
+        if (d < bestD) { bestD = d; best = n; }
+      }
+      if (best) return { x: best.x, y: best.y };
+    }
+  }
+  return null;
+}
+
+/** Cible de regard autoplay : menace armée, sinon plus proche (devant prioritaire). */
+export function pickFpsThreat(
+  term: { x: number; y: number; facing: number },
+  nls: readonly FpsThreatNL[],
+  hint: FpsAimHint | null = null,
+): FpsThreatFocus | null {
+  let bestX = 0;
+  let bestY = 0;
+  let bestI = -1;
+  let bestScore = -Infinity;
+  if (hint) {
+    bestX = hint.x;
+    bestY = hint.y;
+    bestI = -2;
+  } else {
+    for (let i = 0; i < nls.length; i++) {
+      const n = nls[i]!;
+      if (!n.alive) continue;
+      const dx = n.x - term.x;
+      const dy = n.y - term.y;
+      const d = Math.hypot(dx, dy);
+      if (d < 0.04) continue;
+      const rel = Math.abs(wrapPi(Math.atan2(dy, dx) - term.facing));
+      let score = 36 / (d + 0.35);
+      if (n.armTicks > 0) score += 90;
+      if (rel < 1.05) score += 14;
+      score -= rel * 1.8;
+      if (score > bestScore) {
+        bestScore = score;
+        bestI = i;
+        bestX = n.x;
+        bestY = n.y;
+      }
+    }
+    if (bestI < 0) return null;
+  }
+  const dx = bestX - term.x;
+  const dy = bestY - term.y;
+  const dist = Math.max(0.2, Math.hypot(dx, dy));
+  const yaw = Math.atan2(dy, dx);
+  const chest = 1.45;
+  // Jamais vers le ciel : le regard autoplay reste sur le torse, même au contact.
+  const pitch = clamp(Math.atan2(chest - FPS_EYE, dist), -0.62, -0.05);
+  return { yaw, pitch, dist, i: bestI };
+}
+
+export function steerFpsLook(look: FpsLook, target: { yaw: number; pitch: number }, snap: boolean): void {
+  if (snap) {
+    look.yaw = target.yaw;
+    look.pitch = clamp(target.pitch, FPS_PITCH_MIN, FPS_PITCH_MAX);
+    return;
+  }
+  look.yaw += wrapPi(target.yaw - look.yaw) * 0.36;
+  look.pitch = clamp(look.pitch + (target.pitch - look.pitch) * 0.3, FPS_PITCH_MIN, FPS_PITCH_MAX);
+}
+
 export function offscreenMarks(
   term: { x: number; y: number; yaw: number },
   nls: readonly { x: number; y: number; alive: boolean; armTicks: number }[],
