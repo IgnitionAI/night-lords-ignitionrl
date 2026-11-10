@@ -32,9 +32,8 @@ import {
   type CombatPose, type CamMode,
 } from './combat-cam';
 import { applyTerminatorLook } from './terminator-look';
-// Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
-// dépôt, licence Genex non confirmée) chaque appel renvoie false et ne fait rien — le jeu tourne à l'identique.
-import { initAudio, audio, onStep, onServoCharge, onBolterBurst, onFistCharge, onFistImpact, onHit, onServoAlarm, onServoLoop } from './audio/nightlords-audio.js';
+// Son : moteur WebAudio isolé (`web/audio/`). Les événements de sim restent la source ; la sim n'est pas touchée.
+import { initAudio, audio, engine, director } from './audio/index.ts';
 
 const qs = new URLSearchParams(location.search);
 // Canal d'ambiance (`cogitator:hunters`) : muet sauf si l'URL demande explicitement `?control=1`.
@@ -569,7 +568,14 @@ let muzzleT = 0, fistT = 0;
 let roundOver = false, lastSummary = '';
 let lastMatch: MatchStatus | null = null;
 const keys = new Set<string>();
-addEventListener('keydown', e => { keys.add(e.code); if (e.code === 'KeyV') { debug = !debug; if (debug) buildLabels(); } if (e.code === 'KeyP') paused = !paused; if (e.code === 'Enter' && roundOver) startRound(); if (e.code === 'Space') e.preventDefault(); });
+addEventListener('keydown', e => {
+  keys.add(e.code);
+  if (e.code === 'KeyV') { debug = !debug; if (debug) buildLabels(); }
+  if (e.code === 'KeyP') paused = !paused;
+  if (e.code === 'KeyM') engine.toggleMute();
+  if (e.code === 'Enter' && roundOver) startRound();
+  if (e.code === 'Space') e.preventDefault();
+});
 addEventListener('keyup', e => keys.delete(e.code));
 const snap = () => ({ t: [w.t.x, w.t.y, w.t.facing] as [number, number, number], n: w.nls.map(n => [n.x, n.y, n.facing] as [number, number, number]) });
 // ---------- mode démo : mise en scène des ENTRÉES, jamais de la simulation
@@ -772,6 +778,7 @@ function startRound() {
   }
   nlMeshes.forEach(m => { m.rotation.set(0, 0, 0); m.position.y = 0; m.visible = true; });
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
+  director.beginRound();
 }
 function playerAction(): TAction {
   const k = (c: string) => keys.has(c);
@@ -871,8 +878,6 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
   }
   updateTell();
 }
-// Panoramique d'une source : sa position écran, pas son angle au joueur (à 3 m la caméra voit autrement).
-function panOf(x: number, y: number) { const v = new THREE.Vector3(x, 1.3, y).project(camera); return Math.max(-1, Math.min(1, v.x)); }
 function tick() {
   prev = snap();
   const ta = DEMO_CFG ? DEMO_CFG.player(w.tick) : tactic ? tactic(w) : playerAction(); rec.record(w, ta);
@@ -886,24 +891,13 @@ function tick() {
   // porter l'horodatage de la fin du tick, sinon son flash est déjà éteint quand l'image est rendue.
   updateImpact(DT);
   for (const e of w.events) {
-    // Le son suit les mêmes événements que la caméra, mais ne dépend pas de ?impact=0 : ce sont deux
-    // sensations différentes, et on veut pouvoir mesurer l'une en gardant l'autre.
-    // La façade de Honsou : un événement appelle UNE fonction, toutes renvoient true si un son est parti.
-    if (e.type === 'step') onStep((e as any).intensity ?? 1);
+    // Le son suit les mêmes événements que la caméra, mais ne dépend pas de ?impact=0.
     // Le pas pousse la caméra à la source : la cadence suit la vitesse par construction, plus de compteur
     // de mètres. Le pied alterne, donc l'amplitude aussi ; le pas d'arrêt (intensity 0) est le plus lourd.
     if (e.type === 'step' && IMPACT) {
       const amp = (e as any).intensity > 0 ? 0.55 + 0.45 * (e as any).intensity : 1.15;
       stepImp.push({ t0: simT, v: -1.95 * amp * ((e as any).foot === 0 ? 1 : 0.94) });
     }
-    else if (e.type === 'bolt') onBolterBurst(0.05);
-    else if (e.type === 'fistCharge') onFistCharge(0);   // le gantelet s'engage, l'impact tombe 0,8 s plus tard
-    else if (e.type === 'fist') onFistImpact(0);
-    else if (e.type === 'clawArm') audio.clawArm({ pan: panOf(w.nls[(e as any).who].x, w.nls[(e as any).who].y) });
-    else if (e.type === 'claw') { const n = w.nls[(e as any).who]; onHit((e as any).dmg > 0 ? 'claw' : 'armor', panOf(n.x, n.y)); }
-    else if (e.type === 'whiff') onHit('miss', panOf(w.nls[(e as any).who].x, w.nls[(e as any).who].y));
-    else if (e.type === 'hit' && (e as any).servoAlarm > 0) onServoAlarm(0); // l'armure encaisse : les servos hurlent 1 s
-    else if (e.type === 'servoCritical') onServoAlarm(0);                    // une fois par manche, sous 25 % d'armure
     if (e.type === 'bolt') {
       const a = new THREE.Vector3(e.x, 1.55, e.y), b = new THREE.Vector3(e.tx, 1.22, e.ty);
       tracer.geometry.setFromPoints([a, b]); tracer.visible = true; tracerT = TRACER_SEC; shake = Math.max(shake, 0.15);
@@ -942,20 +936,17 @@ function tick() {
     }
   }
   lastMatch = nowMatch;
-  // Lit de servomoteurs : la charge suit la vitesse réelle, 0 = ralenti. Le silence est aussi un son —
-  // c'est le contraste entre le ralenti et la charge qui fait entendre la masse.
-  const sp = Math.hypot(w.t.vx, w.t.vy);
-  if (sp > 0.05) {
-    if (!audio.servo.isRunning()) onServoCharge(0); // montée en charge de 5 s, au démarrage seulement
-    onServoLoop.start({ load: sp / 2.5 });
-    onServoLoop.load(sp / 2.5);
-  } else onServoLoop.load(0.1);
+  const nlJump: number[] = [];
+  for (let i = 0; i < w.nls.length; i++) {
+    if (w.nls[i].alive && w.nls[i].lastAction === 2 && nlPrevAction[i] !== 2) nlJump.push(i);
+  }
+  director.tick(w, DT, w.events, { nlJump });
   updateRigs(); if (shot) advanceRigs(DT); updateCamYaw();
   if (w.done) endRound();
 }
 function flash(o: number) { const f = document.getElementById('flash')!; f.style.transition = 'none'; f.style.opacity = String(o); requestAnimationFrame(() => { f.style.transition = 'opacity .25s'; f.style.opacity = '0'; }); }
 async function endRound() {
-  roundOver = true; onServoLoop.stop({ fade: 0.5 }); if (w.winner === 'pack') score.pack++; else score.term++;
+  roundOver = true; director.endRound(w.winner); if (w.winner === 'pack') score.pack++; else score.term++;
   const msg = document.getElementById('msg')!; msg.style.display = 'block';
   const card = roundCard(w, { roundNo });
   msg.innerHTML = roundMarkup(card) + '<p>La meute étudie ta tactique…</p>';
@@ -999,6 +990,10 @@ function hud() {
     policyLine: `${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}`,
     burnIn: burnIn(),
   });
+  (window as unknown as { __NL?: unknown }).__NL = {
+    tick: w.tick, done: w.done, winner: w.winner, seed, muted: engine.muted,
+    audio: engine.status(),
+  };
   const d = document.getElementById('dbg')!; d.style.display = debug ? 'block' : 'none';
   if (debug) d.innerHTML = `<b>Vue de contrôle — ce que perçoit chaque Night Lord</b><table><tr><th>rôle</th><th>état</th><th>voit</th><th>entend</th><th>vox</th><th>âge</th><th>action (p)</th></tr>`
     + w.nls.map((n, i) => `<tr style="color:${ROLE_CSS[i]}"><td>${ROLES[i]}</td><td>${n.alive ? 'debout' : 'mort'}</td><td>${n.alive && n.belief.seen ? '●' : '·'}</td><td>${n.alive && n.belief.heard ? '●' : '·'}</td><td>${n.alive && n.belief.vox ? '●' : '·'}</td><td>${n.alive && n.belief.valid ? (n.belief.age * DT).toFixed(1) + ' s' : '—'}</td><td>${n.alive ? NL_ACTIONS[lastActs[i]] + (actor ? ` (${lastP[i].toFixed(2)})` : '') : ''}</td></tr>`).join('')
@@ -1097,6 +1092,11 @@ function render(alpha: number) {
   }
   camera.up.set(0, 1, 0);
   if (CAM_MODE === 'epaule' || CAM_MODE === 'combat') { if (recPitch) camera.rotateX(recPitch * (CAM_MODE === 'combat' ? 0.45 : 1)); camera.rotateZ(rollPrev + (roll - rollPrev) * alpha); }
+  {
+    const fwd = new THREE.Vector3();
+    camera.getWorldDirection(fwd);
+    engine.setListener(camera.position.x, camera.position.y, camera.position.z, fwd.x, fwd.y, fwd.z, 0, 1, 0);
+  }
   // flash de bouche : 75 ms après le départ de la rafale, décroissance quadratique. Il éclaire vraiment la
   // scène — piliers et silhouettes —, ce n'est pas un voile posé sur l'image.
   let mz = 0;
@@ -1227,11 +1227,11 @@ function termPoseReport() {
 }
 await Promise.all([
   loadPolicy(), loadModels(), loadProps(),
-  // capture `?shot=` : pas de fetch audio (sinon 404 console sur le manifeste hors dépôt)
   shot || PROBE_READ ? Promise.resolve() : initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }),
 ]);
 // Onglet en arrière-plan : le module suspend le contexte, et ne le reprend au retour que s'il tournait.
 audio.attachLifecycle();
+(window as unknown as { __AUDIO?: typeof engine }).__AUDIO = engine;
 resize(); startRound();
 // ---- sonde temporaire (retirée avant commit)
 if (Number(qs.get('hitscan') ?? 0)) {
