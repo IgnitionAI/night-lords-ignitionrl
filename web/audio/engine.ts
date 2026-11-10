@@ -1,4 +1,4 @@
-import { buildMixer, duckMusic, setMasterMuted, type MixerGraph } from './mixer';
+import { buildMixer, duckMusic, setBusGain, setMasterMuted, type MixerGraph } from './mixer';
 import { occluded, type Aabb } from './occlusion';
 import { BUS_GAINS, DEFAULT_POLYPHONY, type AudioManifest, type BusName, type InitResult, type MixerStatus, type MusicPhase, type PlayOpts, type SampleName } from './types';
 import { VoicePool } from './voices';
@@ -33,6 +33,7 @@ export class AudioEngine {
   unlocked = false;
   ready = false;
   musicPhase: MusicPhase = 'explore';
+  huntTension = 0;
   masterGain = BUS_GAINS.master;
   private lastPlay = new Map<string, number>();
   private live = new Map<number, LiveVoice>();
@@ -411,6 +412,27 @@ export class AudioEngine {
     this.setLoopGain('music-explore', explore * (this.entry('music-explore')?.gain ?? 0.4));
     this.setLoopGain('music-tension', tension * (this.entry('music-tension')?.gain ?? 0.45));
     this.setLoopGain('music-combat', combat * (this.entry('music-combat')?.gain ?? 0.5));
+    if (this.huntTension > 0) this.applyHuntTension(this.huntTension);
+  }
+
+  /** Gonfle drone / tension existants (buses #75). Ne crée pas de nouveau sample. */
+  setHuntTension(level: number): void {
+    this.huntTension = Math.max(0, Math.min(1, level));
+    this.applyHuntTension(this.huntTension);
+  }
+
+  private applyHuntTension(level: number): void {
+    if (!this.graph || !this.ctx) return;
+    const amb = BUS_GAINS.ambience * (1 + 0.62 * level);
+    setBusGain(this.graph, this.ctx, 'ambience', amb, 0.18);
+    if (this.musicPhase === 'stinger') return;
+    this.ensureLoop('music-tension', { bus: 'music', priority: 1, gain: 0.0001 });
+    this.ensureLoop('amb-drone', { bus: 'ambience', priority: 2, vary: false });
+    const drone = this.entry('amb-drone')?.gain ?? 0.5;
+    this.setLoopGain('amb-drone', drone * (1 + 0.9 * level));
+    const baseT = this.musicPhase === 'tension' ? 1 : this.musicPhase === 'combat' ? 0.45 : 0.12 * level;
+    const tGain = Math.max(baseT, 0.18 + 0.82 * level) * (this.entry('music-tension')?.gain ?? 0.45) * (0.35 + 0.65 * level);
+    this.setLoopGain('music-tension', Math.max(0.0001, tGain));
   }
 
   startAmbience(): void {

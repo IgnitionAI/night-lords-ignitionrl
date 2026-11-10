@@ -63,6 +63,7 @@ par 442903 / 568834 / 342984, transitoires courts.
 | fichier livré | rôle | licence | source |
 |---|---|---|---|
 | *.ogg sous nightlords/ | mixage Night Lords | CC0 1.0 | couches ci-dessus |
+| tension chasse (`setHuntTension`) | gonfle `amb-drone` + `music-tension` (buses ambience/music #75), aucun fichier nouveau | CC0 1.0 | mêmes sources que amb-drone / music-tension |
 | manifest.json | index | MIT (code du dépôt) | ce dépôt |
 
 Régénération :

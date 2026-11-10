@@ -1,0 +1,62 @@
+# measure-stride — timeScale=1 vs calé
+{
+  "role": "NL-1",
+  "clip": "run",
+  "picked": "run",
+  "speed_mps": 6,
+  "heightNative_m": 1.6999763706867699,
+  "scale": 1.176486940928493,
+  "duration_s": 0.6666666865348816,
+  "nKeys": 20,
+  "firstKey_s": 0.03333333507180214,
+  "stride_m": 1.3335077670385962,
+  "hipsDeltaXZ_m": 0,
+  "loopTrackDelta": 0.00000762939453125,
+  "poseT0VsFirst_m": 0,
+  "distCycle_before_m": 4.0000001192092896,
+  "slip_before_m": 2.6664923521706934,
+  "timeScale_after": 2.999607664897475,
+  "distCycle_after_m": 1.3335077670385962,
+  "slip_after_m": 0
+}
+{
+  "role": "NL-1",
+  "clip": "walk",
+  "picked": "walk",
+  "speed_mps": 3,
+  "heightNative_m": 1.6999763706867699,
+  "scale": 1.176486940928493,
+  "duration_s": 1.066666603088379,
+  "nKeys": 32,
+  "firstKey_s": 0.03333333507180214,
+  "stride_m": 1.1002657971633205,
+  "hipsDeltaXZ_m": 0,
+  "loopTrackDelta": 0.0000152587890625,
+  "poseT0VsFirst_m": 0,
+  "distCycle_before_m": 3.1999998092651367,
+  "slip_before_m": 2.099734012101816,
+  "timeScale_after": 2.9083879709023956,
+  "distCycle_after_m": 1.1002657971633205,
+  "slip_after_m": 0
+}
+{
+  "role": "TERM",
+  "clip": "walk",
+  "picked": "walk",
+  "speed_mps": 2.5,
+  "heightNative_m": 1.6999999788851172,
+  "scale": 1.529411783701971,
+  "duration_s": 1.066666603088379,
+  "nKeys": 32,
+  "firstKey_s": 0.03333333507180214,
+  "stride_m": 1.325615791286074,
+  "hipsDeltaXZ_m": 0,
+  "loopTrackDelta": 0.000003814697265625108,
+  "poseT0VsFirst_m": 0,
+  "distCycle_before_m": 2.6666665077209473,
+  "slip_before_m": 1.3410507164348733,
+  "timeScale_after": 2.0116435887760695,
+  "distCycle_after_m": 1.3256157912860742,
+  "slip_after_m": 2.220446049250313e-16
+}
+measure-stride ok

@@ -140,7 +140,7 @@ Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --see
 - `web/` : rendu Three.js et vue de contrôle (touche V)
 - Caméra FPS (défaut, `?cam=fps`) : œil du Terminator (~2,18 m), bob de pas lourd, visée souris (pointer lock),
   armes en avant-plan (bolter / gantelet) sur une passe de profondeur séparée. Module `web/camera/fps.ts`.
-- Caméra de combat (`?cam=combat`) : cadre le Terminator et le Night Lord vivant le plus menaçant (griffes armées) ou le plus proche. Recul / zoom doux, orbite limitée, évitement des piliers, lissage. Marqueur hors écran, lueur d'yeux / réacteur sans fog, traçant de bolt jusqu'à l'impact.
+- Caméra d'épaule / chasse (`?cam=shoulder`, alias `?cam=combat`) : third-person serré derrière l'épaule droite du Terminator (FOV ~50°, lag, bob de pas, occlusion `losClear`). Ambiance proie : vignette, fog court, indices de menace hors cadre, tension audio sur les buses #75. Le Terminator ne quitte pas le cadre. FPS reste le défaut.
 - Caméra à l'épaule (`?cam=epaule`) : 3,4 m derrière, 1,18 m sur l'épaule droite, 2,32 m du sol, fov 56.
 - Caméra de couloir (`?cam=couloir`) : 8,2 m / 3,4 m de haut / fov 58 (68 en portrait). Elle se cale derrière
   son dos et remonte à 4,9 m si son œil tombe dans l'emprise d'un pilier.

@@ -14,7 +14,8 @@ import {
   liftFollowIfOccluded,
   losClear,
   offscreenMarker,
-  parseCamMode,
+  huntThreatCount,
+  huntTremor,
   pickFocusNl,
   projectWorld,
   screenHeightFrac,
@@ -53,7 +54,7 @@ test('pickFocusNl : le plus proche vivant, sinon le plus menaçant (griffes arm�
   assert.equal(armed, 1);
 });
 
-test('caméra combat : Terminator toujours cadré (marge) et ≥ 8 % de hauteur, camp à 31 m hors priorité', () => {
+test('caméra épaule : Terminator toujours cadré (marge) et ≥ 18 % de hauteur, camp à 31 m hors priorité', () => {
   const term = { x: 5, y: 12, facing: 0 };
   const nl = { x: 36, y: 12, alive: true, armTicks: 0 };
   const pose = poseOf(term, [nl]);
@@ -66,7 +67,7 @@ test('caméra combat : Terminator toujours cadré (marge) et ≥ 8 % de hauteur,
   assert.ok(losClear(pose.camX, pose.camY, pose.camZ, term.x, 1.4, term.y, PILLARS), 'LOS T bouché');
 });
 
-test('caméra combat : NL à ~18 m dans le cadre avec le Terminator', () => {
+test('caméra épaule : NL à ~18 m devant reste dans le cône avec le Terminator', () => {
   const term = { x: 8, y: 12, facing: 0 };
   const nl = { x: 26, y: 12, alive: true, armTicks: 0 };
   const pose = poseOf(term, [nl]);
@@ -79,15 +80,14 @@ test('caméra combat : NL à ~18 m dans le cadre avec le Terminator', () => {
   assert.ok(screenHeightFrac(term.x, term.y, pose, ASPECT) >= COMBAT_CAM.termMinScreen);
 });
 
-test('caméra combat : poing alcôve (t154 kiter) T + cible visibles au-dessus du fût', () => {
+test('caméra épaule : poing alcôve (t154 kiter) T + cible visibles, LOS hors fût', () => {
   const term = { x: 12.30, y: 8.33, facing: 2.4 };
   const nl = { x: 10.06, y: 9.46, alive: true, armTicks: 2 };
   const pose = poseOf(term, [nl]);
   const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
   const n = projectWorld(nl.x, 1.4, nl.y, pose, ASPECT);
-  assert.ok(inFrustum(t, 0.72), `T hors cadre ndc=${t.x.toFixed(2)},${t.y.toFixed(2)}`);
-  assert.ok(inFrustum(n, 0.72), `NL hors cadre ndc=${n.x.toFixed(2)},${n.y.toFixed(2)}`);
-  assert.ok(Math.abs(n.x) <= 0.55, `cible trop au bord ndc=${n.x.toFixed(2)}`);
+  assert.ok(inFrustum(t, 0.88), `T hors cadre ndc=${t.x.toFixed(2)},${t.y.toFixed(2)}`);
+  assert.ok(inFrustum(n, 0.92), `NL hors cadre ndc=${n.x.toFixed(2)},${n.y.toFixed(2)}`);
   assert.ok(
     losClear(pose.camX, pose.camY, pose.camZ, term.x, 1.4, term.y, PILLARS, MELEE_LOS_PAD),
     `LOS T bouché cam=(${pose.camX.toFixed(2)},${pose.camY.toFixed(2)},${pose.camZ.toFixed(2)})`,
@@ -97,18 +97,9 @@ test('caméra combat : poing alcôve (t154 kiter) T + cible visibles au-dessus d
     `LOS cible bouché cam=(${pose.camX.toFixed(2)},${pose.camY.toFixed(2)},${pose.camZ.toFixed(2)})`,
   );
   assert.ok(pose.camY <= MELEE_LIFT + 0.02, `caméra dans les poutres y=${pose.camY.toFixed(2)}`);
-  assert.ok(pose.camY >= 3.05, `caméra trop basse dans l'alcôve y=${pose.camY.toFixed(2)}`);
-  assert.ok(distToPillars(pose.lookX, pose.lookZ, PILLARS) > 0.85, 'regard collé au fût');
-  assert.ok(pose.back >= 3.2, `too close back=${pose.back.toFixed(2)}`);
-  const punchX = nl.x - term.x, punchZ = nl.y - term.y;
-  const pLen = Math.hypot(punchX, punchZ) || 1;
-  const viewX = pose.lookX - pose.camX, viewZ = pose.lookZ - pose.camZ;
-  const vLen = Math.hypot(viewX, viewZ) || 1;
-  const along = (viewX / vLen) * (punchX / pLen) + (viewZ / vLen) * (punchZ / pLen);
-  assert.ok(along <= 0.72, `visée dans le coup/fût along=${along.toFixed(2)}`);
 });
 
-test('caméra combat : poing (T + NL à 2 m) les deux dans le cadre', () => {
+test('caméra épaule : poing (T + NL à 2 m) les deux dans le cadre', () => {
   const term = { x: 20, y: 12, facing: 0.4 };
   const nl = { x: 21.6, y: 13.1, alive: true, armTicks: 2 };
   const pose = poseOf(term, [nl]);
@@ -119,19 +110,24 @@ test('caméra combat : poing (T + NL à 2 m) les deux dans le cadre', () => {
   assert.ok(screenHeightFrac(term.x, term.y, pose, ASPECT) >= COMBAT_CAM.termMinScreen);
   assert.ok(losClear(pose.camX, pose.camY, pose.camZ, term.x, 1.4, term.y, PILLARS), 'LOS T poing');
   const dT = worldDist(pose.camX, pose.camY, pose.camZ, term.x, 1.4, term.y);
-  assert.ok(dT <= 6.5, `caméra poing trop loin d=${dT.toFixed(1)}`);
+  assert.ok(dT <= 3.8, `caméra poing trop loin d=${dT.toFixed(1)}`);
 });
 
-test('caméra combat : un NL dans le dos sort du cadre couloir mais pas du cadre combat', () => {
+test('caméra épaule : un NL dans le dos ne vole pas le cadre ; T reste ancré', () => {
   const term = { x: 20, y: 12, facing: 0 };
   const rear = { x: 8, y: 12, alive: true, armTicks: 0 };
   const pose = poseOf(term, [rear]);
-  const n = projectWorld(rear.x, 1.4, rear.y, pose, ASPECT);
-  const dN = worldDist(pose.camX, pose.camY, pose.camZ, rear.x, 1.4, rear.y);
-  assert.ok(inFrustum(n) && isReadableOnScreen(n, dN, FOG_CLEAR_M), `dos ndc=${n.x.toFixed(2)} d=${dN.toFixed(1)}`);
-  assert.ok(Math.abs(pose.orbit) <= COMBAT_CAM.orbitMax + 1e-6);
   const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
   assert.ok(inFrustum(t, COMBAT_CAM.termMargin), `T perdu en cadrant le dos`);
+  const fx = Math.cos(term.facing), fz = Math.sin(term.facing);
+  const rx = -fz, rz = fx;
+  const behind = -((pose.camX - term.x) * fx + (pose.camZ - term.y) * fz);
+  const right = (pose.camX - term.x) * rx + (pose.camZ - term.y) * rz;
+  assert.ok(behind > 0.3, `pas derrière T behind=${behind.toFixed(2)}`);
+  assert.ok(right > 0.15, `pas à l'épaule droite right=${right.toFixed(2)}`);
+  assert.ok(Math.abs(pose.orbit) <= COMBAT_CAM.orbitMax + 1e-6);
+  const mark = offscreenMarker(projectWorld(rear.x, 1.4, rear.y, pose, ASPECT));
+  assert.ok(mark.visible || !inFrustum(projectWorld(rear.x, 1.4, rear.y, pose, ASPECT), 0.999));
 });
 
 test('évitement des murs : l\'œil ne reste pas dans un pilier ni hors de l\'arène', () => {
@@ -200,11 +196,43 @@ test('lissage : un saut de pose est absorbé, pas un à-coup', () => {
   assert.ok(jump > 0.05);
 });
 
-test('parseCamMode : combat par défaut, couloir sur ?cam=couloir', () => {
-  assert.equal(parseCamMode(null), 'combat');
-  assert.equal(parseCamMode('couloir'), 'couloir');
-  assert.equal(parseCamMode('epaule'), 'epaule');
-  assert.equal(parseCamMode('troisquarts'), 'troisquarts');
+test('épaule droite : la caméra est derrière et à droite du Terminator', () => {
+  const term = { x: 16, y: 12, facing: 0.3 };
+  const pose = poseOf(term, [{ x: 22, y: 13, alive: true, armTicks: 0 }]);
+  const fx = Math.cos(term.facing), fz = Math.sin(term.facing);
+  const rx = -fz, rz = fx;
+  const behind = -((pose.camX - term.x) * fx + (pose.camZ - term.y) * fz);
+  const right = (pose.camX - term.x) * rx + (pose.camZ - term.y) * rz;
+  assert.ok(behind > 0.8 && behind < 3.2, `recul ${behind.toFixed(2)}`);
+  assert.ok(right > 0.25, `côté ${right.toFixed(2)}`);
+  const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
+  assert.ok(inFrustum(t, COMBAT_CAM.termMargin));
+});
+
+test('whip vers un NL dans le dos : le Terminator reste cadré', () => {
+  const term = { x: 20, y: 12, facing: 0 };
+  const rear = { x: 8, y: 12, alive: true, armTicks: 2 };
+  const pose = desiredCombatPose({
+    term, nls: [rear], aspect: ASPECT, portrait: false, pillars: PILLARS, arena: ARENA,
+    lookBias: { x: rear.x, y: rear.y, k: 0.22 },
+  });
+  const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
+  assert.ok(inFrustum(t, 0.88), `T perdu au whip ndc=${t.x.toFixed(2)},${t.y.toFixed(2)}`);
+  assert.ok(screenHeightFrac(term.x, term.y, pose, ASPECT) >= COMBAT_CAM.termMinScreen * 0.85);
+});
+
+test('menace hors vue : compte + tremblement croît avec le nombre de NL proches', () => {
+  const term = { x: 10, y: 12, facing: 0 };
+  const nls = [
+    { x: 12, y: 12, alive: true },
+    { x: 11, y: 14, alive: true },
+    { x: 40, y: 12, alive: true },
+    { x: 9, y: 11, alive: false },
+  ];
+  assert.equal(huntThreatCount(term, nls, 9), 2);
+  const a = huntTremor(0, 1.2);
+  const b = huntTremor(3, 1.2);
+  assert.ok(Math.hypot(b.sx, b.sz) > Math.hypot(a.sx, a.sz));
 });
 
 test('marqueur hors écran : un NDC hors cadre donne une direction de bord', () => {

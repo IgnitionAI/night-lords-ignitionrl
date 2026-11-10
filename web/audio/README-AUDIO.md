@@ -40,6 +40,7 @@ d'anim `#72` (`anticipation` / `impact` / `fire` / `land`) :
 | recul NL | jump-pack |
 | deux frères à &lt; 8 m | vox chuchoté / radio (enregistrements CC0) |
 | fond | drone, conduits, gouttes ; musique explore → tension → combat |
+| chasse (`?cam=shoulder`) | `setHuntTension` gonfle `amb-drone` + `music-tension` (buses existants) |
 
 ## Gestes
 

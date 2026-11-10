@@ -33,6 +33,7 @@ import {
 import {
   COMBAT_CAM, FOG_CLEAR_M, TERM_MODEL_H, applyCombatCamera, desiredCombatPose, inFrustum,
   isReadableOnScreen, liftFollowIfOccluded, losClear, offscreenMarker, smoothCombatPose,
+  huntThreatCount, huntTremor,
   type CombatPose,
 } from './combat-cam';
 import { applyTerminatorLook } from './terminator-look';
@@ -72,9 +73,10 @@ applyRendererAtmosphere(renderer);
 const FOG_MODE = qs.get('fog') ?? 'exp2';
 const scene = new THREE.Scene();
 applySceneAtmosphere(scene, FOG_MODE);
-// Cadrage : FPS par défaut (#74). `?cam=combat` two-shot ; `?cam=couloir|epaule|troisquarts` restent.
+// Cadrage : FPS par défaut (#74). `?cam=shoulder` (alias `combat`) épaule droite ; couloir / epaule / troisquarts restent.
 const CAM_MODE: CamMode = parseCamMode(qs.get('cam'));
 if (CAM_MODE === 'fps') document.body.classList.add('fps');
+if (CAM_MODE === 'shoulder') document.body.classList.add('shoulder');
 const PLAY_SPEED = Math.max(1, Math.min(2, Number(qs.get('speed') ?? 1) || 1));
 const PROBE_READ = qs.get('probe') === 'read';
 const CAP_STEP = qs.get('cap') === '1';
@@ -91,7 +93,7 @@ const camFov = (portrait: boolean): number => {
     case 'couloir': return portrait ? CAM.fovPortrait : CAM.fov;
     case 'epaule': return portrait ? EPAULE.fovPortrait : EPAULE.fov;
     case 'troisquarts': return portrait ? TROIS_QUARTS.fovPortrait : TROIS_QUARTS.fov;
-    case 'combat': return portrait ? COMBAT_CAM.fovPortrait : COMBAT_CAM.fov;
+    case 'shoulder': return portrait ? COMBAT_CAM.fovPortrait : COMBAT_CAM.fov;
     default: { const _e: never = CAM_MODE; throw new Error(String(_e)); }
   }
 };
@@ -101,9 +103,10 @@ const FX_QUALITY = parseFxQuality(qs.get('fx')); // ?fx=low : coupe particules, 
 const BENCH = qs.get('bench') === '1';
 const benchFrames: number[] = [];
 if (BENCH) (window as unknown as { __benchFrames: number[] }).__benchFrames = benchFrames;
-const camera = new THREE.PerspectiveCamera(camFov(false), 1, CAM_MODE === 'fps' ? 0.07 : 0.1, 200);
+const camera = new THREE.PerspectiveCamera(camFov(false), 1, CAM_MODE === 'fps' ? 0.07 : CAM_MODE === 'shoulder' ? COMBAT_CAM.near : 0.1, 200);
 installCorridorLights(scene, BEACON.y);
 const FPS_LIT = qs.get('fpslit') !== '0';
+const SHOULDER_LIT = qs.get('huntlit') !== '0';
 if (CAM_MODE === 'fps') {
   renderer.toneMappingExposure = FPS_LIT ? FPS_EXPOSURE : TONE_MAPPING_EXPOSURE;
   scene.fog = new THREE.FogExp2(FOG_COLOR, FPS_LIT ? FPS_FOG_DENSITY : 0.060);
@@ -111,6 +114,15 @@ if (CAM_MODE === 'fps') {
   const helmFill = new THREE.PointLight(0xc8d4ee, FPS_LIT ? 3.2 : 0, 11, 2);
   helmFill.position.set(0.15, 0.08, 0.2);
   camera.add(helmFill);
+  scene.add(camera);
+} else if (CAM_MODE === 'shoulder') {
+  // Chasse : fog plus court, vignette, mais fill local pour que T/NL restent lisibles (échec gate trop sombre).
+  renderer.toneMappingExposure = SHOULDER_LIT ? 1.48 : TONE_MAPPING_EXPOSURE;
+  scene.fog = new THREE.FogExp2(FOG_COLOR, SHOULDER_LIT ? 0.050 : 0.060);
+  if (SHOULDER_LIT) scene.add(new THREE.AmbientLight(0x243044, 0.34));
+  const shoulderFill = new THREE.PointLight(0xc4d0e8, SHOULDER_LIT ? 2.15 : 0, 8.5, 2);
+  shoulderFill.position.set(0.22, 0.12, 0.35);
+  camera.add(shoulderFill);
   scene.add(camera);
 } else {
   renderer.toneMappingExposure = TONE_MAPPING_EXPOSURE;
@@ -1012,6 +1024,7 @@ function startRound() {
   fpsMeleeLock = null;
   if (CAM_MODE === 'fps' && termRig) termRig.root.visible = false;
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
+  director.huntCam = CAM_MODE === 'shoulder';
   director.beginRound();
 }
 function playerAction(): TAction {
@@ -1034,6 +1047,7 @@ function floatText(x: number, y: number, text: string, color: string) {
 // que le joueur longe un mur (vu à t77). Il est avancé d'un pas de simulation, donc ?shot= reste juste.
 let camYaw = 0, followYaw = 0;
 let combatPose: CombatPose | null = null;
+let huntWhip: { x: number; y: number; until: number } | null = null;
 // P3 — le pivot. Mesure de l'état des lieux : la meute passe à plus de 90° dans le dos dès 8,3 s de
 // manche, jusqu'à 174°. La caméra se décale donc *un peu* vers la menace la plus proche, jamais plus de
 // 30 % de l'angle, et seulement si elle est derrière depuis plus d'une seconde : c'est un signal de
@@ -1174,6 +1188,10 @@ function tick() {
       if (e.kill >= 0) { hitMarkT = 0.18; hitMarkKill = true; }
     }
     if (e.type === 'fist' && e.kill >= 0) { hitMarkT = 0.2; hitMarkKill = true; }
+    if (CAM_MODE === 'shoulder' && (e.type === 'claw' || e.type === 'clawArm' || e.type === 'whiff')) {
+      const n = w.nls[(e as { who: number }).who];
+      if (n) huntWhip = { x: n.x, y: n.y, until: simT + (e.type === 'claw' ? 0.42 : 0.28) };
+    }
     if (e.type === 'hit') {
       dmgDir = dmgSide(e.zone, w.t.lastHitAngle, w.t.facing);
       dmgDirT = 0.55;
@@ -1364,10 +1382,10 @@ function render(alpha: number) {
     tLamp.distance = 7.2;
     nlFill.forEach((l, i) => { l.intensity = w.nls[i]!.alive || nlCamHold[i]! > 0 ? 5.6 : 0; });
     if (scene.fog && (scene.fog as THREE.FogExp2).isFogExp2) {
-      (scene.fog as THREE.FogExp2).density = 0.042;
+      (scene.fog as THREE.FogExp2).density = CAM_MODE === 'shoulder' ? 0.044 : 0.042;
     }
-    renderer.toneMappingExposure = 1.52;
-    postMat.uniforms.uVignette.value = 0.72;
+    renderer.toneMappingExposure = CAM_MODE === 'shoulder' ? 1.58 : 1.52;
+    postMat.uniforms.uVignette.value = CAM_MODE === 'shoulder' ? 0.92 : 0.72;
   } else {
     tFill.intensity = 0;
     nlFill.forEach((l) => { l.intensity = 0; });
@@ -1483,27 +1501,43 @@ function render(alpha: number) {
       camera.lookAt(subjX + fwdX * q.ahead + sx, q.eye, subjY + fz * q.ahead + sz);
       break;
     }
-    case 'combat': {
+    case 'shoulder': {
       const now = simT - DT + alpha * DT;
       if (!(shot || CAP_STEP)) {
         recZ = osc(recImp, now, REC.w, REC.z);
         recPitch = osc(pitchImp, now, REC.w, REC.z);
+        stepY = osc(stepImp, now, STP.w, STP.z);
       } else {
         recZ = 0;
         recPitch = 0;
+        stepY = 0;
       }
+      const breath = Math.sin(now * (2 * Math.PI / 5.2)) * 0.018;
+      const servo = Math.sin(now * 1.7) * 0.022;
       const nls = w.nls.map((n, i) => ({
         x: lerp(prev.n[i][0], n.x), y: lerp(prev.n[i][1], n.y),
         alive: n.alive || nlCamHold[i]! > 0,
         armTicks: n.alive ? n.armTicks : (nlCamHold[i]! > 0 ? 2 : 0),
       }));
+      let lookBias: { x: number; y: number; k: number } | undefined;
+      if (huntWhip && now < huntWhip.until) {
+        lookBias = { x: huntWhip.x, y: huntWhip.y, k: 0.22 * Math.max(0, (huntWhip.until - now) / 0.42) };
+      } else if (huntWhip && now >= huntWhip.until) {
+        huntWhip = null;
+      }
       const want = desiredCombatPose({
         term: { x: tx, y: ty, facing: tf },
         nls, aspect: Math.max(0.2, innerWidth / Math.max(1, innerHeight)), portrait,
-        pillars: PILLARS, arena: ARENA,
+        pillars: PILLARS, arena: ARENA, lookBias,
       });
+      want.camY += stepY + breath;
+      want.camX += servo * Math.cos(tf + Math.PI / 2);
+      want.camZ += servo * Math.sin(tf + Math.PI / 2);
+      want.back = Math.max(COMBAT_CAM.minBack, want.back + recZ * 0.35);
       combatPose = (shot || PROBE_READ || CAP_STEP || !combatPose) ? want : smoothCombatPose(combatPose, want, 1 / 60);
-      applyCombatCamera(camera, combatPose, sx, sz);
+      const threats = huntThreatCount({ x: tx, y: ty, facing: tf }, nls);
+      const trem = IMPACT ? huntTremor(threats, now) : { sx: 0, sz: 0 };
+      applyCombatCamera(camera, combatPose, sx + trem.sx, sz + trem.sz);
       break;
     }
     default: {
@@ -1512,8 +1546,8 @@ function render(alpha: number) {
     }
   }
   if (CAM_MODE !== 'fps') camera.up.set(0, 1, 0);
-  if (CAM_MODE === 'epaule' || CAM_MODE === 'combat') {
-    if (recPitch) camera.rotateX(recPitch * (CAM_MODE === 'combat' ? 0.45 : 1));
+  if (CAM_MODE === 'epaule' || CAM_MODE === 'shoulder') {
+    if (recPitch) camera.rotateX(recPitch * (CAM_MODE === 'shoulder' ? 0.42 : 1));
     camera.rotateZ(rollPrev + (roll - rollPrev) * alpha);
   }
   {
@@ -1560,8 +1594,23 @@ function render(alpha: number) {
       termRig.root.scale.setScalar(0);
     }
   }
-  if (CAM_MODE === 'fps') {
-    postMat.uniforms.uVignette.value = POST_VIGNETTE + 0.18;
+  if (CAM_MODE === 'shoulder' && !STILL_CAP) {
+    const nlsNow = w.nls.filter((n) => n.alive);
+    const near = nlsNow.filter((n) => Math.hypot(n.x - tx, n.y - ty) < 9).length;
+    postMat.uniforms.uVignette.value = POST_VIGNETTE + 0.22 + Math.min(0.28, near * 0.06);
+  }
+  if (CAM_MODE === 'fps' || CAM_MODE === 'shoulder') {
+    const threats = document.getElementById('threats');
+    if (threats) {
+      threats.innerHTML = marksHtml(offscreenMarks(
+        { x: tx, y: ty, yaw: CAM_MODE === 'fps' ? fpsLook.yaw : tf },
+        w.nls,
+        camera,
+      ));
+    }
+  }
+  if (CAM_MODE === 'fps' || CAM_MODE === 'shoulder') {
+    if (CAM_MODE === 'fps') postMat.uniforms.uVignette.value = POST_VIGNETTE + 0.18;
     for (const mats of nlEyeMats) {
       for (const m of mats) {
         const std = m as THREE.MeshStandardMaterial;
@@ -1615,6 +1664,11 @@ function render(alpha: number) {
       if (e.type === 'fist' && !caps.fist) snap('fist');
     }
     if (w.nls.filter((n) => n.alive).length < 4) snap('death');
+    if (!caps.threat) {
+      const tpos = { x: w.t.x, y: w.t.y, yaw: w.t.facing };
+      const marks = offscreenMarks(tpos, w.nls, camera);
+      if (marks.some((m) => m.d < 10)) snap('threat');
+    }
   }
 }
 let mainCalls = 0, mainTris = 0;
