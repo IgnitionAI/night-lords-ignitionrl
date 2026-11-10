@@ -9,20 +9,21 @@ import type { ActorJSON } from './policy';
 import { summarize, type Recording } from './recorder';
 import { mulberry32 } from './rng';
 import { checkGuard } from './guard';
-import { applyB4Shaping, parseTrainPreset, pickB4Opp, B4_TRAIN } from './train-b4';
+import { applyB4Shaping, applyB5Shaping, parseTrainPreset, pickB4Opp, pickB5Opp, B4_TRAIN, B5_TRAIN } from './train-b4';
 
 const args = Object.fromEntries(process.argv.slice(2).reduce<[string, string][]>((acc, a, i, arr) => { if (a.startsWith('--')) acc.push([a.slice(2), arr[i + 1]?.startsWith('--') || arr[i + 1] === undefined ? 'true' : arr[i + 1]]); return acc; }, []));
 const preset = parseTrainPreset(args);
-const U = Number(args.updates ?? (preset.preset === 'b4' ? B4_TRAIN.updates : 100));
-const E = Number(args.envs ?? (preset.preset === 'b4' ? B4_TRAIN.envs : 16));
+const U = Number(args.updates ?? (preset.preset === 'b5' ? B5_TRAIN.updates : preset.preset === 'b4' ? B4_TRAIN.updates : 100));
+const E = Number(args.envs ?? (preset.preset === 'b5' ? B5_TRAIN.envs : preset.preset === 'b4' ? B4_TRAIN.envs : 16));
 const K = Number(args.steps ?? 128);
 const out = args.out ?? 'runs/dev'; mkdirSync(out, { recursive: true });
 const seed0 = Number(args.seed ?? preset.seed); // seeds d'entraînement : 1..899 999 ; l'éval utilise 900 000+
 const ghostShare = Number(args.ghostShare ?? 0.7);
+const initPath = args.init ?? (preset.preset === 'b5' ? B5_TRAIN.init : undefined);
 checkGuard('début entraînement');
 
 const ppo = new PPO(OBS_DIM, N_ACT, { ...DEFAULT_PPO, lr: preset.lr, entCoef: preset.entCoef }, seed0);
-if (args.init) ppo.load(args.init);
+if (initPath) ppo.load(initPath);
 const ghostBC: ActorJSON | null = args.ghostBC ? JSON.parse(readFileSync(args.ghostBC, 'utf8')) : null;
 const ghostSummary = args.ghost ? summarize(JSON.parse(readFileSync(args.ghost, 'utf8')) as Recording) : null;
 const rng = mulberry32(seed0 * 7919);
@@ -41,6 +42,10 @@ function makeEnv(): Env {
   const O = { clawWindup: false };
   if (ghostBC && rng() < ghostShare) { opp = 'ghostBC'; tactic = bcGhost(ghostBC, s); w = newWorld(s, undefined, O); }
   else if (ghostSummary && rng() < ghostShare) { opp = 'ghost'; tactic = ghost(ghostSummary, s); w = newWorld(s, ghostSummary.spawn, O); }
+  else if (preset.curriculumB5) {
+    const picked = pickB5Opp(rng, trainProgress);
+    opp = picked.opp; tactic = picked.tactic; w = newWorld(s, undefined, O);
+  }
   else if (preset.curriculumB4) {
     const picked = pickB4Opp(rng, trainProgress);
     opp = picked.opp; tactic = picked.tactic; w = newWorld(s, undefined, O);
@@ -70,7 +75,8 @@ for (let u = 1; u <= U; u++) {
     envs.forEach((e, ei) => {
       const stepped = step(e.w, e.tactic(e.w), acts[ei]);
       const died = stepped.died;
-      const rewards = preset.shapeB4 ? applyB4Shaping(e.w, stepped.rewards, died) : stepped.rewards;
+      const rewards = preset.shapeB5 ? applyB5Shaping(e.w, stepped.rewards, died)
+        : preset.shapeB4 ? applyB4Shaping(e.w, stepped.rewards, died) : stepped.rewards;
       e.traj.forEach((tr, i) => { if (tr.obs.length > tr.rew.length) { tr.rew.push(rewards[i]); if (died[i]) { tr.done = true; finished.push(tr); e.traj[i] = { obs: [], act: [], lp: [], val: [], rew: [], done: false }; } } });
       if (e.w.done) {
         e.traj.forEach(tr => { if (tr.obs.length) { tr.done = true; finished.push(tr); } });
@@ -102,7 +108,7 @@ for (let u = 1; u <= U; u++) {
   appendFileSync(`${out}/metrics.jsonl`, JSON.stringify(line) + '\n');
   if (u % 5 === 0 || u === U) console.log(JSON.stringify(line));
   if (u % 25 === 0 || u === U) {
-    const meta = { updates: u, transitions, seconds: line.seconds, ghost: !!ghostSummary, ghostBC: args.ghostBC ?? null, init: args.init ?? null, preset: preset.preset || null, shapeB4: preset.shapeB4, curriculumB4: preset.curriculumB4, lr: preset.lr, entCoef: preset.entCoef, seed: seed0 };
+    const meta = { updates: u, transitions, seconds: line.seconds, ghost: !!ghostSummary, ghostBC: args.ghostBC ?? null, init: initPath ?? null, preset: preset.preset || null, shapeB4: preset.shapeB4, curriculumB4: preset.curriculumB4, shapeB5: preset.shapeB5, curriculumB5: preset.curriculumB5, lr: preset.lr, entCoef: preset.entCoef, seed: seed0 };
     ppo.save(`${out}/full.json`, meta); writeFileSync(`${out}/actor.json`, JSON.stringify(ppo.exportActor(`${out}@${u}`, meta)));
   }
 }
