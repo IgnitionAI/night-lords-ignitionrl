@@ -17,10 +17,14 @@ import {
   type CombatKind, type CombatMachine, type ShotDurations, crossFadeFor, eventsToFlags, freshMachine,
   isLoco, nlIntent, pickNamedClip, termIntent, tickMachine,
 } from './combat-anims';
-import { bindOneShot, makeCombatClips } from './proc-clips';
+import { bindAdditive, bindOneShot, makeCombatClips } from './proc-clips';
 import {
   extraAnimBasenames, IDLE_CLIP_KEYS, oneShotDurations, remapClip, resolveCombatClips,
 } from './combat-clips';
+import { emitAnimCue, peekAnimCues, roleOfIndex, scanClipMarkers } from './anim-cues';
+import { applyFootIk } from './foot-ik';
+import { impulseFall, stepFall, type FallBody } from './death-physics';
+import { IMPACT_DEMOS } from './impact-demos';
 import {
   applyRendererAtmosphere, applySceneAtmosphere, installCorridorLights, configureHunterSpot,
   CAM, EPAULE, TROIS_QUARTS, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, POST_DITHER_SRGB, LAMP, STRIP_EMISSIVE,
@@ -314,24 +318,67 @@ interface Rig {
   walk: THREE.AnimationAction | null; run: THREE.AnimationAction | null; idle: THREE.AnimationAction | null;
   attack: THREE.AnimationAction | null; shoot: THREE.AnimationAction | null;
   hit: THREE.AnimationAction | null; dodge: THREE.AnimationAction | null; death: THREE.AnimationAction | null;
+  combo: THREE.AnimationAction | null; leap: THREE.AnimationAction | null;
+  dodgeLeft: THREE.AnimationAction | null; dodgeRight: THREE.AnimationAction | null;
+  hitFront: THREE.AnimationAction | null; hitBack: THREE.AnimationAction | null;
+  hitLeft: THREE.AnimationAction | null; hitRight: THREE.AnimationAction | null;
+  stagger: THREE.AnimationAction | null;
+  deathThrow: THREE.AnimationAction | null; deathCollapse: THREE.AnimationAction | null;
+  deathDismember: THREE.AnimationAction | null;
+  walkWeight: THREE.AnimationAction | null;
+  overlay: THREE.AnimationAction | null;
   current: THREE.AnimationAction | null; tell: { value: number };
   strideWalk: number; strideRun: number; allowRun: boolean; holdIdle: boolean;
   combat: CombatMachine; kind: CombatKind;
   clipDurations: ShotDurations;
+  cueTime: number;
+  look: CharacterLook;
+  who: number | 'term';
 }
-const actionForKind = (rig: Rig, kind: CombatKind, style: CombatMachine['attackStyle']): THREE.AnimationAction | null => {
+const actionForKind = (rig: Rig, kind: CombatKind, m: CombatMachine): THREE.AnimationAction | null => {
   switch (kind) {
     case 'run': return rig.run ?? rig.walk;
     case 'walk': return rig.walk ?? rig.run;
     case 'idle': return rig.idle;
-    case 'attack': return style === 'shoot' ? (rig.shoot ?? rig.attack) : (rig.attack ?? rig.shoot);
-    case 'hit': return rig.hit;
-    case 'dodge': return rig.dodge;
-    case 'death': return rig.death;
+    case 'attack':
+      if (m.attackStyle === 'shoot') return rig.shoot ?? rig.attack;
+      if (m.meleeVariant === 'leap') return rig.leap ?? rig.attack;
+      if (m.meleeVariant === 'combo') return rig.combo ?? rig.attack;
+      return rig.attack ?? rig.shoot;
+    case 'hit': {
+      switch (m.hitDir) {
+        case 'front': return rig.hitFront ?? rig.hit;
+        case 'back': return rig.hitBack ?? rig.hit;
+        case 'left': return rig.hitLeft ?? rig.hit;
+        case 'right': return rig.hitRight ?? rig.hit;
+        default: { const _e: never = m.hitDir; return _e; }
+      }
+    }
+    case 'dodge': {
+      switch (m.dodgeDir) {
+        case 'left': return rig.dodgeLeft ?? rig.dodge;
+        case 'right': return rig.dodgeRight ?? rig.dodge;
+        case 'back': return rig.dodge;
+        default: { const _e: never = m.dodgeDir; return _e; }
+      }
+    }
+    case 'death': {
+      switch (m.deathKind) {
+        case 'throw': return rig.deathThrow ?? rig.death;
+        case 'collapse': return rig.deathCollapse ?? rig.death;
+        case 'dismember': return rig.deathDismember ?? rig.death;
+        default: { const _e: never = m.deathKind; return _e; }
+      }
+    }
     default: { const _e: never = kind; return _e; }
   }
 };
-const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, dim = 1, allowRun = true, look: CharacterLook = 'nl'): Rig => {
+const mkAdd = (mixer: THREE.AnimationMixer, clip: THREE.AnimationClip, loop: boolean) => {
+  const add = THREE.AnimationUtils.makeClipAdditive(clip.clone());
+  return bindAdditive(mixer.clipAction(add), loop);
+};
+
+const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, dim = 1, allowRun = true, look: CharacterLook = 'nl', who: number | 'term' = 'term'): Rig => {
   const root = model.scene;
   // Un seul objet uniform par modèle, créé ici : tous les programmes compilés plus tard le lisent en direct.
   // (Un uniform créé dans onBeforeCompile n'existe qu'après le premier rendu — en mode capture, les ticks
@@ -385,34 +432,78 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   // Sans Idle_3, clip0 TERM est la bind T-pose : on fige la foulée (timeScale 0). Avec Idle_3, on le joue.
   const idle = namedIdle ? mk(namedIdle) : (allowRun ? mk(model.animations?.[0] ?? null) : walk);
   const holdIdle = !namedIdle && !allowRun;
+  const walkWeight = resolved.walkWeight ? mkAdd(mixer, resolved.walkWeight, true) : null;
+  if (walkWeight) { walkWeight.setEffectiveWeight(0.38); walkWeight.play(); }
   return {
     root, mixer, walk, run: mk(runClip), idle,
     attack: mkShot(resolved.attack, look === 'term'),
-    shoot: mkShot(resolved.shoot, false),
-    hit: mkShot(resolved.hit, false),
+    shoot: mkAdd(mixer, resolved.shoot, false),
+    hit: mkAdd(mixer, resolved.hit, false),
     dodge: mkShot(resolved.dodge, false),
     death: mkShot(resolved.death, true),
+    combo: mkShot(resolved.combo, false),
+    leap: mkShot(resolved.leap, false),
+    dodgeLeft: mkShot(resolved.dodgeLeft, false),
+    dodgeRight: mkShot(resolved.dodgeRight, false),
+    hitFront: mkAdd(mixer, resolved.hitFront, false),
+    hitBack: mkAdd(mixer, resolved.hitBack, false),
+    hitLeft: mkAdd(mixer, resolved.hitLeft, false),
+    hitRight: mkAdd(mixer, resolved.hitRight, false),
+    stagger: mkAdd(mixer, resolved.stagger, false),
+    deathThrow: mkShot(resolved.deathThrow, true),
+    deathCollapse: mkShot(resolved.deathCollapse, true),
+    deathDismember: mkShot(resolved.deathDismember, true),
+    walkWeight,
+    overlay: null,
     current: null, tell, strideWalk, strideRun, allowRun, holdIdle,
     combat: freshMachine(), kind: 'idle',
     clipDurations: oneShotDurations(resolved),
+    cueTime: 0, look, who,
   };
 };
 const playKind = (rig: Rig, speed: number) => {
   const want = rig.combat.state;
-  const next = actionForKind(rig, want, rig.combat.attackStyle);
+  const next = actionForKind(rig, want, rig.combat);
   const fade = crossFadeFor(rig.kind, want);
-  if (next && (next !== rig.current || rig.combat.restart)) {
-    if (next !== rig.current) rig.current?.fadeOut(fade);
-    next.reset().setEffectiveWeight(1).fadeIn(next === rig.current ? 0.04 : fade).play();
-    if (want === 'death') { next.clampWhenFinished = true; next.setLoop(THREE.LoopOnce, 1); }
-    rig.current = next;
+  const additive = want === 'hit' || (want === 'attack' && rig.combat.attackStyle === 'shoot');
+  const loco = actionForKind(rig, rig.combat.lastLoco, rig.combat);
+  if (rig.walkWeight) {
+    rig.walkWeight.setEffectiveWeight(isLoco(want) && lookWeight(rig) ? 0.38 : 0.12);
+  }
+  if (additive && next) {
+    if (loco && loco !== rig.current) {
+      rig.current?.fadeOut(fade);
+      loco.reset().setEffectiveWeight(1).fadeIn(fade).play();
+      rig.current = loco;
+    } else if (loco && !loco.isRunning()) {
+      loco.reset().setEffectiveWeight(1).play();
+      rig.current = loco;
+    }
+    if (next !== rig.overlay || rig.combat.restart) {
+      rig.overlay?.fadeOut(0.08);
+      next.reset().setEffectiveWeight(1).fadeIn(0.06).play();
+      rig.overlay = next;
+    }
+  } else {
+    if (rig.overlay) { rig.overlay.fadeOut(fade); rig.overlay = null; }
+    if (next && (next !== rig.current || rig.combat.restart)) {
+      if (next !== rig.current) rig.current?.fadeOut(fade);
+      next.reset().setEffectiveWeight(1).fadeIn(next === rig.current ? 0.04 : fade).play();
+      if (want === 'death') { next.clampWhenFinished = true; next.setLoop(THREE.LoopOnce, 1); }
+      rig.current = next;
+    }
   }
   rig.kind = want;
-  if (next && isLoco(want) && want !== 'idle') {
-    const stride = want === 'run' ? rig.strideRun : rig.strideWalk;
-    next.timeScale = gaitTimeScale(speed, stride, next.getClip().duration);
-  } else if (next) next.timeScale = rig.holdIdle ? 0 : 1;
+  const driven = additive ? loco : next;
+  if (driven && isLoco(additive ? rig.combat.lastLoco : want) && (additive ? rig.combat.lastLoco : want) !== 'idle') {
+    const gait = additive ? rig.combat.lastLoco : want;
+    const stride = gait === 'run' ? rig.strideRun : rig.strideWalk;
+    driven.timeScale = gaitTimeScale(speed, stride, driven.getClip().duration);
+  } else if (driven) driven.timeScale = rig.holdIdle ? 0 : 1;
 };
+function lookWeight(rig: Rig): boolean {
+  return rig.look === 'term';
+}
 
 // Terminator : cubes (os/or loyaliste), front marqué par le visor et le storm bolter
 const term = new THREE.Group(); const bone = new THREE.MeshStandardMaterial({ color: 0x2a2418, metalness: 0.5, roughness: 0.45 });
@@ -439,12 +530,30 @@ const nlMarkers: THREE.Object3D[] = []; // anneau + étiquette, visibles seuleme
 const nlProxy: THREE.Object3D[] = []; // capsule + yeux procéduraux : cachés dès que le modèle riggé est chargé
 const nlRigs: (Rig | null)[] = [null, null, null, null];
 let termRig: Rig | null = null;
+const nlFall: (FallBody | null)[] = [null, null, null, null];
+function scanRigCues(rig: Rig) {
+  const act = rig.overlay ?? rig.current;
+  if (!act) return;
+  const t = act.time;
+  const name = act.getClip().name;
+  const role = rig.who === 'term' ? 'TERM' as const : roleOfIndex(rig.who);
+  for (const cue of scanClipMarkers(name, rig.cueTime, t, { role, who: rig.who })) emitAnimCue(cue);
+  rig.cueTime = t;
+}
+
 function advanceRigs(dt: number) {
   if (!(dt > 0)) return;
   for (const rig of [...nlRigs, termRig]) {
     if (!rig) continue;
-    const ts = rig.current?.timeScale ?? 1;
+    const ts = Math.max(Math.abs(rig.current?.timeScale ?? 1), Math.abs(rig.overlay?.timeScale ?? 1));
     advanceMixer(rig.mixer, dt, mixerSubstepCount(dt, ts));
+    scanRigCues(rig);
+    if (rig.kind !== 'death') applyFootIk(rig.root);
+  }
+  for (let i = 0; i < nlFall.length; i++) {
+    const b = nlFall[i]; if (!b) continue;
+    const n = w.nls[i];
+    nlFall[i] = stepFall(b, dt, { x: n.x, z: n.y }, ARENA, PILLARS);
   }
 }
 const nlLabels: { sprite: THREE.Sprite; name: string }[] = [];
@@ -733,7 +842,7 @@ const DEMO_SCRIPTS: Record<string, DemoScript> = {
     nls(): number[] { return [0, 0, 0, 0]; },
   },
 };
-const DEMO_CFG = DEMO ? DEMO_SCRIPTS[DEMO] ?? null : null;
+const DEMO_CFG = DEMO ? IMPACT_DEMOS[DEMO] ?? DEMO_SCRIPTS[DEMO] ?? null : null;
 function startRound() {
   // le build jouable garde l'armement des griffes (défaut) : il n'est plus celui des mesures b3
   roundNo++; roundOver = false; if (roundNo > 1) seed += 1; // manche suivante : la graine d'après, jamais la même
@@ -748,8 +857,12 @@ function startRound() {
     rig.combat = freshMachine();
     rig.kind = 'idle';
     rig.current = null;
+    rig.overlay = null;
+    rig.cueTime = 0;
     rig.mixer.stopAllAction();
+    if (rig.walkWeight) { rig.walkWeight.reset().setEffectiveWeight(0.38).play(); }
   }
+  nlFall[0] = nlFall[1] = nlFall[2] = nlFall[3] = null;
   nlMeshes.forEach(m => { m.rotation.set(0, 0, 0); m.position.y = 0; m.visible = true; });
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
 }
@@ -835,8 +948,13 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
     const intent = nlIntent({
       alive: n.alive, armTicks: n.armTicks, stunTicks: n.stunTicks, prevStun: nlPrevStun[i],
       lastAction: n.lastAction, prevAction: nlPrevAction[i], gait, flags, index: i,
+      facing: n.facing, x: n.x, y: n.y, termX: w.t.x, termY: w.t.y,
     });
+    const wasDeath = rig.combat.state === 'death';
     rig.combat = tickMachine(rig.combat, intent, DT, rig.clipDurations);
+    if (rig.combat.state === 'death' && rig.combat.restart && !wasDeath) {
+      nlFall[i] = impulseFall(rig.combat.deathKind, n.facing, NL_CFG.radius);
+    }
     playKind(rig, speed);
     nlPrevStun[i] = n.stunTicks;
     nlPrevAction[i] = n.lastAction;
@@ -844,7 +962,11 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
   if (termRig) {
     const speed = Math.hypot(w.t.vx, w.t.vy);
     const gait = pickGait(speed, { allowRun: termRig.allowRun, walkSpeed: T_CFG.fwd, runSpeed: T_CFG.fwd });
-    const intent = termIntent({ gait, fistCharge: w.t.fistCharge, burstLeft: w.t.burstLeft, flags });
+    const hitSrc = w.nls.find((n) => n.alive) ?? w.nls[0];
+    const intent = termIntent({
+      gait, fistCharge: w.t.fistCharge, burstLeft: w.t.burstLeft, flags,
+      facing: w.t.facing, x: w.t.x, y: w.t.y, hitFromX: hitSrc.x, hitFromY: hitSrc.y,
+    });
     termRig.combat = tickMachine(termRig.combat, intent, DT, termRig.clipDurations);
     playKind(termRig, speed);
   }
@@ -987,9 +1109,11 @@ function render(alpha: number) {
   term.position.set(tx, 0, ty); term.rotation.y = -tf; fistM.position.x = w.t.fistCd > 8 ? 1.2 : 0.55;
   w.nls.forEach((n, i) => {
     const g = nlMeshes[i];
-    g.position.set(lerp(prev.n[i][0], n.x), 0, lerp(prev.n[i][1], n.y));
+    const fall = nlFall[i];
+    const ox = fall?.ox ?? 0, oy = fall?.oy ?? 0, oz = fall?.oz ?? 0;
+    g.position.set(lerp(prev.n[i][0], n.x) + ox, oy, lerp(prev.n[i][1], n.y) + oz);
     if (n.alive || nlRigs[i]) g.rotation.y = -la(prev.n[i][2], n.facing);
-    else { g.rotation.set(Math.PI / 2, 0, 0); g.position.y = 0.4; }
+    else { g.rotation.set(Math.PI / 2, 0, 0); g.position.y = 0.4 + oy; }
   });
   hitGlowNL.forEach((l, i) => { l.intensity = 5.5 * (nlRigs[i]?.combat.hitFlash ?? 0); });
   hitGlowT.intensity = 6.5 * (termRig?.combat.hitFlash ?? 0);
@@ -1085,7 +1209,7 @@ addEventListener('resize', resize);
 // Les modèles remplacent les proxies. Un échec de chargement laisse la capsule en place : le prototype
 // reste jouable sans réseau ni assets.
 async function loadModels() {
-  const load = async (name: string, target: number, dim = 1, allowRun = true, look: CharacterLook = 'nl') => {
+  const load = async (name: string, target: number, dim = 1, allowRun = true, look: CharacterLook = 'nl', who: number | 'term' = 'term') => {
     const model = await loadModelGLB(name);
     const clips: THREE.AnimationClip[] = [...(model.animations ?? [])];
     for (const k of ['walk', 'run'] as const) { try { const a = await loadGLB(`/web/models/${name}-${k}.glb`); clips.push(...(a.animations ?? [])); } catch { /* clip absent, on garde l'idle de pose */ } }
@@ -1095,17 +1219,17 @@ async function loadModels() {
         clips.push(...(a.animations ?? []).map((c) => remapClip(c)));
       } catch { /* extra absent */ }
     }
-    return rigOf(model, clips, target, dim, allowRun, look);
+    return rigOf(model, clips, target, dim, allowRun, look, who);
   };
   await Promise.all(ROLES.map(async (_r, i) => {
     try {
-      const rig = await load(`NL-${i + 1}`, NL_HEIGHT, 0.22);
+      const rig = await load(`NL-${i + 1}`, NL_HEIGHT, 0.22, true, 'nl', i);
       nlMeshes[i].add(rig.root); nlRigs[i] = rig;
       for (const p of nlProxy.slice(i * 3, i * 3 + 3)) p.visible = false; // capsule + 2 yeux de ce rôle
     } catch (e) { console.warn('modèle NL-' + (i + 1) + ' absent, capsule conservée', e); }
   }));
   try {
-    termRig = await load('TERM', TERM_HEIGHT, 1, false, 'term');
+    termRig = await load('TERM', TERM_HEIGHT, 1, false, 'term', 'term');
     term.add(termRig.root);
     // Les matériaux de l'armure, pour l'alarme de servo : on garde l'émissif d'origine pour savoir le rendre.
     termRig.root.traverse((o: any) => { const m = o.material; if (m && m.emissive) { if (!m.userData.baseEmissive) m.userData.baseEmissive = m.emissive.clone(); alarmMats.push(m); } });
@@ -1140,6 +1264,7 @@ function termPoseReport() {
     handSpan, footDx, tpose,
   };
 }
+(window as any).__animCues = peekAnimCues;
 await Promise.all([
   loadPolicy(), loadModels(), loadProps(),
   // capture `?shot=` : pas de fetch audio (sinon 404 console sur le manifeste hors dépôt)
