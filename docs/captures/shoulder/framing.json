@@ -12,10 +12,20 @@
   "termInFov": 1141,
   "termShare": 1,
   "termTarget": 0.98,
+  "areaOk": 1132,
+  "areaShare": 0.9921121822962313,
+  "areaTarget": 0.9,
+  "termMaxArea": 0.4,
+  "headShoulderOk": 1141,
+  "headShoulderShare": 1,
+  "headShoulderTarget": 0.9,
   "clawHits": 90,
   "clawNlIn": 90,
   "clawNlShare": 1,
   "clawTarget": 0.8,
+  "clawNlClear": 90,
+  "clawClearShare": 1,
+  "clawClearTarget": 0.8,
   "ok": true,
   "perSeed": [
     {
@@ -24,8 +34,11 @@
       "tick": 217,
       "frames": 217,
       "termShare": 1,
+      "areaShare": 1,
+      "headShoulderShare": 1,
       "clawHits": 20,
-      "clawNlShare": 1
+      "clawNlShare": 1,
+      "clawClearShare": 1
     },
     {
       "seed": 900004,
@@ -33,8 +46,11 @@
       "tick": 230,
       "frames": 230,
       "termShare": 1,
+      "areaShare": 1,
+      "headShoulderShare": 1,
       "clawHits": 16,
-      "clawNlShare": 1
+      "clawNlShare": 1,
+      "clawClearShare": 1
     },
     {
       "seed": 900007,
@@ -42,8 +58,11 @@
       "tick": 265,
       "frames": 265,
       "termShare": 1,
+      "areaShare": 0.9660377358490566,
+      "headShoulderShare": 1,
       "clawHits": 19,
-      "clawNlShare": 1
+      "clawNlShare": 1,
+      "clawClearShare": 1
     },
     {
       "seed": 900010,
@@ -51,8 +70,11 @@
       "tick": 185,
       "frames": 185,
       "termShare": 1,
+      "areaShare": 1,
+      "headShoulderShare": 1,
       "clawHits": 19,
-      "clawNlShare": 1
+      "clawNlShare": 1,
+      "clawClearShare": 1
     },
     {
       "seed": 900017,
@@ -60,8 +82,11 @@
       "tick": 244,
       "frames": 244,
       "termShare": 1,
+      "areaShare": 1,
+      "headShoulderShare": 1,
       "clawHits": 16,
-      "clawNlShare": 1
+      "clawNlShare": 1,
+      "clawClearShare": 1
     }
   ]
 }

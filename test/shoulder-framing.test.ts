@@ -8,9 +8,13 @@ import { UNSEEN } from '../src/tactics.ts';
 import { mulberry32 } from '../src/rng.ts';
 import { forward, softmax, sample, type ActorJSON } from '../src/policy.ts';
 import {
+  COMBAT_CAM,
   desiredCombatPose,
   inFrustum,
+  nlOccludedByTerm,
   projectWorld,
+  termHeadShoulderInFrame,
+  termScreenAreaFrac,
 } from '../web/combat-cam.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -24,7 +28,9 @@ function runSeed(seed: number) {
   const tactic = UNSEEN.kiter!();
   let frames = 0;
   let termInFov = 0;
-  const claws: { tick: number; who: number; tIn: boolean; nlIn: boolean }[] = [];
+  let areaOk = 0;
+  let headShoulderOk = 0;
+  const claws: { tick: number; who: number; tIn: boolean; nlIn: boolean; nlClear: boolean }[] = [];
   let whip: { x: number; y: number; until: number } | null = null;
   while (!w.done && w.tick < 1800) {
     const ta = tactic(w);
@@ -41,54 +47,75 @@ function runSeed(seed: number) {
       }
     }
     const lookBias = whip && now < whip.until
-      ? { x: whip.x, y: whip.y, k: 0.16 * Math.max(0, (whip.until - now) / 0.42) }
+      ? { x: whip.x, y: whip.y, k: 0.48 * Math.max(0, (whip.until - now) / 0.42) }
       : undefined;
     if (whip && now >= whip.until) whip = null;
+    const term = { x: w.t.x, y: w.t.y, facing: w.t.facing };
     const pose = desiredCombatPose({
-      term: { x: w.t.x, y: w.t.y, facing: w.t.facing },
+      term,
       nls: w.nls.map((n) => ({ x: n.x, y: n.y, alive: n.alive, armTicks: n.armTicks })),
       aspect: ASPECT, portrait: false, pillars: PILLARS, arena: ARENA, lookBias,
     });
     const tNdc = projectWorld(w.t.x, 1.4, w.t.y, pose, ASPECT);
     const tIn = inFrustum(tNdc, 0.999);
+    const area = termScreenAreaFrac(term, pose, ASPECT);
+    const hs = termHeadShoulderInFrame(term, pose, ASPECT);
     frames++;
     if (tIn) termInFov++;
+    if (area <= COMBAT_CAM.termMaxArea) areaOk++;
+    if (hs.head && hs.shoulder) headShoulderOk++;
     for (const e of w.events) {
       if (e.type !== 'claw') continue;
       const n = w.nls[e.who];
       const nIn = !!(n && inFrustum(projectWorld(n.x, 1.4, n.y, pose, ASPECT), 0.999));
-      claws.push({ tick: w.tick, who: e.who, tIn, nlIn: nIn });
+      const nlClear = !!(n && nIn && !nlOccludedByTerm(pose, term, n));
+      claws.push({ tick: w.tick, who: e.who, tIn, nlIn: nIn, nlClear });
     }
   }
   const clawHits = claws.length;
   const clawNlIn = claws.filter((c) => c.nlIn).length;
+  const clawNlClear = claws.filter((c) => c.nlClear).length;
   return {
     seed, winner: w.winner, tick: w.tick,
     frames, termInFov, termShare: frames ? termInFov / frames : 0,
+    areaOk, areaShare: frames ? areaOk / frames : 0,
+    headShoulderOk, headShoulderShare: frames ? headShoulderOk / frames : 0,
     clawHits, clawNlIn, clawNlShare: clawHits ? clawNlIn / clawHits : 0,
+    clawNlClear, clawClearShare: clawHits ? clawNlClear / clawHits : 0,
     claws,
   };
 }
 
-test('5 graines kiter : T au cadre ≥ 98 %, NL attaquant ≥ 80 % des griffes', () => {
+test('5 graines kiter : cadre, surface T, tête/épaule, NL griffe non masqué', () => {
   const perSeed = SEEDS.map(runSeed);
   const frames = perSeed.reduce((a, s) => a + s.frames, 0);
   const termInFov = perSeed.reduce((a, s) => a + s.termInFov, 0);
+  const areaOk = perSeed.reduce((a, s) => a + s.areaOk, 0);
+  const headShoulderOk = perSeed.reduce((a, s) => a + s.headShoulderOk, 0);
   const clawHits = perSeed.reduce((a, s) => a + s.clawHits, 0);
   const clawNlIn = perSeed.reduce((a, s) => a + s.clawNlIn, 0);
+  const clawNlClear = perSeed.reduce((a, s) => a + s.clawNlClear, 0);
   const termShare = frames ? termInFov / frames : 0;
+  const areaShare = frames ? areaOk / frames : 0;
+  const headShoulderShare = frames ? headShoulderOk / frames : 0;
   const clawNlShare = clawHits ? clawNlIn / clawHits : 0;
+  const clawClearShare = clawHits ? clawNlClear / clawHits : 0;
   const out = {
     autoplay: 'kiter',
     policy: 'policies/current.json',
     seeds: SEEDS,
     frames, termInFov, termShare, termTarget: 0.98,
+    areaOk, areaShare, areaTarget: 0.90, termMaxArea: COMBAT_CAM.termMaxArea,
+    headShoulderOk, headShoulderShare, headShoulderTarget: 0.90,
     clawHits, clawNlIn, clawNlShare, clawTarget: 0.8,
-    ok: termShare >= 0.98 && clawNlShare >= 0.8,
+    clawNlClear, clawClearShare, clawClearTarget: 0.8,
+    ok: termShare >= 0.98 && clawNlShare >= 0.8 && clawClearShare >= 0.8
+      && areaShare >= 0.9 && headShoulderShare >= 0.9,
     perSeed: perSeed.map((s) => ({
       seed: s.seed, winner: s.winner, tick: s.tick,
       frames: s.frames, termShare: s.termShare,
-      clawHits: s.clawHits, clawNlShare: s.clawNlShare,
+      areaShare: s.areaShare, headShoulderShare: s.headShoulderShare,
+      clawHits: s.clawHits, clawNlShare: s.clawNlShare, clawClearShare: s.clawClearShare,
     })),
   };
   const dest = join(ROOT, 'docs/captures/shoulder/framing.json');
@@ -96,4 +123,7 @@ test('5 graines kiter : T au cadre ≥ 98 %, NL attaquant ≥ 80 % des griffes',
   writeFileSync(dest, JSON.stringify(out, null, 2) + '\n');
   assert.ok(termShare >= 0.98, `T au cadre ${termShare} (${termInFov}/${frames})`);
   assert.ok(clawNlShare >= 0.8, `NL griffe ${clawNlShare} (${clawNlIn}/${clawHits})`);
+  assert.ok(clawClearShare >= 0.8, `NL non masqué ${clawClearShare} (${clawNlClear}/${clawHits})`);
+  assert.ok(areaShare >= 0.9, `surface T ≤ 40 % : ${areaShare} (${areaOk}/${frames})`);
+  assert.ok(headShoulderShare >= 0.9, `tête/épaule ${headShoulderShare} (${headShoulderOk}/${frames})`);
 });

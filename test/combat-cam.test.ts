@@ -200,8 +200,8 @@ test('épaule droite : la caméra est derrière et à droite du Terminator', () 
   const rx = -fz, rz = fx;
   const behind = -((pose.camX - term.x) * fx + (pose.camZ - term.y) * fz);
   const right = (pose.camX - term.x) * rx + (pose.camZ - term.y) * rz;
-  assert.ok(behind > 0.9 && behind < 2.05, `recul ${behind.toFixed(2)}`);
-  assert.ok(right > 0.25 && right < 1.05, `côté ${right.toFixed(2)}`);
+  assert.ok(behind > 2.2 && behind < 3.6, `recul ${behind.toFixed(2)}`);
+  assert.ok(right > 0.35 && right < 1.75, `côté ${right.toFixed(2)}`);
   const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
   assert.ok(inFrustum(t, COMBAT_CAM.termMargin));
 });
@@ -217,7 +217,7 @@ test('whip vers un NL dans le dos : le Terminator reste cadré', () => {
   assert.ok(inFrustum(t, 0.82), `T perdu au whip ndc=${t.x.toFixed(2)},${t.y.toFixed(2)}`);
   const fx = Math.cos(term.facing), fz = Math.sin(term.facing);
   const behind = -((pose.camX - term.x) * fx + (pose.camZ - term.y) * fz);
-  assert.ok(Math.hypot(pose.camX - term.x, pose.camZ - term.y) < 2.6, `whip trop loin`);
+  assert.ok(Math.hypot(pose.camX - term.x, pose.camZ - term.y) < 4.4, `whip trop loin`);
 });
 
 test('filet keepTermFramed : un recul follow-cam est ramené à l\'épaule', () => {
@@ -232,7 +232,7 @@ test('filet keepTermFramed : un recul follow-cam est ramené à l\'épaule', () 
   assert.ok(inFrustum(t, 0.82), `T hors cadre après filet ndc=${t.x.toFixed(2)}`);
   const fx = Math.cos(term.facing), fz = Math.sin(term.facing);
   const behind = -((pose.camX - term.x) * fx + (pose.camZ - term.y) * fz);
-  assert.ok(behind < 2.15, `filet trop loin ${behind.toFixed(2)}`);
+  assert.ok(behind < 3.7, `filet trop loin ${behind.toFixed(2)}`);
 });
 
 test('menace hors vue : compte + tremblement croît avec le nombre de NL proches', () => {

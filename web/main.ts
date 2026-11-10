@@ -691,20 +691,34 @@ const ALARM_COLOR = new THREE.Color(0xff2a0e);
 const alarmMats: THREE.MeshStandardMaterial[] = []; // rempli au chargement du Terminator
 const tracer = new THREE.Line(
   new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]),
-  new THREE.LineBasicMaterial({ color: 0xfff0a8, fog: false, transparent: true, opacity: 0.95 }),
+  new THREE.LineBasicMaterial({
+    color: 0xfff0a8, fog: false, transparent: true, opacity: 0.95,
+    depthTest: CAM_MODE !== 'shoulder',
+  }),
 );
-scene.add(tracer); tracer.visible = false;
+tracer.renderOrder = 8; scene.add(tracer); tracer.visible = false;
 const tracerBolt = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.045, 0.018, 1, 7),
-  new THREE.MeshBasicMaterial({ color: 0xffc44a, fog: false, transparent: true, opacity: 0.88 }),
+  new THREE.CylinderGeometry(CAM_MODE === 'shoulder' ? 0.14 : 0.045, CAM_MODE === 'shoulder' ? 0.045 : 0.018, 1, 7),
+  new THREE.MeshBasicMaterial({
+    color: 0xffc44a, fog: false, transparent: true, opacity: 0.95,
+    depthTest: CAM_MODE !== 'shoulder', depthWrite: false,
+  }),
 );
-tracerBolt.visible = false; scene.add(tracerBolt);
+tracerBolt.visible = false; tracerBolt.renderOrder = 8; scene.add(tracerBolt);
 const tracerHit = new THREE.Mesh(
-  new THREE.SphereGeometry(0.16, 10, 10),
-  new THREE.MeshBasicMaterial({ color: 0xffe8a0, fog: false }),
+  new THREE.SphereGeometry(CAM_MODE === 'shoulder' ? 0.22 : 0.16, 10, 10),
+  new THREE.MeshBasicMaterial({ color: 0xffe8a0, fog: false, depthTest: CAM_MODE !== 'shoulder', depthWrite: false }),
 );
-tracerHit.visible = false; scene.add(tracerHit);
-const TRACER_SEC = 0.42;
+tracerHit.visible = false; tracerHit.renderOrder = 8; scene.add(tracerHit);
+const muzzleFlash = new THREE.Mesh(
+  new THREE.SphereGeometry(0.11, 10, 10),
+  new THREE.MeshBasicMaterial({
+    color: 0xffe08a, fog: false, transparent: true, opacity: 0.9,
+    depthTest: false, depthWrite: false,
+  }),
+);
+muzzleFlash.visible = false; muzzleFlash.renderOrder = 9; scene.add(muzzleFlash);
+const TRACER_SEC = CAM_MODE === 'shoulder' ? 0.55 : 0.42;
 const fx = createFxSystem(scene, FX_QUALITY);
 fx.bindEyes(nlEyeMats);
 const vm: Viewmodel | null = CAM_MODE === 'fps' ? createViewmodel() : null;
@@ -1180,7 +1194,12 @@ function tick() {
       pushStepImpulse(fpsSteps, simT, (e as any).intensity ?? 0, (e as any).foot === 1 ? 1 : 0);
     }
     if (e.type === 'bolt') {
-      const a = new THREE.Vector3(e.x, 1.55, e.y), b = new THREE.Vector3(e.tx, 1.22, e.ty);
+      const bfx = Math.cos(w.t.facing), bfz = Math.sin(w.t.facing);
+      const brx = -bfz, brz = bfx;
+      const a = CAM_MODE === 'shoulder'
+        ? new THREE.Vector3(e.x + bfx * 1.05 + brx * 0.62, 1.62, e.y + bfz * 1.05 + brz * 0.62)
+        : new THREE.Vector3(e.x, 1.55, e.y);
+      const b = new THREE.Vector3(e.tx, 1.22, e.ty);
       tracer.geometry.setFromPoints([a, b]); tracer.visible = true; tracerT = TRACER_SEC;
       const dir = b.clone().sub(a); const len = Math.max(0.2, dir.length());
       tracerBolt.position.copy(a).add(b).multiplyScalar(0.5);
@@ -1188,6 +1207,10 @@ function tick() {
       tracerBolt.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize());
       tracerBolt.visible = true;
       tracerHit.position.copy(b); tracerHit.visible = true;
+      if (CAM_MODE === 'shoulder') {
+        muzzleFlash.position.copy(a);
+        muzzleFlash.visible = true;
+      }
       if (IMPACT) { recImp.push({ t0: simT, v: 2.2 }); pitchImp.push({ t0: simT, v: 0.55 }); } // la rafale pousse la caméra et lève le nez
       if (e.kill >= 0) { hitMarkT = 0.18; hitMarkKill = true; }
     }
@@ -1384,12 +1407,12 @@ function render(alpha: number) {
     tFill.intensity = 9.4;
     tLamp.intensity = 10;
     tLamp.distance = 7.2;
-    nlFill.forEach((l, i) => { l.intensity = w.nls[i]!.alive || nlCamHold[i]! > 0 ? 5.6 : 0; });
+    nlFill.forEach((l, i) => { l.intensity = w.nls[i]!.alive || nlCamHold[i]! > 0 ? 7.2 : 0; });
     if (scene.fog && (scene.fog as THREE.FogExp2).isFogExp2) {
-      (scene.fog as THREE.FogExp2).density = CAM_MODE === 'shoulder' ? 0.044 : 0.042;
+      (scene.fog as THREE.FogExp2).density = CAM_MODE === 'shoulder' ? 0.036 : 0.042;
     }
-    renderer.toneMappingExposure = CAM_MODE === 'shoulder' ? 1.58 : 1.52;
-    postMat.uniforms.uVignette.value = CAM_MODE === 'shoulder' ? 0.48 : 0.72;
+    renderer.toneMappingExposure = CAM_MODE === 'shoulder' ? 1.50 : 1.52;
+    postMat.uniforms.uVignette.value = CAM_MODE === 'shoulder' ? 0.62 : 0.72;
   } else {
     tFill.intensity = 0;
     nlFill.forEach((l) => { l.intensity = 0; });
@@ -1519,7 +1542,7 @@ function render(alpha: number) {
       }));
       let lookBias: { x: number; y: number; k: number } | undefined;
       if (huntWhip && now < huntWhip.until) {
-        lookBias = { x: huntWhip.x, y: huntWhip.y, k: 0.16 * Math.max(0, (huntWhip.until - now) / 0.42) };
+        lookBias = { x: huntWhip.x, y: huntWhip.y, k: 0.48 * Math.max(0, (huntWhip.until - now) / 0.42) };
       } else if (huntWhip && now >= huntWhip.until) {
         huntWhip = null;
       }
@@ -1558,9 +1581,15 @@ function render(alpha: number) {
   // flash de bouche : 75 ms après le départ de la rafale, décroissance quadratique. Il éclaire vraiment la
   // scène — piliers et silhouettes —, ce n'est pas un voile posé sur l'image.
   let mz = 0;
-  for (const i of recImp) { const a = 1 - (simT - DT + alpha * DT - i.t0) / 0.075; if (a > mz) mz = a; }
+  const muzzleWin = CAM_MODE === 'shoulder' ? 0.18 : 0.075;
+  for (const i of recImp) { const a = 1 - (simT - DT + alpha * DT - i.t0) / muzzleWin; if (a > mz) mz = a; }
   muzzleT = Math.max(0, mz);
-  muzzleLight.intensity = 20 * muzzleT * muzzleT;
+  muzzleLight.intensity = (CAM_MODE === 'shoulder' ? 36 : 20) * muzzleT * muzzleT;
+  if (CAM_MODE === 'shoulder' && muzzleFlash.visible) {
+    const k = Math.max(muzzleT, tracerT > 0 ? 0.45 : 0);
+    muzzleFlash.scale.setScalar(0.55 + 0.7 * k);
+    (muzzleFlash.material as THREE.MeshBasicMaterial).opacity = 0.4 + 0.45 * k;
+  }
   const pulse = 0.72 + 0.28 * Math.sin((simT - DT + alpha * DT) * 3.1);
   fistLight.intensity = 2.2 * pulse;
   // clignotement à 2,5 Hz — période de 4 ticks. 8 Hz était au-dessus de ce que la simulation échantillonne
@@ -1950,7 +1979,9 @@ if (PROBE_READ) {
     shake *= 0.85;
     if (tracerT > 0) {
       tracerT -= dt;
-      if (tracerT <= 0) { tracer.visible = false; tracerBolt.visible = false; tracerHit.visible = false; }
+      if (tracerT <= 0) {
+        tracer.visible = false; tracerBolt.visible = false; tracerHit.visible = false; muzzleFlash.visible = false;
+      }
     }
     hitMarkT = Math.max(0, hitMarkT - dt);
     dmgDirT = Math.max(0, dmgDirT - dt);
