@@ -1,0 +1,15 @@
+{
+  "id": "b4",
+  "init": "policies/current-full.json",
+  "seed": 4,
+  "updates": 800,
+  "envs": 16,
+  "preset": "b4",
+  "lr": 0.0001,
+  "entCoef": 0.02,
+  "wallSeconds": 300.9,
+  "defaultInGame": true,
+  "loadVia": "/",
+  "b3Via": "?policy=b3",
+  "eval": "mesures/nn/b4/eval.json"
+}

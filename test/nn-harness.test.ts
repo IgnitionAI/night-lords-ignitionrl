@@ -34,6 +34,8 @@ test('les chemins b3 / politiques courantes sont gelés', () => {
   assert.equal(isFrozenArtifact('mesures/eval-b3.json', ROOT), true);
   assert.equal(isFrozenArtifact('policies/current.json', ROOT), true);
   assert.equal(isFrozenArtifact('policies/current-full.json', ROOT), true);
+  assert.equal(isFrozenArtifact('policies/b3/current.json', ROOT), true);
+  assert.equal(isFrozenArtifact('policies/b3/current-full.json', ROOT), true);
   assert.equal(isFrozenArtifact('runs/b3/metrics.jsonl', ROOT), true);
   assert.equal(isFrozenArtifact('runs/eval-b3-snap700-n50.json', ROOT), true);
   assert.equal(isFrozenArtifact('mesures/nn-scratch/smoke.json', ROOT), false);
@@ -97,4 +99,20 @@ test('writeHarnessReport refuse mesures/eval-b3.json avant tout writeFile', () =
   assert.equal(probe.results.march.packWins, 190);
   assert.throws(() => writeHarnessReport('mesures/eval-b3.json', { kind: 'nn-harness-measure' }, ROOT), /gelé|frozen/i);
   assert.equal(sha(B3_EVAL), before);
+});
+
+/** Empreintes b3 publiées (avant promotion b4) — l'archive policies/b3/ doit rester byte-identique. */
+const B3_ACTOR_SHA256 = '950b924f4ac96602836f53f6faac04a40ae6868d0a65f5aedd29dec81c1fef9f';
+const B3_FULL_SHA256 = '7c4e37f9c625e5217103b9d1125ad830508ed1a4454ce87250ba56596ff1ba4c';
+
+test('archive policies/b3/ est byte-identique à b3 ; current.json est b4', () => {
+  const archived = join(ROOT, 'policies/b3/current.json');
+  const archivedFull = join(ROOT, 'policies/b3/current-full.json');
+  assert.equal(sha(archived), B3_ACTOR_SHA256);
+  assert.equal(sha(archivedFull), B3_FULL_SHA256);
+  const deployed = JSON.parse(readFileSync(POLICY, 'utf8')) as { version: string };
+  const frozen = JSON.parse(readFileSync(archived, 'utf8')) as { version: string };
+  assert.equal(frozen.version, 'runs/b3@2000');
+  assert.equal(deployed.version, 'runs/b4@800');
+  assert.notEqual(sha(POLICY), B3_ACTOR_SHA256);
 });

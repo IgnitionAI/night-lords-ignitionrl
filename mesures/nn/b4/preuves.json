@@ -1,0 +1,21 @@
+{
+  "bunTest": { "pass": 96, "fail": 0, "skip": 1, "afterMerge": "2a576432" },
+  "bunRunBuild": 0,
+  "measureStride": {
+    "NL-1-run": 1.3335077670385962,
+    "NL-1-walk": 1.1002657971633205,
+    "TERM-walk": 1.325615791286074
+  },
+  "nnSmoke": { "overwroteFrozen": false, "packVersion": "runs/b4@800" },
+  "b3ArchiveSha256": {
+    "policies/b3/current.json": "950b924f4ac96602836f53f6faac04a40ae6868d0a65f5aedd29dec81c1fef9f",
+    "policies/b3/current-full.json": "7c4e37f9c625e5217103b9d1125ad830508ed1a4454ce87250ba56596ff1ba4c"
+  },
+  "evalB3Sha256": "96e3f41d2eb2d2c0203771f50f85bfc7c9ba104d0a7d341c7584dc195627eb8e",
+  "runsB3MetricsSha256": "4f26a25ac3a28b7d91115054852205e797416f9a535b5fc6e4f02a3e6222adc0",
+  "deployed": { "file": "policies/current.json", "version": "runs/b4@800", "sha256": "d43de9da64f008b7027ed4d6aa0c48fb35e3ea4fd571e6dfa87f6843f4c006c7" },
+  "simTs": "unchanged",
+  "capture": "docs/captures/nn-b4/default-b4-hud.png",
+  "hudPolicy": "politique runs/b4@800",
+  "captureConsoleErrors": 0
+}

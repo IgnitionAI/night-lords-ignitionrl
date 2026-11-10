@@ -6,6 +6,7 @@ import { PROP_PLACES, isPropKind, resolvePropKinds, type PropKind, type PropPlac
 import { POOL, UNSEEN, type Tactic } from '../src/tactics';
 import { Recorder } from '../src/recorder';
 import { forward, softmax, sample, type ActorJSON } from '../src/policy';
+import { policyFileFromQuery } from '../src/train-b4';
 import { mulberry32 } from '../src/rng';
 import { hunterState } from '../src/hunter-state';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -894,7 +895,14 @@ async function endRound() {
   } catch { msg.innerHTML += '<p>Serveur local absent : pas de ré-entraînement.</p>'; }
 }
 async function loadPolicy() {
-  try { const j = await fetch('/policy/current.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null); if (j) { actor = j; policyLabel = `politique ${j.version}`; } } catch { /* naïve */ }
+  const sel = policyFileFromQuery(qs.get('policy'));
+  try {
+    const j = await fetch(`/policy/${sel.file}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null);
+    if (j) {
+      const q = qs.get('policy');
+      policyLabel = `politique ${j.version}${q && sel.id !== 'current' ? ` (?policy=${sel.id})` : ''}`;
+    }
+  } catch { /* naïve */ }
 }
 // Traçabilité brûlée dans l'image : un lecteur doit pouvoir dire, en regardant une capture, quel tick elle
 // montre, sur quelle graine et dans quel mode. Sans ça, chaque planche est une affirmation invérifiable — et
