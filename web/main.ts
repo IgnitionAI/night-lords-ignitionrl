@@ -16,6 +16,7 @@ import {
   applyRendererAtmosphere, applySceneAtmosphere, installCorridorLights, configureHunterSpot,
   CAM, EPAULE, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, LAMP, STRIP_EMISSIVE,
 } from './atmosphere';
+import { applyTerminatorLook } from './terminator-look';
 // Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
 // dépôt, licence Genex non confirmée) chaque appel renvoie false et ne fait rien — le jeu tourne à l'identique.
 import { initAudio, audio, onStep, onServoCharge, onBolterBurst, onFistCharge, onFistImpact, onHit, onServoAlarm, onServoLoop } from './audio/nightlords-audio.js';
@@ -276,11 +277,12 @@ async function loadModelGLB(name: string) {
   if (TEX === 512) { try { return await loadGLB(`/web/models/${name}-512.glb`); } catch { /* pas de variante : on prend l'original */ } }
   return loadGLB(`/web/models/${name}.glb`);
 }
+type CharacterLook = 'nl' | 'term';
 interface Rig {
   root: THREE.Object3D; mixer: THREE.AnimationMixer;
   walk: THREE.AnimationAction | null; run: THREE.AnimationAction | null; idle: THREE.AnimationAction | null;
   current: THREE.AnimationAction | null; tell: { value: number };
-  strideWalk: number; strideRun: number; allowRun: boolean;
+  strideWalk: number; strideRun: number; allowRun: boolean; holdIdle: boolean;
 }
 const actionFor = (rig: Rig, gait: Gait): THREE.AnimationAction | null => {
   switch (gait) {
@@ -290,7 +292,7 @@ const actionFor = (rig: Rig, gait: Gait): THREE.AnimationAction | null => {
     default: { const _e: never = gait; return _e; }
   }
 };
-const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, dim = 1, allowRun = true): Rig => {
+const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, dim = 1, allowRun = true, look: CharacterLook = 'nl'): Rig => {
   const root = model.scene;
   // Un seul objet uniform par modèle, créé ici : tous les programmes compilés plus tard le lisent en direct.
   // (Un uniform créé dans onBeforeCompile n'existe qu'après le premier rendu — en mode capture, les ticks
@@ -302,20 +304,33 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   root.traverse((o: any) => {
     if (!o.isMesh) return;
     o.castShadow = true;
-    // Les textures sortent de Genex calibrees pour un studio, pas pour un couloir a 10 lux : on baisse
-    // l'albedo pour que la forme passe devant le detail, et on garde le liseré de Fresnel de P2.
     const m = o.material as THREE.MeshStandardMaterial;
-    if (m && m.color) { m.color.multiplyScalar(dim); m.envMapIntensity = 0.25; m.metalness *= 0.3; m.roughness = Math.max(m.roughness, 0.72); }
-    // Injecté *avant* le brouillard : ajouté après, le liseré traversait 17 m de brume intact et le Night
-    // Lord devenait un mannequin blanc à contre-jour (vu à t77). Avant, la brume le mange comme le reste.
-    // Le liseré porte aussi le télégraphe de la griffe : du bleu froid au rouge ardent, et il s'intensifie.
-    if (m && m.onBeforeCompile) m.onBeforeCompile = (sh) => {
-      sh.uniforms.uTell = tell;
-      sh.fragmentShader = 'uniform float uTell;\n' + sh.fragmentShader.replace('#include <fog_fragment>', `
+    if (!m) return;
+    switch (look) {
+      case 'term':
+        o.receiveShadow = true;
+        applyTerminatorLook(m, tell);
+        break;
+      case 'nl':
+        // Les textures sortent de Genex calibrees pour un studio, pas pour un couloir a 10 lux : on baisse
+        // l'albedo pour que la forme passe devant le detail, et on garde le liseré de Fresnel de P2.
+        if (m.color) { m.color.multiplyScalar(dim); m.envMapIntensity = 0.25; m.metalness *= 0.3; m.roughness = Math.max(m.roughness, 0.72); }
+        // Injecté *avant* le brouillard : ajouté après, le liseré traversait 17 m de brume intact et le Night
+        // Lord devenait un mannequin blanc à contre-jour (vu à t77). Avant, la brume le mange comme le reste.
+        // Le liseré porte aussi le télégraphe de la griffe : du bleu froid au rouge ardent, et il s'intensifie.
+        m.onBeforeCompile = (sh) => {
+          sh.uniforms.uTell = tell;
+          sh.fragmentShader = 'uniform float uTell;\n' + sh.fragmentShader.replace('#include <fog_fragment>', `
        float fres = pow(1.0 - clamp(abs(dot(normalize(normal), normalize(vViewPosition))), 0.0, 1.0), 4.2);
        gl_FragColor.rgb += mix(vec3(0.26, 0.35, 0.55), vec3(0.85, 0.12, 0.05), uTell) * fres * (0.55 + 1.4 * uTell);
        #include <fog_fragment>`);
-    };
+        };
+        break;
+      default: {
+        const _exhaustive: never = look;
+        throw new Error(String(_exhaustive));
+      }
+    }
   });
   const mixer = new THREE.AnimationMixer(root);
   const walkClip = pickClip(clips, 'walk');
@@ -323,9 +338,12 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   const mk = (c: THREE.AnimationClip | null) => (c ? mixer.clipAction(c) : null);
   const strideWalk = walkClip ? measureForwardStride(root, walkClip).stride : 0;
   const strideRun = runClip ? measureForwardStride(root, runClip).stride : 0;
+  const walk = mk(walkClip);
+  // clip0 du GLB Terminator est la bind T-pose. À l'arrêt on fige la foulée (timeScale 0), pas le bind.
+  const idle = allowRun ? mk(model.animations?.[0] ?? null) : walk;
   return {
-    root, mixer, walk: mk(walkClip), run: mk(runClip), idle: mk(model.animations?.[0] ?? null),
-    current: null, tell, strideWalk, strideRun, allowRun,
+    root, mixer, walk, run: mk(runClip), idle,
+    current: null, tell, strideWalk, strideRun, allowRun, holdIdle: !allowRun,
   };
 };
 const playRig = (rig: Rig, want: Gait, speed: number) => {
@@ -334,7 +352,7 @@ const playRig = (rig: Rig, want: Gait, speed: number) => {
   if (next && want !== 'idle') {
     const stride = want === 'run' ? rig.strideRun : rig.strideWalk;
     next.timeScale = gaitTimeScale(speed, stride, next.getClip().duration);
-  } else if (next) next.timeScale = 1;
+  } else if (next) next.timeScale = rig.holdIdle ? 0 : 1;
 };
 
 // Terminator : cubes (os/or loyaliste), front marqué par le visor et le storm bolter
@@ -805,11 +823,11 @@ addEventListener('resize', resize);
 // Les modèles remplacent les proxies. Un échec de chargement laisse la capsule en place : le prototype
 // reste jouable sans réseau ni assets.
 async function loadModels() {
-  const load = async (name: string, target: number, dim = 1, allowRun = true) => {
+  const load = async (name: string, target: number, dim = 1, allowRun = true, look: CharacterLook = 'nl') => {
     const model = await loadModelGLB(name);
     const clips: THREE.AnimationClip[] = [...(model.animations ?? [])];
     for (const k of ['walk', 'run'] as const) { try { const a = await loadGLB(`/web/models/${name}-${k}.glb`); clips.push(...(a.animations ?? [])); } catch { /* clip absent, on garde l'idle */ } }
-    return rigOf(model, clips, target, dim, allowRun);
+    return rigOf(model, clips, target, dim, allowRun, look);
   };
   await Promise.all(ROLES.map(async (_r, i) => {
     try {
@@ -819,7 +837,7 @@ async function loadModels() {
     } catch (e) { console.warn('modèle NL-' + (i + 1) + ' absent, capsule conservée', e); }
   }));
   try {
-    termRig = await load('TERM', TERM_HEIGHT, 0.40, false);
+    termRig = await load('TERM', TERM_HEIGHT, 1, false, 'term');
     term.add(termRig.root);
     // Les matériaux de l'armure, pour l'alarme de servo : on garde l'émissif d'origine pour savoir le rendre.
     termRig.root.traverse((o: any) => { const m = o.material; if (m && m.emissive) { if (!m.userData.baseEmissive) m.userData.baseEmissive = m.emissive.clone(); alarmMats.push(m); } });
