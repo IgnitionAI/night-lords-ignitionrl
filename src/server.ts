@@ -40,7 +40,7 @@ createServer(async (req, res) => {
     res.writeHead(200, { 'content-type': 'application/json' });
     return res.end(JSON.stringify({ ok: r.status === 0, seconds, updates: FT_UPDATES, roundsUsed: Math.min(3, session.length), summary: summary.describe, gate, version: gate?.accepted ? out : 'inchangée (garde-fou)', log: r.status === 0 ? undefined : r.stderr.slice(-500) }));
   }
-  let p = url.pathname === '/' ? '/web/index.html' : url.pathname;
+  let p = url.pathname === '/' ? '/web/dist/index.html' : url.pathname; // page construite par vite (web/index.html est la source)
   if (p.startsWith('/policy/')) p = '/policies/' + p.slice(8);
   const f = join(ROOT, p);
   if (!f.startsWith(ROOT) || !existsSync(f)) { res.writeHead(404); return res.end('404'); }
