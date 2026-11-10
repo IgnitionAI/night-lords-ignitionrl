@@ -1,4 +1,8 @@
-{ "name": "night-lords-proto", "private": true, "license": "MIT", "type": "module",
+{
+  "name": "night-lords-proto",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "bun run build:web && bun run build:node",
@@ -7,6 +11,15 @@
     "start": "bun dist/server.mjs",
     "test": "bun test test/",
     "sweep:noise": "bun scripts/sweep-noise.ts",
-    "nn:smoke": "bun scripts/nn-harness.ts" },
-  "dependencies": { "@tensorflow/tfjs-node": "4.22.0", "three": "0.162.0", "esbuild": "0.24.0" },
-  "devDependencies": { "vite": "7.3.7" } }
+    "nn:smoke": "bun scripts/nn-harness.ts"
+  },
+  "dependencies": {
+    "@tensorflow/tfjs-node": "4.22.0",
+    "three": "0.162.0",
+    "esbuild": "0.24.0"
+  },
+  "devDependencies": {
+    "playwright": "1.65.0",
+    "vite": "7.3.7"
+  }
+}
