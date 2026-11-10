@@ -1,0 +1,20 @@
+{
+  "url": "http://127.0.0.1:18196/?autoplay=kiter&seed=900002&cam=fps&tex=512&props=0",
+  "seed": "900002",
+  "autoplay": "kiter",
+  "litAt": 6.055,
+  "contactAt": 18.919,
+  "ss": 18.519000000000002,
+  "enc": {
+    "crf": 28,
+    "bytes": 8152401
+  },
+  "stamps": {
+    "contact": 18.919,
+    "bolter": 18.938,
+    "death": 18.938,
+    "claw": 32.376,
+    "fist": 36.835,
+    "end": 60.032
+  }
+}

@@ -1,0 +1,4 @@
+YAVG t=0s: 34.98 (not black)
+YAVG t=0.5s: 40.75
+YAVG t=1s: 40.74
+blackdetect=d=0.08:pix_th=0.10 on docs/videos/fps-match.mp4: no black_start (empty)
