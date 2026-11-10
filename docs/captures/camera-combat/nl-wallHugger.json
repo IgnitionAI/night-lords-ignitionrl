@@ -12,6 +12,19 @@
     "claw",
     "hit"
   ],
+  "seen": [
+    "step",
+    "bolt",
+    "clawArm",
+    "claw",
+    "hit",
+    "fistCharge",
+    "servoCritical"
+  ],
+  "eventWho": [
+    3,
+    null
+  ],
   "msgShown": true,
   "audio": {
     "ok": false,
@@ -33,7 +46,7 @@
       "i": 0,
       "alive": false,
       "kind": "death",
-      "clip": "proc-death-throw",
+      "clip": "proc-death-collapse",
       "loco": false,
       "skinned": 1,
       "visibleSkinned": 0,
@@ -43,7 +56,7 @@
       "i": 1,
       "alive": false,
       "kind": "death",
-      "clip": "proc-death-throw",
+      "clip": "proc-death-collapse",
       "loco": false,
       "skinned": 1,
       "visibleSkinned": 0,
