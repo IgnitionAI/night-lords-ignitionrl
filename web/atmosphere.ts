@@ -77,7 +77,10 @@ export const LAMP = { color: 0xff2a1a, intensity: 8.2, distance: 9, decay: 2 };
 export const STRIP_EMISSIVE = 0.48;
 export const SPOT_SHADOW_MAP = 1024;
 
-// Finish Terminator (couloir sombre) — constantes de #58, non modifiées ici.
+// Finish Terminator (couloir sombre) : le GLB Genex porte un `BakedMaterial` et une carte
+// metallicRoughness dummy orange (B≈5/255 → métal 0,02). Le chargeur générique faisait
+// encore `metalness *= 0,3` et `roughness ≥ 0,72` : l'armure lisait comme un MeshStandard
+// plastique. Constantes calées sur l'expo 1,34 / rake 0,32 — pas un studio.
 export const TERM_LOOK = {
   albedoDim: 0.78,
   warmth: { r: 1.04, g: 0.97, b: 0.86 },
