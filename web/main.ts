@@ -498,7 +498,7 @@ const alarmMats: THREE.MeshStandardMaterial[] = []; // rempli au chargement du T
 const tracer = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), new THREE.LineBasicMaterial({ color: 0xffe080 })); scene.add(tracer); tracer.visible = false;
 
 // Passe plein écran : vignette + grain. Un quad et un shader, aucun addon. La RT est HalfFloat linéaire
-// (ACES y tient sans quantifier les noirs) ; ce shader encode en sRGB IEC puis dithers en 8 bits.
+// (ACES y tient sans quantifier les noirs) ; ce shader encode en pow(c,0.4545) comme avant, puis dithers.
 const rt = new THREE.WebGLRenderTarget(2, 2, sceneRenderTargetOptions());
 const postScene = new THREE.Scene(); const postCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 const postMat = new THREE.ShaderMaterial({
