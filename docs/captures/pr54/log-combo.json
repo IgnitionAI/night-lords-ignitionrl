@@ -9,20 +9,7 @@
       "title": "READY",
       "console": [],
       "errors": [],
-      "netFail": [
-        {
-          "url": "http://127.0.0.1:18190/web/models/props/debris.glb",
-          "err": "net::ERR_ABORTED"
-        },
-        {
-          "url": "http://127.0.0.1:18190/web/models/NL-4-512.glb",
-          "err": "net::ERR_ABORTED"
-        },
-        {
-          "url": "http://127.0.0.1:18190/web/models/TERM-walk.glb",
-          "err": "net::ERR_ABORTED"
-        }
-      ],
+      "netFail": [],
       "webgl": {
         "ok": true,
         "vendor": "Google Inc. (Google)",
