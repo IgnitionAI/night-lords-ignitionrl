@@ -160,9 +160,48 @@ test('directeur : bolt déclenche ducking et phase combat', async () => {
   };
   dir.beginRound();
   dir.handleEvent({ type: 'bolt', x: 10, y: 10, tx: 12, ty: 10, kill: 0 }, w);
+  assert.notEqual(engine.graph?.ducked, true);
+  dir.tick(w, 0.05, []);
+  assert.notEqual(engine.graph?.ducked, true);
+  dir.onAnimCue({ kind: 'fire', role: 'TERM', clip: 'proc-shoot', time: 0.18, who: 'term' });
   assert.equal(engine.graph?.ducked, true);
   dir.tick(w, 0.1, []);
   assert.equal(engine.musicPhase, 'combat');
+});
+
+test('directeur : impact de griffe calé sur le cue, pas sur le tick de sim', async () => {
+  const ctx = createMockAudioContext();
+  const { engine } = await import('../web/audio/engine.ts');
+  const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf8')) as AudioManifest;
+  await engine.init({
+    context: ctx as never,
+    manifest,
+    autounlock: false,
+    enabled: true,
+    search: '',
+    fetchImpl: (async () => { throw new Error('no fetch'); }) as never,
+  });
+  const silent = ctx.createBuffer(1, 2048, ctx.sampleRate) as unknown as AudioBuffer;
+  for (const s of manifest.samples) engine.putBuffer(s.name, silent);
+  const dir = new AudioDirector();
+  const w = {
+    t: { x: 10, y: 10, vx: 0, vy: 0, servoAlarm: 0 },
+    nls: [
+      { alive: true, x: 11, y: 10 },
+      { alive: true, x: 12, y: 11 },
+      { alive: true, x: 20, y: 20 },
+      { alive: true, x: 21, y: 4 },
+    ],
+    done: false,
+    winner: null as 'pack' | 'terminator' | null,
+  };
+  dir.beginRound();
+  dir.tick(w, 0.1, [{ type: 'claw', who: 0, dmg: 2 }]);
+  const before = engine.pool.list().filter((v) => v.name === 'claw-metal').length;
+  assert.equal(before, 0);
+  dir.onAnimCue({ kind: 'impact', role: 'NL-1', clip: 'proc-combo', time: 0.18, who: 0 });
+  const after = engine.pool.list().filter((v) => v.name === 'claw-metal').length;
+  assert.ok(after >= 1);
 });
 
 test('?mute=1 coupe le moteur à l’init', async () => {

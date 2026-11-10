@@ -1,0 +1,22 @@
+{
+  "urls": {
+    "avant-bolter-t4": "http://127.0.0.1:18200/?demo=combat-shot&cam=troisquarts&shot=4&tex=512&seed=1&fx=low",
+    "avant-impact-nl-t4": "http://127.0.0.1:18200/?demo=combat-shot&cam=troisquarts&shot=4&tex=512&seed=1&focus=0&fx=low",
+    "avant-griffe-t6": "http://127.0.0.1:18200/?demo=polish-claw&cam=troisquarts&shot=6&tex=512&seed=1&fx=low",
+    "avant-poing-t12": "http://127.0.0.1:18200/?demo=combat-term-fist&cam=troisquarts&shot=12&tex=512&seed=1&fx=low",
+    "avant-mort-nl-t5": "http://127.0.0.1:18200/?demo=vfx-death&cam=troisquarts&shot=5&tex=512&seed=1&focus=0&fx=low",
+    "avant-mort-nl-t6": "http://127.0.0.1:18200/?demo=vfx-death&cam=troisquarts&shot=6&tex=512&seed=1&focus=0&fx=low",
+    "avant-armure-basse-t8": "http://127.0.0.1:18200/?demo=vfx-armor&cam=epaule&shot=8&tex=512&seed=1&fx=low",
+    "apres-bolter-t4": "http://127.0.0.1:18200/?demo=combat-shot&cam=troisquarts&shot=4&tex=512&seed=1",
+    "apres-impact-nl-t4": "http://127.0.0.1:18200/?demo=combat-shot&cam=troisquarts&shot=4&tex=512&seed=1&focus=0",
+    "apres-griffe-t6": "http://127.0.0.1:18200/?demo=polish-claw&cam=troisquarts&shot=6&tex=512&seed=1",
+    "apres-poing-t12": "http://127.0.0.1:18200/?demo=combat-term-fist&cam=troisquarts&shot=12&tex=512&seed=1",
+    "apres-mort-nl-t5": "http://127.0.0.1:18200/?demo=vfx-death&cam=troisquarts&shot=5&tex=512&seed=1&focus=0",
+    "apres-mort-nl-t6": "http://127.0.0.1:18200/?demo=vfx-death&cam=troisquarts&shot=6&tex=512&seed=1&focus=0",
+    "apres-armure-basse-t8": "http://127.0.0.1:18200/?demo=vfx-armor&cam=epaule&shot=8&tex=512&seed=1"
+  },
+  "console": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "networkFailed": []
+}

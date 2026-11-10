@@ -15,6 +15,15 @@ part ; sans eux le rendu reste sur le procédural `#59`. Pas de touche à `src/s
   Griffes NL 0,46 s ; poing TERM 0,80 s (durée de charge). `?proc=legacy` rejoue les clips `#59`
   pour les planches avant/après. Captures : `docs/captures/combat-polish/`, vidéo
   `docs/videos/combat-polish.mp4`.
+- **Combat procédural « whoa »** (`proc-combo`, `proc-leap`, dodges L/R, hits directionnels,
+  `proc-stagger`, morts throw/collapse/dismember, recul bolter, poing avec follow-through,
+  couche additive de poids de marche TERM) : toujours généré dans `web/proc-clips.ts` /
+  `web/proc-poses.ts`, MIT. Pas de nouvelle génération Genex. Mixamo non versionné.
+  Couches additives (hit, shoot) par-dessus la locomotion, IK des pieds après le mixer,
+  chute de présentation clampée (`web/death-physics.ts`). Hooks `web/anim-cues.ts`
+  (`anticipation` / `impact` / `recovery` / `fire` / `land`) exposés sur `window.__animCues`.
+  Captures : `docs/captures/anim-impact/`, vidéo `docs/videos/anim-impact.mp4`.
+  Demos `?demo=impact-combo|impact-leap|impact-dodge-l|impact-dodge-r|impact-hit-*|impact-stagger|impact-death-*|impact-term-*`.
 - Repli CC0 (Quaternius UAL) **écarté** : le retarget Mixamo→Genex (Spine vs Spine02) et les poses
   de repos `Hips` distinctes par perso casseraient la silhouette ; les durées one-shot (0,28–0,80 s)
   ne matchent pas les clips packs. Mixamo (Adobe) interdit si licence incompatible MIT. Aucun GLB
@@ -131,6 +140,7 @@ si le nœud a le préfixe `mixamorig` :
 | idle Genex `Idle_3` | Genex, 2026-11-10, un clip par perso | même régime ; `*-idle.glb` ~124 Ko, animation seule |
 | clips combat Genex | à recevoir (compte Genex, vérif e-mail) | même régime, à documenter à l’arrivée |
 | procédural `proc-*` (polish) | ce dépôt (`web/proc-clips.ts`) | MIT |
+| procédural `proc-*` (whoa / impact) | ce dépôt (`web/proc-poses.ts`, `web/anim-cues.ts`, `web/foot-ik.ts`, `web/death-physics.ts`) | MIT |
 | procédural `proc-*` legacy `#59` | ce dépôt, `?proc=legacy` | MIT |
 | Quaternius UAL | non livré (écarté) | CC0 — mapping Mixamo documenté ci-dessus, pas utilisé |
 

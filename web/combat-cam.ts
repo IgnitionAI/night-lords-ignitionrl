@@ -150,6 +150,32 @@ export function losClear(
   return true;
 }
 
+/**
+ * Occlusion unique (combat, épaule, 3/4, couloir) : rayon 3D vs AABB des piliers (`losClear`)
+ * et œil hors volume (`avoidWalls`). Si le rayon est coupé, on **monte** (`highMax`) et on se
+ * rapproche du sujet — le lift de #72, sans second test 2D ad hoc.
+ */
+export function liftFollowIfOccluded(
+  camX: number, camY: number, camZ: number,
+  subjX: number, subjY: number,
+  fwdX: number, fz: number, rx: number, rz: number,
+  back: number, side: number,
+  pillars: Box[],
+  arena: { w: number; h: number },
+  highMax: number,
+): { camX: number; camY: number; camZ: number } {
+  const eye = 1.4;
+  let x = camX, y = camY, z = camZ;
+  const parked = avoidWalls(x, z, y, pillars, arena);
+  x = parked.camX; y = parked.camY; z = parked.camZ;
+  if (losClear(x, y, z, subjX, eye, subjY, pillars)) return { camX: x, camY: y, camZ: z };
+  x = subjX - fwdX * (back * 0.45) + rx * (side + 1.35);
+  z = subjY - fz * (back * 0.45) + rz * (side + 1.35);
+  y = Math.max(y, highMax);
+  const cleared = avoidWalls(x, z, y, pillars, arena);
+  return pullForLos(cleared.camX, cleared.camY, cleared.camZ, subjX, eye, subjY, pillars);
+}
+
 function pullForLos(
   camX: number, camY: number, camZ: number,
   tx: number, ty: number, tz: number,

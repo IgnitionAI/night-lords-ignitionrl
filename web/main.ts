@@ -17,10 +17,14 @@ import {
   type CombatKind, type CombatMachine, type ShotDurations, crossFadeFor, eventsToFlags, freshMachine,
   isLoco, nlIntent, pickNamedClip, termIntent, tickMachine,
 } from './combat-anims';
-import { bindOneShot, makeCombatClips } from './proc-clips';
+import { bindAdditive, bindOneShot, makeCombatClips } from './proc-clips';
 import {
   extraAnimBasenames, IDLE_CLIP_KEYS, oneShotDurations, remapClip, resolveCombatClips,
 } from './combat-clips';
+import { emitAnimCue, peekAnimCues, roleOfIndex, scanClipMarkers, subscribeAnimCues } from './anim-cues';
+import { applyFootIk } from './foot-ik';
+import { impulseFall, stepFall, type FallBody } from './death-physics';
+import { IMPACT_DEMOS } from './impact-demos';
 import {
   applyRendererAtmosphere, applySceneAtmosphere, installCorridorLights, configureHunterSpot,
   CAM, EPAULE, TROIS_QUARTS, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, POST_DITHER_SRGB, LAMP, STRIP_EMISSIVE,
@@ -28,10 +32,11 @@ import {
 } from './atmosphere';
 import {
   COMBAT_CAM, FOG_CLEAR_M, TERM_MODEL_H, applyCombatCamera, desiredCombatPose, inFrustum,
-  isReadableOnScreen, losClear, offscreenMarker, parseCamMode, smoothCombatPose,
+  isReadableOnScreen, liftFollowIfOccluded, losClear, offscreenMarker, parseCamMode, smoothCombatPose,
   type CombatPose, type CamMode,
 } from './combat-cam';
 import { applyTerminatorLook } from './terminator-look';
+import { createFxSystem, parseFxQuality } from './fx';
 // Son : moteur WebAudio isolé (`web/audio/`). Les événements de sim restent la source ; la sim n'est pas touchée.
 import { initAudio, audio, engine, director } from './audio/index.ts';
 
@@ -80,6 +85,10 @@ const camFov = (portrait: boolean): number => {
   }
 };
 const IMPACT = qs.get('impact') !== '0'; // ?impact=0 : caméra stable, pour mesurer ce que le poids coûte
+const FX_QUALITY = parseFxQuality(qs.get('fx')); // ?fx=low : coupe particules, rubans, bloom, kill-cam
+const BENCH = qs.get('bench') === '1';
+const benchFrames: number[] = [];
+if (BENCH) (window as unknown as { __benchFrames: number[] }).__benchFrames = benchFrames;
 const camera = new THREE.PerspectiveCamera(camFov(false), 1, 0.1, 200);
 installCorridorLights(scene, BEACON.y);
 // ================== DÉCOR ==================
@@ -207,9 +216,13 @@ if (ENV) {
   inst(stripMat, strips, false);
 }
 const ALL_LIGHTS = qs.get('lights') === 'all';
+const alarmLamps: THREE.PointLight[] = [];
 PILLARS.forEach((b, i) => {
   if (ENV && !ALL_LIGHTS && i % 3 !== 0) return; // deux vraies lampes sur sept suffisent avec les bandes
-  const lamp = new THREE.PointLight(LAMP.color, LAMP.intensity, LAMP.distance, LAMP.decay); lamp.position.set((b.x0 + b.x1) / 2, 3.6, b.y0 - 0.3); scene.add(lamp);
+  const lamp = new THREE.PointLight(LAMP.color, LAMP.intensity, LAMP.distance, LAMP.decay); lamp.position.set((b.x0 + b.x1) / 2, 3.6, b.y0 - 0.3);
+  lamp.userData.baseIntensity = LAMP.intensity;
+  scene.add(lamp);
+  alarmLamps.push(lamp);
 });
 // Rayon de téléportation : une braise, pas un néon. Le vert saturait à 255 et devenait l'objet le plus attractif du plateau.
 const beacon = new THREE.Mesh(new THREE.CylinderGeometry(BEACON.r, BEACON.r, 0.1, 32), new THREE.MeshStandardMaterial({ color: 0x3a1a08, emissive: 0xc24a12, emissiveIntensity: 0.85 }));
@@ -315,24 +328,67 @@ interface Rig {
   walk: THREE.AnimationAction | null; run: THREE.AnimationAction | null; idle: THREE.AnimationAction | null;
   attack: THREE.AnimationAction | null; shoot: THREE.AnimationAction | null;
   hit: THREE.AnimationAction | null; dodge: THREE.AnimationAction | null; death: THREE.AnimationAction | null;
+  combo: THREE.AnimationAction | null; leap: THREE.AnimationAction | null;
+  dodgeLeft: THREE.AnimationAction | null; dodgeRight: THREE.AnimationAction | null;
+  hitFront: THREE.AnimationAction | null; hitBack: THREE.AnimationAction | null;
+  hitLeft: THREE.AnimationAction | null; hitRight: THREE.AnimationAction | null;
+  stagger: THREE.AnimationAction | null;
+  deathThrow: THREE.AnimationAction | null; deathCollapse: THREE.AnimationAction | null;
+  deathDismember: THREE.AnimationAction | null;
+  walkWeight: THREE.AnimationAction | null;
+  overlay: THREE.AnimationAction | null;
   current: THREE.AnimationAction | null; tell: { value: number };
   strideWalk: number; strideRun: number; allowRun: boolean; holdIdle: boolean;
   combat: CombatMachine; kind: CombatKind;
   clipDurations: ShotDurations;
+  cueTime: number;
+  look: CharacterLook;
+  who: number | 'term';
 }
-const actionForKind = (rig: Rig, kind: CombatKind, style: CombatMachine['attackStyle']): THREE.AnimationAction | null => {
+const actionForKind = (rig: Rig, kind: CombatKind, m: CombatMachine): THREE.AnimationAction | null => {
   switch (kind) {
     case 'run': return rig.run ?? rig.walk;
     case 'walk': return rig.walk ?? rig.run;
     case 'idle': return rig.idle;
-    case 'attack': return style === 'shoot' ? (rig.shoot ?? rig.attack) : (rig.attack ?? rig.shoot);
-    case 'hit': return rig.hit;
-    case 'dodge': return rig.dodge;
-    case 'death': return rig.death;
+    case 'attack':
+      if (m.attackStyle === 'shoot') return rig.shoot ?? rig.attack;
+      if (m.meleeVariant === 'leap') return rig.leap ?? rig.attack;
+      if (m.meleeVariant === 'combo') return rig.combo ?? rig.attack;
+      return rig.attack ?? rig.shoot;
+    case 'hit': {
+      switch (m.hitDir) {
+        case 'front': return rig.hitFront ?? rig.hit;
+        case 'back': return rig.hitBack ?? rig.hit;
+        case 'left': return rig.hitLeft ?? rig.hit;
+        case 'right': return rig.hitRight ?? rig.hit;
+        default: { const _e: never = m.hitDir; return _e; }
+      }
+    }
+    case 'dodge': {
+      switch (m.dodgeDir) {
+        case 'left': return rig.dodgeLeft ?? rig.dodge;
+        case 'right': return rig.dodgeRight ?? rig.dodge;
+        case 'back': return rig.dodge;
+        default: { const _e: never = m.dodgeDir; return _e; }
+      }
+    }
+    case 'death': {
+      switch (m.deathKind) {
+        case 'throw': return rig.deathThrow ?? rig.death;
+        case 'collapse': return rig.deathCollapse ?? rig.death;
+        case 'dismember': return rig.deathDismember ?? rig.death;
+        default: { const _e: never = m.deathKind; return _e; }
+      }
+    }
     default: { const _e: never = kind; return _e; }
   }
 };
-const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, dim = 1, allowRun = true, look: CharacterLook = 'nl'): Rig => {
+const mkAdd = (mixer: THREE.AnimationMixer, clip: THREE.AnimationClip, loop: boolean) => {
+  const add = THREE.AnimationUtils.makeClipAdditive(clip.clone());
+  return bindAdditive(mixer.clipAction(add), loop);
+};
+
+const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, dim = 1, allowRun = true, look: CharacterLook = 'nl', who: number | 'term' = 'term'): Rig => {
   const root = model.scene;
   // Un seul objet uniform par modèle, créé ici : tous les programmes compilés plus tard le lisent en direct.
   // (Un uniform créé dans onBeforeCompile n'existe qu'après le premier rendu — en mode capture, les ticks
@@ -386,34 +442,92 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   // Sans Idle_3, clip0 TERM est la bind T-pose : on fige la foulée (timeScale 0). Avec Idle_3, on le joue.
   const idle = namedIdle ? mk(namedIdle) : (allowRun ? mk(model.animations?.[0] ?? null) : walk);
   const holdIdle = !namedIdle && !allowRun;
+  const walkWeight = resolved.walkWeight ? mkAdd(mixer, resolved.walkWeight, true) : null;
+  if (walkWeight) { walkWeight.setEffectiveWeight(0.38); walkWeight.play(); }
   return {
     root, mixer, walk, run: mk(runClip), idle,
     attack: mkShot(resolved.attack, look === 'term'),
-    shoot: mkShot(resolved.shoot, false),
-    hit: mkShot(resolved.hit, false),
+    shoot: mkAdd(mixer, resolved.shoot, false),
+    hit: mkAdd(mixer, resolved.hit, false),
     dodge: mkShot(resolved.dodge, false),
     death: mkShot(resolved.death, true),
+    combo: mkShot(resolved.combo, false),
+    leap: mkShot(resolved.leap, false),
+    dodgeLeft: mkShot(resolved.dodgeLeft, false),
+    dodgeRight: mkShot(resolved.dodgeRight, false),
+    hitFront: mkAdd(mixer, resolved.hitFront, false),
+    hitBack: mkAdd(mixer, resolved.hitBack, false),
+    hitLeft: mkAdd(mixer, resolved.hitLeft, false),
+    hitRight: mkAdd(mixer, resolved.hitRight, false),
+    stagger: mkAdd(mixer, resolved.stagger, false),
+    deathThrow: mkShot(resolved.deathThrow, true),
+    deathCollapse: mkShot(resolved.deathCollapse, true),
+    deathDismember: mkShot(resolved.deathDismember, true),
+    walkWeight,
+    overlay: null,
     current: null, tell, strideWalk, strideRun, allowRun, holdIdle,
     combat: freshMachine(), kind: 'idle',
     clipDurations: oneShotDurations(resolved),
+    cueTime: 0, look, who,
   };
 };
 const playKind = (rig: Rig, speed: number) => {
   const want = rig.combat.state;
-  const next = actionForKind(rig, want, rig.combat.attackStyle);
-  const fade = crossFadeFor(rig.kind, want);
-  if (next && (next !== rig.current || rig.combat.restart)) {
-    if (next !== rig.current) rig.current?.fadeOut(fade);
-    next.reset().setEffectiveWeight(1).fadeIn(next === rig.current ? 0.04 : fade).play();
-    if (want === 'death') { next.clampWhenFinished = true; next.setLoop(THREE.LoopOnce, 1); }
+  const next = actionForKind(rig, want, rig.combat);
+  if (want === 'death' && next) {
+    if (rig.kind === 'death' && rig.current === next) return;
+    rig.mixer.stopAllAction();
+    if (rig.walkWeight) rig.walkWeight.stop();
+    next.reset().setEffectiveWeight(1).setLoop(THREE.LoopOnce, 1);
+    next.clampWhenFinished = true;
+    next.timeScale = 1;
+    next.play();
+    rig.overlay = null;
     rig.current = next;
+    rig.kind = 'death';
+    rig.cueTime = 0;
+    return;
+  }
+  const fade = crossFadeFor(rig.kind, want);
+  const additive = want === 'hit' || (want === 'attack' && rig.combat.attackStyle === 'shoot');
+  const loco = actionForKind(rig, rig.combat.lastLoco, rig.combat);
+  if (rig.walkWeight) {
+    rig.walkWeight.setEffectiveWeight(isLoco(want) && lookWeight(rig) ? 0.38 : 0.12);
+  }
+  if (additive && next) {
+    if (loco && loco !== rig.current) {
+      rig.current?.fadeOut(fade);
+      loco.reset().setEffectiveWeight(1).fadeIn(fade).play();
+      rig.current = loco;
+    } else if (loco && !loco.isRunning()) {
+      loco.reset().setEffectiveWeight(1).play();
+      rig.current = loco;
+    }
+    if (next !== rig.overlay || rig.combat.restart) {
+      rig.overlay?.fadeOut(0.08);
+      next.reset().setEffectiveWeight(1).fadeIn(0.06).play();
+      rig.overlay = next;
+    }
+  } else {
+    if (rig.overlay) { rig.overlay.fadeOut(fade); rig.overlay = null; }
+    if (next && (next !== rig.current || rig.combat.restart)) {
+      if (next !== rig.current) rig.current?.fadeOut(fade);
+      next.reset().setEffectiveWeight(1).fadeIn(next === rig.current ? 0.04 : fade).play();
+      if (want === 'death') { next.clampWhenFinished = true; next.setLoop(THREE.LoopOnce, 1); }
+      rig.current = next;
+    }
   }
   rig.kind = want;
-  if (next && isLoco(want) && want !== 'idle') {
-    const stride = want === 'run' ? rig.strideRun : rig.strideWalk;
-    next.timeScale = gaitTimeScale(speed, stride, next.getClip().duration);
-  } else if (next) next.timeScale = rig.holdIdle ? 0 : 1;
+  const driven = additive ? loco : next;
+  if (driven && isLoco(additive ? rig.combat.lastLoco : want) && (additive ? rig.combat.lastLoco : want) !== 'idle') {
+    const gait = additive ? rig.combat.lastLoco : want;
+    const stride = gait === 'run' ? rig.strideRun : rig.strideWalk;
+    driven.timeScale = gaitTimeScale(speed, stride, driven.getClip().duration);
+  } else if (driven) driven.timeScale = rig.holdIdle ? 0 : 1;
 };
+function lookWeight(rig: Rig): boolean {
+  return rig.look === 'term';
+}
 
 // Terminator : cubes (os/or loyaliste), front marqué par le visor et le storm bolter
 const term = new THREE.Group(); const bone = new THREE.MeshStandardMaterial({ color: 0x2a2418, metalness: 0.5, roughness: 0.45 });
@@ -440,12 +554,30 @@ const nlMarkers: THREE.Object3D[] = []; // anneau + étiquette, visibles seuleme
 const nlProxy: THREE.Object3D[] = []; // capsule + yeux procéduraux : cachés dès que le modèle riggé est chargé
 const nlRigs: (Rig | null)[] = [null, null, null, null];
 let termRig: Rig | null = null;
+const nlFall: (FallBody | null)[] = [null, null, null, null];
+function scanRigCues(rig: Rig) {
+  const act = rig.overlay ?? rig.current;
+  if (!act) return;
+  const t = act.time;
+  const name = act.getClip().name;
+  const role = rig.who === 'term' ? 'TERM' as const : roleOfIndex(rig.who);
+  for (const cue of scanClipMarkers(name, rig.cueTime, t, { role, who: rig.who })) emitAnimCue(cue);
+  rig.cueTime = t;
+}
+
 function advanceRigs(dt: number) {
   if (!(dt > 0)) return;
   for (const rig of [...nlRigs, termRig]) {
     if (!rig) continue;
-    const ts = rig.current?.timeScale ?? 1;
+    const ts = Math.max(Math.abs(rig.current?.timeScale ?? 1), Math.abs(rig.overlay?.timeScale ?? 1));
     advanceMixer(rig.mixer, dt, mixerSubstepCount(dt, ts));
+    scanRigCues(rig);
+    if (rig.kind !== 'death') applyFootIk(rig.root);
+  }
+  for (let i = 0; i < nlFall.length; i++) {
+    const b = nlFall[i]; if (!b) continue;
+    const n = w.nls[i];
+    nlFall[i] = stepFall(b, dt, { x: n.x, z: n.y }, ARENA, PILLARS);
   }
 }
 const nlLabels: { sprite: THREE.Sprite; name: string }[] = [];
@@ -459,13 +591,15 @@ function buildLabels() { // différé : aucune texture de nom allouée tant que 
     const mat = sprite.material as THREE.SpriteMaterial; mat.map = t; mat.needsUpdate = true;
   }
 }
+const nlEyeMats: THREE.MeshBasicMaterial[][] = ROLES.map(() => []);
 const nlMeshes = ROLES.map((name, i) => {
   const g = new THREE.Group();
   nlProxy.push(add(g, new THREE.CapsuleGeometry(NL_CFG.radius, 1.1, 6, 12), nlBodyMat, 0, 1.0, 0));
-  for (const z of [-0.11, 0.11]) nlProxy.push(add(g, new THREE.SphereGeometry(0.045, 8, 8), new THREE.MeshBasicMaterial({ color: 0xff1a08, fog: false }), 0.42, 1.66, z)); // yeux, seule source chaude
-  // Lueur d'yeux / réacteur : MeshBasic sans fog, lisible dans le brouillard même si le GLB a remplacé la capsule.
-  add(g, new THREE.SphereGeometry(0.07, 8, 8), new THREE.MeshBasicMaterial({ color: 0xff2a0c, fog: false, transparent: true, opacity: 0.92 }), 0.38, 1.64, 0);
-  add(g, new THREE.SphereGeometry(0.09, 8, 8), new THREE.MeshBasicMaterial({ color: 0x19c8ff, fog: false, transparent: true, opacity: 0.85 }), -0.22, 1.15, 0);
+  for (const z of [-0.11, 0.11]) {
+    const eyeMat = new THREE.MeshBasicMaterial({ color: 0xff1a08, fog: false });
+    nlEyeMats[i]!.push(eyeMat);
+    nlProxy.push(add(g, new THREE.SphereGeometry(0.045, 8, 8), eyeMat, 0.42, 1.66, z));
+  } // yeux, seule source chaude (fx.bindEyes)
   const ring = new THREE.Mesh(new THREE.RingGeometry(0.55, 0.75, 24), new THREE.MeshBasicMaterial({ color: ROLE_COL[i], transparent: true, opacity: 0.5, side: THREE.DoubleSide })); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.04; ring.visible = false; g.add(ring); nlMarkers.push(ring);
   // Etiquette : le canvas n'est peint qu'a la premiere ouverture de la vue de controle, et le sprite teste la
   // profondeur (il s'affichait a travers les piliers). La teinte vient du materiau, le texte est blanc.
@@ -522,6 +656,8 @@ const tracerHit = new THREE.Mesh(
 );
 tracerHit.visible = false; scene.add(tracerHit);
 const TRACER_SEC = 0.42;
+const fx = createFxSystem(scene, FX_QUALITY);
+fx.bindEyes(nlEyeMats);
 
 // Passe plein écran : vignette + grain. Un quad et un shader, aucun addon. La RT est HalfFloat linéaire
 // (ACES y tient sans quantifier les noirs) ; ce shader encode en pow(c,0.4545) comme avant, puis dithers.
@@ -535,6 +671,9 @@ const postMat = new THREE.ShaderMaterial({
     uVignette: { value: POST_VIGNETTE },
     uGrain: { value: POST_GRAIN },
     uDither: { value: POST_DITHER_SRGB },
+    uBloom: { value: FX_QUALITY === 'high' ? 0.20 : 0 },
+    uCA: { value: 0 },
+    uVignettePulse: { value: 0 },
     uBlur: { value: new THREE.Vector2(0, 0) },
   },
   vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }',
@@ -759,8 +898,38 @@ const DEMO_SCRIPTS: Record<string, DemoScript> = {
     player(t: number): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: t === 3 }; },
     nls(): number[] { return [0, 0, 0, 0]; },
   },
+  'vfx-death': {
+    place(w: World) {
+      w.t.x = 8.2; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0; w.t.ammo = T_CFG.boltAmmo; w.t.boltCd = 0;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 20; n.armTicks = 0; n.stunTicks = 0; n.hp = 1; });
+      w.nls[0].x = 10.15; w.nls[0].y = 12.08; w.nls[0].facing = Math.PI;
+      w.nls[1].x = 22; w.nls[1].y = 6; w.nls[2].x = 22; w.nls[2].y = 18; w.nls[3].x = 24; w.nls[3].y = 12;
+    },
+    player(t: number): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: t === 4, fist: false }; },
+    nls(): number[] { return [0, 0, 0, 0]; },
+  },
+  'vfx-armor': {
+    place(w: World) {
+      w.t.x = 8; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0;
+      w.t.hp = 6; w.t.servoCriticalSent = true; w.t.servoAlarm = T_CFG.servoAlarmTicks;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 20; n.armTicks = 0; });
+      w.nls[0].x = 11; w.nls[0].y = 12.4; w.nls[0].facing = Math.PI;
+      w.nls[1].x = 16; w.nls[1].y = 8; w.nls[2].x = 16; w.nls[2].y = 16; w.nls[3].x = 20; w.nls[3].y = 12;
+    },
+    player(): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false }; },
+    nls(): number[] { return [0, 0, 0, 0]; },
+  },
+  'vfx-bolt-wall': {
+    place(w: World) {
+      w.t.x = 6.4; w.t.y = 6.0; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0;
+      w.t.ammo = T_CFG.boltAmmo; w.t.boltCd = 0;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 20; n.armTicks = 0; n.x = 22; n.y = 18; });
+    },
+    player(t: number): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: t === 3, fist: false }; },
+    nls(): number[] { return [0, 0, 0, 0]; },
+  },
 };
-const DEMO_CFG = DEMO ? DEMO_SCRIPTS[DEMO] ?? null : null;
+const DEMO_CFG = DEMO ? IMPACT_DEMOS[DEMO] ?? DEMO_SCRIPTS[DEMO] ?? null : null;
 function startRound() {
   // le build jouable garde l'armement des griffes (défaut) : il n'est plus celui des mesures b3
   roundNo++; roundOver = false; if (roundNo > 1) seed += 1; // manche suivante : la graine d'après, jamais la même
@@ -775,9 +944,15 @@ function startRound() {
     rig.combat = freshMachine();
     rig.kind = 'idle';
     rig.current = null;
+    rig.overlay = null;
+    rig.cueTime = 0;
     rig.mixer.stopAllAction();
+    rig.root.visible = true;
+    if (rig.walkWeight) { rig.walkWeight.reset().setEffectiveWeight(0.38).play(); }
   }
+  nlFall[0] = nlFall[1] = nlFall[2] = nlFall[3] = null;
   nlMeshes.forEach(m => { m.rotation.set(0, 0, 0); m.position.y = 0; m.visible = true; });
+  fx.resetRound();
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
   director.beginRound();
 }
@@ -864,16 +1039,35 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
     const intent = nlIntent({
       alive: n.alive, armTicks: n.armTicks, stunTicks: n.stunTicks, prevStun: nlPrevStun[i],
       lastAction: n.lastAction, prevAction: nlPrevAction[i], gait, flags, index: i,
+      facing: n.facing, x: n.x, y: n.y, termX: w.t.x, termY: w.t.y,
     });
+    const wasDeath = rig.combat.state === 'death';
     rig.combat = tickMachine(rig.combat, intent, DT, rig.clipDurations);
+    if (rig.combat.state === 'death' && rig.combat.restart && !wasDeath) {
+      const fall = impulseFall(rig.combat.deathKind, n.facing, NL_CFG.radius);
+      // Un throw à 7 m/s sur un mesh encore debout traverse le cadre (fantôme magenta à côté du T).
+      if (rig.combat.deathKind === 'throw') {
+        fall.vx *= 0.25;
+        fall.vz *= 0.25;
+      }
+      nlFall[i] = fall;
+      rig.root.visible = true;
+    }
     playKind(rig, speed);
+    // Dissolution : le mesh ne reste jamais debout / en walk sans entité vivante (fantôme magenta).
+    // Le clip tourne hors écran pour les cues ; le nuage de mort est le visible.
+    if (rig.combat.state === 'death') rig.root.visible = false;
     nlPrevStun[i] = n.stunTicks;
     nlPrevAction[i] = n.lastAction;
   }
   if (termRig) {
     const speed = Math.hypot(w.t.vx, w.t.vy);
     const gait = pickGait(speed, { allowRun: termRig.allowRun, walkSpeed: T_CFG.fwd, runSpeed: T_CFG.fwd });
-    const intent = termIntent({ gait, fistCharge: w.t.fistCharge, burstLeft: w.t.burstLeft, flags });
+    const hitSrc = w.nls.find((n) => n.alive) ?? w.nls[0];
+    const intent = termIntent({
+      gait, fistCharge: w.t.fistCharge, burstLeft: w.t.burstLeft, flags,
+      facing: w.t.facing, x: w.t.x, y: w.t.y, hitFromX: hitSrc.x, hitFromY: hitSrc.y,
+    });
     termRig.combat = tickMachine(termRig.combat, intent, DT, termRig.clipDurations);
     playKind(termRig, speed);
   }
@@ -901,7 +1095,7 @@ function tick() {
     }
     if (e.type === 'bolt') {
       const a = new THREE.Vector3(e.x, 1.55, e.y), b = new THREE.Vector3(e.tx, 1.22, e.ty);
-      tracer.geometry.setFromPoints([a, b]); tracer.visible = true; tracerT = TRACER_SEC; shake = Math.max(shake, 0.15);
+      tracer.geometry.setFromPoints([a, b]); tracer.visible = true; tracerT = TRACER_SEC;
       const dir = b.clone().sub(a); const len = Math.max(0.2, dir.length());
       tracerBolt.position.copy(a).add(b).multiplyScalar(0.5);
       tracerBolt.scale.set(1, len, 1);
@@ -911,15 +1105,17 @@ function tick() {
       if (IMPACT) { recImp.push({ t0: simT, v: 2.2 }); pitchImp.push({ t0: simT, v: 0.55 }); } // la rafale pousse la caméra et lève le nez
     }
     if ((e.type === 'bolt' || e.type === 'fist') && e.kill >= 0) {
-      hitstop = 0.09; shake = 0.5; const n = w.nls[e.kill]; floatText(n.x, n.y, `${ROLES[e.kill]} abattu`, '#ffd27a'); flash(0.25);
+      const n = w.nls[e.kill]; floatText(n.x, n.y, `${ROLES[e.kill]} abattu`, '#ffd27a');
       nlCamHold[e.kill] = 8;
     }
-    if (e.type === 'clawArm') { const n = w.nls[e.who]; floatText(n.x, n.y, 'GRIFFES', '#fb6'); shake = Math.max(shake, 0.08); } // annonce : l'impact tombe 2 ticks plus tard
-    if (e.type === 'claw') { const n = w.nls[e.who]; if (e.dmg === 0) floatText(n.x, n.y, 'ARMURE', '#9cf'); else { floatText(w.t.x, w.t.y, `-${e.dmg} ${e.zone === 'rear' ? 'DOS' : 'FLANC'}`, '#f44'); shake = Math.max(shake, 0.3); } }
+    if (e.type === 'clawArm') { const n = w.nls[e.who]; floatText(n.x, n.y, 'GRIFFES', '#fb6'); } // annonce : l'impact tombe 2 ticks plus tard
+    if (e.type === 'claw') { const n = w.nls[e.who]; if (e.dmg === 0) floatText(n.x, n.y, 'ARMURE', '#9cf'); else { floatText(w.t.x, w.t.y, `-${e.dmg} ${e.zone === 'rear' ? 'DOS' : 'FLANC'}`, '#f44'); } }
     // `step` : le pas est désormais un événement de simulation (position, pied, intensité). Le rendu le laisse
     // au cycle d'animation pour l'instant ; le son pourra s'y accrocher sans recompter les mètres.
   }
   for (let i = 0; i < nlCamHold.length; i++) if (nlCamHold[i]! > 0) nlCamHold[i]!--;
+  if (shot) fx.advance(DT, w.tick * DT, w.t.hp / T_CFG.hp);
+  fx.ingestWorld(w);
   const nowMatch = matchStatus(w);
   for (const b of matchBeats(lastMatch, nowMatch)) {
     switch (b.kind) {
@@ -945,7 +1141,7 @@ function tick() {
   updateRigs(); if (shot) advanceRigs(DT); updateCamYaw();
   if (w.done) endRound();
 }
-function flash(o: number) { const f = document.getElementById('flash')!; f.style.transition = 'none'; f.style.opacity = String(o); requestAnimationFrame(() => { f.style.transition = 'opacity .25s'; f.style.opacity = '0'; }); }
+function flash(_o: number) { /* remplacé par un retour localisé (hitGlow / impact light / post). */ }
 async function endRound() {
   roundOver = true; director.endRound(w.winner); if (w.winner === 'pack') score.pack++; else score.term++;
   const msg = document.getElementById('msg')!; msg.style.display = 'block';
@@ -982,7 +1178,29 @@ function burnIn() {
   if (FOCUS_NL !== null) parts.push(`focus=${FOCUS_NL}`);
   if (qs.get('proc') === 'legacy') parts.push('proc=legacy');
   if (PLAY_SPEED !== 1) parts.push(`lecture ×${String(PLAY_SPEED).replace('.', ',')}`);
+  if (FX_QUALITY === 'low') parts.push('fx=low');
   return parts.join(' · ');
+}
+function nlBodyReport() {
+  return nlRigs.map((rig, i) => {
+    const n = w.nls[i]!;
+    let skinned = 0;
+    let visibleSkinned = 0;
+    const rootOn = (nlMeshes[i]?.visible !== false) && (rig?.root.visible !== false);
+    nlMeshes[i]!.traverse((o) => {
+      if (!(o as THREE.SkinnedMesh).isSkinnedMesh) return;
+      skinned++;
+      if (rootOn && o.visible) visibleSkinned++;
+    });
+    const proxyVisible = nlProxy.slice(i * 3, i * 3 + 3).some((p) => p.visible);
+    const clip = rig?.current?.getClip().name ?? null;
+    const kind = rig?.kind ?? null;
+    return {
+      i, alive: n.alive, kind, clip,
+      loco: kind ? isLoco(kind) : false,
+      skinned, visibleSkinned, proxyVisible,
+    };
+  });
 }
 function hud() {
   const h = document.getElementById('hud')!;
@@ -995,7 +1213,12 @@ function hud() {
   });
   (window as unknown as { __NL?: unknown }).__NL = {
     tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, muted: engine.muted,
+    hp: w.t.hp, nlsAlive: w.nls.filter((n) => n.alive).length,
+    fistCharge: w.t.fistCharge,
+    events: w.events.map((e) => e.type),
+    msgShown: document.getElementById('msg')?.style.display === 'block',
     audio: engine.status(), playSpeed: PLAY_SPEED,
+    bodies: nlBodyReport(),
   };
   const d = document.getElementById('dbg')!; d.style.display = debug ? 'block' : 'none';
   if (debug) d.innerHTML = `<b>Vue de contrôle — ce que perçoit chaque Night Lord</b><table><tr><th>rôle</th><th>état</th><th>voit</th><th>entend</th><th>vox</th><th>âge</th><th>action (p)</th></tr>`
@@ -1017,9 +1240,14 @@ function render(alpha: number) {
   term.position.set(tx, 0, ty); term.rotation.y = -tf; fistM.position.x = w.t.fistCd > 8 ? 1.2 : 0.55;
   w.nls.forEach((n, i) => {
     const g = nlMeshes[i];
-    g.position.set(lerp(prev.n[i][0], n.x), 0, lerp(prev.n[i][1], n.y));
-    if (n.alive || nlRigs[i]) g.rotation.y = -la(prev.n[i][2], n.facing);
-    else { g.rotation.set(Math.PI / 2, 0, 0); g.position.y = 0.4; }
+    const fall = nlFall[i];
+    const ox = fall?.ox ?? 0, oy = fall?.oy ?? 0, oz = fall?.oz ?? 0;
+    g.position.set(lerp(prev.n[i][0], n.x) + ox, oy, lerp(prev.n[i][1], n.y) + oz);
+    if (nlRigs[i]) g.rotation.y = -la(prev.n[i][2], n.facing);
+    else if (!n.alive) { g.rotation.set(Math.PI / 2, 0, 0); g.position.y = 0.4 + oy; }
+    else g.rotation.y = -la(prev.n[i][2], n.facing);
+    // Match : pas de mesh orphelin. Les planches `?demo=` gardent le clip de mort à l'écran.
+    g.visible = n.alive || !!DEMO_CFG;
   });
   hitGlowNL.forEach((l, i) => { l.intensity = 5.5 * (nlRigs[i]?.combat.hitFlash ?? 0); });
   hitGlowT.intensity = 6.5 * (termRig?.combat.hitFlash ?? 0);
@@ -1030,25 +1258,21 @@ function render(alpha: number) {
       links[i].visible = n.alive && b.valid; links[i].geometry.setFromPoints([new THREE.Vector3(n.x, 0.1, n.y), new THREE.Vector3(b.x, 0.1, b.y)]); links[i].computeLineDistances(); });
     noiseRing.position.set(w.t.x, 0.06, w.t.y); noiseRing.scale.setScalar(w.t.noise); tCone.position.set(w.t.x, 0.04, w.t.y); tCone.rotation.y = -w.t.facing;
   }
-  // caméra de couloir : constantes CAM (8,2 m, 3,15 m, FOV 54). Le personnage occupe le tiers bas.
+  // Occlusion unique : `losClear` / `liftFollowIfOccluded` / `desiredCombatPose` (web/combat-cam.ts).
   const portrait = innerHeight > innerWidth;
-  const sx = (Math.random() - 0.5) * shake, sz = (Math.random() - 0.5) * shake;
-  // Un pilier de 4 m suffit à avaler le cadre : la caméra ne doit jamais se retrouver *dans* un pilier.
-  // Une arête qui passe devant est acceptable — c'est même ce qu'on veut, un Night Lord peut se cacher
-  // derrière. Donc pas de raycast de dégagement, seulement un test d'appartenance : si l'oeil tombe dans
-  // l'emprise d'un pilier, la caméra monte au-dessus (4,9 m) et regarde par-dessus.
-  const fx = Math.cos(camYaw), fz = Math.sin(camYaw);      // axe de marche
-  const rx = -fz, rz = fx;                                 // son épaule droite
+  const sh = IMPACT ? fx.shakeOffset() : { sx: 0, sz: 0 };
+  const sx = sh.sx, sz = sh.sz;
+  const fwdX = Math.cos(camYaw), fz = Math.sin(camYaw);      // axe de marche
+  const rx = -fz, rz = fwdX;                                 // son épaule droite
   switch (CAM_MODE) {
     case 'couloir': {
       const back = portrait ? CAM.back + 1.6 : CAM.back, high = portrait ? CAM.height + 0.9 : CAM.height;
-      // 8,2 m derrière un Terminator à x≈3 sort de la coque (caméra dans le vide = image noire).
-      const cx = Math.min(ARENA.w - 0.6, Math.max(0.6, subjX - fx * back));
-      const cz = Math.min(ARENA.h - 0.6, Math.max(0.6, subjY - fz * back));
-      const inPillar = PILLARS.some(b => cx > b.x0 - 0.55 && cx < b.x1 + 0.55 && cz > b.y0 - 0.55 && cz < b.y1 + 0.55);
-      const cy = inPillar ? CAM.highMax : high;
-      camera.position.set(cx + sx, cy, cz + sz);
-      camera.lookAt(subjX + fx * CAM.ahead + sx, CAM.eye, subjY + fz * CAM.ahead + sz);
+      const lifted = liftFollowIfOccluded(
+        subjX - fwdX * back, high, subjY - fz * back,
+        subjX, subjY, fwdX, fz, rx, rz, back, 0, PILLARS, ARENA, CAM.highMax,
+      );
+      camera.position.set(lifted.camX + sx, lifted.camY, lifted.camZ + sz);
+      camera.lookAt(subjX + fwdX * CAM.ahead + sx, CAM.eye, subjY + fz * CAM.ahead + sz);
       break;
     }
     case 'epaule': {
@@ -1060,14 +1284,22 @@ function render(alpha: number) {
       const back = EPAULE.back + recZ * 0.85;
       const high = EPAULE.height + stepY + breath;
       const side = portrait ? EPAULE.side * 0.6 : EPAULE.side;
-      camera.position.set(subjX - fx * back + rx * side + sx, high, subjY - fz * back + rz * side + sz);
-      camera.lookAt(subjX + fx * EPAULE.ahead + sx, EPAULE.eye, subjY + fz * EPAULE.ahead + sz);
+      const lifted = liftFollowIfOccluded(
+        subjX - fwdX * back + rx * side, high, subjY - fz * back + rz * side,
+        subjX, subjY, fwdX, fz, rx, rz, back, side, PILLARS, ARENA, CAM.highMax,
+      );
+      camera.position.set(lifted.camX + sx, lifted.camY, lifted.camZ + sz);
+      camera.lookAt(subjX + fwdX * EPAULE.ahead + sx, EPAULE.eye, subjY + fz * EPAULE.ahead + sz);
       break;
     }
     case 'troisquarts': {
       const q = TROIS_QUARTS;
-      camera.position.set(subjX - fx * q.back + rx * q.side + sx, q.height, subjY - fz * q.back + rz * q.side + sz);
-      camera.lookAt(subjX + fx * q.ahead + sx, q.eye, subjY + fz * q.ahead + sz);
+      const lifted = liftFollowIfOccluded(
+        subjX - fwdX * q.back + rx * q.side, q.height, subjY - fz * q.back + rz * q.side,
+        subjX, subjY, fwdX, fz, rx, rz, q.back, q.side, PILLARS, ARENA, CAM.highMax,
+      );
+      camera.position.set(lifted.camX + sx, lifted.camY, lifted.camZ + sz);
+      camera.lookAt(subjX + fwdX * q.ahead + sx, q.eye, subjY + fz * q.ahead + sz);
       break;
     }
     case 'combat': {
@@ -1103,7 +1335,7 @@ function render(alpha: number) {
   // flash de bouche : 75 ms après le départ de la rafale, décroissance quadratique. Il éclaire vraiment la
   // scène — piliers et silhouettes —, ce n'est pas un voile posé sur l'image.
   let mz = 0;
-  if (CAM_MODE === 'epaule' || CAM_MODE === 'combat') for (const i of recImp) { const a = 1 - (simT - DT + alpha * DT - i.t0) / 0.075; if (a > mz) mz = a; }
+  for (const i of recImp) { const a = 1 - (simT - DT + alpha * DT - i.t0) / 0.075; if (a > mz) mz = a; }
   muzzleT = Math.max(0, mz);
   muzzleLight.intensity = 20 * muzzleT * muzzleT;
   const pulse = 0.72 + 0.28 * Math.sin((simT - DT + alpha * DT) * 3.1);
@@ -1125,6 +1357,9 @@ function render(alpha: number) {
   postMat.uniforms.uBlur.value.set(blur, 0);
   postMat.uniforms.uTime.value = performance.now() * 0.001;
   updateOffmarks();
+  fx.sync(w, term, nlMeshes);
+  fx.applyPost(postMat.uniforms as { uBloom: { value: number }; uCA: { value: number }; uVignettePulse: { value: number } });
+  fx.pulseAlarm(stripMat, alarmLamps, simT - DT + alpha * DT, STRIP_EMISSIVE);
   renderer.setRenderTarget(rt); renderer.render(scene, camera);
   // Compteurs de la passe principale, relevés **avant** la passe plein écran : `renderer.info` se remet à zéro
   // à chaque `render()`, donc le lire après coup ne compte que le quad final (1 appel, 2 triangles).
@@ -1191,7 +1426,7 @@ addEventListener('resize', resize);
 // Les modèles remplacent les proxies. Un échec de chargement laisse la capsule en place : le prototype
 // reste jouable sans réseau ni assets.
 async function loadModels() {
-  const load = async (name: string, target: number, dim = 1, allowRun = true, look: CharacterLook = 'nl') => {
+  const load = async (name: string, target: number, dim = 1, allowRun = true, look: CharacterLook = 'nl', who: number | 'term' = 'term') => {
     const model = await loadModelGLB(name);
     const clips: THREE.AnimationClip[] = [...(model.animations ?? [])];
     for (const k of ['walk', 'run'] as const) { try { const a = await loadGLB(`/web/models/${name}-${k}.glb`); clips.push(...(a.animations ?? [])); } catch { /* clip absent, on garde l'idle de pose */ } }
@@ -1201,22 +1436,31 @@ async function loadModels() {
         clips.push(...(a.animations ?? []).map((c) => remapClip(c)));
       } catch { /* extra absent */ }
     }
-    return rigOf(model, clips, target, dim, allowRun, look);
+    return rigOf(model, clips, target, dim, allowRun, look, who);
   };
   await Promise.all(ROLES.map(async (_r, i) => {
     try {
-      const rig = await load(`NL-${i + 1}`, NL_HEIGHT, 0.22);
+      const rig = await load(`NL-${i + 1}`, NL_HEIGHT, 0.22, true, 'nl', i);
       nlMeshes[i].add(rig.root); nlRigs[i] = rig;
       for (const p of nlProxy.slice(i * 3, i * 3 + 3)) p.visible = false; // capsule + 2 yeux de ce rôle
     } catch (e) { console.warn('modèle NL-' + (i + 1) + ' absent, capsule conservée', e); }
   }));
   try {
-    termRig = await load('TERM', TERM_HEIGHT, 1, false, 'term');
+    termRig = await load('TERM', TERM_HEIGHT, 1, false, 'term', 'term');
     term.add(termRig.root);
     // Les matériaux de l'armure, pour l'alarme de servo : on garde l'émissif d'origine pour savoir le rendre.
     termRig.root.traverse((o: any) => { const m = o.material; if (m && m.emissive) { if (!m.userData.baseEmissive) m.userData.baseEmissive = m.emissive.clone(); alarmMats.push(m); } });
     for (const c of term.children) if ((c as THREE.Mesh).isMesh) (c as THREE.Mesh).visible = false;
   } catch (e) { console.warn('modèle TERM absent, cubes conservés', e); }
+  nlRigs.forEach((rig, i) => {
+    if (!rig) return;
+    rig.root.traverse((o: any) => {
+      const m = o.material as THREE.MeshStandardMaterial | undefined;
+      if (!m || !m.emissive) return;
+      const e = m.emissive;
+      if ((e.r > 0.28 && e.g < 0.4) || (m.color && m.color.r > 0.45 && m.color.g < 0.25)) nlEyeMats[i]!.push(m);
+    });
+  });
 }
 
 if (debug) buildLabels();
@@ -1246,6 +1490,8 @@ function termPoseReport() {
     handSpan, footDx, tpose,
   };
 }
+(window as any).__animCues = peekAnimCues;
+subscribeAnimCues((cue) => { director.onAnimCue(cue); fx.onAnimCue(cue); });
 await Promise.all([
   loadPolicy(),
   PROBE_READ ? Promise.resolve() : loadModels(),
@@ -1314,9 +1560,19 @@ if (PROBE_READ) {
   document.title = 'READY';
 } else if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
   while (w.tick < shot && !w.done) tick();
-  hitstop = 0; shake = 0; prev = snap(); hud(); render(1);
+  hitstop = 0; shake = 0;
+  fx.feel.shake = 0; fx.feel.hitstop = 0; fx.feel.killcam = 0;
+  // Les particules de mort / d'impact naissent à l'ingest du dernier tick : 80 ms les écartent du corps.
+  fx.advance(0.08, w.tick * DT, w.t.hp / T_CFG.hp);
+  if (DEMO === 'vfx-death') {
+    // Recul de rafale : on recadre le mort, sans changer la sim hors de cette planche.
+    camYaw = followYaw = 0;
+    w.t.facing = 0;
+  }
+  prev = snap(); hud(); render(1);
   (window as any).__termPose = termPoseReport();
   (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY = true;
+  (window as any).__nlBodies = nlBodyReport();
   document.title = 'READY';
 } else {
   let last = performance.now();
@@ -1324,11 +1580,13 @@ if (PROBE_READ) {
   const loop = (now: number) => {
     if (pumping) return;
     pumping = true;
+    if (BENCH) benchFrames.push(now);
     let dt = Math.min(0.35, (now - last) / 1000);
     last = now;
     if (PLAY_SPEED !== 1) dt = Math.max(dt, 0.2);
-    if (hitstop > 0) { hitstop -= dt; dt = 0; }
-    if (!paused && !roundOver) { acc += dt * PLAY_SPEED; while (acc >= DT) { acc -= DT; tick(); if (roundOver) break; } }
+    fx.advance(dt, now * 0.001, w.t.hp / T_CFG.hp);
+    const simDt = PLAY_SPEED !== 1 ? dt * PLAY_SPEED : fx.simDelta(dt);
+    if (!paused && !roundOver) { acc += simDt; while (acc >= DT) { acc -= DT; tick(); if (roundOver) break; } }
     if (!shot && !paused) {
       const alpha = roundOver ? 1 : acc / DT;
       const displaySim = Math.max(0, simT - DT + alpha * DT);
@@ -1341,6 +1599,8 @@ if (PROBE_READ) {
     shake *= 0.85; if (tracerT > 0) { tracerT -= dt; if (tracerT <= 0) { tracer.visible = false; tracerBolt.visible = false; tracerHit.visible = false; } }
     hud(); render(roundOver ? 1 : acc / DT);
     (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY = true;
+    (window as any).__termPose = termPoseReport();
+    (window as any).__nlBodies = nlBodyReport();
     pumping = false;
     if (PLAY_SPEED === 1) requestAnimationFrame(loop);
   };

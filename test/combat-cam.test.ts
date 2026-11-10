@@ -8,6 +8,7 @@ import {
   desiredCombatPose,
   inFrustum,
   isReadableOnScreen,
+  liftFollowIfOccluded,
   losClear,
   offscreenMarker,
   parseCamMode,
@@ -93,6 +94,21 @@ test('évitement des murs : l\'œil ne reste pas dans un pilier ni hors de l\'ar
   const out = avoidWalls(-4, 12, 3.2, PILLARS, ARENA);
   assert.ok(out.camX >= 0.6 && out.camX <= ARENA.w - 0.6);
   assert.ok(out.camZ >= 0.6 && out.camZ <= ARENA.h - 0.6);
+});
+
+test('liftFollowIfOccluded : même losClear que le combat, monte si le rayon coupe un pilier', () => {
+  const term = { x: 20, y: 12 };
+  const behindX = 14.2, behindZ = 12, behindY = 2.32;
+  const blocked = !losClear(behindX, behindY, behindZ, term.x, 1.4, term.y, PILLARS);
+  const lifted = liftFollowIfOccluded(
+    behindX, behindY, behindZ,
+    term.x, term.y,
+    1, 0, 0, 1,
+    5.8, 1.18,
+    PILLARS, ARENA, 4.9,
+  );
+  assert.ok(losClear(lifted.camX, lifted.camY, lifted.camZ, term.x, 1.4, term.y, PILLARS), 'LOS encore bouché après lift');
+  if (blocked) assert.ok(lifted.camY >= 4.89 || Math.hypot(lifted.camX - term.x, lifted.camZ - term.y) < 5.8);
 });
 
 test('raycast : la pose combat ne traverse pas un pilier entre l\'œil et le Terminator', () => {

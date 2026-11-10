@@ -6,29 +6,14 @@
 
 import * as THREE from 'three';
 import { ONE_SHOT } from './combat-anims';
+import {
+  BONE_NAMES,
+  clawCombo, clawLeap, clawSlash, deathCollapse, deathDismember, deathFall, deathThrow,
+  dodgeStep, hitReact, staggerBolt, termPunch, termShoot, termWalkWeight,
+  type BoneName, type Ease, type PoseKey, type Vec3,
+} from './proc-poses';
 
 export type ProcLook = 'nl' | 'term';
-
-const BONE_NAMES = [
-  'Hips', 'Spine02', 'Spine01', 'Spine', 'neck', 'Head',
-  'LeftShoulder', 'LeftArm', 'LeftForeArm', 'LeftHand',
-  'RightShoulder', 'RightArm', 'RightForeArm', 'RightHand',
-  'LeftUpLeg', 'LeftLeg', 'LeftFoot',
-  'RightUpLeg', 'RightLeg', 'RightFoot',
-] as const;
-
-type BoneName = typeof BONE_NAMES[number];
-type Vec3 = readonly [number, number, number];
-type RotMap = Partial<Record<BoneName, Vec3>>;
-type PosMap = Partial<Record<BoneName, Vec3>>;
-type Ease = 'lin' | 'in' | 'out' | 'inout' | 'back';
-
-interface PoseKey {
-  t: number;
-  ease: Ease;
-  rot: RotMap;
-  pos?: PosMap;
-}
 
 const boneOf = (root: THREE.Object3D, name: string): THREE.Bone | null => {
   let found: THREE.Bone | null = null;
@@ -172,386 +157,42 @@ export interface CombatClipSet {
   hit: THREE.AnimationClip;
   dodge: THREE.AnimationClip;
   death: THREE.AnimationClip;
+  combo: THREE.AnimationClip;
+  leap: THREE.AnimationClip;
+  dodgeLeft: THREE.AnimationClip;
+  dodgeRight: THREE.AnimationClip;
+  hitFront: THREE.AnimationClip;
+  hitBack: THREE.AnimationClip;
+  hitLeft: THREE.AnimationClip;
+  hitRight: THREE.AnimationClip;
+  stagger: THREE.AnimationClip;
+  deathThrow: THREE.AnimationClip;
+  deathCollapse: THREE.AnimationClip;
+  deathDismember: THREE.AnimationClip;
+  walkWeight: THREE.AnimationClip | null;
   procedural: boolean;
 }
 
-function clawAttack(): PoseKey[] {
-  return [
-    { t: 0, ease: 'out', rot: {} },
-    {
-      t: 0.08, ease: 'out', rot: {
-        Hips: [0.05, -0.16, 0.05],
-        Spine02: [0.06, -0.10, 0.04],
-        Spine01: [0.05, -0.12, 0.05],
-        Spine: [0.10, -0.22, 0.10],
-        neck: [-0.06, -0.08, 0.04],
-        RightShoulder: [-0.18, 0.22, 0.38],
-        RightArm: [-0.55, 0.22, 0.82],
-        RightForeArm: [0.42, 0.08, 0.18],
-        RightHand: [0.25, 0.12, 0.28],
-        LeftArm: [0.18, 0.04, -0.22],
-        LeftForeArm: [0.12, 0, 0],
-        LeftUpLeg: [0.14, 0.02, 0.06],
-        RightUpLeg: [-0.08, -0.02, -0.08],
-      }, pos: { Hips: [0.01, -0.04, -0.05] },
-    },
-    {
-      t: 0.17, ease: 'in', rot: {
-        Hips: [0.08, -0.32, 0.10],
-        Spine02: [0.10, -0.18, 0.08],
-        Spine01: [0.08, -0.20, 0.08],
-        Spine: [0.16, -0.48, 0.18],
-        neck: [-0.10, -0.16, 0.06],
-        Head: [0.06, -0.10, 0],
-        RightShoulder: [-0.28, 0.32, 0.55],
-        RightArm: [-1.05, 0.38, 1.12],
-        RightForeArm: [0.95, 0.18, 0.28],
-        RightHand: [0.40, 0.18, 0.45],
-        LeftShoulder: [0.08, 0, -0.12],
-        LeftArm: [0.32, -0.12, -0.40],
-        LeftForeArm: [0.28, 0, 0],
-        LeftUpLeg: [0.18, 0.04, 0.08],
-        RightUpLeg: [-0.12, -0.04, -0.10],
-      }, pos: { Hips: [0.02, -0.07, -0.08] },
-    },
-    {
-      t: 0.26, ease: 'back', rot: {
-        Hips: [0.06, 0.38, -0.08],
-        Spine02: [0.10, 0.22, -0.10],
-        Spine01: [0.12, 0.26, -0.08],
-        Spine: [0.22, 0.55, -0.14],
-        neck: [0.12, 0.22, -0.04],
-        Head: [0.10, 0.18, 0],
-        RightShoulder: [0.18, -0.12, -0.32],
-        RightArm: [-1.25, -0.18, -0.62],
-        RightForeArm: [0.22, -0.06, -0.12],
-        RightHand: [0.10, -0.22, -0.18],
-        LeftShoulder: [0.12, 0.06, -0.18],
-        LeftArm: [0.55, 0.12, -0.52],
-        LeftForeArm: [0.35, 0, 0],
-        LeftUpLeg: [-0.12, 0, -0.10],
-        LeftLeg: [0.18, 0, 0],
-        RightUpLeg: [0.28, 0.04, 0.12],
-        RightLeg: [0.12, 0, 0],
-      }, pos: { Hips: [0.05, -0.02, 0.10] },
-    },
-    {
-      t: 0.36, ease: 'inout', rot: {
-        Hips: [0.03, 0.16, -0.03],
-        Spine: [0.08, 0.20, -0.04],
-        neck: [0.04, 0.08, 0],
-        RightArm: [-0.42, 0.04, -0.16],
-        RightForeArm: [0.16, 0, 0],
-        LeftArm: [0.16, 0, -0.14],
-        RightUpLeg: [0.08, 0, 0.04],
-      }, pos: { Hips: [0.02, -0.02, 0.03] },
-    },
-    { t: ONE_SHOT.attack, ease: 'lin', rot: {}, pos: { Hips: [0, 0, 0] } },
-  ];
+function aliasExtras(base: Pick<CombatClipSet, 'attack' | 'shoot' | 'hit' | 'dodge' | 'death'>): CombatClipSet {
+  return {
+    ...base,
+    combo: base.attack,
+    leap: base.attack,
+    dodgeLeft: base.dodge,
+    dodgeRight: base.dodge,
+    hitFront: base.hit,
+    hitBack: base.hit,
+    hitLeft: base.hit,
+    hitRight: base.hit,
+    stagger: base.hit,
+    deathThrow: base.death,
+    deathCollapse: base.death,
+    deathDismember: base.death,
+    walkWeight: null,
+    procedural: true,
+  };
 }
 
-function termPunch(): PoseKey[] {
-  const d = 0.80;
-  return [
-    { t: 0, ease: 'out', rot: {} },
-    {
-      t: 0.12, ease: 'out', rot: {
-        Hips: [0.06, -0.14, 0.04],
-        Spine02: [0.08, -0.08, 0.04],
-        Spine: [0.14, -0.22, 0.08],
-        neck: [-0.08, -0.06, 0],
-        RightShoulder: [-0.22, 0.18, 0.28],
-        RightArm: [-0.85, 0.22, 0.55],
-        RightForeArm: [1.05, 0.08, 0.12],
-        RightHand: [0.15, 0, 0.10],
-        LeftShoulder: [0.10, 0, -0.10],
-        LeftArm: [0.35, 0.08, -0.28],
-        LeftForeArm: [0.55, 0, 0],
-        LeftUpLeg: [0.10, 0, 0.06],
-        RightUpLeg: [-0.10, 0, -0.08],
-      }, pos: { Hips: [0, -0.05, -0.06] },
-    },
-    {
-      t: 0.42, ease: 'in', rot: {
-        Hips: [0.10, -0.22, 0.06],
-        Spine02: [0.12, -0.14, 0.06],
-        Spine01: [0.10, -0.12, 0.05],
-        Spine: [0.20, -0.32, 0.12],
-        neck: [-0.12, -0.10, 0.04],
-        Head: [0.08, -0.06, 0],
-        RightShoulder: [-0.32, 0.24, 0.40],
-        RightArm: [-1.15, 0.32, 0.72],
-        RightForeArm: [1.25, 0.12, 0.16],
-        RightHand: [0.22, 0.08, 0.14],
-        LeftArm: [0.48, 0.10, -0.38],
-        LeftForeArm: [0.70, 0, 0],
-        LeftUpLeg: [0.16, 0.04, 0.08],
-        RightUpLeg: [-0.14, -0.04, -0.10],
-      }, pos: { Hips: [0.02, -0.08, -0.10] },
-    },
-    {
-      t: 0.68, ease: 'back', rot: {
-        Hips: [0.16, 0.28, -0.06],
-        Spine02: [0.14, 0.16, -0.06],
-        Spine01: [0.16, 0.18, -0.06],
-        Spine: [0.28, 0.38, -0.10],
-        neck: [0.14, 0.16, 0],
-        Head: [0.12, 0.10, 0],
-        RightShoulder: [0.22, -0.08, -0.18],
-        RightArm: [-1.35, -0.08, -0.22],
-        RightForeArm: [0.18, 0, 0],
-        RightHand: [0.08, -0.10, -0.08],
-        LeftArm: [0.22, 0.06, -0.22],
-        LeftForeArm: [0.25, 0, 0],
-        LeftUpLeg: [-0.10, 0, -0.08],
-        RightUpLeg: [0.22, 0.04, 0.10],
-        RightLeg: [0.10, 0, 0],
-      }, pos: { Hips: [0.06, -0.03, 0.14] },
-    },
-    {
-      t: d, ease: 'lin', rot: {
-        Hips: [0.04, 0.08, 0],
-        Spine: [0.08, 0.10, 0],
-        RightArm: [-0.35, 0.04, 0.08],
-        RightForeArm: [0.22, 0, 0],
-        LeftArm: [0.10, 0, -0.08],
-      }, pos: { Hips: [0.02, -0.02, 0.04] },
-    },
-  ];
-}
-
-function termShoot(): PoseKey[] {
-  return [
-    { t: 0, ease: 'out', rot: {} },
-    {
-      t: 0.08, ease: 'out', rot: {
-        Hips: [0.03, 0.06, 0],
-        Spine01: [0.06, 0.08, 0.02],
-        Spine: [0.08, 0.10, 0.04],
-        neck: [-0.10, 0.06, 0],
-        Head: [-0.06, 0.04, 0],
-        RightShoulder: [-0.12, 0.10, 0.18],
-        RightArm: [-0.72, 0.16, 0.32],
-        RightForeArm: [0.55, 0.04, 0.10],
-        RightHand: [0.08, 0, 0.06],
-        LeftArm: [0.28, 0.08, -0.18],
-        LeftForeArm: [0.42, 0, 0],
-      }, pos: { Hips: [0, -0.02, -0.02] },
-    },
-    {
-      t: 0.16, ease: 'in', rot: {
-        Hips: [0.04, 0.08, 0],
-        Spine: [0.10, 0.12, 0.05],
-        neck: [-0.12, 0.08, 0],
-        RightArm: [-0.88, 0.14, 0.38],
-        RightForeArm: [0.62, 0.04, 0.12],
-        LeftArm: [0.35, 0.10, -0.22],
-      },
-    },
-    {
-      t: 0.22, ease: 'back', rot: {
-        Hips: [-0.08, 0.04, 0.04],
-        Spine02: [-0.10, 0.04, 0.04],
-        Spine01: [-0.12, 0.06, 0.05],
-        Spine: [-0.16, 0.08, 0.08],
-        neck: [0.08, 0.04, 0],
-        Head: [0.06, 0.02, 0],
-        RightShoulder: [-0.06, 0.08, 0.12],
-        RightArm: [-0.62, 0.10, 0.28],
-        RightForeArm: [0.48, 0, 0.08],
-        LeftArm: [0.22, 0.04, -0.14],
-      }, pos: { Hips: [0, -0.04, -0.10] },
-    },
-    {
-      t: 0.34, ease: 'inout', rot: {
-        Hips: [0.02, 0.05, 0],
-        Spine: [0.06, 0.08, 0.02],
-        neck: [-0.06, 0.04, 0],
-        RightArm: [-0.50, 0.08, 0.18],
-        RightForeArm: [0.32, 0, 0.04],
-      }, pos: { Hips: [0, -0.01, -0.03] },
-    },
-    { t: ONE_SHOT.attack, ease: 'lin', rot: {}, pos: { Hips: [0, 0, 0] } },
-  ];
-}
-
-function hitReact(heavy: boolean): PoseKey[] {
-  const k = heavy ? 1.15 : 1;
-  const fold = heavy ? 0.72 : 1;
-  return [
-    { t: 0, ease: 'in', rot: {} },
-    {
-      t: 0.05, ease: 'in', rot: {
-        Hips: [-0.04 * k, 0.05, 0.04],
-        Spine: [-0.10 * k, 0.06, 0.08],
-        neck: [-0.08, 0.08, 0],
-      }, pos: { Hips: [0, -0.02, -0.03] },
-    },
-    {
-      t: 0.11, ease: 'back', rot: {
-        Hips: [-0.12 * k, 0.10, 0.08],
-        Spine02: [-0.14 * fold, 0.06, 0.08],
-        Spine01: [-0.18 * fold, -0.06, 0.10],
-        Spine: [-0.32 * fold, 0.12, 0.16],
-        neck: [-0.28 * fold, 0.16, 0.04],
-        Head: [-0.18 * fold, 0.12, 0.06],
-        LeftShoulder: [0.12, 0.08, -0.10],
-        RightShoulder: [-0.10, -0.08, 0.16],
-        LeftArm: [0.45 * fold, 0.18, -0.35],
-        RightArm: [-0.35, 0.22, 0.48],
-        LeftForeArm: [0.40, 0, 0],
-        RightForeArm: [0.32, 0, 0.10],
-        LeftUpLeg: [0.12, 0, 0.08],
-        RightUpLeg: [-0.08, 0, -0.10],
-      }, pos: { Hips: [0.02 * k, -0.10 * k, -0.14 * k] },
-    },
-    {
-      t: 0.20, ease: 'out', rot: {
-        Hips: [-0.04, 0.04, 0.03],
-        Spine: [-0.08 * fold, 0.04, 0.04],
-        neck: [-0.06, 0.04, 0],
-        LeftArm: [0.12, 0.04, -0.10],
-        RightArm: [-0.10, 0.06, 0.12],
-      }, pos: { Hips: [0, -0.04, -0.05] },
-    },
-    { t: ONE_SHOT.hit, ease: 'lin', rot: {}, pos: { Hips: [0, 0, 0] } },
-  ];
-}
-
-function dodgeStep(heavy: boolean): PoseKey[] {
-  const drop = heavy ? 0.70 : 1;
-  const side = heavy ? 1.15 : 1;
-  return [
-    { t: 0, ease: 'out', rot: {} },
-    {
-      t: 0.06, ease: 'out', rot: {
-        Hips: [-0.10 * drop, -0.12, 0.08],
-        Spine: [0.08, -0.10, 0.08],
-        LeftUpLeg: [0.18, 0, 0.08],
-        RightUpLeg: [0.06, 0, -0.06],
-        LeftArm: [0.20, 0, -0.16],
-        RightArm: [-0.16, 0, 0.18],
-      }, pos: { Hips: [-0.04 * side, -0.06 * drop, -0.05] },
-    },
-    {
-      t: 0.14, ease: 'inout', rot: {
-        Hips: [-0.18 * drop, -0.38, 0.14],
-        Spine02: [0.10, -0.16, 0.12],
-        Spine01: [0.12, -0.18, 0.14],
-        Spine: [0.18, -0.28, 0.20],
-        neck: [0.08, -0.16, 0.08],
-        Head: [0.06, -0.10, 0.04],
-        LeftShoulder: [0.08, 0, -0.10],
-        RightShoulder: [-0.06, 0, 0.12],
-        LeftArm: [0.45, 0.10, -0.32],
-        RightArm: [-0.38, -0.08, 0.42],
-        LeftForeArm: [0.35, 0, 0],
-        RightForeArm: [0.28, 0, 0],
-        LeftUpLeg: [0.55, 0.08, 0.16],
-        LeftLeg: [0.72, 0, 0],
-        LeftFoot: [-0.22, 0, 0],
-        RightUpLeg: [0.12, -0.06, -0.18],
-        RightLeg: [0.18, 0, 0],
-      }, pos: { Hips: [-0.16 * side, -0.14 * drop, -0.18] },
-    },
-    {
-      t: 0.26, ease: 'inout', rot: {
-        Hips: [-0.06, -0.12, 0.04],
-        Spine: [0.06, -0.08, 0.06],
-        LeftUpLeg: [0.16, 0, 0.04],
-        LeftLeg: [0.22, 0, 0],
-        LeftArm: [0.12, 0, -0.10],
-        RightArm: [-0.10, 0, 0.10],
-      }, pos: { Hips: [-0.05 * side, -0.04, -0.06] },
-    },
-    { t: ONE_SHOT.dodge, ease: 'lin', rot: {}, pos: { Hips: [0, 0, 0] } },
-  ];
-}
-
-function deathFall(): PoseKey[] {
-  return [
-    { t: 0, ease: 'in', rot: {} },
-    {
-      t: 0.08, ease: 'in', rot: {
-        Hips: [-0.12, 0.10, 0.18],
-        Spine: [-0.22, 0.12, 0.16],
-        neck: [-0.28, 0.18, 0.08],
-        Head: [-0.16, 0.12, 0.10],
-        LeftArm: [0.35, 0.15, -0.25],
-        RightArm: [-0.28, 0.18, 0.40],
-      }, pos: { Hips: [0.04, -0.06, -0.04] },
-    },
-    {
-      t: 0.22, ease: 'inout', rot: {
-        Hips: [0.35, 0.22, 0.72],
-        Spine02: [0.18, 0.10, 0.22],
-        Spine01: [0.22, 0.08, 0.20],
-        Spine: [0.28, 0.12, 0.28],
-        neck: [0.20, 0.10, 0.12],
-        Head: [0.16, 0.08, 0.10],
-        LeftUpLeg: [0.55, 0.12, 0.28],
-        LeftLeg: [0.85, 0, 0],
-        RightUpLeg: [0.22, -0.12, -0.32],
-        RightLeg: [0.40, 0, 0],
-        LeftArm: [0.55, 0.10, -0.48],
-        RightArm: [-0.45, 0.22, 0.70],
-        LeftForeArm: [0.35, 0, 0],
-        RightForeArm: [0.28, 0, 0.12],
-      }, pos: { Hips: [0.10, -0.32, 0.06] },
-    },
-    {
-      t: 0.48, ease: 'in', rot: {
-        Hips: [0.95, 0.18, 1.28],
-        Spine02: [0.32, 0.06, 0.28],
-        Spine01: [0.28, 0.04, 0.22],
-        Spine: [0.18, 0.04, 0.16],
-        neck: [0.35, 0.08, 0.18],
-        Head: [0.28, 0.06, 0.12],
-        LeftUpLeg: [0.78, 0.16, 0.42],
-        LeftLeg: [1.05, 0, 0],
-        LeftFoot: [-0.25, 0, 0],
-        RightUpLeg: [0.42, -0.14, -0.48],
-        RightLeg: [0.62, 0, 0],
-        RightFoot: [-0.12, 0, 0],
-        LeftArm: [0.72, 0.08, -0.62],
-        RightArm: [-0.55, 0.18, 0.85],
-        LeftForeArm: [0.22, 0, 0],
-        RightForeArm: [0.18, 0, 0.08],
-      }, pos: { Hips: [0.18, -0.82, 0.12] },
-    },
-    {
-      t: 0.58, ease: 'out', rot: {
-        Hips: [1.05, 0.12, 1.38],
-        Spine: [0.10, 0, 0.10],
-        neck: [0.22, 0.04, 0.10],
-        Head: [0.18, 0.02, 0.08],
-        LeftUpLeg: [0.62, 0.12, 0.32],
-        LeftLeg: [0.88, 0, 0],
-        RightUpLeg: [0.35, -0.10, -0.38],
-        RightLeg: [0.48, 0, 0],
-        LeftArm: [0.48, 0.04, -0.42],
-        RightArm: [-0.38, 0.10, 0.58],
-      }, pos: { Hips: [0.20, -0.70, 0.14] },
-    },
-    {
-      t: ONE_SHOT.death, ease: 'lin', rot: {
-        Hips: [1.12, 0.08, 1.42],
-        Spine02: [0.18, 0, 0.12],
-        Spine: [0.08, 0, 0.08],
-        neck: [0.16, 0, 0.06],
-        Head: [0.12, 0, 0.04],
-        LeftUpLeg: [0.52, 0.10, 0.28],
-        LeftLeg: [0.72, 0, 0],
-        RightUpLeg: [0.28, -0.08, -0.32],
-        RightLeg: [0.38, 0, 0],
-        LeftArm: [0.38, 0.02, -0.36],
-        RightArm: [-0.28, 0.08, 0.48],
-        LeftForeArm: [0.15, 0, 0],
-        RightForeArm: [0.12, 0, 0],
-      }, pos: { Hips: [0.22, -0.92, 0.15] },
-    },
-  ];
-}
 
 function quatTrack(
   bone: THREE.Bone,
@@ -647,7 +288,7 @@ export function makeLegacyCombatClips(root: THREE.Object3D): CombatClipSet {
     rArm ? quatTrack(rArm, deathT, [Z, E(-0.2, 0, 0.4), E(-0.4, 0.2, 0.7), E(-0.3, 0.1, 0.5)]) : null,
     lArm ? quatTrack(lArm, deathT, [Z, E(0.2, 0, -0.3), E(0.5, 0, -0.6), E(0.35, 0, -0.4)]) : null,
   ]);
-  return { attack, shoot, hit, dodge, death, procedural: true };
+  return aliasExtras({ attack, shoot, hit, dodge, death });
 }
 
 export function makeCombatClips(root: THREE.Object3D, look: ProcLook = 'nl', polish = true): CombatClipSet {
@@ -659,21 +300,45 @@ export function makeCombatClips(root: THREE.Object3D, look: ProcLook = 'nl', pol
   }
   const term = look === 'term';
   const attack = clipFromKeys(
-    'proc-attack',
+    term ? 'proc-punch' : 'proc-attack',
     term ? 0.80 : ONE_SHOT.attack,
     bones,
-    term ? termPunch() : clawAttack(),
+    term ? termPunch() : clawSlash('right'),
   );
   const shoot = clipFromKeys('proc-shoot', ONE_SHOT.attack, bones, termShoot());
-  const hit = clipFromKeys('proc-hit', ONE_SHOT.hit, bones, hitReact(term));
-  const dodge = clipFromKeys('proc-dodge', ONE_SHOT.dodge, bones, dodgeStep(term));
+  const hit = clipFromKeys('proc-hit', ONE_SHOT.hit, bones, hitReact(term ? 'heavy' : 'front'));
+  const dodge = clipFromKeys('proc-dodge', ONE_SHOT.dodge, bones, dodgeStep('back', term));
   const death = clipFromKeys('proc-death', ONE_SHOT.death, bones, deathFall());
-  return { attack, shoot, hit, dodge, death, procedural: true };
+  return {
+    attack, shoot, hit, dodge, death,
+    combo: clipFromKeys('proc-combo', ONE_SHOT.combo, bones, clawCombo()),
+    leap: clipFromKeys('proc-leap', ONE_SHOT.leap, bones, clawLeap()),
+    dodgeLeft: clipFromKeys('proc-dodge-left', ONE_SHOT.dodge, bones, dodgeStep('left', term)),
+    dodgeRight: clipFromKeys('proc-dodge-right', ONE_SHOT.dodge, bones, dodgeStep('right', term)),
+    hitFront: clipFromKeys('proc-hit-front', ONE_SHOT.hit, bones, hitReact('front')),
+    hitBack: clipFromKeys('proc-hit-back', ONE_SHOT.hit, bones, hitReact('back')),
+    hitLeft: clipFromKeys('proc-hit-left', ONE_SHOT.hit, bones, hitReact('left')),
+    hitRight: clipFromKeys('proc-hit-right', ONE_SHOT.hit, bones, hitReact('right')),
+    stagger: clipFromKeys('proc-stagger', ONE_SHOT.stagger, bones, staggerBolt()),
+    deathThrow: clipFromKeys('proc-death-throw', ONE_SHOT.death, bones, deathThrow()),
+    deathCollapse: clipFromKeys('proc-death-collapse', ONE_SHOT.death, bones, deathCollapse()),
+    deathDismember: clipFromKeys('proc-death-dismember', ONE_SHOT.death, bones, deathDismember()),
+    walkWeight: term ? clipFromKeys('proc-walk-weight', 0.90, bones, termWalkWeight()) : null,
+    procedural: true,
+  };
 }
 
 export function bindOneShot(action: THREE.AnimationAction, holdEnd: boolean): THREE.AnimationAction {
   action.setLoop(THREE.LoopOnce, 1);
   action.clampWhenFinished = holdEnd;
+  action.timeScale = 1;
+  return action;
+}
+
+export function bindAdditive(action: THREE.AnimationAction, loop: boolean): THREE.AnimationAction {
+  action.blendMode = THREE.AdditiveAnimationBlendMode;
+  action.setLoop(loop ? THREE.LoopRepeat : THREE.LoopOnce, loop ? Infinity : 1);
+  action.clampWhenFinished = false;
   action.timeScale = 1;
   return action;
 }
