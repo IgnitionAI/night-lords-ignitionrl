@@ -637,6 +637,29 @@ const DEMO_SCRIPTS: Record<string, DemoScript> = {
     player(t: number): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: t === 3, fist: false }; },
     nls(): number[] { return [0, 0, 0, 0]; },
   },
+  // Recul NL (action 2) : one-shot dodge, TERM hors cadre d'attaque.
+  'combat-nl-dodge': {
+    place(w: World) {
+      w.t.x = 8; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 20; n.armTicks = 0; n.stunTicks = 0; });
+      w.nls[1].x = 9.2; w.nls[1].y = 13.4; w.nls[1].facing = Math.atan2(12 - 13.4, 8 - 9.2);
+      w.nls[0].x = 16; w.nls[0].y = 8; w.nls[2].x = 16; w.nls[2].y = 16; w.nls[3].x = 20; w.nls[3].y = 12;
+    },
+    player(): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false }; },
+    nls(t: number): number[] { return [0, t === 2 ? 2 : 0, 0, 0]; },
+  },
+  // Gantelet : charge 8 ticks puis impact. Un NL au contact meurt ; un survivant prend le stun (hit).
+  'combat-term-fist': {
+    place(w: World) {
+      w.t.x = 8; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0; w.t.fistCd = 0; w.t.fistCharge = 0;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 20; n.armTicks = 0; n.stunTicks = 0; n.hp = 1; });
+      w.nls[0].x = 9.6; w.nls[0].y = 12.0; w.nls[0].facing = Math.PI;
+      w.nls[1].x = 8.2; w.nls[1].y = 14.4; w.nls[1].facing = -Math.PI / 2;
+      w.nls[2].x = 16; w.nls[2].y = 8; w.nls[3].x = 18; w.nls[3].y = 16;
+    },
+    player(t: number): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: t === 3 }; },
+    nls(): number[] { return [0, 0, 0, 0]; },
+  },
 };
 const DEMO_CFG = DEMO ? DEMO_SCRIPTS[DEMO] ?? null : null;
 function startRound() {
