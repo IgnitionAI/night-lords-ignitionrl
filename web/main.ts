@@ -22,8 +22,9 @@ import {
 } from './combat-clips';
 import {
   applyRendererAtmosphere, applySceneAtmosphere, installCorridorLights, configureHunterSpot,
-  CAM, EPAULE, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, LAMP, STRIP_EMISSIVE,
+  CAM, EPAULE, TROIS_QUARTS, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, LAMP, STRIP_EMISSIVE,
 } from './atmosphere';
+import { applyTerminatorLook } from './terminator-look';
 // Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
 // dépôt, licence Genex non confirmée) chaque appel renvoie false et ne fait rien — le jeu tourne à l'identique.
 import { initAudio, audio, onStep, onServoCharge, onBolterBurst, onFistCharge, onFistImpact, onHit, onServoAlarm, onServoLoop } from './audio/nightlords-audio.js';
@@ -52,10 +53,24 @@ applyRendererAtmosphere(renderer);
 const FOG_MODE = qs.get('fog') ?? 'exp2';
 const scene = new THREE.Scene();
 applySceneAtmosphere(scene, FOG_MODE);
-// Cadrage : constantes dans `web/atmosphere.ts`. `?cam=couloir` rend P1 (comparaison, captures).
-const CAM_MODE = qs.get('cam') === 'couloir' ? 'couloir' : 'epaule';
+// Cadrage : constantes dans `web/atmosphere.ts`. `?cam=couloir` rend P1 ; `?cam=troisquarts` le plan de preuve.
+type CamMode = 'couloir' | 'epaule' | 'troisquarts';
+const parseCam = (raw: string | null): CamMode => {
+  if (raw === 'couloir') return 'couloir';
+  if (raw === 'troisquarts') return 'troisquarts';
+  return 'epaule';
+};
+const CAM_MODE = parseCam(qs.get('cam'));
+const camFov = (portrait: boolean): number => {
+  switch (CAM_MODE) {
+    case 'couloir': return portrait ? CAM.fovPortrait : CAM.fov;
+    case 'epaule': return portrait ? EPAULE.fovPortrait : EPAULE.fov;
+    case 'troisquarts': return portrait ? TROIS_QUARTS.fovPortrait : TROIS_QUARTS.fov;
+    default: { const _e: never = CAM_MODE; throw new Error(String(_e)); }
+  }
+};
 const IMPACT = qs.get('impact') !== '0'; // ?impact=0 : caméra stable, pour mesurer ce que le poids coûte
-const camera = new THREE.PerspectiveCamera(CAM_MODE === 'epaule' ? EPAULE.fov : CAM.fov, 1, 0.1, 200);
+const camera = new THREE.PerspectiveCamera(camFov(false), 1, 0.1, 200);
 installCorridorLights(scene, BEACON.y);
 // ================== DÉCOR ==================
 // Le grey-box était un plan, sept boîtes et une grille. Ici, un pont de vaisseau construit : tôle rivetée,
@@ -284,13 +299,14 @@ async function loadModelGLB(name: string) {
   if (TEX === 512) { try { return await loadGLB(`/web/models/${name}-512.glb`); } catch { /* pas de variante : on prend l'original */ } }
   return loadGLB(`/web/models/${name}.glb`);
 }
+type CharacterLook = 'nl' | 'term';
 interface Rig {
   root: THREE.Object3D; mixer: THREE.AnimationMixer;
   walk: THREE.AnimationAction | null; run: THREE.AnimationAction | null; idle: THREE.AnimationAction | null;
   attack: THREE.AnimationAction | null; shoot: THREE.AnimationAction | null;
   hit: THREE.AnimationAction | null; dodge: THREE.AnimationAction | null; death: THREE.AnimationAction | null;
   current: THREE.AnimationAction | null; tell: { value: number };
-  strideWalk: number; strideRun: number; allowRun: boolean;
+  strideWalk: number; strideRun: number; allowRun: boolean; holdIdle: boolean;
   combat: CombatMachine; kind: CombatKind;
   clipDurations: ShotDurations;
 }
@@ -306,7 +322,7 @@ const actionForKind = (rig: Rig, kind: CombatKind, style: CombatMachine['attackS
     default: { const _e: never = kind; return _e; }
   }
 };
-const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, dim = 1, allowRun = true): Rig => {
+const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, dim = 1, allowRun = true, look: CharacterLook = 'nl'): Rig => {
   const root = model.scene;
   // Un seul objet uniform par modèle, créé ici : tous les programmes compilés plus tard le lisent en direct.
   // (Un uniform créé dans onBeforeCompile n'existe qu'après le premier rendu — en mode capture, les ticks
@@ -318,20 +334,33 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   root.traverse((o: any) => {
     if (!o.isMesh) return;
     o.castShadow = true;
-    // Les textures sortent de Genex calibrees pour un studio, pas pour un couloir a 10 lux : on baisse
-    // l'albedo pour que la forme passe devant le detail, et on garde le liseré de Fresnel de P2.
     const m = o.material as THREE.MeshStandardMaterial;
-    if (m && m.color) { m.color.multiplyScalar(dim); m.envMapIntensity = 0.25; m.metalness *= 0.3; m.roughness = Math.max(m.roughness, 0.72); }
-    // Injecté *avant* le brouillard : ajouté après, le liseré traversait 17 m de brume intact et le Night
-    // Lord devenait un mannequin blanc à contre-jour (vu à t77). Avant, la brume le mange comme le reste.
-    // Le liseré porte aussi le télégraphe de la griffe : du bleu froid au rouge ardent, et il s'intensifie.
-    if (m && m.onBeforeCompile) m.onBeforeCompile = (sh) => {
-      sh.uniforms.uTell = tell;
-      sh.fragmentShader = 'uniform float uTell;\n' + sh.fragmentShader.replace('#include <fog_fragment>', `
+    if (!m) return;
+    switch (look) {
+      case 'term':
+        o.receiveShadow = true;
+        applyTerminatorLook(m, tell);
+        break;
+      case 'nl':
+        // Les textures sortent de Genex calibrees pour un studio, pas pour un couloir a 10 lux : on baisse
+        // l'albedo pour que la forme passe devant le detail, et on garde le liseré de Fresnel de P2.
+        if (m.color) { m.color.multiplyScalar(dim); m.envMapIntensity = 0.25; m.metalness *= 0.3; m.roughness = Math.max(m.roughness, 0.72); }
+        // Injecté *avant* le brouillard : ajouté après, le liseré traversait 17 m de brume intact et le Night
+        // Lord devenait un mannequin blanc à contre-jour (vu à t77). Avant, la brume le mange comme le reste.
+        // Le liseré porte aussi le télégraphe de la griffe : du bleu froid au rouge ardent, et il s'intensifie.
+        m.onBeforeCompile = (sh) => {
+          sh.uniforms.uTell = tell;
+          sh.fragmentShader = 'uniform float uTell;\n' + sh.fragmentShader.replace('#include <fog_fragment>', `
        float fres = pow(1.0 - clamp(abs(dot(normalize(normal), normalize(vViewPosition))), 0.0, 1.0), 4.2);
        gl_FragColor.rgb += mix(vec3(0.26, 0.35, 0.55), vec3(0.85, 0.12, 0.05), uTell) * fres * (0.55 + 1.4 * uTell);
        #include <fog_fragment>`);
-    };
+        };
+        break;
+      default: {
+        const _exhaustive: never = look;
+        throw new Error(String(_exhaustive));
+      }
+    }
   });
   const mixer = new THREE.AnimationMixer(root);
   const walkClip = pickClip(clips, 'walk');
@@ -342,15 +371,19 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   const mkShot = (c: THREE.AnimationClip, hold: boolean) => bindOneShot(mixer.clipAction(c), hold);
   const strideWalk = walkClip ? measureForwardStride(root, walkClip).stride : 0;
   const strideRun = runClip ? measureForwardStride(root, runClip).stride : 0;
+  const walk = mk(walkClip);
+  const namedIdle = pickNamedClip(clips, IDLE_CLIP_KEYS);
+  // Sans Idle_3, clip0 TERM est la bind T-pose : on fige la foulée (timeScale 0). Avec Idle_3, on le joue.
+  const idle = namedIdle ? mk(namedIdle) : (allowRun ? mk(model.animations?.[0] ?? null) : walk);
+  const holdIdle = !namedIdle && !allowRun;
   return {
-    root, mixer, walk: mk(walkClip), run: mk(runClip),
-    idle: mk(pickNamedClip(clips, IDLE_CLIP_KEYS) ?? model.animations?.[0] ?? null),
+    root, mixer, walk, run: mk(runClip), idle,
     attack: mkShot(resolved.attack, false),
     shoot: mkShot(resolved.shoot, false),
     hit: mkShot(resolved.hit, false),
     dodge: mkShot(resolved.dodge, false),
     death: mkShot(resolved.death, true),
-    current: null, tell, strideWalk, strideRun, allowRun,
+    current: null, tell, strideWalk, strideRun, allowRun, holdIdle,
     combat: freshMachine(), kind: 'idle',
     clipDurations: oneShotDurations(resolved),
   };
@@ -369,7 +402,7 @@ const playKind = (rig: Rig, speed: number) => {
   if (next && isLoco(want) && want !== 'idle') {
     const stride = want === 'run' ? rig.strideRun : rig.strideWalk;
     next.timeScale = gaitTimeScale(speed, stride, next.getClip().duration);
-  } else if (next) next.timeScale = 1;
+  } else if (next) next.timeScale = rig.holdIdle ? 0 : 1;
 };
 
 // Terminator : cubes (os/or loyaliste), front marqué par le visor et le storm bolter
@@ -632,6 +665,29 @@ const DEMO_SCRIPTS: Record<string, DemoScript> = {
       w.nls[1].x = 18; w.nls[1].y = 8; w.nls[2].x = 18; w.nls[2].y = 16; w.nls[3].x = 22; w.nls[3].y = 12;
     },
     player(t: number): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: t === 3, fist: false }; },
+    nls(): number[] { return [0, 0, 0, 0]; },
+  },
+  // Recul NL (action 2) : one-shot dodge, TERM hors cadre d'attaque.
+  'combat-nl-dodge': {
+    place(w: World) {
+      w.t.x = 8; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 20; n.armTicks = 0; n.stunTicks = 0; });
+      w.nls[1].x = 9.2; w.nls[1].y = 13.4; w.nls[1].facing = Math.atan2(12 - 13.4, 8 - 9.2);
+      w.nls[0].x = 16; w.nls[0].y = 8; w.nls[2].x = 16; w.nls[2].y = 16; w.nls[3].x = 20; w.nls[3].y = 12;
+    },
+    player(): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false }; },
+    nls(t: number): number[] { return [0, t === 2 ? 2 : 0, 0, 0]; },
+  },
+  // Gantelet : charge 8 ticks puis impact. Un NL au contact meurt ; un survivant prend le stun (hit).
+  'combat-term-fist': {
+    place(w: World) {
+      w.t.x = 8; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0; w.t.fistCd = 0; w.t.fistCharge = 0;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 20; n.armTicks = 0; n.stunTicks = 0; n.hp = 1; });
+      w.nls[0].x = 9.6; w.nls[0].y = 12.0; w.nls[0].facing = Math.PI;
+      w.nls[1].x = 8.2; w.nls[1].y = 14.4; w.nls[1].facing = -Math.PI / 2;
+      w.nls[2].x = 16; w.nls[2].y = 8; w.nls[3].x = 18; w.nls[3].y = 16;
+    },
+    player(t: number): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: t === 3 }; },
     nls(): number[] { return [0, 0, 0, 0]; },
   },
 };
@@ -899,27 +955,41 @@ function render(alpha: number) {
   // l'emprise d'un pilier, la caméra monte au-dessus (4,9 m) et regarde par-dessus.
   const fx = Math.cos(camYaw), fz = Math.sin(camYaw);      // axe de marche
   const rx = -fz, rz = fx;                                 // son épaule droite
-  if (CAM_MODE === 'couloir') {
-    const back = portrait ? CAM.back + 1.6 : CAM.back, high = portrait ? CAM.height + 0.9 : CAM.height;
-    // 8,2 m derrière un Terminator à x≈3 sort de la coque (caméra dans le vide = image noire).
-    const cx = Math.min(ARENA.w - 0.6, Math.max(0.6, tx - fx * back));
-    const cz = Math.min(ARENA.h - 0.6, Math.max(0.6, ty - fz * back));
-    const inPillar = PILLARS.some(b => cx > b.x0 - 0.55 && cx < b.x1 + 0.55 && cz > b.y0 - 0.55 && cz < b.y1 + 0.55);
-    const cy = inPillar ? CAM.highMax : high;
-    camera.position.set(cx + sx, cy, cz + sz);
-    camera.lookAt(tx + fx * CAM.ahead + sx, CAM.eye, ty + fz * CAM.ahead + sz);
-  } else {
-    // À l'épaule : quatre offsets (respiration, pas, recul, inclinaison). Cadrage EPAULE : 3,4 m derrière.
-    // temps de rendu : on avance dans le tick en cours pour que 60 fps reste lisse et qu'une capture tombe juste
-    const now = simT - DT + alpha * DT;
-    const breath = Math.sin(now * (2 * Math.PI / 5.2)) * 0.028; // 5,2 s par cycle, 2,8 cm
-    recZ = osc(recImp, now, REC.w, REC.z); recPitch = osc(pitchImp, now, REC.w, REC.z);
-    stepY = osc(stepImp, now, STP.w, STP.z);
-    const back = EPAULE.back + recZ * 0.85;
-    const high = EPAULE.height + stepY + breath;
-    const side = portrait ? EPAULE.side * 0.6 : EPAULE.side;
-    camera.position.set(tx - fx * back + rx * side + sx, high, ty - fz * back + rz * side + sz);
-    camera.lookAt(tx + fx * EPAULE.ahead + sx, EPAULE.eye, ty + fz * EPAULE.ahead + sz);
+  switch (CAM_MODE) {
+    case 'couloir': {
+      const back = portrait ? CAM.back + 1.6 : CAM.back, high = portrait ? CAM.height + 0.9 : CAM.height;
+      // 8,2 m derrière un Terminator à x≈3 sort de la coque (caméra dans le vide = image noire).
+      const cx = Math.min(ARENA.w - 0.6, Math.max(0.6, tx - fx * back));
+      const cz = Math.min(ARENA.h - 0.6, Math.max(0.6, ty - fz * back));
+      const inPillar = PILLARS.some(b => cx > b.x0 - 0.55 && cx < b.x1 + 0.55 && cz > b.y0 - 0.55 && cz < b.y1 + 0.55);
+      const cy = inPillar ? CAM.highMax : high;
+      camera.position.set(cx + sx, cy, cz + sz);
+      camera.lookAt(tx + fx * CAM.ahead + sx, CAM.eye, ty + fz * CAM.ahead + sz);
+      break;
+    }
+    case 'epaule': {
+      // À l'épaule : quatre offsets (respiration, pas, recul, inclinaison). Cadrage EPAULE : 3,4 m derrière.
+      const now = simT - DT + alpha * DT;
+      const breath = Math.sin(now * (2 * Math.PI / 5.2)) * 0.028; // 5,2 s par cycle, 2,8 cm
+      recZ = osc(recImp, now, REC.w, REC.z); recPitch = osc(pitchImp, now, REC.w, REC.z);
+      stepY = osc(stepImp, now, STP.w, STP.z);
+      const back = EPAULE.back + recZ * 0.85;
+      const high = EPAULE.height + stepY + breath;
+      const side = portrait ? EPAULE.side * 0.6 : EPAULE.side;
+      camera.position.set(tx - fx * back + rx * side + sx, high, ty - fz * back + rz * side + sz);
+      camera.lookAt(tx + fx * EPAULE.ahead + sx, EPAULE.eye, ty + fz * EPAULE.ahead + sz);
+      break;
+    }
+    case 'troisquarts': {
+      const q = TROIS_QUARTS;
+      camera.position.set(tx - fx * q.back + rx * q.side + sx, q.height, ty - fz * q.back + rz * q.side + sz);
+      camera.lookAt(tx + fx * q.ahead + sx, q.eye, ty + fz * q.ahead + sz);
+      break;
+    }
+    default: {
+      const _e: never = CAM_MODE;
+      throw new Error(String(_e));
+    }
   }
   camera.up.set(0, 1, 0);
   if (CAM_MODE === 'epaule') { if (recPitch) camera.rotateX(recPitch); camera.rotateZ(rollPrev + (roll - rollPrev) * alpha); }
@@ -954,14 +1024,14 @@ function render(alpha: number) {
   renderer.setRenderTarget(null); renderer.render(postScene, postCam);
 }
 let mainCalls = 0, mainTris = 0;
-function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = CAM_MODE === 'epaule' ? (innerHeight > innerWidth ? EPAULE.fovPortrait : EPAULE.fov) : (innerHeight > innerWidth ? CAM.fovPortrait : CAM.fov); camera.updateProjectionMatrix();
+function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = camFov(innerHeight > innerWidth); camera.updateProjectionMatrix();
   const s = renderer.getDrawingBufferSize(new THREE.Vector2()); rt.setSize(s.x, s.y); }
 addEventListener('resize', resize);
 
 // Les modèles remplacent les proxies. Un échec de chargement laisse la capsule en place : le prototype
 // reste jouable sans réseau ni assets.
 async function loadModels() {
-  const load = async (name: string, target: number, dim = 1, allowRun = true) => {
+  const load = async (name: string, target: number, dim = 1, allowRun = true, look: CharacterLook = 'nl') => {
     const model = await loadModelGLB(name);
     const clips: THREE.AnimationClip[] = [...(model.animations ?? [])];
     for (const k of ['walk', 'run'] as const) { try { const a = await loadGLB(`/web/models/${name}-${k}.glb`); clips.push(...(a.animations ?? [])); } catch { /* clip absent, on garde l'idle de pose */ } }
@@ -971,7 +1041,7 @@ async function loadModels() {
         clips.push(...(a.animations ?? []).map((c) => remapClip(c)));
       } catch { /* extra absent */ }
     }
-    return rigOf(model, clips, target, dim, allowRun);
+    return rigOf(model, clips, target, dim, allowRun, look);
   };
   await Promise.all(ROLES.map(async (_r, i) => {
     try {
@@ -981,7 +1051,7 @@ async function loadModels() {
     } catch (e) { console.warn('modèle NL-' + (i + 1) + ' absent, capsule conservée', e); }
   }));
   try {
-    termRig = await load('TERM', TERM_HEIGHT, 0.40, false);
+    termRig = await load('TERM', TERM_HEIGHT, 1, false, 'term');
     term.add(termRig.root);
     // Les matériaux de l'armure, pour l'alarme de servo : on garde l'émissif d'origine pour savoir le rendre.
     termRig.root.traverse((o: any) => { const m = o.material; if (m && m.emissive) { if (!m.userData.baseEmissive) m.userData.baseEmissive = m.emissive.clone(); alarmMats.push(m); } });
@@ -994,6 +1064,28 @@ if (debug) buildLabels();
 // C'est la seule mesure de coût de rendu qu'on puisse prendre sans GPU — pas une sonde jetable, elle reste.
 if (debug) (window as any).__SC = () => { let lights = 0; scene.traverse(o => { if ((o as any).isLight) lights++; });
   return { calls: mainCalls, tris: mainTris, lights, textures: renderer.info.memory.textures, geometries: renderer.info.memory.geometries, programs: renderer.info.programs?.length ?? 0, props: { ...propStats } }; };
+function termPoseReport() {
+  const bonePos: Record<string, { x: number; y: number; z: number }> = {};
+  termRig?.root.updateMatrixWorld(true);
+  termRig?.root.traverse((o) => {
+    if (!(o as THREE.Bone).isBone) return;
+    const p = new THREE.Vector3();
+    o.getWorldPosition(p);
+    bonePos[o.name] = { x: p.x, y: p.y, z: p.z };
+  });
+  const lh = bonePos.LeftHand, rh = bonePos.RightHand, lf = bonePos.LeftFoot, rf = bonePos.RightFoot;
+  const handSpan = lh && rh ? Math.hypot(lh.x - rh.x, lh.y - rh.y, lh.z - rh.z) : 0;
+  const footDx = lf && rf ? Math.abs(lf.x - rf.x) : 0;
+  // Bind T-pose : bras en croix (mains loin), pieds presque au même X. La marche écarte les pieds sur +X.
+  const tpose = handSpan > 1.55 && footDx < 0.18;
+  return {
+    clip: termRig?.current?.getClip().name ?? null,
+    timeScale: termRig?.current?.timeScale ?? null,
+    actionTime: termRig?.current?.time ?? null,
+    LeftHand: lh, RightHand: rh, LeftFoot: lf, RightFoot: rf,
+    handSpan, footDx, tpose,
+  };
+}
 await Promise.all([
   loadPolicy(), loadModels(), loadProps(),
   // capture `?shot=` : pas de fetch audio (sinon 404 console sur le manifeste hors dépôt)
@@ -1015,6 +1107,7 @@ if (Number(qs.get('hitscan') ?? 0)) {
 if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
   while (w.tick < shot && !w.done) tick();
   hitstop = 0; shake = 0; prev = snap(); hud(); render(1);
+  (window as any).__termPose = termPoseReport();
   document.title = 'READY';
 } else {
   let last = performance.now();
