@@ -5,20 +5,25 @@ import { newWorld, step, dist, T_CFG, BEACON, type World } from '../src/sim.ts';
 import { POOL, UNSEEN } from '../src/tactics.ts';
 import {
   applyB4Shaping,
+  applyB5Shaping,
   pickB4Opp,
+  pickB5Opp,
   parseTrainPreset,
   wilsonInterval,
   comparePackRates,
   policyFileFromQuery,
   B4_TRAIN,
+  B5_TRAIN,
+  B5_SHAPE,
 } from '../src/train-b4.ts';
 import { mulberry32 } from '../src/rng.ts';
 
-test('sans ?policy le jeu charge current (b4) ; ?policy=b3 lit l\'archive', () => {
+test('sans ?policy le jeu charge current (b5) ; ?policy=b4 et ?policy=b3 lisent les archives', () => {
   assert.deepEqual(policyFileFromQuery(null), { id: 'current', file: 'current.json' });
   assert.deepEqual(policyFileFromQuery(''), { id: 'current', file: 'current.json' });
   assert.deepEqual(policyFileFromQuery('current'), { id: 'current', file: 'current.json' });
-  assert.deepEqual(policyFileFromQuery('b4'), { id: 'b4', file: 'current.json' });
+  assert.deepEqual(policyFileFromQuery('b5'), { id: 'b5', file: 'current.json' });
+  assert.deepEqual(policyFileFromQuery('b4'), { id: 'b4', file: 'b4/current.json' });
   assert.deepEqual(policyFileFromQuery('b3'), { id: 'b3', file: 'b3/current.json' });
   assert.deepEqual(policyFileFromQuery('inconnu'), { id: 'current', file: 'current.json' });
 });
@@ -28,15 +33,26 @@ test('parseTrainPreset : sans drapeau, hyperparams b3 inchangés', () => {
   assert.equal(d.preset, '');
   assert.equal(d.shapeB4, false);
   assert.equal(d.curriculumB4, false);
+  assert.equal(d.shapeB5, false);
+  assert.equal(d.curriculumB5, false);
   assert.equal(d.lr, 3e-4);
   assert.equal(d.entCoef, 0.01);
   const b4 = parseTrainPreset({ preset: 'b4' });
   assert.equal(b4.preset, 'b4');
   assert.equal(b4.shapeB4, true);
   assert.equal(b4.curriculumB4, true);
+  assert.equal(b4.shapeB5, false);
   assert.equal(b4.lr, B4_TRAIN.lr);
   assert.equal(b4.entCoef, B4_TRAIN.entCoef);
   assert.equal(b4.seed, B4_TRAIN.seed);
+  const b5 = parseTrainPreset({ preset: 'b5' });
+  assert.equal(b5.preset, 'b5');
+  assert.equal(b5.shapeB5, true);
+  assert.equal(b5.curriculumB5, true);
+  assert.equal(b5.shapeB4, false);
+  assert.equal(b5.lr, B5_TRAIN.lr);
+  assert.equal(b5.entCoef, B5_TRAIN.entCoef);
+  assert.equal(b5.seed, B5_TRAIN.seed);
 });
 
 test('curriculum b4 : seed fixe ⇒ même séquence ; kiter et turret apparaissent', () => {
@@ -115,11 +131,48 @@ test('comparePackRates signale une baisse > 3 pts et un gain hors bruit', () => 
   assert.equal(down.turret.regressionVsB3, true);
 });
 
+test('curriculum b5 : seed fixe ⇒ même séquence ; kiter et elite plus fréquents que b4', () => {
+  const rngA = mulberry32(5), rngB = mulberry32(5);
+  const a = Array.from({ length: 400 }, (_, i) => pickB5Opp(rngA, i / 399).opp);
+  const b = Array.from({ length: 400 }, (_, i) => pickB5Opp(rngB, i / 399).opp);
+  assert.deepEqual(a, b);
+  const counts = Object.fromEntries([...new Set(a)].map(k => [k, a.filter(x => x === k).length]));
+  const b4rng = mulberry32(5);
+  const b4seq = Array.from({ length: 400 }, (_, i) => pickB4Opp(b4rng, i / 399).opp);
+  const b4k = b4seq.filter(x => x === 'kiter').length;
+  const b4e = b4seq.filter(x => x === 'elite').length;
+  assert.ok((counts.kiter ?? 0) > b4k, `kiter b5 ${counts.kiter} vs b4 ${b4k}`);
+  assert.ok((counts.elite ?? 0) > b4e, `elite b5 ${counts.elite} vs b4 ${b4e}`);
+  assert.ok((counts.kiter ?? 0) >= 60, `kiter trop rare: ${JSON.stringify(counts)}`);
+  assert.ok((counts.elite ?? 0) >= 50, `elite trop rare: ${JSON.stringify(counts)}`);
+  assert.ok((counts.march ?? 0) >= 5);
+  assert.ok((counts.turret ?? 0) >= 5);
+  for (const name of a) {
+    assert.ok(POOL[name] || UNSEEN[name], `opp inconnu ${name}`);
+  }
+});
+
+test('shaping b5 : dos récompense plus que l\'avant ; canalisation plus dure que b4', () => {
+  const w = newWorld(13, undefined, { clawWindup: false });
+  w.t.x = 20; w.t.y = 12; w.t.facing = 0;
+  w.nls[0].alive = true; w.nls[0].x = 24; w.nls[0].y = 12;
+  w.nls[1].alive = true; w.nls[1].x = 16; w.nls[1].y = 12;
+  w.nls[2].alive = false; w.nls[3].alive = false;
+  const shaped = applyB5Shaping(w, [0, 0, 0, 0], [false, false, false, false]);
+  assert.ok(shaped[1] > shaped[0], `dos ${shaped[1]} vs face ${shaped[0]}`);
+  w.t.channel = Math.floor(T_CFG.channel * 0.5);
+  const ch5 = applyB5Shaping(w, [0, 0, 0, 0], [false, false, false, false]);
+  const ch4 = applyB4Shaping(w, [0, 0, 0, 0], [false, false, false, false]);
+  assert.ok(ch5[0] < ch4[0], `canal b5 ${ch5[0]} vs b4 ${ch4[0]}`);
+  assert.ok(B5_SHAPE.death < -0.4);
+});
+
 test('shaping n\'appelle pas step : la sim reste la source des rewards de base', () => {
   const w = newWorld(3, undefined, { clawWindup: false });
   const t = POOL.march();
   const before = { x: w.t.x, hp: w.t.hp, tick: w.tick };
   applyB4Shaping(w, [0, 0, 0, 0], [false, false, false, false]);
+  applyB5Shaping(w, [0, 0, 0, 0], [false, false, false, false]);
   assert.equal(w.t.x, before.x);
   assert.equal(w.t.hp, before.hp);
   assert.equal(w.tick, before.tick);

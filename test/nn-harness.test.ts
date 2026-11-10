@@ -35,6 +35,7 @@ test('les chemins b3 / politiques courantes sont gelés', () => {
   assert.equal(isFrozenArtifact('policies/current.json', ROOT), true);
   assert.equal(isFrozenArtifact('policies/current-full.json', ROOT), true);
   assert.equal(isFrozenArtifact('policies/b3/current.json', ROOT), true);
+  assert.equal(isFrozenArtifact('policies/b4/current.json', ROOT), true);
   assert.equal(isFrozenArtifact('policies/b3/current-full.json', ROOT), true);
   assert.equal(isFrozenArtifact('runs/b3/metrics.jsonl', ROOT), true);
   assert.equal(isFrozenArtifact('runs/eval-b3-snap700-n50.json', ROOT), true);
@@ -104,15 +105,25 @@ test('writeHarnessReport refuse mesures/eval-b3.json avant tout writeFile', () =
 /** Empreintes b3 publiées (avant promotion b4) — l'archive policies/b3/ doit rester byte-identique. */
 const B3_ACTOR_SHA256 = '950b924f4ac96602836f53f6faac04a40ae6868d0a65f5aedd29dec81c1fef9f';
 const B3_FULL_SHA256 = '7c4e37f9c625e5217103b9d1125ad830508ed1a4454ce87250ba56596ff1ba4c';
+/** b4 promu puis archivé — policies/b4/ byte-identique à l'acteur déployé avant b5. */
+const B4_ACTOR_SHA256 = 'd43de9da64f008b7027ed4d6aa0c48fb35e3ea4fd571e6dfa87f6843f4c006c7';
+const B4_FULL_SHA256 = '32b7ea45fcefc2dff408d32e94a101f3299c4d82876749c33b030f880f97fbb1';
 
-test('archive policies/b3/ est byte-identique à b3 ; current.json est b4', () => {
-  const archived = join(ROOT, 'policies/b3/current.json');
-  const archivedFull = join(ROOT, 'policies/b3/current-full.json');
-  assert.equal(sha(archived), B3_ACTOR_SHA256);
-  assert.equal(sha(archivedFull), B3_FULL_SHA256);
+test('archives b3/b4 byte-identiques ; current.json est b5', () => {
+  const archivedB3 = join(ROOT, 'policies/b3/current.json');
+  const archivedB3Full = join(ROOT, 'policies/b3/current-full.json');
+  const archivedB4 = join(ROOT, 'policies/b4/current.json');
+  const archivedB4Full = join(ROOT, 'policies/b4/current-full.json');
+  assert.equal(sha(archivedB3), B3_ACTOR_SHA256);
+  assert.equal(sha(archivedB3Full), B3_FULL_SHA256);
+  assert.equal(sha(archivedB4), B4_ACTOR_SHA256);
+  assert.equal(sha(archivedB4Full), B4_FULL_SHA256);
   const deployed = JSON.parse(readFileSync(POLICY, 'utf8')) as { version: string };
-  const frozen = JSON.parse(readFileSync(archived, 'utf8')) as { version: string };
-  assert.equal(frozen.version, 'runs/b3@2000');
-  assert.equal(deployed.version, 'runs/b4@800');
+  const b3 = JSON.parse(readFileSync(archivedB3, 'utf8')) as { version: string };
+  const b4 = JSON.parse(readFileSync(archivedB4, 'utf8')) as { version: string };
+  assert.equal(b3.version, 'runs/b3@2000');
+  assert.equal(b4.version, 'runs/b4@800');
+  assert.equal(deployed.version, 'runs/b5@2000');
   assert.notEqual(sha(POLICY), B3_ACTOR_SHA256);
+  assert.notEqual(sha(POLICY), B4_ACTOR_SHA256);
 });

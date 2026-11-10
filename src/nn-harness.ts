@@ -105,6 +105,7 @@ function listFrozenFiles(root: string): string[] {
         const known = f === 'policies/' ? [
           'policies/current.json', 'policies/current-full.json',
           'policies/b3/current.json', 'policies/b3/current-full.json',
+          'policies/b4/current.json', 'policies/b4/current-full.json',
         ]
           : f === 'runs/b3/' ? ['runs/b3/metrics.jsonl']
             : f === 'runs/base/' ? ['runs/base/metrics.jsonl']
