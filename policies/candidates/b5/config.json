@@ -8,9 +8,10 @@
   "lr": 0.00005,
   "entCoef": 0.025,
   "wallSeconds": 1370.4,
-  "defaultInGame": false,
-  "loadVia": "?policy=b5",
-  "b4Via": "/",
+  "defaultInGame": true,
+  "loadVia": "/",
+  "b4Via": "?policy=b4",
+  "b3Via": "?policy=b3",
   "eval": "mesures/nn/b5/eval.json",
   "curriculum": "kiter/elite/wallHugger 48→75% (42/40/18 dans le sac dur); reste turret 28%, brawler 20%, randomized 28%, march 14%, backpedal 10%",
   "shaping": [

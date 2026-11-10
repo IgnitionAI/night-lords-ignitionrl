@@ -1,4 +1,4 @@
-// Capture Playwright (Chromium + SwiftShader) : b5 via ?policy=b5 ; défaut inchangé.
+// Capture Playwright (Chromium + SwiftShader) : b5 chargé par défaut, sans ?policy.
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -60,7 +60,8 @@ async function waitTitle(page: { title: () => Promise<string> }, want: string, m
   throw new Error(`title ≠ ${want} (${await page.title()})`);
 }
 
-const shotUrl = `${BASE}/?policy=b5&autoplay=kiter&seed=900000&cam=couloir&shot=40&tex=512`;
+// `shot=` : pas d'initAudio, donc pas de 404 /web/sfx — HUD lisible.
+const shotUrl = `${BASE}/?autoplay=kiter&seed=900000&cam=couloir&shot=40&tex=512`;
 const shotPage = await context.newPage();
 shotPage.on('console', onConsole);
 shotPage.on('pageerror', onErr);
@@ -68,10 +69,11 @@ shotPage.on('response', onRes);
 await shotPage.goto(shotUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
 await waitTitle(shotPage, 'READY', 60000);
 const hud = await shotPage.evaluate(() => document.getElementById('hud')?.textContent ?? '');
+await shotPage.screenshot({ path: join(OUT, 'default-b5-hud.png'), type: 'png' });
 await shotPage.screenshot({ path: join(OUT, 'policy-b5-hud.png'), type: 'png' });
 await shotPage.screenshot({ path: join(OUT, 'shot-policy-b5.png'), type: 'png' });
 
-const liveUrl = `${BASE}/?policy=b5&autoplay=kiter&seed=900000&cam=couloir&tex=512`;
+const liveUrl = `${BASE}/?autoplay=kiter&seed=900000&cam=couloir&tex=512`;
 const livePage = await context.newPage();
 const liveConsole: string[] = [];
 const liveNet: { status: number; url: string }[] = [];
@@ -88,14 +90,15 @@ const consoleErrors = [...consoleLines, ...liveConsole].filter((l) => l.startsWi
 const unexpectedConsole = consoleErrors.filter((l) => !/404|sfx|manifest/i.test(l));
 const networkFailed = [...net, ...liveNet].filter((r) => r.status >= 400);
 const unexpectedNet = networkFailed.filter((r) => !expected404(r.url));
-const policyB5 = [...net, ...liveNet].some((r) => r.url.includes('/policy/candidates/b5/actor.json') && r.status === 200);
+const policyDefault = [...net, ...liveNet].some((r) => r.url.includes('/policy/current.json') && r.status === 200);
+const usedQueryPolicy = shotUrl.includes('policy=') || liveUrl.includes('policy=');
 const report = {
   liveUrl,
   shotUrl,
   hud,
   liveHud,
-  policyB5,
-  usedQueryPolicy: shotUrl.includes('policy=b5'),
+  policyDefault,
+  usedQueryPolicy,
   console: [...consoleLines, ...liveConsole],
   consoleErrors,
   pageErrors,
@@ -107,16 +110,17 @@ writeFileSync(join(OUT, 'playwright.json'), JSON.stringify(report, null, 2));
 console.log(JSON.stringify({
   pageErrors: pageErrors.length,
   unexpectedConsole: unexpectedConsole.length,
-  policyB5,
-  hudHasB5: hud.includes('b5') || hud.includes('runs/b5'),
+  policyDefault,
+  usedQueryPolicy,
+  hudHasB5: hud.includes('runs/b5@2000'),
   hud: hud.slice(0, 320),
 }, null, 2));
 
-if (!shotUrl.includes('policy=b5')) throw new Error('la capture doit passer ?policy=b5');
-if (!policyB5) throw new Error('candidates/b5/actor.json non chargé');
-if (!(hud.includes('?policy=b5') && (hud.includes('runs/b5') || hud.includes('b5')))) {
-  throw new Error(`HUD sans b5: ${hud}`);
-}
+if (usedQueryPolicy) throw new Error('la capture ne doit pas passer ?policy');
+if (!policyDefault) throw new Error('current.json non chargé');
+if (!hud.includes('runs/b5@2000')) throw new Error(`HUD sans b5: ${hud}`);
+if (hud.includes('?policy=')) throw new Error(`HUD mentionne encore ?policy: ${hud}`);
+if (liveHud.includes('?policy=')) throw new Error(`live HUD mentionne ?policy: ${liveHud}`);
 if (pageErrors.length || unexpectedConsole.length || unexpectedNet.length) {
   throw new Error(`erreurs capture: console=${JSON.stringify(unexpectedConsole)} net=${JSON.stringify(unexpectedNet)} page=${pageErrors}`);
 }

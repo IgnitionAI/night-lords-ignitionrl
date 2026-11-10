@@ -1,6 +1,8 @@
 # Lecture b5 vs b4
 
-Politique candidate **b5** : fine-tune PPO depuis b4 (`policies/current-full.json`), **seed 5**, 2000 mises à jour, 32 environnements. Curriculum (kiter / elite / wallHugger sur-échantillonnés, mix vu conservé) et shaping **hors** `src/sim.ts` (`src/train-b4.ts`) : flanc / dos, chasse à distance, coupure de balise, rythme léger. `NL_CFG.speed` et `T_CFG.fwd` inchangés. **b4 reste le défaut** (`policies/current.json`). **b3 n'est pas écrasé.** Le jeu charge b5 via `?policy=b5`.
+Politique **b5** (défaut du jeu, validée) : fine-tune PPO depuis b4, **seed 5**, 2000 mises à jour, 32 environnements. Curriculum (kiter / elite / wallHugger sur-échantillonnés, mix vu conservé) et shaping **hors** `src/sim.ts` (`src/train-b4.ts`) : flanc / dos, chasse à distance, coupure de balise, rythme léger. `NL_CFG.speed` et `T_CFG.fwd` inchangés.
+
+b4 est **archivé byte-identique** dans `policies/b4/` (SHA `d43de9da…06c7` / `32b7ea45…fbb1`). b3 reste dans `policies/b3/` (`950b924f…ef9f` / `7c4e37f9…ba4c`). Le jeu charge b5 via `/policy/current.json` sans paramètre ; `?policy=b4` et `?policy=b3` relisent les archives.
 
 Éval : 200 parties / adversaire, seeds **900000..900199**, `clawWindup: false` — même protocole que `mesures/nn/b4/eval.json`. `clawArms` = 0 partout.
 
@@ -55,4 +57,4 @@ bun dist/train.mjs --preset b5 --updates 2000 --envs 32 --out runs/b5 --seed 5 -
 bun dist/eval.mjs --pack policies/candidates/b5/actor.json --n 200 --seedBase 900000 --out mesures/nn/b5/eval.json
 ```
 
-b5 n'est **pas** copié vers `policies/current.json`. Humain tranche.
+Salim a validé : `policies/current.json` = b5 (`runs/b5@2000`). Archive `policies/b4/`. b3 inchangé.

@@ -18,13 +18,13 @@ import {
 } from '../src/train-b4.ts';
 import { mulberry32 } from '../src/rng.ts';
 
-test('sans ?policy le jeu charge current (b4) ; ?policy=b3 lit l\'archive', () => {
+test('sans ?policy le jeu charge current (b5) ; ?policy=b4 et ?policy=b3 lisent les archives', () => {
   assert.deepEqual(policyFileFromQuery(null), { id: 'current', file: 'current.json' });
   assert.deepEqual(policyFileFromQuery(''), { id: 'current', file: 'current.json' });
   assert.deepEqual(policyFileFromQuery('current'), { id: 'current', file: 'current.json' });
-  assert.deepEqual(policyFileFromQuery('b4'), { id: 'b4', file: 'current.json' });
+  assert.deepEqual(policyFileFromQuery('b5'), { id: 'b5', file: 'current.json' });
+  assert.deepEqual(policyFileFromQuery('b4'), { id: 'b4', file: 'b4/current.json' });
   assert.deepEqual(policyFileFromQuery('b3'), { id: 'b3', file: 'b3/current.json' });
-  assert.deepEqual(policyFileFromQuery('b5'), { id: 'b5', file: 'candidates/b5/actor.json' });
   assert.deepEqual(policyFileFromQuery('inconnu'), { id: 'current', file: 'current.json' });
 });
 

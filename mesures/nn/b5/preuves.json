@@ -1,26 +1,28 @@
 {
-  "bunTest": { "pass": 118, "fail": 0, "skip": 1 },
+  "bunTest": { "pass": 118, "fail": 0, "skip": 1, "afterMerge": "8d16a52" },
   "bunRunBuild": 0,
   "measureStride": {
     "NL-1-run": 1.3335077670385962,
     "NL-1-walk": 1.1002657971633205,
     "TERM-walk": 1.325615791286074
   },
-  "nnSmoke": { "overwroteFrozen": false, "packVersion": "runs/b4@800" },
+  "nnSmoke": { "overwroteFrozen": false, "packVersion": "runs/b5@2000" },
   "b3ArchiveSha256": {
     "policies/b3/current.json": "950b924f4ac96602836f53f6faac04a40ae6868d0a65f5aedd29dec81c1fef9f",
     "policies/b3/current-full.json": "7c4e37f9c625e5217103b9d1125ad830508ed1a4454ce87250ba56596ff1ba4c"
   },
+  "b4ArchiveSha256": {
+    "policies/b4/current.json": "d43de9da64f008b7027ed4d6aa0c48fb35e3ea4fd571e6dfa87f6843f4c006c7",
+    "policies/b4/current-full.json": "32b7ea45fcefc2dff408d32e94a101f3299c4d82876749c33b030f880f97fbb1"
+  },
   "evalB3Sha256": "96e3f41d2eb2d2c0203771f50f85bfc7c9ba104d0a7d341c7584dc195627eb8e",
   "runsB3MetricsSha256": "4f26a25ac3a28b7d91115054852205e797416f9a535b5fc6e4f02a3e6222adc0",
-  "deployedB4": { "file": "policies/current.json", "version": "runs/b4@800", "sha256": "d43de9da64f008b7027ed4d6aa0c48fb35e3ea4fd571e6dfa87f6843f4c006c7" },
-  "candidateB5": { "file": "policies/candidates/b5/actor.json", "version": "runs/b5@2000", "sha256": "27a6f675ee1de5ffbf9601f73d3a5c6e25abb5da0cc9ba443a4f8fba4321b0f3" },
+  "deployed": { "file": "policies/current.json", "version": "runs/b5@2000", "sha256": "27a6f675ee1de5ffbf9601f73d3a5c6e25abb5da0cc9ba443a4f8fba4321b0f3" },
   "simTs": "unchanged",
   "nlCfgSpeed": 6,
   "tCfgFwd": 2.5,
-  "train": { "preset": "b5", "init": "policies/current-full.json", "seed": 5, "updates": 2000, "envs": 32, "lr": 5e-5, "entCoef": 0.025, "transitions": 26853000, "wallSeconds": 1370.4 },
-  "eval": { "n": 200, "seeds": "900000..900199", "clawWindup": false, "clawArms": 0, "wallSeconds": 42.4 },
-  "capture": "docs/captures/nn-b5/policy-b5-hud.png",
-  "hudPolicy": "politique runs/b5@2000 (?policy=b5)",
+  "capture": "docs/captures/nn-b5/default-b5-hud.png",
+  "hudPolicy": "politique runs/b5@2000",
+  "usedQueryPolicy": false,
   "captureConsoleErrors": ["404 /web/sfx/nightlords/manifest.json"]
 }
