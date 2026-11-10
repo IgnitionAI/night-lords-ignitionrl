@@ -14,9 +14,59 @@ export const TONE_MAPPING_EXPOSURE = 1.34;
 export const CAM = { back: 8.2, height: 3.28, highMax: 4.9, ahead: 2.8, eye: 1.18, fov: 54, fovPortrait: 64 };
 // Épaule : FOV 62 → 56 (moins de grand-angle), 2,32 m d'œil, look 4,6 m. Le Terminator tient le tiers bas-gauche.
 export const EPAULE = { back: 3.4, side: 1.18, height: 2.32, ahead: 4.6, eye: 1.32, fov: 56, fovPortrait: 68 };
+// Capture 3/4 plein cadre (`?cam=troisquarts`) : plus près, plus de côté que l'épaule jouable.
+export const TROIS_QUARTS = { back: 4.2, side: 2.85, height: 1.55, ahead: 0.15, eye: 1.05, fov: 46, fovPortrait: 54 };
 export const FOLLOW_YAW_BLEND = 0.22; // était 0,26 : un peu plus d'inertie, toujours ~3,5 rad/s
 export const POST_VIGNETTE = 1.00;
-export const POST_GRAIN = 0.014; // grain film, linéaire ; un dither 1,5/255 est ajouté après le gamma dans le shader
+export const POST_GRAIN = 0.014; // grain film, linéaire (inchangé : lisibilité HUD/silhouettes)
+export const POST_DITHER_SRGB = 1.0; // amplitude du dither triangulaire, en niveaux /255, après encodage sRGB
+
+export function linearToSrgb(x: number): number {
+  if (x <= 0) return 0;
+  if (x >= 1) return 1;
+  return x <= 0.0031308 ? x * 12.92 : 1.055 * Math.pow(x, 1 / 2.4) - 0.055;
+}
+
+export function sceneRenderTargetOptions(): THREE.RenderTargetOptions {
+  return {
+    samples: 4,
+    type: THREE.HalfFloatType,
+    format: THREE.RGBAFormat,
+    colorSpace: THREE.LinearSRGBColorSpace,
+    depthBuffer: true,
+    magFilter: THREE.LinearFilter,
+    minFilter: THREE.LinearFilter,
+  };
+}
+
+// Passe plein écran : vignette, grain, sRGB IEC 61966-2-1, dither triangulaire (IGN).
+export const POST_FRAGMENT_SHADER = `uniform sampler2D tDiffuse; uniform float uTime, uVignette, uGrain, uDither; uniform vec2 uBlur; varying vec2 vUv;
+    float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+    float ign(vec2 p){ return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715)))); }
+    float triDither(vec2 p){
+      float r = ign(p);
+      return r < 0.5 ? sqrt(2.0 * r) - 1.0 : 1.0 - sqrt(2.0 - 2.0 * r);
+    }
+    vec3 linearToSRGB(vec3 c){
+      vec3 cutoff = step(c, vec3(0.0031308));
+      vec3 higher = 1.055 * pow(max(c, vec3(0.0)), vec3(1.0/2.4)) - 0.055;
+      vec3 lower = c * 12.92;
+      return mix(higher, lower, cutoff);
+    }
+    void main(){
+      vec3 c = texture2D(tDiffuse, vUv).rgb;
+      if (dot(uBlur, uBlur) > 1e-8) {
+        c = vec3(0.0);
+        for (int i = 0; i < 5; i++) c += texture2D(tDiffuse, vUv + uBlur * (float(i) * 0.25 - 0.5)).rgb;
+        c /= 5.0;
+      }
+      vec2 d = vUv - 0.5;
+      c *= clamp(1.0 - dot(d, d) * uVignette * 1.9, 0.0, 1.0);
+      c += (hash(vUv * 1024.0 + uTime) - 0.5) * uGrain;
+      vec3 srgb = linearToSRGB(clamp(c, 0.0, 1.0));
+      srgb += triDither(gl_FragCoord.xy + vec2(uTime * 13.7, uTime * 7.1)) * (uDither / 255.0);
+      gl_FragColor = vec4(clamp(srgb, 0.0, 1.0), 1.0);
+    }`;
 
 export const AMBIENT = { color: 0x12161c, intensity: 0.16 };
 export const HEMI = { sky: 0x1a2740, ground: 0x0a0908, intensity: 0.26 };
@@ -27,12 +77,26 @@ export const LAMP = { color: 0xff2a1a, intensity: 8.2, distance: 9, decay: 2 };
 export const STRIP_EMISSIVE = 0.48;
 export const SPOT_SHADOW_MAP = 1024;
 
+// Finish Terminator (couloir sombre) — constantes de #58, non modifiées ici.
+export const TERM_LOOK = {
+  albedoDim: 0.78,
+  warmth: { r: 1.04, g: 0.97, b: 0.86 },
+  metalness: 0.72,
+  roughness: 0.40,
+  dummyMetalMax: 0.08,
+  dummyRoughMin: 0.35,
+  visor: { r: 1.65, g: 0.05, b: 0.016, gain: 2.4, lumMax: 0.01 },
+  rim: { r: 0.52, g: 0.38, b: 0.16, pow: 4.2, amt: 0.40 },
+};
+
 export function applyRendererAtmosphere(renderer: THREE.WebGLRenderer): void {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = TONE_MAPPING_EXPOSURE;
-  renderer.dithering = true; // fog + ACES sur un sol sombre bande en 8 bits (SwiftShader)
+  // Le dither 8 bits se fait dans la passe post (après sRGB). `renderer.dithering` n'agit pas
+  // sur MeshStandardMaterial ; on ne dithers pas la cible HalfFloat.
 }
 
 export function applySceneAtmosphere(scene: THREE.Scene, fogMode: string): void {
