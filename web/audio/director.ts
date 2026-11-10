@@ -90,8 +90,10 @@ export class AudioDirector {
         return true;
       }
       case 'fistCharge':
+        engine.play('fist-hum', { ...pos(w.t.x, w.t.y), priority: 6, gain: 0.7, send: 0.2 });
         return engine.play('term-servo', { ...pos(w.t.x, w.t.y), priority: 6, gain: 0.8 });
       case 'fistReady':
+        engine.play('fist-hum', { ...pos(w.t.x, w.t.y), priority: 6, gain: 0.95, rate: 1.08 });
         return engine.play('term-hydraulic', { ...pos(w.t.x, w.t.y), priority: 5 });
       case 'fist': {
         this.combatUntil = this.time + 4;
@@ -136,6 +138,11 @@ export class AudioDirector {
     if (!w) return false;
     if (cue.kind === 'fire' && cue.who === 'term') return this.flushKind('bolt', w);
     if (cue.kind === 'anticipation' && cue.who !== 'term') return this.flushKind('clawArm', w, cue.who);
+    if (cue.kind === 'land' && cue.who !== 'term') {
+      const n = w.nls[cue.who];
+      if (!n) return false;
+      return engine.play('nl-jump', { x: n.x, y: n.y, z: 0.4, priority: 6, gain: 0.7, rate: 0.88, send: 0.25 });
+    }
     if (cue.kind === 'impact') {
       if (cue.who === 'term' && cue.clip.includes('punch')) return this.flushKind('fist', w);
       if (cue.who !== 'term') {
@@ -179,22 +186,23 @@ export class AudioDirector {
         const y = Number(e.y ?? w.t.y);
         const tx = Number(e.tx ?? x);
         const ty = Number(e.ty ?? y);
-        engine.play('bolter-shot', { ...pos(x, y), priority: 9, pan: 0.05 });
-        engine.play('bolter-echo', { ...pos(x, y), priority: 6, gain: 0.7 });
-        engine.play('bolter-casing', { ...pos(x, y), priority: 4, gain: 0.55 });
-        engine.play('bolter-explode', { x: tx, y: ty, z: 1.2, priority: 8 });
+        engine.play('bolter-shot', { ...pos(x, y), priority: 9, pan: 0.05, send: 0.22 });
+        engine.play('bolter-echo', { ...pos(x, y), priority: 6, gain: 0.78, send: 0.55 });
+        engine.play('bolter-casing', { ...pos(x, y), priority: 4, gain: 0.6, rate: 0.94 });
+        engine.play('bolter-explode', { x: tx, y: ty, z: 1.2, priority: 8, send: 0.4 });
         engine.duck(0.3);
         return;
       }
       case 'fist': {
-        engine.play('fist-impact', { ...pos(w.t.x, w.t.y), priority: 10 });
+        engine.play('fist-impact', { ...pos(w.t.x, w.t.y), priority: 10, send: 0.3 });
+        engine.play('bolter-explode', { ...pos(w.t.x, w.t.y), priority: 7, gain: 0.35, rate: 0.55, send: 0.2 });
         engine.duck(0.22);
         return;
       }
       case 'clawArm': {
         const n = w.nls[Number(e.who)];
         if (!n) return;
-        engine.play('claw-crackle', { ...pos(n.x, n.y), priority: 7 });
+        engine.play('claw-crackle', { ...pos(n.x, n.y), priority: 7, send: 0.18 });
         engine.play('claw-swoosh', { ...pos(n.x, n.y), priority: 6, gain: 0.7 });
         return;
       }
@@ -203,9 +211,10 @@ export class AudioDirector {
         if (!n) return;
         const dmg = Number(e.dmg ?? 0);
         engine.play('claw-swoosh', { ...pos(n.x, n.y), priority: 7, gain: 0.5 });
-        engine.play('claw-metal', { ...pos(n.x, n.y), priority: 8 });
+        engine.play('claw-metal', { ...pos(n.x, n.y), priority: 8, send: 0.28 });
+        engine.play('claw-crackle', { ...pos(n.x, n.y), priority: 6, gain: 0.45, rate: 1.12 });
         if (dmg > 0) {
-          engine.play('nl-scream', { ...pos(n.x, n.y), priority: 6, gain: 0.45 });
+          engine.play('nl-scream', { ...pos(n.x, n.y), priority: 6, gain: 0.45, bus: 'voice' });
           engine.duck(0.34);
         }
         return;
@@ -228,7 +237,7 @@ export class AudioDirector {
     this.lastKill = who;
     const n = w.nls[who];
     if (!n) return;
-    engine.play('nl-death', { x: n.x, y: n.y, z: 1.2, priority: 9 });
+    engine.play('nl-death', { x: n.x, y: n.y, z: 1.2, priority: 9, bus: 'voice', send: 0.3 });
   }
 
   alarm(): boolean {
@@ -274,7 +283,7 @@ export class AudioDirector {
         this.nlAcc[i] += d;
         if (this.nlAcc[i] >= stride * 0.92 && speed > 0.4) {
           this.nlAcc[i] = 0;
-          engine.play(engine.nextNlStep(), { x: n.x, y: n.y, z: 0.2, priority: 3, intensity: Math.min(1, speed / 6) });
+          engine.play(engine.nextNlStep(), { x: n.x, y: n.y, z: 0.2, priority: 3, intensity: Math.min(1, speed / 6), send: 0.12 });
         }
         if (prev.alive && extras?.nlJump?.includes(i)) {
           engine.play('nl-jump', { x: n.x, y: n.y, z: 1.2, priority: 6 });
@@ -289,7 +298,7 @@ export class AudioDirector {
     const close = w.nls.filter((n) => n.alive && Math.hypot(n.x - w.t.x, n.y - w.t.y) < 8);
     if (this.voxCd <= 0 && close.length >= 2) {
       const n = close[0];
-      engine.play('nl-vox-come-for-you', { x: n.x, y: n.y, z: 1.6, priority: 7, vary: true });
+      engine.play('nl-vox-come-for-you', { x: n.x, y: n.y, z: 1.6, priority: 7, vary: true, bus: 'voice', send: 0.4 });
       this.voxCd = 11;
     }
 

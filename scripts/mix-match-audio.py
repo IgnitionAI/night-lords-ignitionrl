@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BANK = ROOT / "web/sfx/nightlords"
-SR = 44100
+SR = 48000
 
 
 def decode_ogg(path: Path, tmp: Path) -> tuple[int, list[float]]:
@@ -91,7 +91,8 @@ def main() -> int:
         w.writeframes(buf)
     subprocess.check_call(
         ["ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-i", str(raw_wav),
-         "-af", "loudnorm=I=-16:TP=-1.5:LRA=11", str(out_wav)],
+         "-af", "loudnorm=I=-15:TP=-1.0:LRA=11",
+         "-ac", "2", "-ar", str(SR), str(out_wav)],
     )
     raw_wav.unlink(missing_ok=True)
     print(f"wrote {out_wav} duration={duration:.2f}s cues={len(cues)}")
