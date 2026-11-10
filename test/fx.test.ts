@@ -74,6 +74,18 @@ test('bolt + kill émettent tracer, impact, mort — sans toucher la sim', () =>
   }
 });
 
+test('vfx-death : un bolt à portée tue et émet une impulsion death', () => {
+  const w = newWorld(1);
+  w.t.x = 8.2; w.t.y = 12; w.t.facing = 0; w.t.ammo = T_CFG.boltAmmo; w.t.boltCd = 0;
+  w.nls.forEach((n) => { n.alive = true; n.cd = 20; n.armTicks = 0; n.hp = 1; n.x = 22; n.y = 18; });
+  w.nls[0].x = 10.15; w.nls[0].y = 12.08; w.nls[0].facing = Math.PI;
+  step(w, { ...IDLE, bolt: true }, [0, 0, 0, 0]);
+  const kinds = new Set(eventsToFxPulses(w.events, w).map((p) => p.kind));
+  assert.ok(kinds.has('bolt'));
+  assert.ok(kinds.has('death'), `kinds=${[...kinds]} events=${JSON.stringify(w.events)}`);
+  assert.equal(w.nls[0].alive, false);
+});
+
 test('fog, expo, grain, pow(0.4545) inchangés ; bloom dans le même post', () => {
   assert.equal(FOG_EXP2_DENSITY, 0.060);
   assert.equal(TONE_MAPPING_EXPOSURE, 1.34);

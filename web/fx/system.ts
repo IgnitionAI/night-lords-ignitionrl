@@ -117,6 +117,33 @@ export function createFxSystem(scene: THREE.Scene, quality: FxQuality): FxSystem
   points.visible = budget.particles > 0;
   scene.add(points);
 
+  const darkPos = new Float32Array(Math.max(1, budget.particles) * 3);
+  const darkCol = new Float32Array(Math.max(1, budget.particles) * 3);
+  const darkSize = new Float32Array(Math.max(1, budget.particles));
+  const darkGeo = new THREE.BufferGeometry();
+  darkGeo.setAttribute('position', new THREE.BufferAttribute(darkPos, 3));
+  darkGeo.setAttribute('color', new THREE.BufferAttribute(darkCol, 3));
+  darkGeo.setAttribute('size', new THREE.BufferAttribute(darkSize, 1));
+  const darkCanvas = document.createElement('canvas');
+  darkCanvas.width = darkCanvas.height = 32;
+  const dg = darkCanvas.getContext('2d')!;
+  const dgrd = dg.createRadialGradient(16, 16, 0, 16, 16, 16);
+  dgrd.addColorStop(0, 'rgba(90,8,10,1)');
+  dgrd.addColorStop(0.45, 'rgba(20,8,6,0.85)');
+  dgrd.addColorStop(1, 'rgba(0,0,0,0)');
+  dg.fillStyle = dgrd;
+  dg.fillRect(0, 0, 32, 32);
+  const darkMap = new THREE.CanvasTexture(darkCanvas);
+  const dMat = new THREE.PointsMaterial({
+    size: 0.55, vertexColors: true, transparent: true, opacity: 0.94, map: darkMap,
+    depthWrite: false, blending: THREE.NormalBlending, sizeAttenuation: true,
+  });
+  const darkPoints = new THREE.Points(darkGeo, dMat);
+  darkPoints.frustumCulled = false;
+  darkPoints.visible = budget.particles > 0;
+  scene.add(darkPoints);
+  const eyeOut = [0, 0, 0, 0];
+
   const tracerGeo = new THREE.BoxGeometry(1, 1, 1);
   const tracerMat = new THREE.MeshBasicMaterial({
     color: 0xffc878, transparent: true, opacity: 0.95,
@@ -377,10 +404,12 @@ export function createFxSystem(scene: THREE.Scene, quality: FxQuality): FxSystem
       case 'hit':
         break;
       case 'death': {
-        burst(PKind.Blood, p.x, 1.35, p.y, 14, 3.2, [0.35, 0.02, 0.04], 0.11, 0.55, 1.1);
-        burst(PKind.Oil, p.x, 1.4, p.y, 10, 2.4, [0.04, 0.05, 0.06], 0.1, 0.7, 0.5);
-        burst(PKind.Spark, p.x, 1.5, p.y, 12, 3.8, [1, 0.55, 0.2], 0.09, 0.35, 1.0);
-        lightPunch(p.x, 1.4, p.y, 0xff6633, 7);
+        burst(PKind.Blood, p.x, 1.45, p.y, 26, 3.6, [0.55, 0.03, 0.04], 0.2, 1.15, 1.35);
+        burst(PKind.Oil, p.x, 1.35, p.y, 18, 2.6, [0.06, 0.06, 0.05], 0.16, 1.25, 0.55);
+        burst(PKind.Spark, p.x, 1.55, p.y, 16, 4.2, [1, 0.62, 0.22], 0.11, 0.55, 1.15);
+        spawnDecal(p.x, 0.04, p.y, 0, 1, 0, 1.1, 0.7, [0.12, 0.02, 0.02], 8);
+        lightPunch(p.x, 1.4, p.y, 0xff4422, 8);
+        if (p.who >= 0 && p.who < 4) eyeOut[p.who] = 1;
         break;
       }
       case 'servoCritical':
@@ -442,6 +471,9 @@ export function createFxSystem(scene: THREE.Scene, quality: FxQuality): FxSystem
     advance(dt, now, armorFrac) {
       clock = now;
       advanceFeel(feel, dt, armorFrac, now, high);
+      for (let i = 0; i < 4; i++) {
+        if (eyeOut[i]! > 0) eyeOut[i] = Math.max(0, eyeOut[i]! - dt / 0.42);
+      }
       impactLight.intensity *= Math.exp(-dt * 14);
       if (impactLight.intensity < 0.05) impactLight.intensity = 0;
       if (waveT > 0) {
@@ -524,29 +556,50 @@ export function createFxSystem(scene: THREE.Scene, quality: FxQuality): FxSystem
       }
     },
     sync(w, term, nls) {
+      const isDark = (k: PKind) => k === PKind.Blood || k === PKind.Oil || k === PKind.Debris;
       let pi = 0;
+      let di = 0;
       for (const p of parts) {
-        if (!p.live || pi >= budget.particles) continue;
+        if (!p.live) continue;
         const fade = p.kind === PKind.Dust ? 0.22 : Math.max(0, p.life / p.max);
-        posArr[pi * 3] = p.x;
-        posArr[pi * 3 + 1] = p.y;
-        posArr[pi * 3 + 2] = p.z;
-        const add = p.kind === PKind.Blood || p.kind === PKind.Oil || p.kind === PKind.Debris || p.kind === PKind.Dust;
-        colArr[pi * 3] = p.r * (add ? fade : fade);
-        colArr[pi * 3 + 1] = p.g * fade;
-        colArr[pi * 3 + 2] = p.b * fade;
-        sizeArr[pi] = p.size * (0.7 + 0.6 * fade);
-        pi++;
+        if (isDark(p.kind)) {
+          if (di >= budget.particles) continue;
+          darkPos[di * 3] = p.x;
+          darkPos[di * 3 + 1] = p.y;
+          darkPos[di * 3 + 2] = p.z;
+          darkCol[di * 3] = p.r * (0.45 + 0.55 * fade);
+          darkCol[di * 3 + 1] = p.g * fade;
+          darkCol[di * 3 + 2] = p.b * fade;
+          darkSize[di] = p.size * (1.1 + 0.5 * fade);
+          di++;
+        } else {
+          if (pi >= budget.particles) continue;
+          posArr[pi * 3] = p.x;
+          posArr[pi * 3 + 1] = p.y;
+          posArr[pi * 3 + 2] = p.z;
+          colArr[pi * 3] = p.r * fade;
+          colArr[pi * 3 + 1] = p.g * fade;
+          colArr[pi * 3 + 2] = p.b * fade;
+          sizeArr[pi] = p.size * (0.7 + 0.6 * fade);
+          pi++;
+        }
       }
       for (let i = pi; i < budget.particles; i++) {
         posArr[i * 3 + 1] = -99;
         sizeArr[i] = 0;
       }
+      for (let i = di; i < budget.particles; i++) {
+        darkPos[i * 3 + 1] = -99;
+        darkSize[i] = 0;
+      }
       (pGeo.getAttribute('position') as THREE.BufferAttribute).needsUpdate = true;
       (pGeo.getAttribute('color') as THREE.BufferAttribute).needsUpdate = true;
       (pGeo.getAttribute('size') as THREE.BufferAttribute).needsUpdate = true;
       pGeo.setDrawRange(0, pi);
-      pMat.blending = THREE.AdditiveBlending;
+      (darkGeo.getAttribute('position') as THREE.BufferAttribute).needsUpdate = true;
+      (darkGeo.getAttribute('color') as THREE.BufferAttribute).needsUpdate = true;
+      (darkGeo.getAttribute('size') as THREE.BufferAttribute).needsUpdate = true;
+      darkGeo.setDrawRange(0, di);
 
       let liveT = 0;
       for (let i = 0; i < tracers.length; i++) {
@@ -622,18 +675,25 @@ export function createFxSystem(scene: THREE.Scene, quality: FxQuality): FxSystem
       void term;
       nls.forEach((g, i) => {
         const alive = w.nls[i]?.alive ?? true;
-        const mats = eyeMats[i];
-        if (!mats) return;
+        if (alive) eyeOut[i] = 0;
+        const glow = alive ? 1 : Math.max(0.02, eyeOut[i] ?? 0);
+        const mats = eyeMats[i] ?? [];
         for (const m of mats) {
           const std = m as THREE.MeshStandardMaterial;
           if ('emissive' in m && std.emissive) {
             if (!std.userData.fxEye) std.userData.fxEye = std.emissive.clone();
-            std.emissive.copy(std.userData.fxEye as THREE.Color).multiplyScalar(alive ? 1 : 0.03);
+            std.emissive.copy(std.userData.fxEye as THREE.Color).multiplyScalar(glow);
           } else {
-            (m as THREE.MeshBasicMaterial).color.setRGB(alive ? 1 : 0.02, alive ? 0.1 : 0.01, alive ? 0.03 : 0.01);
+            (m as THREE.MeshBasicMaterial).color.setRGB(glow, 0.1 * glow, 0.03 * glow);
           }
         }
-        void g;
+        g.traverse((o) => {
+          const m = (o as THREE.Mesh).material as THREE.MeshStandardMaterial | undefined;
+          if (!m || !('emissive' in m) || !m.emissive) return;
+          if (!m.userData.fxEye) m.userData.fxEye = m.emissive.clone();
+          const base = m.userData.fxEye as THREE.Color;
+          if (base.r > 0.25 && base.g < 0.45) m.emissive.copy(base).multiplyScalar(glow);
+        });
       });
     },
     applyPost(u) {
@@ -660,10 +720,11 @@ export function createFxSystem(scene: THREE.Scene, quality: FxQuality): FxSystem
       for (const c of casings) c.live = false;
       for (const d of decals) d.live = false;
       for (const r of ribbons) r.life = 0;
+      eyeOut[0] = eyeOut[1] = eyeOut[2] = eyeOut[3] = 0;
       waveT = 0; wave.visible = false; impactLight.intensity = 0; arcLife = 0;
     },
     dispose() {
-      scene.remove(points, tracersMesh, casingsMesh, decalsMesh, wave, arcGroup, impactLight);
+      scene.remove(points, darkPoints, tracersMesh, casingsMesh, decalsMesh, wave, arcGroup, impactLight);
       for (const r of ribbons) scene.remove(r.mesh);
     },
   };
