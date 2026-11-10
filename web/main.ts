@@ -1,6 +1,7 @@
 // Rendu Three.js d'une sim pure à pas fixe (src/sim.ts) : modèles riggés, décor, capsules en repli.
 import * as THREE from 'three';
-import { newWorld, step, observe, nlFrame, terminatorPerceives, DT, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
+import { newWorld, step, nlFrame, terminatorPerceives, DT, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
+import { observePack, obsDimOf } from '../src/pack-obs';
 import { hudMarkup, matchBeats, matchStatus, roundCard, roundMarkup, type MatchStatus } from '../src/match';
 import { PROP_PLACES, isPropKind, resolvePropKinds, type PropKind, type PropPlace } from '../src/props';
 import { POOL, UNSEEN, type Tactic } from '../src/tactics';
@@ -858,7 +859,7 @@ function tick() {
   const acts = DEMO_CFG ? DEMO_CFG.nls(w.tick, w) : w.nls.map((n, i) => {
     if (!n.alive) return 0;
     if (!actor) { const f = nlFrame(n); return f.d < 1.6 ? 7 : 1; }
-    const p = softmax(forward(actor, observe(w, i))); const a = sample(p, rng); lastP[i] = p[a]; return a;
+    const p = softmax(forward(actor, observePack(w, i, obsDimOf(actor)))); const a = sample(p, rng); lastP[i] = p[a]; return a;
   }); lastActs = acts;
   step(w, ta, acts);
   // Après le pas, avant les événements : un tick couvre [t, t+DT], et la rafale qui part maintenant doit

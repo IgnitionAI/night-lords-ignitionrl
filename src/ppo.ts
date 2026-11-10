@@ -6,6 +6,7 @@ import { writeFileSync, readFileSync } from 'node:fs';
 import type { ActorJSON } from './policy';
 import { mulberry32, type Rng } from './rng';
 import { layerSeed } from './model';
+import { expandDenseKernel, packObsDim } from './pack-obs';
 
 export interface PPOCfg { lr: number; hidden: number[]; clip: number; epochs: number; minibatch: number; entCoef: number; vfCoef: number; gamma: number; lambda: number }
 export const DEFAULT_PPO: PPOCfg = { lr: 3e-4, hidden: [128, 128], clip: 0.2, epochs: 4, minibatch: 2048, entCoef: 0.01, vfCoef: 0.5, gamma: 0.99, lambda: 0.95 };
@@ -78,8 +79,17 @@ export class PPO {
   }
   load(path: string) {
     const j = JSON.parse(readFileSync(path, 'utf8'));
-    this.actor.setWeights(j.actor.map((w: any) => tf.tensor(w.data, w.shape)));
-    this.critic.setWeights(j.critic.map((w: any) => tf.tensor(w.data, w.shape)));
+    const want = this.obsDim;
+    packObsDim(want);
+    const lift = (dumped: { shape: number[]; data: number[] }[]) => dumped.map((w, i) => {
+      if (i !== 0) return tf.tensor(w.data, w.shape);
+      const [inOld, outDim] = w.shape as [number, number];
+      if (inOld === want) return tf.tensor(w.data, w.shape);
+      const data = expandDenseKernel(w.data, inOld, outDim, want);
+      return tf.tensor(data, [want, outDim]);
+    });
+    this.actor.setWeights(lift(j.actor));
+    this.critic.setWeights(lift(j.critic));
   }
   exportActor(version: string, meta: Record<string, unknown> = {}): ActorJSON {
     const ws = this.actor.getWeights(); const layers = [];

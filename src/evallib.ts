@@ -1,8 +1,9 @@
-import { newWorld, step, observe, nlFrame, dist, DT, terminatorPerceives, type World } from './sim';
+import { newWorld, step, nlFrame, dist, DT, terminatorPerceives, type World } from './sim';
 import type { Tactic } from './tactics';
 import { forward, softmax, sample, argmax, type ActorJSON } from './policy';
 import { mulberry32 } from './rng';
 import { Recorder, type Recording } from './recorder';
+import { observePack, obsDimOf } from './pack-obs';
 
 export type Pack = ActorJSON | 'naive' | 'random';
 export function packActs(pack: Pack, w: World, rng: () => number, greedy = false): number[] {
@@ -10,7 +11,7 @@ export function packActs(pack: Pack, w: World, rng: () => number, greedy = false
     if (!n.alive) return 0;
     if (pack === 'random') return Math.floor(rng() * 8);
     if (pack === 'naive') { const f = nlFrame(n); return f.d < 1.6 ? 7 : 1; }
-    const p = softmax(forward(pack, observe(w, i))); return greedy ? argmax(p) : sample(p, rng);
+    const p = softmax(forward(pack, observePack(w, i, obsDimOf(pack)))); return greedy ? argmax(p) : sample(p, rng);
   });
 }
 export interface Stats {

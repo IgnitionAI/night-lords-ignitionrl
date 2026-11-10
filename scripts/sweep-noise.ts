@@ -23,10 +23,11 @@
 //   npm run sweep:noise -- --player idle --seeds 1 --seed-base 3 --ticks 400 --out mesures/sweep-noise.json
 //   -> reproduit la mesure d'origine : 18 m → 0 événement, 25 m → ~310, 30 m → 443 (saturation).
 import { readFileSync, writeFileSync } from 'node:fs';
-import { T_CFG, newWorld, step, observe, nlFrame, dist, OBS_DIM, T_IDLE, type World, type TAction } from '../src/sim';
+import { T_CFG, newWorld, step, nlFrame, dist, T_IDLE, type World, type TAction } from '../src/sim';
 import { POOL, type Tactic } from '../src/tactics';
 import { forward, softmax, sample, type ActorJSON } from '../src/policy';
 import { mulberry32 } from '../src/rng';
+import { observePack, obsDimOf } from '../src/pack-obs';
 
 // --- CLI -------------------------------------------------------------------------------------------------------
 function parseArgs(argv: string[]): Record<string, string> {
@@ -58,10 +59,7 @@ const NOISE_RUN = Number(args.run ?? DEFAULTS.run); // plafond `noiseRun` porté
 const PACK_ARG = args.pack ?? (args.policy ?? DEFAULTS.policy);
 type Pack = 'naive' | 'random' | ActorJSON;
 const PACK: Pack = PACK_ARG === 'naive' || PACK_ARG === 'random' ? PACK_ARG : loadActor(PACK_ARG);
-// Garde-fou : une politique d'une autre forme d'observation produirait un `forward` silencieusement faux.
-if (typeof PACK !== 'string' && PACK.obsDim !== OBS_DIM) {
-  throw new Error(`politique « ${PACK_ARG} » : obsDim ${PACK.obsDim} ≠ OBS_DIM ${OBS_DIM} de src/sim.ts`);
-}
+const PACK_DIM = obsDimOf(PACK);
 
 function loadActor(path: string): ActorJSON {
   try {
@@ -149,7 +147,7 @@ function runSeed(seed: number, player: () => Tactic, maxTicks: number): SeedRun 
       if (!n.alive) return 0;
       if (PACK === 'random') return Math.floor(rng() * 8);
       if (PACK === 'naive') { const f = nlFrame(n); return f.d < 1.6 ? 7 : 1; } // repli du jeu sans politique
-      return sample(softmax(forward(PACK, observe(w, i))), rng);
+      return sample(softmax(forward(PACK, observePack(w, i, PACK_DIM))), rng);
     });
     step(w, ta, acts);
     // `step` vide `w.events` au tick suivant : les événements se comptent ici, sinon ils sont perdus.

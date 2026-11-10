@@ -3,26 +3,28 @@
 import { mkdirSync, writeFileSync, appendFileSync, readFileSync } from 'node:fs';
 import { performance } from 'node:perf_hooks';
 import { PPO, DEFAULT_PPO } from './ppo';
-import { newWorld, step, observe, OBS_DIM, N_ACT, N_NL, type World } from './sim';
+import { newWorld, step, N_ACT, N_NL, type World } from './sim';
 import { POOL, ghost, bcGhost, randomized, type Tactic } from './tactics';
 import type { ActorJSON } from './policy';
 import { summarize, type Recording } from './recorder';
 import { mulberry32 } from './rng';
 import { checkGuard } from './guard';
-import { applyB4Shaping, applyB5Shaping, applyB6Shaping, parseTrainPreset, pickB4Opp, pickB5Opp, pickB6Opp, B4_TRAIN, B5_TRAIN, B6_TRAIN } from './train-b4';
+import { observePack, packObsDim } from './pack-obs';
+import { applyB4Shaping, applyB5Shaping, applyB6Shaping, applyB8Shaping, parseTrainPreset, pickB4Opp, pickB5Opp, pickB6Opp, pickB8Opp, B4_TRAIN, B5_TRAIN, B6_TRAIN, B8_TRAIN } from './train-b4';
 
 const args = Object.fromEntries(process.argv.slice(2).reduce<[string, string][]>((acc, a, i, arr) => { if (a.startsWith('--')) acc.push([a.slice(2), arr[i + 1]?.startsWith('--') || arr[i + 1] === undefined ? 'true' : arr[i + 1]]); return acc; }, []));
 const preset = parseTrainPreset(args);
-const U = Number(args.updates ?? (preset.preset === 'b6' ? B6_TRAIN.updates : preset.preset === 'b5' ? B5_TRAIN.updates : preset.preset === 'b4' ? B4_TRAIN.updates : 100));
-const E = Number(args.envs ?? (preset.preset === 'b6' ? B6_TRAIN.envs : preset.preset === 'b5' ? B5_TRAIN.envs : preset.preset === 'b4' ? B4_TRAIN.envs : 16));
+const U = Number(args.updates ?? (preset.preset === 'b8' ? B8_TRAIN.updates : preset.preset === 'b6' ? B6_TRAIN.updates : preset.preset === 'b5' ? B5_TRAIN.updates : preset.preset === 'b4' ? B4_TRAIN.updates : 100));
+const E = Number(args.envs ?? (preset.preset === 'b8' ? B8_TRAIN.envs : preset.preset === 'b6' ? B6_TRAIN.envs : preset.preset === 'b5' ? B5_TRAIN.envs : preset.preset === 'b4' ? B4_TRAIN.envs : 16));
 const K = Number(args.steps ?? 128);
 const out = args.out ?? 'runs/dev'; mkdirSync(out, { recursive: true });
 const seed0 = Number(args.seed ?? preset.seed); // seeds d'entraînement : 1..899 999 ; l'éval utilise 900 000+
 const ghostShare = Number(args.ghostShare ?? 0.7);
-const initPath = args.init ?? (preset.preset === 'b6' ? B6_TRAIN.init : preset.preset === 'b5' ? B5_TRAIN.init : undefined);
+const initPath = args.init ?? (preset.preset === 'b8' ? B8_TRAIN.init : preset.preset === 'b6' ? B6_TRAIN.init : preset.preset === 'b5' ? B5_TRAIN.init : undefined);
+const obsDim = packObsDim(preset.obsDim);
 checkGuard('début entraînement');
 
-const ppo = new PPO(OBS_DIM, N_ACT, { ...DEFAULT_PPO, lr: preset.lr, entCoef: preset.entCoef }, seed0);
+const ppo = new PPO(obsDim, N_ACT, { ...DEFAULT_PPO, lr: preset.lr, entCoef: preset.entCoef }, seed0);
 if (initPath) ppo.load(initPath);
 const ghostBC: ActorJSON | null = args.ghostBC ? JSON.parse(readFileSync(args.ghostBC, 'utf8')) : null;
 const ghostSummary = args.ghost ? summarize(JSON.parse(readFileSync(args.ghost, 'utf8')) as Recording) : null;
@@ -42,6 +44,10 @@ function makeEnv(): Env {
   const O = { clawWindup: false };
   if (ghostBC && rng() < ghostShare) { opp = 'ghostBC'; tactic = bcGhost(ghostBC, s); w = newWorld(s, undefined, O); }
   else if (ghostSummary && rng() < ghostShare) { opp = 'ghost'; tactic = ghost(ghostSummary, s); w = newWorld(s, ghostSummary.spawn, O); }
+  else if (preset.curriculumB8) {
+    const picked = pickB8Opp(rng, trainProgress);
+    opp = picked.opp; tactic = picked.tactic; w = newWorld(s, undefined, O);
+  }
   else if (preset.curriculumB6) {
     const picked = pickB6Opp(rng, trainProgress);
     opp = picked.opp; tactic = picked.tactic; w = newWorld(s, undefined, O);
@@ -67,19 +73,20 @@ for (let u = 1; u <= U; u++) {
   const tu = performance.now();
   for (let k = 0; k < K; k++) {
     const who: [number, number][] = []; const obs: number[] = [];
-    envs.forEach((e, ei) => e.w.nls.forEach((n, i) => { if (n.alive) { who.push([ei, i]); obs.push(...observe(e.w, i)); } }));
+    envs.forEach((e, ei) => e.w.nls.forEach((n, i) => { if (n.alive) { who.push([ei, i]); obs.push(...observePack(e.w, i, obsDim)); } }));
     const { probs, values } = ppo.act(Float32Array.from(obs), who.length);
     const acts = envs.map(() => new Array(N_NL).fill(0));
     who.forEach(([ei, i], q) => {
       let r = actRng(), c = 0, a = N_ACT - 1;
       for (let j = 0; j < N_ACT; j++) { c += probs[q * N_ACT + j]; if (r < c) { a = j; break; } }
       acts[ei][i] = a; const tr = envs[ei].traj[i];
-      tr.obs.push(obs.slice(q * OBS_DIM, (q + 1) * OBS_DIM)); tr.act.push(a); tr.lp.push(Math.log(probs[q * N_ACT + a] + 1e-8)); tr.val.push(values[q]);
+      tr.obs.push(obs.slice(q * obsDim, (q + 1) * obsDim)); tr.act.push(a); tr.lp.push(Math.log(probs[q * N_ACT + a] + 1e-8)); tr.val.push(values[q]);
     });
     envs.forEach((e, ei) => {
       const stepped = step(e.w, e.tactic(e.w), acts[ei]);
       const died = stepped.died;
-      const rewards = preset.shapeB6 ? applyB6Shaping(e.w, stepped.rewards, died)
+      const rewards = preset.shapeB8 ? applyB8Shaping(e.w, stepped.rewards, died)
+        : preset.shapeB6 ? applyB6Shaping(e.w, stepped.rewards, died)
         : preset.shapeB5 ? applyB5Shaping(e.w, stepped.rewards, died)
         : preset.shapeB4 ? applyB4Shaping(e.w, stepped.rewards, died) : stepped.rewards;
       e.traj.forEach((tr, i) => { if (tr.obs.length > tr.rew.length) { tr.rew.push(rewards[i]); if (died[i]) { tr.done = true; finished.push(tr); e.traj[i] = { obs: [], act: [], lp: [], val: [], rew: [], done: false }; } } });
@@ -91,11 +98,11 @@ for (let u = 1; u <= U; u++) {
   }
   // bootstrap des trajectoires coupées par la fin du rollout
   const cut: Traj[] = []; const nextObs: number[] = [];
-  envs.forEach(e => e.traj.forEach((tr, i) => { if (tr.obs.length) { cut.push(tr); nextObs.push(...observe(e.w, i)); e.traj[i] = { obs: [], act: [], lp: [], val: [], rew: [], done: false }; } }));
+  envs.forEach(e => e.traj.forEach((tr, i) => { if (tr.obs.length) { cut.push(tr); nextObs.push(...observePack(e.w, i, obsDim)); e.traj[i] = { obs: [], act: [], lp: [], val: [], rew: [], done: false }; } }));
   const boot = cut.length ? ppo.act(Float32Array.from(nextObs), cut.length).values : new Float32Array();
   const all = [...finished.splice(0), ...cut];
   const N = all.reduce((s, t) => s + t.act.length, 0);
-  const O = new Float32Array(N * OBS_DIM), A = new Int32Array(N), LP = new Float32Array(N), AD = new Float32Array(N), R = new Float32Array(N);
+  const O = new Float32Array(N * obsDim), A = new Int32Array(N), LP = new Float32Array(N), AD = new Float32Array(N), R = new Float32Array(N);
   let p = 0; const { gamma, lambda } = ppo.cfg;
   all.forEach((tr, ti) => {
     const T = tr.act.length; const last = tr.done ? 0 : boot[ti - (all.length - cut.length)] ?? 0;
@@ -104,7 +111,7 @@ for (let u = 1; u <= U; u++) {
       const nv = t === T - 1 ? last : tr.val[t + 1];
       const delta = tr.rew[t] + gamma * nv - tr.val[t]; gae = delta + gamma * lambda * gae; adv[t] = gae;
     }
-    for (let t = 0; t < T; t++) { O.set(tr.obs[t], p * OBS_DIM); A[p] = tr.act[t]; LP[p] = tr.lp[t]; AD[p] = adv[t]; R[p] = adv[t] + tr.val[t]; p++; }
+    for (let t = 0; t < T; t++) { O.set(tr.obs[t], p * obsDim); A[p] = tr.act[t]; LP[p] = tr.lp[t]; AD[p] = adv[t]; R[p] = adv[t] + tr.val[t]; p++; }
   });
   transitions += N;
   const st = ppo.update(O, A, LP, AD, R, actRng);
@@ -113,7 +120,7 @@ for (let u = 1; u <= U; u++) {
   appendFileSync(`${out}/metrics.jsonl`, JSON.stringify(line) + '\n');
   if (u % 5 === 0 || u === U) console.log(JSON.stringify(line));
   if (u % 25 === 0 || u === U) {
-    const meta = { updates: u, transitions, seconds: line.seconds, ghost: !!ghostSummary, ghostBC: args.ghostBC ?? null, init: initPath ?? null, preset: preset.preset || null, shapeB4: preset.shapeB4, curriculumB4: preset.curriculumB4, shapeB5: preset.shapeB5, curriculumB5: preset.curriculumB5, shapeB6: preset.shapeB6, curriculumB6: preset.curriculumB6, lr: preset.lr, entCoef: preset.entCoef, seed: seed0 };
+    const meta = { updates: u, transitions, seconds: line.seconds, ghost: !!ghostSummary, ghostBC: args.ghostBC ?? null, init: initPath ?? null, preset: preset.preset || null, shapeB4: preset.shapeB4, curriculumB4: preset.curriculumB4, shapeB5: preset.shapeB5, curriculumB5: preset.curriculumB5, shapeB6: preset.shapeB6, curriculumB6: preset.curriculumB6, shapeB8: preset.shapeB8, curriculumB8: preset.curriculumB8, obsDim, lr: preset.lr, entCoef: preset.entCoef, seed: seed0 };
     ppo.save(`${out}/full.json`, meta); writeFileSync(`${out}/actor.json`, JSON.stringify(ppo.exportActor(`${out}@${u}`, meta)));
   }
 }

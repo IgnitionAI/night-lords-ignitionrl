@@ -7,9 +7,12 @@ import {
   applyB4Shaping,
   applyB5Shaping,
   applyB6Shaping,
+  applyB8Shaping,
+  beaconThreat,
   pickB4Opp,
   pickB5Opp,
   pickB6Opp,
+  pickB8Opp,
   parseTrainPreset,
   wilsonInterval,
   comparePackRates,
@@ -17,8 +20,10 @@ import {
   B4_TRAIN,
   B5_TRAIN,
   B6_TRAIN,
+  B8_TRAIN,
   B5_SHAPE,
   B6_SHAPE,
+  B8_SHAPE,
 } from '../src/train-b4.ts';
 import { mulberry32 } from '../src/rng.ts';
 
@@ -28,6 +33,7 @@ test('sans ?policy le jeu charge current (b5) ; ?policy=b6 lit le candidat ; arc
   assert.deepEqual(policyFileFromQuery('current'), { id: 'current', file: 'current.json' });
   assert.deepEqual(policyFileFromQuery('b5'), { id: 'b5', file: 'current.json' });
   assert.deepEqual(policyFileFromQuery('b6'), { id: 'b6', file: 'candidates/b6/actor.json' });
+  assert.deepEqual(policyFileFromQuery('b8'), { id: 'b8', file: 'candidates/b8/actor.json' });
   assert.deepEqual(policyFileFromQuery('b4'), { id: 'b4', file: 'b4/current.json' });
   assert.deepEqual(policyFileFromQuery('b3'), { id: 'b3', file: 'b3/current.json' });
   assert.deepEqual(policyFileFromQuery('inconnu'), { id: 'current', file: 'current.json' });
@@ -42,6 +48,9 @@ test('parseTrainPreset : sans drapeau, hyperparams b3 inchangés', () => {
   assert.equal(d.curriculumB5, false);
   assert.equal(d.shapeB6, false);
   assert.equal(d.curriculumB6, false);
+  assert.equal(d.shapeB8, false);
+  assert.equal(d.curriculumB8, false);
+  assert.equal(d.obsDim, 32);
   assert.equal(d.lr, 3e-4);
   assert.equal(d.entCoef, 0.01);
   const b4 = parseTrainPreset({ preset: 'b4' });
@@ -70,6 +79,17 @@ test('parseTrainPreset : sans drapeau, hyperparams b3 inchangés', () => {
   assert.equal(b6.entCoef, B6_TRAIN.entCoef);
   assert.equal(b6.seed, B6_TRAIN.seed);
   assert.equal(B6_TRAIN.init, 'policies/candidates/b5/full.json');
+  const b8 = parseTrainPreset({ preset: 'b8' });
+  assert.equal(b8.preset, 'b8');
+  assert.equal(b8.shapeB8, true);
+  assert.equal(b8.curriculumB8, true);
+  assert.equal(b8.shapeB6, false);
+  assert.equal(b8.lr, B8_TRAIN.lr);
+  assert.equal(b8.entCoef, B8_TRAIN.entCoef);
+  assert.equal(b8.seed, B8_TRAIN.seed);
+  assert.equal(b8.obsDim, 34);
+  assert.equal(B8_TRAIN.init, 'policies/candidates/b6/full.json');
+  assert.notEqual(B8_TRAIN.seed, B6_TRAIN.seed);
 });
 
 test('curriculum b4 : seed fixe ⇒ même séquence ; kiter et turret apparaissent', () => {
@@ -286,10 +306,82 @@ test('shaping n\'appelle pas step : la sim reste la source des rewards de base',
   applyB4Shaping(w, [0, 0, 0, 0], [false, false, false, false]);
   applyB5Shaping(w, [0, 0, 0, 0], [false, false, false, false]);
   applyB6Shaping(w, [0, 0, 0, 0], [false, false, false, false]);
+  applyB8Shaping(w, [0, 0, 0, 0], [false, false, false, false]);
   assert.equal(w.t.x, before.x);
   assert.equal(w.t.hp, before.hp);
   assert.equal(w.tick, before.tick);
   const { rewards } = step(w, t(w), [0, 0, 0, 0]);
   assert.equal(rewards.length, 4);
   assert.ok(dist(w.nls[0].x, w.nls[0].y, w.t.x, w.t.y) > 0);
+});
+
+test('curriculum b8 : seed fixe ; kiter et elite au moins autant que wallHugger ; tous présents', () => {
+  const rngA = mulberry32(10), rngB = mulberry32(10);
+  const a = Array.from({ length: 400 }, (_, i) => pickB8Opp(rngA, i / 399).opp);
+  const b = Array.from({ length: 400 }, (_, i) => pickB8Opp(rngB, i / 399).opp);
+  assert.deepEqual(a, b);
+  const counts = Object.fromEntries([...new Set(a)].map(k => [k, a.filter(x => x === k).length]));
+  assert.ok((counts.kiter ?? 0) + (counts.elite ?? 0) > (counts.wallHugger ?? 0),
+    `kiter+elite ${counts.kiter}+${counts.elite} vs WH ${counts.wallHugger}`);
+  assert.ok((counts.elite ?? 0) >= 40, `elite trop rare: ${JSON.stringify(counts)}`);
+  assert.ok((counts.turret ?? 0) >= 20);
+  assert.ok((counts.kiter ?? 0) >= 40);
+  assert.ok((counts.wallHugger ?? 0) >= 30);
+  assert.ok((counts.march ?? 0) >= 10);
+  for (const name of a) {
+    assert.ok(POOL[name] || UNSEEN[name], `opp inconnu ${name}`);
+  }
+});
+
+test('beaconThreat b8 : spawn ≈ 0, proche balise ≈ 1, mur nord élevé', () => {
+  const spawn = newWorld(21, undefined, { clawWindup: false });
+  spawn.t.x = 3; spawn.t.y = 12;
+  assert.ok(beaconThreat(spawn) < 0.15, `spawn ${beaconThreat(spawn)}`);
+  const near = newWorld(21, undefined, { clawWindup: false });
+  near.t.x = BEACON.x; near.t.y = BEACON.y;
+  assert.ok(beaconThreat(near) > 0.85, `balise ${beaconThreat(near)}`);
+  const wall = newWorld(21, undefined, { clawWindup: false });
+  wall.t.x = 32; wall.t.y = 22.5;
+  assert.ok(beaconThreat(wall) > 0.2, `mur nord ${beaconThreat(wall)}`);
+});
+
+test('shaping b8 : hors menace, lisibilité vis2 ; sous menace, coupe-mur > cône', () => {
+  const vis = newWorld(17, undefined, { clawWindup: false });
+  vis.t.x = 8; vis.t.y = 12; vis.t.facing = 0; vis.tick = 80;
+  vis.nls[0].alive = true; vis.nls[0].x = 16; vis.nls[0].y = 16;
+  vis.nls[1].alive = vis.nls[2].alive = vis.nls[3].alive = false;
+  const visR = applyB8Shaping(vis, [0, 0, 0, 0], [false, false, false, false])[0];
+  const vis6 = applyB6Shaping(vis, [0, 0, 0, 0], [false, false, false, false])[0];
+  assert.ok(Math.abs(visR - vis6) < 0.002, `hors menace b8 ${visR} vs b6 ${vis6}`);
+
+  const mk = () => {
+    const w = newWorld(23, undefined, { clawWindup: false });
+    w.t.x = 30; w.t.y = 12; w.t.facing = Math.PI / 2; w.tick = 400;
+    w.nls[1].alive = w.nls[2].alive = w.nls[3].alive = false;
+    return w;
+  };
+  const cone = mk();
+  cone.nls[0].alive = true; cone.nls[0].x = 30.4; cone.nls[0].y = 16.2;
+  const cut = mk();
+  cut.nls[0].alive = true; cut.nls[0].x = 34.2; cut.nls[0].y = 12.2;
+  const cone8 = applyB8Shaping(cone, [0, 0, 0, 0], [false, false, false, false])[0];
+  const cut8 = applyB8Shaping(cut, [0, 0, 0, 0], [false, false, false, false])[0];
+  assert.ok(cut8 > cone8, `b8 coupe ${cut8} vs cône ${cone8}`);
+  assert.ok(B8_SHAPE.picketDist === 10);
+});
+
+test('shaping b8 : mur nord, couper devant le T > camper la balise trop tôt', () => {
+  const mk = () => {
+    const w = newWorld(29, undefined, { clawWindup: false });
+    w.t.x = 32; w.t.y = 22.5; w.t.facing = 0; w.tick = 400;
+    w.nls[1].alive = w.nls[2].alive = w.nls[3].alive = false;
+    return w;
+  };
+  const ahead = mk();
+  ahead.nls[0].alive = true; ahead.nls[0].x = 36.5; ahead.nls[0].y = 22.3;
+  const camp = mk();
+  camp.nls[0].alive = true; camp.nls[0].x = BEACON.x; camp.nls[0].y = BEACON.y;
+  const a8 = applyB8Shaping(ahead, [0, 0, 0, 0], [false, false, false, false])[0];
+  const c8 = applyB8Shaping(camp, [0, 0, 0, 0], [false, false, false, false])[0];
+  assert.ok(a8 > c8, `devant mur ${a8} vs camp balise ${c8}`);
 });
