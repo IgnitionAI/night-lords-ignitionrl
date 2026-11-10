@@ -1,5 +1,6 @@
 // Éval : taux de victoire et durées sur N parties par adversaire, seeds tenues à part (900 000+), politiques figées.
-import { readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname } from 'node:path';
 import { performance } from 'node:perf_hooks';
 import { POOL, UNSEEN, bcGhost, randomized, type Tactic } from './tactics';
 import { runGames, type Pack } from './evallib';
@@ -21,4 +22,7 @@ const t0 = performance.now(); const results: Record<string, unknown> = {};
 for (const [name, mk] of Object.entries(opps)) results[name] = { unseen: !!UNSEEN[name], ...runGames(pack, mk, N, seedBase, { clawWindup }) };
 const report = { pack: packArg, clawWindup, seeds: `${seedBase}..${seedBase + N - 1}`, wallSeconds: +((performance.now() - t0) / 1000).toFixed(1), results };
 console.log(JSON.stringify(report, null, 1));
-if (args.out) writeFileSync(args.out, JSON.stringify(report, null, 1));
+if (args.out) {
+  mkdirSync(dirname(args.out), { recursive: true });
+  writeFileSync(args.out, JSON.stringify(report, null, 1));
+}

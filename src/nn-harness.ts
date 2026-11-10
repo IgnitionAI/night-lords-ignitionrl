@@ -102,7 +102,10 @@ function listFrozenFiles(root: string): string[] {
       if (st.isFile()) out.push(f.endsWith('/') ? f.slice(0, -1) : f);
       else if (st.isDirectory()) {
         // empreinte des fichiers connus sous le dossier gelé, sans glob récursif large
-        const known = f === 'policies/' ? ['policies/current.json', 'policies/current-full.json']
+        const known = f === 'policies/' ? [
+          'policies/current.json', 'policies/current-full.json',
+          'policies/b3/current.json', 'policies/b3/current-full.json',
+        ]
           : f === 'runs/b3/' ? ['runs/b3/metrics.jsonl']
             : f === 'runs/base/' ? ['runs/base/metrics.jsonl']
               : [];
