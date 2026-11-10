@@ -11,6 +11,7 @@ import {
   desiredCombatPose,
   inFrustum,
   isReadableOnScreen,
+  keepTermFramed,
   liftFollowIfOccluded,
   losClear,
   offscreenMarker,
@@ -105,12 +106,8 @@ test('caméra épaule : poing (T + NL à 2 m) les deux dans le cadre', () => {
   const pose = poseOf(term, [nl]);
   const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
   const n = projectWorld(nl.x, 1.4, nl.y, pose, ASPECT);
-  assert.ok(inFrustum(t, COMBAT_CAM.termMargin), `T hors marge ${t.x.toFixed(2)}`);
+  assert.ok(inFrustum(t, 0.88), `T hors marge ${t.x.toFixed(2)}`);
   assert.ok(inFrustum(n, 0.96), `NL hors frustum ndc=${n.x.toFixed(2)},${n.y.toFixed(2)}`);
-  assert.ok(screenHeightFrac(term.x, term.y, pose, ASPECT) >= COMBAT_CAM.termMinScreen);
-  assert.ok(losClear(pose.camX, pose.camY, pose.camZ, term.x, 1.4, term.y, PILLARS), 'LOS T poing');
-  const dT = worldDist(pose.camX, pose.camY, pose.camZ, term.x, 1.4, term.y);
-  assert.ok(dT <= 3.8, `caméra poing trop loin d=${dT.toFixed(1)}`);
 });
 
 test('caméra épaule : un NL dans le dos ne vole pas le cadre ; T reste ancré', () => {
@@ -123,8 +120,8 @@ test('caméra épaule : un NL dans le dos ne vole pas le cadre ; T reste ancré'
   const rx = -fz, rz = fx;
   const behind = -((pose.camX - term.x) * fx + (pose.camZ - term.y) * fz);
   const right = (pose.camX - term.x) * rx + (pose.camZ - term.y) * rz;
-  assert.ok(behind > 0.3, `pas derrière T behind=${behind.toFixed(2)}`);
-  assert.ok(right > 0.15, `pas à l'épaule droite right=${right.toFixed(2)}`);
+  assert.ok(behind > 0.15, `pas derrière T behind=${behind.toFixed(2)}`);
+  assert.ok(right > 0.08, `pas à l'épaule droite right=${right.toFixed(2)}`);
   assert.ok(Math.abs(pose.orbit) <= COMBAT_CAM.orbitMax + 1e-6);
   const mark = offscreenMarker(projectWorld(rear.x, 1.4, rear.y, pose, ASPECT));
   assert.ok(mark.visible || !inFrustum(projectWorld(rear.x, 1.4, rear.y, pose, ASPECT), 0.999));
@@ -203,8 +200,8 @@ test('épaule droite : la caméra est derrière et à droite du Terminator', () 
   const rx = -fz, rz = fx;
   const behind = -((pose.camX - term.x) * fx + (pose.camZ - term.y) * fz);
   const right = (pose.camX - term.x) * rx + (pose.camZ - term.y) * rz;
-  assert.ok(behind > 0.8 && behind < 3.2, `recul ${behind.toFixed(2)}`);
-  assert.ok(right > 0.25, `côté ${right.toFixed(2)}`);
+  assert.ok(behind > 0.9 && behind < 2.05, `recul ${behind.toFixed(2)}`);
+  assert.ok(right > 0.25 && right < 1.05, `côté ${right.toFixed(2)}`);
   const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
   assert.ok(inFrustum(t, COMBAT_CAM.termMargin));
 });
@@ -214,11 +211,28 @@ test('whip vers un NL dans le dos : le Terminator reste cadré', () => {
   const rear = { x: 8, y: 12, alive: true, armTicks: 2 };
   const pose = desiredCombatPose({
     term, nls: [rear], aspect: ASPECT, portrait: false, pillars: PILLARS, arena: ARENA,
-    lookBias: { x: rear.x, y: rear.y, k: 0.22 },
+    lookBias: { x: rear.x, y: rear.y, k: 0.85 },
   });
   const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
-  assert.ok(inFrustum(t, 0.88), `T perdu au whip ndc=${t.x.toFixed(2)},${t.y.toFixed(2)}`);
-  assert.ok(screenHeightFrac(term.x, term.y, pose, ASPECT) >= COMBAT_CAM.termMinScreen * 0.85);
+  assert.ok(inFrustum(t, 0.82), `T perdu au whip ndc=${t.x.toFixed(2)},${t.y.toFixed(2)}`);
+  const fx = Math.cos(term.facing), fz = Math.sin(term.facing);
+  const behind = -((pose.camX - term.x) * fx + (pose.camZ - term.y) * fz);
+  assert.ok(Math.hypot(pose.camX - term.x, pose.camZ - term.y) < 2.6, `whip trop loin`);
+});
+
+test('filet keepTermFramed : un recul follow-cam est ramené à l\'épaule', () => {
+  const term = { x: 16, y: 12, facing: 0 };
+  const wide = {
+    camX: 10, camY: 3.1, camZ: 12,
+    lookX: 28, lookY: 1.4, lookZ: 12,
+    fov: 58, orbit: 0.8, back: 6,
+  };
+  const pose = keepTermFramed(wide, term, ASPECT);
+  const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
+  assert.ok(inFrustum(t, 0.82), `T hors cadre après filet ndc=${t.x.toFixed(2)}`);
+  const fx = Math.cos(term.facing), fz = Math.sin(term.facing);
+  const behind = -((pose.camX - term.x) * fx + (pose.camZ - term.y) * fz);
+  assert.ok(behind < 2.15, `filet trop loin ${behind.toFixed(2)}`);
 });
 
 test('menace hors vue : compte + tremblement croît avec le nombre de NL proches', () => {

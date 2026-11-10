@@ -1,0 +1,67 @@
+{
+  "autoplay": "kiter",
+  "policy": "policies/current.json",
+  "seeds": [
+    900002,
+    900004,
+    900007,
+    900010,
+    900017
+  ],
+  "frames": 1141,
+  "termInFov": 1141,
+  "termShare": 1,
+  "termTarget": 0.98,
+  "clawHits": 90,
+  "clawNlIn": 90,
+  "clawNlShare": 1,
+  "clawTarget": 0.8,
+  "ok": true,
+  "perSeed": [
+    {
+      "seed": 900002,
+      "winner": "pack",
+      "tick": 217,
+      "frames": 217,
+      "termShare": 1,
+      "clawHits": 20,
+      "clawNlShare": 1
+    },
+    {
+      "seed": 900004,
+      "winner": "pack",
+      "tick": 230,
+      "frames": 230,
+      "termShare": 1,
+      "clawHits": 16,
+      "clawNlShare": 1
+    },
+    {
+      "seed": 900007,
+      "winner": "pack",
+      "tick": 265,
+      "frames": 265,
+      "termShare": 1,
+      "clawHits": 19,
+      "clawNlShare": 1
+    },
+    {
+      "seed": 900010,
+      "winner": "pack",
+      "tick": 185,
+      "frames": 185,
+      "termShare": 1,
+      "clawHits": 19,
+      "clawNlShare": 1
+    },
+    {
+      "seed": 900017,
+      "winner": "pack",
+      "tick": 244,
+      "frames": 244,
+      "termShare": 1,
+      "clawHits": 16,
+      "clawNlShare": 1
+    }
+  ]
+}

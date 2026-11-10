@@ -32,7 +32,7 @@ import {
 } from './atmosphere';
 import {
   COMBAT_CAM, FOG_CLEAR_M, TERM_MODEL_H, applyCombatCamera, desiredCombatPose, inFrustum,
-  isReadableOnScreen, liftFollowIfOccluded, losClear, offscreenMarker, smoothCombatPose,
+  isReadableOnScreen, keepTermFramed, liftFollowIfOccluded, losClear, offscreenMarker,
   huntThreatCount, huntTremor,
   type CombatPose,
 } from './combat-cam';
@@ -434,6 +434,7 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   root.scale.setScalar(targetHeight / h);
   root.rotation.y = Math.PI / 2; // le modele regarde +Z, la simulation regarde +X
   root.traverse((o: any) => {
+    o.frustumCulled = false;
     if (!o.isMesh) return;
     o.castShadow = true;
     const m = o.material as THREE.MeshStandardMaterial;
@@ -567,7 +568,9 @@ function lookWeight(rig: Rig): boolean {
 }
 
 // Terminator : cubes (os/or loyaliste), front marqué par le visor et le storm bolter
-const term = new THREE.Group(); const bone = new THREE.MeshStandardMaterial({ color: 0x2a2418, metalness: 0.5, roughness: 0.45 });
+const term = new THREE.Group();
+term.frustumCulled = false;
+const bone = new THREE.MeshStandardMaterial({ color: 0x2a2418, metalness: 0.5, roughness: 0.45 });
 const add = (g: THREE.Group, geo: THREE.BufferGeometry, mat: THREE.Material, x: number, y: number, z: number) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = true; g.add(m); return m; };
 add(term, new THREE.BoxGeometry(1.3, 1.7, 1.6), bone, 0, 1.25, 0);
 add(term, new THREE.BoxGeometry(0.9, 0.9, 2.6), bone, -0.1, 2.05, 0); // épaulières
@@ -633,6 +636,7 @@ function buildLabels() { // différé : aucune texture de nom allouée tant que 
 const nlEyeMats: THREE.MeshBasicMaterial[][] = ROLES.map(() => []);
 const nlMeshes = ROLES.map((name, i) => {
   const g = new THREE.Group();
+  g.frustumCulled = false;
   nlProxy.push(add(g, new THREE.CapsuleGeometry(NL_CFG.radius, 1.1, 6, 12), nlBodyMat, 0, 1.0, 0));
   for (const z of [-0.11, 0.11]) {
     const eyeMat = new THREE.MeshBasicMaterial({ color: 0xff1a08, fog: false });
@@ -1385,7 +1389,7 @@ function render(alpha: number) {
       (scene.fog as THREE.FogExp2).density = CAM_MODE === 'shoulder' ? 0.044 : 0.042;
     }
     renderer.toneMappingExposure = CAM_MODE === 'shoulder' ? 1.58 : 1.52;
-    postMat.uniforms.uVignette.value = CAM_MODE === 'shoulder' ? 0.92 : 0.72;
+    postMat.uniforms.uVignette.value = CAM_MODE === 'shoulder' ? 0.48 : 0.72;
   } else {
     tFill.intensity = 0;
     nlFill.forEach((l) => { l.intensity = 0; });
@@ -1503,17 +1507,11 @@ function render(alpha: number) {
     }
     case 'shoulder': {
       const now = simT - DT + alpha * DT;
-      if (!(shot || CAP_STEP)) {
-        recZ = osc(recImp, now, REC.w, REC.z);
-        recPitch = osc(pitchImp, now, REC.w, REC.z);
-        stepY = osc(stepImp, now, STP.w, STP.z);
-      } else {
-        recZ = 0;
-        recPitch = 0;
-        stepY = 0;
-      }
-      const breath = Math.sin(now * (2 * Math.PI / 5.2)) * 0.018;
-      const servo = Math.sin(now * 1.7) * 0.022;
+      recZ = osc(recImp, now, REC.w, REC.z);
+      recPitch = osc(pitchImp, now, REC.w, REC.z);
+      stepY = osc(stepImp, now, STP.w, STP.z);
+      const breath = Math.sin(now * (2 * Math.PI / 5.2)) * 0.014;
+      const servo = Math.sin(now * 1.7) * 0.016;
       const nls = w.nls.map((n, i) => ({
         x: lerp(prev.n[i][0], n.x), y: lerp(prev.n[i][1], n.y),
         alive: n.alive || nlCamHold[i]! > 0,
@@ -1521,21 +1519,23 @@ function render(alpha: number) {
       }));
       let lookBias: { x: number; y: number; k: number } | undefined;
       if (huntWhip && now < huntWhip.until) {
-        lookBias = { x: huntWhip.x, y: huntWhip.y, k: 0.22 * Math.max(0, (huntWhip.until - now) / 0.42) };
+        lookBias = { x: huntWhip.x, y: huntWhip.y, k: 0.16 * Math.max(0, (huntWhip.until - now) / 0.42) };
       } else if (huntWhip && now >= huntWhip.until) {
         huntWhip = null;
       }
+      const aspect = Math.max(0.2, innerWidth / Math.max(1, innerHeight));
+      const term = { x: tx, y: ty, facing: tf };
       const want = desiredCombatPose({
-        term: { x: tx, y: ty, facing: tf },
-        nls, aspect: Math.max(0.2, innerWidth / Math.max(1, innerHeight)), portrait,
+        term, nls, aspect, portrait,
         pillars: PILLARS, arena: ARENA, lookBias,
       });
       want.camY += stepY + breath;
       want.camX += servo * Math.cos(tf + Math.PI / 2);
       want.camZ += servo * Math.sin(tf + Math.PI / 2);
-      want.back = Math.max(COMBAT_CAM.minBack, want.back + recZ * 0.35);
-      combatPose = (shot || PROBE_READ || CAP_STEP || !combatPose) ? want : smoothCombatPose(combatPose, want, 1 / 60);
-      const threats = huntThreatCount({ x: tx, y: ty, facing: tf }, nls);
+      want.camY += recZ * 0.04;
+      // Même pose que `?shot=` : pas de lissage qui recule en follow-cam. Filet après bob/servo.
+      combatPose = keepTermFramed(want, term, aspect, { nls, pillars: PILLARS, arena: ARENA, lookBias });
+      const threats = huntThreatCount(term, nls);
       const trem = IMPACT ? huntTremor(threats, now) : { sx: 0, sz: 0 };
       applyCombatCamera(camera, combatPose, sx + trem.sx, sz + trem.sz);
       break;
@@ -1546,8 +1546,8 @@ function render(alpha: number) {
     }
   }
   if (CAM_MODE !== 'fps') camera.up.set(0, 1, 0);
-  if (CAM_MODE === 'epaule' || CAM_MODE === 'shoulder') {
-    if (recPitch) camera.rotateX(recPitch * (CAM_MODE === 'shoulder' ? 0.42 : 1));
+  if (CAM_MODE === 'epaule') {
+    if (recPitch) camera.rotateX(recPitch);
     camera.rotateZ(rollPrev + (roll - rollPrev) * alpha);
   }
   {
@@ -1879,6 +1879,17 @@ if (PROBE_READ) {
       term: { x: w.t.x, y: w.t.y, facing: w.t.facing },
       cam: { x: camera.position.x, y: camera.position.y, z: camera.position.z },
       pose: combatPose,
+      events: w.events.map((e) => e.type),
+      eventWho: w.events.map((e) => ('who' in e ? (e as { who?: number }).who : null)),
+      fistCharge: w.t.fistCharge,
+      om: [0, 1, 2, 3].map((i) => document.getElementById('om' + i)?.style.display ?? 'none'),
+      read: screenReadability(),
+      mesh: (() => {
+        const p = new THREE.Vector3();
+        termRig?.root.getWorldPosition(p);
+        return { x: p.x, y: p.y, z: p.z, vis: termRig?.root.visible, group: { x: term.position.x, y: term.position.y, z: term.position.z } };
+      })(),
+      camWorld: camera.position.toArray(),
     };
   };
   finishCap();
