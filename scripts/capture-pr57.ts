@@ -66,27 +66,16 @@ page.on('console', onConsole);
 page.on('pageerror', onErr);
 page.on('response', onRes);
 await page.goto(liveUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
+await page.waitForSelector('#hud .clock', { timeout: 120000 });
 await page.waitForFunction(() => /t[3-9]\d/.test(document.getElementById('hud')?.textContent ?? ''), { timeout: 120000 });
 await page.screenshot({ path: join(OUT, 'live-still.png'), type: 'png' });
 
-const frames = await page.evaluate(async () => {
-  const canvas = document.querySelector('canvas');
-  if (!canvas) throw new Error('pas de canvas');
-  const out: string[] = [];
-  await new Promise<void>((resolve) => {
-    const grab = () => {
-      out.push(canvas.toDataURL('image/png'));
-      if (out.length < 6) requestAnimationFrame(grab);
-      else resolve();
-    };
-    requestAnimationFrame(grab);
-  });
-  return out;
-});
-if (frames.length !== 6) throw new Error(`attendu 6 frames, got ${frames.length}`);
-for (let i = 0; i < frames.length; i++) {
-  const b64 = frames[i].replace(/^data:image\/png;base64,/, '');
-  writeFileSync(join(OUT, `raf-${i}.png`), Buffer.from(b64, 'base64'));
+const rafTick = () => page.evaluate(() => new Promise<void>((r) => {
+  requestAnimationFrame(() => requestAnimationFrame(() => r()));
+}));
+for (let i = 0; i < 6; i++) {
+  await rafTick();
+  await page.screenshot({ path: join(OUT, `raf-${i}.png`), type: 'png' });
 }
 
 const consoleErrors = consoleLines.filter((l) => l.startsWith('error:') && !l.includes("Couldn't load texture"));
@@ -97,7 +86,7 @@ const report = {
   pageErrors,
   networkFailed: net.filter((r) => r.status >= 400),
   networkOk: net.filter((r) => r.status < 400).length,
-  frames: frames.length,
+  frames: 6,
 };
 writeFileSync(join(OUT, 'playwright.json'), JSON.stringify(report, null, 2));
 console.log(JSON.stringify({

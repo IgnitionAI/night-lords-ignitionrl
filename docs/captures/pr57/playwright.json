@@ -1,6 +1,6 @@
 {
-  "liveUrl": "http://127.0.0.1:18193/?autoplay=march&seed=3&cam=couloir&tex=512",
-  "shotUrl": "http://127.0.0.1:18193/?autoplay=march&seed=3&cam=couloir&shot=20&tex=512",
+  "liveUrl": "http://127.0.0.1:18195/?autoplay=march&seed=3&cam=couloir&tex=512",
+  "shotUrl": "http://127.0.0.1:18195/?autoplay=march&seed=3&cam=couloir&shot=20&tex=512",
   "console": [
     "error: Failed to load resource: the server responded with a status of 404 (Not Found)",
     "error: Failed to load resource: the server responded with a status of 404 (Not Found)"
@@ -13,11 +13,11 @@
   "networkFailed": [
     {
       "status": 404,
-      "url": "http://127.0.0.1:18193/web/sfx/nightlords/manifest.json"
+      "url": "http://127.0.0.1:18195/web/sfx/nightlords/manifest.json"
     },
     {
       "status": 404,
-      "url": "http://127.0.0.1:18193/web/sfx/nightlords/manifest.json"
+      "url": "http://127.0.0.1:18195/web/sfx/nightlords/manifest.json"
     }
   ],
   "networkOk": 114,
