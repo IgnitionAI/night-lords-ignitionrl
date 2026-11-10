@@ -14,6 +14,7 @@ mesures/nn-scratch/
 runs/nn-scratch/
 
 recordings/
+docs/captures/vfx-whoa/_vid/
 .env*
 *.log
 

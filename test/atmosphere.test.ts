@@ -24,6 +24,8 @@ test('le post encode comme avant (pow 0,4545) et dithers après gamma', () => {
   assert.ok(POST_FRAGMENT_SHADER.includes('triDither'));
   assert.ok(POST_DITHER_SRGB > 0);
   assert.equal(POST_GRAIN, 0.014);
+  assert.ok(POST_FRAGMENT_SHADER.includes('uBloom'));
+  assert.ok(POST_FRAGMENT_SHADER.includes('uVignettePulse'));
 });
 
 test('linearToDisplay : même transfert que le post historique Three (pow 0,4545)', () => {
