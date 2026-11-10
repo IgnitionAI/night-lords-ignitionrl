@@ -2,34 +2,348 @@
   "version": 1,
   "polyphony": 18,
   "samples": [
-    { "name": "bolter-shot", "file": "bolter-shot.ogg", "bus": "sfx", "gain": 0.92, "spatial": true, "priority": 9, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — Night Lords bank" },
-    { "name": "bolter-echo", "file": "bolter-echo.ogg", "bus": "sfx", "gain": 0.55, "spatial": true, "priority": 6, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — corridor tail" },
-    { "name": "bolter-casing", "file": "bolter-casing.ogg", "bus": "sfx", "gain": 0.42, "spatial": true, "priority": 4, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — brass casings" },
-    { "name": "bolter-explode", "file": "bolter-explode.ogg", "bus": "sfx", "gain": 0.78, "spatial": true, "priority": 8, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — mass-reactive burst" },
-    { "name": "claw-crackle", "file": "claw-crackle.ogg", "bus": "sfx", "gain": 0.62, "spatial": true, "priority": 7, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — lightning claws" },
-    { "name": "claw-swoosh", "file": "claw-swoosh.ogg", "bus": "sfx", "gain": 0.5, "spatial": true, "priority": 6, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — blade swoosh" },
-    { "name": "claw-metal", "file": "claw-metal.ogg", "bus": "sfx", "gain": 0.8, "spatial": true, "priority": 8, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — metal impact" },
-    { "name": "fist-impact", "file": "fist-impact.ogg", "bus": "sfx", "gain": 0.95, "spatial": true, "priority": 10, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — Terminator fist" },
-    { "name": "term-step-01", "file": "term-step-01.ogg", "bus": "sfx", "gain": 0.72, "spatial": true, "priority": 4, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — Cataphractii tread" },
-    { "name": "term-step-02", "file": "term-step-02.ogg", "bus": "sfx", "gain": 0.72, "spatial": true, "priority": 4, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — Cataphractii tread" },
-    { "name": "term-step-03", "file": "term-step-03.ogg", "bus": "sfx", "gain": 0.72, "spatial": true, "priority": 4, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — Cataphractii tread" },
-    { "name": "term-servo", "file": "term-servo.ogg", "bus": "sfx", "gain": 0.38, "spatial": true, "priority": 3, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — servo whine" },
-    { "name": "term-hydraulic", "file": "term-hydraulic.ogg", "bus": "sfx", "gain": 0.4, "spatial": true, "priority": 3, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — hydraulics" },
-    { "name": "nl-step-01", "file": "nl-step-01.ogg", "bus": "sfx", "gain": 0.48, "spatial": true, "priority": 3, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — Night Lord tread" },
-    { "name": "nl-step-02", "file": "nl-step-02.ogg", "bus": "sfx", "gain": 0.48, "spatial": true, "priority": 3, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — Night Lord tread" },
-    { "name": "nl-step-03", "file": "nl-step-03.ogg", "bus": "sfx", "gain": 0.48, "spatial": true, "priority": 3, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — Night Lord tread" },
-    { "name": "nl-jump", "file": "nl-jump.ogg", "bus": "sfx", "gain": 0.58, "spatial": true, "priority": 6, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — leap" },
-    { "name": "nl-vox-come-for-you", "file": "nl-vox-come-for-you.ogg", "bus": "sfx", "gain": 0.7, "spatial": true, "priority": 7, "license": "CC0 (original formant synthesis, no recorded human voice)", "source": "scripts/bake-sfx.py — vox-caster « We have come for you »" },
-    { "name": "nl-scream", "file": "nl-scream.ogg", "bus": "sfx", "gain": 0.55, "spatial": true, "priority": 6, "license": "CC0 (original formant synthesis, no recorded human voice)", "source": "scripts/bake-sfx.py — distorted scream" },
-    { "name": "nl-death", "file": "nl-death.ogg", "bus": "sfx", "gain": 0.82, "spatial": true, "priority": 9, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — pack death" },
-    { "name": "alarm-klaxon", "file": "alarm-klaxon.ogg", "bus": "ui", "gain": 0.5, "spatial": false, "priority": 8, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — servo klaxon" },
-    { "name": "amb-drone", "file": "amb-drone.ogg", "bus": "ambience", "gain": 0.45, "loop": true, "spatial": false, "priority": 2, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — hull drone" },
-    { "name": "amb-drip", "file": "amb-drip.ogg", "bus": "ambience", "gain": 0.28, "spatial": true, "priority": 2, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — condensate drip" },
-    { "name": "amb-duct", "file": "amb-duct.ogg", "bus": "ambience", "gain": 0.3, "loop": true, "spatial": false, "priority": 2, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — duct wind" },
-    { "name": "music-explore", "file": "music-explore.ogg", "bus": "music", "gain": 0.4, "loop": true, "spatial": false, "priority": 1, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — explore layer" },
-    { "name": "music-tension", "file": "music-tension.ogg", "bus": "music", "gain": 0.46, "loop": true, "spatial": false, "priority": 1, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — tension layer" },
-    { "name": "music-combat", "file": "music-combat.ogg", "bus": "music", "gain": 0.52, "loop": true, "spatial": false, "priority": 1, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — combat layer" },
-    { "name": "stinger-victory", "file": "stinger-victory.ogg", "bus": "music", "gain": 0.7, "spatial": false, "priority": 11, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — Terminator victory" },
-    { "name": "stinger-defeat", "file": "stinger-defeat.ogg", "bus": "music", "gain": 0.68, "spatial": false, "priority": 11, "license": "CC0 (original procedural synthesis)", "source": "scripts/bake-sfx.py — pack victory / defeat" }
+    {
+      "name": "bolter-shot",
+      "file": "bolter-shot.ogg",
+      "variants": [
+        "bolter-shot-02.ogg",
+        "bolter-shot-03.ogg"
+      ],
+      "bus": "sfx",
+      "gain": 0.95,
+      "spatial": true,
+      "priority": 9,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "bolter-echo",
+      "file": "bolter-echo.ogg",
+      "bus": "sfx",
+      "gain": 0.58,
+      "spatial": true,
+      "priority": 6,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "bolter-casing",
+      "file": "bolter-casing.ogg",
+      "variants": [
+        "bolter-casing-02.ogg",
+        "bolter-casing-03.ogg"
+      ],
+      "bus": "sfx",
+      "gain": 0.48,
+      "spatial": true,
+      "priority": 4,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "bolter-explode",
+      "file": "bolter-explode.ogg",
+      "variants": [
+        "bolter-explode-02.ogg",
+        "bolter-explode-03.ogg"
+      ],
+      "bus": "sfx",
+      "gain": 0.82,
+      "spatial": true,
+      "priority": 8,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "claw-crackle",
+      "file": "claw-crackle.ogg",
+      "variants": [
+        "claw-crackle-02.ogg",
+        "claw-crackle-03.ogg"
+      ],
+      "bus": "sfx",
+      "gain": 0.64,
+      "spatial": true,
+      "priority": 7,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "claw-swoosh",
+      "file": "claw-swoosh.ogg",
+      "variants": [
+        "claw-swoosh-02.ogg",
+        "claw-swoosh-03.ogg"
+      ],
+      "bus": "sfx",
+      "gain": 0.52,
+      "spatial": true,
+      "priority": 6,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "claw-metal",
+      "file": "claw-metal.ogg",
+      "variants": [
+        "claw-metal-02.ogg",
+        "claw-metal-03.ogg"
+      ],
+      "bus": "sfx",
+      "gain": 0.84,
+      "spatial": true,
+      "priority": 8,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "fist-impact",
+      "file": "fist-impact.ogg",
+      "variants": [
+        "fist-impact-02.ogg",
+        "fist-impact-03.ogg"
+      ],
+      "bus": "sfx",
+      "gain": 0.96,
+      "spatial": true,
+      "priority": 10,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "fist-hum",
+      "file": "fist-hum.ogg",
+      "bus": "sfx",
+      "gain": 0.55,
+      "spatial": true,
+      "priority": 6,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "term-step-01",
+      "file": "term-step-01.ogg",
+      "bus": "sfx",
+      "gain": 0.74,
+      "spatial": true,
+      "priority": 4,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "term-step-02",
+      "file": "term-step-02.ogg",
+      "bus": "sfx",
+      "gain": 0.74,
+      "spatial": true,
+      "priority": 4,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "term-step-03",
+      "file": "term-step-03.ogg",
+      "bus": "sfx",
+      "gain": 0.74,
+      "spatial": true,
+      "priority": 4,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "term-servo",
+      "file": "term-servo.ogg",
+      "bus": "sfx",
+      "gain": 0.4,
+      "spatial": true,
+      "priority": 3,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "term-hydraulic",
+      "file": "term-hydraulic.ogg",
+      "bus": "sfx",
+      "gain": 0.42,
+      "spatial": true,
+      "priority": 3,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "nl-step-01",
+      "file": "nl-step-01.ogg",
+      "bus": "sfx",
+      "gain": 0.5,
+      "spatial": true,
+      "priority": 3,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "nl-step-02",
+      "file": "nl-step-02.ogg",
+      "bus": "sfx",
+      "gain": 0.5,
+      "spatial": true,
+      "priority": 3,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "nl-step-03",
+      "file": "nl-step-03.ogg",
+      "bus": "sfx",
+      "gain": 0.5,
+      "spatial": true,
+      "priority": 3,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "nl-jump",
+      "file": "nl-jump.ogg",
+      "bus": "sfx",
+      "gain": 0.62,
+      "spatial": true,
+      "priority": 6,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "nl-vox-come-for-you",
+      "file": "nl-vox-come-for-you.ogg",
+      "bus": "voice",
+      "gain": 0.72,
+      "spatial": true,
+      "priority": 7,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "nl-scream",
+      "file": "nl-scream.ogg",
+      "bus": "voice",
+      "gain": 0.58,
+      "spatial": true,
+      "priority": 6,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "nl-death",
+      "file": "nl-death.ogg",
+      "bus": "voice",
+      "gain": 0.84,
+      "spatial": true,
+      "priority": 9,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "alarm-klaxon",
+      "file": "alarm-klaxon.ogg",
+      "bus": "ui",
+      "gain": 0.5,
+      "spatial": false,
+      "priority": 8,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "amb-drone",
+      "file": "amb-drone.ogg",
+      "bus": "ambience",
+      "gain": 0.42,
+      "loop": true,
+      "spatial": false,
+      "priority": 2,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "amb-drip",
+      "file": "amb-drip.ogg",
+      "bus": "ambience",
+      "gain": 0.28,
+      "spatial": true,
+      "priority": 2,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "amb-duct",
+      "file": "amb-duct.ogg",
+      "bus": "ambience",
+      "gain": 0.3,
+      "loop": true,
+      "spatial": false,
+      "priority": 2,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "music-explore",
+      "file": "music-explore.ogg",
+      "bus": "music",
+      "gain": 0.38,
+      "loop": true,
+      "spatial": false,
+      "priority": 1,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "music-tension",
+      "file": "music-tension.ogg",
+      "bus": "music",
+      "gain": 0.44,
+      "loop": true,
+      "spatial": false,
+      "priority": 1,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "music-combat",
+      "file": "music-combat.ogg",
+      "bus": "music",
+      "gain": 0.5,
+      "loop": true,
+      "spatial": false,
+      "priority": 1,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "stinger-victory",
+      "file": "stinger-victory.ogg",
+      "bus": "music",
+      "gain": 0.68,
+      "spatial": false,
+      "priority": 11,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "stinger-defeat",
+      "file": "stinger-defeat.ogg",
+      "bus": "music",
+      "gain": 0.66,
+      "spatial": false,
+      "priority": 11,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "ir-corridor",
+      "file": "ir-corridor.ogg",
+      "bus": "sfx",
+      "gain": 0.01,
+      "spatial": false,
+      "priority": 0,
+      "license": "CC0 1.0 (layered Freesound recordings)",
+      "source": "see web/sfx/CREDITS.md"
+    }
   ]
 }

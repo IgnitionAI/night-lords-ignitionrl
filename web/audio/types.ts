@@ -1,4 +1,4 @@
-export type BusName = 'sfx' | 'ambience' | 'music' | 'ui' | 'master';
+export type BusName = 'sfx' | 'voice' | 'ambience' | 'music' | 'ui' | 'master';
 
 export type MusicPhase = 'explore' | 'tension' | 'combat' | 'stinger';
 
@@ -11,6 +11,7 @@ export type SampleName =
   | 'claw-swoosh'
   | 'claw-metal'
   | 'fist-impact'
+  | 'fist-hum'
   | 'term-step-01'
   | 'term-step-02'
   | 'term-step-03'
@@ -31,12 +32,14 @@ export type SampleName =
   | 'music-tension'
   | 'music-combat'
   | 'stinger-victory'
-  | 'stinger-defeat';
+  | 'stinger-defeat'
+  | 'ir-corridor';
 
 export interface ManifestSample {
   name: SampleName;
   file: string;
   fallback?: string;
+  variants?: string[];
   bus: BusName;
   gain: number;
   loop?: boolean;
@@ -67,6 +70,7 @@ export interface PlayOpts {
   when?: number;
   vary?: boolean;
   force?: boolean;
+  send?: number;
 }
 
 export interface InitResult {
@@ -103,9 +107,10 @@ export interface VoiceRecord {
 export const DEFAULT_POLYPHONY = 18;
 
 export const BUS_GAINS: Record<BusName, number> = {
-  sfx: 0.95,
-  ambience: 0.42,
-  music: 0.32,
-  ui: 0.55,
-  master: 0.85,
+  sfx: 0.92,
+  voice: 0.82,
+  ambience: 0.38,
+  music: 0.28,
+  ui: 0.5,
+  master: 0.78,
 };
