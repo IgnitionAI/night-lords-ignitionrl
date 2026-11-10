@@ -16,7 +16,7 @@ export const B6_TRAIN = { seed: 6, lr: 2e-5, entCoef: 0.02, updates: 1000, envs:
  * Seed ≠ 3, 4, 5, 6, 8 (b7). Init = full vis2, agrandi au chargement.
  */
 export const B8_TRAIN = {
-  seed: 10, lr: 8e-6, entCoef: 0.02, updates: 220, envs: 32,
+  seed: 11, lr: 5e-6, entCoef: 0.02, updates: 140, envs: 32,
   init: 'policies/candidates/b6/full.json', obsDim: B8_OBS_DIM,
 };
 
@@ -95,15 +95,15 @@ export const B8_SHAPE = {
   threatDist: 16,
   threatNear: 4,
   progressX0: 30,
-  visKeep: 0.12,
-  beaconGuard: 0.05,
+  visKeep: 0.45,
+  beaconGuard: 0.04,
   guardHalf: 0.95,
   guardMaxD: 12,
   picketDist: 10,
   picket: 0.02,
   picketR: 5,
   wallY: 18,
-  wallCut: 0.08,
+  wallCut: 0.05,
   earlyCamp: -0.04,
 };
 
@@ -225,14 +225,14 @@ export function pickB6Opp(rng: () => number, progress: number): { opp: string; t
 export function pickB8Opp(rng: () => number, progress: number): { opp: string; tactic: Tactic } {
   const p = Math.max(0, Math.min(1, progress));
   const weights: [string, number][] = [
-    ['kiter', 0.16 + 0.02 * p],
-    ['elite', 0.15 + 0.02 * p],
-    ['wallHugger', 0.14 + 0.04 * p],
-    ['turret', 0.13],
-    ['brawler', 0.12],
-    ['randomized', 0.14],
-    ['march', 0.08],
-    ['backpedal', 0.08],
+    ['kiter', 0.20 + 0.04 * p],
+    ['elite', 0.18 + 0.03 * p],
+    ['wallHugger', 0.12 + 0.02 * p],
+    ['turret', 0.14],
+    ['brawler', 0.14],
+    ['randomized', 0.12],
+    ['march', 0.05],
+    ['backpedal', 0.05],
   ];
   const sum = weights.reduce((s, [, w]) => s + w, 0);
   let u = rng() * sum;
@@ -253,8 +253,7 @@ export function beaconThreat(w: World): number {
   const byDist = Math.max(0, Math.min(1, (B8_SHAPE.threatDist - f.dB) / spanD));
   const spanX = BEACON.x - B8_SHAPE.progressX0;
   const byProg = Math.max(0, Math.min(1, (w.t.x - B8_SHAPE.progressX0) / spanX));
-  const byClose = f.closing > 0 ? f.closing * (1 - f.distNorm) : 0;
-  return Math.max(byDist, byProg, byClose);
+  return Math.max(byDist, byProg);
 }
 
 export function applyB5Shaping(w: World, rewards: number[], died: boolean[]): number[] {

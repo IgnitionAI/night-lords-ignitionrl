@@ -90,6 +90,8 @@ test('parseTrainPreset : sans drapeau, hyperparams b3 inchangés', () => {
   assert.equal(b8.obsDim, 34);
   assert.equal(B8_TRAIN.init, 'policies/candidates/b6/full.json');
   assert.notEqual(B8_TRAIN.seed, B6_TRAIN.seed);
+  assert.equal(B8_TRAIN.updates, 140);
+  assert.equal(B8_TRAIN.lr, 5e-6);
 });
 
 test('curriculum b4 : seed fixe ⇒ même séquence ; kiter et turret apparaissent', () => {
