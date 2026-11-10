@@ -20,6 +20,9 @@ export const FOLLOW_YAW_BLEND = 0.22; // était 0,26 : un peu plus d'inertie, to
 export const POST_VIGNETTE = 1.00;
 export const POST_GRAIN = 0.014; // grain film, linéaire (inchangé : lisibilité HUD/silhouettes)
 export const POST_DITHER_SRGB = 1.0; // amplitude du dither triangulaire, en niveaux /255, après encodage
+export const POST_BLOOM = 0.20; // self-glow des émissifs, 0 extra sample ; `?fx=low` le coupe
+export const POST_CA = 0.0; // aberration chromatique : posée par le ressenti d'armure basse
+
 
 // Transfert du post historique (`pow(c, 0.4545)` dans web/main.ts). Ce n'est pas l'IEC 61966-2-1 :
 // le toe linéaire IEC (12,92x) assombrit le fog de ~20–30 % de luma vs ce gamma 1/2,2.
@@ -48,7 +51,7 @@ export function sceneRenderTargetOptions(): THREE.RenderTargetOptions {
 }
 
 // Passe plein écran : vignette, grain, gamma historique Three pow(c,0.4545), dither triangulaire (IGN).
-export const POST_FRAGMENT_SHADER = `uniform sampler2D tDiffuse; uniform float uTime, uVignette, uGrain, uDither; uniform vec2 uBlur; varying vec2 vUv;
+export const POST_FRAGMENT_SHADER = `uniform sampler2D tDiffuse; uniform float uTime, uVignette, uGrain, uDither, uBloom, uCA, uVignettePulse; uniform vec2 uBlur; varying vec2 vUv;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
     float ign(vec2 p){ return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715)))); }
     float triDither(vec2 p){
@@ -56,14 +59,21 @@ export const POST_FRAGMENT_SHADER = `uniform sampler2D tDiffuse; uniform float u
       return r < 0.5 ? sqrt(2.0 * r) - 1.0 : 1.0 - sqrt(2.0 - 2.0 * r);
     }
     void main(){
-      vec3 c = texture2D(tDiffuse, vUv).rgb;
+      vec2 d = vUv - 0.5;
+      vec3 c;
       if (dot(uBlur, uBlur) > 1e-8) {
         c = vec3(0.0);
         for (int i = 0; i < 5; i++) c += texture2D(tDiffuse, vUv + uBlur * (float(i) * 0.25 - 0.5)).rgb;
         c /= 5.0;
+      } else if (uCA > 1e-6) {
+        vec2 o = d * uCA;
+        c = vec3(texture2D(tDiffuse, vUv + o).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv - o).b);
+      } else {
+        c = texture2D(tDiffuse, vUv).rgb;
       }
-      vec2 d = vUv - 0.5;
-      c *= clamp(1.0 - dot(d, d) * uVignette * 1.9, 0.0, 1.0);
+      c *= clamp(1.0 - dot(d, d) * (uVignette * 1.9 + uVignettePulse), 0.0, 1.0);
+      float lum = dot(c, vec3(0.2126, 0.7152, 0.0722));
+      c += c * max(lum - 0.72, 0.0) * uBloom;
       c += (hash(vUv * 1024.0 + uTime) - 0.5) * uGrain;
       vec3 srgb = pow(clamp(c, 0.0, 1.0), vec3(0.4545));
       srgb += triDither(gl_FragCoord.xy + vec2(uTime * 13.7, uTime * 7.1)) * (uDither / 255.0);
