@@ -1,0 +1,12 @@
+{
+  "shotUrl": "http://127.0.0.1:18197/?policy=b8&autoplay=kiter&seed=900000&cam=couloir&shot=40&tex=512",
+  "hud": "TERMINATOR — manche 1 · meute 0 · Terminator 0 · 1:56Objectif : tenez 2:00 · anéantissez la meute · canalisez 6 s à la baliseArmure 30/30 · bolter prêt 30/30 · gantelet prêt · munitions 30/30Talos Uzas Xarl Cyrionpolitique runs/b8-t2@140 (?policy=b8) · Terminator en autoplay (kiter)t40 · graine 900000 · autoplay kiter · cam couloir · shot=40",
+  "policyB8": true,
+  "usedQueryPolicy": true,
+  "console": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "networkFailed": [],
+  "unexpectedNet": [],
+  "unexpectedConsole": []
+}

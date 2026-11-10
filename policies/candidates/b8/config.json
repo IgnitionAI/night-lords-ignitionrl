@@ -1,0 +1,26 @@
+{
+  "id": "b8",
+  "init": "policies/candidates/b6/full.json",
+  "surgery": "expand first dense 32→34, new kernel rows = 0",
+  "seed": 11,
+  "updates": 140,
+  "envs": 32,
+  "preset": "b8",
+  "lr": 0.000005,
+  "entCoef": 0.02,
+  "obsDim": 34,
+  "obsExtra": ["distNorm T→balise / 40", "closing speed / T_CFG.fwd"],
+  "defaultInGame": false,
+  "loadVia": "?policy=b8",
+  "b5Via": "/",
+  "eval": "mesures/nn/b8/eval.json",
+  "retained": "attempt2 (runs/b8-t2@140)",
+  "curriculum": "mix tous adversaires ; kiter/elite ≥ wallHugger",
+  "shaping": [
+    "vis2 (cône, stall, unseenPack) atténué sous menace balise (visKeep 0.45)",
+    "piquet si T < 10 m",
+    "wallCut mur nord",
+    "earlyCamp pendant le hug",
+    "features T→balise dans l'observation (pas dans sim.ts)"
+  ]
+}

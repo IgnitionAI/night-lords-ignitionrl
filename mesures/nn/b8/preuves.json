@@ -1,0 +1,28 @@
+{
+  "bunTest": { "pass": 130, "skip": 1, "fail": 0 },
+  "build": "exit 0",
+  "NL_CFG.speed": 6,
+  "T_CFG.fwd": 2.5,
+  "measure-stride": {
+    "NL-1-run": 1.3335077670385962,
+    "NL-1-walk": 1.1002657971633205,
+    "TERM-walk": 1.325615791286074,
+    "slip_after": 0
+  },
+  "nn:smoke": {
+    "packVersion": "runs/b5@2000",
+    "overwroteFrozen": false
+  },
+  "retained": "runs/b8-t2@140",
+  "obsDim": 34,
+  "sha": {
+    "b3-actor": "950b924f4ac96602836f53f6faac04a40ae6868d0a65f5aedd29dec81c1fef9f",
+    "b3-full": "7c4e37f9c625e5217103b9d1125ad830508ed1a4454ce87250ba56596ff1ba4c",
+    "b4-actor": "d43de9da64f008b7027ed4d6aa0c48fb35e3ea4fd571e6dfa87f6843f4c006c7",
+    "b4-full": "32b7ea45fcefc2dff408d32e94a101f3299c4d82876749c33b030f880f97fbb1",
+    "b5-actor": "27a6f675ee1de5ffbf9601f73d3a5c6e25abb5da0cc9ba443a4f8fba4321b0f3",
+    "b5-full": "223c14edf51bbb3f467fbe49fa7259883674009cbc61e24912820cd58b44cd63",
+    "b6-vis2-actor": "8ece382294339596152859f123117337e1013d247ed540686beaf6d0f263f5ee",
+    "b8-t2-actor": "614dd6690e4742e0a897e5235b7c12ab9a57f0bb230a97df3d772c9d26aa6cb8"
+  }
+}

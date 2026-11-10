@@ -84,7 +84,7 @@ Node reste possible (`node dist/server.mjs` fonctionne) mais n'est plus la cible
 `?seed=N` joue **N** (les manches suivantes avancent d'un cran). Avant le 04/11/2026 la première manche
 incrémentait la graine : les captures étiquetées par leur URL avant cette date sont décalées d'un cran.
 
-`policies/` : `current.json` est **b5** (`runs/b5@2000`, défaut du jeu, sans paramètre d'URL). Candidat **b6** : `policies/candidates/b6/` (`?policy=b6`) — fine-tune tempo depuis b5, **pas** promu. Archives byte-identiques : `policies/b4/` (`runs/b4@800`, `?policy=b4`) et `policies/b3/` (`runs/b3@2000`, `?policy=b3`). Copies de travail : `policies/candidates/b5/`, `policies/candidates/b4/`. `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
+`policies/` : `current.json` est **b5** (`runs/b5@2000`, défaut du jeu, sans paramètre d'URL). Candidat **b6** (vis2) : `policies/candidates/b6/` (`?policy=b6`). Candidat **b8** : `policies/candidates/b8/` (`?policy=b8`) — chirurgie d'observation T→balise depuis vis2, **pas** promu. Archives byte-identiques : `policies/b4/` (`runs/b4@800`, `?policy=b4`) et `policies/b3/` (`runs/b3@2000`, `?policy=b3`). Copies de travail : `policies/candidates/b5/`, `policies/candidates/b4/`. `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
 
 ## Le Sas — vignette R3F + Rapier (IGN-116)
 

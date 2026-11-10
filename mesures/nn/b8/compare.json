@@ -1,0 +1,43 @@
+{
+ "avgB5": 0.9464285714285714,
+ "avgVis2": 0.9214285714285715,
+ "avgB8": 0.9071428571428571,
+ "visPoolB8": 0.6518571428571428,
+ "cmpVsB5": {
+  "march": {
+   "deltaRate": -0.0050000000000000044,
+   "teleportsB8": 0,
+   "packWinRateB8": 0.98
+  },
+  "turret": {
+   "deltaRate": -0.03499999999999992,
+   "teleportsB8": 0,
+   "packWinRateB8": 0.915
+  },
+  "brawler": {
+   "deltaRate": -0.025000000000000022,
+   "teleportsB8": 1,
+   "packWinRateB8": 0.95
+  },
+  "backpedal": {
+   "deltaRate": 0.0050000000000000044,
+   "teleportsB8": 0,
+   "packWinRateB8": 1
+  },
+  "wallHugger": {
+   "deltaRate": -0.135,
+   "teleportsB8": 26,
+   "packWinRateB8": 0.825
+  },
+  "kiter": {
+   "deltaRate": -0.04500000000000004,
+   "teleportsB8": 2,
+   "packWinRateB8": 0.83
+  },
+  "elite": {
+   "deltaRate": -0.03500000000000003,
+   "teleportsB8": 2,
+   "packWinRateB8": 0.85
+  }
+ }
+}
