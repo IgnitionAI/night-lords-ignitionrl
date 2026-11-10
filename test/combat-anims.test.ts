@@ -186,6 +186,18 @@ test('clips GLB : pas de combat nommé ; procédural + clampWhenFinished sur la 
   assert.ok(death.time >= ONE_SHOT.death - 1e-6 || death.paused || death.time === death.getClip().duration);
 });
 
+test('tickMachine : durée d\'un clip nommé remplace ONE_SHOT', () => {
+  let m = freshMachine();
+  const intentAtk = { death: false, hit: false, attack: true, dodge: false, gait, attackStyle: 'melee' as const };
+  m = tickMachine(m, intentAtk, DT, { attack: 1.2 });
+  assert.equal(m.state, 'attack');
+  assert.ok(Math.abs(m.remaining - 1.2) < 1e-12);
+  m = freshMachine();
+  const shoot = { ...intentAtk, attackStyle: 'shoot' as const };
+  m = tickMachine(m, shoot, DT, { shoot: 0.9, attack: 0.46 });
+  assert.ok(Math.abs(m.remaining - 0.9) < 1e-12);
+});
+
 test('oneShot helper et isOneShot exhaustif', () => {
   assert.equal(isOneShot('attack'), true);
   assert.equal(isOneShot('hit'), true);
