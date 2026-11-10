@@ -1,5 +1,5 @@
 // HUD b6p, vidéos combat (manche réelle + carton + son #70), planche, frames.
-import { mkdirSync, writeFileSync, existsSync, readFileSync, rmSync } from 'node:fs';
+import { mkdirSync, writeFileSync, existsSync, readFileSync, rmSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn, spawnSync } from 'node:child_process';
@@ -19,6 +19,25 @@ const VIDEO_PROPS = '0'; // collision props off : même manche lisible (FX/anims
 mkdirSync(OUT, { recursive: true });
 mkdirSync(FRAMES, { recursive: true });
 mkdirSync(VID, { recursive: true });
+
+async function grabPage(page: {
+  screenshot: (opts: Record<string, unknown>) => Promise<Buffer | void>;
+  evaluate: (fn: () => string) => Promise<string>;
+}, path: string) {
+  try {
+    await page.screenshot({
+      path, type: 'jpeg', quality: 80, timeout: 8000, animations: 'disabled', caret: 'hide',
+    });
+  } catch {
+    const dataUrl = await page.evaluate(() => {
+      const c = document.getElementById('c') as HTMLCanvasElement | null;
+      return c?.toDataURL('image/jpeg', 0.80) ?? '';
+    });
+    const b64 = dataUrl.split(',')[1];
+    if (!b64) throw new Error('grab canvas vide');
+    writeFileSync(path, Buffer.from(b64, 'base64'));
+  }
+}
 
 function waitListen(child: ReturnType<typeof spawn>, needle: string, ms: number) {
   return new Promise<void>((resolve, reject) => {
@@ -113,7 +132,7 @@ async function stills() {
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await waitTitle(page, 'READY', 60000);
     const hud = await page.evaluate(() => document.getElementById('hud')?.textContent ?? '');
-    await page.screenshot({ path: join(OUT, 'policy-b6p-hud.png'), type: 'png' });
+    await grabPage(page, join(OUT, 'policy-b6p-hud.jpg'));
     writeFileSync(join(OUT, 'hud.txt'), hud);
     if (!hud.includes('?policy=b6p') || !/b6@1950|b6p/.test(hud)) throw new Error(`HUD b6p: ${hud}`);
     await browser.close();
@@ -162,11 +181,7 @@ async function recordMatch(opp: string, outName: string, seed: number) {
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await page.waitForFunction(() => (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY === true, { timeout: 180000 });
     await page.mouse.click(640, 360);
-    const cdp = await context.newCDPSession(page);
-    const grab = async (path: string) => {
-      const shot = await cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: 80, fromSurface: true });
-      writeFileSync(path, Buffer.from(shot.data, 'base64'));
-    };
+    const grab = async (path: string) => grabPage(page, path);
     let last: { done?: boolean; tick?: number; winner?: string; reason?: string } | undefined;
     await grab(join(tmp, `${String(nFrames).padStart(4, '0')}.jpg`));
     nFrames++;
@@ -195,7 +210,7 @@ async function recordMatch(opp: string, outName: string, seed: number) {
   const seq = ff([
     '-y', '-hide_banner', '-framerate', String(fpsCap),
     '-i', join(tmp, '%04d.jpg'),
-    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30', '-crf', '30', '-preset', 'veryfast',
+    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30', '-crf', '28', '-preset', 'veryfast',
     silent,
   ]);
   if (seq.status !== 0 || !existsSync(silent)) throw new Error(`seq ${opp}: ${seq.stderr}`);
@@ -209,7 +224,7 @@ async function recordMatch(opp: string, outName: string, seed: number) {
     '-y', '-hide_banner', '-ss', String(ss), '-i', silent, '-i', wav,
     '-map', '0:v:0', '-map', '1:a:0',
     '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30',
-    '-crf', '30', '-preset', 'veryfast',
+    '-crf', '28', '-preset', 'veryfast',
     '-c:a', 'aac', '-b:a', '128k',
     '-movflags', '+faststart',
     out,
@@ -230,14 +245,18 @@ async function recordMatch(opp: string, outName: string, seed: number) {
   }
   const rest: number[] = [];
   for (let t = 2; t < dur - 0.2; t += 2) {
-    const f = join(OUT, `signalstats-${opp}-rest${t}.txt`);
+    const f = join('/tmp', `nl-signalstats-rest-${t}.txt`);
     const s = signalstatsAt(out, String(t), f);
     if (Number.isFinite(s.yavg)) rest.push(s.yavg);
   }
   const meanRest = rest.length ? rest.reduce((a, b) => a + b, 0) / rest.length : NaN;
-  stats.push(`YAVG t=0,0.5,1: ${yavgs.map((x) => x.yavg).join(', ')}\nmean rest (2s..): ${meanRest}\n`);
+  const ebu = spawnSync('ffmpeg', ['-hide_banner', '-i', out, '-filter_complex', 'ebur128=peak=true', '-f', 'null', '-'], { encoding: 'utf8' });
+  const ebuRaw = `${ebu.stderr ?? ''}\n${ebu.stdout ?? ''}`;
+  const lufs = ebuRaw.match(/I:\s+([-\d.]+)\s+LUFS/);
+  writeFileSync(join(OUT, `ebur128-${opp}.txt`), ebuRaw.slice(-2500));
+  stats.push(`YAVG t=0,0.5,1: ${yavgs.map((x) => x.yavg).join(', ')}\nmean rest (2s..): ${meanRest}\nLUFS I=${lufs?.[1] ?? '?'}\n`);
   writeFileSync(join(OUT, `signalstats-${opp}.txt`), stats.join('\n'));
-  console.log('video', out, 'bytes', bytes, 'dur', dur, 'nl', JSON.stringify(nl), 'yavg', yavgs, 'rest', meanRest);
+  console.log('video', out, 'bytes', bytes, 'dur', dur, 'nl', JSON.stringify(nl), 'yavg', yavgs, 'rest', meanRest, 'lufs', lufs?.[1]);
 }
 
 async function grabEndCard(opp: string, seed: number): Promise<string> {
@@ -272,13 +291,43 @@ function appendEndCard(src: string, still: string, seconds: number): void {
   if (bytes > 15 * 1024 * 1024) throw new Error(`video trop lourde après carton ${bytes}`);
 }
 
+function slimRepoImages() {
+  const keepOut = new Set([
+    'planche-6.jpg',
+    'policy-b6p-hud.jpg',
+    'hud.txt',
+  ]);
+  const keepFrames = new Set([
+    'b6p-match-fist.jpg',
+    'b6p-match-bolter-kill.jpg',
+    'b6p-match-claw.jpg',
+    'b6p-match-end.jpg',
+    'b6p-wallhugger-end.jpg',
+  ]);
+  for (const name of readdirSync(OUT)) {
+    if (name.startsWith('_clip-') || name === 'planche' || name === 'frames') {
+      if (name !== 'frames') rmSync(join(OUT, name), { recursive: true, force: true });
+      continue;
+    }
+    if (/\.(png|jpg|jpeg|webp)$/i.test(name) && !keepOut.has(name)) rmSync(join(OUT, name), { force: true });
+    if (/^signalstats-.*-rest/.test(name) || /^luma-/.test(name) || /^lab-/.test(name) || /^row-/.test(name)) {
+      rmSync(join(OUT, name), { force: true });
+    }
+  }
+  if (existsSync(FRAMES)) {
+    for (const name of readdirSync(FRAMES)) {
+      if (!keepFrames.has(name)) rmSync(join(FRAMES, name), { force: true });
+    }
+  }
+}
+
 function extractHits(src: string, prefix: string, hits: { label: string; t: number }[]) {
   for (const h of hits) {
     if (!Number.isFinite(h.t) || h.t < 0) continue;
-    const png = join(FRAMES, `${prefix}-${h.label}.png`);
-    const r = ff(['-y', '-ss', Math.max(0, h.t).toFixed(3), '-i', src, '-vframes', '1', png]);
+    const jpg = join(FRAMES, `${prefix}-${h.label}.jpg`);
+    const r = ff(['-y', '-ss', Math.max(0, h.t).toFixed(3), '-i', src, '-frames:v', '1', '-q:v', '3', jpg]);
     if (r.status !== 0) throw new Error(r.stderr);
-    console.log('hit-frame', png, 't', h.t.toFixed(2));
+    console.log('hit-frame', jpg, 't', h.t.toFixed(2));
   }
 }
 
@@ -309,9 +358,9 @@ async function planche() {
         const url = `${base}/?policy=b6p&autoplay=kiter&seed=${MATCH_SEED}&cam=${cam}&shot=${tick}&tex=512&props=${VIDEO_PROPS}`;
         await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
         await waitTitle(page, 'READY', 60000);
-        const png = join(dir, `${cam}-t${tick}.png`);
-        await page.screenshot({ path: png, type: 'png' });
-        const lab = join(dir, `lab-${cam}-t${tick}.png`);
+        const png = join(dir, `${cam}-t${tick}.jpg`);
+        await grabPage(page, png);
+        const lab = join(dir, `lab-${cam}-t${tick}.jpg`);
         const r = ff([
           '-y', '-i', png, '-vf',
           `scale=640:360,drawtext=text='${cam} t${tick}':x=12:y=12:fontsize=22:fontcolor=white:borderw=2`,
@@ -325,20 +374,56 @@ async function planche() {
     await browser.close();
     const row1 = join(dir, 'row-couloir.png');
     const row2 = join(dir, 'row-combat.png');
-    const board = join(OUT, 'planche-6.png');
+    const board = join(OUT, 'planche-6.jpg');
     const h1 = ff(['-y', '-i', labeled[0]!, '-i', labeled[1]!, '-i', labeled[2]!, '-filter_complex', 'hstack=inputs=3', row1]);
     if (h1.status !== 0) throw new Error(h1.stderr);
     const h2 = ff(['-y', '-i', labeled[3]!, '-i', labeled[4]!, '-i', labeled[5]!, '-filter_complex', 'hstack=inputs=3', row2]);
     if (h2.status !== 0) throw new Error(h2.stderr);
-    const v = ff(['-y', '-i', row1, '-i', row2, '-filter_complex', 'vstack=inputs=2', board]);
+    const v = ff(['-y', '-i', row1, '-i', row2, '-filter_complex', 'vstack=inputs=2', '-q:v', '3', board]);
     if (v.status !== 0) throw new Error(v.stderr);
+    for (const p of [...labeled, row1, row2]) rmSync(p, { force: true });
+    rmSync(dir, { recursive: true, force: true });
     console.log('planche', board);
   });
 }
 
+if (PHASE === 'hits') {
+  const ticks = [154, 359, 395];
+  await withServer(async (base) => {
+    const browser = await chromium.launch({ headless: true, args: swiftArgs });
+    const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+    const capUrl = `${base}/?policy=b6p&autoplay=kiter&seed=${MATCH_SEED}&cam=combat&tex=512&speed=${PLAY}&props=${VIDEO_PROPS}&cap=1`;
+    await page.goto(capUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await page.waitForFunction(() => (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY === true, { timeout: 180000 });
+    let t = 0;
+    for (const want of ticks) {
+      let st: Record<string, unknown> | undefined;
+      while (t < want) {
+        st = await page.evaluate(() => (
+          window as unknown as { __capStep?: (n?: number) => { tick?: number } }
+        ).__capStep?.(1)) as Record<string, unknown> | undefined;
+        t = Number(st?.tick ?? t + 1);
+      }
+      const jpg = join(FRAMES, `cmp-cap-t${want}.jpg`);
+      await grabPage(page, jpg);
+      console.log('cap', want, jpg, JSON.stringify(st));
+    }
+    for (const want of ticks) {
+      const url = `${base}/?policy=b6p&autoplay=kiter&seed=${MATCH_SEED}&cam=combat&tex=512&props=${VIDEO_PROPS}&shot=${want}`;
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      await waitTitle(page, 'READY', 90000);
+      const jpg = join(FRAMES, `cmp-shot-t${want}.jpg`);
+      await grabPage(page, jpg);
+      console.log('shot', want, jpg);
+    }
+    await browser.close();
+  });
+}
 if (PHASE === 'stills' || PHASE === 'all') await stills();
 if (PHASE === 'video' || PHASE === 'all') {
+  const only = process.env.OPP;
   for (const [opp, name, seed] of [['kiter', 'b6p-match.mp4', MATCH_SEED], ['wallHugger', 'b6p-wallhugger.mp4', WH_SEED]] as const) {
+    if (only && only !== opp) continue;
     const evPath = join(OUT, `events-${opp}.json`);
     const dump = spawnSync('bun', ['scripts/dump-match-events.ts'], {
       cwd: ROOT,
@@ -354,19 +439,24 @@ if (PHASE === 'video' || PHASE === 'all') {
     const ev = JSON.parse(readFileSync(evPath, 'utf8')) as {
       fistHit?: { videoT: number }; clawHit?: { videoT: number }; boltKill?: { videoT: number };
     };
-    extractHits(join(VID, name), name.replace('.mp4', ''), [
-      { label: 'fist', t: (ev.fistHit?.videoT ?? -1) },
-      { label: 'claw', t: (ev.clawHit?.videoT ?? -1) },
-      { label: 'bolter-kill', t: (ev.boltKill?.videoT ?? -1) },
-    ]);
+    const hits = name === 'b6p-match.mp4'
+      ? [
+        { label: 'fist', t: (ev.fistHit?.videoT ?? -1) },
+        { label: 'bolter-kill', t: (ev.boltKill?.videoT ?? -1) },
+        { label: 'claw', t: (ev.clawHit?.videoT ?? -1) },
+        { label: 'end', t: Math.max(0, durationSec(join(VID, name)) - 0.12) },
+      ]
+      : [
+        { label: 'end', t: Math.max(0, durationSec(join(VID, name)) - 0.12) },
+      ];
+    extractHits(join(VID, name), name.replace('.mp4', ''), hits);
   }
-  extractEight(join(VID, 'b6p-match.mp4'), 'b6p-match');
-  extractEight(join(VID, 'b6p-wallhugger.mp4'), 'b6p-wallhugger');
 }
 if (PHASE === 'planche' || PHASE === 'all') await planche();
 if (PHASE === 'frames') {
   extractEight(join(VID, 'b6p-match.mp4'), 'b6p-match');
   extractEight(join(VID, 'b6p-wallhugger.mp4'), 'b6p-wallhugger');
 }
+if (PHASE === 'all' || PHASE === 'slim') slimRepoImages();
 console.log('capture-b6p ok', PHASE);
 process.exit(0);

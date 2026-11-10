@@ -2,7 +2,7 @@
 import { writeFileSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { newWorld, step, observe, nlFrame, DT, type TAction } from '../src/sim.ts';
+import { newWorld, step, observe, nlFrame, DT, PILLARS, type TAction } from '../src/sim.ts';
 import { PROP_KINDS } from '../src/props.ts';
 import { POOL, UNSEEN } from '../src/tactics.ts';
 import { forward, softmax, sample, type ActorJSON } from '../src/policy.ts';
@@ -21,6 +21,7 @@ const out = process.env.OUT ?? join(ROOT, 'docs/videos/match-cues.json');
 const manifest = JSON.parse(readFileSync(join(ROOT, 'web/sfx/nightlords/manifest.json'), 'utf8')) as AudioManifest;
 const ctx = createMockAudioContext();
 await engine.init({ context: ctx as never, manifest, autounlock: false, enabled: true, search: '' });
+engine.setOccluders(PILLARS);
 const silent = ctx.createBuffer(1, 512, ctx.sampleRate) as unknown as AudioBuffer;
 for (const s of manifest.samples) engine.putBuffer(s.name, silent);
 

@@ -219,15 +219,56 @@ export function desiredCombatPose(input: {
     orbitWant = clamp(wrapPi(toNl - term.facing), -COMBAT_CAM.orbitMax, COMBAT_CAM.orbitMax);
   }
 
-  const orbits = includeNl
-    ? [orbitWant, orbitWant * 0.55, 0]
-    : [0, 0.5, -0.5];
+  const melee = includeNl && span <= 3.2;
+  if (melee && nl) {
+    const mx = (term.x + nl.x) * 0.5;
+    const mz = (term.y + nl.y) * 0.5;
+    const dx = term.x - nl.x, dz = term.y - nl.y;
+    const len = Math.hypot(dx, dz) || 1;
+    const rx = -dz / len, rz = dx / len;
+    const h = COMBAT_CAM.height;
+    const offsets: [number, number][] = [
+      [rx * 2.5, rz * 2.5], [-rx * 2.5, -rz * 2.5],
+      [2.7, 1.8], [-2.7, 1.8], [2.7, -1.8], [-2.7, -1.8],
+      [0, 2.8], [0, -2.8], [2.8, 0], [-2.8, 0],
+    ];
+    let pick: CombatPose | null = null;
+    let pickS = -1e9;
+    for (const [ox, oz] of offsets) {
+      const camX = clamp(mx + ox, 0.6, arena.w - 0.6);
+      const camZ = clamp(mz + oz, 0.6, arena.h - 0.6);
+      const p: CombatPose = {
+        camX, camY: h, camZ,
+        lookX: mx, lookY: COMBAT_CAM.eye, lookZ: mz,
+        fov: 68, orbit: 0,
+        back: Math.hypot(camX - term.x, camZ - term.y),
+      };
+      const tNdc = projectWorld(term.x, 1.4, term.y, p, input.aspect);
+      const nNdc = projectWorld(nl.x, 1.4, nl.y, p, input.aspect);
+      let s = 0;
+      if (inFrustum(tNdc, COMBAT_CAM.termMargin)) s += 50;
+      if (inFrustum(nNdc, 0.92)) s += 40;
+      if (losClear(camX, h, camZ, term.x, 1.4, term.y, pillars)) s += 80;
+      else s -= 50;
+      if (losClear(camX, h, camZ, nl.x, 1.4, nl.y, pillars)) s += 40;
+      s += screenHeightFrac(term.x, term.y, p, input.aspect) * 50;
+      if (s > pickS) { pickS = s; pick = p; }
+    }
+    return pick!;
+  }
+  const orbits = melee
+    ? [orbitWant, clamp(orbitWant + 0.85, -COMBAT_CAM.orbitMax, COMBAT_CAM.orbitMax), clamp(orbitWant - 0.85, -COMBAT_CAM.orbitMax, COMBAT_CAM.orbitMax), 0]
+    : includeNl
+      ? [orbitWant, orbitWant * 0.55, 0]
+      : [0, 0.5, -0.5];
   const fogBack = includeNl ? clamp(FOG_CLEAR_M - span - 1.4, 3.7, COMBAT_CAM.maxBack) : COMBAT_CAM.maxBack;
-  const backs = includeNl
-    ? [clamp(fogBack * 0.82, 3.7, fogBack), fogBack]
-    : [5.2, 6.4, 7.4];
-  const sides = [1.12, -1.12];
-  const heights = [COMBAT_CAM.height, COMBAT_CAM.highMax];
+  const backs = melee
+    ? [2.6, 3.2, 3.9]
+    : includeNl
+      ? [clamp(fogBack * 0.82, 3.7, fogBack), fogBack]
+      : [5.2, 6.4, 7.4];
+  const sides = melee ? [0.35, 1.55, -1.55, 2.35, -2.35] : [1.12, -1.12];
+  const heights = melee ? [COMBAT_CAM.highMax] : [COMBAT_CAM.height, COMBAT_CAM.highMax];
   const fovs = includeNl ? [62, 68, COMBAT_CAM.fovMax] : [fov0];
 
   const scorePose = (p: CombatPose): number => {
@@ -262,7 +303,7 @@ export function desiredCombatPose(input: {
     const yaw = term.facing + orb;
     const fx = Math.cos(yaw), fz = Math.sin(yaw);
     const rx = -fz, rz = fx;
-    const mixes = includeNl && nl ? [0.10, 0.20] : [0];
+    const mixes = includeNl && nl ? (melee ? [0.18, 0.38] : [0.10, 0.20]) : [0];
     for (const lookMix of mixes) {
       const lookX = includeNl && nl ? term.x + (nl.x - term.x) * lookMix : term.x + fx * 3.5;
       const lookZ = includeNl && nl ? term.y + (nl.y - term.y) * lookMix : term.y + fz * 3.5;
@@ -272,8 +313,13 @@ export function desiredCombatPose(input: {
             for (const fovTry of fovs) {
               const rawX = term.x - fx * back + rx * side;
               const rawZ = term.y - fz * back + rz * side;
-              const cleared = avoidWalls(rawX, rawZ, h, pillars, arena);
-              const pulled = pullForLos(cleared.camX, cleared.camY, cleared.camZ, term.x, 1.4, term.y, pillars);
+              const near = Math.hypot(rawX - term.x, rawZ - term.y) <= 4.6;
+              const cleared = (melee && near)
+                ? { camX: clamp(rawX, 0.6, arena.w - 0.6), camZ: clamp(rawZ, 0.6, arena.h - 0.6), camY: h }
+                : avoidWalls(rawX, rawZ, h, pillars, arena);
+              const pulled = (melee && near)
+                ? { camX: cleared.camX, camY: cleared.camY, camZ: cleared.camZ }
+                : pullForLos(cleared.camX, cleared.camY, cleared.camZ, term.x, 1.4, term.y, pillars);
               const p: CombatPose = {
                 camX: pulled.camX, camY: pulled.camY, camZ: pulled.camZ,
                 lookX, lookY: COMBAT_CAM.eye, lookZ,

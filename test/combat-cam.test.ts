@@ -76,6 +76,20 @@ test('caméra combat : NL à ~18 m dans le cadre avec le Terminator', () => {
   assert.ok(screenHeightFrac(term.x, term.y, pose, ASPECT) >= COMBAT_CAM.termMinScreen);
 });
 
+test('caméra combat : poing (T + NL à 2 m) les deux dans le cadre', () => {
+  const term = { x: 20, y: 12, facing: 0.4 };
+  const nl = { x: 21.6, y: 13.1, alive: true, armTicks: 2 };
+  const pose = poseOf(term, [nl]);
+  const t = projectWorld(term.x, 1.4, term.y, pose, ASPECT);
+  const n = projectWorld(nl.x, 1.4, nl.y, pose, ASPECT);
+  assert.ok(inFrustum(t, COMBAT_CAM.termMargin), `T hors marge ${t.x.toFixed(2)}`);
+  assert.ok(inFrustum(n, 0.96), `NL hors frustum ndc=${n.x.toFixed(2)},${n.y.toFixed(2)}`);
+  assert.ok(screenHeightFrac(term.x, term.y, pose, ASPECT) >= COMBAT_CAM.termMinScreen);
+  assert.ok(losClear(pose.camX, pose.camY, pose.camZ, term.x, 1.4, term.y, PILLARS), 'LOS T poing');
+  const dT = worldDist(pose.camX, pose.camY, pose.camZ, term.x, 1.4, term.y);
+  assert.ok(dT <= 6.5, `caméra poing trop loin d=${dT.toFixed(1)}`);
+});
+
 test('caméra combat : un NL dans le dos sort du cadre couloir mais pas du cadre combat', () => {
   const term = { x: 20, y: 12, facing: 0 };
   const rear = { x: 8, y: 12, alive: true, armTicks: 0 };
