@@ -4,26 +4,27 @@
 // Terminator comme seule vraie clé, et un remplissage froid/rasant trop faible pour peindre les faces.
 import * as THREE from 'three';
 
-export const FOG_COLOR = 0x08090e;
-export const FOG_EXP2_DENSITY = 0.070;
-export const FOG_LINEAR_NEAR = 5;
-export const FOG_LINEAR_FAR = 26;
-export const TONE_MAPPING_EXPOSURE = 1.22;
+export const FOG_COLOR = 0x0a0c12;
+export const FOG_EXP2_DENSITY = 0.060;
+export const FOG_LINEAR_NEAR = 6;
+export const FOG_LINEAR_FAR = 30;
+export const TONE_MAPPING_EXPOSURE = 1.34;
 
 // P1 : 8,2 m derrière, FOV un cran plus serré (58 → 54). Un NL reste ~100 px, le plateau moins « maquette ».
-export const CAM = { back: 8.2, height: 3.15, highMax: 4.9, ahead: 2.8, eye: 1.15, fov: 54, fovPortrait: 64 };
+export const CAM = { back: 8.2, height: 3.28, highMax: 4.9, ahead: 2.8, eye: 1.18, fov: 54, fovPortrait: 64 };
 // Épaule : FOV 62 → 56 (moins de grand-angle), 2,32 m d'œil, look 4,6 m. Le Terminator tient le tiers bas-gauche.
 export const EPAULE = { back: 3.4, side: 1.18, height: 2.32, ahead: 4.6, eye: 1.32, fov: 56, fovPortrait: 68 };
 export const FOLLOW_YAW_BLEND = 0.22; // était 0,26 : un peu plus d'inertie, toujours ~3,5 rad/s
-export const POST_VIGNETTE = 1.08;
+export const POST_VIGNETTE = 1.00;
+export const POST_GRAIN = 0.014; // grain film, linéaire ; un dither 1,5/255 est ajouté après le gamma dans le shader
 
-export const AMBIENT = { color: 0x12161c, intensity: 0.11 };
-export const HEMI = { sky: 0x1a2740, ground: 0x0a0908, intensity: 0.20 };
-export const RAKE = { color: 0x6a86b4, intensity: 0.26, x: 22, y: 5.4, z: -10 };
-export const RIM = { color: 0x334a72, intensity: 0.28, x: -8, y: 3.8, z: 20 };
-export const POOL = { color: 0x5e7aa3, intensity: 3.6, distance: 11, decay: 2, x: 20, y: 5.5 };
-export const LAMP = { color: 0xff2a1a, intensity: 7.5, distance: 8.5, decay: 2 };
-export const STRIP_EMISSIVE = 0.40;
+export const AMBIENT = { color: 0x12161c, intensity: 0.16 };
+export const HEMI = { sky: 0x1a2740, ground: 0x0a0908, intensity: 0.26 };
+export const RAKE = { color: 0x6a86b4, intensity: 0.32, x: 22, y: 5.4, z: -10 };
+export const RIM = { color: 0x334a72, intensity: 0.32, x: -8, y: 3.8, z: 20 };
+export const POOL = { color: 0x5e7aa3, intensity: 4.6, distance: 12, decay: 2, x: 20, y: 5.5 };
+export const LAMP = { color: 0xff2a1a, intensity: 8.2, distance: 9, decay: 2 };
+export const STRIP_EMISSIVE = 0.48;
 export const SPOT_SHADOW_MAP = 1024;
 
 export function applyRendererAtmosphere(renderer: THREE.WebGLRenderer): void {
@@ -31,6 +32,7 @@ export function applyRendererAtmosphere(renderer: THREE.WebGLRenderer): void {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = TONE_MAPPING_EXPOSURE;
+  renderer.dithering = true; // fog + ACES sur un sol sombre bande en 8 bits (SwiftShader)
 }
 
 export function applySceneAtmosphere(scene: THREE.Scene, fogMode: string): void {

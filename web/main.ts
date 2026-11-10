@@ -13,7 +13,7 @@ import { gaitTimeScale, pickGait, type Gait } from './locomotion';
 import { NL_HEIGHT, TERM_HEIGHT, measureForwardStride, measureHeight, pickClip } from './stride';
 import {
   applyRendererAtmosphere, applySceneAtmosphere, installCorridorLights, configureHunterSpot,
-  CAM, EPAULE, FOLLOW_YAW_BLEND, POST_VIGNETTE, LAMP, STRIP_EMISSIVE,
+  CAM, EPAULE, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, LAMP, STRIP_EMISSIVE,
 } from './atmosphere';
 // Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
 // dépôt, licence Genex non confirmée) chaque appel renvoie false et ne fait rien — le jeu tourne à l'identique.
@@ -38,7 +38,7 @@ const canvas = document.getElementById('c') as HTMLCanvasElement;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(Math.min(2, devicePixelRatio));
 applyRendererAtmosphere(renderer);
-// Brouillard : FogExp2 par défaut (densité 0,070, visibilité utile ~14–18 m). `?fog=linear` rampe 5→26 m.
+// Brouillard : FogExp2 par défaut (densité 0,060, visibilité utile ~16–22 m). `?fog=linear` rampe 6→30 m.
 // Même couleur que le fond, sinon une ligne d'horizon se dessine là où la géométrie s'efface.
 const FOG_MODE = qs.get('fog') ?? 'exp2';
 const scene = new THREE.Scene();
@@ -414,9 +414,9 @@ const tracer = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THRE
 const rt = new THREE.WebGLRenderTarget(2, 2, { samples: 4, colorSpace: THREE.LinearSRGBColorSpace });
 const postScene = new THREE.Scene(); const postCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 const postMat = new THREE.ShaderMaterial({
-  uniforms: { tDiffuse: { value: rt.texture }, uTime: { value: 0 }, uVignette: { value: POST_VIGNETTE }, uBlur: { value: new THREE.Vector2(0, 0) } },
+  uniforms: { tDiffuse: { value: rt.texture }, uTime: { value: 0 }, uVignette: { value: POST_VIGNETTE }, uGrain: { value: POST_GRAIN }, uBlur: { value: new THREE.Vector2(0, 0) } },
   vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }',
-  fragmentShader: `uniform sampler2D tDiffuse; uniform float uTime, uVignette; uniform vec2 uBlur; varying vec2 vUv;
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float uTime, uVignette, uGrain; uniform vec2 uBlur; varying vec2 vUv;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
     void main(){
       // flou directionnel de rotation : 5 prises seulement si la caméra tourne vite (branche morte sinon)
@@ -428,8 +428,11 @@ const postMat = new THREE.ShaderMaterial({
       }
       vec2 d = vUv - 0.5;
       c *= clamp(1.0 - dot(d, d) * uVignette * 1.9, 0.0, 1.0);
-      c += (hash(vUv * 1024.0 + uTime) - 0.5) * 0.014;
-      gl_FragColor = vec4(pow(clamp(c, 0.0, 1.0), vec3(0.4545)), 1.0);
+      c += (hash(vUv * 1024.0 + uTime) - 0.5) * uGrain;
+      vec3 srgb = pow(clamp(c, 0.0, 1.0), vec3(0.4545));
+      // 1,5/255 après gamma : le fog sur un grand plan sombre bande en 8 bits, le grain linéaire n'y suffit pas
+      srgb += (hash(vUv * 173.0 + uTime * 0.37) - 0.5) * (1.5 / 255.0);
+      gl_FragColor = vec4(clamp(srgb, 0.0, 1.0), 1.0);
     }`,
 });
 postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), postMat));
@@ -711,7 +714,9 @@ function render(alpha: number) {
   const rx = -fz, rz = fx;                                 // son épaule droite
   if (CAM_MODE === 'couloir') {
     const back = portrait ? CAM.back + 1.6 : CAM.back, high = portrait ? CAM.height + 0.9 : CAM.height;
-    const cx = tx - fx * back, cz = ty - fz * back;
+    // 8,2 m derrière un Terminator à x≈3 sort de la coque (caméra dans le vide = image noire).
+    const cx = Math.min(ARENA.w - 0.6, Math.max(0.6, tx - fx * back));
+    const cz = Math.min(ARENA.h - 0.6, Math.max(0.6, ty - fz * back));
     const inPillar = PILLARS.some(b => cx > b.x0 - 0.55 && cx < b.x1 + 0.55 && cz > b.y0 - 0.55 && cz < b.y1 + 0.55);
     const cy = inPillar ? CAM.highMax : high;
     camera.position.set(cx + sx, cy, cz + sz);

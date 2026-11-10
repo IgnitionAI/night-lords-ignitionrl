@@ -1,0 +1,230 @@
+{
+  "prefix": "apres",
+  "base": "http://127.0.0.1:18190",
+  "shots": [
+    {
+      "name": "ensemble-couloir-t40-s3",
+      "url": "http://127.0.0.1:18190/?shot=40&seed=3&autoplay=march&cam=couloir",
+      "ok": true,
+      "title": "READY",
+      "console": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "errors": [],
+      "netFail": [
+        {
+          "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+          "err": "HTTP 404"
+        },
+        {
+          "url": "http://127.0.0.1:18190/web/models/TERM-walk.glb",
+          "err": "net::ERR_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:18190/web/models/TERM-run.glb",
+          "err": "net::ERR_ABORTED"
+        }
+      ],
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/pr54/apres-ensemble-couloir-t40-s3.png",
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "consoleWarns": []
+    },
+    {
+      "name": "nl-couloir-t115-s3",
+      "url": "http://127.0.0.1:18190/?shot=115&seed=3&autoplay=march&cam=couloir",
+      "ok": true,
+      "title": "READY",
+      "console": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "errors": [],
+      "netFail": [
+        {
+          "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+          "err": "HTTP 404"
+        }
+      ],
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/pr54/apres-nl-couloir-t115-s3.png",
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "consoleWarns": []
+    },
+    {
+      "name": "terminator-epaule-t115-s3",
+      "url": "http://127.0.0.1:18190/?shot=115&seed=3&autoplay=march",
+      "ok": true,
+      "title": "READY",
+      "console": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "errors": [],
+      "netFail": [
+        {
+          "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+          "err": "HTTP 404"
+        }
+      ],
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/pr54/apres-terminator-epaule-t115-s3.png",
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "consoleWarns": []
+    },
+    {
+      "name": "reveal-epaule-t14-s18",
+      "url": "http://127.0.0.1:18190/?shot=14&demo=reveal&seed=18",
+      "ok": true,
+      "title": "READY",
+      "console": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "errors": [],
+      "netFail": [
+        {
+          "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+          "err": "HTTP 404"
+        },
+        {
+          "url": "http://127.0.0.1:18190/web/models/NL-1-run.glb",
+          "err": "net::ERR_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:18190/web/models/NL-2-run.glb",
+          "err": "net::ERR_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:18190/web/models/NL-3-run.glb",
+          "err": "net::ERR_ABORTED"
+        }
+      ],
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/pr54/apres-reveal-epaule-t14-s18.png",
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "consoleWarns": []
+    },
+    {
+      "name": "meute-t235-s18",
+      "url": "http://127.0.0.1:18190/?shot=235&seed=18&autoplay=march",
+      "ok": true,
+      "title": "READY",
+      "console": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "errors": [],
+      "netFail": [
+        {
+          "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+          "err": "HTTP 404"
+        },
+        {
+          "url": "http://127.0.0.1:18190/web/models/NL-4-run.glb",
+          "err": "net::ERR_ABORTED"
+        }
+      ],
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/pr54/apres-meute-t235-s18.png",
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "consoleWarns": []
+    },
+    {
+      "name": "ensemble-couloir-t14-s18",
+      "url": "http://127.0.0.1:18190/?shot=14&demo=reveal&seed=18&cam=couloir",
+      "ok": true,
+      "title": "READY",
+      "console": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "errors": [],
+      "netFail": [
+        {
+          "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+          "err": "HTTP 404"
+        },
+        {
+          "url": "http://127.0.0.1:18190/web/models/TERM-walk.glb",
+          "err": "net::ERR_ABORTED"
+        },
+        {
+          "url": "http://127.0.0.1:18190/web/models/TERM-run.glb",
+          "err": "net::ERR_ABORTED"
+        }
+      ],
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/pr54/apres-ensemble-couloir-t14-s18.png",
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        }
+      ],
+      "consoleWarns": []
+    }
+  ]
+}
