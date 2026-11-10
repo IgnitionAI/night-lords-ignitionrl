@@ -15,7 +15,7 @@ export const B6_TRAIN = { seed: 6, lr: 2e-5, entCoef: 0.02, updates: 1000, envs:
  * Pas de 33e feature : `observe()` (32) n’a pas la distance T→balise ; l’ajouter
  * casserait le chargement des poids vis2. Seed ≠ 3, 4, 5, 6.
  */
-export const B7_TRAIN = { seed: 7, lr: 1.2e-5, entCoef: 0.02, updates: 240, envs: 32, init: 'policies/candidates/b6/full.json' };
+export const B7_TRAIN = { seed: 8, lr: 8e-6, entCoef: 0.02, updates: 220, envs: 32, init: 'policies/candidates/b6/full.json' };
 
 export const B4_SHAPE = {
   death: -0.4,
@@ -216,8 +216,8 @@ export function pickB6Opp(rng: () => number, progress: number): { opp: string; t
 }
 
 /**
- * Curriculum b7 : même mix vu que b6 (ne pas recasser kiter/turret), wallHugger
- * un peu plus fréquent dans le sac dur — la différence vient du shaping menace.
+ * Curriculum du candidat retenu (essai 2 / vis2) : un peu plus de wallHugger
+ * que b6. L’essai 3 (kiter saturé) a cassé kiter/elite — non retenu.
  */
 export function pickB7Opp(rng: () => number, progress: number): { opp: string; tactic: Tactic } {
   const p = Math.max(0, Math.min(1, progress));
