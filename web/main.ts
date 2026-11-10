@@ -63,6 +63,13 @@ const parseCam = (raw: string | null): CamMode => {
   return 'epaule';
 };
 const CAM_MODE = parseCam(qs.get('cam'));
+/** `?focus=0..3` cadre un Night Lord (captures combat). Défaut : Terminator. */
+const FOCUS_NL = ((): number | null => {
+  const raw = qs.get('focus');
+  if (raw === null || raw === '' || raw === 'term') return null;
+  const i = Number(raw);
+  return i >= 0 && i < 4 ? i : null;
+})();
 const camFov = (portrait: boolean): number => {
   switch (CAM_MODE) {
     case 'couloir': return portrait ? CAM.fovPortrait : CAM.fov;
@@ -367,7 +374,7 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   const mixer = new THREE.AnimationMixer(root);
   const walkClip = pickClip(clips, 'walk');
   const runClip = pickClip(clips, 'run');
-  const proc = makeCombatClips(root);
+  const proc = makeCombatClips(root, look, qs.get('proc') !== 'legacy');
   const resolved = resolveCombatClips(clips, proc);
   const mk = (c: THREE.AnimationClip | null) => (c ? mixer.clipAction(c) : null);
   const mkShot = (c: THREE.AnimationClip, hold: boolean) => bindOneShot(mixer.clipAction(c), hold);
@@ -380,7 +387,7 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   const holdIdle = !namedIdle && !allowRun;
   return {
     root, mixer, walk, run: mk(runClip), idle,
-    attack: mkShot(resolved.attack, false),
+    attack: mkShot(resolved.attack, look === 'term'),
     shoot: mkShot(resolved.shoot, false),
     hit: mkShot(resolved.hit, false),
     dodge: mkShot(resolved.dodge, false),
@@ -660,6 +667,48 @@ const DEMO_SCRIPTS: Record<string, DemoScript> = {
     player(t: number): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: t === 3, fist: false }; },
     nls(): number[] { return [0, 0, 0, 0]; },
   },
+  // Planches polish : mêmes règles de sim, silhouettes plus près du cadrage trois-quarts.
+  'polish-claw': {
+    place(w: World) {
+      w.t.x = 8; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 0; n.armTicks = 0; n.stunTicks = 0; });
+      w.nls[1].x = 8.95; w.nls[1].y = 13.12; w.nls[1].facing = Math.atan2(12 - 13.12, 8 - 8.95);
+      w.nls[0].x = 16; w.nls[0].y = 8; w.nls[2].x = 16; w.nls[2].y = 16; w.nls[3].x = 18; w.nls[3].y = 12;
+    },
+    player(): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false }; },
+    nls(t: number): number[] { return [0, t === 3 ? 7 : 0, 0, 0]; },
+  },
+  'polish-death': {
+    place(w: World) {
+      w.t.x = 8; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0; w.t.ammo = T_CFG.boltAmmo; w.t.boltCd = 0;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 20; n.armTicks = 0; n.stunTicks = 0; });
+      w.nls[0].x = 10.05; w.nls[0].y = 12.12; w.nls[0].facing = Math.PI;
+      w.nls[1].x = 18; w.nls[1].y = 8; w.nls[2].x = 18; w.nls[2].y = 16; w.nls[3].x = 20; w.nls[3].y = 12;
+    },
+    player(t: number): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: t === 4, fist: false }; },
+    nls(): number[] { return [0, 0, 0, 0]; },
+  },
+  'polish-nl-dodge': {
+    place(w: World) {
+      w.t.x = 8; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 20; n.armTicks = 0; n.stunTicks = 0; });
+      w.nls[1].x = 9.05; w.nls[1].y = 13.15; w.nls[1].facing = Math.atan2(12 - 13.15, 8 - 9.05);
+      w.nls[0].x = 16; w.nls[0].y = 8; w.nls[2].x = 16; w.nls[2].y = 16; w.nls[3].x = 20; w.nls[3].y = 12;
+    },
+    player(): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false }; },
+    nls(t: number): number[] { return [0, t === 2 ? 2 : 0, 0, 0]; },
+  },
+  'polish-nl-hit': {
+    place(w: World) {
+      w.t.x = 8; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0; w.t.fistCd = 0; w.t.fistCharge = 0;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 20; n.armTicks = 0; n.stunTicks = 0; n.hp = 1; });
+      w.nls[0].x = 9.6; w.nls[0].y = 12.0; w.nls[0].facing = Math.PI;
+      w.nls[1].x = 7.4; w.nls[1].y = 14.55; w.nls[1].facing = -Math.PI / 2;
+      w.nls[2].x = 16; w.nls[2].y = 8; w.nls[3].x = 18; w.nls[3].y = 16;
+    },
+    player(t: number): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: t === 3 }; },
+    nls(): number[] { return [0, 0, 0, 0]; },
+  },
   // Recul NL (action 2) : one-shot dodge, TERM hors cadre d'attaque.
   'combat-nl-dodge': {
     place(w: World) {
@@ -905,6 +954,8 @@ function burnIn() {
   if (!IMPACT) parts.push('impact=0');
   if (DEMO_CFG) parts.push(`demo ${DEMO}`);
   if (qs.get('shot')) parts.push(`shot=${qs.get('shot')}`);
+  if (FOCUS_NL !== null) parts.push(`focus=${FOCUS_NL}`);
+  if (qs.get('proc') === 'legacy') parts.push('proc=legacy');
   return parts.join(' · ');
 }
 function hud() {
@@ -930,6 +981,8 @@ function updateImpact(dt: number) {
 function render(alpha: number) {
   const lerp = (a: number, b: number) => a + (b - a) * alpha; const la = (a: number, b: number) => { let d = b - a; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return a + d * alpha; };
   const tx = lerp(prev.t[0], w.t.x), ty = lerp(prev.t[1], w.t.y), tf = la(prev.t[2], w.t.facing);
+  const subjX = FOCUS_NL !== null ? lerp(prev.n[FOCUS_NL][0], w.nls[FOCUS_NL].x) : tx;
+  const subjY = FOCUS_NL !== null ? lerp(prev.n[FOCUS_NL][1], w.nls[FOCUS_NL].y) : ty;
   term.position.set(tx, 0, ty); term.rotation.y = -tf; fistM.position.x = w.t.fistCd > 8 ? 1.2 : 0.55;
   w.nls.forEach((n, i) => {
     const g = nlMeshes[i];
@@ -959,12 +1012,12 @@ function render(alpha: number) {
     case 'couloir': {
       const back = portrait ? CAM.back + 1.6 : CAM.back, high = portrait ? CAM.height + 0.9 : CAM.height;
       // 8,2 m derrière un Terminator à x≈3 sort de la coque (caméra dans le vide = image noire).
-      const cx = Math.min(ARENA.w - 0.6, Math.max(0.6, tx - fx * back));
-      const cz = Math.min(ARENA.h - 0.6, Math.max(0.6, ty - fz * back));
+      const cx = Math.min(ARENA.w - 0.6, Math.max(0.6, subjX - fx * back));
+      const cz = Math.min(ARENA.h - 0.6, Math.max(0.6, subjY - fz * back));
       const inPillar = PILLARS.some(b => cx > b.x0 - 0.55 && cx < b.x1 + 0.55 && cz > b.y0 - 0.55 && cz < b.y1 + 0.55);
       const cy = inPillar ? CAM.highMax : high;
       camera.position.set(cx + sx, cy, cz + sz);
-      camera.lookAt(tx + fx * CAM.ahead + sx, CAM.eye, ty + fz * CAM.ahead + sz);
+      camera.lookAt(subjX + fx * CAM.ahead + sx, CAM.eye, subjY + fz * CAM.ahead + sz);
       break;
     }
     case 'epaule': {
@@ -976,14 +1029,14 @@ function render(alpha: number) {
       const back = EPAULE.back + recZ * 0.85;
       const high = EPAULE.height + stepY + breath;
       const side = portrait ? EPAULE.side * 0.6 : EPAULE.side;
-      camera.position.set(tx - fx * back + rx * side + sx, high, ty - fz * back + rz * side + sz);
-      camera.lookAt(tx + fx * EPAULE.ahead + sx, EPAULE.eye, ty + fz * EPAULE.ahead + sz);
+      camera.position.set(subjX - fx * back + rx * side + sx, high, subjY - fz * back + rz * side + sz);
+      camera.lookAt(subjX + fx * EPAULE.ahead + sx, EPAULE.eye, subjY + fz * EPAULE.ahead + sz);
       break;
     }
     case 'troisquarts': {
       const q = TROIS_QUARTS;
-      camera.position.set(tx - fx * q.back + rx * q.side + sx, q.height, ty - fz * q.back + rz * q.side + sz);
-      camera.lookAt(tx + fx * q.ahead + sx, q.eye, ty + fz * q.ahead + sz);
+      camera.position.set(subjX - fx * q.back + rx * q.side + sx, q.height, subjY - fz * q.back + rz * q.side + sz);
+      camera.lookAt(subjX + fx * q.ahead + sx, q.eye, subjY + fz * q.ahead + sz);
       break;
     }
     default: {

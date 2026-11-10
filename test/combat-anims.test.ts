@@ -12,7 +12,7 @@ import {
   CROSSFADE, ONE_SHOT, COMBAT_CLIP_KEYS, crossFadeFor, eventsToFlags, freshMachine,
   isLoco, isOneShot, nlIntent, pickNamedClip, resolveKind, termIntent, tickMachine,
 } from '../web/combat-anims.ts';
-import { bindOneShot, makeCombatClips } from '../web/proc-clips.ts';
+import { bindOneShot, makeCombatClips, makeLegacyCombatClips } from '../web/proc-clips.ts';
 
 const MODELS = join(dirname(fileURLToPath(import.meta.url)), '..', 'web/models');
 
@@ -172,10 +172,35 @@ test('clips GLB : pas de combat nommé ; procédural + clampWhenFinished sur la 
   const proc = makeCombatClips(pose.scene);
   assert.equal(proc.procedural, true);
   assert.ok(Math.abs(proc.death.duration - ONE_SHOT.death) < 1e-9);
-  assert.ok(proc.death.tracks.length >= 3, 'mort : hanche + colonne au minimum');
-  assert.ok(proc.attack.tracks.length >= 2);
-  assert.ok(proc.hit.tracks.length >= 2);
-  assert.ok(proc.dodge.tracks.length >= 2);
+  assert.ok(proc.death.tracks.length >= 8, 'mort : chute corps entier');
+  assert.ok(proc.attack.tracks.length >= 8, 'griffes : torse + bras + poids');
+  assert.ok(proc.hit.tracks.length >= 6);
+  assert.ok(proc.dodge.tracks.length >= 6);
+  const deathTimes = proc.death.tracks[0]?.times ?? [];
+  assert.ok(deathTimes.length >= 20, `mort échantillonnée 30 fps, got ${deathTimes.length}`);
+  let hipsBone: THREE.Bone | null = null;
+  pose.scene.traverse((o) => { if ((o as THREE.Bone).isBone && o.name === 'Hips') hipsBone = o as THREE.Bone; });
+  assert.ok(hipsBone);
+  const yAt = (action: THREE.AnimationAction, mix: THREE.AnimationMixer, t: number) => {
+    action.time = t; mix.update(0); pose.scene.updateMatrixWorld(true);
+    const p = new THREE.Vector3(); hipsBone!.getWorldPosition(p); return p.y;
+  };
+  const mixProbe = new THREE.AnimationMixer(pose.scene);
+  const deathProbe = bindOneShot(mixProbe.clipAction(proc.death), true);
+  deathProbe.play();
+  const yImpact = yAt(deathProbe, mixProbe, 0.48);
+  const yBounce = yAt(deathProbe, mixProbe, 0.58);
+  const ySettle = yAt(deathProbe, mixProbe, 0.80);
+  assert.ok(yBounce > yImpact + 0.02, `mort rebond ${yImpact.toFixed(3)} → ${yBounce.toFixed(3)}`);
+  assert.ok(ySettle < yBounce - 0.02, `mort pose au sol ${yBounce.toFixed(3)} → ${ySettle.toFixed(3)}`);
+
+  const term = await parseGlb(readFileSync(join(MODELS, 'TERM.glb')));
+  const punch = makeCombatClips(term.scene, 'term');
+  assert.ok(Math.abs(punch.attack.duration - 0.80) < 1e-9, 'poing TERM = charge 0,8 s');
+  assert.ok(Math.abs(makeCombatClips(pose.scene, 'nl').attack.duration - ONE_SHOT.attack) < 1e-9);
+
+  const legacy = makeLegacyCombatClips(pose.scene);
+  assert.equal(legacy.attack.tracks.length < proc.attack.tracks.length, true);
 
   const mixer = new THREE.AnimationMixer(pose.scene);
   const death = bindOneShot(mixer.clipAction(proc.death), true);
