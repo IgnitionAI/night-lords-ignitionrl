@@ -147,6 +147,17 @@ try {
       page.on('response', res => {
         if (res.status() >= 400) failed.push({ url: res.url(), failure: String(res.status()), method: res.request().method() });
       });
+      if (step.name === 'hud') {
+        // Banque hors dépôt : le 404 sfx pollue la console. On sert un manifeste vide pour la preuve HUD.
+        await page.route('**/web/sfx/**', async route => {
+          const url = route.request().url();
+          if (url.includes('manifest.json')) {
+            await route.fulfill({ status: 200, contentType: 'application/json', body: '{"samples":[]}' });
+          } else {
+            await route.fulfill({ status: 204, body: '' });
+          }
+        });
+      }
       await page.goto(`${ORIGIN}${step.url}`, { waitUntil: 'domcontentloaded' });
       await page.waitForFunction(() => document.title === 'READY', null, { timeout: 60_000 });
       await page.waitForTimeout(300);
@@ -187,4 +198,9 @@ if (s1440.moved !== 7) throw new Error(`attendu 7/7 déplacés, obtenu ${s1440.m
 if (!s1440.afterAboveGround || !s1440.resetAboveGround) throw new Error('un corps est sous le sol');
 if (s1440.pageErrors.length) throw new Error(`erreurs page: ${s1440.pageErrors.join('; ')}`);
 if (!((report.fallback as { notice: boolean }).notice)) throw new Error('bandeau repli procédural absent');
+for (const tag of ['1440', '390']) {
+  const hud = report[`proto-${tag}-hud`] as { consoleErrors: unknown[]; pageErrors: string[] };
+  if (hud.pageErrors.length) throw new Error(`HUD ${tag} page: ${hud.pageErrors.join('; ')}`);
+  if ((hud.consoleErrors as unknown[]).length) throw new Error(`HUD ${tag} console: ${JSON.stringify(hud.consoleErrors)}`);
+}
 console.log('sas-proof ok', OUT);
