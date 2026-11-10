@@ -138,13 +138,15 @@ def main() -> int:
     anv = first("270589", "270588", "434339")
     cas = first("205126", "620929", "210102", "777922")
     cas2 = first("620929", "318964", "778028")
-    spark = first("499690", "675755", "449719", "536793")
-    tesla = first("675760", "362975", "871766", "531421")
+    spark = first("449719", "536793", "189630", "675755")
+    # 675760 tesla coil: recorded, but stacked harmonics — not used.
     slash = first("441666", "442903", "868049")
     swo2 = first("256911", "342984", "848212")
     sword = first("426322", "364531", "442769")
     sword2 = first("326795", "547041", "475416")
-    step_h = first("837389", "383724", "106394")
+    # 837389 « Heavy Robot Footsteps » is CC0 but the author describes it as
+    # « fully synthesized » — skip it, use recorded metal/boot steps.
+    step_h = first("383724", "106394", "562195")
     step_m = first("562195", "394036", "253735")
     step_n = first("398554", "421151", "19310")
     jet = first("534856", "622406", "152509")
@@ -205,9 +207,9 @@ def main() -> int:
 
     layer("claw-crackle.ogg", [
         (spark, {"dur": 0.7, "pitch": 1.05, "vol": 1.0, "hp": 400}),
-        (tesla, {"dur": 0.8, "pitch": 1.2, "vol": 0.55, "hp": 800}),
+        (spark, {"dur": 0.55, "start": 0.2, "pitch": 0.88, "vol": 0.5, "hp": 900}),
     ], "40k")
-    layer("claw-crackle-02.ogg", [(tesla, {"dur": 0.65, "pitch": 0.95, "vol": 1.0}), (spark, {"dur": 0.4, "pitch": 1.4, "vol": 0.5})], "40k")
+    layer("claw-crackle-02.ogg", [(spark, {"dur": 0.65, "pitch": 0.95, "vol": 1.0}), (spark, {"dur": 0.4, "pitch": 1.4, "vol": 0.5})], "40k")
     layer("claw-crackle-03.ogg", [(spark, {"dur": 0.55, "start": 0.1, "pitch": 0.88, "vol": 1.05})], "40k")
     layer("claw-swoosh.ogg", [
         (slash, {"dur": 0.45, "pitch": 0.85, "vol": 1.0}),
@@ -227,7 +229,7 @@ def main() -> int:
         (ex2, {"dur": 0.85, "pitch": 0.52, "vol": 1.35, "lp": 400}),
         (anv, {"dur": 0.45, "pitch": 0.58, "vol": 1.15}),
         (met, {"dur": 0.35, "pitch": 0.7, "vol": 0.8, "hp": 80}),
-        (tesla, {"dur": 0.5, "pitch": 0.65, "vol": 0.45, "lp": 900}),
+        (spark, {"dur": 0.5, "pitch": 0.65, "vol": 0.35, "lp": 700}),
     ], "72k")
     layer("fist-impact-02.ogg", [
         (ex1, {"dur": 0.75, "pitch": 0.48, "vol": 1.25, "lp": 350}),
@@ -240,14 +242,14 @@ def main() -> int:
         (met, {"dur": 0.25, "pitch": 0.8, "vol": 0.6}),
     ], "64k")
     layer("fist-hum.ogg", [
-        (tesla, {"dur": 1.1, "pitch": 0.7, "vol": 1.0, "lp": 1200}),
-        (drone, {"dur": 1.1, "pitch": 0.9, "vol": 0.4, "lp": 200}),
+        (jet, {"dur": 1.1, "pitch": 0.55, "vol": 0.7, "lp": 400}),
+        (drone, {"dur": 1.1, "pitch": 0.9, "vol": 0.55, "lp": 180}),
     ], "40k")
 
     layer("term-step-01.ogg", [
         (step_h, {"dur": 0.45, "pitch": 0.7, "vol": 1.1, "lp": 1800}),
         (anv, {"dur": 0.25, "pitch": 0.55, "vol": 0.45, "lp": 400}),
-        (tesla, {"dur": 0.3, "pitch": 0.8, "vol": 0.25, "hp": 200}),
+        (met, {"dur": 0.2, "pitch": 0.75, "vol": 0.3, "lp": 800}),
     ], "40k")
     layer("term-step-02.ogg", [
         (step_m, {"dur": 0.5, "pitch": 0.68, "vol": 1.05}),
@@ -258,12 +260,12 @@ def main() -> int:
         (step_m, {"dur": 0.3, "pitch": 0.6, "vol": 0.45, "lp": 600}),
     ], "40k")
     layer("term-servo.ogg", [
-        (tesla, {"dur": 0.9, "pitch": 0.85, "vol": 0.9}),
-        (jet, {"dur": 0.8, "pitch": 1.4, "vol": 0.25, "hp": 400, "lp": 2500}),
+        (first("833468", "534856"), {"dur": 0.9, "pitch": 0.85, "vol": 0.85, "lp": 1400}),
+        (jet, {"dur": 0.8, "pitch": 1.2, "vol": 0.3, "hp": 200, "lp": 1800}),
     ], "36k")
     layer("term-hydraulic.ogg", [
         (first("833468", "580718", "534856"), {"dur": 0.7, "pitch": 0.75, "vol": 0.9, "lp": 900}),
-        (tesla, {"dur": 0.5, "pitch": 0.6, "vol": 0.35}),
+        (jet, {"dur": 0.5, "pitch": 0.6, "vol": 0.35, "lp": 500}),
     ], "36k")
 
     layer("nl-step-01.ogg", [(step_n, {"dur": 0.42, "pitch": 1.05, "vol": 1.0}), (step_m, {"dur": 0.28, "pitch": 1.15, "vol": 0.45})], "36k")
@@ -291,14 +293,13 @@ def main() -> int:
     ], "48k")
 
     layer("alarm-klaxon.ogg", [
-        (siren, {"dur": 1.6, "pitch": 1.05, "vol": 0.9, "hp": 300}),
-        (tesla, {"dur": 0.8, "pitch": 1.5, "vol": 0.25, "hp": 1000}),
+        (siren, {"dur": 1.2, "pitch": 1.05, "vol": 0.75, "hp": 300, "lp": 1800}),
+        (met, {"dur": 0.25, "pitch": 0.8, "vol": 0.3}),
     ], "40k")
 
     layer("amb-drone.ogg", [
-        (drone, {"dur": 8.0, "pitch": 0.7, "vol": 0.9, "lp": 500}),
-        (tesla, {"dur": 8.0, "pitch": 0.45, "vol": 0.25, "lp": 250}),
-        (jet, {"dur": 8.0, "pitch": 0.35, "vol": 0.2, "lp": 180}),
+        (drone, {"dur": 8.0, "pitch": 0.7, "vol": 0.9, "lp": 400}),
+        (jet, {"dur": 8.0, "pitch": 0.35, "vol": 0.28, "lp": 160}),
     ], "36k")
     layer("amb-drip.ogg", [(drip, {"dur": 0.6, "pitch": 0.95, "vol": 1.0, "hp": 200})], "24k")
     layer("amb-duct.ogg", [
@@ -307,20 +308,20 @@ def main() -> int:
     ], "32k")
 
     layer("music-explore.ogg", [
-        (drone, {"dur": 8.0, "pitch": 0.55, "vol": 0.85, "lp": 350}),
-        (whisper, {"dur": 8.0, "pitch": 0.4, "vol": 0.12, "lp": 600}),
-        (tesla, {"dur": 8.0, "pitch": 0.3, "vol": 0.15, "lp": 200}),
+        (drone, {"dur": 8.0, "pitch": 0.55, "vol": 0.85, "lp": 280}),
+        (whisper, {"dur": 8.0, "pitch": 0.4, "vol": 0.12, "lp": 500}),
+        (jet, {"dur": 8.0, "pitch": 0.28, "vol": 0.12, "lp": 140}),
     ], "48k")
     layer("music-tension.ogg", [
-        (drone, {"dur": 8.0, "pitch": 0.65, "vol": 0.7, "lp": 400}),
-        (siren, {"dur": 8.0, "pitch": 0.35, "vol": 0.18, "lp": 500}),
-        (spark, {"dur": 8.0, "pitch": 0.5, "vol": 0.1, "hp": 2000}),
+        (drone, {"dur": 8.0, "pitch": 0.65, "vol": 0.75, "lp": 320}),
+        (ex2, {"dur": 8.0, "pitch": 0.35, "vol": 0.22, "lp": 200}),
+        (jet, {"dur": 8.0, "pitch": 0.4, "vol": 0.12, "lp": 180}),
     ], "48k")
     layer("music-combat.ogg", [
         (ex2, {"dur": 7.0, "pitch": 0.4, "vol": 0.45, "lp": 250}),
-        (drone, {"dur": 7.0, "pitch": 0.8, "vol": 0.7}),
+        (drone, {"dur": 7.0, "pitch": 0.8, "vol": 0.7, "lp": 500}),
         (anv, {"dur": 7.0, "pitch": 0.5, "vol": 0.2, "lp": 400}),
-        (tesla, {"dur": 7.0, "pitch": 0.7, "vol": 0.2}),
+        (jet, {"dur": 7.0, "pitch": 0.55, "vol": 0.15, "lp": 220}),
     ], "56k")
     layer("stinger-victory.ogg", [
         (ex1, {"dur": 1.8, "pitch": 0.7, "vol": 0.7}),
@@ -330,7 +331,7 @@ def main() -> int:
     layer("stinger-defeat.ogg", [
         (scream2, {"dur": 2.0, "pitch": 0.55, "vol": 0.7, "lp": 1800}),
         (drone, {"dur": 2.2, "pitch": 0.5, "vol": 0.6, "lp": 300}),
-        (siren, {"dur": 2.0, "pitch": 0.45, "vol": 0.25}),
+        (ex1, {"dur": 2.0, "pitch": 0.45, "vol": 0.25, "lp": 250}),
     ], "48k")
     layer("ir-corridor.ogg", [
         (ex2, {"dur": 1.8, "pitch": 0.7, "vol": 0.9, "lp": 4000}),
@@ -412,6 +413,11 @@ s'appuie sur Freesound CC0, dont chaque page a été vérifiée
 
 Les prévisualisations HQ Freesound sont utilisées parce que le WAV original
 exige un compte. Ce sont les **mêmes enregistrements**, sous la même licence CC0.
+
+837389 (Artem_Zaitsev, « Heavy Robot Footsteps ») est CC0 mais décrit par
+l'auteur comme **fully synthesized** — non utilisé. 675760 (tesla coil) et
+382611 (sirène de Prague) sont des prises réelles CC0 mais trop tonales en
+boucle (bandes 2–9 kHz) : retirés des lits musique/ambiance.
 
 | id Freesound | titre | auteur | licence | source |
 |---|---|---|---|---|

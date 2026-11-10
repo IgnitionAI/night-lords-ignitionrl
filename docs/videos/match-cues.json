@@ -471,21 +471,6 @@
       "gain": 0.9999904099540169
     },
     {
-      "t": 5.9,
-      "name": "music-explore",
-      "gain": 1
-    },
-    {
-      "t": 5.9,
-      "name": "music-tension",
-      "gain": 0.0001
-    },
-    {
-      "t": 5.9,
-      "name": "music-combat",
-      "gain": 0.0001
-    },
-    {
       "t": 6.1000000000000005,
       "name": "bolter-shot",
       "gain": 1
@@ -1644,6 +1629,11 @@
       "t": 18.2,
       "name": "nl-step-03",
       "gain": 0.28934249642552984
+    },
+    {
+      "t": 18.2,
+      "name": "amb-drip",
+      "gain": 1
     },
     {
       "t": 18.3,

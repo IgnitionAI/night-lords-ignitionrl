@@ -123,12 +123,33 @@ if (pageErrors.length) throw new Error('pageerror ' + pageErrors.join(';'));
 if (failedSfx.length) throw new Error('sfx ' + JSON.stringify(failedSfx.slice(0, 8)));
 if (!manifestHits.some((x) => x.status === 200)) throw new Error('manifest not 200');
 
+function leadingBlackEnd(path: string): number {
+  const det = spawnSync('ffmpeg', [
+    '-hide_banner', '-i', path,
+    '-vf', 'blackdetect=d=0.08:pix_th=0.10',
+    '-an', '-f', 'null', '-',
+  ], { encoding: 'utf8' });
+  const log = (det.stderr || '') + (det.stdout || '');
+  writeFileSync(join(OUT_DIR, 'sound-redesign-blackdetect-src.txt'), log);
+  let cut = 0;
+  for (const m of log.matchAll(/black_start:([\d.]+)\s+black_end:([\d.]+)/g)) {
+    const start = Number(m[1]);
+    const end = Number(m[2]);
+    if (start <= 0.12 && end > cut) cut = end;
+  }
+  return cut;
+}
+
+const videoSs = webm ? leadingBlackEnd(webm) : 0;
 const mp4 = join(OUT_DIR, 'sound-redesign.mp4');
 const mux = spawnSync('ffmpeg', [
   '-y', '-hide_banner', '-loglevel', 'error',
   '-i', webm || '/dev/null',
   '-i', join(OUT_DIR, 'match-audio.wav'),
   '-map', '0:v:0', '-map', '1:a:0',
+  ...(videoSs > 0
+    ? ['-vf', `trim=start=${videoSs.toFixed(3)},setpts=PTS-STARTPTS`]
+    : []),
   '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-preset', 'fast', '-crf', '23',
   '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2',
   '-shortest',
@@ -143,4 +164,12 @@ const probe = spawnSync('ffprobe', ['-hide_banner', '-show_streams', '-print_for
 writeFileSync(join(OUT_DIR, 'sound-redesign-ffprobe.json'), probe.stdout);
 const ebu = spawnSync('ffmpeg', ['-hide_banner', '-i', mp4, '-af', 'ebur128=peak=true:framelog=verbose', '-f', 'null', '-'], { encoding: 'utf8' });
 writeFileSync(join(OUT_DIR, 'sound-redesign-ebur128.txt'), (ebu.stderr || '') + (ebu.stdout || ''));
-console.log(JSON.stringify({ mp4, webm, nl, errors: pageErrors, audioState, manifest: manifestHits }, null, 2));
+const black = spawnSync('ffmpeg', [
+  '-hide_banner', '-i', mp4,
+  '-vf', 'blackdetect=d=0.08:pix_th=0.10',
+  '-an', '-f', 'null', '-',
+], { encoding: 'utf8' });
+const blackLog = (black.stderr || '') + (black.stdout || '');
+writeFileSync(join(OUT_DIR, 'sound-redesign-blackdetect.txt'), blackLog);
+if (/black_start:/.test(blackLog)) throw new Error('blackdetect still reports black_start\n' + blackLog);
+console.log(JSON.stringify({ mp4, webm, videoSs, nl, errors: pageErrors, audioState, manifest: manifestHits }, null, 2));

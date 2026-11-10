@@ -28,10 +28,6 @@
     },
     {
       "status": 200,
-      "url": "http://127.0.0.1:18192/web/models/props/chains.glb"
-    },
-    {
-      "status": 200,
       "url": "http://127.0.0.1:18192/web/models/NL-3-512.glb"
     },
     {
@@ -48,15 +44,19 @@
     },
     {
       "status": 200,
+      "url": "http://127.0.0.1:18192/web/models/props/chains.glb"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18192/web/models/props/crate.glb"
+    },
+    {
+      "status": 200,
       "url": "http://127.0.0.1:18192/web/models/props/debris.glb"
     },
     {
       "status": 200,
       "url": "http://127.0.0.1:18192/web/models/props/servitor.glb"
-    },
-    {
-      "status": 200,
-      "url": "http://127.0.0.1:18192/web/models/props/crate.glb"
     },
     {
       "status": 200,
@@ -80,10 +80,6 @@
     },
     {
       "status": 200,
-      "url": "http://127.0.0.1:18192/web/sfx/nightlords/ir-corridor.ogg"
-    },
-    {
-      "status": 200,
       "url": "http://127.0.0.1:18192/web/sfx/nightlords/amb-drone.ogg"
     },
     {
@@ -92,11 +88,11 @@
     },
     {
       "status": 200,
-      "url": "http://127.0.0.1:18192/web/sfx/nightlords/bolter-echo.ogg"
+      "url": "http://127.0.0.1:18192/web/sfx/nightlords/ir-corridor.ogg"
     },
     {
       "status": 200,
-      "url": "http://127.0.0.1:18192/web/sfx/nightlords/claw-crackle.ogg"
+      "url": "http://127.0.0.1:18192/web/sfx/nightlords/bolter-echo.ogg"
     },
     {
       "status": 200,
@@ -104,7 +100,15 @@
     },
     {
       "status": 200,
+      "url": "blob:http://127.0.0.1:18192/8a5c80e1-c17f-4657-9d23-58b338840901"
+    },
+    {
+      "status": 200,
       "url": "http://127.0.0.1:18192/web/sfx/nightlords/bolter-explode.ogg"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18192/web/sfx/nightlords/claw-crackle.ogg"
     },
     {
       "status": 200,
@@ -140,19 +144,19 @@
     },
     {
       "status": 200,
+      "url": "blob:http://127.0.0.1:18192/56ed8145-79a1-4fe6-a97a-1c47940f3dc4"
+    },
+    {
+      "status": 200,
+      "url": "blob:http://127.0.0.1:18192/1af8e096-66b3-46e0-aa89-49d2497f468f"
+    },
+    {
+      "status": 200,
       "url": "http://127.0.0.1:18192/web/sfx/nightlords/nl-step-03.ogg"
     },
     {
       "status": 200,
       "url": "http://127.0.0.1:18192/web/sfx/nightlords/nl-jump.ogg"
-    },
-    {
-      "status": 200,
-      "url": "http://127.0.0.1:18192/web/sfx/nightlords/nl-vox-come-for-you.ogg"
-    },
-    {
-      "status": 200,
-      "url": "http://127.0.0.1:18192/web/sfx/nightlords/nl-scream.ogg"
     },
     {
       "status": 200,
@@ -164,15 +168,31 @@
     },
     {
       "status": 200,
+      "url": "http://127.0.0.1:18192/web/sfx/nightlords/nl-vox-come-for-you.ogg"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18192/web/sfx/nightlords/nl-scream.ogg"
+    },
+    {
+      "status": 200,
+      "url": "blob:http://127.0.0.1:18192/decdb12f-346d-49a2-82fc-68c866287258"
+    },
+    {
+      "status": 200,
+      "url": "blob:http://127.0.0.1:18192/b97d514b-6623-4f4f-b222-2e95dac262ef"
+    },
+    {
+      "status": 200,
+      "url": "blob:http://127.0.0.1:18192/695abc57-dd13-4ebb-9171-dbeb38034224"
+    },
+    {
+      "status": 200,
       "url": "http://127.0.0.1:18192/web/sfx/nightlords/amb-drip.ogg"
     },
     {
       "status": 200,
       "url": "http://127.0.0.1:18192/web/sfx/nightlords/amb-duct.ogg"
-    },
-    {
-      "status": 200,
-      "url": "blob:http://127.0.0.1:18192/77de1faf-0b9b-47e1-952f-27b9c1056d76"
     },
     {
       "status": 200,
@@ -192,119 +212,103 @@
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/ea028367-7cbe-4205-b3a5-fe1c20c28061"
+      "url": "blob:http://127.0.0.1:18192/88b7c732-ac15-4ba0-a947-318140ed47bf"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/3c73b9f9-142f-4336-b839-37ee179afa44"
+      "url": "blob:http://127.0.0.1:18192/28d41e1f-2376-4195-9ba0-68ed63cab1d6"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/120220e5-f2cd-4932-954f-78258bfd3444"
+      "url": "blob:http://127.0.0.1:18192/7bda4090-127e-4b44-863a-f22cf269134a"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/386abbb5-53e2-4455-a850-9957cf831ee8"
+      "url": "blob:http://127.0.0.1:18192/e07857e0-753b-43cc-8a5e-9457753c052c"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/55696d0e-3713-4bea-b09a-a7cdda8f3c21"
+      "url": "blob:http://127.0.0.1:18192/3d41fb60-c844-4c00-8355-8d349e503413"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/3b01add2-db34-452c-b38f-8f4efbbcfd51"
+      "url": "blob:http://127.0.0.1:18192/526d3864-6025-490e-a7d8-3643ae735aa8"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/3aac5e44-3e0c-4005-819b-2f83d595ae0d"
+      "url": "blob:http://127.0.0.1:18192/a3425f6f-9866-4f83-8c93-c15ec5c61023"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/3f2976f5-f955-4ea4-aa72-d539c251a6c6"
+      "url": "blob:http://127.0.0.1:18192/114f9e75-3a4f-4f5d-b7e3-db375c3dfacf"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/d16a67d8-08b6-42a5-a2c5-11bc8b072790"
+      "url": "blob:http://127.0.0.1:18192/14e6d40a-c776-4935-b12c-7c6903d9454d"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/1987848e-38d1-4db5-82b5-3a69c6adaabe"
+      "url": "blob:http://127.0.0.1:18192/76827dc1-ab96-4f2f-8ac8-23fe4641611a"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/ad6aacd7-8541-42f3-9600-350877a762cd"
+      "url": "blob:http://127.0.0.1:18192/859504ea-a165-43be-9809-1aa646abd48c"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/4863c3e1-6127-425c-bfd3-d7964452fbdf"
+      "url": "blob:http://127.0.0.1:18192/4be3330d-1fd7-4a50-b532-a045b19f7965"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/1d6e1624-4ab5-4287-a68b-4d27e3126cc9"
+      "url": "blob:http://127.0.0.1:18192/a83498e9-13eb-4220-bb67-a40f03d728b6"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/13b0c127-ca1a-4e6c-a458-beb7062ddc22"
+      "url": "blob:http://127.0.0.1:18192/8ace3f50-1351-4611-931f-3639d91ea2d9"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/1f6c2778-aee9-449f-a5d3-4a7f398f6779"
+      "url": "blob:http://127.0.0.1:18192/541c0f0c-ad0f-4290-9c74-307f140eb80f"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/9f14282a-f371-45e8-bdcd-2b87dbbd969a"
+      "url": "blob:http://127.0.0.1:18192/8118024e-ddec-4177-8eb0-da7b0c721ea9"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/90c5fb52-4d37-4084-8305-677d647841cc"
+      "url": "blob:http://127.0.0.1:18192/e9b691ab-69d8-43c0-9d00-1563b625dd80"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/10f82007-f6c1-4593-9063-ce44277cd526"
+      "url": "blob:http://127.0.0.1:18192/d8f8d4b1-9bd2-48d2-9167-bf2e3bf75f28"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/84e16e09-f825-46f4-8112-6b3e39473908"
+      "url": "blob:http://127.0.0.1:18192/fe9ac9a0-5d52-4563-983a-d37d4ecca73d"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/93f06064-28df-488d-9657-cdbb288f226a"
+      "url": "blob:http://127.0.0.1:18192/1d01e622-b296-4b4f-a2b0-69c595fa7cb5"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/13a030fb-c4ee-4fd6-9f71-6170e5647caf"
+      "url": "blob:http://127.0.0.1:18192/315f111a-9ea8-4bc5-9f17-608c085208c3"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/490c9817-f956-4242-955a-b29b92b32bda"
+      "url": "blob:http://127.0.0.1:18192/ae7c3b1d-e7a4-4580-983e-10c908804a06"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/b6c3a90b-46e9-4299-8975-6af51d6e8f93"
+      "url": "blob:http://127.0.0.1:18192/46440032-9f56-43b8-9057-aa5dc2660cdb"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/ead436e0-d330-4e48-a0bb-0977a02eb7b4"
+      "url": "blob:http://127.0.0.1:18192/a8b8ca65-f89a-453e-906b-fd9ede1e5dba"
     },
     {
       "status": 200,
-      "url": "blob:http://127.0.0.1:18192/0b5cf7b6-012e-4547-a5ca-986c045f836b"
-    },
-    {
-      "status": 200,
-      "url": "blob:http://127.0.0.1:18192/a50af886-c70d-4d66-ba8a-0222585c0d3f"
-    },
-    {
-      "status": 200,
-      "url": "blob:http://127.0.0.1:18192/98d1b58e-f4f9-432f-8938-1f12443ffb89"
-    },
-    {
-      "status": 200,
-      "url": "blob:http://127.0.0.1:18192/d0e359f7-7733-44b4-899c-154250658157"
-    },
-    {
-      "status": 200,
-      "url": "blob:http://127.0.0.1:18192/a451f8cc-1998-4116-89e6-ac24bb470822"
+      "url": "http://127.0.0.1:18192/web/sfx/nightlords/bolter-shot-02.ogg"
     },
     {
       "status": 200,
@@ -316,11 +320,7 @@
     },
     {
       "status": 200,
-      "url": "http://127.0.0.1:18192/web/sfx/nightlords/bolter-shot-02.ogg"
-    },
-    {
-      "status": 200,
-      "url": "http://127.0.0.1:18192/web/sfx/nightlords/claw-crackle-02.ogg"
+      "url": "http://127.0.0.1:18192/web/sfx/nightlords/bolter-casing-02.ogg"
     }
   ],
   "nl": {
@@ -344,55 +344,55 @@
       "unlocked": true,
       "state": "running",
       "decoded": [
+        "bolter-shot",
         "term-step-01",
         "fist-impact",
         "claw-metal",
         "ir-corridor",
-        "bolter-shot",
         "bolter-echo",
-        "claw-crackle",
+        "music-explore",
         "bolter-casing",
         "bolter-explode",
         "claw-swoosh",
-        "amb-drone",
+        "claw-crackle",
         "term-step-02",
         "fist-hum",
         "term-step-03",
-        "term-hydraulic",
+        "amb-drone",
         "term-servo",
         "nl-step-01",
+        "term-hydraulic",
         "nl-step-02",
         "nl-step-03",
         "nl-jump",
+        "alarm-klaxon",
+        "nl-death",
         "nl-scream",
         "nl-vox-come-for-you",
-        "nl-death",
         "amb-drip",
-        "alarm-klaxon",
-        "music-explore",
         "amb-duct",
         "stinger-victory",
         "music-tension",
-        "music-combat",
         "stinger-defeat",
-        "claw-metal::claw-metal-02.ogg",
+        "music-combat",
         "fist-impact::fist-impact-02.ogg",
         "bolter-shot::bolter-shot-02.ogg",
+        "claw-metal::claw-metal-02.ogg",
         "bolter-casing::bolter-casing-02.ogg",
         "claw-crackle::claw-crackle-02.ogg",
-        "claw-swoosh::claw-swoosh-02.ogg",
         "bolter-explode::bolter-explode-02.ogg",
-        "claw-metal::claw-metal-03.ogg",
+        "claw-swoosh::claw-swoosh-02.ogg",
         "fist-impact::fist-impact-03.ogg",
         "bolter-shot::bolter-shot-03.ogg",
+        "claw-crackle::claw-crackle-03.ogg",
+        "claw-metal::claw-metal-03.ogg",
         "bolter-casing::bolter-casing-03.ogg",
         "claw-swoosh::claw-swoosh-03.ogg",
-        "bolter-explode::bolter-explode-03.ogg",
-        "claw-crackle::claw-crackle-03.ogg"
+        "bolter-explode::bolter-explode-03.ogg"
       ],
       "missing": [],
       "samples": 31,
-      "activeVoices": 3,
+      "activeVoices": 7,
       "polyphony": 18,
       "musicPhase": "stinger",
       "ducked": false

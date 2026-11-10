@@ -32,7 +32,7 @@
             "start_time": "0.000000",
             "duration_ts": 282624,
             "duration": "22.080000",
-            "bit_rate": "2316482",
+            "bit_rate": "2525876",
             "bits_per_raw_sample": "8",
             "nb_frames": "552",
             "extradata_size": 47,
@@ -85,7 +85,7 @@
             "start_time": "0.000000",
             "duration_ts": 1060800,
             "duration": "22.100000",
-            "bit_rate": "191821",
+            "bit_rate": "191552",
             "nb_frames": "1037",
             "extradata_size": 5,
             "disposition": {
