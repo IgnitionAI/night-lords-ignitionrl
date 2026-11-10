@@ -1,0 +1,11 @@
+shot	roi	meanLuma avant	apres	d%	maxRun px avant/apres	blockMaxRun avant/apres
+ensemble-couloir-t14-s18	fogFloor	10.386	11.731	12.95%	9/8	5/6
+ensemble-couloir-t14-s18	fogWall	9.821	10.695	8.90%	9/8	40/27
+ensemble-couloir-t40-s3	fogFloor	12.142	12.596	3.74%	11/8	6/6
+ensemble-couloir-t40-s3	fogWall	14.637	13.615	-6.98%	7/6	24/10
+nl-couloir-t115-s3	fogFloor	16.493	17.033	3.28%	9/8	6/7
+nl-couloir-t115-s3	fogWall	12.807	12.778	-0.23%	11/8	22/14
+reveal-epaule-t14-s18	fogFloor	52.919	52.883	-0.07%	7/7	6/6
+reveal-epaule-t14-s18	fogWall	13.948	14.131	1.31%	8/8	14/11
+terminator-epaule-t115-s3	fogFloor	36.035	36.797	2.11%	8/6	8/12
+terminator-epaule-t115-s3	fogWall	15.120	14.973	-0.97%	8/7	8/10

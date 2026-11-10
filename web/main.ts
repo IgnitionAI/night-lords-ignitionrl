@@ -23,7 +23,8 @@ import {
 } from './combat-clips';
 import {
   applyRendererAtmosphere, applySceneAtmosphere, installCorridorLights, configureHunterSpot,
-  CAM, EPAULE, TROIS_QUARTS, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, LAMP, STRIP_EMISSIVE,
+  CAM, EPAULE, TROIS_QUARTS, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, POST_DITHER_SRGB, LAMP, STRIP_EMISSIVE,
+  sceneRenderTargetOptions, POST_FRAGMENT_SHADER,
 } from './atmosphere';
 import { applyTerminatorLook } from './terminator-look';
 // Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
@@ -496,31 +497,22 @@ const ALARM_COLOR = new THREE.Color(0xff2a0e);
 const alarmMats: THREE.MeshStandardMaterial[] = []; // rempli au chargement du Terminator
 const tracer = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), new THREE.LineBasicMaterial({ color: 0xffe080 })); scene.add(tracer); tracer.visible = false;
 
-// Passe plein écran : vignette + grain. Un quad et un shader, aucun addon ; la render target est linéaire
-// et c'est ce shader qui encode en sRGB (sinon l'image est deux fois trop sombre).
-const rt = new THREE.WebGLRenderTarget(2, 2, { samples: 4, colorSpace: THREE.LinearSRGBColorSpace });
+// Passe plein écran : vignette + grain. Un quad et un shader, aucun addon. La RT est HalfFloat linéaire
+// (ACES y tient sans quantifier les noirs) ; ce shader encode en pow(c,0.4545) comme avant, puis dithers.
+const rt = new THREE.WebGLRenderTarget(2, 2, sceneRenderTargetOptions());
 const postScene = new THREE.Scene(); const postCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 const postMat = new THREE.ShaderMaterial({
-  uniforms: { tDiffuse: { value: rt.texture }, uTime: { value: 0 }, uVignette: { value: POST_VIGNETTE }, uGrain: { value: POST_GRAIN }, uBlur: { value: new THREE.Vector2(0, 0) } },
+  toneMapped: false,
+  uniforms: {
+    tDiffuse: { value: rt.texture },
+    uTime: { value: 0 },
+    uVignette: { value: POST_VIGNETTE },
+    uGrain: { value: POST_GRAIN },
+    uDither: { value: POST_DITHER_SRGB },
+    uBlur: { value: new THREE.Vector2(0, 0) },
+  },
   vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }',
-  fragmentShader: `uniform sampler2D tDiffuse; uniform float uTime, uVignette, uGrain; uniform vec2 uBlur; varying vec2 vUv;
-    float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
-    void main(){
-      // flou directionnel de rotation : 5 prises seulement si la caméra tourne vite (branche morte sinon)
-      vec3 c = texture2D(tDiffuse, vUv).rgb;
-      if (dot(uBlur, uBlur) > 1e-8) {
-        c = vec3(0.0);
-        for (int i = 0; i < 5; i++) c += texture2D(tDiffuse, vUv + uBlur * (float(i) * 0.25 - 0.5)).rgb;
-        c /= 5.0;
-      }
-      vec2 d = vUv - 0.5;
-      c *= clamp(1.0 - dot(d, d) * uVignette * 1.9, 0.0, 1.0);
-      c += (hash(vUv * 1024.0 + uTime) - 0.5) * uGrain;
-      vec3 srgb = pow(clamp(c, 0.0, 1.0), vec3(0.4545));
-      // 1,5/255 après gamma : le fog sur un grand plan sombre bande en 8 bits, le grain linéaire n'y suffit pas
-      srgb += (hash(vUv * 173.0 + uTime * 0.37) - 0.5) * (1.5 / 255.0);
-      gl_FragColor = vec4(clamp(srgb, 0.0, 1.0), 1.0);
-    }`,
+  fragmentShader: POST_FRAGMENT_SHADER,
 });
 postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), postMat));
 

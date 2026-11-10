@@ -18,7 +18,57 @@ export const EPAULE = { back: 3.4, side: 1.18, height: 2.32, ahead: 4.6, eye: 1.
 export const TROIS_QUARTS = { back: 4.2, side: 2.85, height: 1.55, ahead: 0.15, eye: 1.05, fov: 46, fovPortrait: 54 };
 export const FOLLOW_YAW_BLEND = 0.22; // était 0,26 : un peu plus d'inertie, toujours ~3,5 rad/s
 export const POST_VIGNETTE = 1.00;
-export const POST_GRAIN = 0.014; // grain film, linéaire ; un dither 1,5/255 est ajouté après le gamma dans le shader
+export const POST_GRAIN = 0.014; // grain film, linéaire (inchangé : lisibilité HUD/silhouettes)
+export const POST_DITHER_SRGB = 1.0; // amplitude du dither triangulaire, en niveaux /255, après encodage
+
+// Transfert du post historique (`pow(c, 0.4545)` dans web/main.ts). Ce n'est pas l'IEC 61966-2-1 :
+// le toe linéaire IEC (12,92x) assombrit le fog de ~20–30 % de luma vs ce gamma 1/2,2.
+export function linearToDisplay(x: number): number {
+  if (x <= 0) return 0;
+  if (x >= 1) return 1;
+  return Math.pow(x, 0.4545);
+}
+
+export function iecSrgb(x: number): number {
+  if (x <= 0) return 0;
+  if (x >= 1) return 1;
+  return x <= 0.0031308 ? x * 12.92 : 1.055 * Math.pow(x, 1 / 2.4) - 0.055;
+}
+
+export function sceneRenderTargetOptions(): THREE.RenderTargetOptions {
+  return {
+    samples: 4,
+    type: THREE.HalfFloatType,
+    format: THREE.RGBAFormat,
+    colorSpace: THREE.LinearSRGBColorSpace,
+    depthBuffer: true,
+    magFilter: THREE.LinearFilter,
+    minFilter: THREE.LinearFilter,
+  };
+}
+
+// Passe plein écran : vignette, grain, gamma historique Three pow(c,0.4545), dither triangulaire (IGN).
+export const POST_FRAGMENT_SHADER = `uniform sampler2D tDiffuse; uniform float uTime, uVignette, uGrain, uDither; uniform vec2 uBlur; varying vec2 vUv;
+    float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+    float ign(vec2 p){ return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715)))); }
+    float triDither(vec2 p){
+      float r = ign(p);
+      return r < 0.5 ? sqrt(2.0 * r) - 1.0 : 1.0 - sqrt(2.0 - 2.0 * r);
+    }
+    void main(){
+      vec3 c = texture2D(tDiffuse, vUv).rgb;
+      if (dot(uBlur, uBlur) > 1e-8) {
+        c = vec3(0.0);
+        for (int i = 0; i < 5; i++) c += texture2D(tDiffuse, vUv + uBlur * (float(i) * 0.25 - 0.5)).rgb;
+        c /= 5.0;
+      }
+      vec2 d = vUv - 0.5;
+      c *= clamp(1.0 - dot(d, d) * uVignette * 1.9, 0.0, 1.0);
+      c += (hash(vUv * 1024.0 + uTime) - 0.5) * uGrain;
+      vec3 srgb = pow(clamp(c, 0.0, 1.0), vec3(0.4545));
+      srgb += triDither(gl_FragCoord.xy + vec2(uTime * 13.7, uTime * 7.1)) * (uDither / 255.0);
+      gl_FragColor = vec4(clamp(srgb, 0.0, 1.0), 1.0);
+    }`;
 
 export const AMBIENT = { color: 0x12161c, intensity: 0.16 };
 export const HEMI = { sky: 0x1a2740, ground: 0x0a0908, intensity: 0.26 };
@@ -49,7 +99,8 @@ export function applyRendererAtmosphere(renderer: THREE.WebGLRenderer): void {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = TONE_MAPPING_EXPOSURE;
-  renderer.dithering = true; // fog + ACES sur un sol sombre bande en 8 bits (SwiftShader)
+  // Le dither 8 bits se fait dans la passe post (après le gamma 0,4545). `renderer.dithering`
+  // n'agit pas sur MeshStandardMaterial ; on ne dithers pas la cible HalfFloat.
 }
 
 export function applySceneAtmosphere(scene: THREE.Scene, fogMode: string): void {

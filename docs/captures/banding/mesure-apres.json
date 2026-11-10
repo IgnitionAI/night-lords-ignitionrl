@@ -1,0 +1,700 @@
+{
+  "prefix": "apres",
+  "webglNote": "Chromium SwiftShader",
+  "shots": [
+    {
+      "name": "ensemble-couloir-t40-s3",
+      "url": "http://127.0.0.1:18190/?shot=40&seed=3&autoplay=march&cam=couloir&tex=512",
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/banding/apres-ensemble-couloir-t40-s3.png",
+      "canvas": "/agent/repos/night-lords-ignitionrl/docs/captures/banding/apres-ensemble-couloir-t40-s3-canvas.png",
+      "canvasSize": {
+        "w": 1920,
+        "h": 1080
+      },
+      "banding": {
+        "fogFloor": {
+          "pixels": 89600,
+          "uniqueLuma": 85,
+          "lumaMin": 0,
+          "lumaMax": 93,
+          "span": 93,
+          "occupancy": 0.9042553191489362,
+          "maxRun": 8,
+          "meanRun": 1.1192584912495471,
+          "stepsGe2": 72431,
+          "meanLuma": 12.596171875,
+          "block": {
+            "pixels": 1360,
+            "uniqueLuma": 22,
+            "lumaMin": 6,
+            "lumaMax": 60,
+            "span": 54,
+            "occupancy": 0.4,
+            "maxRun": 6,
+            "meanRun": 1.2964728312678742,
+            "stepsGe2": 505,
+            "meanLuma": 12.639705882352942
+          }
+        },
+        "fogWall": {
+          "pixels": 91200,
+          "uniqueLuma": 78,
+          "lumaMin": 0,
+          "lumaMax": 80,
+          "span": 80,
+          "occupancy": 0.9629629629629629,
+          "maxRun": 6,
+          "meanRun": 1.1059371362048893,
+          "stepsGe2": 73816,
+          "meanLuma": 13.078223684210526,
+          "block": {
+            "pixels": 1410,
+            "uniqueLuma": 20,
+            "lumaMin": 9,
+            "lumaMax": 46,
+            "span": 37,
+            "occupancy": 0.5263157894736842,
+            "maxRun": 6,
+            "meanRun": 1.2645739910313902,
+            "stepsGe2": 607,
+            "meanLuma": 13.1
+          }
+        },
+        "farMid": {
+          "pixels": 72000,
+          "uniqueLuma": 127,
+          "lumaMin": 0,
+          "lumaMax": 173,
+          "span": 173,
+          "occupancy": 0.7298850574712644,
+          "maxRun": 5,
+          "meanRun": 1.0562760401384896,
+          "stepsGe2": 62005,
+          "meanLuma": 27.670597222222224,
+          "block": {
+            "pixels": 1100,
+            "uniqueLuma": 61,
+            "lumaMin": 9,
+            "lumaMax": 79,
+            "span": 70,
+            "occupancy": 0.8591549295774648,
+            "maxRun": 5,
+            "meanRun": 1.1458333333333333,
+            "stepsGe2": 691,
+            "meanLuma": 27.655454545454546
+          }
+        },
+        "character": {
+          "pixels": 159600,
+          "uniqueLuma": 81,
+          "lumaMin": 0,
+          "lumaMax": 80,
+          "span": 80,
+          "occupancy": 1,
+          "maxRun": 8,
+          "meanRun": 1.0709828079075572,
+          "stepsGe2": 136127,
+          "meanLuma": 17.54340852130326,
+          "block": {
+            "pixels": 2444,
+            "uniqueLuma": 40,
+            "lumaMin": 6,
+            "lumaMax": 46,
+            "span": 40,
+            "occupancy": 0.975609756097561,
+            "maxRun": 8,
+            "meanRun": 1.301384451544196,
+            "stepsGe2": 919,
+            "meanLuma": 17.632160392798692
+          }
+        }
+      },
+      "hud": {
+        "textLen": 322,
+        "color": "rgb(243, 240, 232)",
+        "background": "rgba(6, 8, 14, 0.78)",
+        "roi": {
+          "x": 16,
+          "y": 14,
+          "w": 300,
+          "h": 90
+        }
+      },
+      "console": []
+    },
+    {
+      "name": "nl-couloir-t115-s3",
+      "url": "http://127.0.0.1:18190/?shot=115&seed=3&autoplay=march&cam=couloir&tex=512",
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/banding/apres-nl-couloir-t115-s3.png",
+      "canvas": "/agent/repos/night-lords-ignitionrl/docs/captures/banding/apres-nl-couloir-t115-s3-canvas.png",
+      "canvasSize": {
+        "w": 1920,
+        "h": 1080
+      },
+      "banding": {
+        "fogFloor": {
+          "pixels": 89600,
+          "uniqueLuma": 49,
+          "lumaMin": 0,
+          "lumaMax": 48,
+          "span": 48,
+          "occupancy": 1,
+          "maxRun": 8,
+          "meanRun": 1.1062957612574236,
+          "stepsGe2": 73269,
+          "meanLuma": 17.033046875,
+          "block": {
+            "pixels": 1360,
+            "uniqueLuma": 35,
+            "lumaMin": 7,
+            "lumaMax": 41,
+            "span": 34,
+            "occupancy": 1,
+            "maxRun": 7,
+            "meanRun": 1.3320274240940255,
+            "stepsGe2": 479,
+            "meanLuma": 17.120588235294118
+          }
+        },
+        "fogWall": {
+          "pixels": 91200,
+          "uniqueLuma": 53,
+          "lumaMin": 0,
+          "lumaMax": 52,
+          "span": 52,
+          "occupancy": 1,
+          "maxRun": 8,
+          "meanRun": 1.1439322671683914,
+          "stepsGe2": 71402,
+          "meanLuma": 12.194199561403508,
+          "block": {
+            "pixels": 1410,
+            "uniqueLuma": 32,
+            "lumaMin": 6,
+            "lumaMax": 43,
+            "span": 37,
+            "occupancy": 0.8421052631578947,
+            "maxRun": 6,
+            "meanRun": 1.279491833030853,
+            "stepsGe2": 599,
+            "meanLuma": 12.170212765957446
+          }
+        },
+        "farMid": {
+          "pixels": 72000,
+          "uniqueLuma": 59,
+          "lumaMin": 0,
+          "lumaMax": 76,
+          "span": 76,
+          "occupancy": 0.7662337662337663,
+          "maxRun": 6,
+          "meanRun": 1.0561520859003697,
+          "stepsGe2": 62989,
+          "meanLuma": 19.289625,
+          "block": {
+            "pixels": 1100,
+            "uniqueLuma": 28,
+            "lumaMin": 8,
+            "lumaMax": 38,
+            "span": 30,
+            "occupancy": 0.9032258064516129,
+            "maxRun": 5,
+            "meanRun": 1.1853448275862069,
+            "stepsGe2": 558,
+            "meanLuma": 19.207272727272727
+          }
+        },
+        "character": {
+          "pixels": 159600,
+          "uniqueLuma": 60,
+          "lumaMin": 0,
+          "lumaMax": 59,
+          "span": 59,
+          "occupancy": 1,
+          "maxRun": 8,
+          "meanRun": 1.120322338357001,
+          "stepsGe2": 129269,
+          "meanLuma": 14.186660401002506,
+          "block": {
+            "pixels": 2444,
+            "uniqueLuma": 44,
+            "lumaMin": 7,
+            "lumaMax": 50,
+            "span": 43,
+            "occupancy": 1,
+            "maxRun": 6,
+            "meanRun": 1.2863157894736843,
+            "stepsGe2": 922,
+            "meanLuma": 14.085515548281506
+          }
+        }
+      },
+      "hud": {
+        "textLen": 324,
+        "color": "rgb(243, 240, 232)",
+        "background": "rgba(6, 8, 14, 0.78)",
+        "roi": {
+          "x": 16,
+          "y": 14,
+          "w": 300,
+          "h": 90
+        }
+      },
+      "console": []
+    },
+    {
+      "name": "ensemble-couloir-t14-s18",
+      "url": "http://127.0.0.1:18190/?shot=14&demo=reveal&seed=18&cam=couloir&tex=512",
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/banding/apres-ensemble-couloir-t14-s18.png",
+      "canvas": "/agent/repos/night-lords-ignitionrl/docs/captures/banding/apres-ensemble-couloir-t14-s18-canvas.png",
+      "canvasSize": {
+        "w": 1920,
+        "h": 1080
+      },
+      "banding": {
+        "fogFloor": {
+          "pixels": 89600,
+          "uniqueLuma": 48,
+          "lumaMin": 0,
+          "lumaMax": 58,
+          "span": 58,
+          "occupancy": 0.8135593220338984,
+          "maxRun": 8,
+          "meanRun": 1.1232996928477403,
+          "stepsGe2": 70921,
+          "meanLuma": 11.730602678571428,
+          "block": {
+            "pixels": 1360,
+            "uniqueLuma": 14,
+            "lumaMin": 7,
+            "lumaMax": 22,
+            "span": 15,
+            "occupancy": 0.875,
+            "maxRun": 6,
+            "meanRun": 1.3114754098360655,
+            "stepsGe2": 514,
+            "meanLuma": 11.74705882352941
+          }
+        },
+        "fogWall": {
+          "pixels": 91200,
+          "uniqueLuma": 29,
+          "lumaMin": 0,
+          "lumaMax": 28,
+          "span": 28,
+          "occupancy": 1,
+          "maxRun": 8,
+          "meanRun": 1.2066365007541477,
+          "stepsGe2": 67732,
+          "meanLuma": 9.853300438596492,
+          "block": {
+            "pixels": 1410,
+            "uniqueLuma": 10,
+            "lumaMin": 5,
+            "lumaMax": 14,
+            "span": 9,
+            "occupancy": 1,
+            "maxRun": 8,
+            "meanRun": 1.2888482632541134,
+            "stepsGe2": 563,
+            "meanLuma": 9.858156028368795
+          }
+        },
+        "farMid": {
+          "pixels": 72000,
+          "uniqueLuma": 231,
+          "lumaMin": 0,
+          "lumaMax": 255,
+          "span": 255,
+          "occupancy": 0.90234375,
+          "maxRun": 5,
+          "meanRun": 1.0488135296945331,
+          "stepsGe2": 63300,
+          "meanLuma": 26.426513888888888,
+          "block": {
+            "pixels": 1100,
+            "uniqueLuma": 89,
+            "lumaMin": 10,
+            "lumaMax": 184,
+            "span": 174,
+            "occupancy": 0.5085714285714286,
+            "maxRun": 4,
+            "meanRun": 1.1482254697286012,
+            "stepsGe2": 651,
+            "meanLuma": 26.32181818181818
+          }
+        },
+        "character": {
+          "pixels": 159600,
+          "uniqueLuma": 73,
+          "lumaMin": 0,
+          "lumaMax": 83,
+          "span": 83,
+          "occupancy": 0.8690476190476191,
+          "maxRun": 8,
+          "meanRun": 1.1404398839552399,
+          "stepsGe2": 126696,
+          "meanLuma": 11.987236842105263,
+          "block": {
+            "pixels": 2444,
+            "uniqueLuma": 29,
+            "lumaMin": 7,
+            "lumaMax": 46,
+            "span": 39,
+            "occupancy": 0.725,
+            "maxRun": 6,
+            "meanRun": 1.3175202156334231,
+            "stepsGe2": 920,
+            "meanLuma": 11.925122749590834
+          }
+        }
+      },
+      "hud": {
+        "textLen": 342,
+        "color": "rgb(243, 240, 232)",
+        "background": "rgba(6, 8, 14, 0.78)",
+        "roi": {
+          "x": 16,
+          "y": 14,
+          "w": 300,
+          "h": 90
+        }
+      },
+      "console": []
+    },
+    {
+      "name": "terminator-epaule-t115-s3",
+      "url": "http://127.0.0.1:18190/?shot=115&seed=3&autoplay=march&tex=512",
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/banding/apres-terminator-epaule-t115-s3.png",
+      "canvas": "/agent/repos/night-lords-ignitionrl/docs/captures/banding/apres-terminator-epaule-t115-s3-canvas.png",
+      "canvasSize": {
+        "w": 1920,
+        "h": 1080
+      },
+      "banding": {
+        "fogFloor": {
+          "pixels": 89600,
+          "uniqueLuma": 68,
+          "lumaMin": 0,
+          "lumaMax": 67,
+          "span": 67,
+          "occupancy": 1,
+          "maxRun": 6,
+          "meanRun": 1.0807420452078258,
+          "stepsGe2": 71827,
+          "meanLuma": 36.79657366071429,
+          "block": {
+            "pixels": 1360,
+            "uniqueLuma": 52,
+            "lumaMin": 8,
+            "lumaMax": 59,
+            "span": 51,
+            "occupancy": 1,
+            "maxRun": 12,
+            "meanRun": 1.4093264248704662,
+            "stepsGe2": 476,
+            "meanLuma": 37.14779411764706
+          }
+        },
+        "fogWall": {
+          "pixels": 91200,
+          "uniqueLuma": 39,
+          "lumaMin": 0,
+          "lumaMax": 38,
+          "span": 38,
+          "occupancy": 1,
+          "maxRun": 7,
+          "meanRun": 1.1093810821331258,
+          "stepsGe2": 75729,
+          "meanLuma": 14.820350877192983,
+          "block": {
+            "pixels": 1410,
+            "uniqueLuma": 22,
+            "lumaMin": 7,
+            "lumaMax": 28,
+            "span": 21,
+            "occupancy": 1,
+            "maxRun": 5,
+            "meanRun": 1.2314410480349345,
+            "stepsGe2": 677,
+            "meanLuma": 14.854609929078014
+          }
+        },
+        "farMid": {
+          "pixels": 72000,
+          "uniqueLuma": 85,
+          "lumaMin": 0,
+          "lumaMax": 85,
+          "span": 85,
+          "occupancy": 0.9883720930232558,
+          "maxRun": 5,
+          "meanRun": 1.054172767203514,
+          "stepsGe2": 62586,
+          "meanLuma": 18.14113888888889,
+          "block": {
+            "pixels": 1100,
+            "uniqueLuma": 34,
+            "lumaMin": 11,
+            "lumaMax": 46,
+            "span": 35,
+            "occupancy": 0.9444444444444444,
+            "maxRun": 5,
+            "meanRun": 1.177730192719486,
+            "stepsGe2": 599,
+            "meanLuma": 18.021818181818183
+          }
+        },
+        "character": {
+          "pixels": 159600,
+          "uniqueLuma": 53,
+          "lumaMin": 0,
+          "lumaMax": 52,
+          "span": 52,
+          "occupancy": 1,
+          "maxRun": 8,
+          "meanRun": 1.1445044424843491,
+          "stepsGe2": 124168,
+          "meanLuma": 11.908258145363408,
+          "block": {
+            "pixels": 2444,
+            "uniqueLuma": 33,
+            "lumaMin": 7,
+            "lumaMax": 43,
+            "span": 36,
+            "occupancy": 0.8918918918918919,
+            "maxRun": 5,
+            "meanRun": 1.2559095580678314,
+            "stepsGe2": 1012,
+            "meanLuma": 11.94885433715221
+          }
+        }
+      },
+      "hud": {
+        "textLen": 323,
+        "color": "rgb(243, 240, 232)",
+        "background": "rgba(6, 8, 14, 0.78)",
+        "roi": {
+          "x": 16,
+          "y": 14,
+          "w": 300,
+          "h": 90
+        }
+      },
+      "console": []
+    },
+    {
+      "name": "reveal-epaule-t14-s18",
+      "url": "http://127.0.0.1:18190/?shot=14&demo=reveal&seed=18&tex=512",
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/banding/apres-reveal-epaule-t14-s18.png",
+      "canvas": "/agent/repos/night-lords-ignitionrl/docs/captures/banding/apres-reveal-epaule-t14-s18-canvas.png",
+      "canvasSize": {
+        "w": 1920,
+        "h": 1080
+      },
+      "banding": {
+        "fogFloor": {
+          "pixels": 89600,
+          "uniqueLuma": 210,
+          "lumaMin": 0,
+          "lumaMax": 224,
+          "span": 224,
+          "occupancy": 0.9333333333333333,
+          "maxRun": 7,
+          "meanRun": 1.0903559476726499,
+          "stepsGe2": 68295,
+          "meanLuma": 52.88308035714286,
+          "block": {
+            "pixels": 1360,
+            "uniqueLuma": 92,
+            "lumaMin": 9,
+            "lumaMax": 143,
+            "span": 134,
+            "occupancy": 0.6814814814814815,
+            "maxRun": 6,
+            "meanRun": 1.2627669452181987,
+            "stepsGe2": 580,
+            "meanLuma": 52.9875
+          }
+        },
+        "fogWall": {
+          "pixels": 91200,
+          "uniqueLuma": 47,
+          "lumaMin": 0,
+          "lumaMax": 46,
+          "span": 46,
+          "occupancy": 1,
+          "maxRun": 8,
+          "meanRun": 1.1346670647954613,
+          "stepsGe2": 73047,
+          "meanLuma": 13.486239035087719,
+          "block": {
+            "pixels": 1410,
+            "uniqueLuma": 34,
+            "lumaMin": 6,
+            "lumaMax": 39,
+            "span": 33,
+            "occupancy": 1,
+            "maxRun": 6,
+            "meanRun": 1.2186689714779602,
+            "stepsGe2": 725,
+            "meanLuma": 13.487943262411347
+          }
+        },
+        "farMid": {
+          "pixels": 72000,
+          "uniqueLuma": 256,
+          "lumaMin": 0,
+          "lumaMax": 255,
+          "span": 255,
+          "occupancy": 1,
+          "maxRun": 15,
+          "meanRun": 1.0518165748761925,
+          "stepsGe2": 62180,
+          "meanLuma": 38.67208333333333,
+          "block": {
+            "pixels": 1100,
+            "uniqueLuma": 135,
+            "lumaMin": 11,
+            "lumaMax": 255,
+            "span": 244,
+            "occupancy": 0.5510204081632653,
+            "maxRun": 5,
+            "meanRun": 1.142263759086189,
+            "stepsGe2": 665,
+            "meanLuma": 38.163636363636364
+          }
+        },
+        "character": {
+          "pixels": 159600,
+          "uniqueLuma": 241,
+          "lumaMin": 0,
+          "lumaMax": 252,
+          "span": 252,
+          "occupancy": 0.9525691699604744,
+          "maxRun": 8,
+          "meanRun": 1.0969976905311778,
+          "stepsGe2": 131421,
+          "meanLuma": 26.59752506265664,
+          "block": {
+            "pixels": 2444,
+            "uniqueLuma": 105,
+            "lumaMin": 7,
+            "lumaMax": 173,
+            "span": 166,
+            "occupancy": 0.6287425149700598,
+            "maxRun": 5,
+            "meanRun": 1.1441947565543071,
+            "stepsGe2": 1562,
+            "meanLuma": 26.47504091653028
+          }
+        }
+      },
+      "hud": {
+        "textLen": 341,
+        "color": "rgb(243, 240, 232)",
+        "background": "rgba(6, 8, 14, 0.78)",
+        "roi": {
+          "x": 16,
+          "y": 14,
+          "w": 300,
+          "h": 90
+        }
+      },
+      "console": []
+    }
+  ],
+  "frametime": {
+    "n": 45,
+    "mean_ms": 815.048888888893,
+    "p95_ms": 2328.7000000001863,
+    "min_ms": 5.7999999998137355,
+    "max_ms": 5294.299999999814,
+    "samples": [
+      5.7999999998137355,
+      8.799999999813735,
+      10,
+      10.100000000558794,
+      12.400000000372529,
+      12.5,
+      13.5,
+      13.799999999813735,
+      15.899999999441206,
+      15.900000000372529,
+      16.09999999962747,
+      16.5,
+      16.5,
+      16.700000000186265,
+      16.799999999813735,
+      16.799999999813735,
+      16.899999999441206,
+      17.40000000037253,
+      18.90000000037253,
+      19.700000000186265,
+      20.09999999962747,
+      21.5,
+      163.09999999962747,
+      413.09999999962747,
+      1052.2000000001863,
+      1056.0999999996275,
+      1075.2000000001863,
+      1092.5,
+      1098.5,
+      1101.2000000001863,
+      1131.7000000001863,
+      1145.5,
+      1171.8999999994412,
+      1280.2000000001863,
+      1283.2000000001863,
+      1348.1000000005588,
+      1580.2000000001863,
+      1609.2000000001863,
+      1837.2999999998137,
+      1995,
+      2045.5,
+      2167.7000000001863,
+      2328.7000000001863,
+      3074.2000000001863,
+      5294.299999999814
+    ]
+  },
+  "console": [
+    "error: Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "consoleErrors": [
+    "error: Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "pageErrors": [],
+  "networkFailed": [
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json"
+    }
+  ],
+  "hardNet": [],
+  "hardConsole": []
+}
