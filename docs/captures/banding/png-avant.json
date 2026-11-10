@@ -1,0 +1,522 @@
+{
+  "avant-ensemble-couloir-t14-s18-canvas.png": {
+    "width": 1920,
+    "height": 1080,
+    "fogFloor": {
+      "px": {
+        "pixels": 89600,
+        "uniqueLuma": 139,
+        "lumaMin": 0,
+        "lumaMax": 142,
+        "span": 142,
+        "occupancy": 0.972027972027972,
+        "maxRun": 8,
+        "meanRun": 1.1208686732217468,
+        "stepsGe2": 70538
+      },
+      "block": {
+        "pixels": 1360,
+        "uniqueLuma": 51,
+        "lumaMin": 6,
+        "lumaMax": 67,
+        "span": 61,
+        "occupancy": 0.8225806451612904,
+        "maxRun": 7,
+        "meanRun": 1.1486486486486487,
+        "stepsGe2": 844
+      },
+      "meanLuma": 15.654408482142857
+    },
+    "fogWall": {
+      "px": {
+        "pixels": 91200,
+        "uniqueLuma": 198,
+        "lumaMin": 0,
+        "lumaMax": 203,
+        "span": 203,
+        "occupancy": 0.9705882352941176,
+        "maxRun": 10,
+        "meanRun": 1.2810248198558847,
+        "stepsGe2": 62496
+      },
+      "block": {
+        "pixels": 1410,
+        "uniqueLuma": 40,
+        "lumaMin": 5,
+        "lumaMax": 85,
+        "span": 80,
+        "occupancy": 0.49382716049382713,
+        "maxRun": 26,
+        "meanRun": 1.3570741097208854,
+        "stepsGe2": 500
+      },
+      "meanLuma": 10.14904605263158
+    },
+    "farMid": {
+      "px": {
+        "pixels": 72000,
+        "uniqueLuma": 182,
+        "lumaMin": 0,
+        "lumaMax": 197,
+        "span": 197,
+        "occupancy": 0.9191919191919192,
+        "maxRun": 5,
+        "meanRun": 1.0575948530383819,
+        "stepsGe2": 62568
+      },
+      "block": {
+        "pixels": 1100,
+        "uniqueLuma": 63,
+        "lumaMin": 10,
+        "lumaMax": 92,
+        "span": 82,
+        "occupancy": 0.7590361445783133,
+        "maxRun": 5,
+        "meanRun": 1.1434511434511434,
+        "stepsGe2": 699
+      },
+      "meanLuma": 26.53386111111111
+    },
+    "character": {
+      "px": {
+        "pixels": 159600,
+        "uniqueLuma": 78,
+        "lumaMin": 0,
+        "lumaMax": 86,
+        "span": 86,
+        "occupancy": 0.896551724137931,
+        "maxRun": 11,
+        "meanRun": 1.1663938260056128,
+        "stepsGe2": 123081
+      },
+      "block": {
+        "pixels": 2444,
+        "uniqueLuma": 32,
+        "lumaMin": 5,
+        "lumaMax": 46,
+        "span": 41,
+        "occupancy": 0.7619047619047619,
+        "maxRun": 6,
+        "meanRun": 1.2815941269008915,
+        "stepsGe2": 976
+      },
+      "meanLuma": 11.309987468671679
+    }
+  },
+  "avant-ensemble-couloir-t40-s3-canvas.png": {
+    "width": 1920,
+    "height": 1080,
+    "fogFloor": {
+      "px": {
+        "pixels": 89600,
+        "uniqueLuma": 75,
+        "lumaMin": 0,
+        "lumaMax": 83,
+        "span": 83,
+        "occupancy": 0.8928571428571429,
+        "maxRun": 9,
+        "meanRun": 1.1240042651947564,
+        "stepsGe2": 71959
+      },
+      "block": {
+        "pixels": 1360,
+        "uniqueLuma": 37,
+        "lumaMin": 6,
+        "lumaMax": 47,
+        "span": 41,
+        "occupancy": 0.8809523809523809,
+        "maxRun": 7,
+        "meanRun": 1.2927756653992395,
+        "stepsGe2": 515
+      },
+      "meanLuma": 13.885245535714287
+    },
+    "fogWall": {
+      "px": {
+        "pixels": 91200,
+        "uniqueLuma": 179,
+        "lumaMin": 0,
+        "lumaMax": 203,
+        "span": 203,
+        "occupancy": 0.8774509803921569,
+        "maxRun": 6,
+        "meanRun": 1.1161697752974005,
+        "stepsGe2": 74621
+      },
+      "block": {
+        "pixels": 1410,
+        "uniqueLuma": 36,
+        "lumaMin": 8,
+        "lumaMax": 51,
+        "span": 43,
+        "occupancy": 0.8181818181818182,
+        "maxRun": 27,
+        "meanRun": 1.2864963503649636,
+        "stepsGe2": 622
+      },
+      "meanLuma": 15.025043859649124
+    },
+    "farMid": {
+      "px": {
+        "pixels": 72000,
+        "uniqueLuma": 117,
+        "lumaMin": 0,
+        "lumaMax": 154,
+        "span": 154,
+        "occupancy": 0.7548387096774194,
+        "maxRun": 6,
+        "meanRun": 1.0602579961123872,
+        "stepsGe2": 61703
+      },
+      "block": {
+        "pixels": 1100,
+        "uniqueLuma": 68,
+        "lumaMin": 6,
+        "lumaMax": 76,
+        "span": 70,
+        "occupancy": 0.9577464788732394,
+        "maxRun": 5,
+        "meanRun": 1.1554621848739495,
+        "stepsGe2": 707
+      },
+      "meanLuma": 30.492013888888888
+    },
+    "character": {
+      "px": {
+        "pixels": 159600,
+        "uniqueLuma": 81,
+        "lumaMin": 0,
+        "lumaMax": 80,
+        "span": 80,
+        "occupancy": 1,
+        "maxRun": 8,
+        "meanRun": 1.0788230284103584,
+        "stepsGe2": 136237
+      },
+      "block": {
+        "pixels": 2444,
+        "uniqueLuma": 38,
+        "lumaMin": 8,
+        "lumaMax": 45,
+        "span": 37,
+        "occupancy": 1,
+        "maxRun": 5,
+        "meanRun": 1.2676348547717842,
+        "stepsGe2": 997
+      },
+      "meanLuma": 16.76372807017544
+    }
+  },
+  "avant-nl-couloir-t115-s3-canvas.png": {
+    "width": 1920,
+    "height": 1080,
+    "fogFloor": {
+      "px": {
+        "pixels": 89600,
+        "uniqueLuma": 105,
+        "lumaMin": 0,
+        "lumaMax": 105,
+        "span": 105,
+        "occupancy": 0.9905660377358491,
+        "maxRun": 9,
+        "meanRun": 1.1490420374977557,
+        "stepsGe2": 67545
+      },
+      "block": {
+        "pixels": 1360,
+        "uniqueLuma": 43,
+        "lumaMin": 6,
+        "lumaMax": 62,
+        "span": 56,
+        "occupancy": 0.7543859649122807,
+        "maxRun": 6,
+        "meanRun": 1.237488626023658,
+        "stepsGe2": 664
+      },
+      "meanLuma": 11.922555803571429
+    },
+    "fogWall": {
+      "px": {
+        "pixels": 91200,
+        "uniqueLuma": 204,
+        "lumaMin": 0,
+        "lumaMax": 203,
+        "span": 203,
+        "occupancy": 1,
+        "maxRun": 10,
+        "meanRun": 1.1293837923518921,
+        "stepsGe2": 70415
+      },
+      "block": {
+        "pixels": 1410,
+        "uniqueLuma": 54,
+        "lumaMin": 6,
+        "lumaMax": 80,
+        "span": 74,
+        "occupancy": 0.72,
+        "maxRun": 7,
+        "meanRun": 1.2522202486678509,
+        "stepsGe2": 664
+      },
+      "meanLuma": 15.091611842105262
+    },
+    "farMid": {
+      "px": {
+        "pixels": 72000,
+        "uniqueLuma": 120,
+        "lumaMin": 0,
+        "lumaMax": 131,
+        "span": 131,
+        "occupancy": 0.9090909090909091,
+        "maxRun": 6,
+        "meanRun": 1.0591662008296803,
+        "stepsGe2": 62877
+      },
+      "block": {
+        "pixels": 1100,
+        "uniqueLuma": 64,
+        "lumaMin": 9,
+        "lumaMax": 84,
+        "span": 75,
+        "occupancy": 0.8421052631578947,
+        "maxRun": 5,
+        "meanRun": 1.1566771819137749,
+        "stepsGe2": 682
+      },
+      "meanLuma": 25.9705
+    },
+    "character": {
+      "px": {
+        "pixels": 159600,
+        "uniqueLuma": 34,
+        "lumaMin": 0,
+        "lumaMax": 33,
+        "span": 33,
+        "occupancy": 1,
+        "maxRun": 10,
+        "meanRun": 1.1525962302303747,
+        "stepsGe2": 116188
+      },
+      "block": {
+        "pixels": 2444,
+        "uniqueLuma": 15,
+        "lumaMin": 5,
+        "lumaMax": 19,
+        "span": 14,
+        "occupancy": 1,
+        "maxRun": 8,
+        "meanRun": 1.3510226644555003,
+        "stepsGe2": 807
+      },
+      "meanLuma": 9.482600250626566
+    }
+  },
+  "avant-reveal-epaule-t14-s18-canvas.png": {
+    "width": 1920,
+    "height": 1080,
+    "fogFloor": {
+      "px": {
+        "pixels": 89600,
+        "uniqueLuma": 214,
+        "lumaMin": 0,
+        "lumaMax": 235,
+        "span": 235,
+        "occupancy": 0.9067796610169492,
+        "maxRun": 11,
+        "meanRun": 1.1102712481877548,
+        "stepsGe2": 72637
+      },
+      "block": {
+        "pixels": 1360,
+        "uniqueLuma": 102,
+        "lumaMin": 6,
+        "lumaMax": 135,
+        "span": 129,
+        "occupancy": 0.7846153846153846,
+        "maxRun": 4,
+        "meanRun": 1.0950080515297906,
+        "stepsGe2": 1029
+      },
+      "meanLuma": 29.014944196428573
+    },
+    "fogWall": {
+      "px": {
+        "pixels": 91200,
+        "uniqueLuma": 200,
+        "lumaMin": 0,
+        "lumaMax": 203,
+        "span": 203,
+        "occupancy": 0.9803921568627451,
+        "maxRun": 10,
+        "meanRun": 1.1625535386498063,
+        "stepsGe2": 70215
+      },
+      "block": {
+        "pixels": 1410,
+        "uniqueLuma": 55,
+        "lumaMin": 6,
+        "lumaMax": 85,
+        "span": 79,
+        "occupancy": 0.6875,
+        "maxRun": 16,
+        "meanRun": 1.2444836716681378,
+        "stepsGe2": 693
+      },
+      "meanLuma": 14.426940789473685
+    },
+    "farMid": {
+      "px": {
+        "pixels": 72000,
+        "uniqueLuma": 210,
+        "lumaMin": 0,
+        "lumaMax": 233,
+        "span": 233,
+        "occupancy": 0.8974358974358975,
+        "maxRun": 6,
+        "meanRun": 1.064317284808349,
+        "stepsGe2": 60862
+      },
+      "block": {
+        "pixels": 1100,
+        "uniqueLuma": 98,
+        "lumaMin": 6,
+        "lumaMax": 171,
+        "span": 165,
+        "occupancy": 0.5903614457831325,
+        "maxRun": 5,
+        "meanRun": 1.167728237791932,
+        "stepsGe2": 681
+      },
+      "meanLuma": 35.94733333333333
+    },
+    "character": {
+      "px": {
+        "pixels": 159600,
+        "uniqueLuma": 234,
+        "lumaMin": 0,
+        "lumaMax": 239,
+        "span": 239,
+        "occupancy": 0.975,
+        "maxRun": 10,
+        "meanRun": 1.1103999109453706,
+        "stepsGe2": 129527
+      },
+      "block": {
+        "pixels": 2444,
+        "uniqueLuma": 104,
+        "lumaMin": 5,
+        "lumaMax": 171,
+        "span": 166,
+        "occupancy": 0.6227544910179641,
+        "maxRun": 5,
+        "meanRun": 1.1330551692165045,
+        "stepsGe2": 1571
+      },
+      "meanLuma": 24.760695488721804
+    }
+  },
+  "avant-terminator-epaule-t115-s3-canvas.png": {
+    "width": 1920,
+    "height": 1080,
+    "fogFloor": {
+      "px": {
+        "pixels": 89600,
+        "uniqueLuma": 142,
+        "lumaMin": 0,
+        "lumaMax": 141,
+        "span": 141,
+        "occupancy": 1,
+        "maxRun": 10,
+        "meanRun": 1.0963731584357104,
+        "stepsGe2": 74419
+      },
+      "block": {
+        "pixels": 1360,
+        "uniqueLuma": 84,
+        "lumaMin": 6,
+        "lumaMax": 108,
+        "span": 102,
+        "occupancy": 0.8155339805825242,
+        "maxRun": 4,
+        "meanRun": 1.070023603461841,
+        "stepsGe2": 1095
+      },
+      "meanLuma": 23.681752232142856
+    },
+    "fogWall": {
+      "px": {
+        "pixels": 91200,
+        "uniqueLuma": 204,
+        "lumaMin": 0,
+        "lumaMax": 203,
+        "span": 203,
+        "occupancy": 1,
+        "maxRun": 8,
+        "meanRun": 1.1170447307824212,
+        "stepsGe2": 73497
+      },
+      "block": {
+        "pixels": 1410,
+        "uniqueLuma": 61,
+        "lumaMin": 8,
+        "lumaMax": 81,
+        "span": 73,
+        "occupancy": 0.8243243243243243,
+        "maxRun": 26,
+        "meanRun": 1.3251879699248121,
+        "stepsGe2": 629
+      },
+      "meanLuma": 16.35970394736842
+    },
+    "farMid": {
+      "px": {
+        "pixels": 72000,
+        "uniqueLuma": 147,
+        "lumaMin": 0,
+        "lumaMax": 150,
+        "span": 150,
+        "occupancy": 0.9735099337748344,
+        "maxRun": 5,
+        "meanRun": 1.0666666666666667,
+        "stepsGe2": 61196
+      },
+      "block": {
+        "pixels": 1100,
+        "uniqueLuma": 79,
+        "lumaMin": 13,
+        "lumaMax": 103,
+        "span": 90,
+        "occupancy": 0.8681318681318682,
+        "maxRun": 5,
+        "meanRun": 1.1482254697286012,
+        "stepsGe2": 652
+      },
+      "meanLuma": 32.24888888888889
+    },
+    "character": {
+      "px": {
+        "pixels": 159600,
+        "uniqueLuma": 117,
+        "lumaMin": 0,
+        "lumaMax": 116,
+        "span": 116,
+        "occupancy": 1,
+        "maxRun": 11,
+        "meanRun": 1.1040474823428497,
+        "stepsGe2": 130636
+      },
+      "block": {
+        "pixels": 2444,
+        "uniqueLuma": 79,
+        "lumaMin": 6,
+        "lumaMax": 87,
+        "span": 81,
+        "occupancy": 0.9634146341463414,
+        "maxRun": 5,
+        "meanRun": 1.1267865375749193,
+        "stepsGe2": 1676
+      },
+      "meanLuma": 22.201835839599
+    }
+  }
+}

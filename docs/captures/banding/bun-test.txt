@@ -1,0 +1,291 @@
+bun test v1.4.4 (38afee6c8)
+
+test/match-feel.test.ts:
+(pass) contrats gelés : vitesses, horloge, armure, observation [1.41ms]
+(pass) victoire meute : armure à 0 → pack, « Terminator abattu » [1.55ms]
+(pass) victoire Terminator : meute à terre → « meute anéantie » [0.14ms]
+(pass) victoire Terminator : 6 s à la balise sans coup qui blesse → « téléporté » [1.53ms]
+(pass) victoire Terminator : MAX_TICKS → « temps écoulé, il a tenu » [0.19ms]
+(pass) la canalisation se coupe si un coup blesse, pas si la griffe tape l'avant [0.71ms]
+(pass) quitter la zone de balise remet la canalisation à zéro [0.20ms]
+(pass) horloge : M:SS, pression dans les 15 dernières secondes [0.28ms]
+(pass) statut : canalisation, dernier frère, armes [0.34ms]
+(pass) rythme : beats canalisation, coupure, dernier frère, pression horaire [0.26ms]
+(pass) HUD : objectifs, horloge, roster, munitions — pas seulement une barre d'armure [0.24ms]
+(pass) carte de fin : raison historique + durée + survivants [0.21ms]
+
+test/locomotion.test.ts:
+(pass) bandes de gait : stun NL → walk, course NL → run, TERM sans sprint [0.09ms]
+
+# locomotion — distance par cycle (timeScale=1 vs calé)
+# foulée = moyenne L/R du ΔX des contacts pied (skin), après AABB→hauteur cible, rotation.y=π/2
+# timeScale = v · T / foulée   dist/cycle = v · T / timeScale
+{
+  "role": "NL-1",
+  "gait": "run",
+  "speed_mps": 6,
+  "heightNative_m": 1.6999763706867699,
+  "scale": 1.176486940928493,
+  "target_m": 2,
+  "nKeys": 20,
+  "duration_s": 0.6666666865348816,
+  "firstKey_s": 0.03333333507180214,
+  "strideL_m": 1.2976007845108257,
+  "strideR_m": 1.3694147495663667,
+  "stride_m": 1.3335077670385962,
+  "hipsDeltaXZ_m": 0,
+  "loopTrackDelta": 0.00000762939453125,
+  "poseT0VsFirst_m": 0,
+  "poseFirstVsLast_m": 0,
+  "timeScale_before": 1,
+  "distCycle_before_m": 4.0000001192092896,
+  "slip_before_m": 2.6664923521706934,
+  "timeScale_after": 2.999607664897475,
+  "distCycle_after_m": 1.3335077670385962,
+  "slip_after_m": 0
+}
+{
+  "role": "NL-1",
+  "gait": "walk",
+  "speed_mps": 3,
+  "heightNative_m": 1.6999763706867699,
+  "scale": 1.176486940928493,
+  "target_m": 2,
+  "nKeys": 32,
+  "duration_s": 1.066666603088379,
+  "firstKey_s": 0.03333333507180214,
+  "strideL_m": 1.1319317002641507,
+  "strideR_m": 1.0685998940624901,
+  "stride_m": 1.1002657971633205,
+  "hipsDeltaXZ_m": 0,
+  "loopTrackDelta": 0.0000152587890625,
+  "poseT0VsFirst_m": 0,
+  "poseFirstVsLast_m": 0,
+  "timeScale_before": 1,
+  "distCycle_before_m": 3.1999998092651367,
+  "slip_before_m": 2.099734012101816,
+  "timeScale_after": 2.9083879709023956,
+  "distCycle_after_m": 1.1002657971633205,
+  "slip_after_m": 0
+}
+{
+  "role": "TERM",
+  "gait": "walk",
+  "speed_mps": 2.5,
+  "heightNative_m": 1.6999999788851172,
+  "scale": 1.529411783701971,
+  "target_m": 2.6,
+  "nKeys": 32,
+  "duration_s": 1.066666603088379,
+  "firstKey_s": 0.03333333507180214,
+  "strideL_m": 1.3455393095671724,
+  "strideR_m": 1.3056922730049754,
+  "stride_m": 1.325615791286074,
+  "hipsDeltaXZ_m": 0,
+  "loopTrackDelta": 0.000003814697265625108,
+  "poseT0VsFirst_m": 0,
+  "poseFirstVsLast_m": 0,
+  "timeScale_before": 1,
+  "distCycle_before_m": 2.6666665077209473,
+  "slip_before_m": 1.3410507164348733,
+  "timeScale_after": 2.0116435887760695,
+  "distCycle_after_m": 1.3256157912860742,
+  "slip_after_m": 2.220446049250313e-16
+}
+(pass) foulée skinée et distance par cycle avant/après timeScale [190.72ms]
+
+# locomotion — sous-pas mixer (DT inchangé, timeScale inchangé)
+# N = ceil(|dt·timeScale| / (1/30)) ; somme des sous-pas = DT ; pose finale = un seul update(DT)
+{
+  "role": "NL-1",
+  "gait": "run",
+  "speed_mps": 6,
+  "DT": 0.1,
+  "timeScale": 2.999607664897475,
+  "substeps": 9,
+  "stepDt": 0.011111111111111112,
+  "animStep_s": 0.03332897405441639,
+  "mixerTime_one": 0.1,
+  "mixerTime_sub": 0.1,
+  "actionTime_one": 0.2999607664897475,
+  "actionTime_sub": 0.2999607664897475,
+  "intermediatePoses": 9,
+  "stepSum": 0.1
+}
+{
+  "role": "NL-1",
+  "gait": "walk",
+  "speed_mps": 3,
+  "DT": 0.1,
+  "timeScale": 2.9083879709023956,
+  "substeps": 9,
+  "stepDt": 0.011111111111111112,
+  "animStep_s": 0.03231542189891551,
+  "mixerTime_one": 0.1,
+  "mixerTime_sub": 0.1,
+  "actionTime_one": 0.2908387970902396,
+  "actionTime_sub": 0.2908387970902396,
+  "intermediatePoses": 9,
+  "stepSum": 0.1
+}
+{
+  "role": "TERM",
+  "gait": "walk",
+  "speed_mps": 2.5,
+  "DT": 0.1,
+  "timeScale": 2.0116435887760695,
+  "substeps": 7,
+  "stepDt": 0.014285714285714287,
+  "animStep_s": 0.028737765553943855,
+  "mixerTime_one": 0.1,
+  "mixerTime_sub": 0.10000000000000002,
+  "actionTime_one": 0.20116435887760697,
+  "actionTime_sub": 0.201164358877607,
+  "intermediatePoses": 7,
+  "stepSum": 0.10000000000000002
+}
+(pass) sous-pas mixer : même timeScale et même temps final, plus de poses intermédiaires [138.93ms]
+
+# locomotion — 6 frames d'affichage (1/60 s), DT=0,1, timeScale figé
+{
+  "role": "NL-1",
+  "gait": "run",
+  "speed_mps": 6,
+  "DT": 0.1,
+  "frame_s": 0.016666666666666666,
+  "frames": 6,
+  "timeScale": 2.999607664897475,
+  "stride_m": 1.3335077670385962,
+  "hipsDeltaXZ_m": 0,
+  "stepSum": 0.09999999999999999,
+  "mixerTime": 0.09999999999999999,
+  "actionTime": 0.29996076648974745,
+  "poses": [
+    0.049993461081624585,
+    0.09998692216324917,
+    0.14998038324487376,
+    0.19997384432649834,
+    0.2499673054081229,
+    0.29996076648974745
+  ],
+  "uniquePoses": 6,
+  "distCycle_m": 1.3335077670385962,
+  "slip_cycle_m": 0,
+  "world_m": 0.6,
+  "expectedWorld_m": 0.6,
+  "slip_frames_m": 0
+}
+(pass) 6 frames 1/60 s : 6 poses distinctes, somme = DT, pas de glisse [33.28ms]
+
+test/sas-physics.test.ts:
+(pass) Le Sas — contrat physique pur > sept caisses, une impulsion finie et dirigée vers le sas pour chacune [0.19ms]
+(pass) Le Sas — contrat physique pur > reduced motion réduit seulement l’impulsion verticale, pas la simulation [0.05ms]
+(pass) Le Sas — contrat physique pur > le mobile passe en éco, le choix explicite reste prioritaire [0.03ms]
+(pass) Le Sas — contrat physique pur > reduced motion réduit intensité et durée du flash [0.03ms]
+(pass) Le Sas — contrat physique pur > les percentiles sont calculés sur la fenêtre réelle [0.09ms]
+
+test/sas-e2e.test.ts:
+(skip) Le Sas e2e Playwright (SAS_E2E=1)
+
+test/claw-windup.test.ts:
+(pass) défaut : les griffes s'arment (clawWindup activé par défaut) [0.23ms]
+(pass) armement : aucun dégât au tick T, annonce clawArm, dégâts au tick T+2 [0.34ms]
+(pass) armement : la cible qui s'éloigne ⇒ whiff et zéro dégât [0.19ms]
+(pass) drapeau false : dégâts au tick T, aucun clawArm (comportement d'avant) [0.14ms]
+(pass) récompenses attachées à l'impact effectif, pas à l'armement [0.09ms]
+
+test/eval-claw-windup.test.ts:
+(pass) clawWindup: true ⇒ des annonces clawArm sont observées [26.37ms]
+(pass) clawWindup: false ⇒ aucune annonce clawArm [9.18ms]
+(pass) option absente ⇒ identique à clawWindup: false (aucun changement par défaut) [19.99ms]
+
+test/props.test.ts:
+(pass) 22 poses, un prisme par instance ; les chaînes ne occupent pas le sol [0.29ms]
+(pass) cœurs plus petits que l'AABB du GLB simplifié (pas la bbox des bruts Genex) [0.09ms]
+(pass) contrôle traversant : sans props, un Night Lord en marche traverse le débris du couloir [0.20ms]
+(pass) avec le volume debris, le même parcours s'arrête avant le tas du couloir [1.91ms]
+(pass) R46-02 : extrémités libres, l'accord interpolé d'une caisse orientée (instance 11) est rejeté [0.46ms]
+(pass) repli : ?props=0 / kinds vides / kinds absents ⇒ aucun solide au sol [0.15ms]
+(pass) échec partiel : seul un type chargé devient solide [0.52ms]
+(pass) headless : défaut et propKinds [] sont identiques (état + consommation RNG) sur 1200 ticks [10.11ms]
+(pass) headless : 20 germes × 1200 ticks sans props restent au comportement historique (solides inactifs) [60.08ms]
+
+test/inertia.test.ts:
+(pass) accélération : au tick 1 la vitesse est sous le plafond, l'avance sous l'ancien déplacement instantané [0.29ms]
+(pass) décélération : lâcher l'entrée fait décroître la vitesse sur plusieurs ticks jusqu'à zéro [1.20ms]
+(pass) rotation : la tourelle monte en régime, un demi-tour demande plus de 3 ticks [0.47ms]
+(pass) latéral : `strafe` n'est pas une translation, le vecteur vitesse suit l'axe du regard [0.26ms]
+(pass) pas : à vitesse stabilisée, un `step` toutes les 0,9 s et les pieds alternent [0.54ms]
+(pass) pas d'arrêt : un seul `step` d'intensité 0 quand la vitesse retombe, puis silence [0.24ms]
+(pass) conséquence de design : une griffe télégraphiée attrape un Terminator à l'arrêt [0.12ms]
+(pass) reproductibilité : même graine + mêmes entrées ⇒ mêmes trajectoires, mêmes pas [2.08ms]
+
+test/damage-feedback.test.ts:
+(pass) 1. un coup qui blesse émet `hit` (dmg, zone, hpAfter) en plus du `claw` [0.20ms]
+(pass) 2. un gantelet en charge qui prend un coup est perdu, sans munition ni impact [0.19ms]
+(pass) 3. une rafale en cours qui prend un coup s'arrête net (burstLeft = 0, plus de tir) [0.11ms]
+(pass) 4. pendant le stagger, un appui `bolt` ou `fist` ne déclenche rien [0.14ms]
+(pass) 5. l'alarme de servo est posée à 10, portée par `hit`, et décroît d'un tick par pas [0.13ms]
+(pass) 6. `servoCritical` n'est émis qu'une fois, au premier passage sous 25 % [0.14ms]
+
+test/determinism.test.ts:
+2026-11-10 08:09:35.862153: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-11-10 08:09:35.896340: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+(pass) BC : même graine ⇒ mêmes poids ; graine différente ⇒ poids différents [9.21ms]
+(pass) BC : 20 mises à jour, même graine ⇒ même hash et même perte [190.63ms]
+(pass) PPO : même graine ⇒ mêmes poids et mêmes métriques sur 20 mises à jour [1481.35ms]
+
+test/nn-harness.test.ts:
+(pass) les chemins b3 / politiques courantes sont gelés [0.26ms]
+(pass) assertSafeWritePath refuse un artefact gelé [0.57ms]
+(pass) mesure sur une graine : deux passes identiques (hors horloge) [115.72ms]
+(pass) écrire le rapport n'écrase pas les artefacts b3 [14.93ms]
+(pass) le CLI refuse --updates (pas de job PPO) [0.49ms]
+(pass) writeHarnessReport refuse mesures/eval-b3.json avant tout writeFile [0.27ms]
+
+test/terminator-look.test.ts:
+(pass) carte MR dummy orange (mesure TERM-512 : B≈0,018, G≈0,56) [0.31ms]
+(pass) applyTerminatorLook : PBR armure, pas le flatten générique, visor shader [0.52ms]
+(pass) garde-fous : pas de sprint TERM, vitesses gelées [0.04ms]
+
+test/hunter-state.test.ts:
+(pass) 1. quatre entrées, positions/orientations de w.nls, cônes de NL_CFG [0.19ms]
+(pass) 2. un frère mort est signalé alive: false [0.05ms]
+(pass) 3. sees/hears/vox recopient belief.seen/heard/vox au même tick (aucune divergence) [0.30ms]
+(pass) 4. isControlViewEnabled : seul control=1 ouvre le canal [0.10ms]
+(pass) 5. publishHunterState n'émet rien quand le canal est désactivé [0.51ms]
+(pass) 5b. le canal n'altère jamais la simulation (lecture seule) [0.26ms]
+
+test/weapons.test.ts:
+(pass) rafale : 3 tirs sur 3 ticks consécutifs, 3 munitions consommées, pas de 4ᵉ [0.36ms]
+(pass) rafale : la dispersion croît et laisse passer le 1ᵉʳ tir sous le nez [0.24ms]
+(pass) munitions épuisées : rechargement de 20 ticks, bolt sans effet, vitesse réduite, chargeur plein [0.31ms]
+(pass) gantelet : charge de 8 ticks, aucun impact avant, impact au 8ᵉ tick [0.27ms]
+(pass) gantelet : le stagger gèle le cd de griffe et ralentit la course [0.26ms]
+(pass) gantelet : une nouvelle entrée pendant la charge est ignorée (charge non annulable) [0.16ms]
+(pass) recul : croît dans la rafale (0 < r1 < r2 < r3) [0.09ms]
+(pass) reproductibilité : la trace des armes ne dépend que de la graine et du temps [4.40ms]
+
+test/banding.test.ts:
+(pass) un dégradé lisse a beaucoup de niveaux et des runs courts [0.93ms]
+(pass) un dégradé en 16 paliers a peu de niveaux et des runs longs [0.39ms]
+(pass) luma8 pondère le vert [0.02ms]
+(pass) decodePngRgba refuse un buffer qui n'est pas un PNG [0.26ms]
+(pass) blockBanding : le grain ne masque pas 16 paliers [1.73ms]
+
+test/atmosphere.test.ts:
+(pass) fog et exposition de #54 restent les valeurs retenues [0.05ms]
+(pass) la passe scène est HalfFloat linéaire (pas 8 bits linéaire) [0.05ms]
+(pass) le post encode sRGB réel et dithers après gamma [0.03ms]
+(pass) linearToSrgb : 0 et 1, et le seuil IEC [0.04ms]
+
+1 tests skipped:
+(skip) Le Sas e2e Playwright (SAS_E2E=1)
+
+ 87 pass
+ 1 skip
+ 0 fail
+ 51 expect() calls
+Ran 88 tests across 16 files. [2.82s]
+bun test exit: 0
