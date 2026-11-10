@@ -1497,7 +1497,9 @@ await Promise.all([
   loadPolicy(),
   PROBE_READ ? Promise.resolve() : loadModels(),
   PROBE_READ ? Promise.resolve() : loadProps(),
-  shot || PROBE_READ ? Promise.resolve() : initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }),
+  shot || PROBE_READ || CAP_STEP ? Promise.resolve() : initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }).then(() => {
+    engine.setOccluders(PILLARS);
+  }),
 ]);
 // Onglet en arrière-plan : le module suspend le contexte, et ne le reprend au retour que s'il tournait.
 audio.attachLifecycle();

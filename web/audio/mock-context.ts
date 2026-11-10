@@ -71,6 +71,9 @@ export function createMockAudioContext(sampleRate = 44100) {
     createBiquadFilter() {
       return { ...node(), type: 'lowpass', frequency: param(1200), Q: param(1) };
     },
+    createConvolver() {
+      return { ...node(), buffer: null as unknown, normalize: true };
+    },
     createBuffer(_ch: number, length: number, rate: number) {
       const data = [new Float32Array(length)];
       return {

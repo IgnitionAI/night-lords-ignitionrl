@@ -27,6 +27,8 @@ web/sfx/genex/
 
 # Intermédiaires de capture (webm / concat) — la vidéo finale est dans docs/videos/.
 docs/captures/camera-combat/_clip-*/
+docs/videos/*.webm
+docs/videos/match-audio.wav
 docs/captures/anim-impact/_clips/
 docs/captures/anim-impact/_vid/
 docs/captures/anim-impact/avant-*.png
