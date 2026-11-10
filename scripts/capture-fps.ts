@@ -241,13 +241,13 @@ function writeWav(path: string, interleaved: Float32Array, sampleRate: number, c
 
 function loudnormAac(wav: string, aac: string) {
   const meas = spawnSync('ffmpeg', [
-    '-hide_banner', '-i', wav, '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json', '-f', 'null', '-',
+    '-hide_banner', '-i', wav, '-af', 'loudnorm=I=-15:TP=-1.5:LRA=11:print_format=json', '-f', 'null', '-',
   ], { encoding: 'utf8' });
   const raw = `${meas.stderr ?? ''}\n${meas.stdout ?? ''}`;
   const jsonMatch = raw.match(/\{[\s\S]*"input_i"[\s\S]*\}/);
   const measured = jsonMatch ? JSON.parse(jsonMatch[0]) as Record<string, string> : {};
   const af = [
-    'loudnorm=I=-14:TP=-1.5:LRA=11',
+    'loudnorm=I=-15:TP=-1.5:LRA=11',
     measured.input_i != null ? `measured_I=${measured.input_i}` : '',
     measured.input_tp != null ? `measured_TP=${measured.input_tp}` : '',
     measured.input_lra != null ? `measured_LRA=${measured.input_lra}` : '',

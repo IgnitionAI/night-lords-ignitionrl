@@ -74,6 +74,9 @@ export function createMockAudioContext(sampleRate = 44100) {
     createConvolver() {
       return { ...node(), buffer: null as unknown, normalize: true };
     },
+    createScriptProcessor(_size = 2048, _inc = 2, _outc = 2) {
+      return { ...node(), onaudioprocess: null as unknown };
+    },
     createBuffer(_ch: number, length: number, rate: number) {
       const data = [new Float32Array(length)];
       return {
