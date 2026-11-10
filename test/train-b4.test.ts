@@ -28,6 +28,7 @@ test('sans ?policy le jeu charge current (b5) ; ?policy=b6 lit le candidat ; arc
   assert.deepEqual(policyFileFromQuery('current'), { id: 'current', file: 'current.json' });
   assert.deepEqual(policyFileFromQuery('b5'), { id: 'b5', file: 'current.json' });
   assert.deepEqual(policyFileFromQuery('b6'), { id: 'b6', file: 'candidates/b6/actor.json' });
+  assert.deepEqual(policyFileFromQuery('b6p'), { id: 'b6p', file: 'candidates/b6p/actor.json' });
   assert.deepEqual(policyFileFromQuery('b4'), { id: 'b4', file: 'b4/current.json' });
   assert.deepEqual(policyFileFromQuery('b3'), { id: 'b3', file: 'b3/current.json' });
   assert.deepEqual(policyFileFromQuery('inconnu'), { id: 'current', file: 'current.json' });

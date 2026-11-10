@@ -6,7 +6,7 @@ bun dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1      # PPO m
 bun dist/eval.mjs --pack runs/base/actor.json --n 200                     # taux de victoire, seeds 900000+
 scripts/mesures.sh                                                         # mesures du jalon 1
 cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies/current-full.json
-bun dist/server.mjs      # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=fps|couloir|epaule|troisquarts  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all  ?props=0)
+bun dist/server.mjs      # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=fps|combat|couloir|epaule|troisquarts  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all  ?props=0  ?policy=b6p)
 ```# Night Lords sur IgnitionRL — prototype « La Meute »
 
 Un Terminator surpuissant, piloté par un joueur, contre une meute de 4 Night Lords entraînés par apprentissage par renforcement (PPO multi-agents). Chaque Night Lord, seul, meurt en un coup : la meute ne gagne qu'en se coordonnant (appât, flanc, finition), à partir d'observations limitées (cône de vision, bruit, vox entre frères). Pas de triche : la meute et le Terminator suivent les mêmes règles de simulation.
@@ -75,7 +75,7 @@ bun dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1      # PPO m
 bun dist/eval.mjs --pack runs/base/actor.json --n 200                     # taux de victoire, seeds 900000+
 scripts/mesures.sh                                                         # mesures du jalon 1
 cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies/current-full.json
-bun dist/server.mjs      # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=fps|couloir|epaule|troisquarts  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all  ?props=0)
+bun dist/server.mjs      # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=fps|combat|couloir|epaule|troisquarts  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all  ?props=0  ?policy=b6p)
 ```
 
 Node reste possible (`node dist/server.mjs` fonctionne) mais n'est plus la cible : `bun test` remplace `node --test`,
@@ -84,7 +84,7 @@ Node reste possible (`node dist/server.mjs` fonctionne) mais n'est plus la cible
 `?seed=N` joue **N** (les manches suivantes avancent d'un cran). Avant le 04/11/2026 la première manche
 incrémentait la graine : les captures étiquetées par leur URL avant cette date sont décalées d'un cran.
 
-`policies/` : `current.json` est **b5** (`runs/b5@2000`, défaut du jeu, sans paramètre d'URL). Candidat **b6** : `policies/candidates/b6/` (`?policy=b6`) — fine-tune tempo depuis b5, **pas** promu. Archives byte-identiques : `policies/b4/` (`runs/b4@800`, `?policy=b4`) et `policies/b3/` (`runs/b3@2000`, `?policy=b3`). Copies de travail : `policies/candidates/b5/`, `policies/candidates/b4/`. `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
+`policies/` : `current.json` est **b5** (`runs/b5@2000`, défaut du jeu, sans paramètre d'URL). Candidat **b6** vis2 : `policies/candidates/b6/` (`?policy=b6`). Candidat **b6p** : `policies/candidates/b6p/` (`?policy=b6p`) — acteur original `runs/b6@1950` (#66), **pas** promu. Archives byte-identiques : `policies/b4/` (`runs/b4@800`, `?policy=b4`) et `policies/b3/` (`runs/b3@2000`, `?policy=b3`). Copies de travail : `policies/candidates/b5/`, `policies/candidates/b4/`. `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
 
 ## Le Sas — vignette R3F + Rapier (IGN-116)
 
@@ -140,6 +140,7 @@ Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --see
 - `web/` : rendu Three.js et vue de contrôle (touche V)
 - Caméra FPS (défaut, `?cam=fps`) : œil du Terminator (~2,18 m), bob de pas lourd, visée souris (pointer lock),
   armes en avant-plan (bolter / gantelet) sur une passe de profondeur séparée. Module `web/camera/fps.ts`.
+- Caméra de combat (`?cam=combat`) : cadre le Terminator et le Night Lord vivant le plus menaçant (griffes armées) ou le plus proche. Recul / zoom doux, orbite limitée, évitement des piliers, lissage. Marqueur hors écran, lueur d'yeux / réacteur sans fog, traçant de bolt jusqu'à l'impact.
 - Caméra à l'épaule (`?cam=epaule`) : 3,4 m derrière, 1,18 m sur l'épaule droite, 2,32 m du sol, fov 56.
 - Caméra de couloir (`?cam=couloir`) : 8,2 m / 3,4 m de haut / fov 58 (68 en portrait). Elle se cale derrière
   son dos et remonte à 4,9 m si son œil tombe dans l'emprise d'un pilier.

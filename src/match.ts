@@ -150,7 +150,7 @@ export function roundCard(w: World, extra: { roundNo: number }): RoundCard {
 export function hudMarkup(s: MatchStatus, extra: {
   roundNo: number; score: { pack: number; term: number };
   demo?: boolean; alarmOn?: boolean; servoAlarm?: boolean; servoCritical?: boolean;
-  policyLine?: string; burnIn?: string;
+  policyLine?: string; burnIn?: string; playSpeed?: string;
 }): string {
   const armorPct = Math.max(0, Math.min(100, s.armor.frac * 100));
   const beaconPct = Math.max(0, Math.min(100, s.channelFrac * 100));
@@ -165,7 +165,9 @@ export function hudMarkup(s: MatchStatus, extra: {
   const burn = extra.burnIn ? `<div class="burn">${extra.burnIn}</div>` : '';
   return `${demo}<div class="head"><b>TERMINATOR</b> — manche ${extra.roundNo}`
     + ` · <span class="score">meute ${extra.score.pack} · Terminator ${extra.score.term}</span>`
-    + ` · <span class="${clockCls}">${s.clock}</span></div>`
+    + ` · <span class="${clockCls}">${s.clock}</span>`
+    + (extra.playSpeed ? ` · <b class="speed">${extra.playSpeed}</b>` : '')
+    + `</div>`
     + `<div class="obj">${s.objectiveLine}</div>`
     + `<div class="bar armor" title="armure"><i style="width:${armorPct}%"></i></div>`
     + `<div class="bar beacon" title="canalisation"><i style="width:${beaconPct}%"></i></div>`

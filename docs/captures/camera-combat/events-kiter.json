@@ -1,0 +1,521 @@
+{
+  "seed": 900002,
+  "autoplay": "kiter",
+  "winner": "pack",
+  "reason": "Terminator abattu",
+  "ticks": 501,
+  "fistHit": {
+    "tick": 154,
+    "simT": 15.4,
+    "videoT": 8.8,
+    "type": "fist",
+    "detail": {
+      "type": "fist",
+      "kill": 3,
+      "staggered": true
+    }
+  },
+  "clawHit": {
+    "tick": 395,
+    "simT": 39.5,
+    "videoT": 22.571428571428573,
+    "type": "claw",
+    "detail": {
+      "type": "claw",
+      "who": 1,
+      "dmg": 2,
+      "zone": "rear"
+    }
+  },
+  "boltKill": {
+    "tick": 359,
+    "simT": 35.9,
+    "videoT": 20.514285714285712,
+    "type": "bolt",
+    "detail": {
+      "type": "bolt",
+      "x": 23.84927302781653,
+      "y": 11.913346588779207,
+      "tx": 26.673292550793633,
+      "ty": 17.438690207159823,
+      "kill": 0,
+      "recoil": 0.3333333333333333
+    }
+  },
+  "events": [
+    {
+      "tick": 154,
+      "simT": 15.4,
+      "videoT": 8.8,
+      "type": "fist",
+      "detail": {
+        "type": "fist",
+        "kill": 3,
+        "staggered": true
+      }
+    },
+    {
+      "tick": 359,
+      "simT": 35.9,
+      "videoT": 20.514285714285712,
+      "type": "bolt",
+      "detail": {
+        "type": "bolt",
+        "x": 23.84927302781653,
+        "y": 11.913346588779207,
+        "tx": 26.673292550793633,
+        "ty": 17.438690207159823,
+        "kill": 0,
+        "recoil": 0.3333333333333333
+      }
+    },
+    {
+      "tick": 360,
+      "simT": 36,
+      "videoT": 20.571428571428573,
+      "type": "bolt",
+      "detail": {
+        "type": "bolt",
+        "x": 23.857874484105487,
+        "y": 11.942087064587884,
+        "tx": 28.445317838216784,
+        "ty": 27.27034082921548,
+        "kill": -1,
+        "recoil": 0.6666666666666666
+      }
+    },
+    {
+      "tick": 361,
+      "simT": 36.1,
+      "videoT": 20.62857142857143,
+      "type": "bolt",
+      "detail": {
+        "type": "bolt",
+        "x": 23.857874484105487,
+        "y": 11.942087064587884,
+        "tx": 26.892127784870844,
+        "ty": 27.65174355054564,
+        "kill": -1,
+        "recoil": 1
+      }
+    },
+    {
+      "tick": 393,
+      "simT": 39.300000000000004,
+      "videoT": 22.45714285714286,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 1
+      }
+    },
+    {
+      "tick": 395,
+      "simT": 39.5,
+      "videoT": 22.571428571428573,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 1,
+        "dmg": 2,
+        "zone": "rear"
+      }
+    },
+    {
+      "tick": 403,
+      "simT": 40.300000000000004,
+      "videoT": 23.028571428571432,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 1
+      }
+    },
+    {
+      "tick": 405,
+      "simT": 40.5,
+      "videoT": 23.142857142857142,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 1,
+        "dmg": 2,
+        "zone": "rear"
+      }
+    },
+    {
+      "tick": 411,
+      "simT": 41.1,
+      "videoT": 23.485714285714288,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 2
+      }
+    },
+    {
+      "tick": 413,
+      "simT": 41.300000000000004,
+      "videoT": 23.6,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 1
+      }
+    },
+    {
+      "tick": 413,
+      "simT": 41.300000000000004,
+      "videoT": 23.6,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 2,
+        "dmg": 1,
+        "zone": "side"
+      }
+    },
+    {
+      "tick": 415,
+      "simT": 41.5,
+      "videoT": 23.714285714285715,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 1,
+        "dmg": 2,
+        "zone": "rear"
+      }
+    },
+    {
+      "tick": 424,
+      "simT": 42.400000000000006,
+      "videoT": 24.22857142857143,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 1
+      }
+    },
+    {
+      "tick": 426,
+      "simT": 42.6,
+      "videoT": 24.342857142857145,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 1,
+        "dmg": 2,
+        "zone": "rear"
+      }
+    },
+    {
+      "tick": 433,
+      "simT": 43.300000000000004,
+      "videoT": 24.742857142857144,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 1
+      }
+    },
+    {
+      "tick": 435,
+      "simT": 43.5,
+      "videoT": 24.857142857142858,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 1,
+        "dmg": 1,
+        "zone": "side"
+      }
+    },
+    {
+      "tick": 442,
+      "simT": 44.2,
+      "videoT": 25.25714285714286,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 1
+      }
+    },
+    {
+      "tick": 444,
+      "simT": 44.400000000000006,
+      "videoT": 25.371428571428574,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 1,
+        "dmg": 2,
+        "zone": "rear"
+      }
+    },
+    {
+      "tick": 447,
+      "simT": 44.7,
+      "videoT": 25.542857142857144,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 2
+      }
+    },
+    {
+      "tick": 449,
+      "simT": 44.900000000000006,
+      "videoT": 25.657142857142862,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 2,
+        "dmg": 1,
+        "zone": "side"
+      }
+    },
+    {
+      "tick": 451,
+      "simT": 45.1,
+      "videoT": 25.771428571428572,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 1
+      }
+    },
+    {
+      "tick": 453,
+      "simT": 45.300000000000004,
+      "videoT": 25.88571428571429,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 1,
+        "dmg": 2,
+        "zone": "rear"
+      }
+    },
+    {
+      "tick": 456,
+      "simT": 45.6,
+      "videoT": 26.057142857142857,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 2
+      }
+    },
+    {
+      "tick": 458,
+      "simT": 45.800000000000004,
+      "videoT": 26.171428571428574,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 2,
+        "dmg": 1,
+        "zone": "side"
+      }
+    },
+    {
+      "tick": 460,
+      "simT": 46,
+      "videoT": 26.285714285714285,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 1
+      }
+    },
+    {
+      "tick": 462,
+      "simT": 46.2,
+      "videoT": 26.400000000000002,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 1,
+        "dmg": 2,
+        "zone": "rear"
+      }
+    },
+    {
+      "tick": 469,
+      "simT": 46.900000000000006,
+      "videoT": 26.800000000000004,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 1
+      }
+    },
+    {
+      "tick": 471,
+      "simT": 47.1,
+      "videoT": 26.914285714285715,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 1,
+        "dmg": 2,
+        "zone": "rear"
+      }
+    },
+    {
+      "tick": 472,
+      "simT": 47.2,
+      "videoT": 26.97142857142857,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 2
+      }
+    },
+    {
+      "tick": 474,
+      "simT": 47.400000000000006,
+      "videoT": 27.08571428571429,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 2,
+        "dmg": 1,
+        "zone": "side"
+      }
+    },
+    {
+      "tick": 478,
+      "simT": 47.800000000000004,
+      "videoT": 27.314285714285717,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 1
+      }
+    },
+    {
+      "tick": 480,
+      "simT": 48,
+      "videoT": 27.428571428571427,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 1,
+        "dmg": 2,
+        "zone": "rear"
+      }
+    },
+    {
+      "tick": 481,
+      "simT": 48.1,
+      "videoT": 27.485714285714288,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 2
+      }
+    },
+    {
+      "tick": 483,
+      "simT": 48.300000000000004,
+      "videoT": 27.6,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 2,
+        "dmg": 1,
+        "zone": "side"
+      }
+    },
+    {
+      "tick": 487,
+      "simT": 48.7,
+      "videoT": 27.82857142857143,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 1
+      }
+    },
+    {
+      "tick": 489,
+      "simT": 48.900000000000006,
+      "videoT": 27.942857142857147,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 1,
+        "dmg": 2,
+        "zone": "rear"
+      }
+    },
+    {
+      "tick": 490,
+      "simT": 49,
+      "videoT": 28,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 2
+      }
+    },
+    {
+      "tick": 492,
+      "simT": 49.2,
+      "videoT": 28.114285714285717,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 2,
+        "dmg": 1,
+        "zone": "side"
+      }
+    },
+    {
+      "tick": 496,
+      "simT": 49.6,
+      "videoT": 28.342857142857145,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 1
+      }
+    },
+    {
+      "tick": 498,
+      "simT": 49.800000000000004,
+      "videoT": 28.45714285714286,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 1,
+        "dmg": 2,
+        "zone": "rear"
+      }
+    },
+    {
+      "tick": 499,
+      "simT": 49.900000000000006,
+      "videoT": 28.514285714285716,
+      "type": "clawArm",
+      "detail": {
+        "type": "clawArm",
+        "who": 2
+      }
+    },
+    {
+      "tick": 501,
+      "simT": 50.1,
+      "videoT": 28.62857142857143,
+      "type": "claw",
+      "detail": {
+        "type": "claw",
+        "who": 2,
+        "dmg": 1,
+        "zone": "side"
+      }
+    }
+  ]
+}

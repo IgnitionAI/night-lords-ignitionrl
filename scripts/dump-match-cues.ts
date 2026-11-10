@@ -2,11 +2,12 @@
 import { writeFileSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { newWorld, step, observe, nlFrame, DT, type TAction } from '../src/sim.ts';
+import { newWorld, step, observe, nlFrame, DT, PILLARS, type TAction } from '../src/sim.ts';
 import { PROP_KINDS } from '../src/props.ts';
 import { POOL, UNSEEN } from '../src/tactics.ts';
 import { forward, softmax, sample, type ActorJSON } from '../src/policy.ts';
 import { mulberry32 } from '../src/rng.ts';
+import { policyFileFromQuery } from '../src/train-b4.ts';
 import { createMockAudioContext } from '../web/audio/mock-context.ts';
 import { engine } from '../web/audio/engine.ts';
 import { AudioDirector } from '../web/audio/director.ts';
@@ -20,6 +21,7 @@ const out = process.env.OUT ?? join(ROOT, 'docs/videos/match-cues.json');
 const manifest = JSON.parse(readFileSync(join(ROOT, 'web/sfx/nightlords/manifest.json'), 'utf8')) as AudioManifest;
 const ctx = createMockAudioContext();
 await engine.init({ context: ctx as never, manifest, autounlock: false, enabled: true, search: '' });
+engine.setOccluders(PILLARS);
 const silent = ctx.createBuffer(1, 512, ctx.sampleRate) as unknown as AudioBuffer;
 for (const s of manifest.samples) engine.putBuffer(s.name, silent);
 
@@ -33,7 +35,8 @@ engine.duck = () => { /* headless : pas de rAF */ };
 
 let actor: ActorJSON | null = null;
 try {
-  actor = JSON.parse(readFileSync(join(ROOT, 'policies/current.json'), 'utf8')) as ActorJSON;
+  const sel = policyFileFromQuery(process.env.POLICY);
+  actor = JSON.parse(readFileSync(join(ROOT, 'policies', sel.file), 'utf8')) as ActorJSON;
 } catch { /* naïve */ }
 
 const tactic = (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)();

@@ -85,6 +85,7 @@ export const POLICY_FILES: Record<string, string> = {
   current: 'current.json',
   b5: 'current.json',
   b6: 'candidates/b6/actor.json',
+  b6p: 'candidates/b6p/actor.json',
   b4: 'b4/current.json',
   b3: 'b3/current.json',
 };

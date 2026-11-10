@@ -110,6 +110,10 @@ const B4_ACTOR_SHA256 = 'd43de9da64f008b7027ed4d6aa0c48fb35e3ea4fd571e6dfa87f684
 const B4_FULL_SHA256 = '32b7ea45fcefc2dff408d32e94a101f3299c4d82876749c33b030f880f97fbb1';
 const B5_ACTOR_SHA256 = '27a6f675ee1de5ffbf9601f73d3a5c6e25abb5da0cc9ba443a4f8fba4321b0f3';
 const B5_FULL_SHA256 = '223c14edf51bbb3f467fbe49fa7259883674009cbc61e24912820cd58b44cd63';
+/** vis2 (#67) — `policies/candidates/b6/` ne doit pas bouger. */
+const B6_VIS2_ACTOR_SHA256 = '8ece382294339596152859f123117337e1013d247ed540686beaf6d0f263f5ee';
+/** b6 original (#66, `runs/b6@1950`) restauré en `policies/candidates/b6p/`. */
+const B6P_ACTOR_SHA256 = '05d4603ee7aec5758da481c052a6f38026e78aea97751a132b7cf510591e19e5';
 
 test('archives b3/b4 byte-identiques ; current.json est b5 (pas b6)', () => {
   const archivedB3 = join(ROOT, 'policies/b3/current.json');
@@ -134,4 +138,9 @@ test('archives b3/b4 byte-identiques ; current.json est b5 (pas b6)', () => {
   assert.equal(deployed.version, 'runs/b5@2000');
   assert.notEqual(sha(POLICY), B3_ACTOR_SHA256);
   assert.notEqual(sha(POLICY), B4_ACTOR_SHA256);
+  assert.equal(sha(join(ROOT, 'policies/candidates/b6/actor.json')), B6_VIS2_ACTOR_SHA256);
+  const b6p = join(ROOT, 'policies/candidates/b6p/actor.json');
+  assert.equal(sha(b6p), B6P_ACTOR_SHA256);
+  const b6pJson = JSON.parse(readFileSync(b6p, 'utf8')) as { version: string };
+  assert.equal(b6pJson.version, 'runs/b6@1950');
 });

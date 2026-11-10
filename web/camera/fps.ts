@@ -26,12 +26,13 @@ export const FPS_BOB = {
   idleT: 4.4,
 };
 
-export type CamMode = 'fps' | 'couloir' | 'epaule' | 'troisquarts';
+export type CamMode = 'fps' | 'combat' | 'couloir' | 'epaule' | 'troisquarts';
 
 export function parseCamMode(raw: string | null): CamMode {
   if (raw === 'couloir') return 'couloir';
   if (raw === 'troisquarts') return 'troisquarts';
   if (raw === 'epaule') return 'epaule';
+  if (raw === 'combat') return 'combat';
   return 'fps';
 }
 

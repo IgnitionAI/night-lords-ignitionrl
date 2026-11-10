@@ -23,6 +23,7 @@ html,body{margin:0;height:100%;background:#000;color:#ddd;font:13px/1.35 system-
 #help{position:fixed;left:12px;bottom:8px;opacity:.65;font-size:11px}
 .float{position:fixed;font-weight:700;pointer-events:none;transition:transform .7s,opacity .7s;text-shadow:0 1px 3px #000}
 #flash{position:fixed;inset:0;background:transparent;opacity:0;pointer-events:none}
+.offmark{position:fixed;width:18px;height:18px;margin:-9px 0 0 -9px;border:2px solid #ff3a18;background:rgba(255,40,10,.35);border-radius:2px;transform:rotate(45deg);pointer-events:none;display:none;box-shadow:0 0 10px #ff2a10,0 0 2px #000;z-index:4}
 #fps-fx{position:fixed;inset:0;pointer-events:none}
 #reticle{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border:1px solid rgba(230,210,160,.75);border-radius:50%;box-shadow:0 0 0 1px rgba(0,0,0,.45)}
 #reticle:before,#reticle:after{content:"";position:absolute;background:rgba(230,210,160,.85)}
@@ -52,7 +53,8 @@ body.fps #fps-fx{display:block}
 @media (max-aspect-ratio:1/1){#dbg{left:8px;right:8px;top:auto;bottom:30px;max-width:none}}
 </style></head><body>
 <canvas id="c"></canvas><div id="flash"></div>
+<div id="om0" class="offmark"></div><div id="om1" class="offmark"></div><div id="om2" class="offmark"></div><div id="om3" class="offmark"></div>
 <div id="fps-fx"><div id="reticle"></div><div id="hitmark"></div><div id="dmg"><i class="front"></i><i class="back"></i><i class="left"></i><i class="right"></i></div><div id="threats"></div></div>
 <div id="hud"></div><div id="dbg"></div><div id="msg"></div>
-<div id="help">Victoire Terminator : balise 6 s, meute à terre, ou 2:00 tenues. Défaite : armure à 0.<br>ZQSD ou WASD bouger · souris viser (clic pour verrouiller) · ←/→ pivoter · Espace storm bolter · F ou Maj gantelet · V vue de contrôle · M couper le son · Entrée manche suivante · P pause · ?cam=couloir|epaule|troisquarts</div>
+<div id="help">Victoire Terminator : balise 6 s, meute à terre, ou 2:00 tenues. Défaite : armure à 0.<br>ZQSD ou WASD bouger · souris viser (clic pour verrouiller) · ←/→ pivoter · Espace storm bolter · F ou Maj gantelet · V vue de contrôle · M couper le son · Entrée manche suivante · P pause · ?cam=fps|combat|couloir|epaule|troisquarts</div>
 <script type="module" src="/web/main.ts"></script></body></html>

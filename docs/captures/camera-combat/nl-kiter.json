@@ -1,0 +1,88 @@
+{
+  "tick": 490,
+  "done": true,
+  "winner": "pack",
+  "reason": "Terminator abattu",
+  "seed": 900002,
+  "muted": false,
+  "hp": 0,
+  "nlsAlive": 2,
+  "fistCharge": 0,
+  "events": [
+    "claw",
+    "hit"
+  ],
+  "seen": [
+    "step",
+    "fistCharge",
+    "fistReady",
+    "fist",
+    "bolt",
+    "clawArm",
+    "claw",
+    "hit",
+    "servoCritical"
+  ],
+  "eventWho": [
+    1,
+    null
+  ],
+  "msgShown": true,
+  "audio": {
+    "ok": false,
+    "enabled": true,
+    "muted": false,
+    "unlocked": false,
+    "state": "none",
+    "decoded": [],
+    "missing": [],
+    "samples": 0,
+    "activeVoices": 0,
+    "polyphony": 18,
+    "musicPhase": "stinger",
+    "ducked": false
+  },
+  "playSpeed": 1.75,
+  "bodies": [
+    {
+      "i": 0,
+      "alive": false,
+      "kind": "death",
+      "clip": "proc-death-collapse",
+      "loco": false,
+      "skinned": 1,
+      "visibleSkinned": 0,
+      "proxyVisible": false
+    },
+    {
+      "i": 1,
+      "alive": true,
+      "kind": "attack",
+      "clip": "proc-leap",
+      "loco": false,
+      "skinned": 1,
+      "visibleSkinned": 1,
+      "proxyVisible": false
+    },
+    {
+      "i": 2,
+      "alive": true,
+      "kind": "run",
+      "clip": "Armature|running|baselayer",
+      "loco": true,
+      "skinned": 1,
+      "visibleSkinned": 1,
+      "proxyVisible": false
+    },
+    {
+      "i": 3,
+      "alive": false,
+      "kind": "death",
+      "clip": "proc-death-collapse",
+      "loco": false,
+      "skinned": 1,
+      "visibleSkinned": 0,
+      "proxyVisible": false
+    }
+  ]
+}

@@ -21,6 +21,7 @@ test('cam=fps est le défaut ; couloir / epaule / troisquarts restent', () => {
   assert.equal(parseCamMode('couloir'), 'couloir');
   assert.equal(parseCamMode('epaule'), 'epaule');
   assert.equal(parseCamMode('troisquarts'), 'troisquarts');
+  assert.equal(parseCamMode('combat'), 'combat');
 });
 
 test('œil FPS = hauteur de visor Dreadnought (~2,18 m)', () => {
