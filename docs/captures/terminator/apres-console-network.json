@@ -1,0 +1,131 @@
+{
+  "prefix": "apres",
+  "shots": [
+    {
+      "name": "gros-plan",
+      "url": "http://127.0.0.1:18190/?shot=115&seed=3&autoplay=march",
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/terminator/apres-gros-plan.png",
+      "pose": {
+        "clip": "Armature|walking_man|baselayer",
+        "timeScale": 1.412291439884287,
+        "actionTime": 0.09298318986128516,
+        "LeftHand": {
+          "x": 18.15405174321912,
+          "y": 1.2762888862282589,
+          "z": 14.631347491181993
+        },
+        "RightHand": {
+          "x": 18.205823738207805,
+          "y": 1.3438354414883453,
+          "z": 15.822858691910117
+        },
+        "LeftFoot": {
+          "x": 18.373331203251514,
+          "y": 0.3570892342568558,
+          "z": 15.078822672994512
+        },
+        "RightFoot": {
+          "x": 17.974376762460484,
+          "y": 0.3135523053396513,
+          "z": 15.374353051765711
+        },
+        "handSpan": 1.1945466998209773,
+        "footDx": 0.39895444079103015,
+        "tpose": false
+      },
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "console": [],
+      "pageErrors": [],
+      "networkFailed": [],
+      "networkOk": 58
+    },
+    {
+      "name": "jeu-hud",
+      "url": "http://127.0.0.1:18190/?shot=40&seed=3&autoplay=march&cam=couloir",
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/terminator/apres-jeu-hud.png",
+      "pose": {
+        "clip": "Armature|walking_man|baselayer",
+        "timeScale": 2.0116435887760695,
+        "actionTime": 0.9062898959044063,
+        "LeftHand": {
+          "x": 12.838161528305358,
+          "y": 1.3271677352879527,
+          "z": 14.477751687399165
+        },
+        "RightHand": {
+          "x": 11.932112666670642,
+          "y": 1.1548186775858083,
+          "z": 15.290521477567582
+        },
+        "LeftFoot": {
+          "x": 11.837913995684406,
+          "y": 0.48567374901896176,
+          "z": 14.498005691043604
+        },
+        "RightFoot": {
+          "x": 12.551302028187388,
+          "y": 0.29943262365433165,
+          "z": 15.044665408543194
+        },
+        "handSpan": 1.229318294491217,
+        "footDx": 0.7133880325029818,
+        "tpose": false
+      },
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "console": [],
+      "pageErrors": [],
+      "networkFailed": [],
+      "networkOk": 58
+    },
+    {
+      "name": "marche-trois-quarts",
+      "url": "http://127.0.0.1:18190/?shot=80&seed=3&autoplay=march&cam=troisquarts",
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/terminator/apres-marche-trois-quarts.png",
+      "pose": {
+        "clip": "Armature|walking_man|baselayer",
+        "timeScale": 1.6466330959244944,
+        "actionTime": 0.8901587199180329,
+        "LeftHand": {
+          "x": 16.18578558210419,
+          "y": 1.3497537974999805,
+          "z": 15.098032288475816
+        },
+        "RightHand": {
+          "x": 15.116864148494003,
+          "y": 1.1530640561218541,
+          "z": 15.708505960221174
+        },
+        "LeftFoot": {
+          "x": 15.156559656345463,
+          "y": 0.45666926842428845,
+          "z": 14.926261833977076
+        },
+        "RightFoot": {
+          "x": 15.822349185780094,
+          "y": 0.29873121216295184,
+          "z": 15.599263864812118
+        },
+        "handSpan": 1.2465785131667062,
+        "footDx": 0.6657895294346314,
+        "tpose": false
+      },
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "console": [],
+      "pageErrors": [],
+      "networkFailed": [],
+      "networkOk": 58
+    }
+  ]
+}
