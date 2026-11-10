@@ -1,0 +1,70 @@
+{
+  "consoleLog": [
+    {
+      "shot": "01-debut-hud.png",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "shot": "02-rythme-canalisation.png",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "shot": "03-fin.png",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  ],
+  "failed": [
+    {
+      "shot": "01-debut-hud.png",
+      "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+      "status": 404,
+      "method": "GET"
+    },
+    {
+      "shot": "02-rythme-canalisation.png",
+      "url": "http://127.0.0.1:18190/web/models/NL-4-512.glb",
+      "error": "net::ERR_ABORTED",
+      "method": "GET"
+    },
+    {
+      "shot": "02-rythme-canalisation.png",
+      "url": "http://127.0.0.1:18190/web/models/NL-3-512.glb",
+      "error": "net::ERR_ABORTED",
+      "method": "GET"
+    },
+    {
+      "shot": "02-rythme-canalisation.png",
+      "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+      "status": 404,
+      "method": "GET"
+    },
+    {
+      "shot": "03-fin.png",
+      "url": "http://127.0.0.1:18190/web/models/props/reliquary.glb",
+      "error": "net::ERR_ABORTED",
+      "method": "GET"
+    },
+    {
+      "shot": "03-fin.png",
+      "url": "http://127.0.0.1:18190/web/models/NL-3-512.glb",
+      "error": "net::ERR_ABORTED",
+      "method": "GET"
+    },
+    {
+      "shot": "03-fin.png",
+      "url": "http://127.0.0.1:18190/web/sfx/nightlords/manifest.json",
+      "status": 404,
+      "method": "GET"
+    },
+    {
+      "shot": "03-fin.png",
+      "url": "http://127.0.0.1:18190/web/models/TERM-512.glb",
+      "error": "net::ERR_ABORTED",
+      "method": "GET"
+    }
+  ],
+  "pageErrors": []
+}
