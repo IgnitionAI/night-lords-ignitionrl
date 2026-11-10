@@ -20,7 +20,7 @@ recordings/
 # Modèles riggés et props optimisés : versionnés sur décision de Salim.
 # Les sources lourdes restent dans Shared/team/pipeline/demo-night-lords/assets/.
 
-# Banque sonore : Genex n'a pas confirmé la redistribution commerciale de ses sorties
-# audio -> hors dépôt, servie par URL avec repli muet (voir web/audio/README-AUDIO.md)
-web/sfx/*
+# Banque Genex (licence non tranchée) : hors dépôt.
+# La banque CC0 / procédurale `web/sfx/nightlords/` EST versionnée.
+web/sfx/genex/
 

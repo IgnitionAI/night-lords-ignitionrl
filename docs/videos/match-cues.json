@@ -1,0 +1,1574 @@
+{
+  "seed": 3,
+  "autoplay": "brawler",
+  "winner": "pack",
+  "ticks": 147,
+  "duration": 14.700000000000001,
+  "cues": [
+    {
+      "t": 0,
+      "name": "amb-drone",
+      "gain": 1
+    },
+    {
+      "t": 0,
+      "name": "amb-duct",
+      "gain": 0.7
+    },
+    {
+      "t": 0,
+      "name": "music-explore",
+      "gain": 1
+    },
+    {
+      "t": 0,
+      "name": "music-tension",
+      "gain": 0.0001
+    },
+    {
+      "t": 0,
+      "name": "music-combat",
+      "gain": 0.0001
+    },
+    {
+      "t": 0.1,
+      "name": "term-servo",
+      "gain": 0.45
+    },
+    {
+      "t": 0.1,
+      "name": "nl-step-01",
+      "gain": 1
+    },
+    {
+      "t": 0.1,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 0.1,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 0.1,
+      "name": "nl-step-01",
+      "gain": 1
+    },
+    {
+      "t": 0.4,
+      "name": "nl-step-02",
+      "gain": 0.9999999999999991
+    },
+    {
+      "t": 0.4,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 0.4,
+      "name": "nl-step-01",
+      "gain": 1
+    },
+    {
+      "t": 0.7000000000000001,
+      "name": "nl-step-02",
+      "gain": 0.9999999999999974
+    },
+    {
+      "t": 0.7000000000000001,
+      "name": "nl-step-03",
+      "gain": 0.9999999999999997
+    },
+    {
+      "t": 0.7000000000000001,
+      "name": "nl-step-01",
+      "gain": 1
+    },
+    {
+      "t": 0.8,
+      "name": "nl-step-02",
+      "gain": 0.8839508466218474
+    },
+    {
+      "t": 1,
+      "name": "nl-step-03",
+      "gain": 0.9999904099540177
+    },
+    {
+      "t": 1,
+      "name": "nl-step-01",
+      "gain": 1
+    },
+    {
+      "t": 1,
+      "name": "nl-step-02",
+      "gain": 0.9999904099540161
+    },
+    {
+      "t": 1.3,
+      "name": "term-step-01",
+      "gain": 1
+    },
+    {
+      "t": 1.3,
+      "name": "term-hydraulic",
+      "gain": 0.75
+    },
+    {
+      "t": 1.3,
+      "name": "nl-step-03",
+      "gain": 0.9999999999999999
+    },
+    {
+      "t": 1.3,
+      "name": "nl-step-01",
+      "gain": 1
+    },
+    {
+      "t": 1.3,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 1.3,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 1.6,
+      "name": "nl-step-01",
+      "gain": 0.9999999999999977
+    },
+    {
+      "t": 1.6,
+      "name": "nl-step-02",
+      "gain": 0.9999904099540129
+    },
+    {
+      "t": 1.6,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 1.6,
+      "name": "nl-step-01",
+      "gain": 0.5032110389916555
+    },
+    {
+      "t": 1.9000000000000001,
+      "name": "nl-step-02",
+      "gain": 0.9999999999999981
+    },
+    {
+      "t": 1.9000000000000001,
+      "name": "nl-step-03",
+      "gain": 0.9999999999999994
+    },
+    {
+      "t": 1.9000000000000001,
+      "name": "nl-step-01",
+      "gain": 0.5657698771177263
+    },
+    {
+      "t": 2.1,
+      "name": "nl-step-02",
+      "gain": 0.9999904099540157
+    },
+    {
+      "t": 2.2,
+      "name": "term-step-02",
+      "gain": 1
+    },
+    {
+      "t": 2.2,
+      "name": "term-hydraulic",
+      "gain": 0.75
+    },
+    {
+      "t": 2.2,
+      "name": "nl-step-03",
+      "gain": 0.9999999999999991
+    },
+    {
+      "t": 2.2,
+      "name": "nl-step-01",
+      "gain": 0.40964437904516277
+    },
+    {
+      "t": 2.3000000000000003,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 2.4000000000000004,
+      "name": "nl-step-03",
+      "gain": 0.9999904099540169
+    },
+    {
+      "t": 2.5,
+      "name": "nl-step-01",
+      "gain": 0.9999904099540172
+    },
+    {
+      "t": 2.6,
+      "name": "nl-step-02",
+      "gain": 0.9999904099540134
+    },
+    {
+      "t": 2.7,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 2.8000000000000003,
+      "name": "nl-step-01",
+      "gain": 0.999999999999999
+    },
+    {
+      "t": 2.9000000000000004,
+      "name": "nl-step-02",
+      "gain": 0.9999999999999968
+    },
+    {
+      "t": 2.9000000000000004,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 3,
+      "name": "nl-step-01",
+      "gain": 0.7963535212215852
+    },
+    {
+      "t": 3.1,
+      "name": "term-step-03",
+      "gain": 1
+    },
+    {
+      "t": 3.1,
+      "name": "term-hydraulic",
+      "gain": 0.75
+    },
+    {
+      "t": 3.1,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 3.2,
+      "name": "nl-step-03",
+      "gain": 0.9999999999999957
+    },
+    {
+      "t": 3.4000000000000004,
+      "name": "nl-step-01",
+      "gain": 0.9999904099540142
+    },
+    {
+      "t": 3.4000000000000004,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 3.5,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 3.5,
+      "name": "nl-step-01",
+      "gain": 1
+    },
+    {
+      "t": 3.7,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 3.8000000000000003,
+      "name": "nl-step-03",
+      "gain": 0.9999999999999974
+    },
+    {
+      "t": 3.8000000000000003,
+      "name": "nl-step-01",
+      "gain": 0.9999999999999987
+    },
+    {
+      "t": 4,
+      "name": "term-step-01",
+      "gain": 1
+    },
+    {
+      "t": 4,
+      "name": "term-hydraulic",
+      "gain": 0.75
+    },
+    {
+      "t": 4,
+      "name": "nl-step-02",
+      "gain": 0.9999999999999987
+    },
+    {
+      "t": 4,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 4.1000000000000005,
+      "name": "nl-step-01",
+      "gain": 0.5939825042895625
+    },
+    {
+      "t": 4.2,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 4.3,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 4.4,
+      "name": "nl-step-01",
+      "gain": 1
+    },
+    {
+      "t": 4.5,
+      "name": "nl-step-02",
+      "gain": 0.5272384178335173
+    },
+    {
+      "t": 4.6000000000000005,
+      "name": "nl-step-03",
+      "gain": 0.9999999999999997
+    },
+    {
+      "t": 4.7,
+      "name": "nl-step-01",
+      "gain": 1
+    },
+    {
+      "t": 4.800000000000001,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 4.800000000000001,
+      "name": "nl-step-03",
+      "gain": 0.9999904099540181
+    },
+    {
+      "t": 4.9,
+      "name": "term-step-02",
+      "gain": 1
+    },
+    {
+      "t": 4.9,
+      "name": "term-hydraulic",
+      "gain": 0.75
+    },
+    {
+      "t": 5,
+      "name": "nl-step-01",
+      "gain": 0.9999999999999982
+    },
+    {
+      "t": 5,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 5.1000000000000005,
+      "name": "nl-step-03",
+      "gain": 0.9999904099540186
+    },
+    {
+      "t": 5.1000000000000005,
+      "name": "nl-step-01",
+      "gain": 0.9999904099540132
+    },
+    {
+      "t": 5.300000000000001,
+      "name": "nl-step-02",
+      "gain": 0.9999904099540166
+    },
+    {
+      "t": 5.300000000000001,
+      "name": "nl-step-03",
+      "gain": 0.999990409954017
+    },
+    {
+      "t": 5.4,
+      "name": "nl-step-01",
+      "gain": 0.9999999999999991
+    },
+    {
+      "t": 5.4,
+      "name": "nl-step-02",
+      "gain": 0.999990409954012
+    },
+    {
+      "t": 5.6000000000000005,
+      "name": "nl-step-03",
+      "gain": 0.9999904099540164
+    },
+    {
+      "t": 5.6000000000000005,
+      "name": "nl-step-01",
+      "gain": 0.9999904099540178
+    },
+    {
+      "t": 5.7,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 5.7,
+      "name": "nl-step-03",
+      "gain": 0.9464777026294402
+    },
+    {
+      "t": 5.800000000000001,
+      "name": "term-step-03",
+      "gain": 1
+    },
+    {
+      "t": 5.800000000000001,
+      "name": "term-hydraulic",
+      "gain": 0.75
+    },
+    {
+      "t": 5.9,
+      "name": "nl-step-01",
+      "gain": 0.9999999999999999
+    },
+    {
+      "t": 5.9,
+      "name": "nl-step-02",
+      "gain": 0.9999904099540147
+    },
+    {
+      "t": 6,
+      "name": "nl-step-03",
+      "gain": 0.9999904099540133
+    },
+    {
+      "t": 6,
+      "name": "nl-step-01",
+      "gain": 0.9999904099540133
+    },
+    {
+      "t": 6.1000000000000005,
+      "name": "bolter-shot",
+      "gain": 1
+    },
+    {
+      "t": 6.1000000000000005,
+      "name": "bolter-echo",
+      "gain": 0.7
+    },
+    {
+      "t": 6.1000000000000005,
+      "name": "bolter-casing",
+      "gain": 0.55
+    },
+    {
+      "t": 6.1000000000000005,
+      "name": "bolter-explode",
+      "gain": 1
+    },
+    {
+      "t": 6.1000000000000005,
+      "name": "nl-death",
+      "gain": 1
+    },
+    {
+      "t": 6.2,
+      "name": "bolter-shot",
+      "gain": 1
+    },
+    {
+      "t": 6.2,
+      "name": "bolter-echo",
+      "gain": 0.7
+    },
+    {
+      "t": 6.2,
+      "name": "bolter-casing",
+      "gain": 0.55
+    },
+    {
+      "t": 6.2,
+      "name": "bolter-explode",
+      "gain": 1
+    },
+    {
+      "t": 6.2,
+      "name": "nl-step-02",
+      "gain": 0.9999904099540159
+    },
+    {
+      "t": 6.300000000000001,
+      "name": "bolter-shot",
+      "gain": 1
+    },
+    {
+      "t": 6.300000000000001,
+      "name": "bolter-echo",
+      "gain": 0.7
+    },
+    {
+      "t": 6.300000000000001,
+      "name": "bolter-casing",
+      "gain": 0.55
+    },
+    {
+      "t": 6.300000000000001,
+      "name": "bolter-explode",
+      "gain": 1
+    },
+    {
+      "t": 6.300000000000001,
+      "name": "nl-step-03",
+      "gain": 0.6026804109371544
+    },
+    {
+      "t": 6.300000000000001,
+      "name": "nl-step-01",
+      "gain": 1
+    },
+    {
+      "t": 6.5,
+      "name": "nl-step-02",
+      "gain": 0.9999904099540161
+    },
+    {
+      "t": 6.6000000000000005,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 6.7,
+      "name": "term-step-01",
+      "gain": 1
+    },
+    {
+      "t": 6.7,
+      "name": "term-hydraulic",
+      "gain": 0.75
+    },
+    {
+      "t": 6.7,
+      "name": "nl-step-01",
+      "gain": 0.4314309582155573
+    },
+    {
+      "t": 6.800000000000001,
+      "name": "nl-step-02",
+      "gain": 0.9999904099540154
+    },
+    {
+      "t": 6.9,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 7,
+      "name": "nl-step-01",
+      "gain": 0.5785215604422563
+    },
+    {
+      "t": 7.1000000000000005,
+      "name": "nl-step-02",
+      "gain": 0.999990409954015
+    },
+    {
+      "t": 7.2,
+      "name": "nl-step-03",
+      "gain": 0.9999999999999983
+    },
+    {
+      "t": 7.300000000000001,
+      "name": "nl-step-01",
+      "gain": 0.8788930473193446
+    },
+    {
+      "t": 7.4,
+      "name": "nl-step-02",
+      "gain": 0.9999904099540148
+    },
+    {
+      "t": 7.5,
+      "name": "nl-step-03",
+      "gain": 0.9999999999999996
+    },
+    {
+      "t": 7.5,
+      "name": "nl-step-01",
+      "gain": 0.9999904099540148
+    },
+    {
+      "t": 7.6000000000000005,
+      "name": "term-step-02",
+      "gain": 1
+    },
+    {
+      "t": 7.6000000000000005,
+      "name": "term-hydraulic",
+      "gain": 0.75
+    },
+    {
+      "t": 7.7,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 7.7,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 7.800000000000001,
+      "name": "nl-step-02",
+      "gain": 0.9999999999999999
+    },
+    {
+      "t": 7.800000000000001,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 7.800000000000001,
+      "name": "nl-step-01",
+      "gain": 0.9999904099540154
+    },
+    {
+      "t": 7.9,
+      "name": "claw-swoosh",
+      "gain": 0.55
+    },
+    {
+      "t": 7.9,
+      "name": "nl-vox-come-for-you",
+      "gain": 1
+    },
+    {
+      "t": 8.1,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 8.1,
+      "name": "nl-step-03",
+      "gain": 0.9999999999999983
+    },
+    {
+      "t": 8.1,
+      "name": "nl-step-01",
+      "gain": 0.9766094222456826
+    },
+    {
+      "t": 8.4,
+      "name": "nl-step-02",
+      "gain": 0.9999999999999996
+    },
+    {
+      "t": 8.4,
+      "name": "nl-step-03",
+      "gain": 0.4631243776152901
+    },
+    {
+      "t": 8.5,
+      "name": "term-step-03",
+      "gain": 1
+    },
+    {
+      "t": 8.5,
+      "name": "term-hydraulic",
+      "gain": 0.75
+    },
+    {
+      "t": 8.5,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 8.5,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 8.6,
+      "name": "nl-step-01",
+      "gain": 0.9999904099540137
+    },
+    {
+      "t": 8.700000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 8.700000000000001,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 8.700000000000001,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 8.700000000000001,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 8.700000000000001,
+      "name": "nl-step-02",
+      "gain": 0.9574419823300717
+    },
+    {
+      "t": 9,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 9,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 9,
+      "name": "nl-step-03",
+      "gain": 0.9606700454395535
+    },
+    {
+      "t": 9.1,
+      "name": "nl-step-01",
+      "gain": 1
+    },
+    {
+      "t": 9.1,
+      "name": "nl-step-02",
+      "gain": 0.5062787902430769
+    },
+    {
+      "t": 9.200000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.55
+    },
+    {
+      "t": 9.3,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 9.3,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 9.4,
+      "name": "nl-step-03",
+      "gain": 0.9999904099540151
+    },
+    {
+      "t": 9.4,
+      "name": "nl-step-01",
+      "gain": 0.9999904099540151
+    },
+    {
+      "t": 9.5,
+      "name": "term-step-01",
+      "gain": 1
+    },
+    {
+      "t": 9.5,
+      "name": "term-hydraulic",
+      "gain": 0.75
+    },
+    {
+      "t": 9.5,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 9.5,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 9.5,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 9.5,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 9.5,
+      "name": "nl-step-02",
+      "gain": 0.9713919907642676
+    },
+    {
+      "t": 9.700000000000001,
+      "name": "nl-step-03",
+      "gain": 0.9999904099540148
+    },
+    {
+      "t": 9.700000000000001,
+      "name": "nl-step-01",
+      "gain": 0.9999904099540137
+    },
+    {
+      "t": 10,
+      "name": "nl-step-02",
+      "gain": 0.9999904099540161
+    },
+    {
+      "t": 10,
+      "name": "nl-step-03",
+      "gain": 0.999990409954015
+    },
+    {
+      "t": 10,
+      "name": "nl-step-01",
+      "gain": 0.3942617208816522
+    },
+    {
+      "t": 10.100000000000001,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 10.100000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 10.100000000000001,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 10.100000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 10.3,
+      "name": "claw-swoosh",
+      "gain": 0.55
+    },
+    {
+      "t": 10.3,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 10.3,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 10.3,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 10.3,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 10.3,
+      "name": "nl-step-02",
+      "gain": 0.9999904099540134
+    },
+    {
+      "t": 10.4,
+      "name": "term-step-02",
+      "gain": 0.9402522775190323
+    },
+    {
+      "t": 10.4,
+      "name": "term-hydraulic",
+      "gain": 0.6968909133502508
+    },
+    {
+      "t": 10.4,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 10.4,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 10.4,
+      "name": "nl-step-03",
+      "gain": 0.6097693575636192
+    },
+    {
+      "t": 10.4,
+      "name": "nl-step-01",
+      "gain": 0.7433741147978109
+    },
+    {
+      "t": 10.600000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.55
+    },
+    {
+      "t": 10.700000000000001,
+      "name": "nl-step-02",
+      "gain": 0.6719650686974123
+    },
+    {
+      "t": 10.700000000000001,
+      "name": "nl-step-03",
+      "gain": 0.5916969057930995
+    },
+    {
+      "t": 10.8,
+      "name": "nl-step-01",
+      "gain": 0.5960154403971473
+    },
+    {
+      "t": 10.8,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 10.9,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 10.9,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 11,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 11,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 11,
+      "name": "nl-step-03",
+      "gain": 0.20708768642557585
+    },
+    {
+      "t": 11.100000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.55
+    },
+    {
+      "t": 11.100000000000001,
+      "name": "nl-step-01",
+      "gain": 0.5042252808608831
+    },
+    {
+      "t": 11.200000000000001,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 11.200000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 11.200000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 11.200000000000001,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 11.200000000000001,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 11.200000000000001,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 11.200000000000001,
+      "name": "nl-step-02",
+      "gain": 0.9554918999499749
+    },
+    {
+      "t": 11.3,
+      "name": "term-step-03",
+      "gain": 0.9402522775190321
+    },
+    {
+      "t": 11.3,
+      "name": "term-hydraulic",
+      "gain": 0.6968909133502507
+    },
+    {
+      "t": 11.3,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 11.4,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 11.4,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 11.4,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 11.4,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 11.4,
+      "name": "nl-step-01",
+      "gain": 0.5633357336033841
+    },
+    {
+      "t": 11.4,
+      "name": "nl-step-02",
+      "gain": 0.9407200881963408
+    },
+    {
+      "t": 11.700000000000001,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 11.700000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 11.700000000000001,
+      "name": "nl-step-03",
+      "gain": 0.3715383362842401
+    },
+    {
+      "t": 11.700000000000001,
+      "name": "nl-step-01",
+      "gain": 0.7144180091175619
+    },
+    {
+      "t": 11.8,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 11.8,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 11.8,
+      "name": "nl-step-02",
+      "gain": 0.9374497876860922
+    },
+    {
+      "t": 11.9,
+      "name": "claw-swoosh",
+      "gain": 0.55
+    },
+    {
+      "t": 12,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 12,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 12,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 12,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 12,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 12,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 12,
+      "name": "nl-step-03",
+      "gain": 0.5425483279811868
+    },
+    {
+      "t": 12.100000000000001,
+      "name": "nl-step-01",
+      "gain": 0.905401570417021
+    },
+    {
+      "t": 12.100000000000001,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 12.200000000000001,
+      "name": "term-step-01",
+      "gain": 0.8638310912293361
+    },
+    {
+      "t": 12.200000000000001,
+      "name": "term-hydraulic",
+      "gain": 0.6289609699816321
+    },
+    {
+      "t": 12.200000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 12.200000000000001,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 12.200000000000001,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 12.200000000000001,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 12.4,
+      "name": "nl-step-03",
+      "gain": 0.24132597370029854
+    },
+    {
+      "t": 12.4,
+      "name": "nl-step-01",
+      "gain": 0.9999904099540159
+    },
+    {
+      "t": 12.5,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 12.5,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 12.600000000000001,
+      "name": "nl-step-02",
+      "gain": 0.4970315287928448
+    },
+    {
+      "t": 12.700000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 12.700000000000001,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 12.700000000000001,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 12.700000000000001,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 12.700000000000001,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 12.700000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 12.8,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 12.8,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 12.8,
+      "name": "nl-step-03",
+      "gain": 0.1176384341634909
+    },
+    {
+      "t": 12.8,
+      "name": "nl-step-01",
+      "gain": 0.9999904099540154
+    },
+    {
+      "t": 12.9,
+      "name": "claw-swoosh",
+      "gain": 0.55
+    },
+    {
+      "t": 12.9,
+      "name": "nl-step-02",
+      "gain": 0.44715509421439553
+    },
+    {
+      "t": 13,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 13,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 13,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 13,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 13.100000000000001,
+      "name": "term-step-02",
+      "gain": 0.8052895392238688
+    },
+    {
+      "t": 13.100000000000001,
+      "name": "term-hydraulic",
+      "gain": 0.5769240348656611
+    },
+    {
+      "t": 13.100000000000001,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 13.200000000000001,
+      "name": "nl-step-01",
+      "gain": 0.85617784449368
+    },
+    {
+      "t": 13.3,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 13.3,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 13.4,
+      "name": "nl-step-02",
+      "gain": 0.5900759229040929
+    },
+    {
+      "t": 13.4,
+      "name": "nl-step-03",
+      "gain": 0.5105071517987062
+    },
+    {
+      "t": 13.5,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 13.5,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 13.5,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 13.5,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 13.600000000000001,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 13.600000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 13.600000000000001,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 13.600000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 13.700000000000001,
+      "name": "nl-step-01",
+      "gain": 0.8967570447810984
+    },
+    {
+      "t": 13.700000000000001,
+      "name": "nl-step-02",
+      "gain": 0.2912096578243451
+    },
+    {
+      "t": 13.8,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 13.8,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 13.8,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 13.8,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 13.8,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 13.8,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 13.8,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 13.8,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 13.8,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 13.8,
+      "name": "nl-step-03",
+      "gain": 0.20339593108170764
+    },
+    {
+      "t": 13.9,
+      "name": "term-step-03",
+      "gain": 0.8119525734592234
+    },
+    {
+      "t": 13.9,
+      "name": "term-hydraulic",
+      "gain": 0.582846731963754
+    },
+    {
+      "t": 14,
+      "name": "nl-step-01",
+      "gain": 1
+    },
+    {
+      "t": 14,
+      "name": "nl-step-02",
+      "gain": 1
+    },
+    {
+      "t": 14.100000000000001,
+      "name": "term-servo",
+      "gain": 0.8
+    },
+    {
+      "t": 14.100000000000001,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 14.100000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 14.200000000000001,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 14.200000000000001,
+      "name": "nl-step-01",
+      "gain": 1
+    },
+    {
+      "t": 14.3,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 14.3,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 14.3,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 14.3,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 14.3,
+      "name": "nl-step-02",
+      "gain": 0.20735415453757478
+    },
+    {
+      "t": 14.4,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 14.4,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 14.5,
+      "name": "claw-crackle",
+      "gain": 1
+    },
+    {
+      "t": 14.5,
+      "name": "claw-swoosh",
+      "gain": 0.7
+    },
+    {
+      "t": 14.600000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 14.600000000000001,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 14.600000000000001,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 14.600000000000001,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 14.600000000000001,
+      "name": "nl-step-03",
+      "gain": 1
+    },
+    {
+      "t": 14.700000000000001,
+      "name": "claw-swoosh",
+      "gain": 0.5
+    },
+    {
+      "t": 14.700000000000001,
+      "name": "claw-metal",
+      "gain": 1
+    },
+    {
+      "t": 14.700000000000001,
+      "name": "nl-scream",
+      "gain": 0.45
+    },
+    {
+      "t": 14.700000000000001,
+      "name": "alarm-klaxon",
+      "gain": 1
+    },
+    {
+      "t": 14.700000000000001,
+      "name": "nl-step-01",
+      "gain": 0.5048398975336638
+    },
+    {
+      "t": 14.700000000000001,
+      "name": "nl-step-02",
+      "gain": 0.5478463377072521
+    },
+    {
+      "t": 14.700000000000001,
+      "name": "stinger-defeat",
+      "gain": 1
+    }
+  ]
+}
