@@ -84,7 +84,7 @@ Node reste possible (`node dist/server.mjs` fonctionne) mais n'est plus la cible
 `?seed=N` joue **N** (les manches suivantes avancent d'un cran). Avant le 04/11/2026 la première manche
 incrémentait la graine : les captures étiquetées par leur URL avant cette date sont décalées d'un cran.
 
-`policies/` contient la politique b3 (prête pour `node dist/server.mjs`) : `current.json` est `runs/b3@2000` (2 000 mises à jour, seed 3). Une candidate b4 (non activée par défaut) est dans `policies/candidates/b4/` ; `?policy=b4` la charge pour comparer, l'éval est dans `mesures/nn/b4/`. `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
+`policies/` : `current.json` est **b4** (`runs/b4@800`, défaut du jeu, sans paramètre d'URL). L'archive byte-identique de b3 est `policies/b3/` (`runs/b3@2000`) ; `?policy=b3` la charge. Copie de travail b4 : `policies/candidates/b4/`, éval `mesures/nn/b4/`. `src/guard.ts` met l'entraînement en pause si la machine est chargée (load, inodes, autres tests) ; `GUARD_FS` choisit le disque surveillé (par défaut `.`).
 
 ## Le Sas — vignette R3F + Rapier (IGN-116)
 

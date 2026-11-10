@@ -1,20 +1,12 @@
 {
-  "liveUrl": "http://127.0.0.1:18192/?policy=b4&autoplay=kiter&seed=900000&cam=couloir&tex=512",
-  "shotUrl": "http://127.0.0.1:18192/?policy=b4&autoplay=kiter&seed=900000&cam=couloir&shot=40&tex=512",
-  "hud": "TERMINATOR — manche 1 · meute 0 · Terminator 0 · 1:58Objectif : tenez 2:00 · anéantissez la meute · canalisez 6 s à la baliseArmure 30/30 · bolter prêt 30/30 · gantelet prêt · munitions 30/30Talos Uzas Xarl Cyrionpolitique runs/b4@800 (?policy=b4) · Terminator en autoplay (kiter)t20 · graine 900000 · autoplay kiter · cam couloir",
-  "policyOk": true,
-  "console": [
-    "error: Failed to load resource: the server responded with a status of 404 (Not Found)"
-  ],
-  "consoleErrors": [
-    "error: Failed to load resource: the server responded with a status of 404 (Not Found)"
-  ],
+  "liveUrl": "http://127.0.0.1:18192/?autoplay=kiter&seed=900000&cam=couloir&shot=40&tex=512",
+  "shotUrl": "http://127.0.0.1:18192/?autoplay=kiter&seed=900000&cam=couloir&shot=40&tex=512",
+  "hud": "TERMINATOR — manche 1 · meute 0 · Terminator 0 · 1:56Objectif : tenez 2:00 · anéantissez la meute · canalisez 6 s à la baliseArmure 30/30 · bolter prêt 30/30 · gantelet prêt · munitions 30/30Talos Uzas Xarl Cyrionpolitique runs/b4@800 · Terminator en autoplay (kiter)t40 · graine 900000 · autoplay kiter · cam couloir · shot=40",
+  "policyDefault": true,
+  "usedQueryPolicy": false,
+  "console": [],
+  "consoleErrors": [],
   "pageErrors": [],
-  "networkFailed": [
-    {
-      "status": 404,
-      "url": "http://127.0.0.1:18192/web/sfx/nightlords/manifest.json"
-    }
-  ],
-  "networkOk": 116
+  "networkFailed": [],
+  "networkOk": 58
 }

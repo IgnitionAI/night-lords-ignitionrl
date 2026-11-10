@@ -19,8 +19,8 @@ export const B4_SHAPE = {
 
 export const POLICY_FILES: Record<string, string> = {
   current: 'current.json',
-  b3: 'current.json',
-  b4: 'candidates/b4/actor.json',
+  b4: 'current.json',
+  b3: 'b3/current.json',
 };
 
 export function policyFileFromQuery(policy: string | null | undefined): { id: string; file: string } {

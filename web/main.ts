@@ -725,7 +725,10 @@ async function loadPolicy() {
   const sel = policyFileFromQuery(qs.get('policy'));
   try {
     const j = await fetch(`/policy/${sel.file}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null);
-    if (j) { actor = j; policyLabel = `politique ${j.version}${sel.id === 'b4' ? ' (?policy=b4)' : ''}`; }
+    if (j) {
+      const q = qs.get('policy');
+      policyLabel = `politique ${j.version}${q && sel.id !== 'current' ? ` (?policy=${sel.id})` : ''}`;
+    }
   } catch { /* naïve */ }
 }
 // Traçabilité brûlée dans l'image : un lecteur doit pouvoir dire, en regardant une capture, quel tick elle

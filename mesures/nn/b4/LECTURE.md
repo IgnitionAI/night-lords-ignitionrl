@@ -1,6 +1,8 @@
 # Lecture b4 vs b3
 
-Politique candidate **b4** : fine-tune PPO depuis b3 (`policies/current-full.json`), **seed 4**, 800 mises à jour, 16 environnements, ~301 s CPU (4 cœurs). Curriculum (kiter / turret / wallHugger / elite progressivement) et shaping **hors** `src/sim.ts` (`src/train-b4.ts`) : pénalité canalisation / mort, bonus flanc et interruption de balise. `NL_CFG.speed` et `T_CFG.fwd` inchangés. **b3 n'est pas écrasé.** Le jeu charge encore `/policy/current.json` ; comparaison : `?policy=b4`.
+Politique **b4** (défaut du jeu, validée) : fine-tune PPO depuis b3, **seed 4**, 800 mises à jour, 16 environnements, ~301 s CPU. Curriculum et shaping hors `src/sim.ts`. `NL_CFG.speed` et `T_CFG.fwd` inchangés.
+
+b3 est **archivé byte-identique** dans `policies/b3/` (SHA `950b924f…ef9f` / `7c4e37f9…ba4c`). Le jeu charge b4 via `/policy/current.json` sans paramètre ; `?policy=b3` relit l'archive.
 
 Éval : 200 parties / adversaire, seeds **900000..900199**, `clawWindup: false` — même protocole que `mesures/eval-b3.json`. `clawArms` = 0 partout.
 
@@ -49,4 +51,4 @@ bun dist/train.mjs --preset b4 --updates 800 --envs 16 --out runs/b4 --seed 4 --
 bun dist/eval.mjs --pack policies/candidates/b4/actor.json --n 200 --seedBase 900000 --out mesures/nn/b4/eval.json
 ```
 
-b4 n'est **pas** copié vers `policies/current.json`. Humain tranche.
+Salim a validé : `policies/current.json` = b4 (`runs/b4@800`). Archive `policies/b3/`.
