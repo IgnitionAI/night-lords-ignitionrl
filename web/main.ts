@@ -9,7 +9,7 @@ import { mulberry32 } from '../src/rng';
 import { hunterState } from '../src/hunter-state';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { publishHunterState, isControlViewEnabled } from './hunter-channel';
-import { advanceMixer, gaitTimeScale, mixerSubstepCount, pickGait, type Gait } from './locomotion';
+import { advanceMixer, displayMixerDelta, gaitTimeScale, mixerSubstepCount, pickGait, type Gait } from './locomotion';
 import { NL_HEIGHT, TERM_HEIGHT, measureForwardStride, measureHeight, pickClip } from './stride';
 // Son : module de Honsou, zéro dépendance, aucune fonction ne lève jamais. Sans banque (elle est hors du
 // dépôt, licence Genex non confirmée) chaque appel renvoie false et ne fait rien — le jeu tourne à l'identique.
@@ -335,16 +335,13 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
     current: null, tell, strideWalk, strideRun, allowRun,
   };
 };
-const playRig = (rig: Rig, want: Gait, dt: number, speed: number) => {
+const playRig = (rig: Rig, want: Gait, speed: number) => {
   const next = actionFor(rig, want);
   if (next && next !== rig.current) { rig.current?.fadeOut(0.15); next.reset().fadeIn(0.15).play(); rig.current = next; }
   if (next && want !== 'idle') {
     const stride = want === 'run' ? rig.strideRun : rig.strideWalk;
     next.timeScale = gaitTimeScale(speed, stride, next.getClip().duration);
   } else if (next) next.timeScale = 1;
-  // DT total inchangé ; sous-pas pour ne pas sauter 0,3 s de clip d'un coup (timeScale≈3).
-  const ts = next?.timeScale ?? 1;
-  advanceMixer(rig.mixer, dt, mixerSubstepCount(dt, ts));
 };
 
 // Terminator : cubes (os/or loyaliste), front marqué par le visor et le storm bolter
@@ -371,6 +368,14 @@ const nlMarkers: THREE.Object3D[] = []; // anneau + étiquette, visibles seuleme
 const nlProxy: THREE.Object3D[] = []; // capsule + yeux procéduraux : cachés dès que le modèle riggé est chargé
 const nlRigs: (Rig | null)[] = [null, null, null, null];
 let termRig: Rig | null = null;
+function advanceRigs(dt: number) {
+  if (!(dt > 0)) return;
+  for (const rig of [...nlRigs, termRig]) {
+    if (!rig) continue;
+    const ts = rig.current?.timeScale ?? 1;
+    advanceMixer(rig.mixer, dt, mixerSubstepCount(dt, ts));
+  }
+}
 const nlLabels: { sprite: THREE.Sprite; name: string }[] = [];
 let labelsBuilt = false;
 function buildLabels() { // différé : aucune texture de nom allouée tant que la vue de contrôle n'est pas ouverte
@@ -445,7 +450,7 @@ postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), postMat));
 
 // ---------- état de jeu
 let w: World, prev: { t: [number, number, number]; n: [number, number, number][] }, rec: Recorder, rng: () => number, tactic: Tactic | null;
-let roundNo = 0, score = { pack: 0, term: 0 }, paused = false, acc = 0, hitstop = 0, shake = 0, lastActs: number[] = [0, 0, 0, 0], lastP: number[] = [0, 0, 0, 0], tracerT = 0;
+let roundNo = 0, score = { pack: 0, term: 0 }, paused = false, acc = 0, mixerSim = 0, hitstop = 0, shake = 0, lastActs: number[] = [0, 0, 0, 0], lastP: number[] = [0, 0, 0, 0], tracerT = 0;
 // Dernier tick publié sur le canal d'ambiance : garantit « une fois par tick au plus », même en pause.
 let publishedTick = -1;
 // Poids du Terminator : recul du bolter, appui du pas, respiration, inclinaison. Un ressort amorti par effet,
@@ -583,19 +588,19 @@ function updateTell() {
     rig.tell.value = TELL_ON && n.alive ? on : 0;
   }
 }
-function updateRigs(dt: number) { // avance d'un pas de simulation, pas du temps réel : le mode capture reste déterministe
+function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la boucle d'affichage (ou DT en ?shot=)
   const nlWalk = NL_CFG.speed * T_CFG.stunSpeed;
   const nlRun = NL_CFG.speed;
   for (let i = 0; i < nlRigs.length; i++) {
     const rig = nlRigs[i]; if (!rig) continue;
     const n = w.nls[i];
     const speed = Math.hypot(n.x - prev.n[i][0], n.y - prev.n[i][1]) / DT;
-    if (!n.alive) { playRig(rig, 'idle', dt, 0); continue; }
-    playRig(rig, pickGait(speed, { allowRun: rig.allowRun, walkSpeed: nlWalk, runSpeed: nlRun }), dt, speed);
+    if (!n.alive) { playRig(rig, 'idle', 0); continue; }
+    playRig(rig, pickGait(speed, { allowRun: rig.allowRun, walkSpeed: nlWalk, runSpeed: nlRun }), speed);
   }
   if (termRig) {
     const speed = Math.hypot(w.t.vx, w.t.vy);
-    playRig(termRig, pickGait(speed, { allowRun: termRig.allowRun, walkSpeed: T_CFG.fwd, runSpeed: T_CFG.fwd }), dt, speed);
+    playRig(termRig, pickGait(speed, { allowRun: termRig.allowRun, walkSpeed: T_CFG.fwd, runSpeed: T_CFG.fwd }), speed);
   }
   updateTell();
 }
@@ -650,7 +655,7 @@ function tick() {
     onServoLoop.start({ load: sp / 2.5 });
     onServoLoop.load(sp / 2.5);
   } else onServoLoop.load(0.1);
-  updateRigs(DT); updateCamYaw();
+  updateRigs(); if (shot) advanceRigs(DT); updateCamYaw();
   if (w.done) endRound();
 }
 function flash(o: number) { const f = document.getElementById('flash')!; f.style.transition = 'none'; f.style.opacity = String(o); requestAnimationFrame(() => { f.style.transition = 'opacity .25s'; f.style.opacity = '0'; }); }
@@ -832,6 +837,12 @@ if (shot) { // capture : on avance la sim de N ticks sans attendre le temps rée
     let dt = Math.min(0.25, (now - last) / 1000); last = now;
     if (hitstop > 0) { hitstop -= dt; dt = 0; }
     if (!paused && !roundOver) { acc += dt; while (acc >= DT) { acc -= DT; tick(); if (roundOver) break; } }
+    if (!shot && !paused) {
+      const alpha = roundOver ? 1 : acc / DT;
+      const displaySim = Math.max(0, simT - DT + alpha * DT);
+      const step = displayMixerDelta(dt, mixerSim, displaySim);
+      if (step > 0) { advanceRigs(step); mixerSim += step; }
+    }
     // Ambiance : au plus une publication par tick, et seulement si `?control=1`. Le HUD, lui, ne lit rien
     // d'ici : aucune donnée du canal ne touche le DOM du joueur.
     if (CONTROL_VIEW && w.tick !== publishedTick) { publishHunterState(hunterState(w)); publishedTick = w.tick; }

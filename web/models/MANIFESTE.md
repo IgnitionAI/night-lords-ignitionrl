@@ -30,10 +30,10 @@ l'écran.
 3. **L'échelle se cale sur le collider, pas au goût.** 2,0 m pour un NL (`radius` 0,45), 2,6 m pour
    le Terminator (`radius` 0,8). Plus grand, le visuel déborde de la boîte de collision, traverse
    les murs et se chevauche.
-4. **`?shot=` ne reste déterministe que si les mixers avancent d'un `DT`.** Les avancer sur
-   `performance.now()` casse toute comparaison avant/après. Corollaire : la graine de grain de la
-   passe post dépend du temps réel — deux captures ne sont jamais identiques au pixel (l'écart *est*
-   le grain), alors que la simulation l'est.
+4. **`?shot=` avance les mixers d'un `DT` par tick.** En jeu, le mixer suit le temps réel borné par
+   le temps de sim interpolé (`simT − DT + α·DT`), jamais en avance. Un mixer calé sur
+   `performance.now()` sans plafond casserait `?shot=`. Le grain de la passe post, lui, reste
+   non reproductible au pixel.
 5. **Un Euler explicite explose sur un grand pas.** Symptôme : la caméra part à l'infini, la capture
    sort entièrement noire. Cause : la secousse du tir est un ressort raide (`ω ≈ 23 rad/s`) ; en
    intégration explicite il faut `ω·dt < 0,5`, or le pas de simulation vaut `dt = 0,1 s` → `ω·dt = 2,3`.
@@ -63,9 +63,9 @@ vers les capsules si un modèle est absent.
 ## Ce que le code fait
 
 - `GLTFLoader` sur `<role>.glb` (pose + clip de repos) et `<role>-walk.glb` / `<role>-run.glb`.
-- Un `AnimationMixer` par personnage, avancé d'un `DT` total dans `tick()` (pas du temps réel),
-  découpé en sous-pas pour que le temps clip par évaluation reste ≤ 1/30 s. Une capture `?shot=N`
-  donne la même pose finale qu'un seul `mixer.update(DT)` par tick.
+- Un `AnimationMixer` par personnage : en jeu, avancé au rythme de l'affichage (temps réel, plafonné
+  par le temps de sim interpolé `simT − DT + α·DT`, jamais en avance). En `?shot=N`, un `DT` par
+  tick — même pose finale qu'avant. `timeScale = v · T / foulée` inchangé.
 - Passage marche/course selon la vitesse effective ; fondu de 0,15 s. Un NL étourdi (`stunSpeed`)
   tombe dans la bande marche ; le Terminator n'a pas de vitesse de course dans la sim.
 - Échelle mesurée, pas devinée : les maillages sont quantifiés (`KHR_mesh_quantization`), et

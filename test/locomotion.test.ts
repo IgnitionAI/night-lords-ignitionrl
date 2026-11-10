@@ -7,7 +7,8 @@ import { fileURLToPath } from 'node:url';
 import * as THREE from 'three';
 import { DT, NL_CFG, T_CFG } from '../src/sim.ts';
 import {
-  MIXER_MAX_ANIM_STEP, advanceMixer, cycleDistance, gaitTimeScale, mixerSubstepCount, pickGait,
+  DISPLAY_FRAME, MIXER_MAX_ANIM_STEP, advanceMixer, cycleDistance, displayMixerDelta,
+  gaitTimeScale, mixerSubstepCount, pickGait,
 } from '../web/locomotion.ts';
 import {
   NL_HEIGHT, TERM_HEIGHT, measureForwardStride, measureHeight, parseGlb, pickClip,
@@ -166,6 +167,57 @@ test('sous-pas mixer : même timeScale et même temps final, plus de poses inter
     assert.ok((DT / n) * ts <= MIXER_MAX_ANIM_STEP + 1e-12, 'pas d\'anim par sous-pas ≤ 1/30 s');
     assert.equal(job.gait === 'run' ? NL_CFG.speed : job.name === 'TERM' ? T_CFG.fwd : NL_CFG.speed * T_CFG.stunSpeed, job.speed);
   }
+  assert.equal(NL_CFG.speed, 6);
+  assert.equal(T_CFG.fwd, 2.5);
+});
+
+test('6 frames 1/60 s : 6 poses distinctes, somme = DT, pas de glisse', async () => {
+  assert.equal(DT, 0.1);
+  assert.ok(Math.abs(DISPLAY_FRAME * 6 - DT) < 1e-12);
+  const loaded = await loadScaled('NL-1');
+  const clip = loaded.run;
+  const sample = measureForwardStride(loaded.root, clip);
+  const speed = NL_CFG.speed;
+  const ts = gaitTimeScale(speed, sample.stride, sample.duration);
+  const mixer = new THREE.AnimationMixer(loaded.root);
+  const action = mixer.clipAction(clip);
+  action.play();
+  action.timeScale = ts;
+  let mixerSim = 0;
+  const times: number[] = [];
+  const steps: number[] = [];
+  console.log('\n# locomotion — 6 frames d\'affichage (1/60 s), DT=0,1, timeScale figé');
+  for (let i = 0; i < 6; i++) {
+    const displaySim = (i + 1) * DISPLAY_FRAME;
+    const step = displayMixerDelta(DISPLAY_FRAME, mixerSim, displaySim);
+    mixer.update(step);
+    mixerSim += step;
+    steps.push(step);
+    times.push(action.time);
+  }
+  const sum = steps.reduce((a, b) => a + b, 0);
+  const after = cycleDistance(speed, sample.duration, ts);
+  const world = speed * sum;
+  const expectedWorld = sample.stride * ((sum * ts) / sample.duration);
+  const row = {
+    role: 'NL-1', gait: 'run', speed_mps: speed, DT, frame_s: DISPLAY_FRAME, frames: 6,
+    timeScale: ts, stride_m: sample.stride, hipsDeltaXZ_m: sample.hipXz,
+    stepSum: sum, mixerTime: mixer.time, actionTime: action.time,
+    poses: times, uniquePoses: new Set(times.map((t) => t.toFixed(9))).size,
+    distCycle_m: after, slip_cycle_m: after - sample.stride,
+    world_m: world, expectedWorld_m: expectedWorld, slip_frames_m: world - expectedWorld,
+  };
+  console.log(JSON.stringify(row, null, 2));
+  assert.equal(action.timeScale, ts);
+  assert.equal(times.length, 6);
+  assert.ok(Math.abs(sum - DT) < 1e-12, 'somme des frames = DT');
+  assert.equal(new Set(times.map((t) => t.toFixed(9))).size, 6, '6 poses clip distinctes');
+  assert.ok(Math.abs(mixer.time - DT) < 1e-9);
+  assert.ok(Math.abs(action.time - ts * DT) < 1e-9);
+  assert.ok(Math.abs(after - sample.stride) < 1e-9, '1 cycle = 1 foulée');
+  assert.ok(Math.abs(world - expectedWorld) < 1e-9, 'pas de glisse sur 6 frames');
+  assert.ok(sample.hipXz < 1e-4, 'pas de root motion Hips XZ');
+  assert.ok(displayMixerDelta(DISPLAY_FRAME, DT, DT) === 0, 'jamais en avance sur la sim');
   assert.equal(NL_CFG.speed, 6);
   assert.equal(T_CFG.fwd, 2.5);
 });

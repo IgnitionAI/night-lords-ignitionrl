@@ -54,3 +54,13 @@ export function advanceMixer(
     onStep?.(i, h);
   }
 }
+
+export const DISPLAY_FRAME = 1 / 60;
+
+// Temps réel d'une frame d'affichage, plafonné par le temps de sim déjà affiché (jamais en avance).
+export function displayMixerDelta(frameDt: number, mixerSim: number, displaySim: number): number {
+  if (!(frameDt > 0)) return 0;
+  const room = displaySim - mixerSim;
+  if (!(room > 0)) return 0;
+  return Math.min(frameDt, room);
+}
