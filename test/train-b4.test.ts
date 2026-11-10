@@ -252,12 +252,14 @@ test('shaping b6 : harcèlement / encerclement > fuite ; melee tôt pénalisée 
   assert.ok(B6_SHAPE.visible > 0);
   assert.ok(B6_SHAPE.unseenPack < 0);
   assert.ok(B6_SHAPE.outOfCone < 0);
+  assert.ok(B6_SHAPE.boltLane < 0);
+  assert.ok(B6_SHAPE.escape < 0);
 });
 
 test('shaping b6 : cône de vision du T récompensé ; camp hors champ / spawn pénalisés', () => {
   const vis = newWorld(17, undefined, { clawWindup: false });
   vis.t.x = 20; vis.t.y = 12; vis.t.facing = 0; vis.tick = 80;
-  vis.nls[0].alive = true; vis.nls[0].x = 28; vis.nls[0].y = 12;
+  vis.nls[0].alive = true; vis.nls[0].x = 28; vis.nls[0].y = 16;
   vis.nls[1].alive = vis.nls[2].alive = vis.nls[3].alive = false;
   const visR = applyB6Shaping(vis, [0, 0, 0, 0], [false, false, false, false])[0];
 

@@ -2,7 +2,7 @@
  "pack": "policies/candidates/b5/actor.json",
  "clawWindup": false,
  "seeds": "900000..900199",
- "wallSeconds": 28.8,
+ "wallSeconds": 28.7,
  "results": {
   "march": {
    "unseen": false,
@@ -23,9 +23,12 @@
     "meute anéantie": 3
    },
    "teleports": 0,
+   "meanTeleports": 0,
    "meanEngagements": 1.02,
    "shareTicksFar": 0.456,
-   "shareTicksMelee": 0.463
+   "shareTicksMelee": 0.463,
+   "shareTicksVisible": 0.551,
+   "deathsWithoutTermDamage": 0
   },
   "turret": {
    "unseen": false,
@@ -46,9 +49,12 @@
     "meute anéantie": 10
    },
    "teleports": 0,
+   "meanTeleports": 0,
    "meanEngagements": 0.97,
    "shareTicksFar": 0.537,
-   "shareTicksMelee": 0.4
+   "shareTicksMelee": 0.4,
+   "shareTicksVisible": 0.462,
+   "deathsWithoutTermDamage": 0
   },
   "brawler": {
    "unseen": false,
@@ -69,9 +75,12 @@
     "meute anéantie": 5
    },
    "teleports": 0,
+   "meanTeleports": 0,
    "meanEngagements": 1.02,
    "shareTicksFar": 0.462,
-   "shareTicksMelee": 0.473
+   "shareTicksMelee": 0.473,
+   "shareTicksVisible": 0.54,
+   "deathsWithoutTermDamage": 0
   },
   "backpedal": {
    "unseen": false,
@@ -92,9 +101,12 @@
     "meute anéantie": 1
    },
    "teleports": 0,
+   "meanTeleports": 0,
    "meanEngagements": 1.02,
    "shareTicksFar": 0.454,
-   "shareTicksMelee": 0.479
+   "shareTicksMelee": 0.479,
+   "shareTicksVisible": 0.508,
+   "deathsWithoutTermDamage": 0
   },
   "wallHugger": {
    "unseen": true,
@@ -116,9 +128,12 @@
     "meute anéantie": 6
    },
    "teleports": 2,
+   "meanTeleports": 0.01,
    "meanEngagements": 0.98,
    "shareTicksFar": 0.466,
-   "shareTicksMelee": 0.457
+   "shareTicksMelee": 0.457,
+   "shareTicksVisible": 0.537,
+   "deathsWithoutTermDamage": 0
   },
   "kiter": {
    "unseen": true,
@@ -139,9 +154,12 @@
     "meute anéantie": 25
    },
    "teleports": 0,
+   "meanTeleports": 0,
    "meanEngagements": 0.94,
    "shareTicksFar": 0.527,
-   "shareTicksMelee": 0.408
+   "shareTicksMelee": 0.408,
+   "shareTicksVisible": 0.479,
+   "deathsWithoutTermDamage": 0
   },
   "elite": {
    "unseen": true,
@@ -162,9 +180,12 @@
     "meute anéantie": 23
    },
    "teleports": 0,
+   "meanTeleports": 0,
    "meanEngagements": 0.93,
    "shareTicksFar": 0.522,
-   "shareTicksMelee": 0.411
+   "shareTicksMelee": 0.411,
+   "shareTicksVisible": 0.484,
+   "deathsWithoutTermDamage": 0
   }
  }
 }

@@ -28,7 +28,7 @@ const cmpTable = rows.map(({ k, a, b, c }) => {
 
 const md = `# Lecture b6 vs b5
 
-Politique candidate **b6** (\`runs/b6@1950\`) : fine-tune PPO **en 3 paliers** depuis b5 (\`policies/candidates/b5/full.json\`), 32 environnements, lr 2e-5. Shaping **hors** \`src/sim.ts\` (\`src/train-b4.ts\`) : encerclement, harcèlement, feintes, interdiction melee/griffes avant 30 s, pénalité victoire trop rapide, commit ensuite. \`NL_CFG.speed\` et \`T_CFG.fwd\` inchangés. **Défaut inchangé** : \`current.json\` reste b5. Jouable : \`?policy=b6\`.
+Politique candidate **b6** (\`runs/b6-vis2@700\`) : fine-tune lisibilité depuis le candidat mergé (spawn-camp hors cône). Shaping **hors** \`src/sim.ts\` : cône de vision, flancs hors couloir de bolter, pénalité stall/spawn. \`NL_CFG.speed\` et \`T_CFG.fwd\` inchangés. **Défaut inchangé** : \`current.json\` reste b5. Jouable : \`?policy=b6\`.
 
 Éval : 200 parties / adversaire, seeds **900000..900199**, \`clawWindup: false\` — même protocole que \`mesures/nn/b5/eval.json\`.
 
@@ -45,9 +45,7 @@ Pool moyen : b5 **${pct(avgB5)}** → b6 **${pct(avgB6)}**.
 ## Commandes
 
 \`\`\`
-bun dist/train.mjs --preset b6 --updates 900 --envs 32 --out runs/b6 --seed 6 --init policies/candidates/b5/full.json
-bun dist/train.mjs --preset b6 --updates 700 --envs 32 --out runs/b6-tempo2 --seed 7 --init runs/b6/full.json
-bun dist/train.mjs --preset b6 --updates 350 --envs 32 --out runs/b6-tempo4 --seed 9 --init runs/b6-tempo2/full.json
+bun dist/train.mjs --preset b6 --updates 700 --envs 32 --out runs/b6-vis2 --seed 12 --init policies/candidates/b6/full.json
 bun dist/eval.mjs --pack policies/candidates/b6/actor.json --n 200 --seedBase 900000 --out mesures/nn/b6/eval.json
 \`\`\`
 

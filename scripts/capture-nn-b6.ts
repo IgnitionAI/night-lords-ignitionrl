@@ -173,7 +173,7 @@ async function recordMatch(policy: string, outName: string) {
   console.log('video', out, 'bytes', bytes);
 }
 
-const PLANCHE_TICKS = [80, 160, 240, 320, 400, 480];
+const PLANCHE_TICKS = [50, 100, 160, 220, 300, 400];
 
 async function planche() {
   const dir = join(OUT, 'planche');

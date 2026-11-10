@@ -64,13 +64,15 @@ export const B6_SHAPE = {
   harass: 0.014,
   feint: 0.014,
   commitLate: 0.022,
-  visible: 0.022,
-  outOfCone: -0.016,
-  unseenPack: -0.025,
+  visible: 0.02,
+  outOfCone: -0.008,
+  unseenPack: -0.012,
+  boltLane: -0.03,
   earlyHit: -5,
   lateHit: 0.22,
   earlyWin: -12,
   tempoWin: 2.5,
+  escape: -2.5,
   overtime: -0.012,
   hpHold: 0.018,
   hpBleed: -0.03,
@@ -249,8 +251,9 @@ export function applyB6Shaping(w: World, rewards: number[], died: boolean[]): nu
     if (d > 9) out[i] += B6_SHAPE.chase * Math.min(1, (d - 9) / 8);
     if (d > 12) out[i] += B6_SHAPE.stallFar * Math.min(1, (d - 12) / 8);
     const inCone = rel < T_CFG.visionHalf && d <= T_CFG.visionRange && d > 3.2;
-    if (inCone) out[i] += B6_SHAPE.visible;
-    else if (d > 4) out[i] += B6_SHAPE.outOfCone;
+    if (inCone && rel > 0.25) out[i] += B6_SHAPE.visible;
+    else if (d > 14 || (d > 6 && rel > 2.2)) out[i] += B6_SHAPE.outOfCone;
+    if (rel < 0.25 && d > 4 && d < T_CFG.boltRange) out[i] += B6_SHAPE.boltLane;
     if (earlyFrac > 0 && d < 3.2) out[i] += B6_SHAPE.meleeEarly * earlyFrac;
     if (d > 5.5 && d < 12) out[i] += B6_SHAPE.harass;
     if (rel < 0.85 && d > 4 && d < 9.5) out[i] += B6_SHAPE.feint;
@@ -297,6 +300,9 @@ export function applyB6Shaping(w: World, rewards: number[], died: boolean[]): nu
     if (sec < B6_SHAPE.earlySec) extra = B6_SHAPE.earlyWin;
     else if (sec >= 30 && sec <= 90) extra = B6_SHAPE.tempoWin;
     for (let i = 0; i < out.length; i++) if (w.nls[i].alive) out[i] += extra;
+  }
+  if (w.done && w.reason === 'téléporté') {
+    for (let i = 0; i < out.length; i++) if (w.nls[i].alive) out[i] += B6_SHAPE.escape;
   }
   return out;
 }

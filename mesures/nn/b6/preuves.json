@@ -1,5 +1,5 @@
 {
-  "bunTest": { "pass": 120, "fail": 0, "skip": 1 },
+  "bunTest": { "pass": 122, "fail": 0, "skip": 1 },
   "bunRunBuild": 0,
   "measureStride": {
     "NL-1-run": 1.3335077670385962,
@@ -20,16 +20,21 @@
     "policies/candidates/b5/full.json": "223c14edf51bbb3f467fbe49fa7259883674009cbc61e24912820cd58b44cd63",
     "policies/current.json": "27a6f675ee1de5ffbf9601f73d3a5c6e25abb5da0cc9ba443a4f8fba4321b0f3"
   },
-  "b6ActorSha256": "05d4603ee7aec5758da481c052a6f38026e78aea97751a132b7cf510591e19e5",
+  "b6ActorSha256": "8ece382294339596152859f123117337e1013d247ed540686beaf6d0f263f5ee",
   "deployed": { "file": "policies/current.json", "version": "runs/b5@2000", "unchanged": true },
-  "candidate": { "file": "policies/candidates/b6/actor.json", "version": "runs/b6@1950" },
+  "candidate": { "file": "policies/candidates/b6/actor.json", "version": "runs/b6-vis2@700" },
   "simTs": "unchanged",
   "nlCfgSpeed": 6,
   "tCfgFwd": 2.5,
   "capture": "docs/captures/nn-b6/policy-b6-hud.png",
-  "hudPolicy": "politique runs/b6@1950 (?policy=b6)",
+  "planche": "docs/captures/nn-b6/planche-6.png",
+  "hudPolicy": "politique runs/b6-vis2@700 (?policy=b6)",
   "usedQueryPolicy": true,
   "video": "docs/videos/b6-match.mp4",
-  "videoBytes": 14260080,
+  "videoBytes": 11029825,
+  "videoB5": "docs/videos/b5-match.mp4",
+  "videoB5Bytes": 6337148,
+  "replayBefore": "mesures/nn/b6/seed900000-before.json",
+  "replayAfter": "mesures/nn/b6/seed900000-after.json",
   "captureConsoleErrors": ["404 /web/sfx/nightlords/manifest.json"]
 }
