@@ -1497,7 +1497,7 @@ function render(alpha: number) {
     for (const e of w.events) {
       if (e.type === 'bolt') snap('bolter');
       if (e.type === 'clawArm' && !caps.claw) snap('claw');
-      if (e.type === 'claw') caps.claw = { tick: w.tick, png: canvas.toDataURL('image/png') };
+      if (e.type === 'claw' && !caps.claw) snap('claw');
       if (e.type === 'fistCharge') snap('fist');
       if (e.type === 'fist' && !caps.fist) snap('fist');
       if (e.type === 'hit' && !caps.claw) snap('claw');

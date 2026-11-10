@@ -379,7 +379,6 @@ async function matchVideo() {
       if (!eng) return { tape: false, rec: false, state: 'none' };
       eng.unlock();
       if (eng.ctx && eng.ctx.state !== 'running') await eng.ctx.resume();
-      const tape = eng.beginTape();
       const stream = eng.captureStream();
       let rec = false;
       if (stream && typeof MediaRecorder !== 'undefined') {
@@ -393,7 +392,7 @@ async function matchVideo() {
         (window as unknown as { __recChunks?: Blob[] }).__recChunks = chunks;
         rec = true;
       }
-      return { tape, rec, state: eng.ctx?.state ?? 'none' };
+      return { rec, state: eng.ctx?.state ?? 'none', stream: !!stream };
     });
     console.log('tapeOn', tapeOn);
     await waitLit(page);
@@ -470,7 +469,6 @@ async function matchVideo() {
     }
     const seen = await page.evaluate(() => (window as unknown as { __NL?: { seen?: string[] } }).__NL?.seen ?? []);
     console.log('caps', Object.keys(caps), 'seen', seen);
-    const tape = await pullTape(page);
     const recB64 = await page.evaluate(async () => {
       const w = window as unknown as { __rec?: MediaRecorder; __recChunks?: Blob[] };
       if (!w.__rec) return '';
@@ -487,23 +485,17 @@ async function matchVideo() {
       }
       return btoa(bin);
     });
-    const wav = join(tmp, 'webaudio.wav');
     const aac = join(tmp, 'webaudio.m4a');
-    const recWebm = join(tmp, 'webaudio.webm');
-    let audioIn = wav;
-    if (tape.peak >= 1e-4 && tape.frames > 1000) {
-      writeWav(wav, tape.interleaved, tape.sampleRate || 44100, 2);
-    } else if (recB64 && recB64.length > 200) {
-      writeFileSync(recWebm, Buffer.from(recB64, 'base64'));
-      audioIn = recWebm;
-    } else {
-      throw new Error(`tape WebAudio silencieuse peak=${tape.peak} frames=${tape.frames} rec=${recB64.length}`);
+    const recWebm = join(tmp, 'mix-audio.webm');
+    if (!(recB64 && recB64.length > 400)) {
+      throw new Error(`MediaRecorder WebAudio vide rec=${recB64.length}`);
     }
-    const ln = loudnormAac(audioIn, aac);
+    writeFileSync(recWebm, Buffer.from(recB64, 'base64'));
+    const ln = loudnormAac(recWebm, aac);
     await context.close();
     await browser.close();
 
-    const webm = spawnSync('bash', ['-lc', `ls -1t "${tmp}"/*.webm | head -1`], { encoding: 'utf8' }).stdout.trim();
+    const webm = spawnSync('bash', ['-lc', `ls -1t "${tmp}"/*.webm | grep -v mix-audio | head -1`], { encoding: 'utf8' }).stdout.trim();
     if (!webm) throw new Error('pas de webm');
     const detect = spawnSync('ffmpeg', [
       '-i', webm, '-vf', 'blackdetect=d=0.08:pix_th=0.10', '-an', '-f', 'null', '-',
@@ -540,10 +532,10 @@ async function matchVideo() {
     writeFileSync(join(OUT, 'signalstats.txt'), signal.slice(-2500));
     writeFileSync(join(OUT, 'video.json'), JSON.stringify({
       url: `${base}/?${q}`, seed: VIDEO_SEED, autoplay: VIDEO_AUTO, litAt, contactAt, ss,
-      tapeOffset, audioSkip, tape: { peak: tape.peak, frames: tape.frames, sampleRate: tape.sampleRate },
-      enc, stamps, videoStamps, ticks, loudnorm: ln.measured, af: ln.af,
+      tapeOffset, audioSkip, recBytes: Buffer.from(recB64, 'base64').length,
+      enc, stamps, videoStamps, ticks, loudnorm: ln.measured, af: ln.af, seen,
     }, null, 2));
-    console.log('video', mp4, enc, 'stamps', videoStamps, 'peak', tape.peak);
+    console.log('video', mp4, enc, 'stamps', videoStamps, 'rec', recB64.length);
   });
 }
 

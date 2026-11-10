@@ -1,20 +1,70 @@
 {
-  "url": "http://127.0.0.1:18196/?autoplay=kiter&seed=900002&cam=fps&tex=512&props=0",
-  "seed": "900002",
+  "url": "http://127.0.0.1:18196/?autoplay=kiter&seed=900007&cam=fps&tex=512&props=0&cap=1",
+  "seed": "900007",
   "autoplay": "kiter",
-  "litAt": 6.055,
-  "contactAt": 18.919,
-  "ss": 18.519000000000002,
+  "litAt": 7.064,
+  "contactAt": 34.341,
+  "ss": 6.944,
+  "tapeOffset": 2.323,
+  "audioSkip": 4.621,
+  "recBytes": 2912569,
   "enc": {
     "crf": 28,
-    "bytes": 8152401
+    "bytes": 12520714
   },
   "stamps": {
-    "contact": 18.919,
-    "bolter": 18.938,
-    "death": 18.938,
-    "claw": 32.376,
-    "fist": 36.835,
-    "end": 60.032
-  }
+    "contact": 34.341,
+    "bolter": 34.372,
+    "death": 34.372,
+    "fistCharge": 52.527,
+    "fist": 56.01,
+    "claw": 75.81,
+    "end": 177.241
+  },
+  "videoStamps": {
+    "contact": 27.397000000000002,
+    "bolter": 27.428,
+    "death": 27.428,
+    "fistCharge": 45.583,
+    "fist": 49.065999999999995,
+    "claw": 68.866,
+    "end": 170.29700000000003
+  },
+  "ticks": {
+    "bolter": 74,
+    "death": 74,
+    "fistCharge": 101,
+    "fist": 109,
+    "claw": 127,
+    "end": 265,
+    "bolterCap": 73,
+    "clawCap": 265,
+    "fistCap": 101,
+    "deathCap": 73,
+    "deathOffset": 1
+  },
+  "loudnorm": {
+    "input_i": "-18.66",
+    "input_tp": "-2.25",
+    "input_lra": "5.60",
+    "input_thresh": "-28.68",
+    "output_i": "-14.69",
+    "output_tp": "-1.50",
+    "output_lra": "5.50",
+    "output_thresh": "-24.69",
+    "normalization_type": "dynamic",
+    "target_offset": "-0.31"
+  },
+  "af": "loudnorm=I=-15:TP=-1.5:LRA=11:measured_I=-18.66:measured_TP=-2.25:measured_LRA=5.60:measured_thresh=-28.68:offset=-0.31:linear=true",
+  "seen": [
+    "step",
+    "bolt",
+    "fistCharge",
+    "fistReady",
+    "fist",
+    "clawArm",
+    "claw",
+    "hit",
+    "servoCritical"
+  ]
 }

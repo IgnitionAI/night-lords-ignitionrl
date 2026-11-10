@@ -1,0 +1,73 @@
+Input #0, matroska,webm, from '/agent/repos/night-lords-ignitionrl/docs/captures/fps/_vid/mix-audio.webm':
+  Metadata:
+    encoder         : Chrome
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0(eng): Audio: opus, 48000 Hz, stereo, fltp (default)
+Stream mapping:
+  Stream #0:0 -> #0:0 (opus (native) -> pcm_s16le (native))
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    encoder         : Lavf60.16.100
+  Stream #0:0(eng): Audio: pcm_s16le, 192000 Hz, stereo, s16, 6144 kb/s (default)
+    Metadata:
+      encoder         : Lavc60.31.102 pcm_s16le
+size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    
+size=N/A time=00:00:17.79 bitrate=N/A speed=34.2x    
+size=N/A time=00:00:32.20 bitrate=N/A speed=31.5x    
+size=N/A time=00:00:54.39 bitrate=N/A speed=35.7x    
+size=N/A time=00:01:12.19 bitrate=N/A speed=35.7x    
+size=N/A time=00:01:28.29 bitrate=N/A speed=34.9x    
+size=N/A time=00:01:45.10 bitrate=N/A speed=34.7x    
+size=N/A time=00:02:02.20 bitrate=N/A speed=34.6x    
+size=N/A time=00:02:22.60 bitrate=N/A speed=35.3x    
+size=N/A time=00:02:45.09 bitrate=N/A speed=36.4x    
+[out#0/null @ 0x5595eec28b00] video:0kB audio:135090kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+size=N/A time=00:02:57.30 bitrate=N/A speed=36.7x    
+[Parsed_loudnorm_0 @ 0x5595eec5a140] 
+{
+	"input_i" : "-18.66",
+	"input_tp" : "-2.25",
+	"input_lra" : "5.60",
+	"input_thresh" : "-28.68",
+	"output_i" : "-14.69",
+	"output_tp" : "-1.50",
+	"output_lra" : "5.50",
+	"output_thresh" : "-24.69",
+	"normalization_type" : "dynamic",
+	"target_offset" : "-0.31"
+}
+
+
+--- ebur128 aac ---
+8_0 @ 0x555db31f5f00] t: 179.385    TARGET:-23 LUFS    M: -17.8 S: -17.7     I: -15.0 LUFS       LRA:   5.7 LU  FTPK: -10.2 -10.2 dBFS  TPK:  -1.1  -1.3 dBFS
+[Parsed_ebur128_0 @ 0x555db31f5f00] t: 179.485    TARGET:-23 LUFS    M: -17.9 S: -17.7     I: -15.0 LUFS       LRA:   5.7 LU  FTPK: -11.0 -11.0 dBFS  TPK:  -1.1  -1.3 dBFS
+[Parsed_ebur128_0 @ 0x555db31f5f00] t: 179.585    TARGET:-23 LUFS    M: -17.7 S: -17.6     I: -15.0 LUFS       LRA:   5.7 LU  FTPK:  -9.2  -9.2 dBFS  TPK:  -1.1  -1.3 dBFS
+[Parsed_ebur128_0 @ 0x555db31f5f00] t: 179.685    TARGET:-23 LUFS    M: -17.4 S: -17.6     I: -15.0 LUFS       LRA:   5.7 LU  FTPK:  -9.5  -9.5 dBFS  TPK:  -1.1  -1.3 dBFS
+[Parsed_ebur128_0 @ 0x555db31f5f00] t: 179.785    TARGET:-23 LUFS    M: -17.3 S: -17.6     I: -15.0 LUFS       LRA:   5.7 LU  FTPK:  -9.3  -9.3 dBFS  TPK:  -1.1  -1.3 dBFS
+[Parsed_ebur128_0 @ 0x555db31f5f00] t: 179.885    TARGET:-23 LUFS    M: -16.9 S: -17.5     I: -15.0 LUFS       LRA:   5.7 LU  FTPK:  -8.9  -8.9 dBFS  TPK:  -1.1  -1.3 dBFS
+[Parsed_ebur128_0 @ 0x555db31f5f00] t: 179.985    TARGET:-23 LUFS    M: -17.3 S: -17.5     I: -15.0 LUFS       LRA:   5.7 LU  FTPK:  -9.2  -9.2 dBFS  TPK:  -1.1  -1.3 dBFS
+[Parsed_ebur128_0 @ 0x555db31f5f00] t: 180.085    TARGET:-23 LUFS    M: -17.3 S: -17.5     I: -15.0 LUFS       LRA:   5.7 LU  FTPK:  -9.9  -9.9 dBFS  TPK:  -1.1  -1.3 dBFS
+[Parsed_ebur128_0 @ 0x555db31f5f00] t: 180.185    TARGET:-23 LUFS    M: -17.2 S: -17.5     I: -15.0 LUFS       LRA:   5.7 LU  FTPK:  -9.2  -9.2 dBFS  TPK:  -1.1  -1.3 dBFS
+[out#0/null @ 0x555db31f3840] video:0kB audio:67548kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+size=N/A time=00:03:00.18 bitrate=N/A speed= 111x    
+[Parsed_ebur128_0 @ 0x555db31f5f00] Summary:
+
+  Integrated loudness:
+    I:         -15.0 LUFS
+    Threshold: -25.0 LUFS
+
+  Loudness range:
+    LRA:         5.7 LU
+    Threshold: -35.0 LUFS
+    LRA low:   -18.2 LUFS
+    LRA high:  -12.5 LUFS
+
+  True peak:
+    Peak:       -1.1 dBFS
+
+--- ebur128 mux fps-match.mp4 ---
+I: -15.0 LUFS
+LRA: 5.7 LU
+True peak: -0.6 dBFS
+volumedetect mean -14.5 dB max -0.6 dB
