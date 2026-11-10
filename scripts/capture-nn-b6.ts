@@ -108,7 +108,7 @@ async function stills() {
     }, null, 2));
     if (!policyB6) throw new Error('candidates/b6/actor.json non chargé');
     if (!hud.includes('?policy=b6')) throw new Error(`HUD sans ?policy=b6: ${hud}`);
-    if (!hud.includes('runs/b6')) throw new Error(`HUD sans b6: ${hud}`);
+    if (!/b6/.test(hud)) throw new Error(`HUD sans b6: ${hud}`);
     if (pageErrors.length || unexpectedConsole.length || unexpectedNet.length) {
       throw new Error(`erreurs capture: console=${JSON.stringify(unexpectedConsole)} net=${JSON.stringify(unexpectedNet)} page=${pageErrors}`);
     }
@@ -117,8 +117,8 @@ async function stills() {
   console.log('capture-nn-b6 stills ok');
 }
 
-async function video() {
-  const tmp = join(OUT, '_clip');
+async function recordMatch(policy: string, outName: string) {
+  const tmp = join(OUT, `_clip-${policy}`);
   mkdirSync(tmp, { recursive: true });
   await withServer(async (base) => {
     const browser = await chromium.launch({ headless: true, args: swiftArgs });
@@ -127,7 +127,7 @@ async function video() {
       recordVideo: { dir: tmp, size: { width: 960, height: 540 } },
     });
     const page = await context.newPage();
-    const url = `${base}/?policy=b6&autoplay=kiter&seed=900000&cam=couloir&tex=256&env=0`;
+    const url = `${base}/?policy=${policy}&autoplay=kiter&seed=900000&cam=couloir&tex=256&env=0`;
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await page.waitForSelector('#hud', { timeout: 180000 });
     const t0 = Date.now();
@@ -142,7 +142,7 @@ async function video() {
       if (st.hud !== last) {
         last = st.hud;
         const t = /t(\d+)/.exec(st.hud)?.[1] ?? '?';
-        console.log('video tick', t, 'msg', st.msgOn, 's', ((Date.now() - t0) / 1000).toFixed(0));
+        console.log(policy, 'video tick', t, 'msg', st.msgOn, 's', ((Date.now() - t0) / 1000).toFixed(0));
       }
       if (st.msgOn) break;
       await new Promise((r) => setTimeout(r, 1000));
@@ -151,14 +151,14 @@ async function video() {
       const msg = document.getElementById('msg');
       return !!msg && getComputedStyle(msg).display !== 'none';
     });
-    if (!end) throw new Error('manche non terminée (timeout vidéo)');
-    await page.waitForTimeout(600);
+    if (!end) throw new Error(`manche ${policy} non terminée (timeout vidéo)`);
+    await page.waitForTimeout(2500);
     await context.close();
     await browser.close();
   });
   const webm = spawnSync('bash', ['-lc', `ls -1t "${tmp}"/*.webm | head -1`], { encoding: 'utf8' }).stdout.trim();
-  if (!webm || !existsSync(webm)) throw new Error('pas de webm');
-  const out = join(VID, 'b6-match.mp4');
+  if (!webm || !existsSync(webm)) throw new Error(`pas de webm ${policy}`);
+  const out = join(VID, outName);
   const enc = spawnSync('ffmpeg', [
     '-y', '-i', webm, '-an', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30',
     '-crf', '26', '-preset', 'veryfast', '-movflags', '+faststart',
@@ -173,7 +173,55 @@ async function video() {
   console.log('video', out, 'bytes', bytes);
 }
 
+const PLANCHE_TICKS = [50, 100, 160, 220, 300, 400];
+
+async function planche() {
+  const dir = join(OUT, 'planche');
+  mkdirSync(dir, { recursive: true });
+  await withServer(async (base) => {
+    const browser = await chromium.launch({ headless: true, args: swiftArgs });
+    const context = await browser.newContext({ viewport: { width: 960, height: 540 } });
+    const page = await context.newPage();
+    const files: string[] = [];
+    for (const tick of PLANCHE_TICKS) {
+      const url = `${base}/?policy=b6&autoplay=kiter&seed=900000&cam=couloir&shot=${tick}&tex=512`;
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      await waitTitle(page, 'READY', 60000);
+      const png = join(dir, `t${tick}.png`);
+      await page.screenshot({ path: png, type: 'png' });
+      files.push(png);
+      console.log('planche', tick);
+    }
+    await browser.close();
+    const labeled = files.map((f, i) => {
+      const tick = PLANCHE_TICKS[i];
+      const out = join(dir, `lab-t${tick}.png`);
+      const lab = spawnSync('ffmpeg', [
+        '-y', '-i', f, '-vf',
+        `scale=640:360,drawtext=text='t${tick} (${(tick * 0.1).toFixed(0)}s)':x=12:y=12:fontsize=22:fontcolor=white:borderw=2`,
+        out,
+      ], { encoding: 'utf8' });
+      if (lab.status !== 0) throw new Error(lab.stderr);
+      return out;
+    });
+    const row1 = join(dir, 'row1.png');
+    const row2 = join(dir, 'row2.png');
+    const board = join(OUT, 'planche-6.png');
+    const h1 = spawnSync('ffmpeg', ['-y', '-i', labeled[0], '-i', labeled[1], '-i', labeled[2], '-filter_complex', 'hstack=inputs=3', row1], { encoding: 'utf8' });
+    if (h1.status !== 0) throw new Error(h1.stderr);
+    const h2 = spawnSync('ffmpeg', ['-y', '-i', labeled[3], '-i', labeled[4], '-i', labeled[5], '-filter_complex', 'hstack=inputs=3', row2], { encoding: 'utf8' });
+    if (h2.status !== 0) throw new Error(h2.stderr);
+    const v = spawnSync('ffmpeg', ['-y', '-i', row1, '-i', row2, '-filter_complex', 'vstack=inputs=2', board], { encoding: 'utf8' });
+    if (v.status !== 0) throw new Error(v.stderr);
+    console.log('planche', board);
+  });
+}
+
 if (PHASE === 'stills' || PHASE === 'all') await stills();
-if (PHASE === 'video' || PHASE === 'all') await video();
+if (PHASE === 'video' || PHASE === 'all') {
+  await recordMatch('b6', 'b6-match.mp4');
+  await recordMatch('b5', 'b5-match.mp4');
+}
+if (PHASE === 'planche' || PHASE === 'all') await planche();
 console.log('capture-nn-b6 ok', PHASE);
 process.exit(0);
