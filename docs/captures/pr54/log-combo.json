@@ -1,0 +1,40 @@
+{
+  "prefix": "",
+  "base": "http://127.0.0.1:18190",
+  "shots": [
+    {
+      "name": "combo-epaule-t115-s3",
+      "url": "http://127.0.0.1:18190/?shot=115&seed=3&autoplay=march",
+      "ok": true,
+      "title": "READY",
+      "console": [],
+      "errors": [],
+      "netFail": [],
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/pr54/combo-epaule-t115-s3.png",
+      "consoleErrors": [],
+      "consoleWarns": []
+    },
+    {
+      "name": "combo-reveal-t14-s18",
+      "url": "http://127.0.0.1:18190/?shot=14&demo=reveal&seed=18",
+      "ok": true,
+      "title": "READY",
+      "console": [],
+      "errors": [],
+      "netFail": [],
+      "webgl": {
+        "ok": true,
+        "vendor": "Google Inc. (Google)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "png": "/agent/repos/night-lords-ignitionrl/docs/captures/pr54/combo-reveal-t14-s18.png",
+      "consoleErrors": [],
+      "consoleWarns": []
+    }
+  ]
+}
