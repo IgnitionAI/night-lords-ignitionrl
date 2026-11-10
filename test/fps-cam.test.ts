@@ -4,7 +4,8 @@ import { PILLARS, ARENA, T_CFG, NL_CFG } from '../src/sim.ts';
 import {
   parseCamMode, fpsPose, unclipEye, applyLookDelta, freshLook, turnTowardYaw,
   FPS_EYE, FPS_PITCH_MIN, FPS_PITCH_MAX, FPS_BOB, FPS_EXPOSURE, FPS_FOG_DENSITY,
-  pushStepImpulse, bobAt, wrapPi, pickFpsThreat, eventAimHint, steerFpsLook,
+  pushStepImpulse, bobAt,   wrapPi, pickFpsThreat, eventAimHint, steerFpsLook,
+  pickAutoplayFocus, nlInLook, MELEE_AIM_M,
 } from '../web/camera/fps.ts';
 import { createViewmodel } from '../web/camera/viewmodel.ts';
 import { TONE_MAPPING_EXPOSURE, FOG_EXP2_DENSITY } from '../web/atmosphere.ts';
@@ -131,6 +132,35 @@ test('hint d\'événement : claw.who et bolt.tx/ty', () => {
   const look = freshLook(0);
   steerFpsLook(look, { yaw: 1.2, pitch: -0.2 }, true);
   assert.equal(look.yaw, 1.2);
+});
+
+test('autoplay FPS : NL < 3 m ou griffe → snap vers l\'assaillant (caméra seulement)', () => {
+  const term = { x: 10, y: 12, facing: 0 };
+  const nls = [
+    { x: 18, y: 12, alive: true, armTicks: 0 },
+    { x: 8.2, y: 12, alive: true, armTicks: 0 },
+  ];
+  const melee = pickAutoplayFocus(term, nls, [], null, 10);
+  assert.equal(melee.focus?.i, 1);
+  assert.equal(melee.snap, true);
+  assert.ok(melee.focus!.dist < MELEE_AIM_M);
+  const close = pickFpsThreat(term, [{ x: 11.25, y: 12, alive: true, armTicks: 2 }]);
+  assert.ok(close && close.pitch > -0.29, `pitch trop bas ${close?.pitch}`);
+
+  const behind = [
+    { x: 18, y: 12, alive: true, armTicks: 0 },
+    { x: 8.1, y: 12, alive: true, armTicks: 2 },
+  ];
+  const armed = pickAutoplayFocus(term, behind, [{ type: 'clawArm', who: 1 }], null, 40);
+  assert.equal(armed.lock?.i, 1);
+  assert.equal(armed.snap, true);
+  const look = freshLook(0);
+  steerFpsLook(look, armed.focus!, true);
+  assert.equal(nlInLook(look.yaw, term, behind[1]!), true);
+
+  const claw = pickAutoplayFocus(term, behind, [{ type: 'claw', who: 1 }], armed.lock, 42);
+  steerFpsLook(look, claw.focus!, claw.snap);
+  assert.equal(nlInLook(look.yaw, term, behind[1]!), true);
 });
 
 test('viewmodel : storm bolter (canons + mag) et poing (doigts) identifiables', () => {

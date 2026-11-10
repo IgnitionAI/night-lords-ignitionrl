@@ -2,69 +2,78 @@
   "url": "http://127.0.0.1:18196/?autoplay=kiter&seed=900007&cam=fps&tex=512&props=0&cap=1",
   "seed": "900007",
   "autoplay": "kiter",
-  "litAt": 7.064,
-  "contactAt": 34.341,
-  "ss": 6.944,
-  "tapeOffset": 2.323,
-  "audioSkip": 4.621,
-  "recBytes": 2912569,
+  "litAt": 6.171,
+  "contactAt": 33.704,
+  "ss": 6.051,
+  "tapeOffset": 1.654,
+  "audioSkip": 4.397,
+  "recBytes": 1479079,
   "enc": {
     "crf": 28,
-    "bytes": 12520714
+    "bytes": 10829916
   },
   "stamps": {
-    "contact": 34.341,
-    "bolter": 34.372,
-    "death": 34.372,
-    "fistCharge": 52.527,
-    "fist": 56.01,
-    "claw": 75.81,
-    "end": 177.241
+    "contact": 33.704,
+    "bolter": 33.744,
+    "death": 33.744,
+    "fist": 51.848,
+    "claw": 67.972,
+    "end": 102.407
   },
   "videoStamps": {
-    "contact": 27.397000000000002,
-    "bolter": 27.428,
-    "death": 27.428,
-    "fistCharge": 45.583,
-    "fist": 49.065999999999995,
-    "claw": 68.866,
-    "end": 170.29700000000003
+    "contact": 27.653,
+    "bolter": 27.692999999999998,
+    "death": 27.692999999999998,
+    "fist": 45.797,
+    "claw": 61.92099999999999,
+    "end": 96.356
   },
   "ticks": {
-    "bolter": 74,
-    "death": 74,
-    "fistCharge": 101,
+    "bolter": 75,
+    "death": 75,
     "fist": 109,
-    "claw": 127,
+    "claw": 135,
+    "clawShot": 135,
     "end": 265,
-    "bolterCap": 73,
-    "clawCap": 265,
-    "fistCap": 101,
-    "deathCap": 73,
+    "bolterCap": 74,
+    "fistCap": 109,
+    "deathCap": 74,
     "deathOffset": 1
   },
   "loudnorm": {
-    "input_i": "-18.66",
-    "input_tp": "-2.25",
-    "input_lra": "5.60",
-    "input_thresh": "-28.68",
-    "output_i": "-14.69",
-    "output_tp": "-1.50",
-    "output_lra": "5.50",
-    "output_thresh": "-24.69",
+    "input_i": "-17.87",
+    "input_tp": "-2.11",
+    "input_lra": "5.80",
+    "input_thresh": "-28.81",
+    "output_i": "-13.96",
+    "output_tp": "-2.00",
+    "output_lra": "4.90",
+    "output_thresh": "-24.89",
     "normalization_type": "dynamic",
-    "target_offset": "-0.31"
+    "target_offset": "-1.04"
   },
-  "af": "loudnorm=I=-15:TP=-1.5:LRA=11:measured_I=-18.66:measured_TP=-2.25:measured_LRA=5.60:measured_thresh=-28.68:offset=-0.31:linear=true",
+  "af": "loudnorm=I=-15:TP=-2:LRA=11:measured_I=-17.87:measured_TP=-2.11:measured_LRA=5.80:measured_thresh=-28.81:offset=-1.04:linear=true,alimiter=limit=0.7943282:level=false:attack=1:release=50",
   "seen": [
     "step",
     "bolt",
-    "fistCharge",
     "fistReady",
     "fist",
     "clawArm",
     "claw",
-    "hit",
-    "servoCritical"
-  ]
+    "hit"
+  ],
+  "aacProbe": "{\n    \"programs\": [\n\n    ],\n    \"streams\": [\n        {\n            \"codec_name\": \"aac\",\n            \"sample_rate\": \"48000\"\n        }\n    ]\n}\n",
+  "ebuMp4": "nan S: -24.1     I: -14.8 LUFS       LRA:   6.0 LU  FTPK:  -inf  -inf dBFS  TPK:  -0.9  -1.8 dBFS\n[Parsed_ebur128_0 @ 0x563dd8685880] t: 97.994     TARGET:-23 LUFS    M:   nan S: -25.5     I: -14.8 LUFS       LRA:   6.1 LU  FTPK:  -inf  -inf dBFS  TPK:  -0.9  -1.8 dBFS\n[Parsed_ebur128_0 @ 0x563dd8685880] t: 98.1       TARGET:-23 LUFS    M:   nan S: -27.3     I: -14.8 LUFS       LRA:   6.1 LU  FTPK:  -inf  -inf dBFS  TPK:  -0.9  -1.8 dBFS\n[Parsed_ebur128_0 @ 0x563dd8685880] t: 98.191     TARGET:-23 LUFS    M:   nan S: -34.3     I: -14.8 LUFS       LRA:   6.3 LU  FTPK:  -inf  -inf dBFS  TPK:  -0.9  -1.8 dBFS\n[Parsed_ebur128_0 @ 0x563dd8685880] t: 98.2995    TARGET:-23 LUFS    M:   nan S: -42.6     I: -14.8 LUFS       LRA:   6.3 LU  FTPK:  -inf  -inf dBFS  TPK:  -0.9  -1.8 dBFS\n[Parsed_ebur128_0 @ 0x563dd8685880] t: 98.4       TARGET:-23 LUFS    M:   nan S: -43.0     I: -14.8 LUFS       LRA:   6.3 LU  FTPK:  -inf  -inf dBFS  TPK:  -0.9  -1.8 dBFS\n[Parsed_ebur128_0 @ 0x563dd8685880] t: 98.4995    TARGET:-23 LUFS    M:   nan S: -43.4     I: -14.8 LUFS       LRA:   6.3 LU  FTPK:  -inf  -inf dBFS  TPK:  -0.9  -1.8 dBFS\n[Parsed_ebur128_0 @ 0x563dd8685880] t: 98.6       TARGET:-23 LUFS    M:   nan S: -44.1     I: -14.8 LUFS       LRA:   6.3 LU  FTPK:  -inf  -inf dBFS  TPK:  -0.9  -1.8 dBFS\n[out#0/null @ 0x563dd86aa840] video:1110kB audio:18497kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown\nframe= 2367 fps=1161 q=-0.0 Lsize=N/A time=00:01:38.62 bitrate=N/A speed=48.4x    \n[Parsed_ebur128_0 @ 0x563dd8685880] Summary:\n\n  Integrated loudness:\n    I:         -14.8 LUFS\n    Threshold: -25.8 LUFS\n\n  Loudness range:\n    LRA:         6.3 LU\n    Threshold: -36.1 LUFS\n    LRA low:   -20.4 LUFS\n    LRA high:  -14.1 LUFS\n\n  True peak:\n    Peak:       -0.9 dBFS\n\n",
+  "clawVisible": {
+    "video_s": 64.8,
+    "tick_hud": 145,
+    "note": "NL de face, yeux rouges, armure 25, ALARME SERVO \u2014 extraite de fps-match.mp4"
+  },
+  "ebuMp4Final": {
+    "I": -14.9,
+    "TP": -2.4,
+    "LRA": 6.5,
+    "ar": 48000,
+    "codec": "aac"
+  }
 }

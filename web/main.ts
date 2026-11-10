@@ -36,8 +36,8 @@ import { createFxSystem, parseFxQuality } from './fx';
 import { initAudio, audio, engine, director } from './audio/index.ts';
 import {
   parseCamMode, fpsFov, fpsPose, applyFpsCamera, applyLookDelta, turnTowardYaw, freshLook,
-  pushStepImpulse, offscreenMarks, pickFpsThreat, eventAimHint, steerFpsLook, wrapPi,
-  FPS_EXPOSURE, FPS_FOG_DENSITY, type FpsLook,
+  pushStepImpulse, offscreenMarks, pickAutoplayFocus, steerFpsLook, wrapPi, MELEE_AIM_M, FPS_EYE,
+  FPS_EXPOSURE, FPS_FOG_DENSITY, type FpsLook, type MeleeLock,
 } from './camera/fps';
 import { createViewmodel, renderViewmodel, type Viewmodel } from './camera/viewmodel';
 import { fpsHudMarkup, dmgSide, marksHtml } from './camera/fps-hud';
@@ -662,6 +662,7 @@ const vm: Viewmodel | null = CAM_MODE === 'fps' ? createViewmodel() : null;
 type FpsStepImp = { t0: number; v: number; foot: 0 | 1 };
 const fpsSteps: FpsStepImp[] = [];
 const fpsLook: FpsLook = freshLook(0);
+let fpsMeleeLock: MeleeLock | null = null;
 let hitMarkT = 0;
 let hitMarkKill = false;
 let dmgDir: 'front' | 'back' | 'left' | 'right' | null = null;
@@ -974,6 +975,7 @@ function startRound() {
   fpsSteps.length = 0;
   fpsLook.yaw = w.t.facing;
   fpsLook.pitch = -0.06;
+  fpsMeleeLock = null;
   if (CAM_MODE === 'fps' && termRig) termRig.root.visible = false;
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
   director.beginRound();
@@ -1166,9 +1168,9 @@ function tick() {
       fpsLook.yaw = w.t.facing;
       fpsLook.pitch = -0.06;
     } else if (autoplay) {
-      const hint = eventAimHint(w.events, w.nls, w.t);
-      const focus = pickFpsThreat(w.t, w.nls, hint);
-      if (focus) steerFpsLook(fpsLook, focus, !!hint);
+      const aim = pickAutoplayFocus(w.t, w.nls, w.events, fpsMeleeLock, w.tick);
+      fpsMeleeLock = aim.lock;
+      if (aim.focus) steerFpsLook(fpsLook, aim.focus, aim.snap);
       else fpsLook.yaw += wrapPi(w.t.facing - fpsLook.yaw) * 0.22;
     }
   }
@@ -1265,6 +1267,7 @@ function hud() {
     locked: fpsLook.locked,
     yaw: fpsLook.yaw,
     pitch: fpsLook.pitch,
+    lockI: fpsMeleeLock?.i ?? -1,
     eyeY: camera.position.y,
     viewmodel: !!vm,
     applyLook: (dx: number, dy: number) => applyLookDelta(fpsLook, dx, dy),
@@ -1321,6 +1324,32 @@ function render(alpha: number) {
   switch (CAM_MODE) {
     case 'fps': {
       const now = simT - DT + alpha * DT;
+      if (autoplay && !DEMO_CFG) {
+        let bestI = -1;
+        let bestD = Infinity;
+        if (fpsMeleeLock && w.nls[fpsMeleeLock.i]?.alive) {
+          bestI = fpsMeleeLock.i;
+          bestD = Math.hypot(w.nls[bestI]!.x - tx, w.nls[bestI]!.y - ty);
+        } else {
+          let armedI = -1;
+          let armedD = Infinity;
+          for (let i = 0; i < w.nls.length; i++) {
+            const n = w.nls[i]!;
+            if (!n.alive) continue;
+            const d = Math.hypot(n.x - tx, n.y - ty);
+            if (n.armTicks > 0 && d < armedD) { armedD = d; armedI = i; }
+            if (d < MELEE_AIM_M && d < bestD) { bestD = d; bestI = i; }
+          }
+          if (armedI >= 0 && armedD <= MELEE_AIM_M + 0.5) { bestI = armedI; bestD = armedD; }
+        }
+        if (bestI >= 0 && bestD < MELEE_AIM_M + 0.6) {
+          const n = w.nls[bestI]!;
+          const mx = prev.n[bestI]![0] + (n.x - prev.n[bestI]![0]) * alpha;
+          const mz = prev.n[bestI]![1] + (n.y - prev.n[bestI]![1]) * alpha;
+          fpsLook.yaw = Math.atan2(mz - ty, mx - tx);
+          fpsLook.pitch = 0;
+        }
+      }
       const yaw = fpsLook.yaw;
       const pose = fpsPose({
         x: tx, y: ty, yaw, pitch: fpsLook.pitch, now, steps: fpsSteps,
@@ -1328,19 +1357,26 @@ function render(alpha: number) {
       });
       applyFpsCamera(camera, pose);
       if (autoplay && !DEMO_CFG) {
-        const hint = eventAimHint(w.events, w.nls, w.t);
-        const focus = pickFpsThreat(w.t, w.nls, hint);
-        if (focus) {
-          const n = focus.i >= 0 ? w.nls[focus.i] : null;
-          const lx = n ? n.x : hint?.x ?? pose.lookX;
-          const lz = n ? n.y : hint?.y ?? pose.lookZ;
-          const dx = lx - pose.camX;
-          const dz = lz - pose.camZ;
-          const d = Math.hypot(dx, dz);
-          if (d > 0.05) {
-            const s = 4.2;
-            camera.lookAt(pose.camX + (dx / d) * s, pose.camY - 0.42, pose.camZ + (dz / d) * s);
+        let aimI = fpsMeleeLock && w.nls[fpsMeleeLock.i]?.alive ? fpsMeleeLock.i : -1;
+        let bd = Infinity;
+        if (aimI >= 0) bd = Math.hypot(w.nls[aimI]!.x - tx, w.nls[aimI]!.y - ty);
+        else {
+          for (let i = 0; i < w.nls.length; i++) {
+            const n = w.nls[i]!;
+            if (!n.alive) continue;
+            const d = Math.hypot(n.x - tx, n.y - ty);
+            if (d < bd && d < MELEE_AIM_M + 0.6) { bd = d; aimI = i; }
           }
+        }
+        if (aimI >= 0 && bd < MELEE_AIM_M + 0.6) {
+          const n = w.nls[aimI]!;
+          const mx = prev.n[aimI]![0] + (n.x - prev.n[aimI]![0]) * alpha;
+          const mz = prev.n[aimI]![1] + (n.y - prev.n[aimI]![1]) * alpha;
+          // Hors du volume du mesh (rayon visuel > collider) : œil au centre Terminator, rotation seule.
+          camera.position.set(tx, FPS_EYE, ty);
+          camera.up.set(0, 1, 0);
+          camera.lookAt(mx, 1.55, mz);
+          camera.updateMatrixWorld(true);
         }
       }
       vm?.update(DT * 0.16, now, pose.bobY, pose.bobY, Math.hypot(w.t.vx, w.t.vy) > 0.2);
@@ -1492,15 +1528,13 @@ function render(alpha: number) {
     const caps = store.__fpsCaps ?? (store.__fpsCaps = {});
     const snap = (key: string) => {
       if (caps[key]) return;
-      caps[key] = { tick: w.tick, png: canvas.toDataURL('image/png') };
+      caps[key] = { tick: w.tick, png: canvas.toDataURL('image/jpeg', 0.9) };
     };
     for (const e of w.events) {
       if (e.type === 'bolt') snap('bolter');
-      if (e.type === 'clawArm' && !caps.claw) snap('claw');
-      if (e.type === 'claw' && !caps.claw) snap('claw');
+      if (e.type === 'claw') snap('claw');
       if (e.type === 'fistCharge') snap('fist');
       if (e.type === 'fist' && !caps.fist) snap('fist');
-      if (e.type === 'hit' && !caps.claw) snap('claw');
     }
     if (w.nls.filter((n) => n.alive).length < 4) snap('death');
   }

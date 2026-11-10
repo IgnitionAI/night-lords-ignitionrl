@@ -56,10 +56,24 @@ async function withServer<T>(fn: (base: string) => Promise<T>): Promise<T> {
 }
 
 function pngLuma(path: string): { full: number; playfield: number } {
-  const { rgba, width, height } = decodePngRgba(readFileSync(path));
+  if (path.endsWith('.png')) {
+    const { rgba, width, height } = decodePngRgba(readFileSync(path));
+    return {
+      full: meanLuma(rgba, width, height, { x: 0, y: 0, w: width, h: height }),
+      playfield: meanLuma(rgba, width, height, { x: 360, y: 160, w: 520, h: 360 }),
+    };
+  }
+  const yavg = (vf: string) => {
+    const r = spawnSync('ffmpeg', [
+      '-hide_banner', '-i', path, '-vf', vf, '-frames:v', '1', '-f', 'null', '-',
+    ], { encoding: 'utf8' });
+    const raw = `${r.stderr ?? ''}\n${r.stdout ?? ''}`;
+    const m = raw.match(/YAVG[=:][\s]*([\d.]+)/);
+    return m ? Number(m[1]) : 0;
+  };
   return {
-    full: meanLuma(rgba, width, height, { x: 0, y: 0, w: width, h: height }),
-    playfield: meanLuma(rgba, width, height, { x: 360, y: 160, w: 520, h: 360 }),
+    full: yavg('signalstats,metadata=print'),
+    playfield: yavg('crop=520:360:360:160,signalstats,metadata=print'),
   };
 }
 
@@ -68,11 +82,11 @@ function sha256(path: string): string {
 }
 
 const STILLS: { id: string; file: string; qs: string }[] = [
-  { id: 'idle', file: 'idle-weapon.png', qs: 'demo=idle&cam=fps&shot=8&tex=512&seed=1' },
-  { id: 'bolter', file: 'bolter-fire.png', qs: 'demo=combat-shot&cam=fps&shot=5&tex=512&seed=1' },
-  { id: 'fist', file: 'fist.png', qs: 'demo=combat-fist&cam=fps&shot=11&tex=512&seed=1' },
-  { id: 'claw', file: 'claw-hit.png', qs: 'demo=combat-hit&cam=fps&shot=6&tex=512&seed=1' },
-  { id: 'death', file: 'nl-death.png', qs: 'demo=vfx-death&cam=fps&shot=8&tex=512&seed=1&focus=0' },
+  { id: 'idle', file: 'idle-weapon.jpg', qs: 'demo=idle&cam=fps&shot=8&tex=512&seed=1' },
+  { id: 'bolter', file: 'bolter-fire.jpg', qs: 'demo=combat-shot&cam=fps&shot=5&tex=512&seed=1' },
+  { id: 'fist', file: 'fist.jpg', qs: 'demo=combat-fist&cam=fps&shot=11&tex=512&seed=1' },
+  { id: 'claw', file: 'claw-hit.jpg', qs: 'demo=combat-hit&cam=fps&shot=6&tex=512&seed=1' },
+  { id: 'death', file: 'nl-death.jpg', qs: 'demo=vfx-death&cam=fps&shot=8&tex=512&seed=1&focus=0' },
 ];
 
 async function waitLit(page: import('playwright').Page) {
@@ -103,7 +117,7 @@ async function stills() {
       page.on('response', (r) => net.push({ status: r.status(), url: r.url() }));
       await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
       await page.waitForFunction(() => document.title === 'READY', { timeout: 180000 });
-      await page.screenshot({ path: join(OUT, a.file), type: 'png' });
+      await page.screenshot({ path: join(OUT, a.file), type: 'jpeg', quality: 90 });
       await page.close();
       urls[a.id] = url;
       console.log('shot', a.id);
@@ -115,7 +129,7 @@ async function stills() {
       const page = await context.newPage();
       await page.goto(`${base}/?${q}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
       await page.waitForFunction(() => document.title === 'READY', { timeout: 180000 });
-      await page.screenshot({ path: join(OUT, `luma-${tag}.png`), type: 'png' });
+      await page.screenshot({ path: join(OUT, `luma-${tag}.jpg`), type: 'jpeg', quality: 90 });
       await page.close();
     }
     const consoleErrors = consoleLines.filter((l) => l.startsWith('error:') && !l.includes("Couldn't load texture"));
@@ -127,7 +141,7 @@ async function stills() {
     }
     await browser.close();
   });
-  const luma = { avant: pngLuma(join(OUT, 'luma-avant.png')), apres: pngLuma(join(OUT, 'luma-apres.png')) };
+  const luma = { avant: pngLuma(join(OUT, 'luma-avant.jpg')), apres: pngLuma(join(OUT, 'luma-apres.jpg')) };
   writeFileSync(join(OUT, 'luma.json'), JSON.stringify(luma, null, 2));
   console.log('luma', luma);
 }
@@ -241,13 +255,13 @@ function writeWav(path: string, interleaved: Float32Array, sampleRate: number, c
 
 function loudnormAac(wav: string, aac: string) {
   const meas = spawnSync('ffmpeg', [
-    '-hide_banner', '-i', wav, '-af', 'loudnorm=I=-15:TP=-1.5:LRA=11:print_format=json', '-f', 'null', '-',
+    '-hide_banner', '-i', wav, '-af', 'loudnorm=I=-15:TP=-2:LRA=11:print_format=json', '-f', 'null', '-',
   ], { encoding: 'utf8' });
   const raw = `${meas.stderr ?? ''}\n${meas.stdout ?? ''}`;
   const jsonMatch = raw.match(/\{[\s\S]*"input_i"[\s\S]*\}/);
   const measured = jsonMatch ? JSON.parse(jsonMatch[0]) as Record<string, string> : {};
-  const af = [
-    'loudnorm=I=-15:TP=-1.5:LRA=11',
+  const ln = [
+    'loudnorm=I=-15:TP=-2:LRA=11',
     measured.input_i != null ? `measured_I=${measured.input_i}` : '',
     measured.input_tp != null ? `measured_TP=${measured.input_tp}` : '',
     measured.input_lra != null ? `measured_LRA=${measured.input_lra}` : '',
@@ -255,8 +269,11 @@ function loudnormAac(wav: string, aac: string) {
     measured.target_offset != null ? `offset=${measured.target_offset}` : '',
     'linear=true',
   ].filter(Boolean).join(':');
+  // -2 dBTP = 10^(-2/20) ≈ 0.7943282 ; 48 kHz pour l'AAC final (pas 96 kHz).
+  const af = `${ln},alimiter=limit=0.70794578:level=false:attack=1:release=50`;
   const enc = spawnSync('ffmpeg', [
-    '-y', '-hide_banner', '-loglevel', 'error', '-i', wav, '-af', af, '-c:a', 'aac', '-b:a', '128k', aac,
+    '-y', '-hide_banner', '-loglevel', 'error', '-i', wav, '-af', af,
+    '-ar', '48000', '-c:a', 'aac', '-b:a', '128k', aac,
   ], { encoding: 'utf8' });
   if (enc.status !== 0) throw new Error(enc.stderr || 'loudnorm aac');
   const ebu = spawnSync('ffmpeg', [
@@ -276,7 +293,7 @@ function encodeH264(webm: string, aac: string | null, out: string, ss: number, a
     ];
     if (aac && existsSync(aac)) {
       if (audioSkip > 0) args.push('-ss', audioSkip.toFixed(3));
-      args.push('-i', aac, '-map', '0:v:0', '-map', '1:a:0', '-c:a', 'aac', '-b:a', '128k', '-shortest');
+      args.push('-i', aac, '-map', '0:v:0', '-map', '1:a:0', '-c:a', 'copy', '-shortest');
     } else {
       args.push('-an');
     }
@@ -328,7 +345,7 @@ async function pullTape(page: import('playwright').Page): Promise<{ sampleRate: 
 function grabFrame(mp4: string, t: number, dest: string) {
   const r = spawnSync('ffmpeg', [
     '-y', '-hide_banner', '-loglevel', 'error',
-    '-ss', Math.max(0, t).toFixed(3), '-i', mp4, '-frames:v', '1', dest,
+        '-ss', Math.max(0, t).toFixed(3), '-i', mp4, '-frames:v', '1', '-q:v', '2', dest,
   ], { encoding: 'utf8' });
   if (r.status !== 0 || !existsSync(dest)) throw new Error(`frame ${dest}: ${r.stderr}`);
 }
@@ -425,6 +442,8 @@ async function matchVideo() {
       }
       if ((st.events.includes('claw') || st.events.includes('hit')) && stamps.claw === undefined) {
         stamps.claw = t; ticks.claw = st.tick;
+        await page.screenshot({ path: join(OUT, 'claw-hit.jpg'), type: 'jpeg', quality: 90 });
+        ticks.clawShot = st.tick;
       }
       if (st.events.includes('fistCharge') && stamps.fistCharge === undefined) {
         stamps.fistCharge = t; ticks.fistCharge = st.tick;
@@ -440,14 +459,14 @@ async function matchVideo() {
         await page.waitForTimeout(2300);
         stamps.end = (Date.now() - tNav) / 1000;
         ticks.end = st.tick;
-        await page.screenshot({ path: join(OUT, 'end-card.png'), type: 'png' });
+        await page.screenshot({ path: join(OUT, 'end-card.jpg'), type: 'jpeg', quality: 90 });
         break;
       }
       await page.waitForTimeout(30);
     }
-    if (!existsSync(join(OUT, 'end-card.png'))) {
+    if (!existsSync(join(OUT, 'end-card.jpg'))) {
       await page.waitForTimeout(2200);
-      await page.screenshot({ path: join(OUT, 'end-card.png'), type: 'png' });
+      await page.screenshot({ path: join(OUT, 'end-card.jpg'), type: 'jpeg', quality: 90 });
       stamps.end = (Date.now() - tNav) / 1000;
     }
     const caps = await page.evaluate(() => {
@@ -457,14 +476,14 @@ async function matchVideo() {
       const cap = caps[key];
       if (!cap?.png) return false;
       const b64 = cap.png.replace(/^data:image\/png;base64,/, '');
-      writeFileSync(join(OUT, file), Buffer.from(b64, 'base64'));
+      writeFileSync(join(OUT, file), Buffer.from(b64.replace(/^data:image\/jpeg;base64,/, ''), 'base64'));
       ticks[`${key}Cap`] = cap.tick;
       return true;
     };
-    writeCap('bolter', 'bolter-fire.png');
-    writeCap('claw', 'claw-hit.png');
-    writeCap('fist', 'fist.png');
-    if (!writeCap('death', 'nl-death.png') || (caps.death && caps.bolter && caps.death.tick === caps.bolter.tick)) {
+    writeCap('bolter', 'bolter-fire.jpg');
+    if (!existsSync(join(OUT, 'claw-hit.jpg'))) writeCap('claw', 'claw-hit.jpg');
+    writeCap('fist', 'fist.jpg');
+    if (!writeCap('death', 'nl-death.jpg') || (caps.death && caps.bolter && caps.death.tick === caps.bolter.tick)) {
       ticks.deathOffset = 1;
     }
     const seen = await page.evaluate(() => (window as unknown as { __NL?: { seen?: string[] } }).__NL?.seen ?? []);
@@ -515,32 +534,42 @@ async function matchVideo() {
     const videoStamps: Record<string, number> = {};
     for (const [k, v] of Object.entries(stamps)) videoStamps[k] = Math.max(0, v - ss);
     const liveShots = {
-      bolter: existsSync(join(OUT, 'bolter-fire.png')),
-      claw: existsSync(join(OUT, 'claw-hit.png')),
-      fist: existsSync(join(OUT, 'fist.png')),
-      death: existsSync(join(OUT, 'nl-death.png')),
+      bolter: existsSync(join(OUT, 'bolter-fire.jpg')),
+      claw: existsSync(join(OUT, 'claw-hit.jpg')),
+      fist: existsSync(join(OUT, 'fist.jpg')),
+      death: existsSync(join(OUT, 'nl-death.jpg')),
     };
-    if (!liveShots.bolter && videoStamps.bolter != null) grabFrame(mp4, videoStamps.bolter, join(OUT, 'bolter-fire.png'));
-    if (!liveShots.claw && videoStamps.claw != null) grabFrame(mp4, videoStamps.claw, join(OUT, 'claw-hit.png'));
+    if (!liveShots.bolter && videoStamps.bolter != null) grabFrame(mp4, videoStamps.bolter, join(OUT, 'bolter-fire.jpg'));
+    if (!liveShots.claw && videoStamps.claw != null) grabFrame(mp4, videoStamps.claw, join(OUT, 'claw-hit.jpg'));
     const fistT = videoStamps.fistCharge ?? videoStamps.fist;
-    if (!liveShots.fist && fistT != null) grabFrame(mp4, fistT, join(OUT, 'fist.png'));
+    if (!liveShots.fist && fistT != null) grabFrame(mp4, fistT, join(OUT, 'fist.jpg'));
     if ((!liveShots.death || ticks.deathOffset) && videoStamps.death != null) {
       const deathT = videoStamps.death + 0.55;
-      grabFrame(mp4, deathT, join(OUT, 'nl-death.png'));
+      grabFrame(mp4, deathT, join(OUT, 'nl-death.jpg'));
     }
+    const ebuMp4 = spawnSync('ffmpeg', [
+      '-hide_banner', '-i', mp4, '-filter_complex', 'ebur128=peak=true', '-f', 'null', '-',
+    ], { encoding: 'utf8' });
+    const ebuMp4Raw = `${ebuMp4.stderr ?? ''}\n${ebuMp4.stdout ?? ''}`;
+    writeFileSync(join(OUT, 'ebur128-mp4.txt'), ebuMp4Raw.slice(-2500));
+    const aacProbe = spawnSync('ffprobe', [
+      '-v', 'error', '-select_streams', 'a:0',
+      '-show_entries', 'stream=codec_name,sample_rate', '-of', 'json', mp4,
+    ], { encoding: 'utf8' });
     writeFileSync(join(OUT, 'blackdetect.txt'), blackLog.slice(-2500));
     writeFileSync(join(OUT, 'signalstats.txt'), signal.slice(-2500));
     writeFileSync(join(OUT, 'video.json'), JSON.stringify({
       url: `${base}/?${q}`, seed: VIDEO_SEED, autoplay: VIDEO_AUTO, litAt, contactAt, ss,
       tapeOffset, audioSkip, recBytes: Buffer.from(recB64, 'base64').length,
       enc, stamps, videoStamps, ticks, loudnorm: ln.measured, af: ln.af, seen,
+      aacProbe: aacProbe.stdout, ebuMp4: ebuMp4Raw.slice(-1800),
     }, null, 2));
     console.log('video', mp4, enc, 'stamps', videoStamps, 'rec', recB64.length);
   });
 }
 
 function hashes() {
-  const files = ['idle-weapon.png', 'bolter-fire.png', 'fist.png', 'claw-hit.png', 'nl-death.png', 'end-card.png'];
+  const files = ['idle-weapon.jpg', 'bolter-fire.jpg', 'fist.jpg', 'claw-hit.jpg', 'nl-death.jpg', 'end-card.jpg'];
   const out: Record<string, string> = {};
   for (const f of files) {
     const p = join(OUT, f);

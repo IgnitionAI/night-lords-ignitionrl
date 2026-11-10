@@ -199,6 +199,23 @@ export function applyFpsCamera(camera: THREE.PerspectiveCamera, pose: FpsPose): 
   if (pose.roll) camera.rotateZ(pose.roll);
 }
 
+/** Rotation seule : vise un NL au casque, sans reculer la caméra dans le vide derrière lui. */
+export function lookAtNlChest(
+  camera: THREE.PerspectiveCamera,
+  camX: number,
+  camZ: number,
+  nlX: number,
+  nlZ: number,
+): void {
+  const dx = nlX - camX;
+  const dz = nlZ - camZ;
+  const d = Math.hypot(dx, dz);
+  if (d < 0.05) return;
+  camera.up.set(0, 1, 0);
+  camera.lookAt(camX + (dx / d) * 2.6, 1.86, camZ + (dz / d) * 2.6);
+  camera.updateMatrixWorld(true);
+}
+
 export function projectNdc(
   wx: number, wy: number, wz: number, camera: THREE.PerspectiveCamera,
 ): { x: number; y: number; z: number } {
@@ -278,50 +295,133 @@ export function eventAimHint(
   return null;
 }
 
+/** Distance à laquelle un joueur se tourne vers un NL (corps à corps). */
+export const MELEE_AIM_M = 3;
+/** Demi-champ horizontal de visée (rad) — ~FOV 72° 16:9 un peu conservateur. */
+export const FPS_LOOK_HALF = 0.85;
+export const MELEE_LOCK_TICKS = 14;
+
+export function nlInLook(
+  lookYaw: number,
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+  half = FPS_LOOK_HALF,
+): boolean {
+  const ang = wrapPi(Math.atan2(to.y - from.y, to.x - from.x) - lookYaw);
+  return Math.abs(ang) <= half;
+}
+
+export interface MeleeLock {
+  i: number;
+  until: number;
+}
+
+export function updateMeleeLock(
+  lock: MeleeLock | null,
+  tick: number,
+  events: readonly { type: string; who?: number }[],
+  nls: readonly FpsThreatNL[],
+): MeleeLock | null {
+  let next = lock && tick <= lock.until && nls[lock.i]?.alive ? lock : null;
+  for (const e of events) {
+    if (e.type !== 'claw' && e.type !== 'clawArm' && e.type !== 'whiff' && e.type !== 'hit') continue;
+    const who = typeof e.who === 'number' ? e.who : next?.i;
+    if (typeof who !== 'number' || !nls[who]) continue;
+    next = { i: who, until: tick + MELEE_LOCK_TICKS };
+  }
+  return next;
+}
+
+function focusAt(
+  term: { x: number; y: number },
+  x: number,
+  y: number,
+  i: number,
+): FpsThreatFocus {
+  const dx = x - term.x;
+  const dy = y - term.y;
+  const dist = Math.max(0.2, Math.hypot(dx, dy));
+  const yaw = Math.atan2(dy, dx);
+  // Au contact (~1,2–1,8 m) viser le casque, pas le sol : un pitch de -0,5 sort le NL du haut du FOV 72°.
+  const lookH = dist < 2.6 ? 1.88 : 1.55;
+  const pitch = clamp(Math.atan2(lookH - FPS_EYE, dist), -0.28, 0.06);
+  return { yaw, pitch, dist, i };
+}
+
 /** Cible de regard autoplay : menace armée, sinon plus proche (devant prioritaire). */
 export function pickFpsThreat(
   term: { x: number; y: number; facing: number },
   nls: readonly FpsThreatNL[],
   hint: FpsAimHint | null = null,
 ): FpsThreatFocus | null {
+  if (hint) return focusAt(term, hint.x, hint.y, -2);
   let bestX = 0;
   let bestY = 0;
   let bestI = -1;
   let bestScore = -Infinity;
-  if (hint) {
-    bestX = hint.x;
-    bestY = hint.y;
-    bestI = -2;
-  } else {
-    for (let i = 0; i < nls.length; i++) {
-      const n = nls[i]!;
-      if (!n.alive) continue;
-      const dx = n.x - term.x;
-      const dy = n.y - term.y;
-      const d = Math.hypot(dx, dy);
-      if (d < 0.04) continue;
-      const rel = Math.abs(wrapPi(Math.atan2(dy, dx) - term.facing));
-      let score = 36 / (d + 0.35);
-      if (n.armTicks > 0) score += 90;
-      if (rel < 1.05) score += 14;
-      score -= rel * 1.8;
-      if (score > bestScore) {
-        bestScore = score;
-        bestI = i;
-        bestX = n.x;
-        bestY = n.y;
-      }
+  for (let i = 0; i < nls.length; i++) {
+    const n = nls[i]!;
+    if (!n.alive) continue;
+    const dx = n.x - term.x;
+    const dy = n.y - term.y;
+    const d = Math.hypot(dx, dy);
+    if (d < 0.04) continue;
+    const rel = Math.abs(wrapPi(Math.atan2(dy, dx) - term.facing));
+    let score = 40 / (d + 0.3);
+    if (n.armTicks > 0) score += 140;
+    if (d < MELEE_AIM_M) score += 160;
+    if (rel < 1.05) score += 8;
+    // Au contact, un coup dans le dos prime sur un NL lointain devant.
+    score -= rel * (d < MELEE_AIM_M ? 0.12 : 2.2);
+    if (score > bestScore) {
+      bestScore = score;
+      bestI = i;
+      bestX = n.x;
+      bestY = n.y;
     }
-    if (bestI < 0) return null;
   }
-  const dx = bestX - term.x;
-  const dy = bestY - term.y;
-  const dist = Math.max(0.2, Math.hypot(dx, dy));
-  const yaw = Math.atan2(dy, dx);
-  const chest = 1.45;
-  // Jamais vers le ciel : le regard autoplay reste sur le torse, même au contact.
-  const pitch = clamp(Math.atan2(chest - FPS_EYE, dist), -0.62, -0.05);
-  return { yaw, pitch, dist, i: bestI };
+  if (bestI < 0) return null;
+  return focusAt(term, bestX, bestY, bestI);
+}
+
+export function pickAutoplayFocus(
+  term: { x: number; y: number; facing: number },
+  nls: readonly FpsThreatNL[],
+  events: readonly { type: string; who?: number; tx?: number; ty?: number; kill?: number }[],
+  lock: MeleeLock | null,
+  tick: number,
+): { focus: FpsThreatFocus | null; lock: MeleeLock | null; snap: boolean } {
+  const nextLock = updateMeleeLock(lock, tick, events, nls);
+  const hint = eventAimHint(events, nls, term);
+  if (nextLock && nls[nextLock.i]?.alive) {
+    const n = nls[nextLock.i]!;
+    return { focus: focusAt(term, n.x, n.y, nextLock.i), lock: nextLock, snap: true };
+  }
+  let armedI = -1;
+  let armedD = Infinity;
+  let meleeI = -1;
+  let meleeD = Infinity;
+  for (let i = 0; i < nls.length; i++) {
+    const n = nls[i]!;
+    if (!n.alive) continue;
+    const d = Math.hypot(n.x - term.x, n.y - term.y);
+    if (n.armTicks > 0 && d < armedD) { armedD = d; armedI = i; }
+    if (d < MELEE_AIM_M && d < meleeD) { meleeD = d; meleeI = i; }
+  }
+  if (armedI >= 0) {
+    const n = nls[armedI]!;
+    return {
+      focus: focusAt(term, n.x, n.y, armedI),
+      lock: { i: armedI, until: tick + MELEE_LOCK_TICKS },
+      snap: true,
+    };
+  }
+  if (meleeI >= 0) {
+    const n = nls[meleeI]!;
+    return { focus: focusAt(term, n.x, n.y, meleeI), lock: nextLock, snap: true };
+  }
+  const focus = pickFpsThreat(term, nls, hint);
+  return { focus, lock: nextLock, snap: !!hint };
 }
 
 export function steerFpsLook(look: FpsLook, target: { yaw: number; pitch: number }, snap: boolean): void {
