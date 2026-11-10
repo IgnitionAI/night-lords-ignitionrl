@@ -1,0 +1,13 @@
+{
+  "urls": {
+    "idle": "http://127.0.0.1:18196/?demo=idle&cam=fps&shot=8&tex=512&seed=1",
+    "bolter": "http://127.0.0.1:18196/?demo=combat-shot&cam=fps&shot=5&tex=512&seed=1",
+    "fist": "http://127.0.0.1:18196/?demo=combat-fist&cam=fps&shot=11&tex=512&seed=1",
+    "claw": "http://127.0.0.1:18196/?demo=combat-hit&cam=fps&shot=6&tex=512&seed=1",
+    "death": "http://127.0.0.1:18196/?demo=vfx-death&cam=fps&shot=8&tex=512&seed=1&focus=0"
+  },
+  "console": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "networkFailed": []
+}

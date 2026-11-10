@@ -28,18 +28,26 @@ import { IMPACT_DEMOS } from './impact-demos';
 import {
   applyRendererAtmosphere, applySceneAtmosphere, installCorridorLights, configureHunterSpot,
   CAM, EPAULE, TROIS_QUARTS, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, POST_DITHER_SRGB, LAMP, STRIP_EMISSIVE,
-  sceneRenderTargetOptions, POST_FRAGMENT_SHADER,
+  sceneRenderTargetOptions, POST_FRAGMENT_SHADER, FOG_COLOR, TONE_MAPPING_EXPOSURE,
 } from './atmosphere';
 import { applyTerminatorLook } from './terminator-look';
 import { createFxSystem, parseFxQuality } from './fx';
 // Son : moteur WebAudio isolé (`web/audio/`). Les événements de sim restent la source ; la sim n'est pas touchée.
 import { initAudio, audio, engine, director } from './audio/index.ts';
+import {
+  parseCamMode, fpsFov, fpsPose, applyFpsCamera, applyLookDelta, turnTowardYaw, freshLook,
+  pushStepImpulse, offscreenMarks, pickAutoplayFocus, steerFpsLook, wrapPi, MELEE_AIM_M, FPS_EYE,
+  FPS_EXPOSURE, FPS_FOG_DENSITY, type FpsLook, type MeleeLock,
+} from './camera/fps';
+import { createViewmodel, renderViewmodel, type Viewmodel } from './camera/viewmodel';
+import { fpsHudMarkup, dmgSide, marksHtml } from './camera/fps-hud';
 
 const qs = new URLSearchParams(location.search);
 // Canal d'ambiance (`cogitator:hunters`) : muet sauf si l'URL demande explicitement `?control=1`.
 // C'est un flag distinct de `?debug=1` (vue de contrôle historique, touche V), et rien de ce canal ne va au HUD.
 const CONTROL_VIEW = isControlViewEnabled(location.search);
 const autoplay = qs.get('autoplay'); const shot = Number(qs.get('shot') ?? 0);
+const CAP_FRAMES = qs.get('cap') === '1';
 let debug = qs.get('debug') === '1';
 // `?seed=N` joue **N**. La manche 1 prend la graine telle quelle ; les manches suivantes avancent d'un cran,
 // pour qu'« Entrée » ne rejoue pas la même partie. Avant, `startRound()` incrémentait dès la première manche :
@@ -59,14 +67,10 @@ applyRendererAtmosphere(renderer);
 const FOG_MODE = qs.get('fog') ?? 'exp2';
 const scene = new THREE.Scene();
 applySceneAtmosphere(scene, FOG_MODE);
-// Cadrage : constantes dans `web/atmosphere.ts`. `?cam=couloir` rend P1 ; `?cam=troisquarts` le plan de preuve.
-type CamMode = 'couloir' | 'epaule' | 'troisquarts';
-const parseCam = (raw: string | null): CamMode => {
-  if (raw === 'couloir') return 'couloir';
-  if (raw === 'troisquarts') return 'troisquarts';
-  return 'epaule';
-};
-const CAM_MODE = parseCam(qs.get('cam'));
+// Cadrage : FPS par défaut (`web/camera/fps.ts`). `?cam=couloir|epaule|troisquarts` restent des options.
+type CamMode = 'fps' | 'couloir' | 'epaule' | 'troisquarts';
+const CAM_MODE = parseCamMode(qs.get('cam'));
+if (CAM_MODE === 'fps') document.body.classList.add('fps');
 /** `?focus=0..3` cadre un Night Lord (captures combat). Défaut : Terminator. */
 const FOCUS_NL = ((): number | null => {
   const raw = qs.get('focus');
@@ -76,6 +80,7 @@ const FOCUS_NL = ((): number | null => {
 })();
 const camFov = (portrait: boolean): number => {
   switch (CAM_MODE) {
+    case 'fps': return fpsFov(portrait);
     case 'couloir': return portrait ? CAM.fovPortrait : CAM.fov;
     case 'epaule': return portrait ? EPAULE.fovPortrait : EPAULE.fov;
     case 'troisquarts': return portrait ? TROIS_QUARTS.fovPortrait : TROIS_QUARTS.fov;
@@ -87,8 +92,20 @@ const FX_QUALITY = parseFxQuality(qs.get('fx')); // ?fx=low : coupe particules, 
 const BENCH = qs.get('bench') === '1';
 const benchFrames: number[] = [];
 if (BENCH) (window as unknown as { __benchFrames: number[] }).__benchFrames = benchFrames;
-const camera = new THREE.PerspectiveCamera(camFov(false), 1, 0.1, 200);
+const camera = new THREE.PerspectiveCamera(camFov(false), 1, CAM_MODE === 'fps' ? 0.07 : 0.1, 200);
 installCorridorLights(scene, BEACON.y);
+const FPS_LIT = qs.get('fpslit') !== '0';
+if (CAM_MODE === 'fps') {
+  renderer.toneMappingExposure = FPS_LIT ? FPS_EXPOSURE : TONE_MAPPING_EXPOSURE;
+  scene.fog = new THREE.FogExp2(FOG_COLOR, FPS_LIT ? FPS_FOG_DENSITY : 0.060);
+  if (FPS_LIT) scene.add(new THREE.AmbientLight(0x2a3548, 0.42));
+  const helmFill = new THREE.PointLight(0xc8d4ee, FPS_LIT ? 3.2 : 0, 11, 2);
+  helmFill.position.set(0.15, 0.08, 0.2);
+  camera.add(helmFill);
+  scene.add(camera);
+} else {
+  renderer.toneMappingExposure = TONE_MAPPING_EXPOSURE;
+}
 // ================== DÉCOR ==================
 // Le grey-box était un plan, sept boîtes et une grille. Ici, un pont de vaisseau construit : tôle rivetée,
 // membrures, poutres de plafond, panneaux de coque. Tout est **procédural** — aucune texture ni aucun modèle
@@ -641,6 +658,15 @@ const alarmMats: THREE.MeshStandardMaterial[] = []; // rempli au chargement du T
 const tracer = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), new THREE.LineBasicMaterial({ color: 0xffe080 })); scene.add(tracer); tracer.visible = false;
 const fx = createFxSystem(scene, FX_QUALITY);
 fx.bindEyes(nlEyeMats);
+const vm: Viewmodel | null = CAM_MODE === 'fps' ? createViewmodel() : null;
+type FpsStepImp = { t0: number; v: number; foot: 0 | 1 };
+const fpsSteps: FpsStepImp[] = [];
+const fpsLook: FpsLook = freshLook(0);
+let fpsMeleeLock: MeleeLock | null = null;
+let hitMarkT = 0;
+let hitMarkKill = false;
+let dmgDir: 'front' | 'back' | 'left' | 'right' | null = null;
+let dmgDirT = 0;
 
 // Passe plein écran : vignette + grain. Un quad et un shader, aucun addon. La RT est HalfFloat linéaire
 // (ACES y tient sans quantifier les noirs) ; ce shader encode en pow(c,0.4545) comme avant, puis dithers.
@@ -699,6 +725,17 @@ addEventListener('keydown', e => {
   if (e.code === 'Space') e.preventDefault();
 });
 addEventListener('keyup', e => keys.delete(e.code));
+if (CAM_MODE === 'fps') {
+  canvas.addEventListener('click', () => { canvas.requestPointerLock?.(); });
+  document.addEventListener('pointerlockchange', () => {
+    fpsLook.locked = document.pointerLockElement === canvas;
+  });
+  addEventListener('mousemove', (e: MouseEvent) => {
+    if (fpsLook.locked || (window as unknown as { __fpsSimLook?: boolean }).__fpsSimLook) {
+      applyLookDelta(fpsLook, e.movementX, e.movementY);
+    }
+  });
+}
 const snap = () => ({ t: [w.t.x, w.t.y, w.t.facing] as [number, number, number], n: w.nls.map(n => [n.x, n.y, n.facing] as [number, number, number]) });
 // ---------- mode démo : mise en scène des ENTRÉES, jamais de la simulation
 // `?demo=reveal` place les cinq acteurs et leur donne un script d'actions. Le pas de simulation reste
@@ -935,6 +972,11 @@ function startRound() {
   nlFall[0] = nlFall[1] = nlFall[2] = nlFall[3] = null;
   nlMeshes.forEach(m => { m.rotation.set(0, 0, 0); m.position.y = 0; m.visible = true; });
   fx.resetRound();
+  fpsSteps.length = 0;
+  fpsLook.yaw = w.t.facing;
+  fpsLook.pitch = -0.06;
+  fpsMeleeLock = null;
+  if (CAM_MODE === 'fps' && termRig) termRig.root.visible = false;
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
   director.beginRound();
 }
@@ -943,7 +985,10 @@ function playerAction(): TAction {
   // `e.code` est la touche **physique** : sur un clavier AZERTY, la touche marquée Z est `KeyW`, et celle
   // marquée A est `KeyQ`. Le bandeau annonçait « ZQSD/WASD » depuis le début alors que Z et Q ne faisaient
   // rien : sur un Mac français, avancer et aller à gauche étaient muets. On accepte les deux nomenclatures.
-  return { fwd: (k('KeyW') || k('KeyZ') ? 1 : 0) - (k('KeyS') ? 1 : 0), strafe: (k('KeyA') || k('KeyQ') ? 1 : 0) - (k('KeyD') ? 1 : 0), turn: (k('ArrowRight') ? 1 : 0) - (k('ArrowLeft') ? 1 : 0), bolt: k('Space'), fist: k('KeyF') || k('ShiftLeft') };
+  const arrows = (k('ArrowRight') ? 1 : 0) - (k('ArrowLeft') ? 1 : 0);
+  const lookTurn = CAM_MODE === 'fps' ? turnTowardYaw(w.t.facing, fpsLook.yaw, T_CFG.turnMax, DT) : 0;
+  const turn = arrows !== 0 ? arrows : lookTurn;
+  return { fwd: (k('KeyW') || k('KeyZ') ? 1 : 0) - (k('KeyS') ? 1 : 0), strafe: (k('KeyA') || k('KeyQ') ? 1 : 0) - (k('KeyD') ? 1 : 0), turn, bolt: k('Space'), fist: k('KeyF') || k('ShiftLeft') };
 }
 function floatText(x: number, y: number, text: string, color: string) {
   const v = new THREE.Vector3(x, 2.5, y).project(camera); const el = document.createElement('div'); el.className = 'float'; el.textContent = text; el.style.color = color;
@@ -1037,7 +1082,9 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
     playKind(rig, speed);
     // Dissolution : le mesh ne reste jamais debout / en walk sans entité vivante (fantôme magenta).
     // Le clip tourne hors écran pour les cues ; le nuage de mort est le visible.
-    if (rig.combat.state === 'death') rig.root.visible = false;
+    if (rig.combat.state === 'death') {
+      rig.root.visible = CAM_MODE === 'fps' && rig.combat.remaining > 0.18;
+    }
     nlPrevStun[i] = n.stunTicks;
     nlPrevAction[i] = n.lastAction;
   }
@@ -1073,10 +1120,18 @@ function tick() {
     if (e.type === 'step' && IMPACT) {
       const amp = (e as any).intensity > 0 ? 0.55 + 0.45 * (e as any).intensity : 1.15;
       stepImp.push({ t0: simT, v: -1.95 * amp * ((e as any).foot === 0 ? 1 : 0.94) });
+      pushStepImpulse(fpsSteps, simT, (e as any).intensity ?? 0, (e as any).foot === 1 ? 1 : 0);
     }
     if (e.type === 'bolt') {
       if (IMPACT) { recImp.push({ t0: simT, v: 2.2 }); pitchImp.push({ t0: simT, v: 0.55 }); } // la rafale pousse la caméra et lève le nez
+      if (e.kill >= 0) { hitMarkT = 0.18; hitMarkKill = true; }
     }
+    if (e.type === 'fist' && e.kill >= 0) { hitMarkT = 0.2; hitMarkKill = true; }
+    if (e.type === 'hit') {
+      dmgDir = dmgSide(e.zone, w.t.lastHitAngle, w.t.facing);
+      dmgDirT = 0.55;
+    }
+    vm?.ingestSim(e);
     if ((e.type === 'bolt' || e.type === 'fist') && e.kill >= 0) { const n = w.nls[e.kill]; floatText(n.x, n.y, `${ROLES[e.kill]} abattu`, '#ffd27a'); }
     if (e.type === 'clawArm') { const n = w.nls[e.who]; floatText(n.x, n.y, 'GRIFFES', '#fb6'); } // annonce : l'impact tombe 2 ticks plus tard
     if (e.type === 'claw') { const n = w.nls[e.who]; if (e.dmg === 0) floatText(n.x, n.y, 'ARMURE', '#9cf'); else { floatText(w.t.x, w.t.y, `-${e.dmg} ${e.zone === 'rear' ? 'DOS' : 'FLANC'}`, '#f44'); } }
@@ -1108,6 +1163,17 @@ function tick() {
   }
   director.tick(w, DT, w.events, { nlJump });
   updateRigs(); if (shot) advanceRigs(DT); updateCamYaw();
+  if (CAM_MODE === 'fps') {
+    if (DEMO_CFG) {
+      fpsLook.yaw = w.t.facing;
+      fpsLook.pitch = -0.06;
+    } else if (autoplay) {
+      const aim = pickAutoplayFocus(w.t, w.nls, w.events, fpsMeleeLock, w.tick);
+      fpsMeleeLock = aim.lock;
+      if (aim.focus) steerFpsLook(fpsLook, aim.focus, aim.snap);
+      else fpsLook.yaw += wrapPi(w.t.facing - fpsLook.yaw) * 0.22;
+    }
+  }
   if (w.done) endRound();
 }
 function flash(_o: number) { /* remplacé par un retour localisé (hitGlow / impact light / post). */ }
@@ -1147,6 +1213,7 @@ function burnIn() {
   if (FOCUS_NL !== null) parts.push(`focus=${FOCUS_NL}`);
   if (qs.get('proc') === 'legacy') parts.push('proc=legacy');
   if (FX_QUALITY === 'low') parts.push('fx=low');
+  if (CAM_MODE === 'fps' && !FPS_LIT) parts.push('fpslit=0');
   return parts.join(' · ');
 }
 function nlBodyReport() {
@@ -1171,21 +1238,39 @@ function nlBodyReport() {
   });
 }
 function hud() {
-  const h = document.getElementById('hud')!;
-  h.innerHTML = hudMarkup(matchStatus(w), {
+  const extra = {
     roundNo, score, demo: !!DEMO_CFG, alarmOn: ALARM_ON,
     servoAlarm: w.t.servoAlarm > 0, servoCritical: w.t.servoCriticalSent,
     policyLine: `${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}`,
     burnIn: burnIn(),
-  });
+  };
+  const h = document.getElementById('hud')!;
+  h.innerHTML = CAM_MODE === 'fps' ? fpsHudMarkup(matchStatus(w), extra) : hudMarkup(matchStatus(w), extra);
   (window as unknown as { __NL?: unknown }).__NL = {
     tick: w.tick, done: w.done, winner: w.winner, seed, muted: engine.muted,
     hp: w.t.hp, nlsAlive: w.nls.filter((n) => n.alive).length,
     fistCharge: w.t.fistCharge,
     events: w.events.map((e) => e.type),
+    seen: (() => {
+      const wany = window as unknown as { __seenEv?: string[] };
+      const s = wany.__seenEv ?? (wany.__seenEv = []);
+      for (const e of w.events) if (!s.includes(e.type)) s.push(e.type);
+      return s;
+    })(),
+    eventWho: w.events.map((e) => ('who' in e ? (e as { who?: number }).who : ('kill' in e ? (e as { kill?: number }).kill : null))),
     msgShown: document.getElementById('msg')?.style.display === 'block',
     audio: engine.status(),
     bodies: nlBodyReport(),
+  };
+  (window as unknown as { __FPS?: unknown }).__FPS = {
+    mode: CAM_MODE,
+    locked: fpsLook.locked,
+    yaw: fpsLook.yaw,
+    pitch: fpsLook.pitch,
+    lockI: fpsMeleeLock?.i ?? -1,
+    eyeY: camera.position.y,
+    viewmodel: !!vm,
+    applyLook: (dx: number, dy: number) => applyLookDelta(fpsLook, dx, dy),
   };
   const d = document.getElementById('dbg')!; d.style.display = debug ? 'block' : 'none';
   if (debug) d.innerHTML = `<b>Vue de contrôle — ce que perçoit chaque Night Lord</b><table><tr><th>rôle</th><th>état</th><th>voit</th><th>entend</th><th>vox</th><th>âge</th><th>action (p)</th></tr>`
@@ -1198,6 +1283,7 @@ function updateImpact(dt: number) {
   simT += dt; breathT += dt; fistT += dt;
   for (let n = recImp.length - 1; n >= 0; n--) if (simT - recImp[n].t0 > FRESH) { recImp.splice(n, 1); pitchImp.splice(n, 1); }
   for (let n = stepImp.length - 1; n >= 0; n--) if (simT - stepImp[n].t0 > FRESH) stepImp.splice(n, 1);
+  for (let n = fpsSteps.length - 1; n >= 0; n--) if (simT - fpsSteps[n]!.t0 > FRESH) fpsSteps.splice(n, 1);
 }
 function render(alpha: number) {
   const lerp = (a: number, b: number) => a + (b - a) * alpha; const la = (a: number, b: number) => { let d = b - a; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return a + d * alpha; };
@@ -1236,6 +1322,66 @@ function render(alpha: number) {
   const fwdX = Math.cos(camYaw), fz = Math.sin(camYaw);      // axe de marche
   const rx = -fz, rz = fwdX;                                 // son épaule droite
   switch (CAM_MODE) {
+    case 'fps': {
+      const now = simT - DT + alpha * DT;
+      if (autoplay && !DEMO_CFG) {
+        let bestI = -1;
+        let bestD = Infinity;
+        if (fpsMeleeLock && w.nls[fpsMeleeLock.i]?.alive) {
+          bestI = fpsMeleeLock.i;
+          bestD = Math.hypot(w.nls[bestI]!.x - tx, w.nls[bestI]!.y - ty);
+        } else {
+          let armedI = -1;
+          let armedD = Infinity;
+          for (let i = 0; i < w.nls.length; i++) {
+            const n = w.nls[i]!;
+            if (!n.alive) continue;
+            const d = Math.hypot(n.x - tx, n.y - ty);
+            if (n.armTicks > 0 && d < armedD) { armedD = d; armedI = i; }
+            if (d < MELEE_AIM_M && d < bestD) { bestD = d; bestI = i; }
+          }
+          if (armedI >= 0 && armedD <= MELEE_AIM_M + 0.5) { bestI = armedI; bestD = armedD; }
+        }
+        if (bestI >= 0 && bestD < MELEE_AIM_M + 0.6) {
+          const n = w.nls[bestI]!;
+          const mx = prev.n[bestI]![0] + (n.x - prev.n[bestI]![0]) * alpha;
+          const mz = prev.n[bestI]![1] + (n.y - prev.n[bestI]![1]) * alpha;
+          fpsLook.yaw = Math.atan2(mz - ty, mx - tx);
+          fpsLook.pitch = 0;
+        }
+      }
+      const yaw = fpsLook.yaw;
+      const pose = fpsPose({
+        x: tx, y: ty, yaw, pitch: fpsLook.pitch, now, steps: fpsSteps,
+        shake: { sx, sz }, pillars: PILLARS, arena: ARENA, impact: IMPACT,
+      });
+      applyFpsCamera(camera, pose);
+      if (autoplay && !DEMO_CFG) {
+        let aimI = fpsMeleeLock && w.nls[fpsMeleeLock.i]?.alive ? fpsMeleeLock.i : -1;
+        let bd = Infinity;
+        if (aimI >= 0) bd = Math.hypot(w.nls[aimI]!.x - tx, w.nls[aimI]!.y - ty);
+        else {
+          for (let i = 0; i < w.nls.length; i++) {
+            const n = w.nls[i]!;
+            if (!n.alive) continue;
+            const d = Math.hypot(n.x - tx, n.y - ty);
+            if (d < bd && d < MELEE_AIM_M + 0.6) { bd = d; aimI = i; }
+          }
+        }
+        if (aimI >= 0 && bd < MELEE_AIM_M + 0.6) {
+          const n = w.nls[aimI]!;
+          const mx = prev.n[aimI]![0] + (n.x - prev.n[aimI]![0]) * alpha;
+          const mz = prev.n[aimI]![1] + (n.y - prev.n[aimI]![1]) * alpha;
+          // Hors du volume du mesh (rayon visuel > collider) : œil au centre Terminator, rotation seule.
+          camera.position.set(tx, FPS_EYE, ty);
+          camera.up.set(0, 1, 0);
+          camera.lookAt(mx, 1.55, mz);
+          camera.updateMatrixWorld(true);
+        }
+      }
+      vm?.update(DT * 0.16, now, pose.bobY, pose.bobY, Math.hypot(w.t.vx, w.t.vy) > 0.2);
+      break;
+    }
     case 'couloir': {
       const back = portrait ? CAM.back + 1.6 : CAM.back, high = portrait ? CAM.height + 0.9 : CAM.height;
       // 8,2 m derrière un Terminator à x≈3 sort de la coque (caméra dans le vide = image noire).
@@ -1291,7 +1437,7 @@ function render(alpha: number) {
       throw new Error(String(_e));
     }
   }
-  camera.up.set(0, 1, 0);
+  if (CAM_MODE !== 'fps') camera.up.set(0, 1, 0);
   if (CAM_MODE === 'epaule') { if (recPitch) camera.rotateX(recPitch); camera.rotateZ(rollPrev + (roll - rollPrev) * alpha); }
   {
     const fwd = new THREE.Vector3();
@@ -1325,11 +1471,73 @@ function render(alpha: number) {
   fx.sync(w, term, nlMeshes);
   fx.applyPost(postMat.uniforms as { uBloom: { value: number }; uCA: { value: number }; uVignettePulse: { value: number } });
   fx.pulseAlarm(stripMat, alarmLamps, simT - DT + alpha * DT, STRIP_EMISSIVE);
+  if (CAM_MODE === 'fps') {
+    term.traverse((o) => {
+      const m = o as THREE.Mesh & { isLight?: boolean };
+      if (m.isLight) return;
+      if (m.isMesh) { m.visible = false; m.layers.disable(0); }
+    });
+    if (termRig) {
+      termRig.root.visible = false;
+      termRig.root.scale.setScalar(0);
+    }
+  }
+  if (CAM_MODE === 'fps') {
+    postMat.uniforms.uVignette.value = POST_VIGNETTE + 0.18;
+    for (const mats of nlEyeMats) {
+      for (const m of mats) {
+        const std = m as THREE.MeshStandardMaterial;
+        if ('emissive' in m && std.emissive) {
+          if (!std.userData.fpsEye) {
+            std.userData.fpsEye = true;
+            std.emissive.setRGB(1.0, 0.04, 0.01);
+            std.emissiveIntensity = 2.6;
+          }
+        } else {
+          (m as THREE.MeshBasicMaterial).color.setRGB(1, 0.06, 0.02);
+        }
+      }
+    }
+    const threats = document.getElementById('threats');
+    if (threats) {
+      threats.innerHTML = marksHtml(offscreenMarks(
+        { x: tx, y: ty, yaw: CAM_MODE === 'fps' ? fpsLook.yaw : camYaw },
+        w.nls,
+        camera,
+      ));
+    }
+    const hm = document.getElementById('hitmark');
+    if (hm) {
+      hm.style.opacity = hitMarkT > 0 ? '1' : '0';
+      hm.classList.toggle('kill', hitMarkKill);
+    }
+    document.querySelectorAll('#dmg i').forEach((el) => el.classList.remove('on'));
+    if (dmgDir && dmgDirT > 0) document.querySelector(`#dmg .${dmgDir}`)?.classList.add('on');
+  }
   renderer.setRenderTarget(rt); renderer.render(scene, camera);
+  if (CAM_MODE === 'fps' && vm) {
+    const size = renderer.getDrawingBufferSize(new THREE.Vector2());
+    renderViewmodel(renderer, vm, size.x / Math.max(1, size.y));
+  }
   // Compteurs de la passe principale, relevés **avant** la passe plein écran : `renderer.info` se remet à zéro
   // à chaque `render()`, donc le lire après coup ne compte que le quad final (1 appel, 2 triangles).
   mainCalls = renderer.info.render.calls; mainTris = renderer.info.render.triangles;
   renderer.setRenderTarget(null); renderer.render(postScene, postCam);
+  if (CAP_FRAMES) {
+    const store = (window as unknown as { __fpsCaps?: Record<string, { tick: number; png: string }> });
+    const caps = store.__fpsCaps ?? (store.__fpsCaps = {});
+    const snap = (key: string) => {
+      if (caps[key]) return;
+      caps[key] = { tick: w.tick, png: canvas.toDataURL('image/jpeg', 0.9) };
+    };
+    for (const e of w.events) {
+      if (e.type === 'bolt') snap('bolter');
+      if (e.type === 'claw') snap('claw');
+      if (e.type === 'fistCharge') snap('fist');
+      if (e.type === 'fist' && !caps.fist) snap('fist');
+    }
+    if (w.nls.filter((n) => n.alive).length < 4) snap('death');
+  }
 }
 let mainCalls = 0, mainTris = 0;
 function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.fov = camFov(innerHeight > innerWidth); camera.updateProjectionMatrix();
@@ -1364,6 +1572,7 @@ async function loadModels() {
     // Les matériaux de l'armure, pour l'alarme de servo : on garde l'émissif d'origine pour savoir le rendre.
     termRig.root.traverse((o: any) => { const m = o.material; if (m && m.emissive) { if (!m.userData.baseEmissive) m.userData.baseEmissive = m.emissive.clone(); alarmMats.push(m); } });
     for (const c of term.children) if ((c as THREE.Mesh).isMesh) (c as THREE.Mesh).visible = false;
+    if (CAM_MODE === 'fps') termRig.root.visible = false;
   } catch (e) { console.warn('modèle TERM absent, cubes conservés', e); }
   nlRigs.forEach((rig, i) => {
     if (!rig) return;
@@ -1404,7 +1613,7 @@ function termPoseReport() {
   };
 }
 (window as any).__animCues = peekAnimCues;
-subscribeAnimCues((cue) => { director.onAnimCue(cue); fx.onAnimCue(cue); });
+subscribeAnimCues((cue) => { director.onAnimCue(cue); fx.onAnimCue(cue); vm?.ingestCue(cue); });
 await Promise.all([
   loadPolicy(), loadModels(), loadProps(),
   initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }).then(() => {
@@ -1458,6 +1667,8 @@ if (shot) { // capture : on avance la sim de N ticks sans attendre le temps rée
     // d'ici : aucune donnée du canal ne touche le DOM du joueur.
     if (CONTROL_VIEW && w.tick !== publishedTick) { publishHunterState(hunterState(w)); publishedTick = w.tick; }
     if (tracerT > 0) { tracerT -= dt; if (tracerT <= 0) tracer.visible = false; }
+    hitMarkT = Math.max(0, hitMarkT - dt);
+    dmgDirT = Math.max(0, dmgDirT - dt);
     hud(); render(roundOver ? 1 : acc / DT);
     (window as any).__termPose = termPoseReport();
     (window as any).__nlBodies = nlBodyReport();

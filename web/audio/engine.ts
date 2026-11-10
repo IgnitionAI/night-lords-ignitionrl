@@ -41,6 +41,10 @@ export class AudioEngine {
   private lifecycle: (() => void) | null = null;
   private wasRunning = false;
   private capture: MediaStreamAudioDestinationNode | null = null;
+  private tape: Float32Array[] = [];
+  private tapeProc: ScriptProcessorNode | null = null;
+  private tapeMute: GainNode | null = null;
+  private tapeSampleRate = 0;
   private stepIndex = 0;
   private nlStepIndex = 0;
   private base = '/web/sfx/nightlords/';
@@ -439,6 +443,62 @@ export class AudioEngine {
       this.graph.limiter.connect(this.capture);
     }
     return this.capture.stream;
+  }
+
+  /** Mix master réel (limiteur #75), pas une piste vide. */
+  beginTape(): boolean {
+    this.dropTapeGraph();
+    if (!this.ctx || !this.graph) return false;
+    if (typeof this.ctx.createScriptProcessor !== 'function') return false;
+    this.tape = [];
+    this.tapeSampleRate = this.ctx.sampleRate || 44100;
+    const proc = this.ctx.createScriptProcessor(2048, 2, 2);
+    const mute = this.ctx.createGain();
+    mute.gain.value = 0.0001;
+    this.graph.limiter.connect(proc);
+    proc.connect(mute);
+    mute.connect(this.ctx.destination);
+    proc.onaudioprocess = (ev: AudioProcessingEvent) => {
+      const inp = ev.inputBuffer;
+      const n = inp.length;
+      const l = inp.getChannelData(0);
+      const r = inp.numberOfChannels > 1 ? inp.getChannelData(1) : l;
+      const stereo = new Float32Array(n * 2);
+      for (let i = 0; i < n; i++) {
+        stereo[i * 2] = l[i]!;
+        stereo[i * 2 + 1] = r[i]!;
+      }
+      this.tape.push(stereo);
+    };
+    this.tapeProc = proc;
+    this.tapeMute = mute;
+    return true;
+  }
+
+  endTape(): { sampleRate: number; interleaved: Float32Array; peak: number; frames: number } {
+    this.dropTapeGraph();
+    let len = 0;
+    for (const c of this.tape) len += c.length;
+    const interleaved = new Float32Array(len);
+    let o = 0;
+    let peak = 0;
+    for (const c of this.tape) {
+      interleaved.set(c, o);
+      o += c.length;
+      for (let i = 0; i < c.length; i++) peak = Math.max(peak, Math.abs(c[i]!));
+    }
+    const sr = this.tapeSampleRate || this.ctx?.sampleRate || 44100;
+    const frames = Math.floor(len / 2);
+    this.tape = [];
+    this.tapeSampleRate = 0;
+    return { sampleRate: sr, interleaved, peak, frames };
+  }
+
+  private dropTapeGraph(): void {
+    try { this.tapeProc?.disconnect(); } catch { /* */ }
+    try { this.tapeMute?.disconnect(); } catch { /* */ }
+    this.tapeProc = null;
+    this.tapeMute = null;
   }
 
   status(): MixerStatus {

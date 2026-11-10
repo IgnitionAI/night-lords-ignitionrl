@@ -6,7 +6,7 @@ bun dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1      # PPO m
 bun dist/eval.mjs --pack runs/base/actor.json --n 200                     # taux de victoire, seeds 900000+
 scripts/mesures.sh                                                         # mesures du jalon 1
 cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies/current-full.json
-bun dist/server.mjs      # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all  ?props=0)
+bun dist/server.mjs      # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=fps|couloir|epaule|troisquarts  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all  ?props=0)
 ```# Night Lords sur IgnitionRL — prototype « La Meute »
 
 Un Terminator surpuissant, piloté par un joueur, contre une meute de 4 Night Lords entraînés par apprentissage par renforcement (PPO multi-agents). Chaque Night Lord, seul, meurt en un coup : la meute ne gagne qu'en se coordonnant (appât, flanc, finition), à partir d'observations limitées (cône de vision, bruit, vox entre frères). Pas de triche : la meute et le Terminator suivent les mêmes règles de simulation.
@@ -75,7 +75,7 @@ bun dist/train.mjs --updates 800 --envs 32 --out runs/base --seed 1      # PPO m
 bun dist/eval.mjs --pack runs/base/actor.json --n 200                     # taux de victoire, seeds 900000+
 scripts/mesures.sh                                                         # mesures du jalon 1
 cp runs/base/actor.json policies/current.json && cp runs/base/full.json policies/current-full.json
-bun dist/server.mjs      # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=couloir  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all  ?props=0)
+bun dist/server.mjs      # http://127.0.0.1:18190/  (?debug=1  ?autoplay=march|turret|brawler|backpedal|wallHugger  ?seed=  ?shot=<ticks>  ?fog=linear  ?grid=1  ?pivot=0|0.3|0.5  ?tell=0  ?cam=fps|couloir|epaule|troisquarts  ?impact=0  ?demo=reveal  ?alarme=0  ?tex=1024  ?env=0  ?lights=all  ?props=0)
 ```
 
 Node reste possible (`node dist/server.mjs` fonctionne) mais n'est plus la cible : `bun test` remplace `node --test`,
@@ -138,8 +138,9 @@ Décision d'origine, reproductible : `npm run sweep:noise -- --player idle --see
 - `docs/PROTOCOLE-MESURE-NN.md`, `scripts/nn-harness.ts` : protocole auditable et smoke de mesure (n'écrase pas b3)
 - `src/server.ts` : serveur local et ré-entraînement entre manches ; `src/experiment-c.ts` : expérience C
 - `web/` : rendu Three.js et vue de contrôle (touche V)
-- Caméra à l'épaule (défaut) : 3,55 m derrière le Terminator, 1,15 m sur son épaule droite, 2,5 m du sol,
-  fov 62 (74 en portrait), et un point de visée 5 m devant lui. On est dans l'armure.
+- Caméra FPS (défaut, `?cam=fps`) : œil du Terminator (~2,18 m), bob de pas lourd, visée souris (pointer lock),
+  armes en avant-plan (bolter / gantelet) sur une passe de profondeur séparée. Module `web/camera/fps.ts`.
+- Caméra à l'épaule (`?cam=epaule`) : 3,4 m derrière, 1,18 m sur l'épaule droite, 2,32 m du sol, fov 56.
 - Caméra de couloir (`?cam=couloir`) : 8,2 m / 3,4 m de haut / fov 58 (68 en portrait). Elle se cale derrière
   son dos et remonte à 4,9 m si son œil tombe dans l'emprise d'un pilier.
 - Poids : respiration de 5,2 s (±28 mm), appui du pas (un à-coup tous les 1,55 m, 25 mm = 0,40°), recul du
