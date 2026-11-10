@@ -91,13 +91,19 @@ export const B6_SHAPE = {
 export const B7_SHAPE = {
   threatDist: 16,
   threatNear: 4,
-  progressX0: 18,
+  /** Progression vers l’est : seulement après le virage wallHugger (x>30). */
+  progressX0: 30,
   visKeep: 0.12,
-  beaconGuard: 0.045,
+  beaconGuard: 0.05,
   guardHalf: 0.95,
   guardMaxD: 12,
+  /** Piquet / garde corde T→balise seulement si le T est déjà près (évite le camp précoce). */
+  picketDist: 10,
   picket: 0.02,
-  picketR: 7,
+  picketR: 5,
+  wallY: 18,
+  wallCut: 0.08,
+  earlyCamp: -0.04,
 };
 
 export const POLICY_FILES: Record<string, string> = {
@@ -408,10 +414,17 @@ export function applyB7Shaping(w: World, rewards: number[], died: boolean[]): nu
     const toNl = Math.atan2(w.nls[i].y - t.y, w.nls[i].x - t.x);
     if (Math.abs(angNorm(toNl - beaconH)) < 0.7 && d < 9) out[i] += B6_SHAPE.intercept;
     const dBnl = dist(w.nls[i].x, w.nls[i].y, BEACON.x, BEACON.y);
-    if (threat > 0) {
+    const nearBeacon = dBeacon < B7_SHAPE.picketDist;
+    if (nearBeacon && threat > 0) {
       const onPath = Math.abs(angNorm(toNl - beaconH)) < B7_SHAPE.guardHalf && d < B7_SHAPE.guardMaxD && dBnl <= dBeacon + 1;
       if (onPath) out[i] += B7_SHAPE.beaconGuard * threat;
       if (dBnl < B7_SHAPE.picketR) out[i] += B7_SHAPE.picket * threat * (1 - dBnl / B7_SHAPE.picketR);
+    }
+    if (t.y > B7_SHAPE.wallY && w.nls[i].y > B7_SHAPE.wallY - 1 && w.nls[i].x > t.x - 0.5 && w.nls[i].x < BEACON.x) {
+      out[i] += B7_SHAPE.wallCut * Math.max(threat, 0.35);
+    }
+    if (t.y > B7_SHAPE.wallY && dBeacon > B7_SHAPE.picketDist && dBnl < 6) {
+      out[i] += B7_SHAPE.earlyCamp;
     }
   }
   for (const e of w.events) {

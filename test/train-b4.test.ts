@@ -343,7 +343,10 @@ test('beaconThreat : spawn ≈ 0, proche balise ≈ 1, progression mur nord éle
 
   const wall = newWorld(21, undefined, { clawWindup: false });
   wall.t.x = 32; wall.t.y = 22.5;
-  assert.ok(beaconThreat(wall) > 0.55, `mur nord ${beaconThreat(wall)}`);
+  assert.ok(beaconThreat(wall) > 0.2, `mur nord ${beaconThreat(wall)}`);
+  const late = newWorld(21, undefined, { clawWindup: false });
+  late.t.x = 34; late.t.y = 22.5;
+  assert.ok(beaconThreat(late) > beaconThreat(wall), `x=34 ${beaconThreat(late)} vs x=32 ${beaconThreat(wall)}`);
 });
 
 test('shaping b7 : hors menace, lisibilité vis2 (cône > camp spawn)', () => {
@@ -366,14 +369,14 @@ test('shaping b7 : hors menace, lisibilité vis2 (cône > camp spawn)', () => {
 test('shaping b7 : sous menace, coupe-mur (hors cône) > rester dans le cône ; plus que vis2', () => {
   const mk = () => {
     const w = newWorld(23, undefined, { clawWindup: false });
-    w.t.x = 30; w.t.y = 20; w.t.facing = Math.PI / 2; w.tick = 400;
+    w.t.x = 30; w.t.y = 12; w.t.facing = Math.PI / 2; w.tick = 400;
     w.nls[1].alive = w.nls[2].alive = w.nls[3].alive = false;
     return w;
   };
   const cone = mk();
-  cone.nls[0].alive = true; cone.nls[0].x = 32; cone.nls[0].y = 23;
+  cone.nls[0].alive = true; cone.nls[0].x = 30.4; cone.nls[0].y = 16.2;
   const cut = mk();
-  cut.nls[0].alive = true; cut.nls[0].x = 34; cut.nls[0].y = 14.5;
+  cut.nls[0].alive = true; cut.nls[0].x = 34.2; cut.nls[0].y = 12.2;
   const cone6 = applyB6Shaping(cone, [0, 0, 0, 0], [false, false, false, false])[0];
   const cut6 = applyB6Shaping(cut, [0, 0, 0, 0], [false, false, false, false])[0];
   const cone7 = applyB7Shaping(cone, [0, 0, 0, 0], [false, false, false, false])[0];
@@ -383,4 +386,20 @@ test('shaping b7 : sous menace, coupe-mur (hors cône) > rester dans le cône ; 
   assert.ok(B7_SHAPE.visKeep < 0.25);
   assert.ok(B7_SHAPE.beaconGuard > B6_SHAPE.intercept);
   assert.ok(beaconThreat(cut) > 0.5);
+});
+
+test('shaping b7 : sur le mur nord, couper devant le T > camper la balise trop tôt', () => {
+  const mk = () => {
+    const w = newWorld(29, undefined, { clawWindup: false });
+    w.t.x = 32; w.t.y = 22.5; w.t.facing = 0; w.tick = 400;
+    w.nls[1].alive = w.nls[2].alive = w.nls[3].alive = false;
+    return w;
+  };
+  const ahead = mk();
+  ahead.nls[0].alive = true; ahead.nls[0].x = 36.5; ahead.nls[0].y = 22.3;
+  const camp = mk();
+  camp.nls[0].alive = true; camp.nls[0].x = BEACON.x; camp.nls[0].y = BEACON.y;
+  const a7 = applyB7Shaping(ahead, [0, 0, 0, 0], [false, false, false, false])[0];
+  const c7 = applyB7Shaping(camp, [0, 0, 0, 0], [false, false, false, false])[0];
+  assert.ok(a7 > c7, `devant mur ${a7} vs camp balise ${c7}`);
 });
