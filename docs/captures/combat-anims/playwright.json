@@ -1,0 +1,26 @@
+{
+  "urls": {
+    "attack-t4": "http://127.0.0.1:18191/?demo=combat-attack&cam=couloir&shot=4&impact=0&tex=512&seed=1",
+    "attack-t5": "http://127.0.0.1:18191/?demo=combat-attack&cam=couloir&shot=5&impact=0&tex=512&seed=1",
+    "attack-t7": "http://127.0.0.1:18191/?demo=combat-attack&cam=couloir&shot=7&impact=0&tex=512&seed=1",
+    "hit-t4": "http://127.0.0.1:18191/?demo=combat-hit&cam=couloir&shot=4&impact=0&tex=512&seed=1",
+    "hit-t5": "http://127.0.0.1:18191/?demo=combat-hit&cam=couloir&shot=5&impact=0&tex=512&seed=1",
+    "hit-t6": "http://127.0.0.1:18191/?demo=combat-hit&cam=couloir&shot=6&impact=0&tex=512&seed=1",
+    "hit-epaule-t5": "http://127.0.0.1:18191/?demo=combat-hit&cam=epaule&shot=5&impact=0&tex=512&seed=1",
+    "death-t5": "http://127.0.0.1:18191/?demo=combat-death&cam=couloir&shot=5&impact=0&tex=512&seed=1",
+    "death-t7": "http://127.0.0.1:18191/?demo=combat-death&cam=couloir&shot=7&impact=0&tex=512&seed=1",
+    "death-t10": "http://127.0.0.1:18191/?demo=combat-death&cam=couloir&shot=10&impact=0&tex=512&seed=1",
+    "death-t14": "http://127.0.0.1:18191/?demo=combat-death&cam=couloir&shot=14&impact=0&tex=512&seed=1",
+    "dodge-t2": "http://127.0.0.1:18191/?demo=combat-dodge&cam=couloir&shot=2&impact=0&tex=512&seed=1",
+    "dodge-t4": "http://127.0.0.1:18191/?demo=combat-dodge&cam=couloir&shot=4&impact=0&tex=512&seed=1",
+    "dodge-t5": "http://127.0.0.1:18191/?demo=combat-dodge&cam=couloir&shot=5&impact=0&tex=512&seed=1",
+    "dodge-epaule-t4": "http://127.0.0.1:18191/?demo=combat-dodge&cam=epaule&shot=4&impact=0&tex=512&seed=1",
+    "shot-t4": "http://127.0.0.1:18191/?demo=combat-shot&cam=couloir&shot=4&impact=0&tex=512&seed=1",
+    "shot-t5": "http://127.0.0.1:18191/?demo=combat-shot&cam=couloir&shot=5&impact=0&tex=512&seed=1"
+  },
+  "console": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "networkFailed": [],
+  "networkOk": 986
+}
