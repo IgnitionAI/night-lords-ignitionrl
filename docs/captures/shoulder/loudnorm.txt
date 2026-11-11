@@ -1,4 +1,4 @@
-[aist#0:0/pcm_s16le @ 0x560d0b79bfc0] Guessed Channel Layout: stereo
+[aist#0:0/pcm_s16le @ 0x55fde49f0fc0] Guessed Channel Layout: stereo
 Input #0, wav, from '/agent/repos/night-lords-ignitionrl/docs/captures/shoulder/_vid/mix.wav':
   Metadata:
     encoder         : Lavf60.16.100
@@ -13,19 +13,19 @@ Output #0, null, to 'pipe:':
   Stream #0:0: Audio: pcm_s16le, 192000 Hz, stereo, s16, 6144 kb/s
     Metadata:
       encoder         : Lavc60.31.102 pcm_s16le
-size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    size=N/A time=00:00:19.30 bitrate=N/A speed=37.3x    [out#0/null @ 0x560d0b775800] video:0kB audio:21750kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
-size=N/A time=00:00:26.20 bitrate=N/A speed=36.3x    
-[Parsed_loudnorm_0 @ 0x560d0b7a64c0] 
+size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    size=N/A time=00:00:21.30 bitrate=N/A speed=41.1x    [out#0/null @ 0x55fde49ca800] video:0kB audio:21750kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+size=N/A time=00:00:26.20 bitrate=N/A speed=  40x    
+[Parsed_loudnorm_0 @ 0x55fde49fb4c0] 
 {
-	"input_i" : "-15.60",
+	"input_i" : "-15.56",
 	"input_tp" : "-4.13",
-	"input_lra" : "4.10",
-	"input_thresh" : "-25.64",
-	"output_i" : "-15.85",
-	"output_tp" : "-3.51",
+	"input_lra" : "4.00",
+	"input_thresh" : "-25.60",
+	"output_i" : "-15.84",
+	"output_tp" : "-3.52",
 	"output_lra" : "2.60",
-	"output_thresh" : "-25.89",
+	"output_thresh" : "-25.88",
 	"normalization_type" : "dynamic",
-	"target_offset" : "0.85"
+	"target_offset" : "0.84"
 }
 

@@ -8,7 +8,7 @@ computing gzip size...
 web/dist/web/sas.html        0.58 kB │ gzip:   0.36 kB
 web/dist/web/index.html      5.81 kB │ gzip:   2.22 kB
 web/dist/sas.css             3.76 kB │ gzip:   1.43 kB
-web/dist/main.js           188.94 kB │ gzip:  67.50 kB
+web/dist/main.js           192.17 kB │ gzip:  68.57 kB
 web/dist/GLTFLoader.js     720.29 kB │ gzip: 187.80 kB
 web/dist/sas.js          2,782.29 kB │ gzip: 999.99 kB
 
@@ -16,6 +16,6 @@ web/dist/sas.js          2,782.29 kB │ gzip: 999.99 kB
 - Using dynamic import() to code-split the application
 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
-✓ built in 3.97s
+✓ built in 4.01s
 $ bun build.mjs
 build node ok (le bundle navigateur appartient à vite : bun run build:web)

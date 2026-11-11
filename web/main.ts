@@ -31,10 +31,11 @@ import {
   sceneRenderTargetOptions, POST_FRAGMENT_SHADER, FOG_COLOR, TONE_MAPPING_EXPOSURE,
 } from './atmosphere';
 import {
-  COMBAT_CAM, FOG_CLEAR_M, TERM_MODEL_H,
-  applyClawHold, applyCombatCamera, inFrustum,
-  isReadableOnScreen, keepTermFramed, liftFollowIfOccluded, losClear, offscreenMarker,
+  COMBAT_CAM, FOG_CLEAR_M, TERM_MODEL_H, NL_MODEL_H, NL_BODY_R,
+  applyCombatCamera, inFrustum, ndcInFrame, worldBoxOnScreen,
+  isReadableOnScreen, liftFollowIfOccluded, losClear, offscreenMarker,
   huntThreatCount, huntTremor, stepShoulderCam,
+  termHeadShoulderInFrame,
   type CombatPose, type ShoulderClawHold,
 } from './combat-cam';
 import { applyTerminatorLook } from './terminator-look';
@@ -662,21 +663,21 @@ const tracer = new THREE.Line(
   new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]),
   new THREE.LineBasicMaterial({
     color: 0xfff0a8, fog: false, transparent: true, opacity: 0.95,
-    depthTest: CAM_MODE !== 'shoulder',
+    depthTest: true,
   }),
 );
 tracer.renderOrder = 8; scene.add(tracer); tracer.visible = false;
 const tracerBolt = new THREE.Mesh(
-  new THREE.CylinderGeometry(CAM_MODE === 'shoulder' ? 0.14 : 0.045, CAM_MODE === 'shoulder' ? 0.045 : 0.018, 1, 7),
+  new THREE.CylinderGeometry(CAM_MODE === 'shoulder' ? 0.055 : 0.045, CAM_MODE === 'shoulder' ? 0.022 : 0.018, 1, 7),
   new THREE.MeshBasicMaterial({
-    color: 0xffc44a, fog: false, transparent: true, opacity: 0.95,
-    depthTest: CAM_MODE !== 'shoulder', depthWrite: false,
+    color: 0xffc44a, fog: false, transparent: true, opacity: 0.92,
+    depthTest: true, depthWrite: false,
   }),
 );
 tracerBolt.visible = false; tracerBolt.renderOrder = 8; scene.add(tracerBolt);
 const tracerHit = new THREE.Mesh(
-  new THREE.SphereGeometry(CAM_MODE === 'shoulder' ? 0.22 : 0.16, 10, 10),
-  new THREE.MeshBasicMaterial({ color: 0xffe8a0, fog: false, depthTest: CAM_MODE !== 'shoulder', depthWrite: false }),
+  new THREE.SphereGeometry(CAM_MODE === 'shoulder' ? 0.12 : 0.16, 10, 10),
+  new THREE.MeshBasicMaterial({ color: 0xffe8a0, fog: false, depthTest: true, depthWrite: false }),
 );
 tracerHit.visible = false; tracerHit.renderOrder = 8; scene.add(tracerHit);
 const muzzleFlash = new THREE.Mesh(
@@ -1185,7 +1186,7 @@ function tick() {
       const bfx = Math.cos(w.t.facing), bfz = Math.sin(w.t.facing);
       const brx = -bfz, brz = bfx;
       const a = CAM_MODE === 'shoulder'
-        ? new THREE.Vector3(e.x + bfx * 1.05 + brx * 0.62, 1.62, e.y + bfz * 1.05 + brz * 0.62)
+        ? new THREE.Vector3(e.x + bfx * 1.55 + brx * 0.55, 1.58, e.y + bfz * 1.55 + brz * 0.55)
         : new THREE.Vector3(e.x, 1.55, e.y);
       const b = new THREE.Vector3(e.tx, 1.22, e.ty);
       tracer.geometry.setFromPoints([a, b]); tracer.visible = true; tracerT = TRACER_SEC;
@@ -1532,8 +1533,8 @@ function render(alpha: number) {
       const servo = Math.sin(now * 1.7) * 0.016;
       const nls = w.nls.map((n, i) => ({
         x: lerp(prev.n[i][0], n.x), y: lerp(prev.n[i][1], n.y),
-        alive: n.alive || nlCamHold[i]! > 0,
-        armTicks: n.alive ? n.armTicks : (nlCamHold[i]! > 0 ? 2 : 0),
+        alive: n.alive,
+        armTicks: n.alive ? n.armTicks : 0,
         lastAction: n.lastAction,
       }));
       if (huntWhip && now >= huntWhip.until) huntWhip = null;
@@ -1547,16 +1548,14 @@ function render(alpha: number) {
       });
       clawHold = stepped.hold;
       shoulderPrevTerm = term;
-      if (clawHold) {
-        combatPose = applyClawHold(clawHold, term, nls[clawHold.who] ?? null, aspect, PILLARS, ARENA);
-      } else {
-        const want = stepped.pose;
-        want.camY += stepY + breath;
-        want.camX += servo * Math.cos(tf + Math.PI / 2);
-        want.camZ += servo * Math.sin(tf + Math.PI / 2);
-        want.camY += recZ * 0.04;
-        combatPose = keepTermFramed(want, term, aspect, { nls, pillars: PILLARS, arena: ARENA });
-      }
+      combatPose = CAP_STEP || clawHold
+        ? stepped.pose
+        : {
+          ...stepped.pose,
+          camY: stepped.pose.camY + stepY * 0.35 + breath + recZ * 0.03,
+          camX: stepped.pose.camX + servo * Math.cos(tf + Math.PI / 2),
+          camZ: stepped.pose.camZ + servo * Math.sin(tf + Math.PI / 2),
+        };
       const threats = huntThreatCount(term, nls);
       const trem = IMPACT ? huntTremor(threats, now) : { sx: 0, sz: 0 };
       applyCombatCamera(camera, combatPose, sx + trem.sx, sz + trem.sz);
@@ -1715,8 +1714,18 @@ function updateOffmarks() {
   }
 }
 
+function boneNdc(obj: THREE.Object3D | null | undefined, name: string) {
+  let found: THREE.Object3D | null = null;
+  obj?.traverse((o) => { if (!found && o.name === name) found = o; });
+  if (!found) return null;
+  const p = new THREE.Vector3();
+  found.getWorldPosition(p);
+  p.project(camera);
+  return { x: p.x, y: p.y, z: p.z };
+}
+
 function screenReadability() {
-  const rows: { i: number; ndc: { x: number; y: number; z: number }; distCam: number; readable: boolean; distTerm: number }[] = [];
+  const rows: { i: number; ndc: { x: number; y: number; z: number }; distCam: number; readable: boolean; distTerm: number; meshOn: boolean; meshShare: number }[] = [];
   let closeLiving = 0;
   let closeOnScreen = false;
   for (let i = 0; i < w.nls.length; i++) {
@@ -1728,8 +1737,15 @@ function screenReadability() {
     const distTerm = Math.hypot(n.x - w.t.x, n.y - w.t.y);
     const ndc = { x: v.x, y: v.y, z: v.z };
     const readable = isReadableOnScreen(ndc, distCam, FOG_CLEAR_M);
-    const inFrame = inFrustum(ndc, 0.96);
-    rows.push({ i, ndc, distCam, readable, distTerm });
+    const mesh = worldBoxOnScreen(
+      n.x - NL_BODY_R, 0.05, n.y - NL_BODY_R,
+      n.x + NL_BODY_R, NL_MODEL_H, n.y + NL_BODY_R,
+      camera,
+    );
+    const meshShare = mesh ? mesh.onScreen / mesh.samples : 0;
+    const meshOn = !!mesh && meshShare >= 0.35 && (mesh.maxY - mesh.minY) > 0.04;
+    const inFrame = meshOn || inFrustum(ndc, 0.96);
+    rows.push({ i, ndc, distCam, readable, distTerm, meshOn, meshShare });
     if (distTerm <= COMBAT_CAM.nlIncludeM) {
       closeLiving++;
       if (inFrame) closeOnScreen = true;
@@ -1739,9 +1755,21 @@ function screenReadability() {
   const feet = new THREE.Vector3(w.t.x, 0, w.t.y).project(camera);
   const head = new THREE.Vector3(w.t.x, TERM_MODEL_H, w.t.y).project(camera);
   const termNdc = { x: chest.x, y: chest.y, z: chest.z };
-  const termOnScreen = inFrustum(termNdc, COMBAT_CAM.termMargin);
-  const termScreenH = Math.abs(head.y - feet.y) / 2;
+  const termMesh = worldBoxOnScreen(
+    w.t.x - 0.82, 0, w.t.y - 0.82,
+    w.t.x + 0.82, TERM_MODEL_H, w.t.y + 0.82,
+    camera,
+  );
+  const hips = boneNdc(termRig?.root, 'Hips') ?? boneNdc(termRig?.root, 'hips');
+  const headBone = boneNdc(termRig?.root, 'Head') ?? boneNdc(termRig?.root, 'head');
+  const shoulderBone = boneNdc(termRig?.root, 'RightShoulder') ?? boneNdc(termRig?.root, 'rightshoulder');
+  const termMeshOn = !!termMesh && termMesh.onScreen / termMesh.samples >= 0.4;
+  const termOnScreen = termMeshOn || inFrustum(termNdc, COMBAT_CAM.termMargin);
+  const termScreenH = termMesh ? (Math.min(termMesh.maxY, 1) - Math.max(termMesh.minY, -1)) / 2 : Math.abs(head.y - feet.y) / 2;
   const termLos = losClear(camera.position.x, camera.position.y, camera.position.z, w.t.x, 1.4, w.t.y, PILLARS);
+  const hs = combatPose ? termHeadShoulderInFrame({ x: w.t.x, y: w.t.y, facing: w.t.facing }, combatPose, camera.aspect) : { head: false, shoulder: false };
+  const headOn = headBone ? ndcInFrame(headBone.x, headBone.y, headBone.z, 0.98) : hs.head;
+  const shoulderOn = shoulderBone ? ndcInFrame(shoulderBone.x, shoulderBone.y, shoulderBone.z, 0.98) : hs.shoulder;
   return {
     tick: w.tick,
     living: rows.length,
@@ -1749,6 +1777,17 @@ function screenReadability() {
     anyOnScreen: closeLiving === 0 || closeOnScreen,
     nls: rows,
     termOnScreen, termScreenH, termLos,
+    termMeshOn,
+    termMeshShare: termMesh ? termMesh.onScreen / termMesh.samples : 0,
+    termMeshArea: termMesh
+      ? (Math.max(0, Math.min(termMesh.maxX, 1) - Math.max(termMesh.minX, -1))
+        * Math.max(0, Math.min(termMesh.maxY, 1) - Math.max(termMesh.minY, -1))) / 4
+      : 1,
+    termMesh: termMesh ? { minX: termMesh.minX, maxX: termMesh.maxX, minY: termMesh.minY, maxY: termMesh.maxY, onScreen: termMesh.onScreen, samples: termMesh.samples } : null,
+    hips, headBone, shoulderBone,
+    headOn, shoulderOn,
+    pose: combatPose,
+    cam: { x: camera.position.x, y: camera.position.y, z: camera.position.z, fov: camera.fov, aspect: camera.aspect, near: camera.near },
   };
 }
 

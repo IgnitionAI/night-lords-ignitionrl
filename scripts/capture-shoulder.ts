@@ -39,11 +39,84 @@ type StepInfo = {
   eventWho?: (number | null)[];
   fistCharge?: number;
   om?: string[];
+  pose?: { camX: number; camY: number; camZ: number; lookX: number; lookY: number; lookZ: number; orbit: number };
   read?: {
     termOnScreen?: boolean;
-    nls?: { i: number; readable?: boolean; distCam?: number }[];
+    termMeshOn?: boolean;
+    termMeshShare?: number;
+    termMeshArea?: number;
+    headOn?: boolean;
+    shoulderOn?: boolean;
+    nls?: { i: number; readable?: boolean; distCam?: number; meshOn?: boolean; distTerm?: number }[];
   };
 };
+
+type LiveAcc = {
+  seed: number;
+  winner?: string;
+  tick: number;
+  frames: number;
+  termInFov: number;
+  areaOk: number;
+  headShoulderOk: number;
+  clawHits: number;
+  clawNlClear: number;
+  clawSmooth: number;
+  clawWindowTicks: number;
+  clawWindowSmooth: number;
+  clawWindowMaxCam: number;
+};
+
+function freshAcc(seed: number): LiveAcc {
+  return {
+    seed, tick: 0, frames: 0, termInFov: 0, areaOk: 0, headShoulderOk: 0,
+    clawHits: 0, clawNlClear: 0, clawSmooth: 0, clawWindowTicks: 0, clawWindowSmooth: 0,
+    clawWindowMaxCam: 0,
+  };
+}
+
+function poseCamDist(
+  a?: { camX: number; camY: number; camZ: number; lookX: number; lookY: number; lookZ: number; orbit: number },
+  b?: { camX: number; camY: number; camZ: number; lookX: number; lookY: number; lookZ: number; orbit: number },
+) {
+  if (!a || !b) return { cam: 0, look: 0, orbit: 0 };
+  const ax = a.lookX - a.camX, ay = a.lookY - a.camY, az = a.lookZ - a.camZ;
+  const bx = b.lookX - b.camX, by = b.lookY - b.camY, bz = b.lookZ - b.camZ;
+  const al = Math.hypot(ax, ay, az) || 1;
+  const bl = Math.hypot(bx, by, bz) || 1;
+  const dot = Math.max(-1, Math.min(1, (ax * bx + ay * by + az * bz) / (al * bl)));
+  return {
+    cam: Math.hypot(b.camX - a.camX, b.camY - a.camY, b.camZ - a.camZ),
+    look: Math.hypot(b.lookX - a.lookX, b.lookY - a.lookY, b.lookZ - a.lookZ),
+    orbit: Math.acos(dot),
+  };
+}
+
+function ingestLive(acc: LiveAcc, last: StepInfo, prevPose: StepInfo['pose'] | null, holding: boolean) {
+  acc.tick = last.tick ?? acc.tick;
+  acc.frames++;
+  const read = last.read;
+  if (read?.termMeshOn || read?.termOnScreen) acc.termInFov++;
+  const area = read?.termMeshArea ?? 1;
+  if (area <= 0.4) acc.areaOk++;
+  if (read?.headOn && read?.shoulderOn) acc.headShoulderOk++;
+  const d = poseCamDist(prevPose, last.pose);
+  if (holding && prevPose) {
+    acc.clawWindowTicks++;
+    acc.clawWindowMaxCam = Math.max(acc.clawWindowMaxCam, d.cam);
+    if (d.cam <= 0.72 + 1e-6 && d.look <= 1.20 + 1e-6 && d.orbit <= 0.55 + 1e-6) acc.clawWindowSmooth++;
+  }
+  const ev = last.events ?? [];
+  const who = last.eventWho ?? [];
+  for (let i = 0; i < ev.length; i++) {
+    if (ev[i] !== 'claw') continue;
+    acc.clawHits++;
+    const idx = who[i];
+    const nl = read?.nls?.find((n) => n.i === idx);
+    if (nl?.meshOn) acc.clawNlClear++;
+    if (d.cam <= 0.72 + 1e-6 && d.look <= 1.20 + 1e-6 && d.orbit <= 0.55 + 1e-6) acc.clawSmooth++;
+  }
+}
 
 function waitListen(child: ReturnType<typeof spawn>, needle: string, ms: number) {
   return new Promise<void>((resolve, reject) => {
@@ -172,6 +245,9 @@ async function matchVideo() {
   const videoStamps: Record<string, number> = {};
   let nFrames = 0;
   let last: StepInfo | undefined;
+  const liveVideo = freshAcc(Number(VIDEO_SEED));
+  let prevPose: StepInfo['pose'] | null = null;
+  let holding = false;
   await withServer(async (base) => {
     const browser = await chromium.launch({ headless: true, args: SW });
     const context = await browser.newContext({ viewport: { width: 1280, height: 720 } });
@@ -206,11 +282,17 @@ async function matchVideo() {
       await grabPage(page, join(tmp, `${String(nFrames).padStart(4, '0')}.jpg`));
       const ev = last?.events ?? [];
       const tick = last?.tick ?? 0;
-      const termOn = last?.read?.termOnScreen === true;
+      const termOn = last?.read?.termMeshOn === true || last?.read?.termOnScreen === true;
       if (ev.includes('bolt')) stamp('bolter', tick);
       if (ev.includes('fist')) stamp('fist', tick);
       if (ev.includes('claw')) stamp('claw', tick);
       if (tick >= 30 && termOn && last?.om?.some((d) => d !== 'none')) stamp('threat', tick);
+      if (ev.includes('claw') || ev.includes('clawArm') || ev.includes('whiff')) holding = true;
+      if (last) ingestLive(liveVideo, last, prevPose, holding);
+      prevPose = last?.pose ?? prevPose;
+      if (holding && liveVideo.clawWindowTicks > 8 && !ev.includes('claw') && !ev.includes('clawArm')) {
+        holding = false;
+      }
       nFrames++;
       if (i % 40 === 0) console.log('tick', last?.tick, last?.done, last?.winner);
       if (last?.done) break;
@@ -295,6 +377,98 @@ async function matchVideo() {
   if (ebuFinal.I == null || ebuFinal.I > -14 || ebuFinal.I < -16) throw new Error(`LUFS ${ebuFinal.I}`);
   if (ebuFinal.TP == null || ebuFinal.TP > -1) throw new Error(`TP ${ebuFinal.TP}`);
   if (imgBytes > 2 * 1024 * 1024) throw new Error(`stills trop lourdes ${imgBytes}`);
+  writeFileSync(join(OUT, 'live-video-framing.json'), JSON.stringify(liveVideo, null, 2) + '\n');
 }
 
-await matchVideo();
+const MEASURE_SEEDS = [900002, 900004, 900007, 900010, 900017];
+
+async function measureLiveFraming() {
+  const perSeed: LiveAcc[] = [];
+  await withServer(async (base) => {
+    const browser = await chromium.launch({ headless: true, args: SW });
+    for (const seed of MEASURE_SEEDS) {
+      const acc = freshAcc(seed);
+      const context = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+      context.setDefaultTimeout(300000);
+      const page = await context.newPage();
+      await page.route('**/api/round', async (route) => {
+        await route.fulfill({
+          status: 200, contentType: 'application/json',
+          body: JSON.stringify({ ok: false, reason: 'capture', summary: 'framing shoulder' }),
+        });
+      });
+      const q = new URLSearchParams({
+        autoplay: VIDEO_AUTO, seed: String(seed), cam: 'shoulder', tex: '512', props: '0', cap: '1',
+      });
+      await page.goto(`${base}/?${q}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      await page.waitForFunction(() => (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY === true, { timeout: 180000 });
+      let prevPose: StepInfo['pose'] | null = null;
+      let holding = false;
+      for (let i = 0; i < 1400; i++) {
+        const last = await page.evaluate(() => (
+          window as unknown as { __capStep?: (n?: number) => StepInfo }
+        ).__capStep?.(1));
+        if (!last) break;
+        const ev = last.events ?? [];
+        if (ev.includes('claw') || ev.includes('clawArm') || ev.includes('whiff')) holding = true;
+        ingestLive(acc, last, prevPose, holding);
+        prevPose = last.pose ?? prevPose;
+        if (holding && acc.clawWindowTicks > 8 && !ev.includes('claw') && !ev.includes('clawArm')) holding = false;
+        acc.winner = last.winner;
+        if (last.done) break;
+        if (i % 80 === 0) console.log('framing', seed, last.tick, last.winner);
+      }
+      perSeed.push(acc);
+      await context.close();
+    }
+    await browser.close();
+  });
+  const frames = perSeed.reduce((a, s) => a + s.frames, 0);
+  const termInFov = perSeed.reduce((a, s) => a + s.termInFov, 0);
+  const areaOk = perSeed.reduce((a, s) => a + s.areaOk, 0);
+  const headShoulderOk = perSeed.reduce((a, s) => a + s.headShoulderOk, 0);
+  const clawHits = perSeed.reduce((a, s) => a + s.clawHits, 0);
+  const clawNlClear = perSeed.reduce((a, s) => a + s.clawNlClear, 0);
+  const clawSmooth = perSeed.reduce((a, s) => a + s.clawSmooth, 0);
+  const clawWindowTicks = perSeed.reduce((a, s) => a + s.clawWindowTicks, 0);
+  const clawWindowSmooth = perSeed.reduce((a, s) => a + s.clawWindowSmooth, 0);
+  const termShare = frames ? termInFov / frames : 0;
+  const areaShare = frames ? areaOk / frames : 0;
+  const headShoulderShare = frames ? headShoulderOk / frames : 0;
+  const clawClearShare = clawHits ? clawNlClear / clawHits : 0;
+  const clawSmoothShare = clawHits ? clawSmooth / clawHits : 0;
+  const clawWindowSmoothShare = clawWindowTicks ? clawWindowSmooth / clawWindowTicks : 1;
+  const out = {
+    autoplay: 'kiter',
+    policy: 'policies/current.json',
+    seeds: MEASURE_SEEDS,
+    pose: 'live-camera-mesh',
+    source: 'playwright-webgl',
+    frames, termInFov, termShare, termTarget: 0.95,
+    areaOk, areaShare, areaTarget: 0.45, termMaxArea: 0.4,
+    headShoulderOk, headShoulderShare, headShoulderTarget: 0.90,
+    clawHits, clawNlClear, clawClearShare, clawClearTarget: 0.8,
+    clawSmooth, clawSmoothShare, clawSmoothTarget: 0.55,
+    clawWindowTicks, clawWindowSmooth, clawWindowSmoothShare, clawWindowSmoothTarget: 0.55,
+    clawMaxCamStepM: 0.72, clawMaxLookStepM: 1.2, clawMaxOrbitStepRad: 0.55,
+    ok: termShare >= 0.95 && clawClearShare >= 0.8 && clawSmoothShare >= 0.55
+      && clawWindowSmoothShare >= 0.55
+      && areaShare >= 0.45 && headShoulderShare >= 0.9,
+    perSeed: perSeed.map((s) => ({
+      seed: s.seed, winner: s.winner, tick: s.tick,
+      frames: s.frames, termShare: s.frames ? s.termInFov / s.frames : 0,
+      areaShare: s.frames ? s.areaOk / s.frames : 0,
+      headShoulderShare: s.frames ? s.headShoulderOk / s.frames : 0,
+      clawHits: s.clawHits, clawClearShare: s.clawHits ? s.clawNlClear / s.clawHits : 0,
+      clawSmoothShare: s.clawHits ? s.clawSmooth / s.clawHits : 0,
+      clawWindowSmoothShare: s.clawWindowTicks ? s.clawWindowSmooth / s.clawWindowTicks : 1,
+      clawWindowMaxCam: s.clawWindowMaxCam,
+    })),
+  };
+  writeFileSync(join(OUT, 'framing.json'), JSON.stringify(out, null, 2) + '\n');
+  console.log('framing live', JSON.stringify({ ok: out.ok, termShare, clawClearShare, clawSmoothShare, frames, clawHits }));
+  if (!out.ok) throw new Error(`framing live ko ${JSON.stringify(out)}`);
+}
+
+if (process.env.SKIP_VIDEO !== '1') await matchVideo();
+if (process.env.SKIP_FRAMING !== '1') await measureLiveFraming();

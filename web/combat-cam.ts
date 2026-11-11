@@ -43,7 +43,13 @@ export const CLAW_MAX_LOOK_STEP_M = 1.20;
 export const CLAW_MAX_ORBIT_STEP_RAD = 0.55;
 export const CLAW_MIN_ORBIT = 0.62;
 export const CLAW_PRE_RANGE = 2.2;
+/** Three-quarter du couple T+NL. Le rendu y va en clampant (pas de coupe). */
 export const CLAW_PAIR_SIDE = 4.05;
+/** Hold griffe : two-shot plus court, atteignable sans orbiter hors champ. */
+export const CLAW_HOLD_PAIR_SIDE = 2.55;
+export const STEP_MAX_CAM_M = 0.42;
+export const STEP_MAX_LOOK_M = 0.85;
+export const STEP_MAX_ORBIT_RAD = 0.28;
 /** `NL_ACTIONS` griffe — recopié pour ne pas importer la sim. */
 export const CLAW_INTENT = 7;
 export const NL_MIN_SCREEN = 0.008;
@@ -71,6 +77,8 @@ export type ShoulderClawHold = {
   termX: number; termY: number;
   camX: number; camY: number; camZ: number;
   lookX: number; lookY: number; lookZ: number;
+  startedAt: number;
+  frozen?: boolean;
 };
 export type ScreenAabb = {
   minX: number; maxX: number; minY: number; maxY: number;
@@ -391,14 +399,14 @@ function lookAhead(
 ): { lookX: number; lookY: number; lookZ: number } {
   const fx = Math.cos(yaw), fz = Math.sin(yaw);
   const rx = -fz, rz = fx;
-  // Regard devant (légère plongée) : T à gauche, couloir et menace dans le reste du cadre.
-  let lookX = term.x + fx * 5.0 + rx * 0.62;
-  let lookZ = term.y + fz * 5.0 + rz * 0.62;
+  // Regard un cran plus court que 5 m : T plus haut dans le cadre, sans exploser la surface.
+  let lookX = term.x + fx * 3.85 + rx * 0.58;
+  let lookZ = term.y + fz * 3.85 + rz * 0.58;
   if (melee && nl) {
-    lookX = term.x * (1 - COMBAT_CAM.lookMix) + nl.x * COMBAT_CAM.lookMix + fx * 2.2 + rx * 0.35;
-    lookZ = term.y * (1 - COMBAT_CAM.lookMix) + nl.y * COMBAT_CAM.lookMix + fz * 2.2 + rz * 0.35;
+    lookX = term.x * (1 - COMBAT_CAM.lookMix) + nl.x * COMBAT_CAM.lookMix + fx * 1.55 + rx * 0.30;
+    lookZ = term.y * (1 - COMBAT_CAM.lookMix) + nl.y * COMBAT_CAM.lookMix + fz * 1.55 + rz * 0.30;
   }
-  return { lookX, lookY: COMBAT_CAM.eye, lookZ };
+  return { lookX, lookY: 1.62, lookZ };
 }
 
 /** Pose OTS canonique : ~0,6–1,0 m derrière le dos, ~0,4 m à droite, hauteur d'épaule. */
@@ -416,7 +424,7 @@ export function canonicalShoulderPose(input: {
   const span = nl ? Math.hypot(nl.x - term.x, nl.y - term.y) : 99;
   const melee = !!nl && nl.alive && span <= 3.6;
   const yaw = shoulderYaw(term, melee ? nl : null, input.lookBias);
-  const back = melee ? 3.22 : 3.18;
+  const back = melee ? 3.32 : 3.28;
   const side = melee ? COMBAT_CAM.side + 0.18 : COMBAT_CAM.side;
   const placed = placeShoulder(term, yaw, back, side, COMBAT_CAM.height, pillars, arena);
   const look = lookAhead(term, yaw, melee ? nl : null, melee);
@@ -837,6 +845,8 @@ function pairClawPose(
   fov: number,
   pillars: Box[],
   arena: { w: number; h: number },
+  _aspect = 16 / 9,
+  side = CLAW_PAIR_SIDE,
 ): CombatPose {
   const px = nl.x - term.x, pz = nl.y - term.y;
   const plen = Math.hypot(px, pz) || 1;
@@ -844,14 +854,13 @@ function pairClawPose(
   const rx = -fz * sign, rz = fx * sign;
   const mx = term.x * 0.32 + nl.x * 0.68;
   const mz = term.y * 0.32 + nl.y * 0.68;
-  const rawX = mx + rx * CLAW_PAIR_SIDE - fx * 0.25;
-  const rawZ = mz + rz * CLAW_PAIR_SIDE - fz * 0.25;
+  const rawX = mx + rx * side - fx * 0.25;
+  const rawZ = mz + rz * side - fz * 0.25;
   const slid = slideOutOfPillars(rawX, rawZ, pillars, arena);
-  const camX = slid.camX, camZ = slid.camZ, camY = 2.88;
-  const lookX = mx, lookZ = mz;
+  const camX = slid.camX, camZ = slid.camZ, camY = 2.72;
   return {
     camX, camY, camZ,
-    lookX, lookY: COMBAT_CAM.eye, lookZ,
+    lookX: mx, lookY: 1.52, lookZ: mz,
     fov,
     orbit: wrapPi(Math.atan2(term.y - camZ, term.x - camX) - term.facing),
     back: Math.hypot(camX - term.x, camZ - term.y),
@@ -882,9 +891,9 @@ export function clawTwoShot(
   prev?: CombatPose | null,
   sign?: number,
 ): CombatPose {
-  if (sign === 1 || sign === -1) return pairClawPose(term, nl, sign, fov, pillars, arena);
-  const plus = pairClawPose(term, nl, 1, fov, pillars, arena);
-  const minus = pairClawPose(term, nl, -1, fov, pillars, arena);
+  if (sign === 1 || sign === -1) return pairClawPose(term, nl, sign, fov, pillars, arena, aspect);
+  const plus = pairClawPose(term, nl, 1, fov, pillars, arena, aspect);
+  const minus = pairClawPose(term, nl, -1, fov, pillars, arena, aspect);
   const pick = scoreClawPose(term, nl, plus, aspect, prev)
     >= scoreClawPose(term, nl, minus, aspect, prev) ? 1 : -1;
   return pick > 0 ? plus : minus;
@@ -899,15 +908,16 @@ export function beginClawHold(
   aspect: number,
   pillars: Box[],
   arena: { w: number; h: number },
+  now = 0,
 ): ShoulderClawHold {
   let orbitSign = pose.orbit >= 0 ? 1 : -1;
   if (nl) {
-    const plus = pairClawPose(term, nl, 1, pose.fov, pillars, arena);
-    const minus = pairClawPose(term, nl, -1, pose.fov, pillars, arena);
+    const plus = pairClawPose(term, nl, 1, pose.fov, pillars, arena, aspect);
+    const minus = pairClawPose(term, nl, -1, pose.fov, pillars, arena, aspect);
     orbitSign = scoreClawPose(term, nl, plus, aspect, pose) >= scoreClawPose(term, nl, minus, aspect, pose) ? 1 : -1;
   }
   return {
-    who, until, orbitSign, fov: pose.fov,
+    who, until, orbitSign, fov: pose.fov, startedAt: now,
     termX: term.x, termY: term.y,
     camX: pose.camX, camY: pose.camY, camZ: pose.camZ,
     lookX: pose.lookX, lookY: pose.lookY, lookZ: pose.lookZ,
@@ -923,7 +933,7 @@ export function applyClawHold(
   arena: { w: number; h: number } = { w: 40, h: 24 },
 ): CombatPose {
   if (!nl?.alive) return followLockedClawHold(hold, term);
-  return clawTwoShot(term, nl, aspect, pillars, arena, hold.fov, null, hold.orbitSign);
+  return pairClawPose(term, nl, hold.orbitSign, hold.fov, pillars, arena, aspect, CLAW_HOLD_PAIR_SIDE);
 }
 
 /** Ancien suivi rigide T : coupe / masque le NL à l’impact — gardé pour le test de non-régression. */
@@ -968,21 +978,64 @@ export function stepShoulderCam(input: {
     if (!hold) {
       hold = beginClawHold(
         input.prev, input.prevTerm ?? input.term, n ?? null, who, until,
-        input.aspect, input.pillars, input.arena,
+        input.aspect, input.pillars, input.arena, input.now,
       );
     } else {
       hold = { ...hold, who, until: Math.max(hold.until, until) };
     }
   }
-  const want = hold
-    ? applyClawHold(hold, input.term, input.nls[hold.who] ?? null, input.aspect, input.pillars, input.arena)
-    : desiredCombatPose({
-      term: input.term, nls: input.nls, aspect: input.aspect, portrait: input.portrait,
-      pillars: input.pillars, arena: input.arena,
+  const heldNl = hold ? input.nls[hold.who] ?? null : null;
+  const want = hold?.frozen
+    ? (() => {
+      const base = followLockedClawHold(hold, input.term);
+      if (!heldNl?.alive) return base;
+      return {
+        ...base,
+        lookX: input.term.x * 0.32 + heldNl.x * 0.68,
+        lookY: 1.52,
+        lookZ: input.term.y * 0.32 + heldNl.y * 0.68,
+      };
+    })()
+    : hold
+      ? applyClawHold(hold, input.term, heldNl, input.aspect, input.pillars, input.arena)
+      : desiredCombatPose({
+        term: input.term, nls: input.nls, aspect: input.aspect, portrait: input.portrait,
+        pillars: input.pillars, arena: input.arena,
+      });
+  let pose = want;
+  if (input.prev) {
+    pose = hold
+      ? clampPoseStep(input.prev, want, CLAW_MAX_CAM_STEP_M, CLAW_MAX_LOOK_STEP_M, CLAW_MAX_ORBIT_STEP_RAD)
+      : clampPoseStep(input.prev, smoothCombatPose(input.prev, want, 0.1), STEP_MAX_CAM_M, STEP_MAX_LOOK_M, STEP_MAX_ORBIT_RAD);
+  }
+  if (!hold) {
+    pose = keepTermFramed(pose, input.term, input.aspect, {
+      nls: input.nls, pillars: input.pillars, arena: input.arena, skipRebuild: true,
     });
-  const pose = hold && input.prev
-    ? clampPoseStep(input.prev, want, CLAW_MAX_CAM_STEP_M, CLAW_MAX_LOOK_STEP_M, CLAW_MAX_ORBIT_STEP_RAD)
-    : want;
+    if (input.prev) {
+      pose = clampPoseStep(input.prev, pose, STEP_MAX_CAM_M, STEP_MAX_LOOK_M, STEP_MAX_ORBIT_RAD);
+    }
+  } else if (!hold.frozen) {
+    const tNdc = projectWorld(input.term.x, 1.4, input.term.y, pose, input.aspect);
+    if (!inFrustum(tNdc, 0.82)) pose = clampLookToTerm(pose, input.term, input.aspect);
+    if (input.prev) {
+      pose = clampPoseStep(input.prev, pose, CLAW_MAX_CAM_STEP_M, CLAW_MAX_LOOK_STEP_M, CLAW_MAX_ORBIT_STEP_RAD);
+    }
+    if (
+      heldNl?.alive
+      && input.now - hold.startedAt >= 0.48
+      && nlVisibleInFrame(heldNl, input.term, pose, input.aspect)
+    ) {
+      hold = {
+        ...hold,
+        frozen: true,
+        termX: input.term.x, termY: input.term.y,
+        camX: pose.camX, camY: pose.camY, camZ: pose.camZ,
+        lookX: pose.lookX, lookY: pose.lookY, lookZ: pose.lookZ,
+        fov: pose.fov,
+      };
+    }
+  }
   return { pose, hold };
 }
 
@@ -1027,6 +1080,38 @@ export function applyCombatCamera(
   camera.up.set(0, 1, 0);
   camera.lookAt(pose.lookX + shakeX, pose.lookY, pose.lookZ + shakeZ);
   camera.updateProjectionMatrix();
+}
+
+/** Bbox monde → NDC du *vrai* frustum caméra (après `applyCombatCamera`). */
+export function worldBoxOnScreen(
+  minX: number, minY: number, minZ: number,
+  maxX: number, maxY: number, maxZ: number,
+  camera: THREE.Camera,
+): ScreenAabb | null {
+  camera.updateMatrixWorld(true);
+  const v = new THREE.Vector3();
+  let minNx = Infinity, maxNx = -Infinity, minNy = Infinity, maxNy = -Infinity;
+  let samples = 0, onScreen = 0;
+  for (const x of [minX, maxX]) {
+    for (const y of [minY, (minY + maxY) * 0.5, maxY]) {
+      for (const z of [minZ, maxZ]) {
+        v.set(x, y, z).project(camera);
+        if (v.z < -1 || v.z > 1) continue;
+        samples++;
+        minNx = Math.min(minNx, v.x);
+        maxNx = Math.max(maxNx, v.x);
+        minNy = Math.min(minNy, v.y);
+        maxNy = Math.max(maxNy, v.y);
+        if (Math.abs(v.x) <= 1 && Math.abs(v.y) <= 1) onScreen++;
+      }
+    }
+  }
+  if (samples < 2) return null;
+  return { minX: minNx, maxX: maxNx, minY: minNy, maxY: maxNy, samples, onScreen };
+}
+
+export function ndcInFrame(x: number, y: number, z: number, margin = 0.98): boolean {
+  return Math.abs(x) <= margin && Math.abs(y) <= margin && z >= -1 && z <= 1;
 }
 
 export type ReadabilitySample = {

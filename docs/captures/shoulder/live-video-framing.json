@@ -1,0 +1,14 @@
+{
+  "seed": 900007,
+  "tick": 265,
+  "frames": 265,
+  "termInFov": 265,
+  "areaOk": 152,
+  "headShoulderOk": 265,
+  "clawHits": 19,
+  "clawNlClear": 19,
+  "clawSmooth": 19,
+  "clawWindowTicks": 79,
+  "clawWindowSmooth": 79,
+  "clawWindowMaxCam": 0.1500000000000008
+}
