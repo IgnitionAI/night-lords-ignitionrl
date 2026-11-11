@@ -1,0 +1,984 @@
+{
+  "urls": {
+    "nl1-attack-debut": "http://127.0.0.1:18220/?demo=genex-nl1-attack&cam=epaule&shot=4&focus=0&impact=0&tex=512&seed=1",
+    "nl1-attack-contact": "http://127.0.0.1:18220/?demo=genex-nl1-attack&cam=epaule&shot=6&focus=0&impact=0&tex=512&seed=1",
+    "nl1-attack-fin": "http://127.0.0.1:18220/?demo=genex-nl1-attack&cam=epaule&shot=7&focus=0&impact=0&tex=512&seed=1",
+    "nl1-death-debut": "http://127.0.0.1:18220/?demo=combat-death&cam=troisquarts&shot=5&focus=0&genexBase=1&impact=0&tex=512&seed=1",
+    "nl1-death-chute": "http://127.0.0.1:18220/?demo=combat-death&cam=troisquarts&shot=9&focus=0&genexBase=1&impact=0&tex=512&seed=1",
+    "nl1-death-fin": "http://127.0.0.1:18220/?demo=combat-death&cam=troisquarts&shot=13&focus=0&genexBase=1&impact=0&tex=512&seed=1",
+    "nl2-attack-debut": "http://127.0.0.1:18220/?demo=combat-attack&cam=epaule&shot=4&focus=1&genexBase=1&impact=0&tex=512&seed=1",
+    "nl2-attack-contact": "http://127.0.0.1:18220/?demo=combat-attack&cam=epaule&shot=6&focus=1&genexBase=1&impact=0&tex=512&seed=1",
+    "nl2-attack-fin": "http://127.0.0.1:18220/?demo=combat-attack&cam=epaule&shot=7&focus=1&genexBase=1&impact=0&tex=512&seed=1",
+    "nl2-hit-debut": "http://127.0.0.1:18220/?demo=combat-hit&cam=epaule&shot=4&focus=1&genexBase=1&impact=0&tex=512&seed=1",
+    "nl2-hit-contact": "http://127.0.0.1:18220/?demo=combat-hit&cam=epaule&shot=5&focus=1&genexBase=1&impact=0&tex=512&seed=1",
+    "nl2-hit-fin": "http://127.0.0.1:18220/?demo=combat-hit&cam=epaule&shot=6&focus=1&genexBase=1&impact=0&tex=512&seed=1",
+    "nl2-dodge-debut": "http://127.0.0.1:18220/?demo=combat-nl-dodge&cam=epaule&shot=3&focus=1&genexBase=1&impact=0&tex=512&seed=1",
+    "nl2-dodge-contact": "http://127.0.0.1:18220/?demo=combat-nl-dodge&cam=epaule&shot=5&focus=1&genexBase=1&impact=0&tex=512&seed=1",
+    "nl2-dodge-fin": "http://127.0.0.1:18220/?demo=combat-nl-dodge&cam=epaule&shot=7&focus=1&genexBase=1&impact=0&tex=512&seed=1"
+  },
+  "diagnostics": {
+    "nl1-attack-debut": {
+      "camera": {
+        "tick": 4,
+        "t": {
+          "x": 30,
+          "y": 23.2,
+          "facing": 0
+        },
+        "cam": {
+          "x": 4.6,
+          "y": 2.3330122488172256,
+          "z": 13.18
+        },
+        "pose": null,
+        "hold": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl1-attack-contact": {
+      "camera": {
+        "tick": 6,
+        "t": {
+          "x": 30,
+          "y": 23.2,
+          "facing": 0
+        },
+        "cam": {
+          "x": 4.6,
+          "y": 2.338567434430742,
+          "z": 13.18
+        },
+        "pose": null,
+        "hold": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl1-attack-fin": {
+      "camera": {
+        "tick": 7,
+        "t": {
+          "x": 30,
+          "y": 23.2,
+          "facing": 0
+        },
+        "cam": {
+          "x": 4.6,
+          "y": 2.340958300948791,
+          "z": 13.18
+        },
+        "pose": null,
+        "hold": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl1-death-debut": {
+      "camera": {
+        "tick": 5,
+        "t": {
+          "x": 8,
+          "y": 12,
+          "facing": 0
+        },
+        "cam": {
+          "x": 9.332014397766203,
+          "y": 5.55,
+          "z": 16.77162295307582
+        },
+        "pose": null,
+        "hold": [
+          7,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl1-death-chute": {
+      "camera": {
+        "tick": 9,
+        "t": {
+          "x": 8,
+          "y": 12,
+          "facing": 0
+        },
+        "cam": {
+          "x": 9.332014397766203,
+          "y": 5.55,
+          "z": 16.77162295307582
+        },
+        "pose": null,
+        "hold": [
+          3,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl1-death-fin": {
+      "camera": {
+        "tick": 13,
+        "t": {
+          "x": 8,
+          "y": 12,
+          "facing": 0
+        },
+        "cam": {
+          "x": 9.332014397766203,
+          "y": 5.55,
+          "z": 16.77162295307582
+        },
+        "pose": null,
+        "hold": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl2-attack-debut": {
+      "camera": {
+        "tick": 4,
+        "t": {
+          "x": 8,
+          "y": 12,
+          "facing": 0
+        },
+        "cam": {
+          "x": 5.15,
+          "y": 2.3330122488172256,
+          "z": 14.68
+        },
+        "pose": null,
+        "hold": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl2-attack-contact": {
+      "camera": {
+        "tick": 6,
+        "t": {
+          "x": 8,
+          "y": 12,
+          "facing": 0
+        },
+        "cam": {
+          "x": 5.15,
+          "y": 2.338567434430742,
+          "z": 14.68
+        },
+        "pose": null,
+        "hold": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl2-attack-fin": {
+      "camera": {
+        "tick": 7,
+        "t": {
+          "x": 8,
+          "y": 12,
+          "facing": 0
+        },
+        "cam": {
+          "x": 5.15,
+          "y": 2.340958300948791,
+          "z": 14.68
+        },
+        "pose": null,
+        "hold": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl2-hit-debut": {
+      "camera": {
+        "tick": 4,
+        "t": {
+          "x": 8,
+          "y": 12,
+          "facing": 0
+        },
+        "cam": {
+          "x": 5.1,
+          "y": 2.3330122488172256,
+          "z": 14.66
+        },
+        "pose": null,
+        "hold": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl2-hit-contact": {
+      "camera": {
+        "tick": 5,
+        "t": {
+          "x": 8,
+          "y": 12,
+          "facing": 0
+        },
+        "cam": {
+          "x": 5.1,
+          "y": 2.335905812908472,
+          "z": 14.66
+        },
+        "pose": null,
+        "hold": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl2-hit-fin": {
+      "camera": {
+        "tick": 6,
+        "t": {
+          "x": 8,
+          "y": 12,
+          "facing": 0
+        },
+        "cam": {
+          "x": 5.1,
+          "y": 2.338567434430742,
+          "z": 14.66
+        },
+        "pose": null,
+        "hold": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl2-dodge-debut": {
+      "camera": {
+        "tick": 3,
+        "t": {
+          "x": 8,
+          "y": 12,
+          "facing": 0
+        },
+        "cam": {
+          "x": 6.190474824073579,
+          "y": 2.3299289368371907,
+          "z": 15.035553961419179
+        },
+        "pose": null,
+        "hold": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "Armature|dodge|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl2-dodge-contact": {
+      "camera": {
+        "tick": 5,
+        "t": {
+          "x": 8,
+          "y": 12,
+          "facing": 0
+        },
+        "cam": {
+          "x": 6.190474824073579,
+          "y": 2.335905812908472,
+          "z": 15.035553961419179
+        },
+        "pose": null,
+        "hold": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "Armature|dodge|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    },
+    "nl2-dodge-fin": {
+      "camera": {
+        "tick": 7,
+        "t": {
+          "x": 8,
+          "y": 12,
+          "facing": 0
+        },
+        "cam": {
+          "x": 6.190474824073579,
+          "y": 2.340958300948791,
+          "z": 15.035553961419179
+        },
+        "pose": null,
+        "hold": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    }
+  },
+  "console": [],
+  "pageErrors": [],
+  "networkFailed": []
+}

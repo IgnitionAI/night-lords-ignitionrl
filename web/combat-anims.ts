@@ -140,6 +140,73 @@ export function freshMachine(): CombatMachine {
   };
 }
 
+export interface CombatActionSet<T> {
+  idle: T | null;
+  walk: T | null;
+  run: T | null;
+  attack: T | null;
+  shoot: T | null;
+  hit: T | null;
+  dodge: T | null;
+  death: T | null;
+  combo: T | null;
+  leap: T | null;
+  hitFront: T | null;
+  hitBack: T | null;
+  hitLeft: T | null;
+  hitRight: T | null;
+  dodgeLeft: T | null;
+  dodgeRight: T | null;
+  deathThrow: T | null;
+  deathCollapse: T | null;
+  deathDismember: T | null;
+}
+
+/** Sélection rendu seule : `baseOnly` isole les clips Genex sans changer le style de l'attaque. */
+export function selectCombatAction<T>(
+  rig: CombatActionSet<T>,
+  kind: CombatKind,
+  m: CombatMachine,
+  options: { baseOnly?: boolean; forceBaseAttack?: boolean } = {},
+): T | null {
+  switch (kind) {
+    case 'run': return rig.run ?? rig.walk;
+    case 'walk': return rig.walk ?? rig.run;
+    case 'idle': return rig.idle;
+    case 'attack':
+      if (m.attackStyle === 'shoot') return rig.shoot ?? rig.attack;
+      if (options.forceBaseAttack || options.baseOnly) return rig.attack;
+      if (m.meleeVariant === 'leap') return rig.leap ?? rig.attack;
+      if (m.meleeVariant === 'combo') return rig.combo ?? rig.attack;
+      return rig.attack ?? rig.shoot;
+    case 'hit': {
+      if (options.baseOnly) return rig.hit;
+      switch (m.hitDir) {
+        case 'front': return rig.hitFront ?? rig.hit;
+        case 'back': return rig.hitBack ?? rig.hit;
+        case 'left': return rig.hitLeft ?? rig.hit;
+        case 'right': return rig.hitRight ?? rig.hit;
+      }
+    }
+    case 'dodge': {
+      if (options.baseOnly) return rig.dodge;
+      switch (m.dodgeDir) {
+        case 'left': return rig.dodgeLeft ?? rig.dodge;
+        case 'right': return rig.dodgeRight ?? rig.dodge;
+        case 'back': return rig.dodge;
+      }
+    }
+    case 'death': {
+      if (options.baseOnly) return rig.death;
+      switch (m.deathKind) {
+        case 'throw': return rig.deathThrow ?? rig.death;
+        case 'collapse': return rig.deathCollapse ?? rig.death;
+        case 'dismember': return rig.deathDismember ?? rig.death;
+      }
+    }
+  }
+}
+
 export interface CombatIntent {
   death: boolean;
   hit: boolean;
@@ -213,7 +280,8 @@ export function tickMachine(
   const flashDecay = dt > 0 ? dt / HIT_FLASH_DECAY : 0;
   let hitFlash = Math.max(0, m.hitFlash - flashDecay);
   if (intent.hit || intent.death) hitFlash = 1;
-  const style = next === 'attack' ? intent.attackStyle : m.attackStyle;
+  // Le style appartient au one-shot en cours : la fin de rafale ne doit pas le remplacer par une attaque.
+  const style = next === 'attack' && m.state !== 'attack' ? intent.attackStyle : m.attackStyle;
   const extras = extrasOf(intent, m);
   const lastLoco = isLoco(next) ? next : extras.lastLoco;
   const pack = {

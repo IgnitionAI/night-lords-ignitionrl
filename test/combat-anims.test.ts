@@ -10,7 +10,7 @@ import { pickGait } from '../web/locomotion.ts';
 import { parseGlb } from '../web/stride.ts';
 import {
   CROSSFADE, ONE_SHOT, COMBAT_CLIP_KEYS, crossFadeFor, eventsToFlags, freshMachine,
-  isLoco, isOneShot, nlIntent, pickNamedClip, resolveKind, termIntent, tickMachine,
+  isLoco, isOneShot, nlIntent, pickNamedClip, resolveKind, selectCombatAction, termIntent, tickMachine,
 } from '../web/combat-anims.ts';
 import { bindOneShot, makeCombatClips, makeLegacyCombatClips } from '../web/proc-clips.ts';
 
@@ -224,6 +224,26 @@ test('tickMachine : durée d\'un clip nommé remplace ONE_SHOT', () => {
   const shoot = { ...intentAtk, attackStyle: 'shoot' as const };
   m = tickMachine(m, shoot, DT, { shoot: 0.9, attack: 0.46 });
   assert.ok(Math.abs(m.remaining - 0.9) < 1e-12);
+});
+
+test('tir : le style shoot est conservé jusqu’à la fin du one-shot', () => {
+  const shoot = { death: false, hit: false, attack: true, dodge: false, gait: idleGait, attackStyle: 'shoot' as const };
+  let machine = tickMachine(freshMachine(), shoot, DT, { shoot: 0.47 });
+  machine = tickMachine(machine, { ...shoot, attack: false, attackStyle: 'melee' as const }, DT, { shoot: 0.47 });
+  assert.equal(machine.state, 'attack');
+  assert.equal(machine.attackStyle, 'shoot');
+});
+
+test('genexBase : kind=attack avec style shoot sélectionne le clip shoot', () => {
+  const actions = {
+    idle: 'idle', walk: 'walk', run: 'run', attack: 'attack', shoot: 'shoot',
+    hit: 'hit', dodge: 'dodge', death: 'death', combo: 'combo', leap: 'leap',
+    hitFront: 'hitFront', hitBack: 'hitBack', hitLeft: 'hitLeft', hitRight: 'hitRight',
+    dodgeLeft: 'dodgeLeft', dodgeRight: 'dodgeRight',
+    deathThrow: 'deathThrow', deathCollapse: 'deathCollapse', deathDismember: 'deathDismember',
+  };
+  const machine = { ...freshMachine(), state: 'attack' as const, attackStyle: 'shoot' as const };
+  assert.equal(selectCombatAction(actions, 'attack', machine, { baseOnly: true }), 'shoot');
 });
 
 test('oneShot helper et isOneShot exhaustif', () => {
