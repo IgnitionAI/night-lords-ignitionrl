@@ -31,10 +31,11 @@ import {
   sceneRenderTargetOptions, POST_FRAGMENT_SHADER, FOG_COLOR, TONE_MAPPING_EXPOSURE,
 } from './atmosphere';
 import {
-  COMBAT_CAM, FOG_CLEAR_M, TERM_MODEL_H, applyCombatCamera, desiredCombatPose, inFrustum,
+  COMBAT_CAM, FOG_CLEAR_M, TERM_MODEL_H,
+  applyClawHold, applyCombatCamera, inFrustum,
   isReadableOnScreen, keepTermFramed, liftFollowIfOccluded, losClear, offscreenMarker,
-  huntThreatCount, huntTremor,
-  type CombatPose,
+  huntThreatCount, huntTremor, stepShoulderCam,
+  type CombatPose, type ShoulderClawHold,
 } from './combat-cam';
 import { applyTerminatorLook } from './terminator-look';
 import { createFxSystem, parseFxQuality } from './fx';
@@ -1040,6 +1041,10 @@ function startRound() {
   fpsLook.yaw = w.t.facing;
   fpsLook.pitch = -0.06;
   fpsMeleeLock = null;
+  combatPose = null;
+  clawHold = null;
+  shoulderPrevTerm = null;
+  huntWhip = null;
   if (CAM_MODE === 'fps' && termRig) termRig.root.visible = false;
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
   director.huntCam = CAM_MODE === 'shoulder';
@@ -1065,6 +1070,8 @@ function floatText(x: number, y: number, text: string, color: string) {
 // que le joueur longe un mur (vu à t77). Il est avancé d'un pas de simulation, donc ?shot= reste juste.
 let camYaw = 0, followYaw = 0;
 let combatPose: CombatPose | null = null;
+let clawHold: ShoulderClawHold | null = null;
+let shoulderPrevTerm: { x: number; y: number; facing: number } | null = null;
 let huntWhip: { x: number; y: number; until: number } | null = null;
 // P3 — le pivot. Mesure de l'état des lieux : la meute passe à plus de 90° dans le dos dès 8,3 s de
 // manche, jusqu'à 174°. La caméra se décale donc *un peu* vers la menace la plus proche, jamais plus de
@@ -1407,11 +1414,18 @@ function render(alpha: number) {
     tFill.intensity = 9.4;
     tLamp.intensity = 10;
     tLamp.distance = 7.2;
-    nlFill.forEach((l, i) => { l.intensity = w.nls[i]!.alive || nlCamHold[i]! > 0 ? 7.2 : 0; });
+    nlFill.forEach((l, i) => {
+      const focus = clawHold && clawHold.who === i;
+      const on = w.nls[i]!.alive || nlCamHold[i]! > 0;
+      l.intensity = on ? (focus ? 32 : 7.2) : 0;
+      l.distance = focus ? 14 : 5.4;
+      l.decay = focus ? 1.05 : 2;
+      l.color.setHex(focus ? 0xb7e0ff : 0xffc8a8);
+    });
     if (scene.fog && (scene.fog as THREE.FogExp2).isFogExp2) {
-      (scene.fog as THREE.FogExp2).density = CAM_MODE === 'shoulder' ? 0.036 : 0.042;
+      (scene.fog as THREE.FogExp2).density = CAM_MODE === 'shoulder' ? (clawHold ? 0.022 : 0.036) : 0.042;
     }
-    renderer.toneMappingExposure = CAM_MODE === 'shoulder' ? 1.50 : 1.52;
+    renderer.toneMappingExposure = CAM_MODE === 'shoulder' ? (clawHold ? 1.62 : 1.50) : 1.52;
     postMat.uniforms.uVignette.value = CAM_MODE === 'shoulder' ? 0.62 : 0.72;
   } else {
     tFill.intensity = 0;
@@ -1529,7 +1543,7 @@ function render(alpha: number) {
       break;
     }
     case 'shoulder': {
-      const now = simT - DT + alpha * DT;
+      const now = CAP_STEP ? w.tick * DT : simT - DT + alpha * DT;
       recZ = osc(recImp, now, REC.w, REC.z);
       recPitch = osc(pitchImp, now, REC.w, REC.z);
       stepY = osc(stepImp, now, STP.w, STP.z);
@@ -1539,25 +1553,29 @@ function render(alpha: number) {
         x: lerp(prev.n[i][0], n.x), y: lerp(prev.n[i][1], n.y),
         alive: n.alive || nlCamHold[i]! > 0,
         armTicks: n.alive ? n.armTicks : (nlCamHold[i]! > 0 ? 2 : 0),
+        lastAction: n.lastAction,
       }));
-      let lookBias: { x: number; y: number; k: number } | undefined;
-      if (huntWhip && now < huntWhip.until) {
-        lookBias = { x: huntWhip.x, y: huntWhip.y, k: 0.48 * Math.max(0, (huntWhip.until - now) / 0.42) };
-      } else if (huntWhip && now >= huntWhip.until) {
-        huntWhip = null;
-      }
+      if (huntWhip && now >= huntWhip.until) huntWhip = null;
       const aspect = Math.max(0.2, innerWidth / Math.max(1, innerHeight));
       const term = { x: tx, y: ty, facing: tf };
-      const want = desiredCombatPose({
-        term, nls, aspect, portrait,
-        pillars: PILLARS, arena: ARENA, lookBias,
+      const clawEv = w.events.find((e) => e.type === 'claw' || e.type === 'clawArm' || e.type === 'whiff');
+      const clawWho = clawEv && 'who' in clawEv ? (clawEv as { who: number }).who : null;
+      const stepped = stepShoulderCam({
+        prev: combatPose, prevTerm: shoulderPrevTerm, hold: clawHold, term, nls, aspect, portrait,
+        pillars: PILLARS, arena: ARENA, now, clawWho,
       });
-      want.camY += stepY + breath;
-      want.camX += servo * Math.cos(tf + Math.PI / 2);
-      want.camZ += servo * Math.sin(tf + Math.PI / 2);
-      want.camY += recZ * 0.04;
-      // Même pose que `?shot=` : pas de lissage qui recule en follow-cam. Filet après bob/servo.
-      combatPose = keepTermFramed(want, term, aspect, { nls, pillars: PILLARS, arena: ARENA, lookBias });
+      clawHold = stepped.hold;
+      shoulderPrevTerm = term;
+      if (clawHold) {
+        combatPose = applyClawHold(clawHold, term, nls[clawHold.who] ?? null, aspect, PILLARS, ARENA);
+      } else {
+        const want = stepped.pose;
+        want.camY += stepY + breath;
+        want.camX += servo * Math.cos(tf + Math.PI / 2);
+        want.camZ += servo * Math.sin(tf + Math.PI / 2);
+        want.camY += recZ * 0.04;
+        combatPose = keepTermFramed(want, term, aspect, { nls, pillars: PILLARS, arena: ARENA });
+      }
       const threats = huntThreatCount(term, nls);
       const trem = IMPACT ? huntTremor(threats, now) : { sx: 0, sz: 0 };
       applyCombatCamera(camera, combatPose, sx + trem.sx, sz + trem.sz);
@@ -1908,6 +1926,7 @@ if (PROBE_READ) {
       term: { x: w.t.x, y: w.t.y, facing: w.t.facing },
       cam: { x: camera.position.x, y: camera.position.y, z: camera.position.z },
       pose: combatPose,
+      clawHold,
       events: w.events.map((e) => e.type),
       eventWho: w.events.map((e) => ('who' in e ? (e as { who?: number }).who : null)),
       fistCharge: w.t.fistCharge,

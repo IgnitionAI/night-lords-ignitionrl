@@ -8,24 +8,32 @@
     900010,
     900017
   ],
+  "pose": "stepShoulderCam",
   "frames": 1141,
   "termInFov": 1141,
   "termShare": 1,
   "termTarget": 0.98,
-  "areaOk": 1132,
-  "areaShare": 0.9921121822962313,
+  "areaOk": 1127,
+  "areaShare": 0.9877300613496932,
   "areaTarget": 0.9,
   "termMaxArea": 0.4,
   "headShoulderOk": 1141,
   "headShoulderShare": 1,
   "headShoulderTarget": 0.9,
   "clawHits": 90,
-  "clawNlIn": 90,
-  "clawNlShare": 1,
-  "clawTarget": 0.8,
-  "clawNlClear": 90,
-  "clawClearShare": 1,
+  "clawNlClear": 82,
+  "clawClearShare": 0.9111111111111111,
   "clawClearTarget": 0.8,
+  "clawSmooth": 90,
+  "clawSmoothShare": 1,
+  "clawSmoothTarget": 0.8,
+  "clawWindowTicks": 658,
+  "clawWindowSmooth": 658,
+  "clawWindowSmoothShare": 1,
+  "clawWindowSmoothTarget": 0.8,
+  "clawMaxCamStepM": 0.72,
+  "clawMaxLookStepM": 1.2,
+  "clawMaxOrbitStepRad": 0.55,
   "ok": true,
   "perSeed": [
     {
@@ -34,11 +42,13 @@
       "tick": 217,
       "frames": 217,
       "termShare": 1,
-      "areaShare": 1,
+      "areaShare": 0.9815668202764977,
       "headShoulderShare": 1,
       "clawHits": 20,
-      "clawNlShare": 1,
-      "clawClearShare": 1
+      "clawClearShare": 0.8,
+      "clawSmoothShare": 1,
+      "clawWindowSmoothShare": 1,
+      "clawWindowMaxCam": 0.7200000000000011
     },
     {
       "seed": 900004,
@@ -49,8 +59,10 @@
       "areaShare": 1,
       "headShoulderShare": 1,
       "clawHits": 16,
-      "clawNlShare": 1,
-      "clawClearShare": 1
+      "clawClearShare": 0.9375,
+      "clawSmoothShare": 1,
+      "clawWindowSmoothShare": 1,
+      "clawWindowMaxCam": 0.7200000000000011
     },
     {
       "seed": 900007,
@@ -61,8 +73,10 @@
       "areaShare": 0.9660377358490566,
       "headShoulderShare": 1,
       "clawHits": 19,
-      "clawNlShare": 1,
-      "clawClearShare": 1
+      "clawClearShare": 1,
+      "clawSmoothShare": 1,
+      "clawWindowSmoothShare": 1,
+      "clawWindowMaxCam": 0.7200000000000009
     },
     {
       "seed": 900010,
@@ -70,11 +84,13 @@
       "tick": 185,
       "frames": 185,
       "termShare": 1,
-      "areaShare": 1,
+      "areaShare": 0.9945945945945946,
       "headShoulderShare": 1,
       "clawHits": 19,
-      "clawNlShare": 1,
-      "clawClearShare": 1
+      "clawClearShare": 0.8421052631578947,
+      "clawSmoothShare": 1,
+      "clawWindowSmoothShare": 1,
+      "clawWindowMaxCam": 0.720000000000002
     },
     {
       "seed": 900017,
@@ -85,8 +101,10 @@
       "areaShare": 1,
       "headShoulderShare": 1,
       "clawHits": 16,
-      "clawNlShare": 1,
-      "clawClearShare": 1
+      "clawClearShare": 1,
+      "clawSmoothShare": 1,
+      "clawWindowSmoothShare": 1,
+      "clawWindowMaxCam": 0.720000000000001
     }
   ]
 }

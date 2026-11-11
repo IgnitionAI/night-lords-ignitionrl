@@ -8,13 +8,19 @@ import { UNSEEN } from '../src/tactics.ts';
 import { mulberry32 } from '../src/rng.ts';
 import { forward, softmax, sample, type ActorJSON } from '../src/policy.ts';
 import {
+  CLAW_MAX_CAM_STEP_M,
+  CLAW_MAX_LOOK_STEP_M,
+  CLAW_MAX_ORBIT_STEP_RAD,
   COMBAT_CAM,
   desiredCombatPose,
-  inFrustum,
-  nlOccludedByTerm,
-  projectWorld,
+  followLockedClawHold,
+  nlVisibleInFrame,
+  poseDelta,
+  stepShoulderCam,
   termHeadShoulderInFrame,
   termScreenAreaFrac,
+  type CombatPose,
+  type ShoulderClawHold,
 } from '../web/combat-cam.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -30,8 +36,15 @@ function runSeed(seed: number) {
   let termInFov = 0;
   let areaOk = 0;
   let headShoulderOk = 0;
-  const claws: { tick: number; who: number; tIn: boolean; nlIn: boolean; nlClear: boolean }[] = [];
-  let whip: { x: number; y: number; until: number } | null = null;
+  const claws: { tick: number; who: number; nlClear: boolean; camStep: number; lookStep: number; orbitStep: number }[] = [];
+  let pose: CombatPose | null = null;
+  let hold: ShoulderClawHold | null = null;
+  let prevPose: CombatPose | null = null;
+  let prevTerm: { x: number; y: number; facing: number } | null = null;
+  let clawWindowTicks = 0;
+  let clawWindowSmooth = 0;
+  let clawWindowMaxCam = 0;
+  let clawWindowMaxOrbit = 0;
   while (!w.done && w.tick < 1800) {
     const ta = tactic(w);
     const acts = w.nls.map((n, i) => {
@@ -40,90 +53,192 @@ function runSeed(seed: number) {
     });
     step(w, ta, acts);
     const now = w.tick * DT;
-    for (const e of w.events) {
-      if (e.type === 'claw' || e.type === 'clawArm' || e.type === 'whiff') {
-        const n = w.nls[e.who];
-        if (n) whip = { x: n.x, y: n.y, until: now + (e.type === 'claw' ? 0.42 : 0.28) };
-      }
-    }
-    const lookBias = whip && now < whip.until
-      ? { x: whip.x, y: whip.y, k: 0.48 * Math.max(0, (whip.until - now) / 0.42) }
-      : undefined;
-    if (whip && now >= whip.until) whip = null;
+    const clawEv = w.events.find((e) => e.type === 'claw' || e.type === 'clawArm' || e.type === 'whiff');
+    const clawWho = clawEv && 'who' in clawEv ? (clawEv as { who: number }).who : null;
     const term = { x: w.t.x, y: w.t.y, facing: w.t.facing };
-    const pose = desiredCombatPose({
-      term,
-      nls: w.nls.map((n) => ({ x: n.x, y: n.y, alive: n.alive, armTicks: n.armTicks })),
-      aspect: ASPECT, portrait: false, pillars: PILLARS, arena: ARENA, lookBias,
+    const nls = w.nls.map((n) => ({ x: n.x, y: n.y, alive: n.alive, armTicks: n.armTicks, lastAction: n.lastAction }));
+    const stepped = stepShoulderCam({
+      prev: pose, prevTerm, hold, term, nls, aspect: ASPECT, portrait: false,
+      pillars: PILLARS, arena: ARENA, now, clawWho,
     });
-    const tNdc = projectWorld(w.t.x, 1.4, w.t.y, pose, ASPECT);
-    const tIn = inFrustum(tNdc, 0.999);
+    pose = stepped.pose;
+    hold = stepped.hold;
     const area = termScreenAreaFrac(term, pose, ASPECT);
     const hs = termHeadShoulderInFrame(term, pose, ASPECT);
     frames++;
-    if (tIn) termInFov++;
     if (area <= COMBAT_CAM.termMaxArea) areaOk++;
-    if (hs.head && hs.shoulder) headShoulderOk++;
+    if (hs.head && hs.shoulder) {
+      termInFov++;
+      headShoulderOk++;
+    } else if (hs.head || hs.shoulder) {
+      termInFov++;
+    }
+    const d = prevPose ? poseDelta(prevPose, pose) : { cam: 0, look: 0, orbit: 0 };
+    if (hold && prevPose) {
+      clawWindowTicks++;
+      clawWindowMaxCam = Math.max(clawWindowMaxCam, d.cam);
+      clawWindowMaxOrbit = Math.max(clawWindowMaxOrbit, d.orbit);
+      if (
+        d.cam <= CLAW_MAX_CAM_STEP_M + 1e-6
+        && d.look <= CLAW_MAX_LOOK_STEP_M + 1e-6
+        && d.orbit <= CLAW_MAX_ORBIT_STEP_RAD + 1e-6
+      ) clawWindowSmooth++;
+    }
     for (const e of w.events) {
       if (e.type !== 'claw') continue;
       const n = w.nls[e.who];
-      const nIn = !!(n && inFrustum(projectWorld(n.x, 1.4, n.y, pose, ASPECT), 0.999));
-      const nlClear = !!(n && nIn && !nlOccludedByTerm(pose, term, n));
-      claws.push({ tick: w.tick, who: e.who, tIn, nlIn: nIn, nlClear });
+      const nlClear = !!(n && nlVisibleInFrame(n, term, pose, ASPECT));
+      claws.push({
+        tick: w.tick, who: e.who, nlClear,
+        camStep: d.cam, lookStep: d.look, orbitStep: d.orbit,
+      });
     }
+    prevPose = pose;
+    prevTerm = term;
   }
   const clawHits = claws.length;
-  const clawNlIn = claws.filter((c) => c.nlIn).length;
   const clawNlClear = claws.filter((c) => c.nlClear).length;
+  const clawSmooth = claws.filter((c) =>
+    c.camStep <= CLAW_MAX_CAM_STEP_M + 1e-6
+    && c.lookStep <= CLAW_MAX_LOOK_STEP_M + 1e-6
+    && c.orbitStep <= CLAW_MAX_ORBIT_STEP_RAD + 1e-6
+  ).length;
   return {
     seed, winner: w.winner, tick: w.tick,
     frames, termInFov, termShare: frames ? termInFov / frames : 0,
     areaOk, areaShare: frames ? areaOk / frames : 0,
     headShoulderOk, headShoulderShare: frames ? headShoulderOk / frames : 0,
-    clawHits, clawNlIn, clawNlShare: clawHits ? clawNlIn / clawHits : 0,
-    clawNlClear, clawClearShare: clawHits ? clawNlClear / clawHits : 0,
+    clawHits, clawNlClear, clawClearShare: clawHits ? clawNlClear / clawHits : 0,
+    clawSmooth, clawSmoothShare: clawHits ? clawSmooth / clawHits : 0,
+    clawWindowTicks, clawWindowSmooth,
+    clawWindowSmoothShare: clawWindowTicks ? clawWindowSmooth / clawWindowTicks : 1,
+    clawWindowMaxCam, clawWindowMaxOrbit,
     claws,
   };
 }
 
-test('5 graines kiter : cadre, surface T, tête/épaule, NL griffe non masqué', () => {
+test('5 graines kiter : cadre, surface T, tête/épaule, NL griffe visible sans coupe', () => {
   const perSeed = SEEDS.map(runSeed);
   const frames = perSeed.reduce((a, s) => a + s.frames, 0);
   const termInFov = perSeed.reduce((a, s) => a + s.termInFov, 0);
   const areaOk = perSeed.reduce((a, s) => a + s.areaOk, 0);
   const headShoulderOk = perSeed.reduce((a, s) => a + s.headShoulderOk, 0);
   const clawHits = perSeed.reduce((a, s) => a + s.clawHits, 0);
-  const clawNlIn = perSeed.reduce((a, s) => a + s.clawNlIn, 0);
   const clawNlClear = perSeed.reduce((a, s) => a + s.clawNlClear, 0);
+  const clawSmooth = perSeed.reduce((a, s) => a + s.clawSmooth, 0);
+  const clawWindowTicks = perSeed.reduce((a, s) => a + s.clawWindowTicks, 0);
+  const clawWindowSmooth = perSeed.reduce((a, s) => a + s.clawWindowSmooth, 0);
   const termShare = frames ? termInFov / frames : 0;
   const areaShare = frames ? areaOk / frames : 0;
   const headShoulderShare = frames ? headShoulderOk / frames : 0;
-  const clawNlShare = clawHits ? clawNlIn / clawHits : 0;
   const clawClearShare = clawHits ? clawNlClear / clawHits : 0;
+  const clawSmoothShare = clawHits ? clawSmooth / clawHits : 0;
+  const clawWindowSmoothShare = clawWindowTicks ? clawWindowSmooth / clawWindowTicks : 1;
   const out = {
     autoplay: 'kiter',
     policy: 'policies/current.json',
     seeds: SEEDS,
+    pose: 'stepShoulderCam',
     frames, termInFov, termShare, termTarget: 0.98,
     areaOk, areaShare, areaTarget: 0.90, termMaxArea: COMBAT_CAM.termMaxArea,
     headShoulderOk, headShoulderShare, headShoulderTarget: 0.90,
-    clawHits, clawNlIn, clawNlShare, clawTarget: 0.8,
-    clawNlClear, clawClearShare, clawClearTarget: 0.8,
-    ok: termShare >= 0.98 && clawNlShare >= 0.8 && clawClearShare >= 0.8
+    clawHits, clawNlClear, clawClearShare, clawClearTarget: 0.8,
+    clawSmooth, clawSmoothShare, clawSmoothTarget: 0.8,
+    clawWindowTicks, clawWindowSmooth, clawWindowSmoothShare, clawWindowSmoothTarget: 0.8,
+    clawMaxCamStepM: CLAW_MAX_CAM_STEP_M, clawMaxLookStepM: CLAW_MAX_LOOK_STEP_M,
+    clawMaxOrbitStepRad: CLAW_MAX_ORBIT_STEP_RAD,
+    ok: termShare >= 0.98 && clawClearShare >= 0.8 && clawSmoothShare >= 0.8
+      && clawWindowSmoothShare >= 0.8
       && areaShare >= 0.9 && headShoulderShare >= 0.9,
     perSeed: perSeed.map((s) => ({
       seed: s.seed, winner: s.winner, tick: s.tick,
       frames: s.frames, termShare: s.termShare,
       areaShare: s.areaShare, headShoulderShare: s.headShoulderShare,
-      clawHits: s.clawHits, clawNlShare: s.clawNlShare, clawClearShare: s.clawClearShare,
+      clawHits: s.clawHits, clawClearShare: s.clawClearShare, clawSmoothShare: s.clawSmoothShare,
+      clawWindowSmoothShare: s.clawWindowSmoothShare, clawWindowMaxCam: s.clawWindowMaxCam,
     })),
   };
   const dest = join(ROOT, 'docs/captures/shoulder/framing.json');
   mkdirSync(dirname(dest), { recursive: true });
   writeFileSync(dest, JSON.stringify(out, null, 2) + '\n');
   assert.ok(termShare >= 0.98, `T au cadre ${termShare} (${termInFov}/${frames})`);
-  assert.ok(clawNlShare >= 0.8, `NL griffe ${clawNlShare} (${clawNlIn}/${clawHits})`);
-  assert.ok(clawClearShare >= 0.8, `NL non masqué ${clawClearShare} (${clawNlClear}/${clawHits})`);
+  assert.ok(clawClearShare >= 0.8, `NL bbox visible ${clawClearShare} (${clawNlClear}/${clawHits})`);
+  assert.ok(clawSmoothShare >= 0.8, `continuité griffe ${clawSmoothShare} (${clawSmooth}/${clawHits})`);
+  assert.ok(clawWindowSmoothShare >= 0.8, `fenêtre griffe ${clawWindowSmoothShare} (${clawWindowSmooth}/${clawWindowTicks})`);
   assert.ok(areaShare >= 0.9, `surface T ≤ 40 % : ${areaShare} (${areaOk}/${frames})`);
   assert.ok(headShoulderShare >= 0.9, `tête/épaule ${headShoulderShare} (${headShoulderOk}/${frames})`);
+});
+
+test('griffe 900007 t119 : l’ancien desiredCombatPose saute ; stepShoulderCam garde le NL', () => {
+  const w = newWorld(900007, undefined, { clawWindup: true, propKinds: [] });
+  const rng = mulberry32(900007 ^ 0x9e3779b9);
+  const tactic = UNSEEN.kiter!();
+  let pose: CombatPose | null = null;
+  let hold: ShoulderClawHold | null = null;
+  let prevRaw: CombatPose | null = null;
+  let prevTerm: { x: number; y: number; facing: number } | null = null;
+  let lockPose: CombatPose | null = null;
+  let lockTerm: { x: number; y: number; facing: number } | null = null;
+  let rawJump = 0;
+  let heldJump = 0;
+  let heldOrbit = 0;
+  let impactClear = false;
+  let oldFollowClear = true;
+  while (!w.done && w.tick < 125) {
+    const ta = tactic(w);
+    const acts = w.nls.map((n, i) => (n.alive ? sample(softmax(forward(actor, observe(w, i))), rng) : 0));
+    step(w, ta, acts);
+    const now = w.tick * DT;
+    const term = { x: w.t.x, y: w.t.y, facing: w.t.facing };
+    const nls = w.nls.map((n) => ({ x: n.x, y: n.y, alive: n.alive, armTicks: n.armTicks, lastAction: n.lastAction }));
+    const clawEv = w.events.find((e) => e.type === 'claw' || e.type === 'clawArm' || e.type === 'whiff');
+    const clawWho = clawEv && 'who' in clawEv ? (clawEv as { who: number }).who : null;
+    const lookBias = clawWho != null
+      ? { x: w.nls[clawWho]!.x, y: w.nls[clawWho]!.y, k: 0.48 }
+      : undefined;
+    const raw = desiredCombatPose({
+      term, nls, aspect: ASPECT, portrait: false, pillars: PILLARS, arena: ARENA, lookBias,
+    });
+    if (prevRaw && w.tick >= 117 && w.tick <= 119) {
+      rawJump = Math.max(rawJump, poseDelta(prevRaw, raw).cam);
+    }
+    const stepped = stepShoulderCam({
+      prev: pose, prevTerm, hold, term, nls, aspect: ASPECT, portrait: false,
+      pillars: PILLARS, arena: ARENA, now, clawWho,
+    });
+    if (pose && w.tick >= 117 && w.tick <= 119) {
+      const d = poseDelta(pose, stepped.pose);
+      heldJump = Math.max(heldJump, d.cam);
+      heldOrbit = Math.max(heldOrbit, d.orbit);
+    }
+    pose = stepped.pose;
+    hold = stepped.hold;
+    if (w.tick === 116) {
+      lockPose = desiredCombatPose({
+        term, nls, aspect: ASPECT, portrait: false, pillars: PILLARS, arena: ARENA,
+      });
+      lockTerm = term;
+    }
+    prevRaw = raw;
+    prevTerm = term;
+    for (const e of w.events) {
+      if (e.type !== 'claw' || e.who !== 2) continue;
+      const n = w.nls[e.who];
+      impactClear = !!(n && nlVisibleInFrame(n, term, pose, ASPECT));
+      if (n && lockPose && lockTerm) {
+        const old = followLockedClawHold({
+          termX: lockTerm.x, termY: lockTerm.y,
+          camX: lockPose.camX, camY: lockPose.camY, camZ: lockPose.camZ,
+          lookX: lockPose.lookX, lookY: lockPose.lookY, lookZ: lockPose.lookZ,
+          fov: lockPose.fov,
+        }, term);
+        oldFollowClear = nlVisibleInFrame(n, term, old, ASPECT);
+      }
+    }
+  }
+  assert.ok(rawJump > CLAW_MAX_CAM_STEP_M, `l’ancien saut devrait dépasser ${CLAW_MAX_CAM_STEP_M} m, obtenu ${rawJump}`);
+  assert.equal(oldFollowClear, false, 'le suivi T figé devrait masquer le NL à t119');
+  assert.ok(heldJump <= CLAW_MAX_CAM_STEP_M + 1e-6, `stepShoulderCam coupe encore ${heldJump} m`);
+  assert.ok(heldOrbit <= CLAW_MAX_ORBIT_STEP_RAD + 1e-6, `orbit coupe ${heldOrbit} rad`);
+  assert.ok(impactClear, 'NL attaquant hors cadre au tick d’impact t119');
 });

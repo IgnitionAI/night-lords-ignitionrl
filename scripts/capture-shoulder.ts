@@ -207,13 +207,9 @@ async function matchVideo() {
       const ev = last?.events ?? [];
       const tick = last?.tick ?? 0;
       const termOn = last?.read?.termOnScreen === true;
-      if (ev.includes('bolt') && termOn) stamp('bolter', tick);
-      if (ev.includes('fist') && termOn) stamp('fist', tick);
-      if (ev.includes('claw')) {
-        const who = last?.eventWho?.[ev.indexOf('claw')];
-        const nlOk = last?.read?.nls?.some((n) => n.i === who && n.readable) ?? false;
-        if (termOn && nlOk) stamp('claw', tick);
-      }
+      if (ev.includes('bolt')) stamp('bolter', tick);
+      if (ev.includes('fist')) stamp('fist', tick);
+      if (ev.includes('claw')) stamp('claw', tick);
       if (tick >= 30 && termOn && last?.om?.some((d) => d !== 'none')) stamp('threat', tick);
       nFrames++;
       if (i % 40 === 0) console.log('tick', last?.tick, last?.done, last?.winner);
