@@ -9,7 +9,7 @@ part ; sans eux le rendu reste sur le procédural `#59`. Pas de touche à `src/s
 **Statut :**
 
 - **Idle Genex livré** (`Idle_3`, 9,97 s, 30 fps, 72 pistes, in-place) : `web/models/<role>-idle.glb`.
-- **Combat Genex** : compte en attente de vérif e-mail. Pas de clips combat versionnés.
+- **Combat Genex + retarget local livré** : 16 clips NL (`attack`, `hit`, `dodge`, `death`) et 4 TERM (`attack`, `shoot`, `hit`, `dodge`), rig d’origine conservé, in-place, 50–72 Ko par fichier, 1 170 784 octets au total. `SHIPPED_EXTRA_ANIMS` contient désormais idle + ces kinds de base. Les variantes `combo`, `leap`, directions et morts spéciales restent procédurales (IGN-153). Preuves : `docs/genex-combat-manifest.json`, `docs/captures/genex-combat-base/`, `docs/captures/genex-term-base/`, `docs/videos/genex-combat-base.mp4`.
 - **Combat procédural polish** (`proc-*`, option a) : poses clés (anticipation / impact / récupération),
   courbes d’easing, poids (hanches + jambes), recul du torse, chute + rebond pour la mort.
   Griffes NL 0,46 s ; poing TERM 0,80 s (durée de charge). `?proc=legacy` rejoue les clips `#59`
@@ -33,7 +33,7 @@ part ; sans eux le rendu reste sur le procédural `#59`. Pas de touche à `src/s
 
 Même convention que walk/run : un GLB d’armature + clip, **sans** re-skin du personnage.
 
-| rôle (fichier) | lore (Genex) | fichiers idle | fichiers combat (à venir) |
+| rôle (fichier) | lore (Genex) | fichiers idle | fichiers combat livrés |
 |---|---|---|---|
 | NL-1 | Talos | `NL-1-idle.glb` (`Idle_3`) | `-attack` `-hit` `-dodge` `-death` |
 | NL-2 | Uzas | `NL-2-idle.glb` | idem |
@@ -56,7 +56,13 @@ Hashes `asset.extras.rig` (walk = idle = même perso) :
 
 Ne pas modifier `NL-*-walk.glb`, `NL-*-run.glb`, `TERM-walk.glb`, `TERM-run.glb`.
 
-Ingestion : `bun scripts/ingest-combat-clips.ts --in clip.glb --role NL-1 --kind attack`.
+Ingestion : retarget `bun scripts/retarget-combat-clip.ts --in clip.glb --role NL-1 --kind attack`, puis validation `bun scripts/ingest-combat-clips.ts --in web/models/NL-1-attack.glb --role NL-1 --kind attack --dry-run`.
+
+## Retarget local des clips de combat
+
+Les actions catalogue utilisées sont NL `97` (Left Slash), `178` (Hit Reaction), `156` (Stand Dodge), `189` (Dying Backwards) ; TERM `96` (Kung Fu Punch), `232` (Cowboy Quick Draw Shooting), `178`, `156`. Chaque sortie Genex r2 est recalée sur le rig du personnage par delta de position/orientation monde ramené dans le parent cible. `Hips` garde ses XZ de repos ; la durée est extraite à 30 fps, avec continuité des quaternions et clamp de fin. Aucun GLB walk/run/idle n’est modifié.
+
+Les fenêtres, ids de génération, SHA-256 et tailles des 20 fichiers sont dans `docs/genex-combat-manifest.json`. Les tests `test/genex-retarget.test.ts` vérifient les 24 os, la hiérarchie, le hash du rig d’origine, les durées, les valeurs finies, l’absence de dérive XZ et une pose finale distincte.
 
 ## Noms de clips (`pickNamedClip`, sous-chaîne, casse ignorée)
 
@@ -138,7 +144,7 @@ si le nœud a le préfixe `mixamorig` :
 |---|---|---|
 | NL-1…4, TERM + walk/run | Genex, déjà dans le dépôt | voir `web/models/MANIFESTE.md` (décision Salim ; CGU Genex / IP GW non tranchées juridiquement) |
 | idle Genex `Idle_3` | Genex, 2026-11-10, un clip par perso | même régime ; `*-idle.glb` ~124 Ko, animation seule |
-| clips combat Genex | à recevoir (compte Genex, vérif e-mail) | même régime, à documenter à l’arrivée |
+| clips combat Genex + retarget local | Genex, 10–11/11/2026, ids dans `docs/genex-combat-manifest.json` | même régime ; transformation locale par `scripts/retarget-combat-clip.ts` |
 | procédural `proc-*` (polish) | ce dépôt (`web/proc-clips.ts`) | MIT |
 | procédural `proc-*` (whoa / impact) | ce dépôt (`web/proc-poses.ts`, `web/anim-cues.ts`, `web/foot-ik.ts`, `web/death-physics.ts`) | MIT |
 | procédural `proc-*` legacy `#59` | ce dépôt, `?proc=legacy` | MIT |

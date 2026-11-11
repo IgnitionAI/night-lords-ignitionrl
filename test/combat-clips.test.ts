@@ -21,6 +21,7 @@ import {
   canonicalBoneName,
   classifyBones,
   combatGlbBasenames,
+  combatKindSet,
   extraAnimBasenames,
   idleGlbBasename,
   remapClip,
@@ -56,8 +57,10 @@ test('fichiers attendus : NL attack/hit/dodge/death, TERM + shoot, pas de sprint
     'TERM-attack.glb', 'TERM-shoot.glb', 'TERM-hit.glb', 'TERM-dodge.glb', 'TERM-combat.glb',
   ]);
   assert.equal(combatGlbBasenames('TERM').some((f) => f.includes('run') || f.includes('sprint')), false);
-  assert.deepEqual([...SHIPPED_EXTRA_ANIMS['NL-1']], ['idle']);
-  assert.deepEqual(extraAnimBasenames('TERM'), ['TERM-idle.glb']);
+  assert.deepEqual([...SHIPPED_EXTRA_ANIMS['NL-1']], ['idle', 'attack', 'hit', 'dodge', 'death']);
+  assert.deepEqual(extraAnimBasenames('TERM'), [
+    'TERM-idle.glb', 'TERM-attack.glb', 'TERM-shoot.glb', 'TERM-hit.glb', 'TERM-dodge.glb',
+  ]);
 });
 
 test('pickNamedClip : noms Genex Armature|kind|baselayer', () => {
@@ -129,15 +132,21 @@ test('resolveCombatClips : nommé gagne, sinon procédural', async () => {
   assert.equal(allProc.source.death, 'procedural');
 });
 
-test('assets livrés : pas encore de GLB combat (clips Genex en attente)', () => {
-  for (const role of ['NL-1', 'NL-2', 'NL-3', 'NL-4', 'TERM']) {
-    for (const f of combatGlbBasenames(role)) {
-      assert.equal(existsSync(join(MODELS, f)), false, f);
+test('assets livrés : 16 clips NL et 4 clips TERM, pas de groupé ni de sprint', () => {
+  const roles = ['NL-1', 'NL-2', 'NL-3', 'NL-4', 'TERM'] as const;
+  const expected = roles.flatMap((role) => {
+    const family = role === 'TERM' ? 'TERM' : 'NL';
+    return COMBAT_FILE_KINDS[family].map((kind) => `${role}-${kind}.glb`);
+  }).sort();
+  for (const role of roles) {
+    assert.equal(existsSync(join(MODELS, `${role}-combat.glb`)), false);
+    for (const kind of combatKindSet(role)) {
+      assert.equal(existsSync(join(MODELS, `${role}-${kind}.glb`)), true, `${role}-${kind}`);
     }
   }
-  const sneaky = readdirSync(MODELS).filter((f) =>
-    /-(attack|hit|dodge|death|shoot|combat)\.glb$/i.test(f));
-  assert.deepEqual(sneaky, []);
+  const shipped = readdirSync(MODELS).filter((f) =>
+    /-(attack|hit|dodge|death|shoot|combat)\.glb$/i.test(f)).sort();
+  assert.deepEqual(shipped, expected);
 });
 
 test('rig hashes Genex par personnage et durées one-shot documentées', () => {

@@ -15,7 +15,7 @@ import { advanceMixer, displayMixerDelta, gaitTimeScale, mixerSubstepCount, pick
 import { NL_HEIGHT, TERM_HEIGHT, measureForwardStride, measureHeight, pickClip } from './stride';
 import {
   type CombatKind, type CombatMachine, type ShotDurations, crossFadeFor, eventsToFlags, freshMachine,
-  isLoco, nlIntent, pickNamedClip, termIntent, tickMachine,
+  isLoco, nlIntent, pickNamedClip, selectCombatAction, termIntent, tickMachine,
 } from './combat-anims';
 import { bindAdditive, bindOneShot, makeCombatClips } from './proc-clips';
 import {
@@ -369,44 +369,12 @@ interface Rig {
   look: CharacterLook;
   who: number | 'term';
 }
-const actionForKind = (rig: Rig, kind: CombatKind, m: CombatMachine): THREE.AnimationAction | null => {
-  switch (kind) {
-    case 'run': return rig.run ?? rig.walk;
-    case 'walk': return rig.walk ?? rig.run;
-    case 'idle': return rig.idle;
-    case 'attack':
-      if (m.attackStyle === 'shoot') return rig.shoot ?? rig.attack;
-      if (m.meleeVariant === 'leap') return rig.leap ?? rig.attack;
-      if (m.meleeVariant === 'combo') return rig.combo ?? rig.attack;
-      return rig.attack ?? rig.shoot;
-    case 'hit': {
-      switch (m.hitDir) {
-        case 'front': return rig.hitFront ?? rig.hit;
-        case 'back': return rig.hitBack ?? rig.hit;
-        case 'left': return rig.hitLeft ?? rig.hit;
-        case 'right': return rig.hitRight ?? rig.hit;
-        default: { const _e: never = m.hitDir; return _e; }
-      }
-    }
-    case 'dodge': {
-      switch (m.dodgeDir) {
-        case 'left': return rig.dodgeLeft ?? rig.dodge;
-        case 'right': return rig.dodgeRight ?? rig.dodge;
-        case 'back': return rig.dodge;
-        default: { const _e: never = m.dodgeDir; return _e; }
-      }
-    }
-    case 'death': {
-      switch (m.deathKind) {
-        case 'throw': return rig.deathThrow ?? rig.death;
-        case 'collapse': return rig.deathCollapse ?? rig.death;
-        case 'dismember': return rig.deathDismember ?? rig.death;
-        default: { const _e: never = m.deathKind; return _e; }
-      }
-    }
-    default: { const _e: never = kind; return _e; }
-  }
-};
+const actionForKind = (rig: Rig, kind: CombatKind, m: CombatMachine): THREE.AnimationAction | null =>
+  selectCombatAction(rig, kind, m, {
+    // Planches IGN-136 : kinds de base, en respectant le style shoot de la machine.
+    baseOnly: qs.get('genexBase') === '1',
+    forceBaseAttack: DEMO === 'genex-nl1-attack',
+  });
 const mkAdd = (mixer: THREE.AnimationMixer, clip: THREE.AnimationClip, loop: boolean) => {
   const add = THREE.AnimationUtils.makeClipAdditive(clip.clone());
   return bindAdditive(mixer.clipAction(add), loop);
@@ -834,6 +802,18 @@ const DEMO_SCRIPTS: Record<string, DemoScript> = {
     player(): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false }; },
     nls(t: number): number[] { return [0, t === 3 ? 7 : 0, 0, 0]; },
   },
+  'genex-nl1-attack': {
+    place(w: World) {
+      w.t.x = 30; w.t.y = 30; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 0; n.armTicks = 0; n.stunTicks = 0; });
+      w.nls[0].x = 8; w.nls[0].y = 12; w.nls[0].facing = 0;
+      w.nls[1].x = 14; w.nls[1].y = 9; w.nls[1].facing = Math.PI;
+      w.nls[2].x = 14; w.nls[2].y = 15; w.nls[2].facing = Math.PI;
+      w.nls[3].x = 16; w.nls[3].y = 12; w.nls[3].facing = Math.PI;
+    },
+    player(): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false }; },
+    nls(t: number): number[] { return [t === 3 ? 7 : 0, 0, 0, 0]; },
+  },
   'combat-hit': {
     place(w: World) {
       w.t.x = 8; w.t.y = 12; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0;
@@ -1097,7 +1077,8 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
     const n = w.nls[i];
     const speed = n.alive ? Math.hypot(n.x - prev.n[i][0], n.y - prev.n[i][1]) / DT : 0;
     const gait = pickGait(speed, { allowRun: rig.allowRun, walkSpeed: nlWalk, runSpeed: nlRun });
-    const holding = nlCamHold[i]! > 0;
+    // Le two-shot conserve le mort au cadre ; la planche Genex doit cependant jouer sa mort dès le kill.
+    const holding = nlCamHold[i]! > 0 && DEMO !== 'combat-death';
     const intent = nlIntent({
       // Hold caméra : corps debout pendant le two-shot. Sinon dismember vide le cadre au tick du poing.
       alive: n.alive || holding, armTicks: n.armTicks, stunTicks: n.stunTicks, prevStun: nlPrevStun[i],
@@ -1122,7 +1103,7 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
     // Dissolution : le mesh ne reste jamais debout / en walk sans entité vivante (fantôme magenta).
     // Le clip tourne hors écran pour les cues ; le nuage de mort est le visible.
     if (rig.combat.state === 'death') {
-      rig.root.visible = nlCamHold[i]! > 0 || (CAM_MODE === 'fps' && rig.combat.remaining > 0.18);
+      rig.root.visible = nlCamHold[i]! > 0 || !!DEMO_CFG || (CAM_MODE === 'fps' && rig.combat.remaining > 0.18);
     }
     nlPrevStun[i] = n.stunTicks;
     nlPrevAction[i] = n.lastAction;
@@ -1362,7 +1343,7 @@ function render(alpha: number) {
     tFill.intensity = 9.4;
     tLamp.intensity = 10;
     tLamp.distance = 7.2;
-    nlFill.forEach((l, i) => { l.intensity = w.nls[i]!.alive || nlCamHold[i]! > 0 ? 5.6 : 0; });
+    nlFill.forEach((l, i) => { l.intensity = w.nls[i]!.alive || nlCamHold[i]! > 0 || !!DEMO_CFG ? 5.6 : 0; });
     if (scene.fog && (scene.fog as THREE.FogExp2).isFogExp2) {
       (scene.fog as THREE.FogExp2).density = 0.042;
     }

@@ -90,11 +90,11 @@ export function combatGlbBasenames(role: string): string[] {
  * Ingest : ajouter le kind ici quand le GLB est commité.
  */
 export const SHIPPED_EXTRA_ANIMS: Record<string, readonly string[]> = {
-  'NL-1': ['idle'],
-  'NL-2': ['idle'],
-  'NL-3': ['idle'],
-  'NL-4': ['idle'],
-  TERM: ['idle'],
+  'NL-1': ['idle', 'attack', 'hit', 'dodge', 'death'],
+  'NL-2': ['idle', 'attack', 'hit', 'dodge', 'death'],
+  'NL-3': ['idle', 'attack', 'hit', 'dodge', 'death'],
+  'NL-4': ['idle', 'attack', 'hit', 'dodge', 'death'],
+  TERM: ['idle', 'attack', 'shoot', 'hit', 'dodge'],
 };
 
 export function extraAnimBasenames(role: string): string[] {
