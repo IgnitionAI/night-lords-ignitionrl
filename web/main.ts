@@ -375,11 +375,14 @@ const actionForKind = (rig: Rig, kind: CombatKind, m: CombatMachine): THREE.Anim
     case 'walk': return rig.walk ?? rig.run;
     case 'idle': return rig.idle;
     case 'attack':
+      // Planche de recette IGN-136 : isole le kind de base, sans les variantes procédurales IGN-153.
+      if (DEMO === 'genex-nl1-attack' || qs.get('genexBase') === '1') return rig.attack;
       if (m.attackStyle === 'shoot') return rig.shoot ?? rig.attack;
       if (m.meleeVariant === 'leap') return rig.leap ?? rig.attack;
       if (m.meleeVariant === 'combo') return rig.combo ?? rig.attack;
       return rig.attack ?? rig.shoot;
     case 'hit': {
+      if (qs.get('genexBase') === '1') return rig.hit;
       switch (m.hitDir) {
         case 'front': return rig.hitFront ?? rig.hit;
         case 'back': return rig.hitBack ?? rig.hit;
@@ -389,6 +392,7 @@ const actionForKind = (rig: Rig, kind: CombatKind, m: CombatMachine): THREE.Anim
       }
     }
     case 'dodge': {
+      if (qs.get('genexBase') === '1') return rig.dodge;
       switch (m.dodgeDir) {
         case 'left': return rig.dodgeLeft ?? rig.dodge;
         case 'right': return rig.dodgeRight ?? rig.dodge;
@@ -397,6 +401,7 @@ const actionForKind = (rig: Rig, kind: CombatKind, m: CombatMachine): THREE.Anim
       }
     }
     case 'death': {
+      if (qs.get('genexBase') === '1') return rig.death;
       switch (m.deathKind) {
         case 'throw': return rig.deathThrow ?? rig.death;
         case 'collapse': return rig.deathCollapse ?? rig.death;
@@ -833,6 +838,18 @@ const DEMO_SCRIPTS: Record<string, DemoScript> = {
     },
     player(): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false }; },
     nls(t: number): number[] { return [0, t === 3 ? 7 : 0, 0, 0]; },
+  },
+  'genex-nl1-attack': {
+    place(w: World) {
+      w.t.x = 30; w.t.y = 30; w.t.facing = 0; w.t.vx = 0; w.t.vy = 0;
+      w.nls.forEach((n) => { n.alive = true; n.cd = 0; n.armTicks = 0; n.stunTicks = 0; });
+      w.nls[0].x = 8; w.nls[0].y = 12; w.nls[0].facing = 0;
+      w.nls[1].x = 14; w.nls[1].y = 9; w.nls[1].facing = Math.PI;
+      w.nls[2].x = 14; w.nls[2].y = 15; w.nls[2].facing = Math.PI;
+      w.nls[3].x = 16; w.nls[3].y = 12; w.nls[3].facing = Math.PI;
+    },
+    player(): TAction { return { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false }; },
+    nls(t: number): number[] { return [t === 3 ? 7 : 0, 0, 0, 0]; },
   },
   'combat-hit': {
     place(w: World) {
