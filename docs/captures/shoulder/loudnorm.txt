@@ -1,4 +1,4 @@
-[aist#0:0/pcm_s16le @ 0x55fde49f0fc0] Guessed Channel Layout: stereo
+[aist#0:0/pcm_s16le @ 0x56479a42dfc0] Guessed Channel Layout: stereo
 Input #0, wav, from '/agent/repos/night-lords-ignitionrl/docs/captures/shoulder/_vid/mix.wav':
   Metadata:
     encoder         : Lavf60.16.100
@@ -13,9 +13,9 @@ Output #0, null, to 'pipe:':
   Stream #0:0: Audio: pcm_s16le, 192000 Hz, stereo, s16, 6144 kb/s
     Metadata:
       encoder         : Lavc60.31.102 pcm_s16le
-size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    size=N/A time=00:00:21.30 bitrate=N/A speed=41.1x    [out#0/null @ 0x55fde49ca800] video:0kB audio:21750kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
-size=N/A time=00:00:26.20 bitrate=N/A speed=  40x    
-[Parsed_loudnorm_0 @ 0x55fde49fb4c0] 
+size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    size=N/A time=00:00:21.90 bitrate=N/A speed=42.3x    [out#0/null @ 0x56479a407800] video:0kB audio:21750kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+size=N/A time=00:00:26.20 bitrate=N/A speed=40.8x    
+[Parsed_loudnorm_0 @ 0x56479a4384c0] 
 {
 	"input_i" : "-15.56",
 	"input_tp" : "-4.13",

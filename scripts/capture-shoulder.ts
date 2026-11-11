@@ -48,6 +48,9 @@ type StepInfo = {
     headOn?: boolean;
     shoulderOn?: boolean;
     nls?: { i: number; readable?: boolean; distCam?: number; meshOn?: boolean; distTerm?: number }[];
+    camClip?: boolean;
+    meleeNl?: boolean;
+    meleeNlOn?: boolean;
   };
 };
 
@@ -65,13 +68,16 @@ type LiveAcc = {
   clawWindowTicks: number;
   clawWindowSmooth: number;
   clawWindowMaxCam: number;
+  clipFrames: number;
+  meleeFrames: number;
+  meleeNlOk: number;
 };
 
 function freshAcc(seed: number): LiveAcc {
   return {
     seed, tick: 0, frames: 0, termInFov: 0, areaOk: 0, headShoulderOk: 0,
     clawHits: 0, clawNlClear: 0, clawSmooth: 0, clawWindowTicks: 0, clawWindowSmooth: 0,
-    clawWindowMaxCam: 0,
+    clawWindowMaxCam: 0, clipFrames: 0, meleeFrames: 0, meleeNlOk: 0,
   };
 }
 
@@ -100,6 +106,11 @@ function ingestLive(acc: LiveAcc, last: StepInfo, prevPose: StepInfo['pose'] | n
   const area = read?.termMeshArea ?? 1;
   if (area <= 0.4) acc.areaOk++;
   if (read?.headOn && read?.shoulderOn) acc.headShoulderOk++;
+  if (read?.camClip) acc.clipFrames++;
+  if (read?.meleeNl) {
+    acc.meleeFrames++;
+    if (read.meleeNlOn) acc.meleeNlOk++;
+  }
   const d = poseCamDist(prevPose, last.pose);
   if (holding && prevPose) {
     acc.clawWindowTicks++;
@@ -362,7 +373,8 @@ async function matchVideo() {
   for (const [key, file] of Object.entries(stills)) {
     const t = videoStamps[key];
     if (t == null) throw new Error(`stamp manquant ${key}: ${JSON.stringify(videoStamps)}`);
-    grabFrame(mp4, key === 'end' ? t + 0.4 : t, join(OUT, file));
+    const at = key === 'end' ? t + 0.4 : key === 'claw' ? Math.max(0, t - 0.3) : t;
+    grabFrame(mp4, at, join(OUT, file));
   }
   const imgBytes = Object.values(stills).reduce((a, f) => a + readFileSync(join(OUT, f)).length, 0);
   writeFileSync(join(OUT, 'video.json'), JSON.stringify({
@@ -432,12 +444,17 @@ async function measureLiveFraming() {
   const clawSmooth = perSeed.reduce((a, s) => a + s.clawSmooth, 0);
   const clawWindowTicks = perSeed.reduce((a, s) => a + s.clawWindowTicks, 0);
   const clawWindowSmooth = perSeed.reduce((a, s) => a + s.clawWindowSmooth, 0);
+  const clipFrames = perSeed.reduce((a, s) => a + s.clipFrames, 0);
+  const meleeFrames = perSeed.reduce((a, s) => a + s.meleeFrames, 0);
+  const meleeNlOk = perSeed.reduce((a, s) => a + s.meleeNlOk, 0);
   const termShare = frames ? termInFov / frames : 0;
   const areaShare = frames ? areaOk / frames : 0;
   const headShoulderShare = frames ? headShoulderOk / frames : 0;
   const clawClearShare = clawHits ? clawNlClear / clawHits : 0;
   const clawSmoothShare = clawHits ? clawSmooth / clawHits : 0;
   const clawWindowSmoothShare = clawWindowTicks ? clawWindowSmooth / clawWindowTicks : 1;
+  const clipShare = frames ? clipFrames / frames : 0;
+  const meleeNlShare = meleeFrames ? meleeNlOk / meleeFrames : 1;
   const out = {
     autoplay: 'kiter',
     policy: 'policies/current.json',
@@ -451,9 +468,12 @@ async function measureLiveFraming() {
     clawSmooth, clawSmoothShare, clawSmoothTarget: 0.55,
     clawWindowTicks, clawWindowSmooth, clawWindowSmoothShare, clawWindowSmoothTarget: 0.55,
     clawMaxCamStepM: 0.72, clawMaxLookStepM: 1.2, clawMaxOrbitStepRad: 0.55,
+    clipFrames, clipShare, clipTarget: 0,
+    meleeFrames, meleeNlOk, meleeNlShare, meleeNlTarget: 0.8,
     ok: termShare >= 0.95 && clawClearShare >= 0.8 && clawSmoothShare >= 0.55
       && clawWindowSmoothShare >= 0.55
-      && areaShare >= 0.45 && headShoulderShare >= 0.9,
+      && areaShare >= 0.45 && headShoulderShare >= 0.9
+      && clipShare === 0 && meleeNlShare >= 0.8,
     perSeed: perSeed.map((s) => ({
       seed: s.seed, winner: s.winner, tick: s.tick,
       frames: s.frames, termShare: s.frames ? s.termInFov / s.frames : 0,
@@ -463,10 +483,12 @@ async function measureLiveFraming() {
       clawSmoothShare: s.clawHits ? s.clawSmooth / s.clawHits : 0,
       clawWindowSmoothShare: s.clawWindowTicks ? s.clawWindowSmooth / s.clawWindowTicks : 1,
       clawWindowMaxCam: s.clawWindowMaxCam,
+      clipShare: s.frames ? s.clipFrames / s.frames : 0,
+      meleeNlShare: s.meleeFrames ? s.meleeNlOk / s.meleeFrames : 1,
     })),
   };
   writeFileSync(join(OUT, 'framing.json'), JSON.stringify(out, null, 2) + '\n');
-  console.log('framing live', JSON.stringify({ ok: out.ok, termShare, clawClearShare, clawSmoothShare, frames, clawHits }));
+  console.log('framing live', JSON.stringify({ ok: out.ok, termShare, clawClearShare, clipShare, meleeNlShare, frames, clawHits }));
   if (!out.ok) throw new Error(`framing live ko ${JSON.stringify(out)}`);
 }
 

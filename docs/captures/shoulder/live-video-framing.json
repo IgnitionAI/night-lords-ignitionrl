@@ -3,12 +3,15 @@
   "tick": 265,
   "frames": 265,
   "termInFov": 265,
-  "areaOk": 152,
+  "areaOk": 260,
   "headShoulderOk": 265,
   "clawHits": 19,
   "clawNlClear": 19,
   "clawSmooth": 19,
   "clawWindowTicks": 79,
   "clawWindowSmooth": 79,
-  "clawWindowMaxCam": 0.1500000000000008
+  "clawWindowMaxCam": 0.7199067680124301,
+  "clipFrames": 0,
+  "meleeFrames": 171,
+  "meleeNlOk": 169
 }

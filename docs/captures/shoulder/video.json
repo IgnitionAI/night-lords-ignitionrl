@@ -7,18 +7,18 @@
   "stillsFrom": "ffmpeg-video",
   "enc": {
     "crf": 32,
-    "bytes": 4713070
+    "bytes": 4847855
   },
   "duration": 29,
   "videoStamps": {
-    "threat": 3.6,
+    "threat": 4.8,
     "bolter": 7.3,
     "fist": 10.9,
     "claw": 11.9,
     "end": 26.6
   },
   "ticks": {
-    "threat": 36,
+    "threat": 48,
     "bolter": 73,
     "fist": 109,
     "claw": 119,
@@ -42,8 +42,8 @@
     "TP": -2.7
   },
   "freezeHitsBeforeEnd": [],
-  "imgBytes": 471207,
+  "imgBytes": 453038,
   "winner": "pack",
   "reason": "Terminator abattu",
-  "ebuMp4": " -15.4 S: -15.2     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -6.3  -6.3 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x558175aa6440] t: 28.4       TARGET:-23 LUFS    M: -15.5 S: -15.1     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -5.6  -5.6 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x558175aa6440] t: 28.5       TARGET:-23 LUFS    M: -15.4 S: -15.1     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -5.6  -5.6 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x558175aa6440] t: 28.6       TARGET:-23 LUFS    M: -15.4 S: -15.0     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -5.7  -5.7 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x558175aa6440] t: 28.7       TARGET:-23 LUFS    M: -15.3 S: -15.0     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -6.1  -6.1 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x558175aa6440] t: 28.8       TARGET:-23 LUFS    M: -15.4 S: -14.9     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -5.2  -5.2 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x558175aa6440] t: 28.9       TARGET:-23 LUFS    M: -14.9 S: -14.8     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -3.9  -3.9 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x558175aa6440] t: 29         TARGET:-23 LUFS    M: -14.1 S: -14.6     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -3.9  -3.9 dBFS  TPK:  -2.7  -2.7 dBFS\n[out#0/null @ 0x558175a84dc0] video:325kB audio:5440kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown\nframe=  693 fps=0.0 q=-0.0 Lsize=N/A time=00:00:29.00 bitrate=N/A speed=  53x    \n[Parsed_ebur128_0 @ 0x558175aa6440] Summary:\n\n  Integrated loudness:\n    I:         -15.1 LUFS\n    Threshold: -25.1 LUFS\n\n  Loudness range:\n    LRA:         4.2 LU\n    Threshold: -35.2 LUFS\n    LRA low:   -17.1 LUFS\n    LRA high:  -12.9 LUFS\n\n  True peak:\n    Peak:       -2.7 dBFS\n\n"
+  "ebuMp4": " -15.4 S: -15.2     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -6.3  -6.3 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 28.4       TARGET:-23 LUFS    M: -15.5 S: -15.1     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -5.6  -5.6 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 28.5       TARGET:-23 LUFS    M: -15.4 S: -15.1     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -5.6  -5.6 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 28.6       TARGET:-23 LUFS    M: -15.4 S: -15.0     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -5.7  -5.7 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 28.7       TARGET:-23 LUFS    M: -15.3 S: -15.0     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -6.1  -6.1 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 28.8       TARGET:-23 LUFS    M: -15.4 S: -14.9     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -5.2  -5.2 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 28.9       TARGET:-23 LUFS    M: -14.9 S: -14.8     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -3.9  -3.9 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 29         TARGET:-23 LUFS    M: -14.1 S: -14.6     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -3.9  -3.9 dBFS  TPK:  -2.7  -2.7 dBFS\n[out#0/null @ 0x55d1c35a2dc0] video:325kB audio:5440kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown\nframe=  693 fps=0.0 q=-0.0 Lsize=N/A time=00:00:29.00 bitrate=N/A speed=51.7x    \n[Parsed_ebur128_0 @ 0x55d1c35c4040] Summary:\n\n  Integrated loudness:\n    I:         -15.1 LUFS\n    Threshold: -25.1 LUFS\n\n  Loudness range:\n    LRA:         4.2 LU\n    Threshold: -35.2 LUFS\n    LRA low:   -17.1 LUFS\n    LRA high:  -12.9 LUFS\n\n  True peak:\n    Peak:       -2.7 dBFS\n\n"
 }

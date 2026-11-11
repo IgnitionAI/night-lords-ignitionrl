@@ -12,15 +12,21 @@ import {
   CLAW_MAX_LOOK_STEP_M,
   CLAW_MAX_ORBIT_STEP_RAD,
   COMBAT_CAM,
+  MELEE_NL_M,
+  camInTermVolume,
   desiredCombatPose,
   followLockedClawHold,
+  inFrustum,
+  nlOccludedByTerm,
   nlVisibleInFrame,
   poseDelta,
+  projectWorld,
   stepShoulderCam,
   termHeadShoulderInFrame,
   termScreenAreaFrac,
   type CombatPose,
   type ShoulderClawHold,
+  type YawDamp,
 } from '../web/combat-cam.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -45,6 +51,10 @@ function runSeed(seed: number) {
   let clawWindowSmooth = 0;
   let clawWindowMaxCam = 0;
   let clawWindowMaxOrbit = 0;
+  let clipFrames = 0;
+  let meleeFrames = 0;
+  let meleeNlOk = 0;
+  let damp: YawDamp | null = null;
   while (!w.done && w.tick < 1800) {
     const ta = tactic(w);
     const acts = w.nls.map((n, i) => {
@@ -60,9 +70,11 @@ function runSeed(seed: number) {
     const stepped = stepShoulderCam({
       prev: pose, prevTerm, hold, term, nls, aspect: ASPECT, portrait: false,
       pillars: PILLARS, arena: ARENA, now, clawWho,
+      damp, bolt: w.events.some((e) => e.type === 'bolt'), dt: DT,
     });
     pose = stepped.pose;
     hold = stepped.hold;
+    damp = stepped.damp;
     const area = termScreenAreaFrac(term, pose, ASPECT);
     const hs = termHeadShoulderInFrame(term, pose, ASPECT);
     frames++;
@@ -72,6 +84,20 @@ function runSeed(seed: number) {
       headShoulderOk++;
     } else if (hs.head || hs.shoulder) {
       termInFov++;
+    }
+    if (camInTermVolume(pose.camX, pose.camY, pose.camZ, term)) clipFrames++;
+    let melee = false;
+    let meleeOn = false;
+    for (const n of nls) {
+      if (!n.alive) continue;
+      if (Math.hypot(n.x - term.x, n.y - term.y) > MELEE_NL_M) continue;
+      melee = true;
+      const chest = projectWorld(n.x, 1.4, n.y, pose, ASPECT);
+      if (inFrustum(chest, 0.96) && !nlOccludedByTerm(pose, term, n)) meleeOn = true;
+    }
+    if (melee) {
+      meleeFrames++;
+      if (meleeOn) meleeNlOk++;
     }
     const d = prevPose ? poseDelta(prevPose, pose) : { cam: 0, look: 0, orbit: 0 };
     if (hold && prevPose) {
@@ -113,6 +139,8 @@ function runSeed(seed: number) {
     clawWindowTicks, clawWindowSmooth,
     clawWindowSmoothShare: clawWindowTicks ? clawWindowSmooth / clawWindowTicks : 1,
     clawWindowMaxCam, clawWindowMaxOrbit,
+    clipFrames, clipShare: frames ? clipFrames / frames : 0,
+    meleeFrames, meleeNlOk, meleeNlShare: meleeFrames ? meleeNlOk / meleeFrames : 1,
     claws,
   };
 }
@@ -128,12 +156,17 @@ test('5 graines kiter : cadre, surface T, tête/épaule, NL griffe visible sans 
   const clawSmooth = perSeed.reduce((a, s) => a + s.clawSmooth, 0);
   const clawWindowTicks = perSeed.reduce((a, s) => a + s.clawWindowTicks, 0);
   const clawWindowSmooth = perSeed.reduce((a, s) => a + s.clawWindowSmooth, 0);
+  const clipFrames = perSeed.reduce((a, s) => a + s.clipFrames, 0);
+  const meleeFrames = perSeed.reduce((a, s) => a + s.meleeFrames, 0);
+  const meleeNlOk = perSeed.reduce((a, s) => a + s.meleeNlOk, 0);
   const termShare = frames ? termInFov / frames : 0;
   const areaShare = frames ? areaOk / frames : 0;
   const headShoulderShare = frames ? headShoulderOk / frames : 0;
   const clawClearShare = clawHits ? clawNlClear / clawHits : 0;
   const clawSmoothShare = clawHits ? clawSmooth / clawHits : 0;
   const clawWindowSmoothShare = clawWindowTicks ? clawWindowSmooth / clawWindowTicks : 1;
+  const clipShare = frames ? clipFrames / frames : 0;
+  const meleeNlShare = meleeFrames ? meleeNlOk / meleeFrames : 1;
   const out = {
     autoplay: 'kiter',
     policy: 'policies/current.json',
@@ -147,15 +180,19 @@ test('5 graines kiter : cadre, surface T, tête/épaule, NL griffe visible sans 
     clawWindowTicks, clawWindowSmooth, clawWindowSmoothShare, clawWindowSmoothTarget: 0.7,
     clawMaxCamStepM: CLAW_MAX_CAM_STEP_M, clawMaxLookStepM: CLAW_MAX_LOOK_STEP_M,
     clawMaxOrbitStepRad: CLAW_MAX_ORBIT_STEP_RAD,
+    clipFrames, clipShare, clipTarget: 0,
+    meleeFrames, meleeNlOk, meleeNlShare, meleeNlTarget: 0.8,
     ok: termShare >= 0.98 && clawClearShare >= 0.55 && clawSmoothShare >= 0.65
       && clawWindowSmoothShare >= 0.7
-      && areaShare >= 0.75 && headShoulderShare >= 0.9,
+      && areaShare >= 0.75 && headShoulderShare >= 0.9
+      && clipShare === 0 && meleeNlShare >= 0.8,
     perSeed: perSeed.map((s) => ({
       seed: s.seed, winner: s.winner, tick: s.tick,
       frames: s.frames, termShare: s.termShare,
       areaShare: s.areaShare, headShoulderShare: s.headShoulderShare,
       clawHits: s.clawHits, clawClearShare: s.clawClearShare, clawSmoothShare: s.clawSmoothShare,
       clawWindowSmoothShare: s.clawWindowSmoothShare, clawWindowMaxCam: s.clawWindowMaxCam,
+      clipShare: s.clipShare, meleeNlShare: s.meleeNlShare,
     })),
   };
   const dest = join(ROOT, 'docs/captures/shoulder/framing-sim.json');
@@ -167,6 +204,8 @@ test('5 graines kiter : cadre, surface T, tête/épaule, NL griffe visible sans 
   assert.ok(clawWindowSmoothShare >= 0.7, `fenêtre griffe ${clawWindowSmoothShare} (${clawWindowSmooth}/${clawWindowTicks})`);
   assert.ok(areaShare >= 0.40, `surface T ≤ 40 % : ${areaShare} (${areaOk}/${frames})`);
   assert.ok(headShoulderShare >= 0.9, `tête/épaule ${headShoulderShare} (${headShoulderOk}/${frames})`);
+  assert.equal(clipShare, 0, `caméra dans le volume T ${clipShare} (${clipFrames}/${frames})`);
+  assert.ok(meleeNlShare >= 0.8, `NL mêlée visible ${meleeNlShare} (${meleeNlOk}/${meleeFrames})`);
 });
 
 test('griffe 900007 t119 : l’ancien desiredCombatPose saute ; stepShoulderCam garde le NL', () => {
@@ -179,6 +218,7 @@ test('griffe 900007 t119 : l’ancien desiredCombatPose saute ; stepShoulderCam 
   let prevTerm: { x: number; y: number; facing: number } | null = null;
   let lockPose: CombatPose | null = null;
   let lockTerm: { x: number; y: number; facing: number } | null = null;
+  let damp: YawDamp | null = null;
   let rawJump = 0;
   let heldJump = 0;
   let heldOrbit = 0;
@@ -205,6 +245,7 @@ test('griffe 900007 t119 : l’ancien desiredCombatPose saute ; stepShoulderCam 
     const stepped = stepShoulderCam({
       prev: pose, prevTerm, hold, term, nls, aspect: ASPECT, portrait: false,
       pillars: PILLARS, arena: ARENA, now, clawWho,
+      damp, bolt: w.events.some((e) => e.type === 'bolt'), dt: DT,
     });
     if (pose && w.tick >= 117 && w.tick <= 119) {
       const d = poseDelta(pose, stepped.pose);
@@ -213,10 +254,20 @@ test('griffe 900007 t119 : l’ancien desiredCombatPose saute ; stepShoulderCam 
     }
     pose = stepped.pose;
     hold = stepped.hold;
+    damp = stepped.damp;
     if (w.tick === 116) {
-      lockPose = desiredCombatPose({
-        term, nls, aspect: ASPECT, portrait: false, pillars: PILLARS, arena: ARENA,
-      });
+      const fx = Math.cos(term.facing), fz = Math.sin(term.facing);
+      const rx = -fz, rz = fx;
+      lockPose = {
+        camX: term.x - fx * 3.05 + rx * 1.12,
+        camY: 2.58,
+        camZ: term.y - fz * 3.05 + rz * 1.12,
+        lookX: term.x + fx * 3.85 + rx * 0.58,
+        lookY: 1.62,
+        lookZ: term.y + fz * 3.85 + rz * 0.58,
+        fov: COMBAT_CAM.fov, orbit: 0,
+        back: Math.hypot(3.05, 1.12),
+      };
       lockTerm = term;
     }
     prevRaw = raw;
@@ -224,7 +275,7 @@ test('griffe 900007 t119 : l’ancien desiredCombatPose saute ; stepShoulderCam 
     for (const e of w.events) {
       if (e.type !== 'claw' || e.who !== 2) continue;
       const n = w.nls[e.who];
-      impactClear = !!(n && nlVisibleInFrame(n, term, pose, ASPECT));
+      impactClear = !!(n && nlVisibleInFrame(n, term, pose, ASPECT) && !nlOccludedByTerm(pose, term, n));
       if (n && lockPose && lockTerm) {
         const old = followLockedClawHold({
           termX: lockTerm.x, termY: lockTerm.y,
@@ -255,6 +306,7 @@ test('bolter 900007 t73 : le Terminator reste dans le cadre (tête + épaule)', 
   let shoulderOk = false;
   let prev: CombatPose | null = null;
   let maxJump = 0;
+  let damp: YawDamp | null = null;
   while (!w.done && w.tick < 80) {
     const ta = tactic(w);
     const acts = w.nls.map((n, i) => (n.alive ? sample(softmax(forward(actor, observe(w, i))), rng) : 0));
@@ -267,10 +319,12 @@ test('bolter 900007 t73 : le Terminator reste dans le cadre (tête + épaule)', 
     const stepped = stepShoulderCam({
       prev: pose, prevTerm, hold, term, nls, aspect: ASPECT, portrait: false,
       pillars: PILLARS, arena: ARENA, now, clawWho,
+      damp, bolt: w.events.some((e) => e.type === 'bolt'), dt: DT,
     });
     if (pose) maxJump = Math.max(maxJump, poseDelta(pose, stepped.pose).cam);
     pose = stepped.pose;
     hold = stepped.hold;
+    damp = stepped.damp;
     prevTerm = term;
     prev = pose;
     if (w.events.some((e) => e.type === 'bolt') && w.tick === 73) {

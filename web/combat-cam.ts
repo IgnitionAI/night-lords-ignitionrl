@@ -45,8 +45,8 @@ export const CLAW_MIN_ORBIT = 0.62;
 export const CLAW_PRE_RANGE = 2.2;
 /** Three-quarter du couple T+NL. Le rendu y va en clampant (pas de coupe). */
 export const CLAW_PAIR_SIDE = 4.05;
-/** Hold griffe : two-shot plus court, atteignable sans orbiter hors champ. */
-export const CLAW_HOLD_PAIR_SIDE = 2.55;
+/** Hold griffe : two-shot assez large pour voir le NL à côté du T, sans orbite 4 m. */
+export const CLAW_HOLD_PAIR_SIDE = 3.75;
 export const STEP_MAX_CAM_M = 0.42;
 export const STEP_MAX_LOOK_M = 0.85;
 export const STEP_MAX_ORBIT_RAD = 0.28;
@@ -60,7 +60,13 @@ export const NL_MAX_TERM_OVERLAP = 0.55;
 export const TERM_BODY_R = 0.9;
 export const TERM_BODY_Y0 = 0.25;
 export const TERM_BODY_Y1 = 2.28;
+/** Distance xz minimale œil ↔ capsule T (mesh ~0,9 m + near + marge épaulettes). */
+export const TERM_CAM_MIN_R = 1.85;
+export const TERM_CAM_MIN_Y = 1.72;
+export const MELEE_NL_M = 2.6;
+export const YAW_DAMP_OMEGA = 9;
 export const SHOULDER_CAM = COMBAT_CAM;
+export type YawDamp = { yaw: number; vel: number };
 
 export type CombatNl = { x: number; y: number; alive: boolean; armTicks?: number; lastAction?: number };
 export type CombatTerm = { x: number; y: number; facing: number };
@@ -78,7 +84,6 @@ export type ShoulderClawHold = {
   camX: number; camY: number; camZ: number;
   lookX: number; lookY: number; lookZ: number;
   startedAt: number;
-  frozen?: boolean;
 };
 export type ScreenAabb = {
   minX: number; maxX: number; minY: number; maxY: number;
@@ -317,6 +322,66 @@ export function huntTremor(count: number, t: number): { sx: number; sz: number }
   return { sx: Math.sin(t * 33.1) * a, sz: Math.cos(t * 29.4) * a * 0.72 };
 }
 
+export function camInTermVolume(
+  camX: number, camY: number, camZ: number, term: CombatTerm, r = TERM_BODY_R,
+): boolean {
+  const h = Math.hypot(camX - term.x, camZ - term.y);
+  return h < r && camY > TERM_BODY_Y0 - 0.12 && camY < TERM_BODY_Y1 + 0.18;
+}
+
+/** Pousse l'œil hors de la capsule T (xz + plancher hauteur). */
+export function pushCamOutOfTerm(pose: CombatPose, term: CombatTerm): CombatPose {
+  let dx = pose.camX - term.x;
+  let dz = pose.camZ - term.y;
+  let h = Math.hypot(dx, dz);
+  if (h < 0.08) {
+    dx = pose.camX - pose.lookX;
+    dz = pose.camZ - pose.lookZ;
+    h = Math.hypot(dx, dz);
+    if (h < 0.08) {
+      dx = -Math.cos(term.facing);
+      dz = -Math.sin(term.facing);
+      h = 1;
+    }
+  }
+  if (h < TERM_CAM_MIN_R) {
+    dx *= TERM_CAM_MIN_R / h;
+    dz *= TERM_CAM_MIN_R / h;
+    h = TERM_CAM_MIN_R;
+  }
+  return {
+    ...pose,
+    camX: term.x + dx,
+    camY: Math.max(pose.camY, TERM_CAM_MIN_Y),
+    camZ: term.y + dz,
+    back: h,
+  };
+}
+
+export function stepCritDampAngle(prev: YawDamp, target: number, dt: number, omega: number): YawDamp {
+  const x0 = wrapPi(prev.yaw - target);
+  const det = 1 + 2 * omega * dt + omega * omega * dt * dt;
+  const vel = (prev.vel - dt * omega * omega * x0) / det;
+  const x1 = x0 + vel * dt;
+  return { yaw: wrapPi(target + x1), vel };
+}
+
+function yawAroundTerm(pose: CombatPose, term: CombatTerm): number {
+  return Math.atan2(pose.camZ - term.y, pose.camX - term.x);
+}
+
+function poseAtYaw(term: CombatTerm, yaw: number, back: number, camY: number, look: CombatPose): CombatPose {
+  const camX = term.x + Math.cos(yaw) * back;
+  const camZ = term.y + Math.sin(yaw) * back;
+  return {
+    camX, camY, camZ,
+    lookX: look.lookX, lookY: look.lookY, lookZ: look.lookZ,
+    fov: look.fov,
+    orbit: wrapPi(Math.atan2(term.y - camZ, term.x - camX) - term.facing),
+    back,
+  };
+}
+
 function focusNl(
   term: CombatTerm,
   nls: CombatNl[],
@@ -351,7 +416,9 @@ function shoulderYaw(
     const span = Math.hypot(nl.x - term.x, nl.y - term.y);
     if (span <= 3.6) {
       const toNl = Math.atan2(nl.y - term.y, nl.x - term.x);
-      return term.facing + clamp(wrapPi(toNl - term.facing), -COMBAT_CAM.orbitMax, COMBAT_CAM.orbitMax);
+      const a = toNl + 1.22;
+      const b = toNl - 1.22;
+      return Math.abs(wrapPi(a - term.facing)) <= Math.abs(wrapPi(b - term.facing)) ? a : b;
     }
   }
   return term.facing;
@@ -377,11 +444,12 @@ function placeShoulder(
   if (!losClear(camX, camY, camZ, term.x, 1.4, term.y, pillars, MELEE_LOS_PAD)) {
     const tries: { b: number; s: number }[] = [
       { b: back, s: side + 0.35 }, { b: back, s: side + 0.7 }, { b: back, s: side + 1.05 },
-      { b: back, s: side + 1.4 }, { b: back * 0.55, s: side + 1.85 }, { b: back * 0.28, s: side + 2.35 },
-      { b: back * 0.45, s: -(side + 1.9) }, { b: 1.15, s: 2.45 },
+      { b: back, s: side + 1.4 }, { b: back * 0.85, s: side + 1.85 }, { b: back, s: -(side + 1.6) },
+      { b: back + 0.35, s: side + 2.1 },
     ];
     for (const t of tries) {
       const p = slideOutOfPillars(term.x - fx * t.b + rx * t.s, term.y - fz * t.b + rz * t.s, pillars, arena);
+      if (Math.hypot(p.camX - term.x, p.camZ - term.y) < TERM_CAM_MIN_R) continue;
       if (losClear(p.camX, height, p.camZ, term.x, 1.4, term.y, pillars, MELEE_LOS_PAD)) {
         return { camX: p.camX, camY: height, camZ: p.camZ };
       }
@@ -403,8 +471,8 @@ function lookAhead(
   let lookX = term.x + fx * 3.85 + rx * 0.58;
   let lookZ = term.y + fz * 3.85 + rz * 0.58;
   if (melee && nl) {
-    lookX = term.x * (1 - COMBAT_CAM.lookMix) + nl.x * COMBAT_CAM.lookMix + fx * 1.55 + rx * 0.30;
-    lookZ = term.y * (1 - COMBAT_CAM.lookMix) + nl.y * COMBAT_CAM.lookMix + fz * 1.55 + rz * 0.30;
+    lookX = term.x * 0.58 + nl.x * 0.42;
+    lookZ = term.y * 0.58 + nl.y * 0.42;
   }
   return { lookX, lookY: 1.62, lookZ };
 }
@@ -424,8 +492,8 @@ export function canonicalShoulderPose(input: {
   const span = nl ? Math.hypot(nl.x - term.x, nl.y - term.y) : 99;
   const melee = !!nl && nl.alive && span <= 3.6;
   const yaw = shoulderYaw(term, melee ? nl : null, input.lookBias);
-  const back = melee ? 3.32 : 3.28;
-  const side = melee ? COMBAT_CAM.side + 0.18 : COMBAT_CAM.side;
+  const back = melee ? 3.45 : 3.28;
+  const side = melee ? 3.15 : COMBAT_CAM.side;
   const placed = placeShoulder(term, yaw, back, side, COMBAT_CAM.height, pillars, arena);
   const look = lookAhead(term, yaw, melee ? nl : null, melee);
   const pose: CombatPose = {
@@ -454,14 +522,15 @@ export function desiredCombatPose(input: {
   const melee = !!nl && nl.alive && span <= 3.6;
   const yaw0 = shoulderYaw(term, melee ? nl : null, input.lookBias);
   const hullNear = distToPillars(term.x, term.y, pillars) < 2.4;
-  const backs = melee ? [2.95, 3.22, 3.48] : [2.95, 3.18, 3.42];
-  const sides = hullNear || melee ? [0.95, 1.18, 1.42, 1.68] : [0.98, 1.12, 1.28];
-  const heights = hullNear ? [2.38, 2.58, 2.72] : melee ? [2.42, 2.58, 2.70] : [2.45, 2.58, 2.68];
+  const backs = melee ? [3.15, 3.45, 3.85] : [2.95, 3.18, 3.42];
+  const sides = melee ? [2.35, 2.95, 3.45, 3.85] : hullNear ? [0.95, 1.18, 1.42, 1.68] : [0.98, 1.12, 1.28];
+  const heights = hullNear ? [2.38, 2.58, 2.72] : melee ? [2.48, 2.62, 2.78] : [2.45, 2.58, 2.68];
+  const toNl = nl ? wrapPi(Math.atan2(nl.y - term.y, nl.x - term.x) - term.facing) : 0;
   const wantOrb = wrapPi(yaw0 - term.facing);
   const orbits = melee
-    ? [wantOrb, clamp(wantOrb * 0.7, -COMBAT_CAM.orbitMax, COMBAT_CAM.orbitMax), 0, 0.45, -0.45]
+    ? [toNl + 1.15, toNl - 1.15, toNl + 1.55, toNl - 1.55, wantOrb, 0.72, -0.72]
     : hullNear
-      ? [0, 0.32, -0.32, wantOrb]
+      ? [0, 0.32, -0.32, 0.7, -0.7, COMBAT_CAM.orbitMax, -COMBAT_CAM.orbitMax, wantOrb]
       : [0, wantOrb];
 
   const scorePose = (p: CombatPose, fx: number, fz: number, rx: number, rz: number): number => {
@@ -476,18 +545,25 @@ export function desiredCombatPose(input: {
     else s -= 160;
     if (tNdc.x < 0 && tNdc.x > -0.72) s += 24;
     else s -= Math.abs(tNdc.x) * 20;
+    if (camInTermVolume(p.camX, p.camY, p.camZ, term, TERM_CAM_MIN_R)) s -= 400;
     if (dT >= 2.5 && dT <= 3.55) s += 44;
     else if (dT < 2.25) s -= 90;
     else if (dT > 3.9) s -= 70;
     if (losClear(p.camX, p.camY, p.camZ, term.x, 1.4, term.y, pillars, MELEE_LOS_PAD)) s += 50;
     else s -= 220;
-    if (behind > 2.35 && behind < 3.5) s += 32;
+    if (melee) {
+      if (behind > 0.35) s += 18;
+      else s -= 40;
+    } else if (behind > 2.35 && behind < 3.5) s += 32;
     else if (behind < 1.8) s -= 150;
     else s -= 40;
     if (!melee && Math.abs(p.orbit) > 0.45) s -= 70;
     if (p.camY >= 2.35 && p.camY <= 2.78) s += 28;
     else if (p.camY < 2.15) s -= 70;
-    if (right > 0.7 && right < 1.5) s += 28;
+    if (melee) {
+      if (Math.abs(right) > 2.2 && Math.abs(right) < 4.1) s += 42;
+      else if (Math.abs(right) < 1.2) s -= 70;
+    } else if (right > 0.7 && right < 1.5) s += 28;
     else if (right < 0) s -= 90;
     else s -= 28;
     const area = termScreenAreaFrac(term, p, input.aspect);
@@ -525,6 +601,8 @@ export function desiredCombatPose(input: {
           if (melee && nl && !losClear(placed.camX, camY, placed.camZ, nl.x, 1.4, nl.y, pillars, MELEE_LOS_PAD)) {
             camY = Math.min(2.72, camY + 0.45);
           }
+          if (!losClear(placed.camX, camY, placed.camZ, term.x, 1.4, term.y, pillars, MELEE_LOS_PAD)) continue;
+          if (melee && nl && !losClear(placed.camX, camY, placed.camZ, nl.x, 1.4, nl.y, pillars, MELEE_LOS_PAD)) continue;
           const p: CombatPose = {
             camX: placed.camX, camY, camZ: placed.camZ,
             lookX, lookY: COMBAT_CAM.eye, lookZ,
@@ -538,7 +616,7 @@ export function desiredCombatPose(input: {
     }
   }
   if (!best) {
-    return canonicalShoulderPose({ term, nls, aspect: input.aspect, pillars, arena, lookBias: input.lookBias, fov: fov0 });
+    return pushCamOutOfTerm(canonicalShoulderPose({ term, nls, aspect: input.aspect, pillars, arena, lookBias: input.lookBias, fov: fov0 }), term);
   }
   if (melee && nl) {
     const blocked = !losClear(best.camX, best.camY, best.camZ, nl.x, 1.4, nl.y, pillars, MELEE_LOS_PAD)
@@ -548,7 +626,17 @@ export function desiredCombatPose(input: {
       if (ring) best = ring;
     }
   }
-  return keepTermFramed(best, term, input.aspect, { nls, pillars, arena, lookBias: input.lookBias });
+  const framed = keepTermFramed(best, term, input.aspect, { nls, pillars, arena, lookBias: input.lookBias });
+  const out = pushCamOutOfTerm(framed, term);
+  const bestOk = losClear(best.camX, best.camY, best.camZ, term.x, 1.4, term.y, pillars, MELEE_LOS_PAD)
+    && (!melee || !nl || losClear(best.camX, best.camY, best.camZ, nl.x, 1.4, nl.y, pillars, MELEE_LOS_PAD));
+  const outOk = losClear(out.camX, out.camY, out.camZ, term.x, 1.4, term.y, pillars, MELEE_LOS_PAD)
+    && (!melee || !nl || losClear(out.camX, out.camY, out.camZ, nl.x, 1.4, nl.y, pillars, MELEE_LOS_PAD));
+  if (bestOk && !outOk) return pushCamOutOfTerm(best, term);
+  if (melee && nl && nlOccludedByTerm(out, term, nl) && !nlOccludedByTerm(best, term, nl)) {
+    return pushCamOutOfTerm(best, term);
+  }
+  return out;
 }
 
 function ringMeleePose(
@@ -565,7 +653,7 @@ function ringMeleePose(
   const lookZ = term.y * 0.55 + nl.y * 0.45;
   for (let i = 0; i < 16; i++) {
     const ang = (i / 16) * Math.PI * 2;
-    const back = 3.0;
+    const back = 3.35;
     const rawX = term.x + Math.cos(ang) * back;
     const rawZ = term.y + Math.sin(ang) * back;
     const slid = slideOutOfPillars(rawX, rawZ, pillars, arena);
@@ -699,9 +787,9 @@ export function nlOccludedByTerm(pose: CombatPose, term: CombatTerm, nl: { x: nu
   const len = Math.hypot(dx, dy, dz);
   if (len < 0.2) return false;
   return rayHitsAabb(
-    pose.camX, pose.camY, pose.camZ, dx, dy, dz, 0.92,
-    term.x - TERM_BODY_R, TERM_BODY_Y0, term.y - TERM_BODY_R,
-    term.x + TERM_BODY_R, TERM_BODY_Y1, term.y + TERM_BODY_R,
+    pose.camX, pose.camY, pose.camZ, dx, dy, dz, 0.88,
+    term.x - TERM_BODY_R * 0.78, TERM_BODY_Y0 + 0.12, term.y - TERM_BODY_R * 0.78,
+    term.x + TERM_BODY_R * 0.78, TERM_BODY_Y1 - 0.18, term.y + TERM_BODY_R * 0.78,
   );
 }
 
@@ -817,6 +905,68 @@ export function clampPoseStep(
   };
 }
 
+function yawDeltaAvoidingFront(
+  pYaw: number, tYaw: number, term: CombatTerm, nl?: { x: number; y: number } | null,
+): number {
+  const short = wrapPi(tYaw - pYaw);
+  if (!nl || Math.abs(short) < 0.12) return short;
+  const long = short > 0 ? short - 2 * Math.PI : short + 2 * Math.PI;
+  const blocked = (d: number) => {
+    const y = pYaw + d * 0.42;
+    const back = 3.2;
+    const pose: CombatPose = {
+      camX: term.x + Math.cos(y) * back,
+      camY: 2.62,
+      camZ: term.y + Math.sin(y) * back,
+      lookX: nl.x, lookY: 1.4, lookZ: nl.y,
+      fov: COMBAT_CAM.fov, orbit: 0, back,
+    };
+    return nlOccludedByTerm(pose, term, nl);
+  };
+  if (blocked(short) && !blocked(long)) return long;
+  return short;
+}
+
+/** Orbite autour du T : le lerp XYZ traverse le volume et masque le NL. */
+export function clampAroundTerm(
+  prev: CombatPose, next: CombatPose, term: CombatTerm,
+  maxCam: number, maxLook: number, maxOrbit: number,
+  nl?: { x: number; y: number } | null,
+): CombatPose {
+  const pYaw = yawAroundTerm(prev, term);
+  const dYaw = yawDeltaAvoidingFront(pYaw, yawAroundTerm(next, term), term, nl);
+  const pBack = Math.max(Math.hypot(prev.camX - term.x, prev.camZ - term.y), TERM_CAM_MIN_R);
+  const dBack = Math.max(next.back, TERM_CAM_MIN_R) - pBack;
+  let lo = 0;
+  let hi = 1;
+  let best = pushCamOutOfTerm(prev, term);
+  for (let i = 0; i < 10; i++) {
+    const k = i === 0 ? 1 : (lo + hi) * 0.5;
+    const look: CombatPose = {
+      ...prev,
+      lookX: prev.lookX + (next.lookX - prev.lookX) * k,
+      lookY: prev.lookY + (next.lookY - prev.lookY) * k,
+      lookZ: prev.lookZ + (next.lookZ - prev.lookZ) * k,
+      fov: prev.fov + (next.fov - prev.fov) * k,
+    };
+    const cand = pushCamOutOfTerm(
+      poseAtYaw(term, pYaw + dYaw * k, pBack + dBack * k, prev.camY + (next.camY - prev.camY) * k, look),
+      term,
+    );
+    const d = poseDelta(prev, cand);
+    const ok = d.cam <= maxCam + 1e-6 && d.look <= maxLook + 1e-6 && d.orbit <= maxOrbit + 1e-6;
+    if (ok) {
+      best = cand;
+      lo = k;
+      if (k >= 1) break;
+    } else {
+      hi = k;
+    }
+    if (i === 0 && !ok) continue;
+  }
+  return best;
+}
+
 export function pickClawWho(
   term: CombatTerm,
   nls: CombatNl[],
@@ -857,7 +1007,7 @@ function pairClawPose(
   const rawX = mx + rx * side - fx * 0.25;
   const rawZ = mz + rz * side - fz * 0.25;
   const slid = slideOutOfPillars(rawX, rawZ, pillars, arena);
-  const camX = slid.camX, camZ = slid.camZ, camY = 2.72;
+  const camX = slid.camX, camZ = slid.camZ, camY = 2.82;
   return {
     camX, camY, camZ,
     lookX: mx, lookY: 1.52, lookZ: mz,
@@ -876,6 +1026,8 @@ function scoreClawPose(
   if (inFrustum(tN, 0.82)) s += 20;
   if (tN.x < 0) s += 18; else s -= 6;
   if (nlVisibleInFrame(nl, term, pose, aspect)) s += 80;
+  if (!nlOccludedByTerm(pose, term, nl)) s += 50;
+  else s -= 90;
   s -= dCam * 28;
   return s;
 }
@@ -931,9 +1083,32 @@ export function applyClawHold(
   aspect = 16 / 9,
   pillars: Box[] = [],
   arena: { w: number; h: number } = { w: 40, h: 24 },
+  prev?: CombatPose | null,
+  now = 0,
 ): CombatPose {
-  if (!nl?.alive) return followLockedClawHold(hold, term);
-  return pairClawPose(term, nl, hold.orbitSign, hold.fov, pillars, arena, aspect, CLAW_HOLD_PAIR_SIDE);
+  if (!nl) {
+    const locked = followLockedClawHold(hold, term);
+    return pushCamOutOfTerm(locked, term);
+  }
+  let best: CombatPose | null = null;
+  let bestS = -1e9;
+  let bestSign = hold.orbitSign;
+  const signs = now - hold.startedAt > 0.35
+    ? [hold.orbitSign] as const
+    : [hold.orbitSign, -hold.orbitSign] as const;
+  for (const sign of signs) {
+    for (const side of [CLAW_HOLD_PAIR_SIDE, 3.55, 3.9, 4.25]) {
+      const raw = pairClawPose(term, nl, sign, hold.fov, pillars, arena, aspect, side);
+      const p = pushCamOutOfTerm(raw, term);
+      let s = scoreClawPose(term, nl, p, aspect, prev);
+      if (!nlOccludedByTerm(p, term, nl)) s += 40;
+      else s -= 80;
+      if (camInTermVolume(p.camX, p.camY, p.camZ, term, TERM_CAM_MIN_R)) s -= 200;
+      if (s > bestS) { bestS = s; best = p; bestSign = sign; }
+    }
+  }
+  hold.orbitSign = bestSign;
+  return best ?? pushCamOutOfTerm(pairClawPose(term, nl, hold.orbitSign, hold.fov, pillars, arena, aspect, CLAW_HOLD_PAIR_SIDE), term);
 }
 
 /** Ancien suivi rigide T : coupe / masque le NL à l’impact — gardé pour le test de non-régression. */
@@ -967,7 +1142,10 @@ export function stepShoulderCam(input: {
   arena: { w: number; h: number };
   now: number;
   clawWho?: number | null;
-}): { pose: CombatPose; hold: ShoulderClawHold | null } {
+  damp?: YawDamp | null;
+  bolt?: boolean;
+  dt?: number;
+}): { pose: CombatPose; hold: ShoulderClawHold | null; damp: YawDamp } {
   let hold = input.hold;
   if (hold && input.now > hold.until) hold = null;
   const who = pickClawWho(input.term, input.nls, input.clawWho);
@@ -985,58 +1163,69 @@ export function stepShoulderCam(input: {
     }
   }
   const heldNl = hold ? input.nls[hold.who] ?? null : null;
-  const want = hold?.frozen
-    ? (() => {
-      const base = followLockedClawHold(hold, input.term);
-      if (!heldNl?.alive) return base;
-      return {
-        ...base,
-        lookX: input.term.x * 0.32 + heldNl.x * 0.68,
-        lookY: 1.52,
-        lookZ: input.term.y * 0.32 + heldNl.y * 0.68,
-      };
-    })()
-    : hold
-      ? applyClawHold(hold, input.term, heldNl, input.aspect, input.pillars, input.arena)
-      : desiredCombatPose({
-        term: input.term, nls: input.nls, aspect: input.aspect, portrait: input.portrait,
-        pillars: input.pillars, arena: input.arena,
-      });
-  let pose = want;
+  if (hold && !heldNl) hold = null;
+  const want = hold
+    ? applyClawHold(hold, input.term, heldNl, input.aspect, input.pillars, input.arena, input.prev, input.now)
+    : desiredCombatPose({
+      term: input.term, nls: input.nls, aspect: input.aspect, portrait: input.portrait,
+      pillars: input.pillars, arena: input.arena,
+    });
+  const dt = input.dt ?? 0.1;
+  const targetYaw = yawAroundTerm(want, input.term);
+  let damp = input.damp;
+  if (!damp) damp = { yaw: targetYaw, vel: 0 };
+  const fi = pickFocusNl(input.term, input.nls);
+  const fn = fi != null ? input.nls[fi] : null;
+  const meleeN = !!fn?.alive && Math.hypot(fn.x - input.term.x, fn.y - input.term.y) <= MELEE_NL_M;
+  const orbitNl = heldNl ?? fn;
+  const wantOcc = meleeN && fn ? nlOccludedByTerm(want, input.term, fn) : false;
+  if (input.bolt || hold || wantOcc) damp = { yaw: targetYaw, vel: 0 };
+  else damp = stepCritDampAngle(damp, targetYaw, dt, YAW_DAMP_OMEGA);
+  const back = Math.max(want.back, TERM_CAM_MIN_R);
+  let pose = (hold || meleeN)
+    ? pushCamOutOfTerm(want, input.term)
+    : poseAtYaw(input.term, damp.yaw, back, Math.max(want.camY, TERM_CAM_MIN_Y), want);
+  pose = pushCamOutOfTerm(pose, input.term);
   if (input.prev) {
-    pose = hold
-      ? clampPoseStep(input.prev, want, CLAW_MAX_CAM_STEP_M, CLAW_MAX_LOOK_STEP_M, CLAW_MAX_ORBIT_STEP_RAD)
-      : clampPoseStep(input.prev, smoothCombatPose(input.prev, want, 0.1), STEP_MAX_CAM_M, STEP_MAX_LOOK_M, STEP_MAX_ORBIT_RAD);
+    const camM = hold || meleeN ? CLAW_MAX_CAM_STEP_M : STEP_MAX_CAM_M;
+    const lookM = hold || meleeN ? CLAW_MAX_LOOK_STEP_M : STEP_MAX_LOOK_M;
+    const orbM = hold || meleeN ? CLAW_MAX_ORBIT_STEP_RAD : STEP_MAX_ORBIT_RAD;
+    pose = hold || meleeN
+      ? clampAroundTerm(input.prev, pose, input.term, camM, lookM, orbM, orbitNl)
+      : clampPoseStep(input.prev, smoothCombatPose(input.prev, pose, dt), camM, lookM, orbM);
   }
+  pose = pushCamOutOfTerm(pose, input.term);
   if (!hold) {
-    pose = keepTermFramed(pose, input.term, input.aspect, {
+    const framed = keepTermFramed(pose, input.term, input.aspect, {
       nls: input.nls, pillars: input.pillars, arena: input.arena, skipRebuild: true,
     });
-    if (input.prev) {
-      pose = clampPoseStep(input.prev, pose, STEP_MAX_CAM_M, STEP_MAX_LOOK_M, STEP_MAX_ORBIT_RAD);
+    if (meleeN && fn && nlOccludedByTerm(framed, input.term, fn) && !nlOccludedByTerm(pose, input.term, fn)) {
+      pose = pose;
+    } else if (!(meleeN && fn && !nlOccludedByTerm(pose, input.term, fn))) {
+      pose = framed;
     }
-  } else if (!hold.frozen) {
+    pose = pushCamOutOfTerm(pose, input.term);
+    if (input.prev) {
+      pose = meleeN
+        ? clampAroundTerm(input.prev, pose, input.term, CLAW_MAX_CAM_STEP_M, CLAW_MAX_LOOK_STEP_M, CLAW_MAX_ORBIT_STEP_RAD, orbitNl)
+        : clampPoseStep(input.prev, pose, STEP_MAX_CAM_M, STEP_MAX_LOOK_M, STEP_MAX_ORBIT_RAD);
+      pose = pushCamOutOfTerm(pose, input.term);
+    }
+  } else {
     const tNdc = projectWorld(input.term.x, 1.4, input.term.y, pose, input.aspect);
     if (!inFrustum(tNdc, 0.82)) pose = clampLookToTerm(pose, input.term, input.aspect);
+    pose = pushCamOutOfTerm(pose, input.term);
     if (input.prev) {
-      pose = clampPoseStep(input.prev, pose, CLAW_MAX_CAM_STEP_M, CLAW_MAX_LOOK_STEP_M, CLAW_MAX_ORBIT_STEP_RAD);
-    }
-    if (
-      heldNl?.alive
-      && input.now - hold.startedAt >= 0.48
-      && nlVisibleInFrame(heldNl, input.term, pose, input.aspect)
-    ) {
-      hold = {
-        ...hold,
-        frozen: true,
-        termX: input.term.x, termY: input.term.y,
-        camX: pose.camX, camY: pose.camY, camZ: pose.camZ,
-        lookX: pose.lookX, lookY: pose.lookY, lookZ: pose.lookZ,
-        fov: pose.fov,
-      };
+      pose = clampAroundTerm(
+        input.prev, pose, input.term,
+        CLAW_MAX_CAM_STEP_M, CLAW_MAX_LOOK_STEP_M, CLAW_MAX_ORBIT_STEP_RAD,
+        heldNl,
+      );
+      pose = pushCamOutOfTerm(pose, input.term);
     }
   }
-  return { pose, hold };
+  damp = { yaw: yawAroundTerm(pose, input.term), vel: damp.vel };
+  return { pose, hold, damp };
 }
 
 export function termHeadShoulderInFrame(
@@ -1073,10 +1262,19 @@ export function applyCombatCamera(
   pose: CombatPose,
   shakeX: number,
   shakeZ: number,
+  term?: CombatTerm,
 ): void {
+  let camX = pose.camX + shakeX;
+  let camY = pose.camY;
+  let camZ = pose.camZ + shakeZ;
+  if (term) {
+    const pushed = pushCamOutOfTerm({ ...pose, camX, camY, camZ }, term);
+    camX = pushed.camX; camY = pushed.camY; camZ = pushed.camZ;
+  }
+  const h = term ? Math.hypot(camX - term.x, camZ - term.y) : 99;
   camera.fov = pose.fov;
-  camera.near = COMBAT_CAM.near;
-  camera.position.set(pose.camX + shakeX, pose.camY, pose.camZ + shakeZ);
+  camera.near = h < 2.4 ? 0.12 : COMBAT_CAM.near;
+  camera.position.set(camX, camY, camZ);
   camera.up.set(0, 1, 0);
   camera.lookAt(pose.lookX + shakeX, pose.lookY, pose.lookZ + shakeZ);
   camera.updateProjectionMatrix();

@@ -32,11 +32,12 @@ import {
 } from './atmosphere';
 import {
   COMBAT_CAM, FOG_CLEAR_M, TERM_MODEL_H, NL_MODEL_H, NL_BODY_R,
-  applyCombatCamera, inFrustum, ndcInFrame, worldBoxOnScreen,
-  isReadableOnScreen, liftFollowIfOccluded, losClear, offscreenMarker,
-  huntThreatCount, huntTremor, stepShoulderCam,
+  MELEE_NL_M, TERM_CAM_MIN_R,
+  applyCombatCamera, camInTermVolume, inFrustum, ndcInFrame, worldBoxOnScreen,
+  isReadableOnScreen, liftFollowIfOccluded, losClear, nlOccludedByTerm, offscreenMarker,
+  nlVisibleInFrame, stepShoulderCam,
   termHeadShoulderInFrame,
-  type CombatPose, type ShoulderClawHold,
+  type CombatPose, type ShoulderClawHold, type YawDamp,
 } from './combat-cam';
 import { applyTerminatorLook } from './terminator-look';
 import { createFxSystem, parseFxQuality } from './fx';
@@ -1024,6 +1025,7 @@ function startRound() {
   fpsMeleeLock = null;
   combatPose = null;
   clawHold = null;
+  shoulderDamp = null;
   shoulderPrevTerm = null;
   huntWhip = null;
   if (CAM_MODE === 'fps' && termRig) termRig.root.visible = false;
@@ -1052,6 +1054,7 @@ function floatText(x: number, y: number, text: string, color: string) {
 let camYaw = 0, followYaw = 0;
 let combatPose: CombatPose | null = null;
 let clawHold: ShoulderClawHold | null = null;
+let shoulderDamp: YawDamp | null = null;
 let shoulderPrevTerm: { x: number; y: number; facing: number } | null = null;
 let huntWhip: { x: number; y: number; until: number } | null = null;
 // P3 — le pivot. Mesure de l'état des lieux : la meute passe à plus de 90° dans le dos dès 8,3 s de
@@ -1399,10 +1402,10 @@ function render(alpha: number) {
     nlFill.forEach((l, i) => {
       const focus = clawHold && clawHold.who === i;
       const on = w.nls[i]!.alive || nlCamHold[i]! > 0 || !!DEMO_CFG;
-      l.intensity = on ? (focus ? 32 : 7.2) : 0;
-      l.distance = focus ? 14 : 5.4;
-      l.decay = focus ? 1.05 : 2;
-      l.color.setHex(focus ? 0xb7e0ff : 0xffc8a8);
+      l.intensity = on ? (focus ? 52 : 8.5) : 0;
+      l.distance = focus ? 16 : 5.8;
+      l.decay = focus ? 0.9 : 2;
+      l.color.setHex(focus ? 0x7cf4ff : 0xffc8a8);
     });
     if (scene.fog && (scene.fog as THREE.FogExp2).isFogExp2) {
       (scene.fog as THREE.FogExp2).density = CAM_MODE === 'shoulder' ? (clawHold ? 0.022 : 0.036) : 0.042;
@@ -1423,7 +1426,8 @@ function render(alpha: number) {
   // Occlusion unique : `losClear` / `liftFollowIfOccluded` / `desiredCombatPose` (web/combat-cam.ts).
   const portrait = innerHeight > innerWidth;
   const sh = IMPACT ? fx.shakeOffset() : { sx: 0, sz: 0 };
-  const sx = sh.sx, sz = sh.sz;
+  const sx = CAM_MODE === 'shoulder' ? sh.sx * 0.22 : sh.sx;
+  const sz = CAM_MODE === 'shoulder' ? sh.sz * 0.22 : sh.sz;
   const fwdX = Math.cos(camYaw), fz = Math.sin(camYaw);      // axe de marche
   const rx = -fz, rz = fwdX;                                 // son épaule droite
   switch (CAM_MODE) {
@@ -1542,23 +1546,39 @@ function render(alpha: number) {
       const term = { x: tx, y: ty, facing: tf };
       const clawEv = w.events.find((e) => e.type === 'claw' || e.type === 'clawArm' || e.type === 'whiff');
       const clawWho = clawEv && 'who' in clawEv ? (clawEv as { who: number }).who : null;
+      const bolt = w.events.some((e) => e.type === 'bolt');
       const stepped = stepShoulderCam({
         prev: combatPose, prevTerm: shoulderPrevTerm, hold: clawHold, term, nls, aspect, portrait,
-        pillars: PILLARS, arena: ARENA, now, clawWho,
+        pillars: PILLARS, arena: ARENA, now, clawWho, damp: shoulderDamp, bolt, dt: DT,
       });
       clawHold = stepped.hold;
+      shoulderDamp = stepped.damp;
       shoulderPrevTerm = term;
       combatPose = CAP_STEP || clawHold
         ? stepped.pose
         : {
           ...stepped.pose,
-          camY: stepped.pose.camY + stepY * 0.35 + breath + recZ * 0.03,
-          camX: stepped.pose.camX + servo * Math.cos(tf + Math.PI / 2),
-          camZ: stepped.pose.camZ + servo * Math.sin(tf + Math.PI / 2),
+          camY: stepped.pose.camY + stepY * 0.18 + breath * 0.45 + recZ * 0.02,
         };
-      const threats = huntThreatCount(term, nls);
-      const trem = IMPACT ? huntTremor(threats, now) : { sx: 0, sz: 0 };
-      applyCombatCamera(camera, combatPose, sx + trem.sx, sz + trem.sz);
+      applyCombatCamera(camera, combatPose, sx, sz, term);
+      const clearR = Math.hypot(camera.position.x - tx, camera.position.z - ty);
+      if (termRig) {
+        const fade = Math.min(1, Math.max(0, (clearR - 1.28) / 0.5));
+        termRig.root.visible = fade > 0.1;
+        termRig.root.traverse((o) => {
+          const mesh = o as THREE.Mesh;
+          if (!mesh.isMesh) return;
+          const mats = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as THREE.Material[];
+          for (const m of mats) {
+            if ('opacity' in m) {
+              const std = m as THREE.MeshStandardMaterial;
+              std.transparent = fade < 0.98;
+              std.opacity = fade;
+              std.depthWrite = fade > 0.55;
+            }
+          }
+        });
+      }
       break;
     }
     default: {
@@ -1597,10 +1617,11 @@ function render(alpha: number) {
   const alarmGlow = ALARM_ON && w.t.servoAlarm > 0
     ? (w.t.servoAlarm / T_CFG.servoAlarmTicks) * (0.30 + 0.70 * Math.abs(Math.sin(simT * 2 * Math.PI * 2.5)))
     : 0;
+  const alarmAmt = CAM_MODE === 'shoulder' ? alarmGlow * 0.008 : alarmGlow * 0.070;
   // Une teinte, pas un projecteur. Mesuré en trois essais : 0,9 rendait le Terminator rouge fluo et on ne
   // lisait plus l'armure ni les Night Lords autour ; 0,22 le teintait encore comme un néon ; 0,085 laisse
   // l'albedo intact et fait seulement respirer le rouge des plaques. C'est une alarme, pas une enseigne.
-  for (const m of alarmMats) { m.emissive.copy(m.userData.baseEmissive).lerp(ALARM_COLOR, alarmGlow * 0.070); }
+  for (const m of alarmMats) { m.emissive.copy(m.userData.baseEmissive).lerp(ALARM_COLOR, alarmAmt); }
   (fistM.material as THREE.MeshStandardMaterial).emissive.setRGB(0.05 * pulse, 0.12 * pulse, 0.62 * pulse);
   // Flou de rotation : 5 prises dans la passe plein écran quand la caméra tourne vite, rien sinon.
   const blur = CAM_MODE === 'epaule' ? Math.max(-0.018, Math.min(0.018, -yawRate * 0.0032)) : 0;
@@ -1770,6 +1791,18 @@ function screenReadability() {
   const hs = combatPose ? termHeadShoulderInFrame({ x: w.t.x, y: w.t.y, facing: w.t.facing }, combatPose, camera.aspect) : { head: false, shoulder: false };
   const headOn = headBone ? ndcInFrame(headBone.x, headBone.y, headBone.z, 0.98) : hs.head;
   const shoulderOn = shoulderBone ? ndcInFrame(shoulderBone.x, shoulderBone.y, shoulderBone.z, 0.98) : hs.shoulder;
+  const camClip = camInTermVolume(camera.position.x, camera.position.y, camera.position.z, { x: w.t.x, y: w.t.y, facing: w.t.facing });
+  let meleeNl = false;
+  let meleeNlOn = false;
+  for (const row of rows) {
+    const n = w.nls[row.i];
+    if (!n?.alive || row.distTerm > MELEE_NL_M) continue;
+    meleeNl = true;
+    const vis = (row.meshOn || inFrustum(row.ndc, 0.96)) && !(combatPose
+      ? nlOccludedByTerm(combatPose, { x: w.t.x, y: w.t.y, facing: w.t.facing }, n)
+      : false);
+    if (vis) meleeNlOn = true;
+  }
   return {
     tick: w.tick,
     living: rows.length,
@@ -1788,6 +1821,9 @@ function screenReadability() {
     headOn, shoulderOn,
     pose: combatPose,
     cam: { x: camera.position.x, y: camera.position.y, z: camera.position.z, fov: camera.fov, aspect: camera.aspect, near: camera.near },
+    camClip,
+    meleeNl,
+    meleeNlOn,
   };
 }
 
