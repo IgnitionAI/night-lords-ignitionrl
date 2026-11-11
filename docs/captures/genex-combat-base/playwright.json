@@ -3,9 +3,9 @@
     "nl1-attack-debut": "http://127.0.0.1:18220/?demo=genex-nl1-attack&cam=epaule&shot=4&focus=0&impact=0&tex=512&seed=1",
     "nl1-attack-contact": "http://127.0.0.1:18220/?demo=genex-nl1-attack&cam=epaule&shot=6&focus=0&impact=0&tex=512&seed=1",
     "nl1-attack-fin": "http://127.0.0.1:18220/?demo=genex-nl1-attack&cam=epaule&shot=7&focus=0&impact=0&tex=512&seed=1",
-    "nl1-death-debut": "http://127.0.0.1:18220/?demo=combat-death&cam=epaule&shot=5&focus=0&genexBase=1&impact=0&tex=512&seed=1",
-    "nl1-death-chute": "http://127.0.0.1:18220/?demo=combat-death&cam=epaule&shot=9&focus=0&genexBase=1&impact=0&tex=512&seed=1",
-    "nl1-death-fin": "http://127.0.0.1:18220/?demo=combat-death&cam=epaule&shot=13&focus=0&genexBase=1&impact=0&tex=512&seed=1",
+    "nl1-death-debut": "http://127.0.0.1:18220/?demo=combat-death&cam=troisquarts&shot=5&focus=0&genexBase=1&impact=0&tex=512&seed=1",
+    "nl1-death-chute": "http://127.0.0.1:18220/?demo=combat-death&cam=troisquarts&shot=9&focus=0&genexBase=1&impact=0&tex=512&seed=1",
+    "nl1-death-fin": "http://127.0.0.1:18220/?demo=combat-death&cam=troisquarts&shot=13&focus=0&genexBase=1&impact=0&tex=512&seed=1",
     "nl2-attack-debut": "http://127.0.0.1:18220/?demo=combat-attack&cam=epaule&shot=4&focus=1&genexBase=1&impact=0&tex=512&seed=1",
     "nl2-attack-contact": "http://127.0.0.1:18220/?demo=combat-attack&cam=epaule&shot=6&focus=1&genexBase=1&impact=0&tex=512&seed=1",
     "nl2-attack-fin": "http://127.0.0.1:18220/?demo=combat-attack&cam=epaule&shot=7&focus=1&genexBase=1&impact=0&tex=512&seed=1",
@@ -44,25 +44,6 @@
           "alive": true,
           "kind": "attack",
           "clip": "Armature|attack|baselayer",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              7.758608580213087,
-              1.000439277217306,
-              12.038083075307364
-            ],
-            "head": [
-              8.06480702584732,
-              1.435496753031584,
-              12.08740297679307
-            ],
-            "actionTime": 0.1,
-            "actionWeight": 0.9999999403953552
-          },
           "loco": false,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -73,25 +54,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              14.273873522487733,
-              1.164311734199603,
-              8.992477578712208
-            ],
-            "head": [
-              14.206073499490351,
-              1.7337050525541668,
-              8.959368822470832
-            ],
-            "actionTime": 0.39999999999999997,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -102,25 +64,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              14.267943070159227,
-              1.152885037454362,
-              14.976711846001447
-            ],
-            "head": [
-              14.206642065411456,
-              1.7214784715091143,
-              14.961516757668495
-            ],
-            "actionTime": 0.39999999999999997,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -131,25 +74,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              15.99293951505628,
-              1.2261230904455458,
-              12.002828599812094
-            ],
-            "head": [
-              15.955778910296253,
-              1.7923920051501026,
-              11.98032546264465
-            ],
-            "actionTime": 0.39999999999999997,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -184,25 +108,6 @@
           "alive": true,
           "kind": "attack",
           "clip": "Armature|attack|baselayer",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              7.7586085706671515,
-              1.0331770929798236,
-              12.038083075685694
-            ],
-            "head": [
-              7.825458556290118,
-              1.4971472144748406,
-              11.974730054272614
-            ],
-            "actionTime": 0.3,
-            "actionWeight": 1
-          },
           "loco": false,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -213,25 +118,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              14.273873522487733,
-              1.158980403483731,
-              8.992477578712208
-            ],
-            "head": [
-              14.206844461074706,
-              1.7282015970744466,
-              8.95540817163502
-            ],
-            "actionTime": 0.6,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -242,25 +128,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              14.267943070159227,
-              1.1475725563266208,
-              14.976711846001447
-            ],
-            "head": [
-              14.206393036471843,
-              1.7160036030624426,
-              14.957526542110317
-            ],
-            "actionTime": 0.6,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -271,25 +138,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              15.99293951505628,
-              1.220326277473215,
-              12.002828599812094
-            ],
-            "head": [
-              15.956033143917518,
-              1.7864125594227753,
-              11.976406656692
-            ],
-            "actionTime": 0.6,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -324,25 +172,6 @@
           "alive": true,
           "kind": "attack",
           "clip": "Armature|attack|baselayer",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              7.7586085706671515,
-              1.0477382202193402,
-              12.038083075685694
-            ],
-            "head": [
-              7.744079647346615,
-              1.4839506060771241,
-              12.033623515869898
-            ],
-            "actionTime": 0.39999999999999997,
-            "actionWeight": 1
-          },
           "loco": false,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -353,25 +182,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              14.273873522487733,
-              1.1576354752790299,
-              8.992477578712208
-            ],
-            "head": [
-              14.20710226373214,
-              1.726833343026774,
-              8.95464906484544
-            ],
-            "actionTime": 0.7,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -382,25 +192,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              14.267943070159227,
-              1.1462155109734111,
-              14.976711846001447
-            ],
-            "head": [
-              14.206448593604408,
-              1.7146188676070806,
-              14.956764450608809
-            ],
-            "actionTime": 0.7,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -411,25 +202,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              15.99293951505628,
-              1.2188151183007527,
-              12.002828599812094
-            ],
-            "head": [
-              15.956181021889103,
-              1.7848663040567097,
-              11.97572234243971
-            ],
-            "actionTime": 0.7,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -446,9 +218,9 @@
           "facing": 0
         },
         "cam": {
-          "x": 10.97,
-          "y": 4.9,
-          "z": 14.530000000000001
+          "x": 9.332014397766203,
+          "y": 5.55,
+          "z": 16.77162295307582
         },
         "pose": null,
         "hold": [
@@ -462,28 +234,9 @@
         {
           "i": 0,
           "alive": false,
-          "kind": "idle",
-          "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              12.418762788870755,
-              1.1705787454395453,
-              12.031735743534238
-            ],
-            "head": [
-              12.360546663379578,
-              1.6537128276308233,
-              12.003098354380956
-            ],
-            "actionTime": 0.49999999999999994,
-            "actionWeight": 1
-          },
-          "loco": true,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
           "skinned": 1,
           "visibleSkinned": 1,
           "proxyVisible": false
@@ -493,25 +246,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              18.27366270849917,
-              1.161389675975967,
-              8.013115453433556
-            ],
-            "head": [
-              18.208838856340037,
-              1.7306552662751342,
-              7.97279687804134
-            ],
-            "actionTime": 0.49999999999999994,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -522,25 +256,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              18.26542973816804,
-              1.1499726733222517,
-              15.956607822605239
-            ],
-            "head": [
-              18.202561572672977,
-              1.7184508908844471,
-              15.94394138647274
-            ],
-            "actionTime": 0.49999999999999994,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -551,25 +266,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              19.99293951505628,
-              1.222943428238782,
-              12.002828599812094
-            ],
-            "head": [
-              19.95562160129076,
-              1.789096774217811,
-              11.978137777974847
-            ],
-            "actionTime": 0.49999999999999994,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -586,9 +282,9 @@
           "facing": 0
         },
         "cam": {
-          "x": 10.97,
-          "y": 4.9,
-          "z": 14.530000000000001
+          "x": 9.332014397766203,
+          "y": 5.55,
+          "z": 16.77162295307582
         },
         "pose": null,
         "hold": [
@@ -602,28 +298,9 @@
         {
           "i": 0,
           "alive": false,
-          "kind": "idle",
-          "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              12.418762788870755,
-              1.1644818766964455,
-              12.031735743534238
-            ],
-            "head": [
-              12.358059137897166,
-              1.6470423255826883,
-              11.999328159232872
-            ],
-            "actionTime": 0.8999999999999999,
-            "actionWeight": 1
-          },
-          "loco": true,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
           "skinned": 1,
           "visibleSkinned": 1,
           "proxyVisible": false
@@ -633,25 +310,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              17.764297828430077,
-              1.1552381399736538,
-              8.139670252591927
-            ],
-            "head": [
-              17.845061316227767,
-              1.7238698403350428,
-              8.140652407305737
-            ],
-            "actionTime": 0.8999999999999999,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -662,25 +320,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              17.754507690271815,
-              1.143762885224079,
-              15.890139393651165
-            ],
-            "head": [
-              17.80122120725773,
-              1.7116878353999951,
-              15.940479982347922
-            ],
-            "actionTime": 0.8999999999999999,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -691,25 +330,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              20.00706048494372,
-              1.2160174644215065,
-              11.997171400187906
-            ],
-            "head": [
-              20.047400918168876,
-              1.78173068210003,
-              12.026055495414614
-            ],
-            "actionTime": 0.8999999999999999,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -726,9 +346,9 @@
           "facing": 0
         },
         "cam": {
-          "x": 10.97,
-          "y": 4.9,
-          "z": 14.530000000000001
+          "x": 9.332014397766203,
+          "y": 5.55,
+          "z": 16.77162295307582
         },
         "pose": null,
         "hold": [
@@ -744,28 +364,9 @@
           "alive": false,
           "kind": "death",
           "clip": "Armature|death|baselayer",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              12.124519429684614,
-              0.3429490133996815,
-              12.038083075685694
-            ],
-            "head": [
-              11.796331649142546,
-              0.30861815951723626,
-              12.192391490423061
-            ],
-            "actionTime": 0.19999999999999998,
-            "actionWeight": 1
-          },
           "loco": false,
           "skinned": 1,
-          "visibleSkinned": 0,
+          "visibleSkinned": 1,
           "proxyVisible": false
         },
         {
@@ -773,25 +374,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              17.764297828430077,
-              1.1527999651678613,
-              8.139670252591927
-            ],
-            "head": [
-              17.85099496764492,
-              1.720541605772385,
-              8.133289846818498
-            ],
-            "actionTime": 1.3000000000000007,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -802,25 +384,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              17.754507690271815,
-              1.141230734476929,
-              15.890139393651165
-            ],
-            "head": [
-              17.810569938017856,
-              1.7084380982856837,
-              15.939257181514087
-            ],
-            "actionTime": 1.3000000000000007,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -831,25 +394,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              20.00706048494372,
-              1.213050887045721,
-              11.997171400187906
-            ],
-            "head": [
-              20.05559329458145,
-              1.7783869884419405,
-              12.021500273890972
-            ],
-            "actionTime": 1.3000000000000007,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -884,25 +428,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              14.058468114583187,
-              1.173456862506971,
-              8.935284302778879
-            ],
-            "head": [
-              14.122382594976036,
-              1.656733904816825,
-              8.933211252937731
-            ],
-            "actionTime": 0.39999999999999997,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -913,25 +438,6 @@
           "alive": true,
           "kind": "attack",
           "clip": "Armature|attack|baselayer",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              8.446213488041757,
-              0.9929121037614949,
-              13.35481229354534
-            ],
-            "head": [
-              8.457114041520107,
-              1.5024055379329666,
-              13.158137134037691
-            ],
-            "actionTime": 0.1,
-            "actionWeight": 0.9999999403953552
-          },
           "loco": false,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -942,25 +448,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              13.764479106829901,
-              1.152885037454362,
-              14.870131852083079
-            ],
-            "head": [
-              13.806933649996264,
-              1.7214784715091143,
-              14.916889906545043
-            ],
-            "actionTime": 0.39999999999999997,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -971,25 +458,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              16.00706048494372,
-              1.2261230904455458,
-              11.997171400187906
-            ],
-            "head": [
-              16.044221089703747,
-              1.7923920051501026,
-              12.01967453735535
-            ],
-            "actionTime": 0.39999999999999997,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1024,25 +492,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              14.058468114583187,
-              1.1682070483541824,
-              8.935284302778879
-            ],
-            "head": [
-              14.123697721003591,
-              1.6512767205494778,
-              8.936421842849915
-            ],
-            "actionTime": 0.6,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1053,25 +502,6 @@
           "alive": true,
           "kind": "attack",
           "clip": "Armature|attack|baselayer",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              8.446213489768851,
-              1.0266666865745253,
-              13.354812299176395
-            ],
-            "head": [
-              8.421980306700304,
-              1.575335237841425,
-              13.45350097784564
-            ],
-            "actionTime": 0.3,
-            "actionWeight": 1
-          },
           "loco": false,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1082,25 +512,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              13.764479106829901,
-              1.1475725563266208,
-              14.870131852083079
-            ],
-            "head": [
-              13.804918435280426,
-              1.7160036030624426,
-              14.920342839394456
-            ],
-            "actionTime": 0.6,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1111,25 +522,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              16.00706048494372,
-              1.220326277473215,
-              11.997171400187906
-            ],
-            "head": [
-              16.04396685608248,
-              1.7864125594227753,
-              12.023593343308
-            ],
-            "actionTime": 0.6,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1164,25 +556,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              14.058468114583187,
-              1.1668759242963598,
-              8.935284302778879
-            ],
-            "head": [
-              14.123832674948996,
-              1.6499222895723622,
-              8.937084544796676
-            ],
-            "actionTime": 0.7,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1193,25 +566,6 @@
           "alive": true,
           "kind": "attack",
           "clip": "Armature|attack|baselayer",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              8.446213489768851,
-              1.0417471280149313,
-              13.354812299176395
-            ],
-            "head": [
-              8.51179637447691,
-              1.5629447151795037,
-              13.518199502593957
-            ],
-            "actionTime": 0.39999999999999997,
-            "actionWeight": 1
-          },
           "loco": false,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1222,25 +576,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              13.764479106829901,
-              1.1462155109734111,
-              14.870131852083079
-            ],
-            "head": [
-              13.80444789898937,
-              1.7146188676070806,
-              14.920944890596974
-            ],
-            "actionTime": 0.7,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1251,25 +586,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              16.00706048494372,
-              1.2188151183007527,
-              11.997171400187906
-            ],
-            "head": [
-              16.0438189781109,
-              1.7848663040567097,
-              12.02427765756029
-            ],
-            "actionTime": 0.7,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1304,25 +620,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              15.054788313343243,
-              1.173456862506971,
-              7.932140714631443
-            ],
-            "head": [
-              15.118489395895862,
-              1.656733904816825,
-              7.926525519073283
-            ],
-            "actionTime": 0.39999999999999997,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1333,25 +630,6 @@
           "alive": true,
           "kind": "attack",
           "clip": "Armature|attack|baselayer",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              8.399970647128756,
-              1.0099339897752322,
-              13.332198657852626
-            ],
-            "head": [
-              8.299505549757074,
-              1.5571086262663307,
-              13.27756631354939
-            ],
-            "actionTime": 0.19999999999999998,
-            "actionWeight": 1
-          },
           "loco": false,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1362,25 +640,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              14.77204551453142,
-              1.152885037454362,
-              15.857267454595078
-            ],
-            "head": [
-              14.811841022497964,
-              1.7214784715091143,
-              15.906308472510872
-            ],
-            "actionTime": 0.39999999999999997,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1391,25 +650,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              16.557060484943722,
-              1.2293461953043936,
-              11.997171400187906
-            ],
-            "head": [
-              16.594015564051844,
-              1.795743004517768,
-              12.017041398877138
-            ],
-            "actionTime": 0.3,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1444,25 +684,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              15.054788313343243,
-              1.1705787454395453,
-              7.932140714631443
-            ],
-            "head": [
-              15.119542188913837,
-              1.6537128276308233,
-              7.928121644675689
-            ],
-            "actionTime": 0.49999999999999994,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1473,25 +694,6 @@
           "alive": true,
           "kind": "attack",
           "clip": "Armature|attack|baselayer",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              8.399970647128756,
-              1.0266666865745253,
-              13.332198657852626
-            ],
-            "head": [
-              8.373214771992552,
-              1.575335237841425,
-              13.430233476181682
-            ],
-            "actionTime": 0.3,
-            "actionWeight": 1
-          },
           "loco": false,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1502,25 +704,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              14.77204551453142,
-              1.1499726733222517,
-              15.857267454595078
-            ],
-            "head": [
-              14.810883244688139,
-              1.7184508908844471,
-              15.908301517271761
-            ],
-            "actionTime": 0.49999999999999994,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1531,25 +714,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              16.557060484943722,
-              1.2261230904455458,
-              11.997171400187906
-            ],
-            "head": [
-              16.594221089703748,
-              1.7923920051501026,
-              12.01967453735535
-            ],
-            "actionTime": 0.39999999999999997,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1584,25 +748,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              15.054788313343243,
-              1.1682070483541824,
-              7.932140714631443
-            ],
-            "head": [
-              15.119980588579272,
-              1.6512767205494778,
-              7.929658215744447
-            ],
-            "actionTime": 0.6,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1613,25 +758,6 @@
           "alive": true,
           "kind": "attack",
           "clip": "Armature|attack|baselayer",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              8.399970647128756,
-              1.0417471280149313,
-              13.332198657852626
-            ],
-            "head": [
-              8.461342249630727,
-              1.5629447151795037,
-              13.497213867495804
-            ],
-            "actionTime": 0.39999999999999997,
-            "actionWeight": 1
-          },
           "loco": false,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1642,25 +768,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              14.77204551453142,
-              1.1475725563266208,
-              15.857267454595078
-            ],
-            "head": [
-              14.80963737624809,
-              1.7160036030624426,
-              15.909644305063459
-            ],
-            "actionTime": 0.6,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1671,25 +778,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              16.557060484943722,
-              1.222943428238782,
-              11.997171400187906
-            ],
-            "head": [
-              16.594378398709242,
-              1.789096774217811,
-              12.021862222025153
-            ],
-            "actionTime": 0.49999999999999994,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1724,25 +812,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              16.05846811458319,
-              1.1763492512131397,
-              7.935284302778879
-            ],
-            "head": [
-              16.121236529272636,
-              1.6597785714164301,
-              7.931306790917505
-            ],
-            "actionTime": 0.3,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1753,25 +822,6 @@
           "alive": true,
           "kind": "dodge",
           "clip": "Armature|dodge|baselayer",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              9.738473660015805,
-              1.0692576599704804,
-              13.955290899027004
-            ],
-            "head": [
-              9.572259849725619,
-              1.6095696189380655,
-              14.004147227606044
-            ],
-            "actionTime": 0.1,
-            "actionWeight": 0.9999998807907104
-          },
           "loco": false,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1782,25 +832,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              15.764479106829901,
-              1.155820110238239,
-              15.870131852083079
-            ],
-            "head": [
-              15.807913802587823,
-              1.7245386364558644,
-              15.91447375439572
-            ],
-            "actionTime": 0.3,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1811,25 +842,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              20.00706048494372,
-              1.2293461953043936,
-              11.997171400187906
-            ],
-            "head": [
-              20.044015564051843,
-              1.795743004517768,
-              12.017041398877138
-            ],
-            "actionTime": 0.3,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1864,25 +876,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              16.05846811458319,
-              1.1705787454395453,
-              7.935284302778879
-            ],
-            "head": [
-              16.123345229946132,
-              1.6537128276308233,
-              7.934863319519834
-            ],
-            "actionTime": 0.49999999999999994,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1893,25 +886,6 @@
           "alive": true,
           "kind": "dodge",
           "clip": "Armature|dodge|baselayer",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              9.442475995305163,
-              0.9909964900023553,
-              13.755817033154958
-            ],
-            "head": [
-              9.619099151026271,
-              1.4744681546059641,
-              13.541488021620246
-            ],
-            "actionTime": 0.3,
-            "actionWeight": 1
-          },
           "loco": false,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1922,25 +896,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              15.764479106829901,
-              1.1499726733222517,
-              15.870131852083079
-            ],
-            "head": [
-              15.806087901057968,
-              1.7184508908844471,
-              15.918933010674857
-            ],
-            "actionTime": 0.49999999999999994,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -1951,25 +906,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              20.00706048494372,
-              1.222943428238782,
-              11.997171400187906
-            ],
-            "head": [
-              20.04437839870924,
-              1.789096774217811,
-              12.021862222025153
-            ],
-            "actionTime": 0.49999999999999994,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -2004,25 +940,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              16.05846811458319,
-              1.1668759242963598,
-              7.935284302778879
-            ],
-            "head": [
-              16.123832674949,
-              1.6499222895723622,
-              7.937084544796675
-            ],
-            "actionTime": 0.7,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -2033,25 +950,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              9.382297715618588,
-              1.1707819092544043,
-              13.677437188887257
-            ],
-            "head": [
-              9.4167324973105,
-              1.7405424265128562,
-              13.741436602288958
-            ],
-            "actionTime": 0.1,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -2062,25 +960,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              15.764479106829901,
-              1.1462155109734111,
-              15.870131852083079
-            ],
-            "head": [
-              15.80444789898937,
-              1.7146188676070806,
-              15.920944890596974
-            ],
-            "actionTime": 0.7,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
@@ -2091,25 +970,6 @@
           "alive": true,
           "kind": "idle",
           "clip": "Idle_3",
-          "pose": {
-            "root": [
-              0,
-              0,
-              0
-            ],
-            "hips": [
-              20.00706048494372,
-              1.2188151183007527,
-              11.997171400187906
-            ],
-            "head": [
-              20.0438189781109,
-              1.7848663040567097,
-              12.02427765756029
-            ],
-            "actionTime": 0.7,
-            "actionWeight": 1
-          },
           "loco": true,
           "skinned": 1,
           "visibleSkinned": 1,
