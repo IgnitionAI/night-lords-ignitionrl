@@ -49,6 +49,9 @@ body.fps #hud .pack{margin-top:4px;letter-spacing:.2em}
 body.fps #hud .alarms{min-height:1.1em}
 body.fps #help{opacity:.45}
 body.fps #fps-fx{display:block}
+body.shoulder #fps-fx{display:block}
+body.shoulder #reticle,body.shoulder #hitmark,body.shoulder #dmg{display:none}
+body.shoulder .offmark{width:22px;height:22px;margin:-11px 0 0 -11px;border-width:3px}
 #fps-fx{display:none}
 @media (max-aspect-ratio:1/1){#dbg{left:8px;right:8px;top:auto;bottom:30px;max-width:none}}
 </style></head><body>
@@ -56,5 +59,5 @@ body.fps #fps-fx{display:block}
 <div id="om0" class="offmark"></div><div id="om1" class="offmark"></div><div id="om2" class="offmark"></div><div id="om3" class="offmark"></div>
 <div id="fps-fx"><div id="reticle"></div><div id="hitmark"></div><div id="dmg"><i class="front"></i><i class="back"></i><i class="left"></i><i class="right"></i></div><div id="threats"></div></div>
 <div id="hud"></div><div id="dbg"></div><div id="msg"></div>
-<div id="help">Victoire Terminator : balise 6 s, meute à terre, ou 2:00 tenues. Défaite : armure à 0.<br>ZQSD ou WASD bouger · souris viser (clic pour verrouiller) · ←/→ pivoter · Espace storm bolter · F ou Maj gantelet · V vue de contrôle · M couper le son · Entrée manche suivante · P pause · ?cam=fps|combat|couloir|epaule|troisquarts</div>
+<div id="help">Victoire Terminator : balise 6 s, meute à terre, ou 2:00 tenues. Défaite : armure à 0.<br>ZQSD ou WASD bouger · souris viser (clic pour verrouiller) · ←/→ pivoter · Espace storm bolter · F ou Maj gantelet · V vue de contrôle · M couper le son · Entrée manche suivante · P pause · ?cam=fps|shoulder|combat|couloir|epaule|troisquarts</div>
 <script type="module" src="/web/main.ts"></script></body></html>

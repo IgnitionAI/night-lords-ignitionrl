@@ -1,0 +1,49 @@
+{
+  "url": "/?autoplay=kiter&seed=900007&cam=shoulder&tex=512&props=0&cap=1",
+  "seed": "900007",
+  "autoplay": "kiter",
+  "fps": 10,
+  "nFrames": 291,
+  "stillsFrom": "ffmpeg-video",
+  "enc": {
+    "crf": 32,
+    "bytes": 4847855
+  },
+  "duration": 29,
+  "videoStamps": {
+    "threat": 4.8,
+    "bolter": 7.3,
+    "fist": 10.9,
+    "claw": 11.9,
+    "end": 26.6
+  },
+  "ticks": {
+    "threat": 48,
+    "bolter": 73,
+    "fist": 109,
+    "claw": 119,
+    "end": 265
+  },
+  "loudnorm": {
+    "input_i": "-15.56",
+    "input_tp": "-4.13",
+    "input_lra": "4.00",
+    "input_thresh": "-25.60",
+    "output_i": "-15.84",
+    "output_tp": "-3.52",
+    "output_lra": "2.60",
+    "output_thresh": "-25.88",
+    "normalization_type": "dynamic",
+    "target_offset": "0.84"
+  },
+  "af": "loudnorm=I=-15:TP=-2:LRA=11:measured_I=-15.56:measured_TP=-4.13:measured_LRA=4.00:measured_thresh=-25.60:offset=0.84:linear=true,alimiter=limit=0.70794578:level=false:attack=1:release=80",
+  "ebuFinal": {
+    "I": -15.1,
+    "TP": -2.7
+  },
+  "freezeHitsBeforeEnd": [],
+  "imgBytes": 453038,
+  "winner": "pack",
+  "reason": "Terminator abattu",
+  "ebuMp4": " -15.4 S: -15.2     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -6.3  -6.3 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 28.4       TARGET:-23 LUFS    M: -15.5 S: -15.1     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -5.6  -5.6 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 28.5       TARGET:-23 LUFS    M: -15.4 S: -15.1     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -5.6  -5.6 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 28.6       TARGET:-23 LUFS    M: -15.4 S: -15.0     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -5.7  -5.7 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 28.7       TARGET:-23 LUFS    M: -15.3 S: -15.0     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -6.1  -6.1 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 28.8       TARGET:-23 LUFS    M: -15.4 S: -14.9     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -5.2  -5.2 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 28.9       TARGET:-23 LUFS    M: -14.9 S: -14.8     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -3.9  -3.9 dBFS  TPK:  -2.7  -2.7 dBFS\n[Parsed_ebur128_0 @ 0x55d1c35c4040] t: 29         TARGET:-23 LUFS    M: -14.1 S: -14.6     I: -15.1 LUFS       LRA:   4.2 LU  FTPK:  -3.9  -3.9 dBFS  TPK:  -2.7  -2.7 dBFS\n[out#0/null @ 0x55d1c35a2dc0] video:325kB audio:5440kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown\nframe=  693 fps=0.0 q=-0.0 Lsize=N/A time=00:00:29.00 bitrate=N/A speed=51.7x    \n[Parsed_ebur128_0 @ 0x55d1c35c4040] Summary:\n\n  Integrated loudness:\n    I:         -15.1 LUFS\n    Threshold: -25.1 LUFS\n\n  Loudness range:\n    LRA:         4.2 LU\n    Threshold: -35.2 LUFS\n    LRA low:   -17.1 LUFS\n    LRA high:  -12.9 LUFS\n\n  True peak:\n    Peak:       -2.7 dBFS\n\n"
+}

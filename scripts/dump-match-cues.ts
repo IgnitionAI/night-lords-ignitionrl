@@ -44,6 +44,7 @@ const propsOn = process.env.PROPS !== '0';
 const w = newWorld(seed, undefined, { propKinds: propsOn ? [...PROP_KINDS] : [] });
 const rng = mulberry32(seed ^ 0x9e3779b9);
 const dir = new AudioDirector();
+dir.huntCam = process.env.HUNT === '1';
 dir.beginRound();
 const idle: TAction = { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false };
 

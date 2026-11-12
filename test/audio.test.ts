@@ -262,6 +262,24 @@ test('?mute=1 coupe le moteur à l’init', async () => {
   assert.equal(engine.enabled, false);
 });
 
+test('tension de chasse : gonfle le bus ambiance sans toucher le master', async () => {
+  const ctx = createMockAudioContext();
+  const engine = new AudioEngine();
+  await engine.init({
+    context: ctx as never,
+    manifest: { version: 1, polyphony: 8, samples: [] },
+    autounlock: false,
+    enabled: true,
+    search: '',
+  });
+  const before = engine.graph!.buses.ambience.gain.value;
+  const master = engine.graph!.buses.master.gain.value;
+  engine.setHuntTension(0.8);
+  assert.ok(engine.huntTension > 0.7);
+  assert.ok(engine.graph!.buses.ambience.gain.value > before);
+  assert.equal(engine.graph!.buses.master.gain.value, master);
+});
+
 test('tape WebAudio : beginTape branche le limiteur #75', async () => {
   const ctx = createMockAudioContext();
   const engine = new AudioEngine();

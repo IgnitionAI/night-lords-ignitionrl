@@ -31,9 +31,13 @@ import {
   sceneRenderTargetOptions, POST_FRAGMENT_SHADER, FOG_COLOR, TONE_MAPPING_EXPOSURE,
 } from './atmosphere';
 import {
-  COMBAT_CAM, FOG_CLEAR_M, TERM_MODEL_H, applyCombatCamera, desiredCombatPose, inFrustum,
-  isReadableOnScreen, liftFollowIfOccluded, losClear, offscreenMarker, smoothCombatPose,
-  type CombatPose,
+  COMBAT_CAM, FOG_CLEAR_M, TERM_MODEL_H, NL_MODEL_H, NL_BODY_R,
+  MELEE_NL_M, TERM_CAM_MIN_R,
+  applyCombatCamera, camInTermVolume, inFrustum, ndcInFrame, worldBoxOnScreen,
+  isReadableOnScreen, liftFollowIfOccluded, losClear, nlOccludedByTerm, offscreenMarker,
+  nlVisibleInFrame, stepShoulderCam,
+  termHeadShoulderInFrame,
+  type CombatPose, type ShoulderClawHold, type YawDamp,
 } from './combat-cam';
 import { applyTerminatorLook } from './terminator-look';
 import { createFxSystem, parseFxQuality } from './fx';
@@ -72,9 +76,10 @@ applyRendererAtmosphere(renderer);
 const FOG_MODE = qs.get('fog') ?? 'exp2';
 const scene = new THREE.Scene();
 applySceneAtmosphere(scene, FOG_MODE);
-// Cadrage : FPS par défaut (#74). `?cam=combat` two-shot ; `?cam=couloir|epaule|troisquarts` restent.
+// Cadrage : FPS par défaut (#74). `?cam=shoulder` (alias `combat`) épaule droite ; couloir / epaule / troisquarts restent.
 const CAM_MODE: CamMode = parseCamMode(qs.get('cam'));
 if (CAM_MODE === 'fps') document.body.classList.add('fps');
+if (CAM_MODE === 'shoulder') document.body.classList.add('shoulder');
 const PLAY_SPEED = Math.max(1, Math.min(2, Number(qs.get('speed') ?? 1) || 1));
 const PROBE_READ = qs.get('probe') === 'read';
 const CAP_STEP = qs.get('cap') === '1';
@@ -91,7 +96,7 @@ const camFov = (portrait: boolean): number => {
     case 'couloir': return portrait ? CAM.fovPortrait : CAM.fov;
     case 'epaule': return portrait ? EPAULE.fovPortrait : EPAULE.fov;
     case 'troisquarts': return portrait ? TROIS_QUARTS.fovPortrait : TROIS_QUARTS.fov;
-    case 'combat': return portrait ? COMBAT_CAM.fovPortrait : COMBAT_CAM.fov;
+    case 'shoulder': return portrait ? COMBAT_CAM.fovPortrait : COMBAT_CAM.fov;
     default: { const _e: never = CAM_MODE; throw new Error(String(_e)); }
   }
 };
@@ -101,9 +106,10 @@ const FX_QUALITY = parseFxQuality(qs.get('fx')); // ?fx=low : coupe particules, 
 const BENCH = qs.get('bench') === '1';
 const benchFrames: number[] = [];
 if (BENCH) (window as unknown as { __benchFrames: number[] }).__benchFrames = benchFrames;
-const camera = new THREE.PerspectiveCamera(camFov(false), 1, CAM_MODE === 'fps' ? 0.07 : 0.1, 200);
+const camera = new THREE.PerspectiveCamera(camFov(false), 1, CAM_MODE === 'fps' ? 0.07 : CAM_MODE === 'shoulder' ? COMBAT_CAM.near : 0.1, 200);
 installCorridorLights(scene, BEACON.y);
 const FPS_LIT = qs.get('fpslit') !== '0';
+const SHOULDER_LIT = qs.get('huntlit') !== '0';
 if (CAM_MODE === 'fps') {
   renderer.toneMappingExposure = FPS_LIT ? FPS_EXPOSURE : TONE_MAPPING_EXPOSURE;
   scene.fog = new THREE.FogExp2(FOG_COLOR, FPS_LIT ? FPS_FOG_DENSITY : 0.060);
@@ -111,6 +117,15 @@ if (CAM_MODE === 'fps') {
   const helmFill = new THREE.PointLight(0xc8d4ee, FPS_LIT ? 3.2 : 0, 11, 2);
   helmFill.position.set(0.15, 0.08, 0.2);
   camera.add(helmFill);
+  scene.add(camera);
+} else if (CAM_MODE === 'shoulder') {
+  // Chasse : fog plus court, vignette, mais fill local pour que T/NL restent lisibles (échec gate trop sombre).
+  renderer.toneMappingExposure = SHOULDER_LIT ? 1.48 : TONE_MAPPING_EXPOSURE;
+  scene.fog = new THREE.FogExp2(FOG_COLOR, SHOULDER_LIT ? 0.050 : 0.060);
+  if (SHOULDER_LIT) scene.add(new THREE.AmbientLight(0x243044, 0.34));
+  const shoulderFill = new THREE.PointLight(0xc4d0e8, SHOULDER_LIT ? 2.15 : 0, 8.5, 2);
+  shoulderFill.position.set(0.22, 0.12, 0.35);
+  camera.add(shoulderFill);
   scene.add(camera);
 } else {
   renderer.toneMappingExposure = TONE_MAPPING_EXPOSURE;
@@ -390,6 +405,7 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   root.scale.setScalar(targetHeight / h);
   root.rotation.y = Math.PI / 2; // le modele regarde +Z, la simulation regarde +X
   root.traverse((o: any) => {
+    o.frustumCulled = false;
     if (!o.isMesh) return;
     o.castShadow = true;
     const m = o.material as THREE.MeshStandardMaterial;
@@ -523,7 +539,9 @@ function lookWeight(rig: Rig): boolean {
 }
 
 // Terminator : cubes (os/or loyaliste), front marqué par le visor et le storm bolter
-const term = new THREE.Group(); const bone = new THREE.MeshStandardMaterial({ color: 0x2a2418, metalness: 0.5, roughness: 0.45 });
+const term = new THREE.Group();
+term.frustumCulled = false;
+const bone = new THREE.MeshStandardMaterial({ color: 0x2a2418, metalness: 0.5, roughness: 0.45 });
 const add = (g: THREE.Group, geo: THREE.BufferGeometry, mat: THREE.Material, x: number, y: number, z: number) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = true; g.add(m); return m; };
 add(term, new THREE.BoxGeometry(1.3, 1.7, 1.6), bone, 0, 1.25, 0);
 add(term, new THREE.BoxGeometry(0.9, 0.9, 2.6), bone, -0.1, 2.05, 0); // épaulières
@@ -589,6 +607,7 @@ function buildLabels() { // différé : aucune texture de nom allouée tant que 
 const nlEyeMats: THREE.MeshBasicMaterial[][] = ROLES.map(() => []);
 const nlMeshes = ROLES.map((name, i) => {
   const g = new THREE.Group();
+  g.frustumCulled = false;
   nlProxy.push(add(g, new THREE.CapsuleGeometry(NL_CFG.radius, 1.1, 6, 12), nlBodyMat, 0, 1.0, 0));
   for (const z of [-0.11, 0.11]) {
     const eyeMat = new THREE.MeshBasicMaterial({ color: 0xff1a08, fog: false });
@@ -643,20 +662,34 @@ const ALARM_COLOR = new THREE.Color(0xff2a0e);
 const alarmMats: THREE.MeshStandardMaterial[] = []; // rempli au chargement du Terminator
 const tracer = new THREE.Line(
   new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]),
-  new THREE.LineBasicMaterial({ color: 0xfff0a8, fog: false, transparent: true, opacity: 0.95 }),
+  new THREE.LineBasicMaterial({
+    color: 0xfff0a8, fog: false, transparent: true, opacity: 0.95,
+    depthTest: true,
+  }),
 );
-scene.add(tracer); tracer.visible = false;
+tracer.renderOrder = 8; scene.add(tracer); tracer.visible = false;
 const tracerBolt = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.045, 0.018, 1, 7),
-  new THREE.MeshBasicMaterial({ color: 0xffc44a, fog: false, transparent: true, opacity: 0.88 }),
+  new THREE.CylinderGeometry(CAM_MODE === 'shoulder' ? 0.055 : 0.045, CAM_MODE === 'shoulder' ? 0.022 : 0.018, 1, 7),
+  new THREE.MeshBasicMaterial({
+    color: 0xffc44a, fog: false, transparent: true, opacity: 0.92,
+    depthTest: true, depthWrite: false,
+  }),
 );
-tracerBolt.visible = false; scene.add(tracerBolt);
+tracerBolt.visible = false; tracerBolt.renderOrder = 8; scene.add(tracerBolt);
 const tracerHit = new THREE.Mesh(
-  new THREE.SphereGeometry(0.16, 10, 10),
-  new THREE.MeshBasicMaterial({ color: 0xffe8a0, fog: false }),
+  new THREE.SphereGeometry(CAM_MODE === 'shoulder' ? 0.12 : 0.16, 10, 10),
+  new THREE.MeshBasicMaterial({ color: 0xffe8a0, fog: false, depthTest: true, depthWrite: false }),
 );
-tracerHit.visible = false; scene.add(tracerHit);
-const TRACER_SEC = 0.42;
+tracerHit.visible = false; tracerHit.renderOrder = 8; scene.add(tracerHit);
+const muzzleFlash = new THREE.Mesh(
+  new THREE.SphereGeometry(0.11, 10, 10),
+  new THREE.MeshBasicMaterial({
+    color: 0xffe08a, fog: false, transparent: true, opacity: 0.9,
+    depthTest: false, depthWrite: false,
+  }),
+);
+muzzleFlash.visible = false; muzzleFlash.renderOrder = 9; scene.add(muzzleFlash);
+const TRACER_SEC = CAM_MODE === 'shoulder' ? 0.55 : 0.42;
 const fx = createFxSystem(scene, FX_QUALITY);
 fx.bindEyes(nlEyeMats);
 const vm: Viewmodel | null = CAM_MODE === 'fps' ? createViewmodel() : null;
@@ -990,8 +1023,14 @@ function startRound() {
   fpsLook.yaw = w.t.facing;
   fpsLook.pitch = -0.06;
   fpsMeleeLock = null;
+  combatPose = null;
+  clawHold = null;
+  shoulderDamp = null;
+  shoulderPrevTerm = null;
+  huntWhip = null;
   if (CAM_MODE === 'fps' && termRig) termRig.root.visible = false;
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
+  director.huntCam = CAM_MODE === 'shoulder';
   director.beginRound();
 }
 function playerAction(): TAction {
@@ -1014,6 +1053,10 @@ function floatText(x: number, y: number, text: string, color: string) {
 // que le joueur longe un mur (vu à t77). Il est avancé d'un pas de simulation, donc ?shot= reste juste.
 let camYaw = 0, followYaw = 0;
 let combatPose: CombatPose | null = null;
+let clawHold: ShoulderClawHold | null = null;
+let shoulderDamp: YawDamp | null = null;
+let shoulderPrevTerm: { x: number; y: number; facing: number } | null = null;
+let huntWhip: { x: number; y: number; until: number } | null = null;
 // P3 — le pivot. Mesure de l'état des lieux : la meute passe à plus de 90° dans le dos dès 8,3 s de
 // manche, jusqu'à 174°. La caméra se décale donc *un peu* vers la menace la plus proche, jamais plus de
 // 30 % de l'angle, et seulement si elle est derrière depuis plus d'une seconde : c'est un signal de
@@ -1143,7 +1186,12 @@ function tick() {
       pushStepImpulse(fpsSteps, simT, (e as any).intensity ?? 0, (e as any).foot === 1 ? 1 : 0);
     }
     if (e.type === 'bolt') {
-      const a = new THREE.Vector3(e.x, 1.55, e.y), b = new THREE.Vector3(e.tx, 1.22, e.ty);
+      const bfx = Math.cos(w.t.facing), bfz = Math.sin(w.t.facing);
+      const brx = -bfz, brz = bfx;
+      const a = CAM_MODE === 'shoulder'
+        ? new THREE.Vector3(e.x + bfx * 1.55 + brx * 0.55, 1.58, e.y + bfz * 1.55 + brz * 0.55)
+        : new THREE.Vector3(e.x, 1.55, e.y);
+      const b = new THREE.Vector3(e.tx, 1.22, e.ty);
       tracer.geometry.setFromPoints([a, b]); tracer.visible = true; tracerT = TRACER_SEC;
       const dir = b.clone().sub(a); const len = Math.max(0.2, dir.length());
       tracerBolt.position.copy(a).add(b).multiplyScalar(0.5);
@@ -1151,10 +1199,18 @@ function tick() {
       tracerBolt.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize());
       tracerBolt.visible = true;
       tracerHit.position.copy(b); tracerHit.visible = true;
+      if (CAM_MODE === 'shoulder') {
+        muzzleFlash.position.copy(a);
+        muzzleFlash.visible = true;
+      }
       if (IMPACT) { recImp.push({ t0: simT, v: 2.2 }); pitchImp.push({ t0: simT, v: 0.55 }); } // la rafale pousse la caméra et lève le nez
       if (e.kill >= 0) { hitMarkT = 0.18; hitMarkKill = true; }
     }
     if (e.type === 'fist' && e.kill >= 0) { hitMarkT = 0.2; hitMarkKill = true; }
+    if (CAM_MODE === 'shoulder' && (e.type === 'claw' || e.type === 'clawArm' || e.type === 'whiff')) {
+      const n = w.nls[(e as { who: number }).who];
+      if (n) huntWhip = { x: n.x, y: n.y, until: simT + (e.type === 'claw' ? 0.42 : 0.28) };
+    }
     if (e.type === 'hit') {
       dmgDir = dmgSide(e.zone, w.t.lastHitAngle, w.t.facing);
       dmgDirT = 0.55;
@@ -1343,12 +1399,19 @@ function render(alpha: number) {
     tFill.intensity = 9.4;
     tLamp.intensity = 10;
     tLamp.distance = 7.2;
-    nlFill.forEach((l, i) => { l.intensity = w.nls[i]!.alive || nlCamHold[i]! > 0 || !!DEMO_CFG ? 5.6 : 0; });
+    nlFill.forEach((l, i) => {
+      const focus = clawHold && clawHold.who === i;
+      const on = w.nls[i]!.alive || nlCamHold[i]! > 0 || !!DEMO_CFG;
+      l.intensity = on ? (focus ? 52 : 8.5) : 0;
+      l.distance = focus ? 16 : 5.8;
+      l.decay = focus ? 0.9 : 2;
+      l.color.setHex(focus ? 0x7cf4ff : 0xffc8a8);
+    });
     if (scene.fog && (scene.fog as THREE.FogExp2).isFogExp2) {
-      (scene.fog as THREE.FogExp2).density = 0.042;
+      (scene.fog as THREE.FogExp2).density = CAM_MODE === 'shoulder' ? (clawHold ? 0.022 : 0.036) : 0.042;
     }
-    renderer.toneMappingExposure = 1.52;
-    postMat.uniforms.uVignette.value = 0.72;
+    renderer.toneMappingExposure = CAM_MODE === 'shoulder' ? (clawHold ? 1.62 : 1.50) : 1.52;
+    postMat.uniforms.uVignette.value = CAM_MODE === 'shoulder' ? 0.62 : 0.72;
   } else {
     tFill.intensity = 0;
     nlFill.forEach((l) => { l.intensity = 0; });
@@ -1363,7 +1426,8 @@ function render(alpha: number) {
   // Occlusion unique : `losClear` / `liftFollowIfOccluded` / `desiredCombatPose` (web/combat-cam.ts).
   const portrait = innerHeight > innerWidth;
   const sh = IMPACT ? fx.shakeOffset() : { sx: 0, sz: 0 };
-  const sx = sh.sx, sz = sh.sz;
+  const sx = CAM_MODE === 'shoulder' ? sh.sx * 0.22 : sh.sx;
+  const sz = CAM_MODE === 'shoulder' ? sh.sz * 0.22 : sh.sz;
   const fwdX = Math.cos(camYaw), fz = Math.sin(camYaw);      // axe de marche
   const rx = -fz, rz = fwdX;                                 // son épaule droite
   switch (CAM_MODE) {
@@ -1464,27 +1528,57 @@ function render(alpha: number) {
       camera.lookAt(subjX + fwdX * q.ahead + sx, q.eye, subjY + fz * q.ahead + sz);
       break;
     }
-    case 'combat': {
-      const now = simT - DT + alpha * DT;
-      if (!(shot || CAP_STEP)) {
-        recZ = osc(recImp, now, REC.w, REC.z);
-        recPitch = osc(pitchImp, now, REC.w, REC.z);
-      } else {
-        recZ = 0;
-        recPitch = 0;
-      }
+    case 'shoulder': {
+      const now = CAP_STEP ? w.tick * DT : simT - DT + alpha * DT;
+      recZ = osc(recImp, now, REC.w, REC.z);
+      recPitch = osc(pitchImp, now, REC.w, REC.z);
+      stepY = osc(stepImp, now, STP.w, STP.z);
+      const breath = Math.sin(now * (2 * Math.PI / 5.2)) * 0.014;
+      const servo = Math.sin(now * 1.7) * 0.016;
       const nls = w.nls.map((n, i) => ({
         x: lerp(prev.n[i][0], n.x), y: lerp(prev.n[i][1], n.y),
-        alive: n.alive || nlCamHold[i]! > 0,
-        armTicks: n.alive ? n.armTicks : (nlCamHold[i]! > 0 ? 2 : 0),
+        alive: n.alive,
+        armTicks: n.alive ? n.armTicks : 0,
+        lastAction: n.lastAction,
       }));
-      const want = desiredCombatPose({
-        term: { x: tx, y: ty, facing: tf },
-        nls, aspect: Math.max(0.2, innerWidth / Math.max(1, innerHeight)), portrait,
-        pillars: PILLARS, arena: ARENA,
+      if (huntWhip && now >= huntWhip.until) huntWhip = null;
+      const aspect = Math.max(0.2, innerWidth / Math.max(1, innerHeight));
+      const term = { x: tx, y: ty, facing: tf };
+      const clawEv = w.events.find((e) => e.type === 'claw' || e.type === 'clawArm' || e.type === 'whiff');
+      const clawWho = clawEv && 'who' in clawEv ? (clawEv as { who: number }).who : null;
+      const bolt = w.events.some((e) => e.type === 'bolt');
+      const stepped = stepShoulderCam({
+        prev: combatPose, prevTerm: shoulderPrevTerm, hold: clawHold, term, nls, aspect, portrait,
+        pillars: PILLARS, arena: ARENA, now, clawWho, damp: shoulderDamp, bolt, dt: DT,
       });
-      combatPose = (shot || PROBE_READ || CAP_STEP || !combatPose) ? want : smoothCombatPose(combatPose, want, 1 / 60);
-      applyCombatCamera(camera, combatPose, sx, sz);
+      clawHold = stepped.hold;
+      shoulderDamp = stepped.damp;
+      shoulderPrevTerm = term;
+      combatPose = CAP_STEP || clawHold
+        ? stepped.pose
+        : {
+          ...stepped.pose,
+          camY: stepped.pose.camY + stepY * 0.18 + breath * 0.45 + recZ * 0.02,
+        };
+      applyCombatCamera(camera, combatPose, sx, sz, term);
+      const clearR = Math.hypot(camera.position.x - tx, camera.position.z - ty);
+      if (termRig) {
+        const fade = Math.min(1, Math.max(0, (clearR - 1.28) / 0.5));
+        termRig.root.visible = fade > 0.1;
+        termRig.root.traverse((o) => {
+          const mesh = o as THREE.Mesh;
+          if (!mesh.isMesh) return;
+          const mats = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as THREE.Material[];
+          for (const m of mats) {
+            if ('opacity' in m) {
+              const std = m as THREE.MeshStandardMaterial;
+              std.transparent = fade < 0.98;
+              std.opacity = fade;
+              std.depthWrite = fade > 0.55;
+            }
+          }
+        });
+      }
       break;
     }
     default: {
@@ -1493,8 +1587,8 @@ function render(alpha: number) {
     }
   }
   if (CAM_MODE !== 'fps') camera.up.set(0, 1, 0);
-  if (CAM_MODE === 'epaule' || CAM_MODE === 'combat') {
-    if (recPitch) camera.rotateX(recPitch * (CAM_MODE === 'combat' ? 0.45 : 1));
+  if (CAM_MODE === 'epaule') {
+    if (recPitch) camera.rotateX(recPitch);
     camera.rotateZ(rollPrev + (roll - rollPrev) * alpha);
   }
   {
@@ -1505,9 +1599,15 @@ function render(alpha: number) {
   // flash de bouche : 75 ms après le départ de la rafale, décroissance quadratique. Il éclaire vraiment la
   // scène — piliers et silhouettes —, ce n'est pas un voile posé sur l'image.
   let mz = 0;
-  for (const i of recImp) { const a = 1 - (simT - DT + alpha * DT - i.t0) / 0.075; if (a > mz) mz = a; }
+  const muzzleWin = CAM_MODE === 'shoulder' ? 0.18 : 0.075;
+  for (const i of recImp) { const a = 1 - (simT - DT + alpha * DT - i.t0) / muzzleWin; if (a > mz) mz = a; }
   muzzleT = Math.max(0, mz);
-  muzzleLight.intensity = 20 * muzzleT * muzzleT;
+  muzzleLight.intensity = (CAM_MODE === 'shoulder' ? 36 : 20) * muzzleT * muzzleT;
+  if (CAM_MODE === 'shoulder' && muzzleFlash.visible) {
+    const k = Math.max(muzzleT, tracerT > 0 ? 0.45 : 0);
+    muzzleFlash.scale.setScalar(0.55 + 0.7 * k);
+    (muzzleFlash.material as THREE.MeshBasicMaterial).opacity = 0.4 + 0.45 * k;
+  }
   const pulse = 0.72 + 0.28 * Math.sin((simT - DT + alpha * DT) * 3.1);
   fistLight.intensity = 2.2 * pulse;
   // clignotement à 2,5 Hz — période de 4 ticks. 8 Hz était au-dessus de ce que la simulation échantillonne
@@ -1517,10 +1617,11 @@ function render(alpha: number) {
   const alarmGlow = ALARM_ON && w.t.servoAlarm > 0
     ? (w.t.servoAlarm / T_CFG.servoAlarmTicks) * (0.30 + 0.70 * Math.abs(Math.sin(simT * 2 * Math.PI * 2.5)))
     : 0;
+  const alarmAmt = CAM_MODE === 'shoulder' ? alarmGlow * 0.008 : alarmGlow * 0.070;
   // Une teinte, pas un projecteur. Mesuré en trois essais : 0,9 rendait le Terminator rouge fluo et on ne
   // lisait plus l'armure ni les Night Lords autour ; 0,22 le teintait encore comme un néon ; 0,085 laisse
   // l'albedo intact et fait seulement respirer le rouge des plaques. C'est une alarme, pas une enseigne.
-  for (const m of alarmMats) { m.emissive.copy(m.userData.baseEmissive).lerp(ALARM_COLOR, alarmGlow * 0.070); }
+  for (const m of alarmMats) { m.emissive.copy(m.userData.baseEmissive).lerp(ALARM_COLOR, alarmAmt); }
   (fistM.material as THREE.MeshStandardMaterial).emissive.setRGB(0.05 * pulse, 0.12 * pulse, 0.62 * pulse);
   // Flou de rotation : 5 prises dans la passe plein écran quand la caméra tourne vite, rien sinon.
   const blur = CAM_MODE === 'epaule' ? Math.max(-0.018, Math.min(0.018, -yawRate * 0.0032)) : 0;
@@ -1541,8 +1642,23 @@ function render(alpha: number) {
       termRig.root.scale.setScalar(0);
     }
   }
-  if (CAM_MODE === 'fps') {
-    postMat.uniforms.uVignette.value = POST_VIGNETTE + 0.18;
+  if (CAM_MODE === 'shoulder' && !STILL_CAP) {
+    const nlsNow = w.nls.filter((n) => n.alive);
+    const near = nlsNow.filter((n) => Math.hypot(n.x - tx, n.y - ty) < 9).length;
+    postMat.uniforms.uVignette.value = POST_VIGNETTE + 0.22 + Math.min(0.28, near * 0.06);
+  }
+  if (CAM_MODE === 'fps' || CAM_MODE === 'shoulder') {
+    const threats = document.getElementById('threats');
+    if (threats) {
+      threats.innerHTML = marksHtml(offscreenMarks(
+        { x: tx, y: ty, yaw: CAM_MODE === 'fps' ? fpsLook.yaw : tf },
+        w.nls,
+        camera,
+      ));
+    }
+  }
+  if (CAM_MODE === 'fps' || CAM_MODE === 'shoulder') {
+    if (CAM_MODE === 'fps') postMat.uniforms.uVignette.value = POST_VIGNETTE + 0.18;
     for (const mats of nlEyeMats) {
       for (const m of mats) {
         const std = m as THREE.MeshStandardMaterial;
@@ -1596,6 +1712,11 @@ function render(alpha: number) {
       if (e.type === 'fist' && !caps.fist) snap('fist');
     }
     if (w.nls.filter((n) => n.alive).length < 4) snap('death');
+    if (!caps.threat) {
+      const tpos = { x: w.t.x, y: w.t.y, yaw: w.t.facing };
+      const marks = offscreenMarks(tpos, w.nls, camera);
+      if (marks.some((m) => m.d < 10)) snap('threat');
+    }
   }
 }
 let mainCalls = 0, mainTris = 0;
@@ -1614,8 +1735,18 @@ function updateOffmarks() {
   }
 }
 
+function boneNdc(obj: THREE.Object3D | null | undefined, name: string) {
+  let found: THREE.Object3D | null = null;
+  obj?.traverse((o) => { if (!found && o.name === name) found = o; });
+  if (!found) return null;
+  const p = new THREE.Vector3();
+  found.getWorldPosition(p);
+  p.project(camera);
+  return { x: p.x, y: p.y, z: p.z };
+}
+
 function screenReadability() {
-  const rows: { i: number; ndc: { x: number; y: number; z: number }; distCam: number; readable: boolean; distTerm: number }[] = [];
+  const rows: { i: number; ndc: { x: number; y: number; z: number }; distCam: number; readable: boolean; distTerm: number; meshOn: boolean; meshShare: number }[] = [];
   let closeLiving = 0;
   let closeOnScreen = false;
   for (let i = 0; i < w.nls.length; i++) {
@@ -1627,8 +1758,15 @@ function screenReadability() {
     const distTerm = Math.hypot(n.x - w.t.x, n.y - w.t.y);
     const ndc = { x: v.x, y: v.y, z: v.z };
     const readable = isReadableOnScreen(ndc, distCam, FOG_CLEAR_M);
-    const inFrame = inFrustum(ndc, 0.96);
-    rows.push({ i, ndc, distCam, readable, distTerm });
+    const mesh = worldBoxOnScreen(
+      n.x - NL_BODY_R, 0.05, n.y - NL_BODY_R,
+      n.x + NL_BODY_R, NL_MODEL_H, n.y + NL_BODY_R,
+      camera,
+    );
+    const meshShare = mesh ? mesh.onScreen / mesh.samples : 0;
+    const meshOn = !!mesh && meshShare >= 0.35 && (mesh.maxY - mesh.minY) > 0.04;
+    const inFrame = meshOn || inFrustum(ndc, 0.96);
+    rows.push({ i, ndc, distCam, readable, distTerm, meshOn, meshShare });
     if (distTerm <= COMBAT_CAM.nlIncludeM) {
       closeLiving++;
       if (inFrame) closeOnScreen = true;
@@ -1638,9 +1776,33 @@ function screenReadability() {
   const feet = new THREE.Vector3(w.t.x, 0, w.t.y).project(camera);
   const head = new THREE.Vector3(w.t.x, TERM_MODEL_H, w.t.y).project(camera);
   const termNdc = { x: chest.x, y: chest.y, z: chest.z };
-  const termOnScreen = inFrustum(termNdc, COMBAT_CAM.termMargin);
-  const termScreenH = Math.abs(head.y - feet.y) / 2;
+  const termMesh = worldBoxOnScreen(
+    w.t.x - 0.82, 0, w.t.y - 0.82,
+    w.t.x + 0.82, TERM_MODEL_H, w.t.y + 0.82,
+    camera,
+  );
+  const hips = boneNdc(termRig?.root, 'Hips') ?? boneNdc(termRig?.root, 'hips');
+  const headBone = boneNdc(termRig?.root, 'Head') ?? boneNdc(termRig?.root, 'head');
+  const shoulderBone = boneNdc(termRig?.root, 'RightShoulder') ?? boneNdc(termRig?.root, 'rightshoulder');
+  const termMeshOn = !!termMesh && termMesh.onScreen / termMesh.samples >= 0.4;
+  const termOnScreen = termMeshOn || inFrustum(termNdc, COMBAT_CAM.termMargin);
+  const termScreenH = termMesh ? (Math.min(termMesh.maxY, 1) - Math.max(termMesh.minY, -1)) / 2 : Math.abs(head.y - feet.y) / 2;
   const termLos = losClear(camera.position.x, camera.position.y, camera.position.z, w.t.x, 1.4, w.t.y, PILLARS);
+  const hs = combatPose ? termHeadShoulderInFrame({ x: w.t.x, y: w.t.y, facing: w.t.facing }, combatPose, camera.aspect) : { head: false, shoulder: false };
+  const headOn = headBone ? ndcInFrame(headBone.x, headBone.y, headBone.z, 0.98) : hs.head;
+  const shoulderOn = shoulderBone ? ndcInFrame(shoulderBone.x, shoulderBone.y, shoulderBone.z, 0.98) : hs.shoulder;
+  const camClip = camInTermVolume(camera.position.x, camera.position.y, camera.position.z, { x: w.t.x, y: w.t.y, facing: w.t.facing });
+  let meleeNl = false;
+  let meleeNlOn = false;
+  for (const row of rows) {
+    const n = w.nls[row.i];
+    if (!n?.alive || row.distTerm > MELEE_NL_M) continue;
+    meleeNl = true;
+    const vis = (row.meshOn || inFrustum(row.ndc, 0.96)) && !(combatPose
+      ? nlOccludedByTerm(combatPose, { x: w.t.x, y: w.t.y, facing: w.t.facing }, n)
+      : false);
+    if (vis) meleeNlOn = true;
+  }
   return {
     tick: w.tick,
     living: rows.length,
@@ -1648,6 +1810,20 @@ function screenReadability() {
     anyOnScreen: closeLiving === 0 || closeOnScreen,
     nls: rows,
     termOnScreen, termScreenH, termLos,
+    termMeshOn,
+    termMeshShare: termMesh ? termMesh.onScreen / termMesh.samples : 0,
+    termMeshArea: termMesh
+      ? (Math.max(0, Math.min(termMesh.maxX, 1) - Math.max(termMesh.minX, -1))
+        * Math.max(0, Math.min(termMesh.maxY, 1) - Math.max(termMesh.minY, -1))) / 4
+      : 1,
+    termMesh: termMesh ? { minX: termMesh.minX, maxX: termMesh.maxX, minY: termMesh.minY, maxY: termMesh.maxY, onScreen: termMesh.onScreen, samples: termMesh.samples } : null,
+    hips, headBone, shoulderBone,
+    headOn, shoulderOn,
+    pose: combatPose,
+    cam: { x: camera.position.x, y: camera.position.y, z: camera.position.z, fov: camera.fov, aspect: camera.aspect, near: camera.near },
+    camClip,
+    meleeNl,
+    meleeNlOn,
   };
 }
 
@@ -1806,6 +1982,18 @@ if (PROBE_READ) {
       term: { x: w.t.x, y: w.t.y, facing: w.t.facing },
       cam: { x: camera.position.x, y: camera.position.y, z: camera.position.z },
       pose: combatPose,
+      clawHold,
+      events: w.events.map((e) => e.type),
+      eventWho: w.events.map((e) => ('who' in e ? (e as { who?: number }).who : null)),
+      fistCharge: w.t.fistCharge,
+      om: [0, 1, 2, 3].map((i) => document.getElementById('om' + i)?.style.display ?? 'none'),
+      read: screenReadability(),
+      mesh: (() => {
+        const p = new THREE.Vector3();
+        termRig?.root.getWorldPosition(p);
+        return { x: p.x, y: p.y, z: p.z, vis: termRig?.root.visible, group: { x: term.position.x, y: term.position.y, z: term.position.z } };
+      })(),
+      camWorld: camera.position.toArray(),
     };
   };
   finishCap();
@@ -1866,7 +2054,9 @@ if (PROBE_READ) {
     shake *= 0.85;
     if (tracerT > 0) {
       tracerT -= dt;
-      if (tracerT <= 0) { tracer.visible = false; tracerBolt.visible = false; tracerHit.visible = false; }
+      if (tracerT <= 0) {
+        tracer.visible = false; tracerBolt.visible = false; tracerHit.visible = false; muzzleFlash.visible = false;
+      }
     }
     hitMarkT = Math.max(0, hitMarkT - dt);
     dmgDirT = Math.max(0, dmgDirT - dt);

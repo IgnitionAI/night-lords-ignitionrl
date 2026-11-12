@@ -47,6 +47,7 @@ export class AudioDirector {
   private time = 0;
   private pending: PendingSound[] = [];
   private lastWorld: DirectorWorld | null = null;
+  huntCam = false;
 
   reset(): void {
     this.nlAcc = [0, 0, 0, 0];
@@ -60,6 +61,7 @@ export class AudioDirector {
     this.time = 0;
     this.pending = [];
     this.lastWorld = null;
+    if (!this.huntCam) engine.setHuntTension(0);
   }
 
   beginRound(): void {
@@ -304,6 +306,18 @@ export class AudioDirector {
 
     const phase = this.musicFor(w);
     if (phase !== engine.musicPhase) engine.setMusicPhase(phase);
+    if (this.huntCam) {
+      let near = 0;
+      let min = Infinity;
+      for (const n of w.nls) {
+        if (!n.alive) continue;
+        const d = Math.hypot(n.x - w.t.x, n.y - w.t.y);
+        if (d < min) min = d;
+        if (d < 9) near++;
+      }
+      const level = Math.max(0, Math.min(1, near * 0.28 + (min < 4.2 ? 0.35 : min < 8 ? 0.18 : 0)));
+      engine.setHuntTension(level);
+    }
 
     this.dripT += dt;
     if (this.dripT > 1.4) {
