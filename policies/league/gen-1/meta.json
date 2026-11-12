@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "generation": 1,
+  "seed": 171,
+  "config": {
+    "updates": 50,
+    "envs": 4,
+    "steps": 32,
+    "hidden": [
+      32,
+      32
+    ],
+    "histShare": 0.7,
+    "ppo": {
+      "lr": 0.0003,
+      "hidden": [
+        32,
+        32
+      ],
+      "clip": 0.2,
+      "epochs": 2,
+      "minibatch": 256,
+      "entCoef": 0.01,
+      "vfCoef": 0.5,
+      "gamma": 0.99,
+      "lambda": 0.95
+    }
+  },
+  "hash": "d431493152247e7d60ed1660731a7b4088d17582c762f4bd098ddc7ad7654ab6",
+  "provenance": "selfplay:seed=171:gen=1"
+}

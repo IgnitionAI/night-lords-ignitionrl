@@ -13,7 +13,9 @@
     "sweep:noise": "bun scripts/sweep-noise.ts",
     "nn:smoke": "bun scripts/nn-harness.ts",
     "proof:sas": "bun scripts/sas-proof.ts",
-    "test:sas": "SAS_E2E=1 bun test test/sas-e2e.test.ts"
+    "test:sas": "SAS_E2E=1 bun test test/sas-e2e.test.ts",
+    "selfplay": "bun src/selfplay.ts",
+    "league": "bun src/league.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
