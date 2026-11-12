@@ -23,7 +23,12 @@
     },
     {
       "status": 200,
-      "url": "http://127.0.0.1:18230/web/league.ts",
+      "url": "http://127.0.0.1:18230/web/league.css",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/web/league.ts?t=1794511027173",
       "method": "GET"
     },
     {
@@ -38,22 +43,17 @@
     },
     {
       "status": 200,
-      "url": "http://127.0.0.1:18230/src/sim.ts",
-      "method": "GET"
-    },
-    {
-      "status": 200,
-      "url": "http://127.0.0.1:18230/web/league.css",
-      "method": "GET"
-    },
-    {
-      "status": 200,
       "url": "http://127.0.0.1:18230/src/elo.ts",
       "method": "GET"
     },
     {
       "status": 200,
-      "url": "http://127.0.0.1:18230/src/leaguelib.ts",
+      "url": "http://127.0.0.1:18230/src/leaguelib.ts?t=1794511004176",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/src/sim.ts",
       "method": "GET"
     },
     {
@@ -63,22 +63,22 @@
     },
     {
       "status": 200,
-      "url": "http://127.0.0.1:18230/src/rng.ts",
-      "method": "GET"
-    },
-    {
-      "status": 200,
-      "url": "http://127.0.0.1:18230/src/props.ts",
-      "method": "GET"
-    },
-    {
-      "status": 200,
       "url": "http://127.0.0.1:18230/src/tactics.ts",
       "method": "GET"
     },
     {
       "status": 200,
+      "url": "http://127.0.0.1:18230/src/rng.ts",
+      "method": "GET"
+    },
+    {
+      "status": 200,
       "url": "http://127.0.0.1:18230/src/policy.ts",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/src/props.ts",
       "method": "GET"
     },
     {

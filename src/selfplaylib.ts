@@ -1,4 +1,4 @@
-// Self-play : fige des snapshots de la meute, tire des adversaires antérieurs, entraîne la politique courante.
+// Self-play : fige des snapshots de la meute ; tirage de partenaires figés (co-play) ou de sondes scriptées.
 // Les tactiques scriptées restent une sonde d'environnement — elles ne sont jamais un checkpoint appris.
 import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync, appendFileSync } from 'node:fs';
@@ -16,7 +16,9 @@ export const SELFPLAY_SAMPLE = {
   emptyPool: 'tactics' as const,
   tactics: ['march', 'turret', 'brawler', 'backpedal'] as const,
   description:
-    'Si le pool de snapshots est vide : 100 % tactiques scriptées (environnement). ' +
+    'Co-play avec partenaires figés, pas un duel d\'adversaires : le snapshot ' +
+    'contrôle les rôles 2–3 (Xarl, Cyrion), coéquipiers de la politique courante (rôles 0–1). ' +
+    'Si le pool est vide : 100 % tactiques scriptées (environnement). ' +
     'Sinon : histShare=0,7 uniforme sur les snapshots figés (jamais mis à jour), ' +
     '1-histShare uniforme sur les tactiques. Tirage mulberry32 uniquement.',
 };
@@ -120,6 +122,7 @@ export function runSelfPlay(opts: Partial<typeof SELFPLAY_DEFAULTS> = {}): {
   const snapshotGens = opts.snapshotGens ?? SELFPLAY_DEFAULTS.snapshotGens;
   const out = opts.out ?? SELFPLAY_DEFAULTS.out;
   mkdirSync(out, { recursive: true });
+  writeFileSync(join(out, 'metrics.jsonl'), '');
 
   const cfg: PPOCfg = { ...SELFPLAY_PPO };
   const ppo = new PPO(OBS_DIM, N_ACT, cfg, seed);

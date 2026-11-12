@@ -1,7 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import { createHash } from 'node:crypto';
+import { mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { OBS_DIM, N_ACT } from '../src/sim.ts';
 import { mulberry32 } from '../src/rng.ts';
 import type { ActorJSON } from '../src/policy.ts';
@@ -11,6 +12,7 @@ import {
   freezeSnapshot,
   hashActor,
   sampleOpponent,
+  runSelfPlay,
   type FrozenSnapshot,
 } from '../src/selfplaylib.ts';
 
@@ -21,10 +23,12 @@ function stubActor(tag: string, bias = 1): ActorJSON {
   return { version: tag, obsDim: OBS_DIM, nAct: N_ACT, layers: [{ inDim: OBS_DIM, outDim: N_ACT, w, b, act: 'linear' }], meta: { tag } };
 }
 
-test('protocole de tirage documenté : histShare et pool uniforme seedé', () => {
+test('protocole de tirage documenté : histShare et co-play (partenaires figés, pas adversaires)', () => {
   assert.equal(SELFPLAY_SAMPLE.histShare, 0.7);
   assert.equal(SELFPLAY_SAMPLE.emptyPool, 'tactics');
   assert.match(SELFPLAY_SAMPLE.tactics.join(','), /march/);
+  assert.match(SELFPLAY_SAMPLE.description, /co-play/i);
+  assert.match(SELFPLAY_SAMPLE.description, /partenaires figés/);
   assert.equal(SNAPSHOT_FORMAT, 1);
 });
 
@@ -91,4 +95,15 @@ test('les nouveaux modules selfplay/elo/league n\'utilisent pas Math.random', ()
     const src = readFileSync(new URL('../' + f, import.meta.url), 'utf8');
     assert.equal(/Math\.random\s*\(/.test(src), false, f);
   }
+});
+
+test('runSelfPlay vide metrics.jsonl au départ', () => {
+  const out = join(tmpdir(), `sp-metrics-${process.pid}-${Date.now()}`);
+  mkdirSync(out, { recursive: true });
+  writeFileSync(join(out, 'metrics.jsonl'), '{"junk":1}\n{"junk":2}\n');
+  runSelfPlay({ seed: 3, updates: 1, envs: 1, steps: 8, snapshotGens: [1], out });
+  const lines = readFileSync(join(out, 'metrics.jsonl'), 'utf8').trim().split('\n');
+  assert.equal(lines.length, 1);
+  assert.equal(JSON.parse(lines[0]!).update, 1);
+  rmSync(out, { recursive: true, force: true });
 });

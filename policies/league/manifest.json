@@ -17,11 +17,11 @@
       "brawler",
       "backpedal"
     ],
-    "description": "Si le pool de snapshots est vide : 100 % tactiques scriptées (environnement). Sinon : histShare=0,7 uniforme sur les snapshots figés (jamais mis à jour), 1-histShare uniforme sur les tactiques. Tirage mulberry32 uniquement."
+    "description": "Co-play avec partenaires figés, pas un duel d'adversaires : le snapshot contrôle les rôles 2–3 (Xarl, Cyrion), coéquipiers de la politique courante (rôles 0–1). Si le pool est vide : 100 % tactiques scriptées (environnement). Sinon : histShare=0,7 uniforme sur les snapshots figés (jamais mis à jour), 1-histShare uniforme sur les tactiques. Tirage mulberry32 uniquement."
   },
   "evalSeedBase": 910000,
   "trainSeedMax": 899999,
-  "seconds": 2.1,
+  "seconds": 2,
   "snapshots": [
     {
       "generation": 1,

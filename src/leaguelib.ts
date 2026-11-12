@@ -1,44 +1,50 @@
-// Ligue : matchs Night Lords réels dans la simulation existante, entre snapshots figés.
-// Rôles 0–1 = home, 2–3 = away. Le Terminator `march` est une sonde d'environnement,
-// jamais un checkpoint appris (`envIsCheckpoint: false`).
-import { newWorld, step, observe, DT, type World } from './sim';
+// Ligue : duels appariés par graine. Il n'y a pas de combat Night Lords contre Night Lords.
+// Sur une graine d'éval, A pilote seule les 4 rôles contre la sonde `march`, puis B fait de même.
+// Gagnant : Terminator vaincu, puis dégâts infligés, puis ticks de survie de la meute.
+import { newWorld, step, observe, DT, MAX_TICKS, type World } from './sim';
 import { march } from './tactics';
 import { forward, softmax, sample, type ActorJSON } from './policy';
 import { mulberry32 } from './rng';
 import type { MatchWinner, EloMatch } from './elo';
-import type { ActorJSON } from './policy';
 
 export const TRAIN_SEED_MAX = 899999;
 export const EVAL_SEED_BASE = 910000;
-export const HOME_ROLES = [0, 1] as const;
-export const AWAY_ROLES = [2, 3] as const;
 export const ENV_TACTIC = 'march' as const;
 
-export interface DamageSplit { homeDamage: number; awayDamage: number; homeAlive: number; awayAlive: number }
+export interface ProbeGame {
+  ticks: number;
+  seconds: number;
+  damage: number;
+  alive: number;
+  worldWinner: World['winner'];
+  reason: string;
+}
 
 export interface LeagueMatch extends EloMatch {
   seed: number;
-  ticks: number;
-  seconds: number;
+  homeSeed: number;
+  awaySeed: number;
   homeGeneration: number;
   awayGeneration: number;
   homeHash: string;
   awayHash: string;
-  homeDamage: number;
-  awayDamage: number;
-  homeAlive: number;
-  awayAlive: number;
-  worldWinner: World['winner'];
-  reason: string;
+  homeGame: ProbeGame;
+  awayGame: ProbeGame;
   envTactic: typeof ENV_TACTIC;
   envIsCheckpoint: false;
+  nlVsNl: false;
+  pairing: 'same-seed-probe';
 }
 
-export function decideWinner(s: DamageSplit): MatchWinner {
-  if (s.homeDamage > s.awayDamage) return 'home';
-  if (s.awayDamage > s.homeDamage) return 'away';
-  if (s.homeAlive > s.awayAlive) return 'home';
-  if (s.awayAlive > s.homeAlive) return 'away';
+export interface LeaguePolicy { actor: ActorJSON; meta: { generation: number; hash: string } }
+
+export function compareProbe(home: { worldWinner: World['winner']; damage: number; ticks: number }, away: { worldWinner: World['winner']; damage: number; ticks: number }): MatchWinner {
+  const homeKill = home.worldWinner === 'pack';
+  const awayKill = away.worldWinner === 'pack';
+  if (homeKill && !awayKill) return 'home';
+  if (awayKill && !homeKill) return 'away';
+  if (home.damage !== away.damage) return home.damage > away.damage ? 'home' : 'away';
+  if (home.ticks !== away.ticks) return home.ticks > away.ticks ? 'home' : 'away';
   return 'draw';
 }
 
@@ -47,49 +53,49 @@ function actFrom(actor: ActorJSON, w: World, i: number, rng: () => number): numb
   return sample(softmax(forward(actor, observe(w, i))), rng);
 }
 
-export interface LeaguePolicy { actor: ActorJSON; meta: { generation: number; hash: string } }
-
-export function playLeagueMatch(home: LeaguePolicy, away: LeaguePolicy, seed: number): LeagueMatch {
+export function playProbe(actor: ActorJSON, seed: number): ProbeGame {
   if (seed <= TRAIN_SEED_MAX) throw new Error(`graine d'éval ${seed} chevauche l'entraînement (<= ${TRAIN_SEED_MAX})`);
   const w = newWorld(seed, undefined, { clawWindup: false });
   const tactic = march();
   const rng = mulberry32(seed ^ 0x51ed);
-  let homeDamage = 0, awayDamage = 0;
+  let damage = 0;
   while (!w.done) {
-    const acts = w.nls.map((_, i) => {
-      const actor = (HOME_ROLES as readonly number[]).includes(i) ? home.actor : away.actor;
-      return actFrom(actor, w, i, rng);
-    });
+    const acts = w.nls.map((_, i) => actFrom(actor, w, i, rng));
     step(w, tactic(w), acts);
     for (const e of w.events) {
-      if (e.type === 'claw' && e.dmg > 0) {
-        if ((HOME_ROLES as readonly number[]).includes(e.who)) homeDamage += e.dmg;
-        else awayDamage += e.dmg;
-      }
+      if (e.type === 'claw' && e.dmg > 0) damage += e.dmg;
     }
   }
-  const homeAlive = HOME_ROLES.filter(i => w.nls[i].alive).length;
-  const awayAlive = AWAY_ROLES.filter(i => w.nls[i].alive).length;
-  const winner = decideWinner({ homeDamage, awayDamage, homeAlive, awayAlive });
+  return {
+    ticks: w.tick,
+    seconds: +(w.tick * DT).toFixed(1),
+    damage,
+    alive: w.nls.filter(n => n.alive).length,
+    worldWinner: w.winner,
+    reason: w.reason,
+  };
+}
+
+export function playLeagueMatch(home: LeaguePolicy, away: LeaguePolicy, seed: number): LeagueMatch {
+  const homeGame = playProbe(home.actor, seed);
+  const awayGame = playProbe(away.actor, seed);
   return {
     home: `gen-${home.meta.generation}`,
     away: `gen-${away.meta.generation}`,
-    winner,
+    winner: compareProbe(homeGame, awayGame),
     seed,
-    ticks: w.tick,
-    seconds: +(w.tick * DT).toFixed(1),
+    homeSeed: seed,
+    awaySeed: seed,
     homeGeneration: home.meta.generation,
     awayGeneration: away.meta.generation,
     homeHash: home.meta.hash,
     awayHash: away.meta.hash,
-    homeDamage,
-    awayDamage,
-    homeAlive,
-    awayAlive,
-    worldWinner: w.winner,
-    reason: w.reason,
+    homeGame,
+    awayGame,
     envTactic: ENV_TACTIC,
     envIsCheckpoint: false,
+    nlVsNl: false,
+    pairing: 'same-seed-probe',
   };
 }
 
@@ -112,6 +118,7 @@ export function parseLeagueReport(raw: unknown): { matches: LeagueMatch[]; eloSo
     if (!m || typeof m !== 'object') throw new Error(artefactMessage('incompatible', 'entrée match'));
     const row = m as LeagueMatch;
     if (row.envIsCheckpoint) throw new Error(artefactMessage('incompatible', 'contrôleur scripté présenté comme checkpoint'));
+    if (row.nlVsNl) throw new Error(artefactMessage('incompatible', 'combat NL vs NL : hors protocole'));
     if (typeof row.home !== 'string' || typeof row.away !== 'string') throw new Error(artefactMessage('incompatible', 'identifiants match'));
     if (row.winner !== 'home' && row.winner !== 'away' && row.winner !== 'draw') {
       throw new Error(artefactMessage('incompatible', `winner ${String(row.winner)}`));
@@ -120,7 +127,7 @@ export function parseLeagueReport(raw: unknown): { matches: LeagueMatch[]; eloSo
   return { matches: o.matches as LeagueMatch[], eloSource: 'matches.json' };
 }
 
-export function replayTicks(home: ActorJSON, away: ActorJSON, seed: number, maxTicks = Infinity): {
+export function replayTicks(actor: ActorJSON, seed: number, maxTicks = MAX_TICKS): {
   tick: number; nls: { x: number; y: number; alive: boolean }[]; t: { x: number; y: number; hp: number };
 }[] {
   const w = newWorld(seed, undefined, { clawWindup: false });
@@ -133,11 +140,8 @@ export function replayTicks(home: ActorJSON, away: ActorJSON, seed: number, maxT
     t: { x: w.t.x, y: w.t.y, hp: w.t.hp },
   });
   frames.push(snap());
-  while (!w.done && frames.length <= maxTicks) {
-    const acts = w.nls.map((_, i) => {
-      const actor = (HOME_ROLES as readonly number[]).includes(i) ? home : away;
-      return actFrom(actor, w, i, rng);
-    });
+  while (!w.done && w.tick < maxTicks) {
+    const acts = w.nls.map((_, i) => actFrom(actor, w, i, rng));
     step(w, tactic(w), acts);
     frames.push(snap());
   }

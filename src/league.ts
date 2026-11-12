@@ -1,4 +1,4 @@
-// CLI ligue : fait s'affronter les snapshots 1/10/50, écrit matches.json, recalcule l'ELO.
+// CLI ligue : duels appariés par graine (pas de NL vs NL). Chaque génération joue seule les 4 rôles contre `march`.
 // Usage : bun src/league.ts --out policies/league --n 2 --seedBase 910000
 // (ne pas passer --dir : Bun le réserve comme alias de cwd)
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -46,7 +46,6 @@ for (let i = 0; i < gens.length; i++) {
     const a = byGen[gens[i]!]!, b = byGen[gens[j]!]!;
     for (let k = 0; k < n; k++) {
       matches.push(playLeagueMatch(a, b, seed++));
-      matches.push(playLeagueMatch(b, a, seed++));
     }
   }
 }

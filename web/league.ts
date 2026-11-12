@@ -1,4 +1,4 @@
-import { ARENA } from '../src/sim';
+import { ARENA, MAX_TICKS } from '../src/sim';
 import { ratingsFromMatches } from '../src/elo';
 import { artefactMessage, parseLeagueReport, replayTicks, type LeagueMatch } from '../src/leaguelib';
 import type { ActorJSON } from '../src/policy';
@@ -44,8 +44,8 @@ function drawFrame(frame: { nls: { x: number; y: number; alive: boolean }[]; t: 
   ctx.beginPath();
   ctx.arc(frame.t.x * sx, frame.t.y * sy, 7, 0, Math.PI * 2);
   ctx.fill();
-  frame.nls.forEach((n, i) => {
-    ctx.fillStyle = n.alive ? (i < 2 ? '#8fc9ff' : '#e8a0a0') : '#333';
+  frame.nls.forEach((n) => {
+    ctx.fillStyle = n.alive ? '#8fc9ff' : '#333';
     ctx.beginPath();
     ctx.arc(n.x * sx, n.y * sy, 5, 0, Math.PI * 2);
     ctx.fill();
@@ -112,7 +112,7 @@ try {
   logBody.replaceChildren(...matches.map(m => {
     const tr = document.createElement('tr');
     tr.className = m.winner === 'draw' ? 'draw' : 'win';
-    tr.innerHTML = `<td>${m.home}</td><td>${m.away}</td><td class="winner">${m.winner}</td><td>${m.ticks}</td><td>${m.seed}</td><td>${m.homeDamage}/${m.awayDamage}</td>`;
+    tr.innerHTML = `<td>${m.home}</td><td>${m.away}</td><td class="winner">${m.winner}</td><td>${m.seed}</td><td>${m.homeGame.worldWinner} / ${m.homeGame.ticks} / ${m.homeGame.damage}</td><td>${m.awayGame.worldWinner} / ${m.awayGame.ticks} / ${m.awayGame.damage}</td>`;
     return tr;
   }));
 
@@ -127,8 +127,10 @@ try {
   async function runReplay() {
     try {
       const m = pickMatch();
-      metaEl.textContent = `${m.home} vs ${m.away} · seed ${m.seed} · ${m.winner} · ${m.ticks} ticks · env ${m.envTactic} (checkpoint=${m.envIsCheckpoint})`;
-      const frames = replayTicks(actors[m.home]!, actors[m.away]!, m.seed, 400);
+      metaEl.textContent = `${m.home} vs ${m.away} · seed ${m.seed} · ${m.winner} · nlVsNl=${m.nlVsNl} · ` +
+        `home ${m.homeGame.worldWinner}/${m.homeGame.ticks}t/${m.homeGame.damage}dmg · ` +
+        `away ${m.awayGame.worldWinner}/${m.awayGame.ticks}t/${m.awayGame.damage}dmg · env ${m.envTactic}`;
+      const frames = replayTicks(actors[m.home]!, m.seed, MAX_TICKS);
       playFrames(frames);
     } catch (e) {
       metaEl.textContent = e instanceof Error ? e.message : String(e);

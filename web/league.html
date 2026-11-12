@@ -9,9 +9,9 @@
 </head>
 <body>
   <header>
-    <p class="eyebrow">IGN-171 · self-play</p>
+    <p class="eyebrow">self-play · ligue ELO</p>
     <h1>Ligue des générations</h1>
-    <p class="lead">Classement ELO recalculé depuis <code>matches.json</code>. Aucune cote n’est codée en dur. Le Terminator <code>march</code> est une sonde d’environnement, pas un checkpoint.</p>
+    <p class="lead">Pas de combat Night Lords contre Night Lords. Sur une même graine, chaque génération pilote seule les 4 rôles contre la sonde <code>march</code>. L’ELO vient de <code>matches.json</code>, jamais de cotes en dur. Entraînement : co-play avec partenaires figés (rôles 2–3), pas des adversaires.</p>
   </header>
   <p id="err" hidden></p>
   <section id="app" hidden>
@@ -34,7 +34,7 @@
     </table>
     <h2>Journal</h2>
     <table id="log">
-      <thead><tr><th>Home</th><th>Away</th><th>Winner</th><th>Ticks</th><th>Seed</th><th>Dégâts H/A</th></tr></thead>
+      <thead><tr><th>Home</th><th>Away</th><th>Winner</th><th>Seed</th><th>Home monde / ticks / dmg</th><th>Away monde / ticks / dmg</th></tr></thead>
       <tbody></tbody>
     </table>
   </section>
