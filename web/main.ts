@@ -3,9 +3,10 @@ import * as THREE from 'three';
 import { newWorld, step, observe, nlFrame, terminatorPerceives, DT, MAX_TICKS, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
 import { hudMarkup, matchBeats, matchStatus, roundCard, roundMarkup, type MatchStatus } from '../src/match';
 import { PROP_PLACES, isPropKind, resolvePropKinds, type PropKind, type PropPlace } from '../src/props';
-import { POOL, UNSEEN, type Tactic } from '../src/tactics';
+import { POOL, UNSEEN, bcGhost, type Tactic } from '../src/tactics';
 import { Recorder } from '../src/recorder';
 import { forward, softmax, sample, type ActorJSON } from '../src/policy';
+import { mountRl3 } from './rl3-panel';
 import { policyFileFromQuery } from '../src/train-b4';
 import { mulberry32 } from '../src/rng';
 import { hunterState } from '../src/hunter-state';
@@ -56,6 +57,9 @@ const qs = new URLSearchParams(location.search);
 // C'est un flag distinct de `?debug=1` (vue de contrôle historique, touche V), et rien de ce canal ne va au HUD.
 const CONTROL_VIEW = isControlViewEnabled(location.search);
 const autoplay = qs.get('autoplay'); const shot = Number(qs.get('shot') ?? 0);
+const RL3 = qs.get('rl3') === '1' || qs.get('rl3') === 'replay';
+let rl3Frozen = qs.get('rl3') === 'replay';
+let rl3Ghost: ActorJSON | null = null;
 const CAP_FRAMES = qs.get('cap') === '1';
 let debug = qs.get('debug') === '1';
 // `?seed=N` joue **N**. La manche 1 prend la graine telle quelle ; les manches suivantes avancent d'un cran,
@@ -1001,7 +1005,8 @@ function startRound() {
   roundNo++; roundOver = false; if (roundNo > 1) seed += 1; // manche suivante : la graine d'après, jamais la même
   w = newWorld(seed, undefined, { propKinds: resolvePropKinds({ propsOn: PROPS_ON, loaded: loadedPropKinds }) }); camYaw = followYaw = w.t.facing; prev = snap();
   if (DEMO_CFG) { DEMO_CFG.place(w); camYaw = followYaw = w.t.facing; prev = snap(); } rec = new Recorder(autoplay ? `autoplay ${autoplay}` : 'joueur'); rng = mulberry32(seed ^ 0x9e3779b9);
-  tactic = autoplay ? (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)() : null;
+  if (rl3Frozen && rl3Ghost) tactic = bcGhost(rl3Ghost, seed, 0);
+  else tactic = autoplay ? (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)() : null;
   lastMatch = null;
   mixerSim = 0; acc = 0;
   nlPrevStun = [0, 0, 0, 0]; nlPrevAction = [0, 0, 0, 0];
@@ -1271,6 +1276,15 @@ async function endRound() {
   const card = roundCard(w, { roundNo });
   msg.innerHTML = roundMarkup(card) + '<p>La meute étudie ta tactique…</p>';
   if (shot || PLAY_SPEED !== 1 || qs.get('until') === 'end' || PROBE_READ || CAP_STEP) return;
+  if (RL3) {
+    if (rl3Frozen) { msg.innerHTML += '<p>Replay RL3 figé : pas d’entraînement.</p>'; return; }
+    try {
+      const recJson = rec.toJSON(`${w.winner} — ${w.reason}`);
+      const posted = await fetch('/api/rl3/record', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(recJson) }).then(r => r.json());
+      msg.innerHTML += `<p>RL3 enregistrement ${posted.ok ? 'validé' : 'refusé'} (${recJson.provenance?.kind ?? '?'}, ${recJson.frames.length} frames). Lance « entraîner BC ».</p>`;
+    } catch (e) { msg.innerHTML += `<p>RL3 : ${String(e)}</p>`; }
+    return;
+  }
   try {
     const r = await fetch('/api/round', { method: 'POST', body: JSON.stringify(rec.toJSON(`${w.winner} — ${w.reason}`)) }).then(r => r.json());
     lastSummary = r.summary;
@@ -1294,6 +1308,7 @@ async function loadPolicy() {
 // c'est le défaut qu'on reproche aux chiffres sans SHA. Seuls les drapeaux qui s'écartent du défaut sont écrits.
 function burnIn() {
   const parts = [`t${w.tick}`, `graine ${seed}`, autoplay ? `autoplay ${autoplay}` : 'joueur', `cam ${CAM_MODE}`];
+  if (RL3) parts.push(rl3Frozen ? 'rl3 replay figé' : 'rl3');
   if (!TELL_ON) parts.push('tell=0');
   if (!IMPACT) parts.push('impact=0');
   if (DEMO_CFG) parts.push(`demo ${DEMO}`);
@@ -1913,6 +1928,19 @@ await Promise.all([
 audio.attachLifecycle();
 (window as unknown as { __AUDIO?: typeof engine }).__AUDIO = engine;
 resize(); startRound();
+if (RL3) {
+  mountRl3({
+    enabled: true,
+    getRecording: () => rec.toJSON(w.done ? `${w.winner} — ${w.reason}` : 'manche en cours'),
+    onReplay: (actor) => {
+      rl3Ghost = actor;
+      rl3Frozen = true;
+      startRound();
+    },
+    frozen: () => rl3Frozen,
+  });
+  (window as unknown as { __RL3?: Record<string, unknown> }).__RL3 = { enabled: true, frozen: () => rl3Frozen };
+}
 // ---- sonde temporaire (retirée avant commit)
 if (Number(qs.get('hitscan') ?? 0)) {
   const out: any[] = []; const base = seed; const n = Number(qs.get('hitscan'));

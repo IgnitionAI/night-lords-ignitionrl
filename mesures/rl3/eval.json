@@ -1,0 +1,38 @@
+{
+ "ghost": "/tmp/rl3-ghost.json",
+ "pack": "naive",
+ "n": 5,
+ "seedBase": 900000,
+ "seeds": "900000..900004",
+ "provenance": {
+  "kind": "synthetic",
+  "label": "oracle synthétique wallHugger (IGN-172, pas un humain)",
+  "oracle": "wallHugger"
+ },
+ "disclaimer": "éval mécanique sur oracle/politique BC ; aucune métrique de style humain",
+ "wallSeconds": 0.2,
+ "stats": {
+  "games": 5,
+  "packWins": 0,
+  "packWinRate": 0,
+  "meanSeconds": 120,
+  "medianSeconds": 120,
+  "p10Seconds": 120,
+  "p25Seconds": 120,
+  "p75Seconds": 120,
+  "p90Seconds": 120,
+  "share30to90": 0,
+  "meanNightLordsKilled": 0,
+  "clawArms": 0,
+  "reasons": {
+   "temps écoulé, il a tenu": 5
+  },
+  "teleports": 0,
+  "meanTeleports": 0,
+  "meanEngagements": 0,
+  "shareTicksFar": 1,
+  "shareTicksMelee": 0,
+  "shareTicksVisible": 0,
+  "deathsWithoutTermDamage": 0
+ }
+}

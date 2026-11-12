@@ -1,0 +1,14 @@
+{
+ "provenance": {
+  "kind": "synthetic",
+  "label": "oracle synthétique DAgger",
+  "oracle": "wallHugger"
+ },
+ "disclaimer": "oracle synthétique : aucune métrique de style humain",
+ "initialFrames": 287,
+ "aggregatedFrames": 367,
+ "valIndexMax": 286,
+ "itersUsed": 2,
+ "newFrames": 80,
+ "checkpoint": "ghost-iter-2.json"
+}

@@ -3,7 +3,13 @@ import { type World, type TAction, terminatorPerceives, dist, BEACON } from './s
 import { tObserve, encodeAction } from './tobs';
 
 export interface Frame { tick: number; x: number; y: number; facing: number; a: TAction; contact: number; nearest: number; o?: number[]; move?: number; atk?: number }
-export interface Recording { createdAt: string; source: string; frames: Frame[]; result?: string }
+export interface Recording {
+  createdAt: string;
+  source: string;
+  frames: Frame[];
+  result?: string;
+  provenance?: { kind: 'human' | 'synthetic'; label: string; oracle?: string };
+}
 export interface TacticSummary {
   spawn: { x: number; y: number; facing: number }; path: [number, number][];
   boltPerContactTick: number; fistShare: number; engageDist: number; backwardRatio: number; idleRatio: number;
@@ -12,13 +18,20 @@ export interface TacticSummary {
 
 export class Recorder {
   frames: Frame[] = [];
-  constructor(public source = 'joueur') {}
+  constructor(public source = 'joueur', public provenance?: Recording['provenance']) {}
   record(w: World, a: TAction) {
     const p = terminatorPerceives(w); let nd = 99;
     for (const i of p) nd = Math.min(nd, dist(w.nls[i].x, w.nls[i].y, w.t.x, w.t.y));
     this.frames.push({ tick: w.tick, x: +w.t.x.toFixed(2), y: +w.t.y.toFixed(2), facing: +w.t.facing.toFixed(3), a: { ...a }, contact: p.length, nearest: +nd.toFixed(2), o: tObserve(w).map(v => +v.toFixed(4)), ...encodeAction(a) });
   }
-  toJSON(result?: string): Recording { return { createdAt: new Date().toISOString(), source: this.source, frames: this.frames, result }; }
+  toJSON(result?: string): Recording {
+    const synthetic = /synth|oracle|autoplay|wallhugger|dagger|fixture|script/i.test(this.source);
+    const provenance = this.provenance ?? {
+      kind: synthetic ? 'synthetic' as const : 'human' as const,
+      label: this.source,
+    };
+    return { createdAt: new Date().toISOString(), source: this.source, provenance, frames: this.frames, result };
+  }
 }
 
 export function summarize(r: Recording): TacticSummary {

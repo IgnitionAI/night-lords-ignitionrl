@@ -1,0 +1,48 @@
+{
+ "heads": "fwd,strafe,turn,atk",
+ "seed": 3,
+ "rounds": 2,
+ "frames": 327,
+ "train": 267,
+ "val": 60,
+ "epochsUsed": 2,
+ "seconds": 0,
+ "valLoss": 3.6568,
+ "accTrain": {
+  "fwd": 0.438,
+  "strafe": 0.989,
+  "turn": 0.449,
+  "atk": 0.985,
+  "joint": 0.195
+ },
+ "accVal": {
+  "fwd": 0.417,
+  "strafe": 1,
+  "turn": 0.6,
+  "atk": 0.883,
+  "joint": 0.133
+ },
+ "majorityVal": {
+  "fwd": 0.65,
+  "strafe": 1,
+  "turn": 0.367,
+  "atk": 0.933,
+  "joint": 0.217
+ },
+ "provenance": {
+  "kind": "synthetic",
+  "label": "oracle synthétique wallHugger (IGN-172, pas un humain)",
+  "oracle": "wallHugger"
+ },
+ "disclaimer": "données synthétiques : aucune métrique de style humain",
+ "initialFrames": 287,
+ "daggerIter": 2,
+ "extraFrames": 40,
+ "budget": {
+  "epochs": 2,
+  "patience": 2,
+  "hidden": 32,
+  "seed": 3
+ },
+ "out": "/tmp/rl3-dagger/ghost-iter-2.json"
+}
