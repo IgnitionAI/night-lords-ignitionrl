@@ -8,7 +8,7 @@ export interface Recording {
   source: string;
   frames: Frame[];
   result?: string;
-  provenance?: { kind: 'human' | 'synthetic'; label: string; oracle?: string };
+  provenance?: { kind: 'human' | 'synthetic' | 'mixed'; label: string; oracle?: string };
 }
 export interface TacticSummary {
   spawn: { x: number; y: number; facing: number }; path: [number, number][];

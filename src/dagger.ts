@@ -3,10 +3,10 @@ import { join } from 'node:path';
 import { newWorld, step } from './sim';
 import { wallHugger, bcGhost, type Tactic } from './tactics';
 import { packActs, type Pack } from './evallib';
-import { tObserve, encodeAction } from './tobs';
 import { mulberry32 } from './rng';
 import { Recorder, type Recording, type Frame } from './recorder';
 import { framesFromRecordings, mergeDaggerFrames, trainBehaviorCloning } from './bc-lib';
+import type { Provenance } from './recording-schema';
 import type { ActorJSON } from './policy';
 
 export interface DaggerOpts {
@@ -24,10 +24,11 @@ export interface DaggerOpts {
 }
 
 export interface DaggerResult {
-  provenance: { kind: 'synthetic'; label: string; oracle: string };
+  provenance: Provenance;
   disclaimer: string;
   initialFrames: number;
   aggregatedFrames: number;
+  framesSeenByCheckpoint: number;
   valIndexMax: number;
   itersUsed: number;
   newFrames: number;
@@ -72,19 +73,18 @@ export function runDagger(opts: DaggerOpts): DaggerResult {
 
   const { recs, X } = framesFromRecordings(opts.recordings);
   const initialFrames = X.length;
-  const dataset: Recording[] = recs.map(r => ({ ...r, provenance: { kind: 'synthetic', label: r.source, oracle: r.provenance?.oracle ?? 'dataset-initial' } }));
+  const dataset: Recording[] = recs.map(r => ({ ...r }));
   let extraCount = 0;
   let lastActor: ActorJSON | null = null;
   let checkpoint = 'ghost-iter-0.json';
   let itersUsed = 0;
   let newFrames = 0;
 
-  for (let i = 1; i <= iters; i++) {
-    itersUsed = i;
+  const fit = (iter: number) => {
     const extraIdx = Array.from({ length: extraCount }, (_, k) => initialFrames + k);
     const { train, val } = mergeDaggerFrames(initialFrames, extraIdx);
-    const out = join(opts.outDir, `ghost-iter-${i}.json`);
-    const runJson = join(opts.outDir, `run-iter-${i}.json`);
+    const out = join(opts.outDir, `ghost-iter-${iter}.json`);
+    const runJson = join(opts.outDir, `run-iter-${iter}.json`);
     const trained = trainBehaviorCloning({
       recordings: dataset,
       out,
@@ -92,16 +92,26 @@ export function runDagger(opts: DaggerOpts): DaggerResult {
       epochs,
       patience,
       hidden,
-      seed: seed + i,
+      seed: seed + iter,
       trainIdx: train,
       valIdx: val,
-      versionPrefix: `dagger-iter${i}`,
-      extraMeta: { initialFrames, daggerIter: i, extraFrames: extraCount },
+      versionPrefix: `dagger-iter${iter}`,
+      extraMeta: {
+        initialFrames,
+        daggerIter: iter,
+        extraFrames: extraCount,
+        framesSeenByCheckpoint: initialFrames + extraCount,
+      },
     });
     lastActor = trained.actor;
-    checkpoint = `ghost-iter-${i}.json`;
+    checkpoint = `ghost-iter-${iter}.json`;
+    itersUsed = iter;
+  };
+
+  fit(0);
+  for (let i = 1; i <= iters; i++) {
     const room = maxNewFrames * iters - extraCount;
-    if (room <= 0) break;
+    if (room <= 0 || !lastActor) break;
     const take = Math.min(maxNewFrames, room);
     const more = collectPolicyStates(lastActor, expert, pack, seed + 1000 + i, maxTicks, take);
     if (!more.length) break;
@@ -114,13 +124,16 @@ export function runDagger(opts: DaggerOpts): DaggerResult {
     });
     extraCount += more.length;
     newFrames += more.length;
+    fit(i);
   }
 
+  const aggregatedFrames = initialFrames + extraCount;
   const result: DaggerResult = {
-    provenance: { kind: 'synthetic', label: 'oracle synthétique DAgger', oracle: 'wallHugger' },
-    disclaimer: 'oracle synthétique : aucune métrique de style humain',
+    provenance: (lastActor?.meta?.provenance as Provenance) ?? { kind: 'synthetic', label: 'oracle synthétique DAgger', oracle: 'wallHugger' },
+    disclaimer: String(lastActor?.meta?.disclaimer ?? 'oracle synthétique : aucune métrique de style humain'),
     initialFrames,
-    aggregatedFrames: initialFrames + extraCount,
+    aggregatedFrames,
+    framesSeenByCheckpoint: aggregatedFrames,
     valIndexMax: initialFrames - 1,
     itersUsed,
     newFrames,

@@ -70,6 +70,29 @@ test('BC : métriques par tête et jointes vs majorité, écrites dans le JSON d
   }
 });
 
+test('BC : un mélange humain + synthétique est kind mixed, disclaimer synthétique', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'rl3-mix-'));
+  try {
+    const human: Recording = { ...synthRec(40), source: 'joueur', provenance: { kind: 'human', label: 'joueur' } };
+    const synth: Recording = synthRec(40);
+    const r = trainBehaviorCloning({
+      recordings: [human, synth],
+      out: join(dir, 'ghost.json'),
+      runJson: join(dir, 'run.json'),
+      epochs: 1,
+      patience: 1,
+      seed: 1,
+      hidden: 16,
+    });
+    assert.equal(r.meta.provenance.kind, 'mixed');
+    assert.match(String(r.meta.disclaimer), /synthétique/);
+    const run = JSON.parse(readFileSync(join(dir, 'run.json'), 'utf8'));
+    assert.equal(run.provenance.kind, 'mixed');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 test('BC : refuse un recording sans observation', () => {
   assert.throws(
     () => trainBehaviorCloning({

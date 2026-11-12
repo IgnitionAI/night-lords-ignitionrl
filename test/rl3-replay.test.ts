@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { TOBS_DIM } from '../src/tobs.ts';
@@ -12,7 +12,7 @@ import { packActs } from '../src/evallib.ts';
 import { mulberry32 } from '../src/rng.ts';
 import type { Recording } from '../src/recorder.ts';
 import type { ActorJSON } from '../src/policy.ts';
-import { rl3Handle, createRl3State } from '../src/rl3-http.ts';
+import { rl3Handle, createRl3State, RL3_RECORD_MAX_BYTES } from '../src/rl3-http.ts';
 
 function synthRec(n: number): Recording {
   const frames = [];
@@ -100,6 +100,41 @@ test('API RL3 : erreur explicite sans données / sans checkpoint ; pas d\'entra�
     st.busy = true;
     const busy = await rl3Handle('POST', '/api/rl3/train', JSON.stringify({ seed: 1, epochs: 1 }), st);
     assert.equal(busy.status, 409);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('API RL3 : un verrou laissé par un pid mort n\'empêche pas un nouvel entraînement', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'rl3-lock-'));
+  try {
+    const rec = synthRec(40);
+    const recPath = join(dir, 'recordings/rl3/round-1.json');
+    mkdirSync(join(dir, 'recordings/rl3'), { recursive: true });
+    mkdirSync(join(dir, 'runs/rl3'), { recursive: true });
+    writeFileSync(recPath, JSON.stringify(rec));
+    writeFileSync(join(dir, 'runs/rl3/state.json'), JSON.stringify({
+      busy: true,
+      busyPid: 999999999,
+      recordings: [recPath],
+      ghostPath: null,
+      runPath: null,
+    }));
+    const st = createRl3State(dir);
+    const r = await rl3Handle('POST', '/api/rl3/train', JSON.stringify({ seed: 1, epochs: 1 }), st);
+    assert.equal(r.status, 200);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('API RL3 : POST /api/rl3/record > 5 Mo → 413', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'rl3-413-'));
+  try {
+    const st = createRl3State(dir);
+    const body = 'x'.repeat(RL3_RECORD_MAX_BYTES + 1);
+    const r = await rl3Handle('POST', '/api/rl3/record', body, st);
+    assert.equal(r.status, 413);
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }

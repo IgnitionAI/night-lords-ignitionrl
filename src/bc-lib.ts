@@ -47,8 +47,11 @@ function provenanceOf(recs: Recording[]): Provenance {
   if (kinds.size === 1 && kinds.has('synthetic')) {
     return { kind: 'synthetic', label: recs[0]!.provenance?.label ?? recs[0]!.source, oracle: recs[0]!.provenance?.oracle };
   }
-  if (kinds.size === 1) return { kind: 'human', label: recs[0]!.source };
-  return { kind: 'human', label: 'mélange humain/synthétique (ne pas traiter comme imitation humaine pure)' };
+  if (kinds.size === 1 && kinds.has('human')) return { kind: 'human', label: recs[0]!.source };
+  if (kinds.size === 1 && kinds.has('mixed')) {
+    return { kind: 'mixed', label: recs[0]!.provenance?.label ?? recs[0]!.source };
+  }
+  return { kind: 'mixed', label: 'mélange humain/synthétique (ne pas traiter comme imitation humaine)' };
 }
 
 export function framesFromRecordings(raws: unknown[]): { recs: Recording[]; X: number[][]; Y: number[][]; provenance: Provenance } {
@@ -129,7 +132,6 @@ export function trainBehaviorCloning(opts: BcTrainOpts): BcTrainResult {
       act: (i + 2 < ws.length ? 'tanh' : 'linear'),
     });
   }
-  const synthetic = provenance.kind === 'synthetic';
   const meta = {
     heads: 'fwd,strafe,turn,atk',
     seed,
@@ -144,7 +146,14 @@ export function trainBehaviorCloning(opts: BcTrainOpts): BcTrainResult {
     accVal: acc(va),
     majorityVal: majority(va),
     provenance,
-    disclaimer: synthetic ? 'données synthétiques : aucune métrique de style humain' : 'provenance humaine déclarée — ne pas inventer de convergence',
+    disclaimer: ((): string => {
+      switch (provenance.kind) {
+        case 'human': return 'provenance humaine déclarée — ne pas inventer de convergence';
+        case 'synthetic':
+        case 'mixed': return 'données synthétiques : aucune métrique de style humain';
+        default: { const _e: never = provenance.kind; throw new Error(String(_e)); }
+      }
+    })(),
     ...opts.extraMeta,
   };
   const prefix = opts.versionPrefix ?? 'bc-factored';

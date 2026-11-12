@@ -1,7 +1,7 @@
 import type { Recording, Frame } from './recorder';
 import { encodeAction, TOBS_DIM } from './tobs';
 
-export type ProvenanceKind = 'human' | 'synthetic';
+export type ProvenanceKind = 'human' | 'synthetic' | 'mixed';
 export interface Provenance {
   kind: ProvenanceKind;
   label: string;
@@ -41,7 +41,8 @@ export function validateRecording(raw: unknown): Recording & { provenance: Prove
   if (rec.frames.length === 0) {
     throw new RecordingSchemaError('enregistrement vide');
   }
-  const provenance = rec.provenance?.kind ? rec.provenance : inferProvenance(rec.source);
+  const kindOk = rec.provenance?.kind === 'human' || rec.provenance?.kind === 'synthetic' || rec.provenance?.kind === 'mixed';
+  const provenance = kindOk ? rec.provenance! : inferProvenance(rec.source);
   const frames: Frame[] = rec.frames.map((fr, i) => {
     if (!fr || typeof fr !== 'object' || !isAction(fr.a)) {
       throw new RecordingSchemaError(`enregistrement incompatible : frame ${i} sans action`);

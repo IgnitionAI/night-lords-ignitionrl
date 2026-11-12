@@ -1,33 +1,33 @@
 {
  "heads": "fwd,strafe,turn,atk",
  "seed": 3,
- "rounds": 2,
- "frames": 327,
- "train": 267,
+ "rounds": 3,
+ "frames": 367,
+ "train": 307,
  "val": 60,
  "epochsUsed": 2,
  "seconds": 0,
- "valLoss": 3.6568,
+ "valLoss": 3.6543,
  "accTrain": {
-  "fwd": 0.438,
-  "strafe": 0.989,
-  "turn": 0.449,
-  "atk": 0.985,
-  "joint": 0.195
+  "fwd": 0.511,
+  "strafe": 1,
+  "turn": 0.55,
+  "atk": 0.99,
+  "joint": 0.309
  },
  "accVal": {
-  "fwd": 0.417,
+  "fwd": 0.367,
   "strafe": 1,
-  "turn": 0.6,
+  "turn": 0.583,
   "atk": 0.883,
-  "joint": 0.133
+  "joint": 0.083
  },
  "majorityVal": {
-  "fwd": 0.65,
+  "fwd": 0.35,
   "strafe": 1,
   "turn": 0.367,
   "atk": 0.933,
-  "joint": 0.217
+  "joint": 0.133
  },
  "provenance": {
   "kind": "synthetic",
@@ -37,12 +37,13 @@
  "disclaimer": "données synthétiques : aucune métrique de style humain",
  "initialFrames": 287,
  "daggerIter": 2,
- "extraFrames": 40,
+ "extraFrames": 80,
+ "framesSeenByCheckpoint": 367,
  "budget": {
   "epochs": 2,
   "patience": 2,
   "hidden": 32,
   "seed": 3
  },
- "out": "/tmp/rl3-dagger/ghost-iter-2.json"
+ "out": "/tmp/rl3-dagger-re/ghost-iter-2.json"
 }
