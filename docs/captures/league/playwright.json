@@ -1,0 +1,115 @@
+{
+  "url": "http://127.0.0.1:18230/web/league.html",
+  "errVisible": false,
+  "appVisible": true,
+  "title": "Ligue Night Lords — self-play",
+  "errText": null,
+  "console": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    }
+  ],
+  "pageErrors": [],
+  "network": [
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/web/league.html",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/web/league.ts",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/@vite/client",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/@react-refresh",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/src/sim.ts",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/web/league.css",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/src/elo.ts",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/src/leaguelib.ts",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/node_modules/vite/dist/client/env.mjs",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/src/rng.ts",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/src/props.ts",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/src/tactics.ts",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/src/policy.ts",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/src/tobs.ts",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/policies/league/manifest.json",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/policies/league/matches.json",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/policies/league/gen-1/actor.json",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/policies/league/gen-10/actor.json",
+      "method": "GET"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:18230/policies/league/gen-50/actor.json",
+      "method": "GET"
+    }
+  ]
+}

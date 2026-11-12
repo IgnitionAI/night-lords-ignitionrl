@@ -1,0 +1,23 @@
+html,body{margin:0;background:#07090e;color:#e8e4d8;font:15px/1.45 "Source Serif 4",Georgia,serif}
+header{padding:28px 28px 8px;max-width:960px}
+.eyebrow{letter-spacing:.18em;text-transform:uppercase;font:600 11px/1 ui-sans-serif,system-ui;color:#c4a262;margin:0 0 8px}
+h1{font:700 34px/1.1 ui-sans-serif,system-ui;margin:0 0 10px}
+.lead{color:#b7b3a6;max-width:70ch}
+code{font:13px ui-monospace,monospace;color:#f3e3b0}
+#err{margin:16px 28px;padding:14px 16px;border:1px solid #a33;background:#2a1010;color:#ffb3b3;max-width:80ch}
+#app{padding:8px 28px 48px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:16px 0}
+label{display:flex;flex-direction:column;gap:4px;font:600 12px ui-sans-serif,system-ui;letter-spacing:.06em;text-transform:uppercase}
+select,button{font:15px ui-sans-serif,system-ui;background:#12151c;color:#e8e4d8;border:1px solid #c4a262;padding:8px 12px}
+button{cursor:pointer;background:#c4a262;color:#111;font-weight:700}
+#arena{display:block;width:min(800px,100%);background:#0c1018;border:1px solid #345;margin:12px 0}
+#matchMeta{color:#9aa;font:13px ui-monospace,monospace}
+h2{font:600 18px ui-sans-serif,system-ui;margin:28px 0 6px}
+.hint{color:#8a8680;font-size:13px;margin:0 0 10px}
+table{border-collapse:collapse;width:min(920px,100%);font:13px/1.4 ui-sans-serif,system-ui}
+th,td{border:1px solid #2a3344;padding:6px 8px;text-align:left}
+th{background:#141922;color:#c4a262;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+td.hash{font:12px ui-monospace,monospace;word-break:break-all}
+tr.win td.winner{color:#8fc}
+tr.draw td.winner{color:#ccc}
+tr.loss td.winner{color:#f88}
