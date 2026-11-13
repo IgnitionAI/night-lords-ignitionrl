@@ -6,7 +6,7 @@ Base `dev` SHA `26535ca8505fae31d5f1cc2ba15e40811dc6af64`.
 
 ## Schéma
 
-`Recording` : `source`, `provenance` (`human` | `synthetic` | `mixed`), `frames[]` avec `a`, `o` (29D), `move`, `atk`. Rejet : vide, corrompu, observation absente ou mauvaise dimension. Corps POST `/api/rl3/record` plafonné à 5 Mo (413). `jalon1/mesures/recording-synth.json` est synthétique **et incompatible** (pas d’`o`).
+`Recording` : `source`, `provenance` (`human` | `synthetic` | `mixed`), `frames[]` avec `a`, `o` (29D), `move`, `atk`. Rejet : vide, corrompu, observation absente ou mauvaise dimension. Corps POST `/api/rl3/record` plafonné à 5 Mo (413). `jalon1/mesures/recording-synth.json` est synthétique **et au schéma 29D** (134 frames) : `o` reconstruit par `src/recording-migrate.ts` (pose T dans un monde seed 1 ; les NL d’origine sont absents du JSON jalon 1). L’entrée pré-29D reste en `test/fixtures/rl3/recording-jalon1-pre-29d.json` et **échoue toujours** `validateRecording`. Migration opt-in : `bun scripts/migrate-jalon1-recording.ts`.
 
 Split BC : 1 bloc de 10 frames sur 5 (`floor(i/10) % 5 === 2` = val). DAgger agrège des labels oracle sur les états visités par π ; les indices val restent ceux de D0.
 
@@ -19,12 +19,14 @@ bun install --frozen-lockfile          # exit 0
 bun test test/                         # exit 0  (217 pass, 1 skip sas-e2e)
 bun run build                          # exit 0
 node dist/bc.mjs --out /tmp/rl3-ghost.json --epochs 5 --seed 1 jalon1/mesures/recording-synth.json
-                                       # exit 1  RecordingSchemaError: frame 0 sans observation 29D
+                                       # exit 0  frames=134 train=104 val=30 accVal.joint=0.067 < majorityVal.joint=0.167
+                                       # provenance.kind=synthetic ; disclaimer synthétique
+                                       # o reconstruit (pas les perceptions d’origine)
 node dist/bc.mjs --out /tmp/rl3-ghost.json --run-json mesures/rl3/bc-run.json --epochs 5 --seed 1 test/fixtures/rl3/recording-synth.json
                                        # exit 0  voir bc-run.json
-# DAgger relancé via bibliothèque (src/dagger.ts) seed 1, 2 iters, budget 40 :
-# checkGuard CLI en pause si `bun test` apparaît encore au ps (tests=true).
-# exit 0 bibliothèque ; dagger.json : aggregatedFrames=367 = framesSeenByCheckpoint=367
+# DAgger : bibliothèque seed 1, 2 iters, budget 40.
+# La garde ne matche plus un shell qui *cite* « bun test » ; un vrai `bun test` pause toujours.
+# dagger.json : aggregatedFrames=367 = framesSeenByCheckpoint=367
 # ghost-iter-2.json meta.frames=367, val=60 (D0)
 node dist/eval-imitation.mjs --ghost /tmp/rl3-ghost.json --n 5 --seedBase 900000 --out mesures/rl3/eval.json
                                        # exit 0
@@ -52,5 +54,5 @@ Captures SwiftShader : `docs/captures/rl3/` (`01-play` … `04-replay`, `console
 - Verrou `/api/rl3/train` : pid + `process.kill(pid, 0)` ; un pid mort ne bloque pas.
 - 5 epochs, 1 graine, CPU tfjs-node. Pas d’arrêt sur un plateau réel de fidélité.
 - Fixture et autoplay = oracle scripté, pas un joueur humain.
-- `jalon1/mesures/recording-synth.json` ne peut pas entraîner (pas d’observations).
+- `jalon1/mesures/recording-synth.json` : 134 frames, `o` reconstruit (pas les perceptions d’origine). Toujours `synthetic`.
 - Hors périmètre : PPO/self-play/ELO, publication, main, GitHub Actions.

@@ -53,8 +53,8 @@ test('rejette un JSON corrompu (pas un objet Recording)', () => {
   );
 });
 
-test('jalon1/mesures/recording-synth.json est synthétique et incompatible (pas d\'observations)', () => {
-  const raw = JSON.parse(readFileSync(join(ROOT, 'jalon1/mesures/recording-synth.json'), 'utf8'));
+test('un recording jalon-1 sans o reste rejeté (schéma strict, pas de migration implicite)', () => {
+  const raw = JSON.parse(readFileSync(join(ROOT, 'test/fixtures/rl3/recording-jalon1-pre-29d.json'), 'utf8'));
   assert.equal(inferProvenance(raw.source).kind, 'synthetic');
   assert.throws(
     () => validateRecording(raw),
