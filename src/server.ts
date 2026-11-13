@@ -8,16 +8,25 @@ import { loadavg } from 'node:os';
 import { inodePct, trainingProcs, localCI } from './guard';
 import { summarize, type Recording } from './recorder';
 import { gateDecision } from './gate';
+import { createRl3State, rl3Handle } from './rl3-http';
 
 const ROOT = process.cwd(), PORT = Number(process.env.PORT ?? 18190), FT_UPDATES = Number(process.env.FT_UPDATES ?? 30);
 mkdirSync(join(ROOT, 'recordings'), { recursive: true }); mkdirSync(join(ROOT, 'policies'), { recursive: true });
 let busy = false, round = 0; const session: string[] = []; // manches de la session, pour le fantôme BC
+const rl3 = createRl3State(ROOT);
 const types: Record<string, string> = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.json': 'application/json', '.css': 'text/css',
   '.ogg': 'audio/ogg', '.oga': 'audio/ogg', '.mp3': 'audio/mpeg', '.opus': 'audio/opus', '.wav': 'audio/wav',
 };
 createServer(async (req, res) => {
   const url = new URL(req.url ?? '/', 'http://x');
+  if (url.pathname.startsWith('/api/rl3/')) {
+    let body = '';
+    if (req.method === 'POST') for await (const c of req) body += c;
+    const r = await rl3Handle(req.method ?? 'GET', url.pathname, body, rl3);
+    res.writeHead(r.status, { 'content-type': 'application/json' });
+    return res.end(JSON.stringify(r.json));
+  }
   if (req.method === 'POST' && url.pathname === '/api/round') {
     let body = ''; for await (const c of req) body += c;
     const rec = JSON.parse(body) as Recording; const stamp = Date.now(); round++;

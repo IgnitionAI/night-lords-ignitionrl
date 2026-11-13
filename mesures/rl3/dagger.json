@@ -1,0 +1,15 @@
+{
+ "provenance": {
+  "kind": "synthetic",
+  "label": "oracle synthétique wallHugger (IGN-172, pas un humain)",
+  "oracle": "wallHugger"
+ },
+ "disclaimer": "données synthétiques : aucune métrique de style humain",
+ "initialFrames": 287,
+ "aggregatedFrames": 367,
+ "framesSeenByCheckpoint": 367,
+ "valIndexMax": 286,
+ "itersUsed": 2,
+ "newFrames": 80,
+ "checkpoint": "ghost-iter-2.json"
+}

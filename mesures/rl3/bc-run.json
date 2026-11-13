@@ -1,0 +1,45 @@
+{
+ "heads": "fwd,strafe,turn,atk",
+ "seed": 1,
+ "rounds": 1,
+ "frames": 287,
+ "train": 227,
+ "val": 60,
+ "epochsUsed": 5,
+ "seconds": 0.1,
+ "valLoss": 2.4187,
+ "accTrain": {
+  "fwd": 0.41,
+  "strafe": 1,
+  "turn": 0.502,
+  "atk": 0.991,
+  "joint": 0.269
+ },
+ "accVal": {
+  "fwd": 0.35,
+  "strafe": 1,
+  "turn": 0.417,
+  "atk": 0.933,
+  "joint": 0.067
+ },
+ "majorityVal": {
+  "fwd": 0.65,
+  "strafe": 1,
+  "turn": 0.367,
+  "atk": 0.933,
+  "joint": 0.217
+ },
+ "provenance": {
+  "kind": "synthetic",
+  "label": "oracle synthétique wallHugger (IGN-172, pas un humain)",
+  "oracle": "wallHugger"
+ },
+ "disclaimer": "données synthétiques : aucune métrique de style humain",
+ "budget": {
+  "epochs": 5,
+  "patience": 30,
+  "hidden": 64,
+  "seed": 1
+ },
+ "out": "/tmp/rl3-ghost.json"
+}

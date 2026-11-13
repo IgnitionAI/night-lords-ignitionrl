@@ -1,0 +1,634 @@
+[
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/index.html?rl3=1&autoplay=wallHugger&seed=1&cam=couloir&tex=256&env=0"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/@vite/client"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/@react-refresh"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/node_modules/vite/dist/client/env.mjs"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/main.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/src/match.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/src/sim.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/rl3-panel.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/src/policy.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/src/props.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/src/tactics.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/src/recorder.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/src/rng.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/src/hunter-state.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/hunter-channel.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/locomotion.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/src/train-b4.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/stride.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/combat-anims.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/combat-clips.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/proc-clips.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/anim-cues.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/foot-ik.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/impact-demos.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/death-physics.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/atmosphere.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/terminator-look.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/audio/index.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/combat-cam.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/camera/fps.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/camera/viewmodel.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/camera/fps-hud.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/src/tobs.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/proc-poses.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/fx/index.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/audio/types.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/audio/voices.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/audio/engine.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/audio/mixer.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/audio/mock-context.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/audio/occlusion.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/audio/director.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/fx/feel.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/fx/hits.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/fx/events.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/fx/system.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/fx/quality.ts"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/node_modules/.vite/deps/three.js?v=cb1ba01f"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/node_modules/.vite/deps/three_examples_jsm_loaders_GLTFLoader__js.js?v=7979ca53"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/node_modules/.vite/deps/chunk-PX6F3LHL.js?v=1678df89"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/node_modules/.vite/deps/chunk-J2YPWPUW.js?v=1678df89"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/policy/current.json"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-2-512.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-4-512.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-3-512.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-1-512.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/manifest.json"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/bolter-shot.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/term-step-01.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/claw-metal.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/amb-drone.ogg"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/58f42b1d-715f-4bc6-8928-64f35bdbc825"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/fist-impact.ogg"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/197a4d9f-e444-47f8-bb3f-ba9dd76d7fc5"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/music-explore.ogg"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/b8bdabd8-ed85-49fe-8099-b5081c80f916"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/ir-corridor.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/claw-crackle.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/bolter-explode.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/bolter-echo.ogg"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/4890fddb-83d0-4518-bc57-07c154ec40c6"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/bolter-casing.ogg"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/a0b16853-845b-4d81-ad1a-de3222b43271"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/a8e8a06c-d076-4750-b649-66a641b3ce13"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/term-step-02.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/fist-hum.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/claw-swoosh.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/term-servo.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/term-hydraulic.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/term-step-03.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/nl-step-02.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/nl-step-01.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/nl-step-03.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/nl-jump.ogg"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/1607f893-32db-4cd5-9b8c-36137099205c"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/a58fca25-37bb-46ed-b80b-e217ee3dbc71"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/d2b8fb14-b702-4389-9c89-ccf47f209af2"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/nl-vox-come-for-you.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/nl-scream.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/nl-death.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/alarm-klaxon.ogg"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/e51f275c-e2de-46fd-9058-91ca1949863d"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/77ee57d1-2a6f-4a5c-9505-4ba83fb868af"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/5cf3e7b9-73f7-4fd5-b2d9-e6081703a8b8"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/amb-drip.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/amb-duct.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/music-tension.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/stinger-victory.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/stinger-defeat.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/music-combat.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/bolter-shot-02.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/bolter-explode-02.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/claw-metal-02.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/claw-crackle-02.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/fist-impact-02.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/bolter-casing-02.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/claw-swoosh-02.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-2-walk.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-4-walk.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-3-walk.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-1-walk.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-2-run.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-3-run.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-4-run.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-1-run.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/bolter-shot-03.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/claw-metal-03.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/claw-crackle-03.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/fist-impact-03.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/claw-swoosh-03.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/bolter-casing-03.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/sfx/nightlords/bolter-explode-03.ogg"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-2-idle.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-3-idle.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-4-idle.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-1-idle.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-4-attack.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-2-attack.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-3-attack.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-1-attack.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-4-hit.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-2-hit.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-3-hit.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-1-hit.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-4-dodge.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-2-dodge.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-3-dodge.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-4-death.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-2-death.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-1-dodge.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-3-death.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/NL-1-death.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/TERM-512.glb"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/f926530a-daff-490a-8344-805a26a9a387"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/0e0ceb3e-1224-40de-bfbe-6894de536b14"
+ },
+ {
+  "status": 200,
+  "url": "blob:http://127.0.0.1:18230/5a1f3318-341a-4a66-8122-d9b7f517206b"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/TERM-walk.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/TERM-run.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/TERM-idle.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/TERM-attack.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/TERM-shoot.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/TERM-hit.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/web/models/TERM-dodge.glb"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/api/rl3/record"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/api/rl3/train"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/api/rl3/status"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/api/rl3/record"
+ },
+ {
+  "status": 200,
+  "url": "http://127.0.0.1:18230/api/rl3/ghost"
+ }
+]

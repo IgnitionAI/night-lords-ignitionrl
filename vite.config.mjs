@@ -8,6 +8,7 @@
 //    sert le serveur.
 import { resolve } from 'node:path';
 import { existsSync, renameSync, rmSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import react from '@vitejs/plugin-react';
 
 const ROOT = import.meta.dirname;
@@ -36,13 +37,48 @@ const policyAlias = () => ({
   },
 });
 
+/** RL3 (BC/DAgger) : mêmes routes que `src/server.ts`, via Bun pour lire le TypeScript source. */
+const rl3Api = () => ({
+  name: 'nl-rl3-api',
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      const url = req.url?.split('?')[0] ?? '';
+      if (!url.startsWith('/api/rl3/')) return next();
+      const chunks = [];
+      req.on('data', (c) => chunks.push(c));
+      req.on('end', () => {
+        const body = Buffer.concat(chunks);
+        const r = spawnSync('bun', ['src/rl3-cli.ts', 'handle', req.method ?? 'GET', url, ROOT], {
+          cwd: ROOT, input: body, encoding: 'utf8', maxBuffer: 20 * 1024 * 1024,
+        });
+        if (r.error) {
+          res.statusCode = 500;
+          res.setHeader('content-type', 'application/json');
+          res.end(JSON.stringify({ error: String(r.error) }));
+          return;
+        }
+        try {
+          const parsed = JSON.parse(r.stdout || '{"status":500,"json":{"error":"rl3 vide"}}');
+          res.statusCode = parsed.status ?? 500;
+          res.setHeader('content-type', 'application/json');
+          res.end(JSON.stringify(parsed.json));
+        } catch (e) {
+          res.statusCode = 500;
+          res.setHeader('content-type', 'application/json');
+          res.end(JSON.stringify({ error: String(e), stderr: (r.stderr || '').slice(-800) }));
+        }
+      });
+    });
+  },
+});
+
 export default ({ command }) => ({
   root: ROOT,
   // en développement la page est servie à la racine et importe le TypeScript source ; en production elle vit
   // sous /web/dist/ avec `main.js`, exactement l'URL que servait esbuild.
   base: command === 'build' ? '/web/dist/' : '/',
   publicDir: false,
-  plugins: [react(), flattenHtml(), policyAlias()],
+  plugins: [react(), flattenHtml(), policyAlias(), rl3Api()],
   build: {
     outDir: 'web/dist',
     emptyOutDir: true,

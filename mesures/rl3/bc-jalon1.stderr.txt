@@ -1,0 +1,20 @@
+2026-11-12 16:14:54.870446: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-11-12 16:14:54.896226: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+file:///agent/repos/night-lords-ignitionrl/dist/bc.mjs:162
+      throw new RecordingSchemaError(`enregistrement incompatible : frame ${i} sans observation ${TOBS_DIM}D`);
+            ^
+
+RecordingSchemaError: enregistrement incompatible : frame 0 sans observation 29D
+    at file:///agent/repos/night-lords-ignitionrl/dist/bc.mjs:162:13
+    at Array.map (<anonymous>)
+    at validateRecording (file:///agent/repos/night-lords-ignitionrl/dist/bc.mjs:157:29)
+    at file:///agent/repos/night-lords-ignitionrl/dist/bc.mjs:195:33
+    at Array.map (<anonymous>)
+    at framesFromRecordings (file:///agent/repos/night-lords-ignitionrl/dist/bc.mjs:195:21)
+    at trainBehaviorCloning (file:///agent/repos/night-lords-ignitionrl/dist/bc.mjs:208:38)
+    at trainBehaviorCloningFromFiles (file:///agent/repos/night-lords-ignitionrl/dist/bc.mjs:327:10)
+    at file:///agent/repos/night-lords-ignitionrl/dist/bc.mjs:343:9
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+
+Node.js v22.23.4

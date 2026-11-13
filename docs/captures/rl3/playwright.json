@@ -1,0 +1,175 @@
+{
+ "url": "http://127.0.0.1:18230/web/index.html?rl3=1&autoplay=wallHugger&seed=1&cam=couloir&tex=256&env=0",
+ "ok": true,
+ "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+ "renderNote": "SwiftShader/CPU",
+ "base": "http://127.0.0.1:18230",
+ "swiftshader": true,
+ "netSample": [
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/index.html?rl3=1&autoplay=wallHugger&seed=1&cam=couloir&tex=256&env=0"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/@vite/client"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/@react-refresh"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/node_modules/vite/dist/client/env.mjs"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/main.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/src/match.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/src/sim.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/rl3-panel.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/src/policy.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/src/props.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/src/tactics.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/src/recorder.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/src/rng.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/src/hunter-state.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/hunter-channel.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/locomotion.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/src/train-b4.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/stride.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/combat-anims.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/combat-clips.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/proc-clips.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/anim-cues.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/foot-ik.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/impact-demos.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/death-physics.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/atmosphere.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/terminator-look.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/audio/index.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/combat-cam.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/camera/fps.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/camera/viewmodel.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/camera/fps-hud.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/src/tobs.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/proc-poses.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/fx/index.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/audio/types.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/audio/voices.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/audio/engine.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/audio/mixer.ts"
+  },
+  {
+   "status": 200,
+   "url": "http://127.0.0.1:18230/web/audio/mock-context.ts"
+  }
+ ],
+ "consoleTail": [
+  "debug: [vite] connecting...",
+  "debug: [vite] connected."
+ ],
+ "pageErrors": []
+}
