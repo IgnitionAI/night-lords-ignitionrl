@@ -87,7 +87,7 @@ test('rotation : la tourelle monte en régime, un demi-tour demande plus de 3 ti
   const ticksToMax = Math.ceil(T_CFG.turnMax / (T_CFG.turnAccel * DT));
   for (let i = 0; i < ticksToMax; i++) step(c, { ...IDLE, turn: 1 }, HOLD);
   assert.ok(Math.abs(Math.abs(c.t.turnVel) - T_CFG.turnMax) < 1e-9, 'la vitesse de rotation atteint exactement le plafond');
-  assert.ok(ticksToMax > 3, `la montée en régime dure ${ticksToMax} ticks`);
+  assert.ok(ticksToMax > 1 && ticksToMax <= 3, `la montée en régime dure ${ticksToMax} ticks`);
 
   // 4. le demi-tour (π) : une « tourelle », pas un pivot instantané
   const d = arena();
@@ -172,10 +172,7 @@ test('pas d\'arrêt : un seul `step` d\'intensité 0 quand la vitesse retombe, p
   assert.ok(stops[0].tick > 30, 'il tombe après le relâchement de l\'entrée');
 });
 
-test('conséquence de design : une griffe télégraphiée attrape un Terminator à l\'arrêt', () => {
-  // La griffe s'arme 2 ticks (0,2 s) à l'avance. Avant l'inertie, reculer à 2,5 m/s suffisait à sortir de
-  // portée depuis 1,5 m. Désormais, depuis l'arrêt, ces 2 ticks ne couvrent que 0,09 m : la griffe tombe.
-  // C'est la « forteresse lente » — esquiver demande d'avoir déjà de la vitesse, pas de réagir au dernier tick.
+test('mobilité : réagir à une griffe permet de sortir de portée', () => {
   const w = newWorld(20261103);
   w.t.x = 20 + 1.5; w.t.y = 12; w.t.facing = 0;
   const n = w.nls[0]; n.x = 20; n.y = 12; n.facing = 0; n.alive = true; n.cd = 0; n.armTicks = 0;
@@ -184,9 +181,9 @@ test('conséquence de design : une griffe télégraphiée attrape un Terminator 
   step(w, IDLE, [7, 0, 0, 0]); // annonce
   step(w, AWAY, HOLD); // 1,53 m
   step(w, AWAY, HOLD); // 1,59 m : toujours à portée de griffe (1,75 m)
-  assert.ok(Math.hypot(w.t.x - 20, w.t.y - 12) < 1.75, 'deux ticks de rampe ne suffisent pas à sortir de portée');
-  assert.ok(w.events.some(e => e.type === 'claw' && e.dmg > 0), 'la griffe télégraphiée touche : l\'inertie se paie');
-  assert.ok(w.t.hp < T_CFG.hp);
+  assert.ok(Math.hypot(w.t.x - 20, w.t.y - 12) > 1.75, 'la réaction permet de sortir de portée');
+  assert.ok(!w.events.some(e => e.type === 'claw' && e.dmg > 0));
+  assert.equal(w.t.hp, T_CFG.hp);
 });
 
 test('reproductibilité : même graine + mêmes entrées ⇒ mêmes trajectoires, mêmes pas', () => {

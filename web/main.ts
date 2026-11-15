@@ -1095,8 +1095,8 @@ if (CAM_MODE === 'diablo') {
     sees: w.nls.map(n => n.alive && nlSees(w, n)),
   });
   const help = document.getElementById('help');
-  if (help) help.innerHTML = 'Flèches : se déplacer · souris : viser · Espace : bolter · F : gantelet · H : marqueurs · molette ou +/− : zoom (ZQSD aussi)<br>'
-    + 'Le Terminator pivote vers le curseur ; une flèche vers l\'avant le fait avancer, vers l\'arrière reculer, de côté elle le fait pivoter puis avancer. Sans souris, les flèches l\'orientent et le font avancer. '
+  if (help) help.innerHTML = 'Flèches : se déplacer · souris : viser à 360° (même en marchant) · Espace : bolter · F : gantelet · H : marqueurs · molette ou +/− : zoom (ZQSD aussi)<br>'
+    + 'Le Terminator pivote vers le curseur ; une flèche vers l\'avant le fait avancer, vers l\'arrière reculer, de côté la marche attend que la visée soit alignée. Sans souris, les flèches l\'orientent et le font avancer. '
     + 'Victoire : balise 6 s, meute à terre, ou 2:00 tenues ; défaite : armure à 0 · Maj gantelet · V vue de contrôle · M son · Entrée manche suivante · P pause · autres vues : ?cam=fps|shoulder|combat|couloir|epaule|troisquarts';
   showMusicCredit();
   // les flèches déplacent : elles ne doivent pas faire défiler la page
@@ -1108,11 +1108,7 @@ function playerAction(): TAction {
   // marquée A est `KeyQ`. Le bandeau annonçait « ZQSD/WASD » depuis le début alors que Z et Q ne faisaient
   // rien : sur un Mac français, avancer et aller à gauche étaient muets. On accepte les deux nomenclatures.
   if (CAM_MODE === 'diablo') {
-    // La sim garde ses règles (rotation rampée, marche dans l'axe, aucun pas de côté). Avec la souris, le Terminator
-    // pivote vers le point du sol visé ; les flèches (référence) ou ZQSD (directions écran) le font avancer ou reculer
-    // quand elles tombent dans l'axe, et prennent la rotation quand elles sont de côté. Sans souris, elles orientent
-    // et font avancer. Aucune rotation brute par ←/→ ici : elles déplacent.
-    // Logique pure : web/controls/diablo.ts.
+    // La souris vise librement à 360°, les touches commandent la marche dans cet axe.
     const { fwd, turn } = diabloControls(w.t, diabloKeys(k), diabloAim(), DIABLO.yaw, T_CFG, DT);
     return { fwd, strafe: 0, turn, bolt: k('Space'), fist: k('KeyF') || k('ShiftLeft') };
   }

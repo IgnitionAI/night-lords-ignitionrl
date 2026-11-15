@@ -21,11 +21,9 @@ export const N_NL = 4;
 
 // Valeurs de prototype, à régler au ressenti. Ce ne sont pas des chiffres du lore.
 export const T_CFG = {
-  radius: 0.8, fwd: 2.5, back: 1.5, strafe: 1.5, hp: 30,
-  // --- Inertie (à régler au ressenti) : rien n'est instantané chez un Terminator. Il met du temps à prendre
-  // sa vitesse (`accel`), plus encore à la perdre (`decel`), et sa « tourelle » (la rotation) monte en régime
-  // (`turnAccel`) jusqu'à un plafond (`turnMax`) — la vitesse de rotation d'avant, 1,6 rad/s, devient ce plafond.
-  accel: 3, decel: 5, turnAccel: 2, turnMax: 1.6,
+  radius: 0.8, fwd: 5, back: 3, strafe: 1.5, hp: 30,
+  // Mobilité réactive : marche à 5 m/s, pivot rapide, avec accélération et freinage progressifs.
+  accel: 12, decel: 14, turnAccel: 24, turnMax: 5,
   // Aucune accélération latérale : `strafe` ne translate pas (voir `step`). `strafe` reste un plafond inutilisé
   // tant que cette valeur vaut 0 ; la hausser rendrait un pas de côté instantané, donc la mobilité qu'on retire.
   strafeAccel: 0,
