@@ -70,7 +70,9 @@ test('foulée skinée et distance par cycle avant/après timeScale', async () =>
   console.log('# timeScale = v · T / foulée   dist/cycle = v · T / timeScale');
   for (const job of jobs) {
     const loaded = await loadScaled(job.name);
-    assert.ok(loaded.h > 1.69 && loaded.h < 1.71, `${job.name} hauteur native ${loaded.h}`);
+    // Hauteur native de l'export Genex : 1,70 m pour TERM, 2,30 m pour les frères v2 (--height 2.3). Le jeu les recale.
+    const native = job.name === 'TERM' ? 1.7 : 2.3;
+    assert.ok(Math.abs(loaded.h - native) < .01, `${job.name} hauteur native ${loaded.h}`);
     assert.equal(loaded.target, job.name === 'TERM' ? 2.6 : 2.0);
     const clip = job.gait === 'walk' ? loaded.walk : loaded.run;
     const sample = measureForwardStride(loaded.root, clip);
