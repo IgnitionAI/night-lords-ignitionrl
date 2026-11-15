@@ -25,6 +25,10 @@ docs/captures/vfx-whoa/_vid/
 # La banque CC0 / procédurale `web/sfx/nightlords/` EST versionnée.
 web/sfx/genex/
 
+# Banque musicale locale : musique tierce dont la licence ne couvre pas une diffusion dans le jeu.
+# Elle joue seulement en local et ne doit jamais être versionnée. Modèle : `web/sfx/music-local.example/`.
+web/sfx/music-local/
+
 # Intermédiaires de capture (webm / concat) — la vidéo finale est dans docs/videos/.
 docs/captures/camera-combat/_clip-*/
 docs/captures/camera-combat/frames/cmp-*

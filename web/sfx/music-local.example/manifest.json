@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "samples": [
+    {
+      "name": "music-explore",
+      "file": "exemple-explore.ogg",
+      "gain": 0.38,
+      "license": "Licence de l'œuvre : à préciser (usage local uniquement)",
+      "source": "à préciser",
+      "credit": "Musique : Artiste — Titre (lien)"
+    },
+    {
+      "name": "music-tension",
+      "file": "exemple-tension.ogg",
+      "gain": 0.44,
+      "license": "Licence de l'œuvre : à préciser (usage local uniquement)",
+      "source": "à préciser",
+      "credit": "Musique : Artiste — Titre (lien)"
+    },
+    {
+      "name": "music-combat",
+      "file": "exemple-combat.ogg",
+      "gain": 0.5,
+      "license": "Licence de l'œuvre : à préciser (usage local uniquement)",
+      "source": "à préciser",
+      "credit": "Musique : Artiste — Titre (lien)"
+    }
+  ]
+}

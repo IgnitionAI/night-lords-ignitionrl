@@ -1,7 +1,8 @@
 import { buildMixer, duckMusic, setBusGain, setMasterMuted, type MixerGraph } from './mixer';
 import { occluded, type Aabb } from './occlusion';
-import { BUS_GAINS, DEFAULT_POLYPHONY, type AudioManifest, type BusName, type InitResult, type MixerStatus, type MusicPhase, type PlayOpts, type SampleName } from './types';
+import { BUS_GAINS, DEFAULT_POLYPHONY, type AudioManifest, type BusName, type InitResult, type ManifestSample, type MixerStatus, type MusicPhase, type PlayOpts, type SampleName } from './types';
 import { VoicePool } from './voices';
+import { localMusicBase, mergeLocalMusic } from './music-local';
 
 type AnyCtx = AudioContext & {
   listener: AudioListener & {
@@ -53,6 +54,11 @@ export class AudioEngine {
   private occluders: Aabb[] = [];
   private listenerXZ = { x: 0, z: 0 };
   private convolver: ConvolverNode | null = null;
+  /** Entrées CC0 remplacées par la banque locale (repli si le fichier local ne se décode pas). */
+  private localOriginals = new Map<string, ManifestSample>();
+  /** Boucles effectivement décodées depuis la banque locale. */
+  private localDecoded = new Set<string>();
+  private creditListeners: ((credit: string | null) => void)[] = [];
 
   queryMuted(search = typeof location !== 'undefined' ? location.search : ''): boolean {
     const q = new URLSearchParams(search.startsWith('?') ? search.slice(1) : search);
@@ -71,6 +77,9 @@ export class AudioEngine {
     fetchImpl?: typeof fetch;
     polyphony?: number;
     search?: string;
+    /** Manifeste de la banque musicale locale (ignorée par Git). Par défaut `<base>/../music-local/manifest.json`
+     *  quand le manifeste principal est chargé par URL ; `false` la désactive. */
+    localMusic?: string | false;
   } = {}): Promise<InitResult> {
     try {
       this.base = (opts.base ?? this.base).replace(/\/$/, '') + '/';
@@ -94,6 +103,13 @@ export class AudioEngine {
         if (!res.ok) throw new Error('manifest ' + res.status);
         this.manifest = await res.json() as AudioManifest;
       }
+      this.localOriginals.clear();
+      this.localDecoded.clear();
+      const localUrl = opts.localMusic === false ? null
+        : typeof opts.localMusic === 'string' ? opts.localMusic
+        : typeof opts.manifest === 'object' && opts.manifest ? null
+        : localMusicBase(this.base) + 'manifest.json';
+      if (localUrl) await this.applyLocalMusic(localUrl, opts.fetchImpl);
       this.pool = new VoicePool(opts.polyphony ?? this.manifest.polyphony ?? DEFAULT_POLYPHONY);
       this.ready = true;
       if (opts.autounlock !== false) this.installUnlock();
@@ -110,6 +126,48 @@ export class AudioEngine {
       this.ready = false;
       return { ok: false, reason: String((e as Error)?.message ?? e), samples: 0, missing: [] };
     }
+  }
+
+  /** Banque musicale locale : remplace les 3 boucles si son manifeste répond 200 et se lit ; sinon, rien. */
+  private async applyLocalMusic(url: string, fetchImpl?: typeof fetch): Promise<boolean> {
+    if (!this.manifest) return false;
+    try {
+      const res = await (fetchImpl ?? fetch)(url, { cache: 'no-cache' });
+      if (!res.ok) return false; // 404 attendu : banque CC0, sans bruit
+      const merged = mergeLocalMusic(this.manifest, await res.json(), url.replace(/[^/]*$/, ''));
+      if (!merged) {
+        if (typeof console !== 'undefined') console.info('[audio] manifeste musique local illisible : banque CC0');
+        return false;
+      }
+      this.manifest = merged.manifest;
+      for (const [k, v] of merged.originals) this.localOriginals.set(k, v);
+      return true;
+    } catch {
+      return false; // dev server qui renvoie du HTML, réseau, JSON invalide : banque CC0
+    }
+  }
+
+  /** Crédit de la musique locale, seulement si au moins une boucle locale est décodée. */
+  get musicCredit(): string | null {
+    const credits: string[] = [];
+    for (const n of this.localDecoded) {
+      const c = this.entry(n)?.credit;
+      if (c && !credits.includes(c)) credits.push(c);
+    }
+    return credits.length ? credits.join(' · ') : null;
+  }
+
+  /** Appelé à chaque changement du crédit musical (et tout de suite s'il est déjà connu). */
+  onMusicCredit(fn: (credit: string | null) => void): () => void {
+    this.creditListeners.push(fn);
+    const now = this.musicCredit;
+    if (now) fn(now);
+    return () => { this.creditListeners = this.creditListeners.filter((f) => f !== fn); };
+  }
+
+  private emitCredit(): void {
+    const c = this.musicCredit;
+    for (const fn of this.creditListeners) { try { fn(c); } catch { /* */ } }
   }
 
   installUnlock(): void {
@@ -171,8 +229,8 @@ export class AudioEngine {
     return this.manifest?.samples.find((s) => s.name === name) ?? null;
   }
 
-  private url(file: string): string {
-    return this.base + file.replace(/^\//, '');
+  private url(file: string, base = this.base): string {
+    return base + file.replace(/^\//, '');
   }
 
   setOccluders(boxes: readonly Aabb[]): void {
@@ -194,7 +252,7 @@ export class AudioEngine {
     if (!entry) { this.missing.add(name); return null; }
     const fetcher = fetchImpl ?? fetch;
     const tryFile = async (file: string) => {
-      const res = await fetcher(this.url(file));
+      const res = await fetcher(this.url(file, entry.base));
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.arrayBuffer();
       return await this.ctx!.decodeAudioData(data.slice(0));
@@ -222,8 +280,19 @@ export class AudioEngine {
       }
     }
     if (!primary) {
+      const cc0 = this.localOriginals.get(name);
+      if (cc0 && this.manifest) {
+        // fichier local absent ou illisible : on revient sans bruit à la boucle CC0
+        this.localOriginals.delete(name);
+        this.manifest = { ...this.manifest, samples: this.manifest.samples.map((s) => (s.name === name ? cc0 : s)) };
+        return this.decodeName(name, fetchImpl);
+      }
       this.missing.add(name);
       return null;
+    }
+    if (entry.base && this.localOriginals.has(name)) {
+      this.localDecoded.add(name);
+      this.emitCredit();
     }
     if (name === 'ir-corridor' && this.convolver) this.convolver.buffer = primary;
     return primary;
