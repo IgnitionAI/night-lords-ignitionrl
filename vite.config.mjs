@@ -42,7 +42,7 @@ export default ({ command }) => ({
   // sous /web/dist/ avec `main.js`, exactement l'URL que servait esbuild.
   base: command === 'build' ? '/web/dist/' : '/',
   publicDir: false,
-  plugins: [react(), flattenHtml(), policyAlias()],
+  plugins: [{ name: "nl-source-entry", transformIndexHtml: { order: "pre", handler: html => html.replace('src="./main.js"', 'src="/web/main.ts"') } }, react(), flattenHtml(), policyAlias()],
   build: {
     outDir: 'web/dist',
     emptyOutDir: true,

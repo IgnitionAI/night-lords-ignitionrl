@@ -1,0 +1,33 @@
+{
+  "id": "b6",
+  "init": "policies/candidates/b5/full.json",
+  "seed": 6,
+  "updates": 1950,
+  "staged": [
+    { "out": "runs/b6", "updates": 900, "seed": 6, "init": "policies/candidates/b5/full.json" },
+    { "out": "runs/b6-tempo2", "updates": 700, "seed": 7, "init": "runs/b6/full.json" },
+    { "out": "runs/b6-tempo4", "updates": 350, "seed": 9, "init": "runs/b6-tempo2/full.json" }
+  ],
+  "envs": 32,
+  "preset": "b6",
+  "lr": 0.00002,
+  "entCoef": 0.02,
+  "wallSeconds": 1664.9,
+  "defaultInGame": false,
+  "loadVia": "?policy=b6",
+  "b5Via": "/",
+  "b4Via": "?policy=b4",
+  "b3Via": "?policy=b3",
+  "eval": "mesures/nn/b6/eval.json",
+  "curriculum": "kiter/elite/wallHugger 40→62% (40/38/22 dans le sac dur); reste turret 26%, brawler 22%, randomized 26%, march 16%, backpedal 10%",
+  "shaping": [
+    "encerclement / harcèlement bande μ=8.4",
+    "feintes face 4–9.5 m",
+    "interdiction melee / griffes avant 30 s (earlyHit -5, meleeEarly -0.1)",
+    "hpHold / hpBleed avant commit",
+    "pénalité victoire < 30 s (-12) ; bonus 30–90 s (+2.5)",
+    "chase + stallFar (pas de fuite)",
+    "commitLate après 32 s",
+    "canal / interrupt / mort conservés"
+  ]
+}
