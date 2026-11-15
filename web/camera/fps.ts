@@ -26,15 +26,17 @@ export const FPS_BOB = {
   idleT: 4.4,
 };
 
-export type CamMode = 'fps' | 'shoulder' | 'couloir' | 'epaule' | 'troisquarts';
+export type CamMode = 'fps' | 'shoulder' | 'couloir' | 'epaule' | 'troisquarts' | 'diablo';
 
-/** Une seule source de vérité : FPS par défaut. `?cam=combat` = alias de `shoulder`. */
+/** Une seule source de vérité : vue Diablo par défaut (décision de Salim, 15/11) ; `?cam=fps` garde la vue subjective. `?cam=combat` = alias de `shoulder`. */
 export function parseCamMode(raw: string | null): CamMode {
   if (raw === 'couloir') return 'couloir';
   if (raw === 'troisquarts') return 'troisquarts';
+  if (raw === 'diablo') return 'diablo';
   if (raw === 'epaule') return 'epaule';
   if (raw === 'combat' || raw === 'shoulder') return 'shoulder';
-  return 'fps';
+  if (raw === 'fps') return 'fps';
+  return 'diablo';
 }
 
 export function fpsFov(portrait: boolean): number {

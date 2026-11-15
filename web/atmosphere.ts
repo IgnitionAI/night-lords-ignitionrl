@@ -16,6 +16,9 @@ export const CAM = { back: 8.2, height: 3.28, highMax: 4.9, ahead: 2.8, eye: 1.1
 export const EPAULE = { back: 3.4, side: 1.18, height: 2.32, ahead: 4.6, eye: 1.32, fov: 56, fovPortrait: 68 };
 // Capture 3/4 plein cadre (`?cam=troisquarts`) : plus près, plus de côté que l'épaule jouable.
 export const TROIS_QUARTS = { back: 4.2, side: 2.85, height: 1.55, ahead: 0.15, eye: 1.05, fov: 46, fovPortrait: 54 };
+// Vue plongeante façon Diablo (`?cam=diablo`) : lacet fixe (on regarde vers −z, l'écran droit = +x), plongée de 56°,
+// distance réglable au zoom (molette, pincement, touches + / −). Le décor au-dessus du joueur est coupé.
+export const DIABLO = { yaw: -Math.PI / 2, pitchDeg: 56, dist: 15, distMin: 8, distMax: 26, zoomStep: 1.12, eye: 0.9, fov: 40, fovPortrait: 54, exposure: 1.5, fog: 0.014 };
 export const FOLLOW_YAW_BLEND = 0.22; // était 0,26 : un peu plus d'inertie, toujours ~3,5 rad/s
 export const POST_VIGNETTE = 1.00;
 export const POST_GRAIN = 0.014; // grain film, linéaire (inchangé : lisibilité HUD/silhouettes)

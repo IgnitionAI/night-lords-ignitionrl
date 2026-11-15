@@ -9,6 +9,7 @@ export { VoicePool } from './voices';
 export { buildMixer, duckMusic, setBusGain, setMasterMuted } from './mixer';
 export { createMockAudioContext } from './mock-context';
 export { occluded } from './occlusion';
+export { mergeLocalMusic, musicCreditMarkup, localMusicBase, LOCAL_MUSIC_NAMES } from './music-local';
 
 export async function initAudio(opts?: {
   base?: string;
@@ -20,6 +21,7 @@ export async function initAudio(opts?: {
   fetchImpl?: typeof fetch;
   polyphony?: number;
   search?: string;
+  localMusic?: string | false;
 }): Promise<InitResult> {
   return engine.init({
     base: opts?.base ?? '/web/sfx/nightlords/',
@@ -31,6 +33,7 @@ export async function initAudio(opts?: {
     fetchImpl: opts?.fetchImpl,
     polyphony: opts?.polyphony,
     search: opts?.search,
+    localMusic: opts?.localMusic,
   });
 }
 

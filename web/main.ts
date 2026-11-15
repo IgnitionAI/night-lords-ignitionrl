@@ -1,6 +1,6 @@
 // Rendu Three.js d'une sim pure à pas fixe (src/sim.ts) : modèles riggés, décor, capsules en repli.
 import * as THREE from 'three';
-import { newWorld, step, observe, nlFrame, terminatorPerceives, DT, MAX_TICKS, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
+import { newWorld, step, observe, nlFrame, nlSees, terminatorPerceives, DT, MAX_TICKS, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
 import { hudMarkup, matchBeats, matchStatus, roundCard, roundMarkup, type MatchStatus } from '../src/match';
 import { PROP_PLACES, isPropKind, resolvePropKinds, type PropKind, type PropPlace } from '../src/props';
 import { POOL, UNSEEN, type Tactic } from '../src/tactics';
@@ -27,7 +27,7 @@ import { impulseFall, stepFall, type FallBody } from './death-physics';
 import { IMPACT_DEMOS } from './impact-demos';
 import {
   applyRendererAtmosphere, applySceneAtmosphere, installCorridorLights, configureHunterSpot,
-  CAM, EPAULE, TROIS_QUARTS, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, POST_DITHER_SRGB, LAMP, STRIP_EMISSIVE,
+  CAM, EPAULE, TROIS_QUARTS, DIABLO, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, POST_DITHER_SRGB, LAMP, STRIP_EMISSIVE,
   sceneRenderTargetOptions, POST_FRAGMENT_SHADER, FOG_COLOR, TONE_MAPPING_EXPOSURE,
 } from './atmosphere';
 import {
@@ -42,7 +42,7 @@ import {
 import { applyTerminatorLook } from './terminator-look';
 import { createFxSystem, parseFxQuality } from './fx';
 // Son : moteur WebAudio isolé (`web/audio/`). Les événements de sim restent la source ; la sim n'est pas touchée.
-import { initAudio, audio, engine, director } from './audio/index.ts';
+import { initAudio, audio, engine, director, musicCreditMarkup } from './audio/index.ts';
 import {
   parseCamMode, fpsFov, fpsPose, applyFpsCamera, applyLookDelta, turnTowardYaw, freshLook,
   pushStepImpulse, offscreenMarks, pickAutoplayFocus, steerFpsLook, wrapPi, MELEE_AIM_M, FPS_EYE,
@@ -50,6 +50,9 @@ import {
 } from './camera/fps';
 import { createViewmodel, renderViewmodel, type Viewmodel } from './camera/viewmodel';
 import { fpsHudMarkup, dmgSide, marksHtml } from './camera/fps-hud';
+import { diabloControls, diabloKeys, rayToGround, type DiabloAim } from './controls/diablo';
+import { coneGradient, noiseRingRadius } from './read-aids';
+import { equipNl } from './weapons';
 
 const qs = new URLSearchParams(location.search);
 // Canal d'ambiance (`cogitator:hunters`) : muet sauf si l'URL demande explicitement `?control=1`.
@@ -96,6 +99,7 @@ const camFov = (portrait: boolean): number => {
     case 'couloir': return portrait ? CAM.fovPortrait : CAM.fov;
     case 'epaule': return portrait ? EPAULE.fovPortrait : EPAULE.fov;
     case 'troisquarts': return portrait ? TROIS_QUARTS.fovPortrait : TROIS_QUARTS.fov;
+    case 'diablo': return portrait ? DIABLO.fovPortrait : DIABLO.fov;
     case 'shoulder': return portrait ? COMBAT_CAM.fovPortrait : COMBAT_CAM.fov;
     default: { const _e: never = CAM_MODE; throw new Error(String(_e)); }
   }
@@ -127,6 +131,12 @@ if (CAM_MODE === 'fps') {
   shoulderFill.position.set(0.22, 0.12, 0.35);
   camera.add(shoulderFill);
   scene.add(camera);
+} else if (CAM_MODE === 'diablo') {
+  // Vue de dessus : la pénombre de couloir devient illisible à 15 m ; fog allongé et fill doux, sans toucher aux lampes.
+  renderer.toneMappingExposure = DIABLO.exposure;
+  scene.fog = new THREE.FogExp2(FOG_COLOR, DIABLO.fog);
+  scene.add(new THREE.HemisphereLight(0xb8c6d8, 0x20242c, 2.4));
+  scene.add(new THREE.AmbientLight(0x2a3548, 0.35));
 } else {
   renderer.toneMappingExposure = TONE_MAPPING_EXPOSURE;
 }
@@ -214,10 +224,10 @@ if (ENV) {
   const beams: THREE.Matrix4[] = [];
   for (let x = 2; x < ARENA.w; x += 4) beams.push(M(x, 5.55, ARENA.h / 2, 0.34, 0.34, ARENA.h));
   beams.push(M(ARENA.w / 2, 5.55, 1.2, ARENA.w, 0.42, 0.42), M(ARENA.w / 2, 5.55, ARENA.h - 1.2, ARENA.w, 0.42, 0.42));
-  inst(ribMat, beams);
+  if (CAM_MODE !== 'diablo') inst(ribMat, beams); // vue Diablo : coupe, ni poutres ni plafond au-dessus du joueur
   // plafond
   const ceil = new THREE.Mesh(new THREE.PlaneGeometry(ARENA.w, ARENA.h), new THREE.MeshStandardMaterial({ color: 0x0d1015, metalness: 0.1, roughness: 0.95, side: THREE.DoubleSide }));
-  ceil.rotation.x = Math.PI / 2; ceil.position.set(ARENA.w / 2, 5.75, ARENA.h / 2); scene.add(ceil);
+  ceil.rotation.x = Math.PI / 2; ceil.position.set(ARENA.w / 2, 5.75, ARENA.h / 2); if (CAM_MODE !== 'diablo') scene.add(ceil);
 }
 // Pilastres : socle, fût, chapiteau — la même boîte unitaire, une instance par bloc. La collision reste celle
 // de `PILLARS` ; ce qui change est ce qu'on voit d'elle.
@@ -648,6 +658,26 @@ const beliefs = ROLES.map((_, i) => { const m = new THREE.Mesh(new THREE.RingGeo
 const links = ROLES.map((_, i) => { const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]); const l = new THREE.Line(g, new THREE.LineDashedMaterial({ color: ROLE_COL[i], dashSize: 0.4, gapSize: 0.3 })); dbgGroup.add(l); return l; });
 const noiseRing = new THREE.Mesh(new THREE.RingGeometry(0.97, 1, 64), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.35, side: THREE.DoubleSide })); noiseRing.rotation.x = -Math.PI / 2; noiseRing.position.y = 0.06; dbgGroup.add(noiseRing);
 const tCone = fan(T_CFG.visionHalf, T_CFG.visionRange, 0xfff0c0, 0.05); dbgGroup.add(tCone);
+// Aides de lecture (vue Diablo seulement, touche H) : anneau de bruit `t.noise` et cônes de vision des NL.
+// Lecture seule de l'état de la sim ; aucun état horaire, donc ?shot= / ?cap=1 restent déterministes.
+const readGroup = new THREE.Group(); readGroup.visible = false; scene.add(readGroup);
+let readAids = CAM_MODE === 'diablo';
+// Dégradé radial : opacité pleine au Night Lord, nulle (repos) ou réduite (« voit ») au bout de la portée.
+// En desktop, l'aplat uniforme de 12 m faisait un grand voile clair ; le repos reste une trace, le rouge se lit.
+const READ_CONE = { idle: 0x8ea2bf, idleOp: 0.07, idleEdge: 0, seen: 0xff3a1a, seenOp: 0.26, seenEdge: 0.3 };
+const readNoise = new THREE.Mesh(new THREE.RingGeometry(0.95, 1, 72), new THREE.MeshBasicMaterial({ color: 0xffd080, transparent: true, opacity: 0.42, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
+readNoise.rotation.x = -Math.PI / 2; readGroup.add(readNoise);
+const readConeGeo = (edge: number) => {
+  const c = coneGradient(NL_CFG.visionRange, NL_CFG.visionHalf, 28, 6, edge), g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(c.pts.flatMap(p => [p.x, 0, p.y]), 3));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(c.alpha.flatMap(al => [1, 1, 1, al]), 4)); // alpha par sommet
+  g.setIndex(c.index); return g;
+};
+const READ_GEO = { idle: readConeGeo(READ_CONE.idleEdge), seen: readConeGeo(READ_CONE.seenEdge) };
+const readCones = ROLES.map(() => {
+  const m = new THREE.Mesh(READ_GEO.idle, new THREE.MeshBasicMaterial({ color: READ_CONE.idle, vertexColors: true, transparent: true, opacity: READ_CONE.idleOp, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
+  readGroup.add(m); return m;
+});
 // La lumière des armes. Le flash de bouche est une vraie lumière ponctuelle : il éclaire les piliers et
 // découpe les silhouettes une fraction de seconde — c'est lui qui révèle les prédateurs. Le halo du gantelet
 // pulse en continu, bleu, faible. Deux lumières de plus dans la passe principale (aucun draw call).
@@ -755,6 +785,7 @@ addEventListener('keydown', e => {
   keys.add(e.code);
   if (e.code === 'KeyV') { debug = !debug; if (debug) buildLabels(); }
   if (e.code === 'KeyP') paused = !paused;
+  if (e.code === 'KeyH' && CAM_MODE === 'diablo') readAids = !readAids;
   if (e.code === 'KeyM') engine.toggleMute();
   if (e.code === 'Enter' && roundOver) startRound();
   if (e.code === 'Space') e.preventDefault();
@@ -1033,12 +1064,59 @@ function startRound() {
   director.huntCam = CAM_MODE === 'shoulder';
   director.beginRound();
 }
+let diabloDist = DIABLO.dist;
+let diabloCursor: { x: number; y: number } | null = null; // NDC du curseur souris sur le canvas, null hors canvas
+const diabloRay = new THREE.Raycaster();
+function diabloAim(): DiabloAim {
+  if (!diabloCursor) return null;
+  diabloRay.setFromCamera(new THREE.Vector2(diabloCursor.x, diabloCursor.y), camera);
+  const o = diabloRay.ray.origin, d = diabloRay.ray.direction;
+  return rayToGround(o.x, o.y, o.z, d.x, d.y, d.z);
+}
+if (CAM_MODE === 'diablo') {
+  const zoom = (factor: number) => { diabloDist = Math.min(DIABLO.distMax, Math.max(DIABLO.distMin, diabloDist * factor)); };
+  addEventListener('wheel', e => { e.preventDefault(); zoom(Math.exp(Math.max(-1, Math.min(1, e.deltaY / 240)) * Math.log(DIABLO.zoomStep))); }, { passive: false });
+  addEventListener('keydown', e => { if (e.code === 'Equal' || e.code === 'NumpadAdd') zoom(1 / DIABLO.zoomStep); if (e.code === 'Minus' || e.code === 'NumpadSubtract') zoom(DIABLO.zoomStep); });
+  let pinch = 0; // pincement à deux doigts : la distance entre les doigts pilote le zoom
+  addEventListener('touchmove', e => { if (e.touches.length !== 2) { pinch = 0; return; } const d = Math.hypot(e.touches[0]!.clientX - e.touches[1]!.clientX, e.touches[0]!.clientY - e.touches[1]!.clientY); if (pinch > 0) zoom(pinch / d); pinch = d; e.preventDefault(); }, { passive: false });
+  addEventListener('touchend', () => { pinch = 0; });
+  (window as unknown as { __diabloDist?: (d?: number) => number }).__diabloDist = (d?: number) => { if (d !== undefined) zoom(d / diabloDist); return diabloDist; };
+  // Visée souris : seule une vraie souris sur le canvas compte. Le tactile garde le schéma clavier/écran.
+  canvas.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    const r = canvas.getBoundingClientRect();
+    diabloCursor = { x: ((e.clientX - r.left) / r.width) * 2 - 1, y: -((e.clientY - r.top) / r.height) * 2 + 1 };
+  });
+  canvas.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') diabloCursor = null; });
+  addEventListener('blur', () => { diabloCursor = null; });
+  // Sonde de preuve (captures headless) : lecture seule.
+  (window as unknown as { __diabloProbe?: () => unknown }).__diabloProbe = () => ({
+    tick: w.tick, t: { x: w.t.x, y: w.t.y, facing: w.t.facing, turnVel: w.t.turnVel, noise: w.t.noise }, aim: diabloAim(), readAids,
+    sees: w.nls.map(n => n.alive && nlSees(w, n)),
+  });
+  const help = document.getElementById('help');
+  if (help) help.innerHTML = 'Flèches : se déplacer · souris : viser · Espace : bolter · F : gantelet · H : marqueurs · molette ou +/− : zoom (ZQSD aussi)<br>'
+    + 'Le Terminator pivote vers le curseur ; une flèche vers l\'avant le fait avancer, vers l\'arrière reculer, de côté elle le fait pivoter puis avancer. Sans souris, les flèches l\'orientent et le font avancer. '
+    + 'Victoire : balise 6 s, meute à terre, ou 2:00 tenues ; défaite : armure à 0 · Maj gantelet · V vue de contrôle · M son · Entrée manche suivante · P pause · autres vues : ?cam=fps|shoulder|combat|couloir|epaule|troisquarts';
+  showMusicCredit();
+  // les flèches déplacent : elles ne doivent pas faire défiler la page
+  addEventListener('keydown', e => { if (e.code.startsWith('Arrow')) e.preventDefault(); });
+}
 function playerAction(): TAction {
   const k = (c: string) => keys.has(c);
   // `e.code` est la touche **physique** : sur un clavier AZERTY, la touche marquée Z est `KeyW`, et celle
   // marquée A est `KeyQ`. Le bandeau annonçait « ZQSD/WASD » depuis le début alors que Z et Q ne faisaient
   // rien : sur un Mac français, avancer et aller à gauche étaient muets. On accepte les deux nomenclatures.
-  const arrows = (k('ArrowRight') ? 1 : 0) - (k('ArrowLeft') ? 1 : 0);
+  if (CAM_MODE === 'diablo') {
+    // La sim garde ses règles (rotation rampée, marche dans l'axe, aucun pas de côté). Avec la souris, le Terminator
+    // pivote vers le point du sol visé ; les flèches (référence) ou ZQSD (directions écran) le font avancer ou reculer
+    // quand elles tombent dans l'axe, et prennent la rotation quand elles sont de côté. Sans souris, elles orientent
+    // et font avancer. Aucune rotation brute par ←/→ ici : elles déplacent.
+    // Logique pure : web/controls/diablo.ts.
+    const { fwd, turn } = diabloControls(w.t, diabloKeys(k), diabloAim(), DIABLO.yaw, T_CFG, DT);
+    return { fwd, strafe: 0, turn, bolt: k('Space'), fist: k('KeyF') || k('ShiftLeft') };
+  }
+  const arrows = (k('ArrowRight') ? 1 : 0) - (k('ArrowLeft') ? 1 : 0); // hors Diablo : ←/→ pivotent
   const lookTurn = CAM_MODE === 'fps' ? turnTowardYaw(w.t.facing, fpsLook.yaw, T_CFG.turnMax, DT) : 0;
   const turn = arrows !== 0 ? arrows : lookTurn;
   return { fwd: (k('KeyW') || k('KeyZ') ? 1 : 0) - (k('KeyS') ? 1 : 0), strafe: (k('KeyA') || k('KeyQ') ? 1 : 0) - (k('KeyD') ? 1 : 0), turn, bolt: k('Space'), fist: k('KeyF') || k('ShiftLeft') };
@@ -1264,12 +1342,22 @@ function tick() {
   }
   if (w.done) endRound();
 }
+// Crédit de la banque musicale locale (hors dépôt) : le texte vient de son manifeste, jamais du code.
+// Rien ne s'affiche tant qu'aucune boucle locale n'est décodée.
+function showMusicCredit(credit: string | null = engine.musicCredit) {
+  const help = document.getElementById('help');
+  if (!help) return;
+  help.querySelector('.music-credit')?.remove();
+  const html = musicCreditMarkup(credit);
+  if (html) help.insertAdjacentHTML('beforeend', html);
+}
+engine.onMusicCredit(c => showMusicCredit(c));
 function flash(_o: number) { /* remplacé par un retour localisé (hitGlow / impact light / post). */ }
 async function endRound() {
   roundOver = true; director.endRound(w.winner); if (w.winner === 'pack') score.pack++; else score.term++;
   const msg = document.getElementById('msg')!; msg.style.display = 'block';
   const card = roundCard(w, { roundNo });
-  msg.innerHTML = roundMarkup(card) + '<p>La meute étudie ta tactique…</p>';
+  msg.innerHTML = roundMarkup(card) + musicCreditMarkup(engine.musicCredit) + '<p>La meute étudie ta tactique…</p>';
   if (shot || PLAY_SPEED !== 1 || qs.get('until') === 'end' || PROBE_READ || CAP_STEP) return;
   try {
     const r = await fetch('/api/round', { method: 'POST', body: JSON.stringify(rec.toJSON(`${w.winner} — ${w.reason}`)) }).then(r => r.json());
@@ -1408,9 +1496,9 @@ function render(alpha: number) {
       l.color.setHex(focus ? 0x7cf4ff : 0xffc8a8);
     });
     if (scene.fog && (scene.fog as THREE.FogExp2).isFogExp2) {
-      (scene.fog as THREE.FogExp2).density = CAM_MODE === 'shoulder' ? (clawHold ? 0.022 : 0.036) : 0.042;
+      (scene.fog as THREE.FogExp2).density = CAM_MODE === 'shoulder' ? (clawHold ? 0.022 : 0.036) : CAM_MODE === 'diablo' ? DIABLO.fog : 0.042;
     }
-    renderer.toneMappingExposure = CAM_MODE === 'shoulder' ? (clawHold ? 1.62 : 1.50) : 1.52;
+    renderer.toneMappingExposure = CAM_MODE === 'shoulder' ? (clawHold ? 1.62 : 1.50) : CAM_MODE === 'diablo' ? DIABLO.exposure : 1.52;
     postMat.uniforms.uVignette.value = CAM_MODE === 'shoulder' ? 0.62 : 0.72;
   } else {
     tFill.intensity = 0;
@@ -1422,6 +1510,16 @@ function render(alpha: number) {
       const b = n.belief; beliefs[i].visible = n.alive && b.valid; beliefs[i].position.set(b.x, 0.08 + i * 0.01, b.y); (beliefs[i].material as THREE.MeshBasicMaterial).opacity = Math.max(0.15, 1 - b.age / 50);
       links[i].visible = n.alive && b.valid; links[i].geometry.setFromPoints([new THREE.Vector3(n.x, 0.1, n.y), new THREE.Vector3(b.x, 0.1, b.y)]); links[i].computeLineDistances(); });
     noiseRing.position.set(w.t.x, 0.06, w.t.y); noiseRing.scale.setScalar(w.t.noise); tCone.position.set(w.t.x, 0.04, w.t.y); tCone.rotation.y = -w.t.facing;
+  }
+  readGroup.visible = CAM_MODE === 'diablo' && readAids && !debug; // la vue de contrôle (V) dessine déjà ses cônes
+  if (readGroup.visible) {
+    readNoise.position.set(tx, 0.1, ty); readNoise.scale.setScalar(Math.max(1e-3, noiseRingRadius(w.t)));
+    w.nls.forEach((n, i) => {
+      const c = readCones[i]!; c.visible = n.alive; if (!n.alive) return;
+      c.position.set(lerp(prev.n[i][0], n.x), 0.085 + i * 0.003, lerp(prev.n[i][1], n.y)); c.rotation.y = -la(prev.n[i][2], n.facing);
+      const seen = nlSees(w, n), m = c.material as THREE.MeshBasicMaterial;
+      m.color.setHex(seen ? READ_CONE.seen : READ_CONE.idle); m.opacity = seen ? READ_CONE.seenOp : READ_CONE.idleOp; c.geometry = seen ? READ_GEO.seen : READ_GEO.idle;
+    });
   }
   // Occlusion unique : `losClear` / `liftFollowIfOccluded` / `desiredCombatPose` (web/combat-cam.ts).
   const portrait = innerHeight > innerWidth;
@@ -1516,6 +1614,15 @@ function render(alpha: number) {
       );
       camera.position.set(lifted.camX + sx, lifted.camY, lifted.camZ + sz);
       camera.lookAt(subjX + fwdX * EPAULE.ahead + sx, EPAULE.eye, subjY + fz * EPAULE.ahead + sz);
+      break;
+    }
+    case 'diablo': {
+      // Lacet et plongée fixes, distance au zoom. Suit la position interpolée du Terminator (pas de lissage horaire :
+      // ?shot= et ?cap=1 restent déterministes).
+      const pitch = DIABLO.pitchDeg * Math.PI / 180, gx = Math.cos(DIABLO.yaw), gz = Math.sin(DIABLO.yaw);
+      const hd = diabloDist * Math.cos(pitch), h = diabloDist * Math.sin(pitch);
+      camera.position.set(subjX - gx * hd + sx, h, subjY - gz * hd + sz);
+      camera.lookAt(subjX + sx, DIABLO.eye, subjY + sz);
       break;
     }
     case 'troisquarts': {
@@ -1848,7 +1955,9 @@ async function loadModels() {
   };
   await Promise.all(ROLES.map(async (_r, i) => {
     try {
-      const rig = await load(`NL-${i + 1}`, NL_HEIGHT, 0.22, true, 'nl', i);
+      // Frères v2 : textures bleu nuit déjà sombres, l'albédo ×0,22 des anciens modèles les rendait gris.
+      const rig = await load(`NL-${i + 1}`, NL_HEIGHT, 0.5, true, 'nl', i);
+      await equipNl(rig.root, i, rig.idle?.getClip() ?? null, loadGLB);
       nlMeshes[i].add(rig.root); nlRigs[i] = rig;
       for (const p of nlProxy.slice(i * 3, i * 3 + 3)) p.visible = false; // capsule + 2 yeux de ce rôle
     } catch (e) { console.warn('modèle NL-' + (i + 1) + ' absent, capsule conservée', e); }

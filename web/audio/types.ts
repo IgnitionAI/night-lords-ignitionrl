@@ -47,6 +47,10 @@ export interface ManifestSample {
   priority: number;
   license: string;
   source: string;
+  /** Ligne de crédit à afficher dans le jeu (banque musicale locale seulement). */
+  credit?: string;
+  /** Dossier propre à l'entrée (banque locale) ; sinon la base du moteur. */
+  base?: string;
 }
 
 export interface AudioManifest {
