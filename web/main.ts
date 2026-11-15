@@ -51,7 +51,7 @@ import {
 import { createViewmodel, renderViewmodel, type Viewmodel } from './camera/viewmodel';
 import { fpsHudMarkup, dmgSide, marksHtml } from './camera/fps-hud';
 import { diabloControls, diabloKeys, rayToGround, type DiabloAim } from './controls/diablo';
-import { coneFan, noiseRingRadius } from './read-aids';
+import { coneGradient, noiseRingRadius } from './read-aids';
 
 const qs = new URLSearchParams(location.search);
 // Canal d'ambiance (`cogitator:hunters`) : muet sauf si l'URL demande explicitement `?control=1`.
@@ -661,17 +661,20 @@ const tCone = fan(T_CFG.visionHalf, T_CFG.visionRange, 0xfff0c0, 0.05); dbgGroup
 // Lecture seule de l'état de la sim ; aucun état horaire, donc ?shot= / ?cap=1 restent déterministes.
 const readGroup = new THREE.Group(); readGroup.visible = false; scene.add(readGroup);
 let readAids = CAM_MODE === 'diablo';
-const READ_CONE = { idle: 0x8ea2bf, idleOp: 0.045, seen: 0xff3a1a, seenOp: 0.15 };
+// Dégradé radial : opacité pleine au Night Lord, nulle (repos) ou réduite (« voit ») au bout de la portée.
+// En desktop, l'aplat uniforme de 12 m faisait un grand voile clair ; le repos reste une trace, le rouge se lit.
+const READ_CONE = { idle: 0x8ea2bf, idleOp: 0.07, idleEdge: 0, seen: 0xff3a1a, seenOp: 0.26, seenEdge: 0.3 };
 const readNoise = new THREE.Mesh(new THREE.RingGeometry(0.95, 1, 72), new THREE.MeshBasicMaterial({ color: 0xffd080, transparent: true, opacity: 0.42, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
 readNoise.rotation.x = -Math.PI / 2; readGroup.add(readNoise);
-const readConeGeo = (() => {
-  const pts = coneFan(NL_CFG.visionRange, NL_CFG.visionHalf, 28), g = new THREE.BufferGeometry(), idx: number[] = [];
-  g.setAttribute('position', new THREE.Float32BufferAttribute(pts.flatMap(p => [p.x, 0, p.y]), 3));
-  for (let i = 1; i < pts.length - 1; i++) idx.push(0, i, i + 1);
-  g.setIndex(idx); return g;
-})();
+const readConeGeo = (edge: number) => {
+  const c = coneGradient(NL_CFG.visionRange, NL_CFG.visionHalf, 28, 6, edge), g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(c.pts.flatMap(p => [p.x, 0, p.y]), 3));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(c.alpha.flatMap(al => [1, 1, 1, al]), 4)); // alpha par sommet
+  g.setIndex(c.index); return g;
+};
+const READ_GEO = { idle: readConeGeo(READ_CONE.idleEdge), seen: readConeGeo(READ_CONE.seenEdge) };
 const readCones = ROLES.map(() => {
-  const m = new THREE.Mesh(readConeGeo, new THREE.MeshBasicMaterial({ color: READ_CONE.idle, transparent: true, opacity: READ_CONE.idleOp, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
+  const m = new THREE.Mesh(READ_GEO.idle, new THREE.MeshBasicMaterial({ color: READ_CONE.idle, vertexColors: true, transparent: true, opacity: READ_CONE.idleOp, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
   readGroup.add(m); return m;
 });
 // La lumière des armes. Le flash de bouche est une vraie lumière ponctuelle : il éclaire les piliers et
@@ -1092,7 +1095,7 @@ if (CAM_MODE === 'diablo') {
   });
   const help = document.getElementById('help');
   if (help) help.innerHTML = 'Flèches : se déplacer · souris : viser · Espace : bolter · F : gantelet · H : marqueurs · molette ou +/− : zoom (ZQSD aussi)<br>'
-    + 'Le Terminator pivote vers le curseur ; une flèche à moins de 50° de son cap le fait avancer, à l\'opposé reculer, de côté rien. Sans souris, les flèches l\'orientent et le font avancer. '
+    + 'Le Terminator pivote vers le curseur ; une flèche vers l\'avant le fait avancer, vers l\'arrière reculer, de côté elle le fait pivoter puis avancer. Sans souris, les flèches l\'orientent et le font avancer. '
     + 'Victoire : balise 6 s, meute à terre, ou 2:00 tenues ; défaite : armure à 0 · Maj gantelet · V vue de contrôle · M son · Entrée manche suivante · P pause · autres vues : ?cam=fps|shoulder|combat|couloir|epaule|troisquarts';
   // les flèches déplacent : elles ne doivent pas faire défiler la page
   addEventListener('keydown', e => { if (e.code.startsWith('Arrow')) e.preventDefault(); });
@@ -1104,8 +1107,9 @@ function playerAction(): TAction {
   // rien : sur un Mac français, avancer et aller à gauche étaient muets. On accepte les deux nomenclatures.
   if (CAM_MODE === 'diablo') {
     // La sim garde ses règles (rotation rampée, marche dans l'axe, aucun pas de côté). Avec la souris, le Terminator
-    // pivote vers le point du sol visé et les flèches (référence) ou ZQSD (directions écran) ne font qu'avancer ou
-    // reculer ; sans souris, elles orientent et font avancer. Aucune rotation directe par ←/→ ici : elles déplacent.
+    // pivote vers le point du sol visé ; les flèches (référence) ou ZQSD (directions écran) le font avancer ou reculer
+    // quand elles tombent dans l'axe, et prennent la rotation quand elles sont de côté. Sans souris, elles orientent
+    // et font avancer. Aucune rotation brute par ←/→ ici : elles déplacent.
     // Logique pure : web/controls/diablo.ts.
     const { fwd, turn } = diabloControls(w.t, diabloKeys(k), diabloAim(), DIABLO.yaw, T_CFG, DT);
     return { fwd, strafe: 0, turn, bolt: k('Space'), fist: k('KeyF') || k('ShiftLeft') };
@@ -1502,7 +1506,7 @@ function render(alpha: number) {
       const c = readCones[i]!; c.visible = n.alive; if (!n.alive) return;
       c.position.set(lerp(prev.n[i][0], n.x), 0.085 + i * 0.003, lerp(prev.n[i][1], n.y)); c.rotation.y = -la(prev.n[i][2], n.facing);
       const seen = nlSees(w, n), m = c.material as THREE.MeshBasicMaterial;
-      m.color.setHex(seen ? READ_CONE.seen : READ_CONE.idle); m.opacity = seen ? READ_CONE.seenOp : READ_CONE.idleOp;
+      m.color.setHex(seen ? READ_CONE.seen : READ_CONE.idle); m.opacity = seen ? READ_CONE.seenOp : READ_CONE.idleOp; c.geometry = seen ? READ_GEO.seen : READ_GEO.idle;
     });
   }
   // Occlusion unique : `losClear` / `liftFollowIfOccluded` / `desiredCombatPose` (web/combat-cam.ts).

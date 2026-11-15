@@ -35,3 +35,26 @@ export function inCone(cx: number, cy: number, facing: number, range: number, ha
   while (e < -Math.PI) e += 2 * Math.PI;
   return Math.abs(e) <= half;
 }
+
+/**
+ * Éventail maillé en anneaux, avec un alpha par sommet qui décroît du sommet (1) à la portée max (`edge`).
+ * Sert au dégradé radial du cône de vision : présent près du Night Lord, effacé au bout de sa portée.
+ * Sommets : le sommet, puis `rings` anneaux de `segments + 1` points. Indices : triangles en local (cap 0 = +x).
+ */
+export function coneGradient(range: number, half: number, segments: number, rings: number, edge = 0): { pts: { x: number; y: number }[]; alpha: number[]; index: number[] } {
+  const pts = [{ x: 0, y: 0 }], alpha = [1], index: number[] = [];
+  for (let r = 1; r <= rings; r++) {
+    const f = r / rings, rad = range * f;
+    for (let i = 0; i <= segments; i++) {
+      const a = -half + (2 * half * i) / segments;
+      pts.push({ x: rad * Math.cos(a), y: rad * Math.sin(a) });
+      alpha.push(1 - (1 - edge) * f);
+    }
+  }
+  const at = (r: number, i: number) => 1 + (r - 1) * (segments + 1) + i;
+  for (let i = 0; i < segments; i++) index.push(0, at(1, i), at(1, i + 1));
+  for (let r = 2; r <= rings; r++) for (let i = 0; i < segments; i++) {
+    index.push(at(r - 1, i), at(r, i), at(r, i + 1), at(r - 1, i), at(r, i + 1), at(r - 1, i + 1));
+  }
+  return { pts, alpha, index };
+}

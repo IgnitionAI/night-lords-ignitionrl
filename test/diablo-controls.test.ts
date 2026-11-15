@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import { newWorld, step, nlSees, DT, T_CFG, NL_CFG } from '../src/sim.ts';
 import { DIABLO } from '../web/atmosphere.ts';
 import {
-  diabloControls, diabloKeys, screenHeading, turnToward, rayToGround, DIABLO_TURN_GAIN, DIABLO_WALK_HALF,
+  diabloControls, diabloKeys, screenHeading, turnToward, rayToGround, DIABLO_TURN_GAIN, DIABLO_WALK_HALF, DIABLO_AIM_HOLD,
 } from '../web/controls/diablo.ts';
-import { noiseRingRadius, coneFan, placeConePoint, inCone } from '../web/read-aids.ts';
+import { noiseRingRadius, coneFan, coneGradient, placeConePoint, inCone } from '../web/read-aids.ts';
 
 const CAM = DIABLO.yaw; // lacet de la caméra Diablo : « haut de l'écran » = cap -π/2 en sim
 const term = (facing: number, turnVel = 0) => ({ x: 10, y: 10, facing, turnVel });
@@ -166,17 +166,55 @@ test('diablo : les flèches sont le déplacement de référence, ZQSD/WASD donne
   assert.deepEqual(diabloKeys(held('Space', 'KeyF', 'KeyH')), { up: 0, right: 0 }, 'tir, gantelet, H ne déplacent pas');
 });
 
-test('diablo : avec souris, ↑ devant → fwd 1, ↑ derrière → fwd -1, ←/→ de côté → fwd 0, sans jamais piloter turn', () => {
+test('diablo : avec souris, ↑ devant → fwd 1, ↓ derrière → fwd -1 (souris garde la rotation), ←/→ de côté → les touches pivotent', () => {
   const t = term(-Math.PI / 2); // cap = haut de l'écran, curseur devant
   const aim = { x: 10, y: 2 };
   const f = (...c: string[]) => diabloControls(t, diabloKeys(held(...c)), aim, CAM, T_CFG, DT);
+  const mouseOnly = diabloControls(t, { up: 0, right: 0 }, aim, CAM, T_CFG, DT).turn;
   assert.equal(f('ArrowUp').fwd, 1);
   assert.equal(f('ArrowDown').fwd, -1);
+  assert.equal(f('ArrowUp').turn, mouseOnly, 'fenêtre avant : la souris tourne');
+  assert.equal(f('ArrowDown').turn, mouseOnly, 'fenêtre arrière : recul en gardant la visée');
+  assert.equal(f().turn, 0, 'aligné sur le curseur, sans touche : aucune rotation');
+  // hors fenêtre : les touches prennent la rotation, vers leur direction, sans avancer encore
   assert.equal(f('ArrowLeft').fwd, 0);
   assert.equal(f('ArrowRight').fwd, 0);
-  // ←/→ ne font plus pivoter : turn ne dépend que du curseur, pas des flèches
-  for (const c of [['ArrowLeft'], ['ArrowRight'], ['ArrowUp'], []]) assert.equal(f(...c).turn, diabloControls(t, { up: 0, right: 0 }, aim, CAM, T_CFG, DT).turn);
-  assert.equal(f('ArrowLeft').turn, 0, 'aligné sur le curseur : → ou ← ne donnent aucune rotation');
+  assert.ok(f('ArrowRight').turn > 0, '→ pivote vers la droite de l\'écran (cap 0)');
+  assert.ok(f('ArrowLeft').turn < 0, '← pivote vers la gauche de l\'écran (cap ±π)');
+});
+
+test('diablo : geste de Fulgrim — curseur à droite, ↑ à 78° du cap → les touches pivotent vers le haut, puis fwd = 1 sous 50°', () => {
+  const w = newWorld(900002, { x: 10, y: 14, facing: -Math.PI / 2 + 78 * Math.PI / 180 });
+  const aim = { x: 30, y: 14 }; // loin à droite à l'écran (cap 0)
+  const up = diabloKeys(held('ArrowUp'));
+  const first = diabloControls(w.t, up, aim, CAM, T_CFG, DT);
+  assert.equal(first.fwd, 0, 'premier tick : hors fenêtre, pas encore de marche');
+  assert.ok(first.turn < 0, 'pivote vers le haut de l\'écran (cap -π/2), pas vers la souris');
+  assert.ok(first.turn >= -1);
+  const y0 = w.t.y; let firstWalk = -1, fwdFlips = 0, last = first.fwd;
+  for (let i = 0; i < 30; i++) {
+    const out = diabloControls(w.t, up, aim, CAM, T_CFG, DT);
+    const gap = Math.abs(wrap(-Math.PI / 2 - w.t.facing));
+    if (gap < DIABLO_WALK_HALF) assert.equal(out.fwd, 1, `écart ${gap} sous 50° → fwd = 1`);
+    if (out.fwd === 1 && firstWalk < 0) firstWalk = i;
+    if (out.fwd !== last) { fwdFlips++; last = out.fwd; }
+    step(w, { fwd: out.fwd, strafe: 0, turn: out.turn, bolt: false, fist: false }, [0, 0, 0, 0]);
+  }
+  assert.ok(firstWalk > 0 && firstWalk < 10, `marche dès le tick ${firstWalk}`);
+  assert.equal(fwdFlips, 1, 'une fois dans la fenêtre, il marche sans à-coups (pas de pompage 0/1)');
+  assert.ok(y0 - w.t.y > 2, `monte nettement à l'écran : Δy = ${w.t.y - y0}`);
+  // la souris a repris la rotation, bornée à 45° de l'axe des touches : cap entre -90° et -45°
+  assert.ok(Math.abs(wrap(w.t.facing - (-Math.PI / 2 + DIABLO_AIM_HOLD))) < 0.05, `cap ${w.t.facing}`);
+  // touches relâchées : la souris reprend toute la rotation
+  assert.ok(diabloControls(w.t, { up: 0, right: 0 }, aim, CAM, T_CFG, DT).turn > 0);
+});
+
+test('diablo : recul en gardant la visée, borné à ±45° de l\'axe arrière', () => {
+  const t = term(Math.PI / 2); // regarde vers le bas de l'écran
+  const out = diabloControls(t, diabloKeys(held('ArrowUp')), { x: 30, y: 10 }, CAM, T_CFG, DT); // souris à droite (90° du cap)
+  assert.equal(out.fwd, -1);
+  assert.equal(out.turn, turnToward(t, Math.PI / 2 - DIABLO_AIM_HOLD, T_CFG, DT), 'vise vers la souris, mais pas au-delà de 45° de l\'axe');
+  assert.ok(out.turn < 0);
 });
 
 test('diablo : sans souris, les flèches suivent le schéma ZQSD (orienter + avancer), pas l\'ancien pivot ←/→', () => {
@@ -187,4 +225,21 @@ test('diablo : sans souris, les flèches suivent le schéma ZQSD (orienter + ava
   assert.ok(r.turn > 0, 'pivote vers la droite de l\'écran (cap 0)');
   assert.ok(r.turn <= 1);
   assert.equal(r.fwd, 0, '90° : on pivote avant d\'avancer');
+});
+
+test('aides de lecture : dégradé radial du cône (sommet opaque, bord effacé), même emprise que le cône', () => {
+  const R = NL_CFG.visionRange, H = NL_CFG.visionHalf;
+  const g = coneGradient(R, H, 28, 6, 0);
+  assert.equal(g.pts.length, 1 + 6 * 29);
+  assert.equal(g.alpha.length, g.pts.length);
+  assert.equal(g.alpha[0], 1);
+  const last = g.alpha.slice(-29);
+  for (const a of last) assert.ok(Math.abs(a) < 1e-12, 'repos : nul à la portée max');
+  for (let i = 1; i < g.alpha.length; i++) assert.ok(g.alpha[i]! <= 1 && g.alpha[i]! >= 0);
+  for (const p of g.pts.slice(-29)) assert.ok(Math.abs(Math.hypot(p.x, p.y) - R) < 1e-9);
+  for (const p of g.pts.slice(1)) assert.ok(inCone(0, 0, 0, R + 1e-9, H + 1e-9, p.x, p.y));
+  assert.equal(g.index.length, 3 * 28 + 6 * 28 * 5);
+  assert.ok(g.index.every(i => i >= 0 && i < g.pts.length));
+  const seen = coneGradient(R, H, 28, 6, 0.3);
+  assert.ok(Math.abs(seen.alpha.at(-1)! - 0.3) < 1e-12, '« voit » : le bord garde 30 %, le rouge reste lisible');
 });
