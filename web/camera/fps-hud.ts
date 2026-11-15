@@ -14,6 +14,7 @@ export interface DmgFlash {
 }
 
 export function fpsHudMarkup(s: MatchStatus, extra: {
+  duel?: boolean;
   roundNo: number;
   score: { pack: number; term: number };
   demo?: boolean;
@@ -44,7 +45,7 @@ export function fpsHudMarkup(s: MatchStatus, extra: {
     <div class="cell fist"><span>GANTELET</span><b>${fist}</b></div>
     <div class="cell clock"><span>TEMPS</span><b class="${s.timePressure ? 'warn' : ''}">${s.clock}</b></div>
   </div>
-  <div class="pack">${s.roster.map((r) => `<b class="${r.alive ? 'up' : 'down'}">${r.role[0]}</b>`).join('')}</div>
+  <div class="pack">${s.roster.filter((_,i) => !extra.duel || i === 0).map((r) => `<b class="${r.alive ? 'up' : 'down'}">${r.role[0]}</b>`).join('')}</div>
   <div class="alarms">${alarm}${stagger}</div>
   <div class="score">M${extra.score.pack} · T${extra.score.term} · ${extra.roundNo}</div>
   ${policy}${burn}`;

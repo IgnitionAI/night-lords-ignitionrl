@@ -4,7 +4,7 @@
 // la main dans toutes les animations. `flip` choisit le bout tenu, `grip` place la paume le long du manche.
 import * as THREE from 'three';
 export type WeaponSpec = { bone: 'RightHand' | 'LeftHand'; length: number; flip?: boolean; grip?: number; roll?: number; dir?: [number, number, number] };
-function principalAxis(obj: THREE.Object3D) {
+export function principalAxis(obj: THREE.Object3D) {
   const pts: THREE.Vector3[] = []; obj.updateMatrixWorld(true);
   obj.traverse(o => { const m = o as THREE.Mesh; if (!m.isMesh) return; const p = m.geometry.getAttribute('position'); const step = Math.max(1, Math.floor(p.count / 3000));
     for (let i = 0; i < p.count; i += step) pts.push(new THREE.Vector3().fromBufferAttribute(p, i).applyMatrix4(m.matrixWorld)); });

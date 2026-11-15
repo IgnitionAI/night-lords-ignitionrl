@@ -1,6 +1,9 @@
 // Armes en premier plan (storm bolter + gantelet). Scène séparée, profondeur vidée
 // pour que le canon ne traverse pas les piliers. Cues #72 : anticipation / impact / fire.
 import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { principalAxis } from '../weapons';
 import type { AnimCue } from '../anim-cues';
 
 export interface Viewmodel {
@@ -13,7 +16,7 @@ export interface Viewmodel {
   tracer: THREE.Line;
   ingestCue(cue: AnimCue): void;
   ingestSim(ev: { type: string }): void;
-  update(dt: number, now: number, bobX: number, bobY: number, moving: boolean): void;
+  update(dt: number, now: number, bobX: number, bobY: number, moving: boolean, reload?: number): void;
   dispose(): void;
 }
 
@@ -23,7 +26,7 @@ function box(
   g: THREE.Group, w: number, h: number, d: number,
   mat: THREE.Material, x: number, y: number, z: number,
 ): THREE.Mesh {
-  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+  const m = new THREE.Mesh(new RoundedBoxGeometry(w, h, d, 2, Math.min(w,h,d) * 0.15), mat);
   m.position.set(x, y, z);
   m.castShadow = false;
   m.receiveShadow = false;
@@ -98,7 +101,7 @@ export function createViewmodel(): Viewmodel {
   bolter.add(bolterLamp);
   bolter.position.set(0.22, -0.14, -0.52);
   bolter.rotation.set(0.12, 0.28, 0.04);
-  bolter.scale.setScalar(1.28);
+  bolter.scale.setScalar(0.85);
   root.add(bolter);
 
   const fist = new THREE.Group();
@@ -121,7 +124,7 @@ export function createViewmodel(): Viewmodel {
   fist.add(fistLamp);
   fist.position.set(-0.26, -0.12, -0.50);
   fist.rotation.set(0.55, -0.55, -0.18);
-  fist.scale.setScalar(1.32);
+  fist.scale.setScalar(0.72);
   root.add(fist);
 
   const tracer = new THREE.Line(
@@ -131,6 +134,23 @@ export function createViewmodel(): Viewmodel {
   tracer.position.set(0.20, -0.12, -0.92);
   root.add(tracer);
 
+  // Bras droit et doigts autour de la poignée, distincts de la carcasse.
+  box(bolter, 0.105, 0.25, 0.12, plate, 0.015, -0.24, 0.15);
+  box(bolter, 0.11, 0.045, 0.13, brass, 0.015, -0.13, 0.15);
+  for (let i = 0; i < 4; i++) box(bolter, 0.07, 0.018, 0.06, fistMat, 0.008, -0.07 - i * 0.022, 0.085);
+  const fallbackParts = bolter.children.filter(o => o instanceof THREE.Mesh).slice(0, 12);
+  if (typeof document !== 'undefined') new GLTFLoader().load('/web/models/weapons/bolter.glb', gltf => {
+    const model = gltf.scene;
+    const { c, v, lo, hi } = principalAxis(model);
+    model.position.copy(c).negate();
+    const holder = new THREE.Group(); holder.add(model);
+    holder.quaternion.setFromUnitVectors(v, new THREE.Vector3(0, 0, -1));
+    holder.scale.setScalar(0.52 / (hi - lo));
+    holder.position.set(0, 0, -0.08);
+    bolter.add(holder);
+    fallbackParts.forEach(o => o.visible = false);
+  }, undefined, e => console.warn('Bolter FPS : modèle indisponible', e));
+  let lastTime: number | null = null;
   let recZ = 0;
   let recX = 0;
   let fireT = 0;
@@ -165,7 +185,9 @@ export function createViewmodel(): Viewmodel {
     }
   };
 
-  const update = (dt: number, now: number, bobX: number, bobY: number, moving: boolean) => {
+  const update = (dt: number, now: number, bobX: number, bobY: number, moving: boolean, reload = 0) => {
+    dt = lastTime === null ? 0 : Math.max(0, Math.min(0.05, now - lastTime));
+    lastTime = now;
     idle += dt;
     recZ *= Math.exp(-dt * 14);
     recX *= Math.exp(-dt * 12);
@@ -177,7 +199,9 @@ export function createViewmodel(): Viewmodel {
     const sy = Math.sin(idle * 1.05) * 0.006 * sway + bobY * 0.55;
     root.position.set(sx, sy, recZ);
     root.rotation.z = recX * 4 + bobX * 0.15;
-    bolter.position.z = -0.50 + recZ * 2.2;
+    const reloadArc = reload > 0 ? Math.sin(Math.PI * (1 - reload / 20)) : 0;
+    bolter.position.set(0.22, -0.19 - reloadArc * 0.15, -0.58 + recZ * 1.3);
+    bolter.rotation.z = 0.04 + reloadArc * 0.55;
     bolter.rotation.x = 0.10 + recZ * 3.2;
     (muzzleFlash.material as THREE.MeshBasicMaterial).opacity = fireT * fireT;
     muzzleFlash.scale.setScalar(0.6 + fireT * 1.8);
@@ -185,11 +209,12 @@ export function createViewmodel(): Viewmodel {
     (tracer.material as THREE.LineBasicMaterial).opacity = fireT * 0.85;
     const pull = wind * 0.16;
     const punch = strike * 0.22;
-    fist.position.set(-0.26 - wind * 0.04, -0.12 + pull * 0.08, -0.50 + punch - pull);
+    fist.position.set(-0.24 + strike * 0.12 + reloadArc * 0.30, -0.23 + strike * 0.12 - reloadArc * 0.06, -0.58 - punch + pull);
+    fist.rotation.z = -0.18 - reloadArc * 0.65;
     fist.rotation.x = 0.55 - wind * 0.32 + strike * 0.45;
-    fistMat.emissiveIntensity = 0.7 + wind * 1.1 + strike * 1.4;
+    fistMat.emissiveIntensity = 0.08 + wind * 1.1 + strike * 1.4;
     energyMat.emissiveIntensity = 0.9 + wind * 1.3 + strike * 0.8;
-    energyMat.opacity = 0.5 + wind * 0.35 + strike * 0.2;
+    energyMat.opacity = 0.04 + wind * 0.35 + strike * 0.2;
     fistLamp.intensity = 1.05 + wind * 1.6 + strike * 1.2;
     void now;
   };

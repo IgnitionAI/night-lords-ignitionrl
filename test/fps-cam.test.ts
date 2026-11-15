@@ -14,9 +14,9 @@ import { matchStatus, hudMarkup } from '../src/match.ts';
 import { newWorld } from '../src/sim.ts';
 import { TERM_HEIGHT } from '../web/stride.ts';
 
-test('cam=diablo est le défaut ; fps / couloir / epaule / troisquarts restent', () => {
-  assert.equal(parseCamMode(null), 'diablo');
-  assert.equal(parseCamMode(''), 'diablo');
+test('cam=fps est le défaut ; fps / couloir / epaule / troisquarts restent', () => {
+  assert.equal(parseCamMode(null), 'fps');
+  assert.equal(parseCamMode(''), 'fps');
   assert.equal(parseCamMode('diablo'), 'diablo');
   assert.equal(parseCamMode('fps'), 'fps');
   assert.equal(parseCamMode('couloir'), 'couloir');
@@ -100,9 +100,9 @@ test('indicateurs de dégâts : rear → back, flanc selon l\'angle', () => {
   assert.equal(dmgSide('side', -Math.PI / 2, 0), 'right');
 });
 
-test('invariants sim inchangés (cette PR ne touche pas src/sim.ts)', () => {
+test('vitesse de base et normalisation angulaire', () => {
   assert.equal(NL_CFG.speed, 6);
-  assert.equal(T_CFG.fwd, 2.5);
+  assert.equal(T_CFG.fwd, 5);
   assert.equal(wrapPi(0), 0);
 });
 

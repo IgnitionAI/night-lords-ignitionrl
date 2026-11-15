@@ -56,11 +56,13 @@ export const NL_CFG = {
   noiseMove: 5, noiseClaw: 7, voxRange: 14, // un frère n'est connu que vu, entendu ou à portée de vox
 };
 
-export interface TAction { fwd: number; strafe: number; turn: number; bolt: boolean; fist: boolean }
+export interface TAction { fwd: number; strafe: number; turn: number; bolt: boolean; fist: boolean; aimYaw?: number; aimPitch?: number; reload?: boolean }
 export const T_IDLE: TAction = { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false };
 export interface Belief { valid: boolean; x: number; y: number; age: number; facing: number | null; seen: boolean; heard: boolean; vox: boolean }
 export interface Mate { known: boolean; x: number; y: number; age: number; alive: boolean }
 export interface NL {
+  hp?: number;
+  shotTicks?: number; shotX?: number; shotY?: number;
   role: number; x: number; y: number; facing: number; alive: boolean; cd: number; armTicks: number; belief: Belief;
   lastAction: number; noise: number; mates: Mate[];
   stunTicks: number; // stagger du gantelet (0 = rien) : cd de griffe gelé et déplacement ralenti
@@ -89,6 +91,8 @@ export type Ev =
   // `recoil` (0 → 1) : recul normalisé du tir dans sa rafale, pour que la caméra ait une donnée et pas une impression.
   | { type: 'bolt'; x: number; y: number; tx: number; ty: number; kill: number; recoil: number }
   // `staggered` : le choc a étourdi au moins un Night Lord encore debout (`kill` reste l'index de la cible tuée, ou -1).
+  | { type: 'enemyAim'; who: number }
+  | { type: 'enemyBolt'; who: number; x: number; y: number; tx: number; ty: number; hit: boolean }
   | { type: 'fist'; kill: number; staggered: boolean }
   | { type: 'fistCharge' } // entrée en charge : le coup est engagé, il ne s'annule plus
   | { type: 'fistReady' } // fin de charge : l'impact tombe dans le même tick, l'audio peut le précéder
@@ -105,7 +109,7 @@ export type Ev =
   | { type: 'step'; x: number; y: number; foot: 0 | 1; intensity: number };
 /** Options de simulation. `clawWindup` : armement de 2 ticks avant l'impact des griffes (défaut `true`).
  * `propKinds` : types de props **affichés** (assets chargés). Vide / absent = scène #44, tick pour tick. */
-export interface WorldOpts { clawWindup?: boolean; propKinds?: readonly PropKind[] }
+export interface WorldOpts { fps?: boolean; clawWindup?: boolean; propKinds?: readonly PropKind[] }
 export interface World {
   seed: number; tick: number; rng: Rng; t: Term; nls: NL[]; opts: Required<WorldOpts>;
   done: boolean; winner: 'pack' | 'terminator' | null; reason: string; events: Ev[];
@@ -178,7 +182,7 @@ export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: 
       belief: { valid: false, x: BEACON.x, y: BEACON.y, age: 99, facing: null, seen: false, heard: false, vox: false } });
   }
   for (const n of nls) n.mates = nls.map(() => ({ known: false, x: n.x, y: n.y, age: 99, alive: true }));
-  const w: World = { seed, tick: 0, rng, t, nls, opts: { clawWindup: opts.clawWindup ?? true, propKinds }, done: false, winner: null, reason: '', events: [], propSolids };
+  const w: World = { seed, tick: 0, rng, t, nls, opts: { fps: opts.fps ?? false, clawWindup: opts.clawWindup ?? true, propKinds }, done: false, winner: null, reason: '', events: [], propSolids };
   perceive(w);
   return w;
 }
@@ -276,7 +280,7 @@ function clawImpact(w: World, i: number, n: NL, rewards: number[], died: boolean
   if (dist(n.x, n.y, t.x, t.y) > NL_CFG.clawRange) { w.events.push({ type: 'whiff', who: i }); return; }
   const rel = Math.abs(angNorm(Math.atan2(n.y - t.y, n.x - t.x) - t.facing));
   const zone = rel < NL_CFG.frontHalf ? 'front' : rel > NL_CFG.rearHalf ? 'rear' : 'side';
-  const dmg = zone === 'front' ? 0 : zone === 'rear' ? NL_CFG.dmgRear : NL_CFG.dmgSide;
+  const dmg = w.opts.fps ? (zone === 'rear' ? 4 : 2) : zone === 'front' ? 0 : zone === 'rear' ? NL_CFG.dmgRear : NL_CFG.dmgSide;
   const before = t.hp; t.hp = Math.max(0, t.hp - dmg);
   w.events.push({ type: 'claw', who: i, dmg, zone });
   // --- Retour du coup (lot 4). Seul un coup qui **inflige des dégâts** secoue l'armure : une griffe sur l'avant est
@@ -340,6 +344,10 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   // --- Terminator : rien n'est instantané. L'entrée ne déplace pas : elle fixe une consigne que l'état de vitesse
   // rejoint par rampe. C'est l'inertie qui fait la tension du jeu (quatre prédateurs rapides contre une forteresse
   // lente), pas la fragilité du Terminator.
+  if (w.opts.fps && Number.isFinite(ta.aimYaw)) { t.facing = angNorm(ta.aimYaw!); t.turnVel = 0; }
+  if (w.opts.fps && ta.reload && t.reloadLeft === 0 && t.ammo < T_CFG.boltAmmo) {
+    t.reloadLeft = T_CFG.boltReload; t.burstLeft = 0;
+  }
   const turnIn = Math.max(-1, Math.min(1, ta.turn));
   t.turnVel = Math.max(-T_CFG.turnMax, Math.min(T_CFG.turnMax, t.turnVel + turnIn * T_CFG.turnAccel * DT));
   if (turnIn === 0) t.turnVel = moveToward(t.turnVel, 0, T_CFG.turnAccel * DT); // relâcher ne freine pas net
@@ -360,12 +368,18 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   // freiner, c'est décélérer : entrée nulle, ou consigne opposée au sens de la marche en cours
   const braking = fwd === 0 || (vLong !== 0 && Math.sign(vTarget) !== Math.sign(vLong));
   vLong = moveToward(vLong, vTarget, (braking ? T_CFG.decel : T_CFG.accel) * DT);
-  const vLat = 0; // `strafeAccel = 0` : aucune accélération latérale, donc jamais de vitesse latérale
+  let vLat = 0;
+  if (w.opts.fps) {
+    const lateral = Math.max(-1, Math.min(1, ta.strafe));
+    const norm = Math.max(1, Math.hypot(fwd, lateral));
+    vLong = moveToward(t.vx * cx + t.vy * cy, 5 * fwd / norm * speedScale, 24 * DT);
+    vLat = moveToward(-t.vx * cy + t.vy * cx, 5 * lateral / norm * speedScale, 24 * DT);
+  } // `strafeAccel = 0` : aucune accélération latérale, donc jamais de vitesse latérale
   t.vx = cx * vLong - cy * vLat; t.vy = cy * vLong + cx * vLat;
   const wasMoving = t.moving; // avant de recalculer : sert au pas d'arrêt (un seul, pas un par tick)
   const tx0 = t.x, ty0 = t.y;
   t.x += t.vx * DT; t.y += t.vy * DT; collide(t, T_CFG.radius, w.propSolids, { x: tx0, y: ty0 });
-  const speed = Math.abs(vLong);
+  const speed = Math.hypot(vLong, vLat);
   t.moving = speed > 1e-6; // la vitesse réelle, pas l'entrée : le Terminator reste bruyant en glissant
   t.noise = t.moving ? T_CFG.noiseMove : T_CFG.noiseIdle;
   if (t.fistCharge > 0) t.noise = Math.max(t.noise, T_CFG.noiseFist); // la charge s'entend venir
@@ -404,16 +418,24 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
       w.nls.forEach((n, i) => {
         if (!n.alive) return; const d = dist(n.x, n.y, t.x, t.y); if (d > T_CFG.boltRange) return;
         const e = Math.abs(angNorm(Math.atan2(n.y - t.y, n.x - t.x) - t.facing));
-        if (e <= half + Math.atan2(NL_CFG.radius, d) && d < bd && los(t.x, t.y, n.x, n.y, w.propSolids)) { bd = d; best = i; }
+        const height = 2.1788 + Math.tan(ta.aimPitch ?? 0) * d;
+        const verticalHit = !w.opts.fps || (height >= 0.1 && height <= 2.5);
+        if (verticalHit && e <= (w.opts.fps ? 0.015 : half) + Math.atan2(NL_CFG.radius, d) && d < bd && los(t.x, t.y, n.x, n.y, w.propSolids)) { bd = d; best = i; }
       });
       const ex = best >= 0 ? w.nls[best].x : t.x + cx * T_CFG.boltRange, ey = best >= 0 ? w.nls[best].y : t.y + cy * T_CFG.boltRange;
-      if (best >= 0) { w.nls[best].alive = false; died[best] = true; }
+      if (best >= 0) {
+        const n = w.nls[best];
+        if (w.opts.fps) {
+          n.hp = (n.hp ?? 3) - 1; n.stunTicks = 3; n.armTicks = 0;
+          if (n.hp <= 0) { n.alive = false; died[best] = true; }
+        } else { n.alive = false; died[best] = true; }
+      }
       // Recul normalisé : 1/3, 2/3, 1 sur une rafale de 3 — croissant, saturé à 1 au dernier tir.
-      w.events.push({ type: 'bolt', x: t.x, y: t.y, tx: ex, ty: ey, kill: best, recoil: (fired + 1) / T_CFG.boltBurst });
+      w.events.push({ type: 'bolt', x: t.x, y: t.y, tx: ex, ty: ey, kill: best >= 0 && died[best] ? best : -1, recoil: (fired + 1) / T_CFG.boltBurst });
       if (t.burstLeft > 0 && t.ammo > 0) t.burstCd = T_CFG.boltBurstGap; // tir suivant au prochain tick
       else {
         // Fin de rafale : 3 tirs partis, ou chargeur vide. Le cooldown global part maintenant, comme avant.
-        t.burstLeft = 0; t.burstCd = 0; t.boltCd = T_CFG.boltCd;
+        t.burstLeft = 0; t.burstCd = 0; t.boltCd = w.opts.fps ? 3 : T_CFG.boltCd;
         if (t.ammo === 0) t.reloadLeft = T_CFG.boltReload; // chargeur vide : rechargement automatique (2 s)
       }
     }
@@ -440,13 +462,13 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
       n.facing = Math.atan2(f.uy, f.ux);
       if (n.cd === 0 && !stunned) {
         n.cd = NL_CFG.clawCd; n.noise = NL_CFG.noiseClaw;
-        if (w.opts.clawWindup) { n.armTicks = 2; w.events.push({ type: 'clawArm', who: i }); }
+        if (w.opts.clawWindup) { n.armTicks = w.opts.fps ? 6 : 2; w.events.push({ type: 'clawArm', who: i }); }
         else clawImpact(w, i, n, rewards, died); // comportement d'avant : les dégâts tombent dans le tick
       }
     } else if (a > 0) {
       const dirs: Record<number, [number, number]> = { 1: [1, 0], 2: [-1, 0], 3: [0, 1], 4: [0, -1], 5: [0.7071, 0.7071], 6: [0.7071, -0.7071] };
       const [du, dv] = dirs[a]; const mx = f.ux * du + f.vx * dv, my = f.uy * du + f.vy * dv;
-      const sp = NL_CFG.speed * (stunned ? T_CFG.stunSpeed : 1); // étourdi : il se traîne
+      const sp = (w.opts.fps ? 3.2 : NL_CFG.speed) * (stunned ? T_CFG.stunSpeed : 1); // étourdi : il se traîne
       const nx0 = n.x, ny0 = n.y;
       n.x += mx * sp * DT; n.y += my * sp * DT; n.facing = Math.atan2(my, mx); n.noise = NL_CFG.noiseMove;
       collide(n, NL_CFG.radius, w.propSolids, { x: nx0, y: ny0 });
@@ -454,6 +476,20 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
     collide(n, NL_CFG.radius, w.propSolids);
     const d = dist(n.x, n.y, t.x, t.y), mind = NL_CFG.radius + T_CFG.radius;
     if (d < mind && d > 0) { n.x = t.x + (n.x - t.x) / d * mind; n.y = t.y + (n.y - t.y) / d * mind; collide(n, NL_CFG.radius, w.propSolids); }
+    if (w.opts.fps) {
+      if (stunned) n.shotTicks = 0;
+      else if ((n.shotTicks ?? 0) > 0) {
+        n.shotTicks!--;
+        if (n.shotTicks === 0) {
+          const hit = Math.hypot(t.x - n.shotX!, t.y - n.shotY!) < 0.85 && los(n.x, n.y, t.x, t.y, w.propSolids);
+          w.events.push({ type: 'enemyBolt', who: i, x: n.x, y: n.y, tx: n.shotX!, ty: n.shotY!, hit });
+          if (hit) { t.hp = Math.max(0, t.hp - 2); t.lastHitTick = w.tick; t.lastHitAngle = Math.atan2(n.y-t.y,n.x-t.x); w.events.push({ type: 'hit', dmg: 2, zone: 'front', hpAfter: t.hp, stagger: false, servoAlarm: 0 }); }
+        }
+      } else if (d > 4 && d < 14 && w.tick % 50 === 10 && los(n.x,n.y,t.x,t.y,w.propSolids)) {
+        n.shotTicks = 8; n.shotX = t.x; n.shotY = t.y;
+        w.events.push({ type: 'enemyAim', who: i });
+      }
+    }
     if (n.stunTicks > 0) n.stunTicks--; // décompte en fin de tick : la valeur pleine reste lisible au tick d'impact
     if (n.role === 1 && n.belief.facing !== null) { // Uzas : se savoir (vu ou vox) dans le cône avant, proche = appât
       const b = n.belief, rel = Math.abs(angNorm(Math.atan2(n.y - b.y, n.x - b.x) - b.facing!));

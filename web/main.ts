@@ -83,6 +83,7 @@ applySceneAtmosphere(scene, FOG_MODE);
 const CAM_MODE: CamMode = parseCamMode(qs.get('cam'));
 if (CAM_MODE === 'fps') document.body.classList.add('fps');
 if (CAM_MODE === 'shoulder') document.body.classList.add('shoulder');
+const FPS_DUEL = CAM_MODE === 'fps' && !autoplay && !shot && qs.get('duel') !== '0' && !qs.has('demo');
 const PLAY_SPEED = Math.max(1, Math.min(2, Number(qs.get('speed') ?? 1) || 1));
 const PROBE_READ = qs.get('probe') === 'read';
 const CAP_STEP = qs.get('cap') === '1';
@@ -117,7 +118,7 @@ const SHOULDER_LIT = qs.get('huntlit') !== '0';
 if (CAM_MODE === 'fps') {
   renderer.toneMappingExposure = FPS_LIT ? FPS_EXPOSURE : TONE_MAPPING_EXPOSURE;
   scene.fog = new THREE.FogExp2(FOG_COLOR, FPS_LIT ? FPS_FOG_DENSITY : 0.060);
-  if (FPS_LIT) scene.add(new THREE.AmbientLight(0x2a3548, 0.42));
+  if (FPS_LIT) scene.add(new THREE.AmbientLight(0x8296b8, 0.9));
   const helmFill = new THREE.PointLight(0xc8d4ee, FPS_LIT ? 3.2 : 0, 11, 2);
   helmFill.position.set(0.15, 0.08, 0.2);
   camera.add(helmFill);
@@ -287,7 +288,7 @@ beacon.position.set(BEACON.x, 0.05, BEACON.y); scene.add(beacon); const bl = new
 // grey-box/décor ne voudrait plus rien dire.
 // Un seul appel de rendu par **type** de prop : les instances d'un même modèle partagent géométrie et
 // matériau (`InstancedMesh`), et c'est le seul moyen de poser vingt objets pour six appels.
-const PROPS_ON = qs.get('props') !== '0' && ENV;
+const PROPS_ON = !FPS_DUEL && qs.get('props') !== '0' && ENV;
 let loadedPropKinds: PropKind[] = [];
 interface PropView { axis: 'x' | 'y' | 'z'; size: number; dim: number }
 const PROP_VIEW: Record<string, PropView> = {
@@ -428,6 +429,7 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
       case 'nl':
         // Les textures sortent de Genex calibrees pour un studio, pas pour un couloir a 10 lux : on baisse
         // l'albedo pour que la forme passe devant le detail, et on garde le liseré de Fresnel de P2.
+        if (CAM_MODE === 'fps') m.normalScale?.setScalar(0.18);
         if (m.color) { m.color.multiplyScalar(dim); m.envMapIntensity = 0.25; m.metalness *= 0.3; m.roughness = Math.max(m.roughness, 0.72); }
         // Injecté *avant* le brouillard : ajouté après, le liseré traversait 17 m de brume intact et le Night
         // Lord devenait un mannequin blanc à contre-jour (vu à t77). Avant, la brume le mange comme le reste.
@@ -436,7 +438,7 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
           sh.uniforms.uTell = tell;
           sh.fragmentShader = 'uniform float uTell;\n' + sh.fragmentShader.replace('#include <fog_fragment>', `
        float fres = pow(1.0 - clamp(abs(dot(normalize(normal), normalize(vViewPosition))), 0.0, 1.0), 4.2);
-       gl_FragColor.rgb += mix(vec3(0.26, 0.35, 0.55), vec3(0.85, 0.12, 0.05), uTell) * fres * (0.55 + 1.4 * uTell);
+       gl_FragColor.rgb += mix(vec3(0.26, 0.35, 0.55), vec3(0.85, 0.12, 0.05), uTell) * fres * (${CAM_MODE === 'fps' ? '0.06' : '0.55'} + 0.8 * uTell);
        #include <fog_fragment>`);
         };
         break;
@@ -451,6 +453,10 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   const runClip = pickClip(clips, 'run');
   const proc = makeCombatClips(root, look, qs.get('proc') !== 'legacy');
   const resolved = resolveCombatClips(clips, proc);
+  if (FPS_DUEL && look === 'nl') {
+    resolved.deathThrow = resolved.deathCollapse = resolved.deathDismember = resolved.death;
+    resolved.hitFront = resolved.hitBack = resolved.hitLeft = resolved.hitRight = resolved.hit;
+  }
   const mk = (c: THREE.AnimationClip | null) => (c ? mixer.clipAction(c) : null);
   const mkShot = (c: THREE.AnimationClip, hold: boolean) => bindOneShot(mixer.clipAction(c), hold);
   const strideWalk = walkClip ? measureForwardStride(root, walkClip).stride : 0;
@@ -642,7 +648,7 @@ const hitGlowT = new THREE.PointLight(0xff6633, 0, 5.5, 2);
 hitGlowT.position.set(0, 1.6, 0);
 term.add(hitGlowT);
 const nlFill = nlMeshes.map((g) => {
-  const l = new THREE.PointLight(0xffc8a8, 0, 5.4, 2);
+  const l = new THREE.PointLight(CAM_MODE === 'fps' ? 0x9bbcff : 0xffc8a8, 0, 5.4, 2);
   l.position.set(0, 1.45, 0.35);
   g.add(l);
   return l;
@@ -726,6 +732,8 @@ const vm: Viewmodel | null = CAM_MODE === 'fps' ? createViewmodel() : null;
 type FpsStepImp = { t0: number; v: number; foot: 0 | 1 };
 const fpsSteps: FpsStepImp[] = [];
 const fpsLook: FpsLook = freshLook(0);
+let fpsStarted = false;
+let fpsDragLook = false;
 let fpsMeleeLock: MeleeLock | null = null;
 let hitMarkT = 0;
 let hitMarkKill = false;
@@ -742,7 +750,7 @@ const postMat = new THREE.ShaderMaterial({
     tDiffuse: { value: rt.texture },
     uTime: { value: 0 },
     uVignette: { value: POST_VIGNETTE },
-    uGrain: { value: POST_GRAIN },
+    uGrain: { value: CAM_MODE === 'fps' ? 0.0015 : POST_GRAIN },
     uDither: { value: POST_DITHER_SRGB },
     uBloom: { value: FX_QUALITY === 'high' ? 0.20 : 0 },
     uCA: { value: 0 },
@@ -781,23 +789,30 @@ let muzzleT = 0, fistT = 0;
 let roundOver = false, lastSummary = '';
 let lastMatch: MatchStatus | null = null;
 const keys = new Set<string>();
+let queuedReload = false, queuedBolt = false, queuedFist = false;
 addEventListener('keydown', e => {
   keys.add(e.code);
+  if (CAM_MODE === 'fps') { if (e.code === 'KeyR') queuedReload = true; if (e.code === 'Space') queuedBolt = true; if (e.code === 'KeyF') queuedFist = true; }
   if (e.code === 'KeyV') { debug = !debug; if (debug) buildLabels(); }
   if (e.code === 'KeyP') paused = !paused;
+  if (e.code === 'Escape' && FPS_DUEL) { fpsStarted = false; keys.clear(); queuedReload = queuedBolt = queuedFist = false; }
   if (e.code === 'KeyH' && CAM_MODE === 'diablo') readAids = !readAids;
   if (e.code === 'KeyM') engine.toggleMute();
-  if (e.code === 'Enter' && roundOver) startRound();
+  if (e.code === 'Enter' && (roundOver || FPS_DUEL)) startRound();
   if (e.code === 'Space') e.preventDefault();
 });
 addEventListener('keyup', e => keys.delete(e.code));
 if (CAM_MODE === 'fps') {
-  canvas.addEventListener('click', () => { canvas.requestPointerLock?.(); });
+  canvas.addEventListener('click', () => { fpsStarted = true; if (!fpsDragLook) canvas.requestPointerLock?.()?.catch(() => { fpsDragLook = true; }); });
+  canvas.addEventListener('contextmenu', e => e.preventDefault());
+  addEventListener('mousedown', e => { if (fpsStarted && e.button < 3) { keys.add(e.button === 0 ? 'MouseFire' : 'MouseFist'); if (e.button === 0) queuedBolt = true; if (e.button === 2) queuedFist = true; } });
+  addEventListener('mouseup', e => keys.delete(e.button === 0 ? 'MouseFire' : 'MouseFist'));
+  addEventListener('blur', () => keys.clear());
   document.addEventListener('pointerlockchange', () => {
     fpsLook.locked = document.pointerLockElement === canvas;
   });
   addEventListener('mousemove', (e: MouseEvent) => {
-    if (fpsLook.locked || (window as unknown as { __fpsSimLook?: boolean }).__fpsSimLook) {
+    if (fpsLook.locked || (fpsDragLook && fpsStarted) || (window as unknown as { __fpsSimLook?: boolean }).__fpsSimLook) {
       applyLookDelta(fpsLook, e.movementX, e.movementY);
     }
   });
@@ -1029,8 +1044,13 @@ const DEMO_SCRIPTS: Record<string, DemoScript> = {
 const DEMO_CFG = DEMO ? IMPACT_DEMOS[DEMO] ?? DEMO_SCRIPTS[DEMO] ?? null : null;
 function startRound() {
   // le build jouable garde l'armement des griffes (défaut) : il n'est plus celui des mesures b3
+  queuedReload = queuedBolt = queuedFist = false;
   roundNo++; roundOver = false; if (roundNo > 1) seed += 1; // manche suivante : la graine d'après, jamais la même
-  w = newWorld(seed, undefined, { propKinds: resolvePropKinds({ propsOn: PROPS_ON, loaded: loadedPropKinds }) }); camYaw = followYaw = w.t.facing; prev = snap();
+  w = newWorld(seed, FPS_DUEL ? { x: 4, y: 12, facing: 0 } : undefined, { fps: CAM_MODE === 'fps', propKinds: resolvePropKinds({ propsOn: PROPS_ON, loaded: loadedPropKinds }) }); camYaw = followYaw = w.t.facing; prev = snap();
+  if (FPS_DUEL) {
+    w.nls.forEach((n, i) => { n.alive = i === 0; n.x = 11; n.y = 12; n.facing = Math.PI; n.cd = 10; });
+    prev = snap();
+  }
   if (DEMO_CFG) { DEMO_CFG.place(w); camYaw = followYaw = w.t.facing; prev = snap(); } rec = new Recorder(autoplay ? `autoplay ${autoplay}` : 'joueur'); rng = mulberry32(seed ^ 0x9e3779b9);
   tactic = autoplay ? (POOL[autoplay] ?? UNSEEN[autoplay] ?? POOL.march)() : null;
   lastMatch = null;
@@ -1063,6 +1083,7 @@ function startRound() {
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
   director.huntCam = CAM_MODE === 'shoulder';
   director.beginRound();
+  if (FPS_DUEL) { updateRigs(); advanceRigs(0.001); }
 }
 let diabloDist = DIABLO.dist;
 let diabloCursor: { x: number; y: number } | null = null; // NDC du curseur souris sur le canvas, null hors canvas
@@ -1102,6 +1123,9 @@ if (CAM_MODE === 'diablo') {
   // les flèches déplacent : elles ne doivent pas faire défiler la page
   addEventListener('keydown', e => { if (e.code.startsWith('Arrow')) e.preventDefault(); });
 }
+if (CAM_MODE === 'fps') {
+  document.getElementById('help')!.textContent = 'Cliquer pour jouer · ZQSD / WASD : bouger · souris : regarder · clic gauche : bolter · clic droit / F : gantelet · R : recharger · Entrée : recommencer · P : pause · Échap : quitter la visée';
+}
 function playerAction(): TAction {
   const k = (c: string) => keys.has(c);
   // `e.code` est la touche **physique** : sur un clavier AZERTY, la touche marquée Z est `KeyW`, et celle
@@ -1111,6 +1135,16 @@ function playerAction(): TAction {
     // La souris vise librement à 360°, les touches commandent la marche dans cet axe.
     const { fwd, turn } = diabloControls(w.t, diabloKeys(k), diabloAim(), DIABLO.yaw, T_CFG, DT);
     return { fwd, strafe: 0, turn, bolt: k('Space'), fist: k('KeyF') || k('ShiftLeft') };
+  }
+  if (CAM_MODE === 'fps') {
+    const reload = queuedReload; const bolt = queuedBolt; const fist = queuedFist;
+    queuedReload = queuedBolt = queuedFist = false;
+    return {
+    fwd: Number(k('KeyW') || k('KeyZ') || k('ArrowUp')) - Number(k('KeyS') || k('ArrowDown')),
+    strafe: Number(k('KeyD') || k('ArrowRight')) - Number(k('KeyA') || k('KeyQ') || k('ArrowLeft')),
+    turn: 0, aimYaw: fpsLook.yaw, aimPitch: fpsLook.pitch,
+    bolt: bolt || k('MouseFire') || k('Space'), fist: fist || k('MouseFist') || k('KeyF'), reload,
+    };
   }
   const arrows = (k('ArrowRight') ? 1 : 0) - (k('ArrowLeft') ? 1 : 0); // hors Diablo : ←/→ pivotent
   const lookTurn = CAM_MODE === 'fps' ? turnTowardYaw(w.t.facing, fpsLook.yaw, T_CFG.turnMax, DT) : 0;
@@ -1181,7 +1215,7 @@ function updateTell() {
     const n = w.nls[i];
     const d = Math.hypot(n.x - w.t.x, n.y - w.t.y);
     const ready = n.cd === 0 ? Math.max(0, Math.min(1, (TELL_RANGE + TELL_FADE - d) / TELL_FADE)) * TELL_READY : 0;
-    const on = n.armTicks > 0 ? 1 : ready; // l'armement gagne : 200 ms à pleine intensité
+    const on = n.armTicks > 0 || (n.shotTicks ?? 0) > 0 ? 1 : ready; // l'armement gagne : 200 ms à pleine intensité
     rig.tell.value = TELL_ON && n.alive ? on : 0;
   }
 }
@@ -1195,7 +1229,7 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
     const speed = n.alive ? Math.hypot(n.x - prev.n[i][0], n.y - prev.n[i][1]) / DT : 0;
     const gait = pickGait(speed, { allowRun: rig.allowRun, walkSpeed: nlWalk, runSpeed: nlRun });
     // Le two-shot conserve le mort au cadre ; la planche Genex doit cependant jouer sa mort dès le kill.
-    const holding = nlCamHold[i]! > 0 && DEMO !== 'combat-death';
+    const holding = CAM_MODE !== 'fps' && nlCamHold[i]! > 0 && DEMO !== 'combat-death';
     const intent = nlIntent({
       // Hold caméra : corps debout pendant le two-shot. Sinon dismember vide le cadre au tick du poing.
       alive: n.alive || holding, armTicks: n.armTicks, stunTicks: n.stunTicks, prevStun: nlPrevStun[i],
@@ -1204,6 +1238,12 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
       index: i,
       facing: n.facing, x: n.x, y: n.y, termX: w.t.x, termY: w.t.y,
     });
+    if (FPS_DUEL) {
+      intent.meleeVariant = 'single';
+      if (w.events.some(e => e.type === 'enemyBolt' && e.who === i)) {
+        intent.attack = true; intent.attackStyle = 'shoot';
+      }
+    }
     const wasDeath = rig.combat.state === 'death';
     rig.combat = tickMachine(rig.combat, intent, DT, rig.clipDurations);
     if (rig.combat.state === 'death' && rig.combat.restart && !wasDeath) {
@@ -1220,7 +1260,7 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
     // Dissolution : le mesh ne reste jamais debout / en walk sans entité vivante (fantôme magenta).
     // Le clip tourne hors écran pour les cues ; le nuage de mort est le visible.
     if (rig.combat.state === 'death') {
-      rig.root.visible = nlCamHold[i]! > 0 || !!DEMO_CFG || (CAM_MODE === 'fps' && rig.combat.remaining > 0.18);
+      rig.root.visible = CAM_MODE === 'fps' || nlCamHold[i]! > 0 || !!DEMO_CFG || (CAM_MODE === 'fps' && rig.combat.remaining > 0.18);
     }
     nlPrevStun[i] = n.stunTicks;
     nlPrevAction[i] = n.lastAction;
@@ -1243,6 +1283,13 @@ function tick() {
   const ta = DEMO_CFG ? DEMO_CFG.player(w.tick) : tactic ? tactic(w) : playerAction(); rec.record(w, ta);
   const acts = DEMO_CFG ? DEMO_CFG.nls(w.tick, w) : w.nls.map((n, i) => {
     if (!n.alive) return 0;
+    if (FPS_DUEL) {
+      n.belief.valid = true; n.belief.x = w.t.x; n.belief.y = w.t.y;
+      const d = Math.hypot(n.x - w.t.x, n.y - w.t.y);
+      if ((n.shotTicks ?? 0) > 0 || n.armTicks > 0 || n.stunTicks > 0 || (n.cd > 0 && d < 3)) return 0;
+      if (d > 4 && w.tick % 100 < 55) return w.tick % 30 < 8 ? 3 : 0;
+      return d < 1.7 ? 7 : d < 5 && w.tick % 36 < 10 ? 3 : 1;
+    }
     if (!actor) { const f = nlFrame(n); return f.d < 1.6 ? 7 : 1; }
     const p = softmax(forward(actor, observe(w, i))); const a = sample(p, rng); lastP[i] = p[a]; return a;
   }); lastActs = acts;
@@ -1265,7 +1312,7 @@ function tick() {
       const a = CAM_MODE === 'shoulder'
         ? new THREE.Vector3(e.x + bfx * 1.55 + brx * 0.55, 1.58, e.y + bfz * 1.55 + brz * 0.55)
         : new THREE.Vector3(e.x, 1.55, e.y);
-      const b = new THREE.Vector3(e.tx, 1.22, e.ty);
+      const b = new THREE.Vector3(e.tx, CAM_MODE === 'fps' ? FPS_EYE + Math.tan(fpsLook.pitch) * Math.hypot(e.tx-e.x,e.ty-e.y) : 1.22, e.ty);
       tracer.geometry.setFromPoints([a, b]); tracer.visible = true; tracerT = TRACER_SEC;
       const dir = b.clone().sub(a); const len = Math.max(0.2, dir.length());
       tracerBolt.position.copy(a).add(b).multiplyScalar(0.5);
@@ -1279,6 +1326,11 @@ function tick() {
       }
       if (IMPACT) { recImp.push({ t0: simT, v: 2.2 }); pitchImp.push({ t0: simT, v: 0.55 }); } // la rafale pousse la caméra et lève le nez
       if (e.kill >= 0) { hitMarkT = 0.18; hitMarkKill = true; }
+    }
+    if (e.type === 'enemyAim') floatText(w.nls[e.who].x, w.nls[e.who].y, 'TIR IMMINENT', '#ffb35c');
+    if (e.type === 'enemyBolt') {
+      tracer.geometry.setFromPoints([new THREE.Vector3(e.x, 1.55, e.y), new THREE.Vector3(e.tx, FPS_EYE, e.ty)]);
+      tracer.visible = true; tracerT = 0.15;
     }
     if (e.type === 'fist' && e.kill >= 0) { hitMarkT = 0.2; hitMarkKill = true; }
     if (CAM_MODE === 'shoulder' && (e.type === 'claw' || e.type === 'clawArm' || e.type === 'whiff')) {
@@ -1352,6 +1404,10 @@ function flash(_o: number) { /* remplacé par un retour localisé (hitGlow / imp
 async function endRound() {
   roundOver = true; director.endRound(w.winner); if (w.winner === 'pack') score.pack++; else score.term++;
   const msg = document.getElementById('msg')!; msg.style.display = 'block';
+  if (FPS_DUEL) {
+    msg.innerHTML = `<h2>${w.winner === 'terminator' ? 'Duel remporté' : 'Armure détruite'}</h2><p>Entrée : recommencer le duel</p>`;
+    return;
+  }
   const card = roundCard(w, { roundNo });
   msg.innerHTML = roundMarkup(card) + musicCreditMarkup(engine.musicCredit) + '<p>La meute étudie ta tactique…</p>';
   if (shot || PLAY_SPEED !== 1 || qs.get('until') === 'end' || PROBE_READ || CAP_STEP) return;
@@ -1412,13 +1468,15 @@ function nlBodyReport() {
 }
 function hud() {
   const extra = {
-    roundNo, score, demo: !!DEMO_CFG, alarmOn: ALARM_ON,
+    duel: FPS_DUEL, roundNo, score, demo: !!DEMO_CFG, alarmOn: ALARM_ON,
     servoAlarm: w.t.servoAlarm > 0, servoCritical: w.t.servoCriticalSent,
-    policyLine: `${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}`,
-    burnIn: burnIn(),
+    policyLine: FPS_DUEL ? 'DUEL · TALOS' : `${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}`,
+    burnIn: FPS_DUEL ? '' : burnIn(),
     playSpeed: PLAY_SPEED !== 1 ? `lecture ×${String(PLAY_SPEED).replace('.', ',')}` : undefined,
   };
   const h = document.getElementById('hud')!;
+  const prompt = document.getElementById('fps-prompt');
+  if (prompt) { prompt.style.display = FPS_DUEL && (!fpsStarted || paused) && !roundOver ? 'block' : 'none'; prompt.textContent = paused ? 'Pause · P pour reprendre' : 'DUEL FPS · Cliquer pour entrer'; }
   h.innerHTML = CAM_MODE === 'fps' ? fpsHudMarkup(matchStatus(w), extra) : hudMarkup(matchStatus(w), extra);
   (window as unknown as { __NL?: unknown }).__NL = {
     tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, muted: engine.muted,
@@ -1467,6 +1525,7 @@ function render(alpha: number) {
   term.position.set(tx, 0, ty); term.rotation.y = -tf; fistM.position.x = w.t.fistCd > 8 ? 1.2 : 0.55;
   w.nls.forEach((n, i) => {
     const g = nlMeshes[i];
+    if (FPS_DUEL && i > 0) { g.visible = false; return; }
     const fall = nlFall[i];
     const ox = fall?.ox ?? 0, oy = fall?.oy ?? 0, oz = fall?.oz ?? 0;
     g.position.set(lerp(prev.n[i][0], n.x) + ox, oy, lerp(prev.n[i][1], n.y) + oz);
@@ -1474,7 +1533,7 @@ function render(alpha: number) {
     else if (!n.alive) { g.rotation.set(Math.PI / 2, 0, 0); g.position.y = 0.4 + oy; }
     else g.rotation.y = -la(prev.n[i][2], n.facing);
     // Match : pas de mesh orphelin. Les planches `?demo=` gardent le clip de mort à l'écran.
-    g.visible = n.alive || nlCamHold[i]! > 0 || !!DEMO_CFG;
+    g.visible = n.alive || (FPS_DUEL && !!nlFall[i]) || nlCamHold[i]! > 0 || !!DEMO_CFG;
   });
   hitGlowNL.forEach((l, i) => { l.intensity = 5.5 * (nlRigs[i]?.combat.hitFlash ?? 0); });
   hitGlowT.intensity = 6.5 * (termRig?.combat.hitFlash ?? 0);
@@ -1498,7 +1557,7 @@ function render(alpha: number) {
     postMat.uniforms.uVignette.value = CAM_MODE === 'shoulder' ? 0.62 : 0.72;
   } else {
     tFill.intensity = 0;
-    nlFill.forEach((l) => { l.intensity = 0; });
+    nlFill.forEach((l, i) => { l.intensity = FPS_DUEL && w.nls[i].alive ? 2.5 : 0; });
   }
   dbgGroup.visible = debug; for (const m of nlMarkers) m.visible = debug;
   if (debug) {
@@ -1582,7 +1641,7 @@ function render(alpha: number) {
           camera.updateMatrixWorld(true);
         }
       }
-      vm?.update(DT * 0.16, now, pose.bobY, pose.bobY, Math.hypot(w.t.vx, w.t.vy) > 0.2);
+      vm?.update(DT * 0.16, performance.now() * 0.001, pose.bobY, pose.bobY, Math.hypot(w.t.vx, w.t.vy) > 0.2, w.t.reloadLeft);
       break;
     }
     case 'couloir': {
@@ -1952,8 +2011,8 @@ async function loadModels() {
   await Promise.all(ROLES.map(async (_r, i) => {
     try {
       // Frères v2 : textures bleu nuit déjà sombres, l'albédo ×0,22 des anciens modèles les rendait gris.
-      const rig = await load(`NL-${i + 1}`, NL_HEIGHT, 0.5, true, 'nl', i);
-      await equipNl(rig.root, i, rig.idle?.getClip() ?? null, loadGLB);
+      const rig = await load(`NL-${i + 1}`, NL_HEIGHT, CAM_MODE === 'fps' ? 0.85 : 0.5, true, 'nl', i);
+      await equipNl(rig.root, FPS_DUEL && i === 0 ? 3 : i, rig.idle?.getClip() ?? null, loadGLB);
       nlMeshes[i].add(rig.root); nlRigs[i] = rig;
       for (const p of nlProxy.slice(i * 3, i * 3 + 3)) p.visible = false; // capsule + 2 yeux de ce rôle
     } catch (e) { console.warn('modèle NL-' + (i + 1) + ' absent, capsule conservée', e); }
@@ -2146,11 +2205,11 @@ if (PROBE_READ) {
     if (PLAY_SPEED !== 1) dt = Math.max(dt, 0.2);
     fx.advance(dt, now * 0.001, w.t.hp / T_CFG.hp);
     const simDt = PLAY_SPEED !== 1 ? dt * PLAY_SPEED : fx.simDelta(dt);
-    if (!paused && !roundOver) { acc += simDt; while (acc >= DT) { acc -= DT; tick(); if (roundOver) break; } }
+    if (!paused && !roundOver && (!FPS_DUEL || fpsStarted)) { acc += simDt; while (acc >= DT) { acc -= DT; tick(); if (roundOver) break; } }
     if (!shot && !paused) {
       const alpha = roundOver ? 1 : acc / DT;
       const displaySim = Math.max(0, simT - DT + alpha * DT);
-      const step = displayMixerDelta(dt, mixerSim, displaySim);
+      const step = FPS_DUEL && roundOver ? dt : displayMixerDelta(dt, mixerSim, displaySim);
       if (step > 0) { advanceRigs(step); mixerSim += step; }
     }
     // Ambiance : au plus une publication par tick, et seulement si `?control=1`. Le HUD, lui, ne lit rien

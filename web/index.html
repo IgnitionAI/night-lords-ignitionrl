@@ -40,6 +40,8 @@ html,body{margin:0;height:100%;background:#000;color:#ddd;font:13px/1.35 system-
 #dmg i.on{opacity:.9}
 #threats .threat{position:absolute;width:0;height:0;border:8px solid transparent;border-bottom-color:#ff2a18;transform:translate(-50%,-50%) rotate(180deg);opacity:.7}
 #threats .threat.armed{border-bottom-color:#ffd27a;opacity:1}
+#fps-prompt{position:fixed;left:50%;top:35%;transform:translateX(-50%);padding:14px 22px;background:#10141de8;border:1px solid #b39764;color:#f3e3c4;pointer-events:none;display:none}
+body.fps #msg{top:12%;font-size:14px;padding:12px 24px}
 body.fps #hud{left:auto;right:14px;top:auto;bottom:12px;max-width:280px;background:rgba(6,8,14,.42);border-color:rgba(196,162,98,.28);font-size:12px;padding:6px 8px}
 body.fps #hud .helm{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}
 body.fps #hud .cell span{display:block;font-size:9px;letter-spacing:.08em;opacity:.7}
@@ -48,7 +50,7 @@ body.fps #hud .pip{display:block;height:4px;background:#211;margin-top:2px}
 body.fps #hud .pip u{display:block;height:100%;background:#d9b25a}
 body.fps #hud .pack{margin-top:4px;letter-spacing:.2em}
 body.fps #hud .alarms{min-height:1.1em}
-body.fps #help{opacity:.45}
+body.fps #help{opacity:.8;max-width:60%;line-height:1.6}
 body.fps #fps-fx{display:block}
 body.shoulder #fps-fx{display:block}
 body.shoulder #reticle,body.shoulder #hitmark,body.shoulder #dmg{display:none}
@@ -59,6 +61,6 @@ body.shoulder .offmark{width:22px;height:22px;margin:-11px 0 0 -11px;border-widt
 <canvas id="c"></canvas><div id="flash"></div>
 <div id="om0" class="offmark"></div><div id="om1" class="offmark"></div><div id="om2" class="offmark"></div><div id="om3" class="offmark"></div>
 <div id="fps-fx"><div id="reticle"></div><div id="hitmark"></div><div id="dmg"><i class="front"></i><i class="back"></i><i class="left"></i><i class="right"></i></div><div id="threats"></div></div>
-<div id="hud"></div><div id="dbg"></div><div id="msg"></div>
+<div id="fps-prompt"></div><div id="hud"></div><div id="dbg"></div><div id="msg"></div>
 <div id="help">Victoire Terminator : balise 6 s, meute à terre, ou 2:00 tenues. Défaite : armure à 0.<br>ZQSD ou WASD bouger · souris viser (clic pour verrouiller) · ←/→ pivoter · Espace storm bolter · F ou Maj gantelet · V vue de contrôle · M couper le son · Entrée manche suivante · P pause · vue Diablo par défaut : ZQSD = directions à l'écran, molette, pincement ou +/− pour zoomer · autres vues : ?cam=fps|shoulder|combat|couloir|epaule|troisquarts</div>
 <script type="module" src="/web/main.ts"></script></body></html>
