@@ -42,7 +42,7 @@ import {
 import { applyTerminatorLook } from './terminator-look';
 import { createFxSystem, parseFxQuality } from './fx';
 // Son : moteur WebAudio isolé (`web/audio/`). Les événements de sim restent la source ; la sim n'est pas touchée.
-import { initAudio, audio, engine, director } from './audio/index.ts';
+import { initAudio, audio, engine, director, musicCreditMarkup } from './audio/index.ts';
 import {
   parseCamMode, fpsFov, fpsPose, applyFpsCamera, applyLookDelta, turnTowardYaw, freshLook,
   pushStepImpulse, offscreenMarks, pickAutoplayFocus, steerFpsLook, wrapPi, MELEE_AIM_M, FPS_EYE,
@@ -1097,6 +1097,7 @@ if (CAM_MODE === 'diablo') {
   if (help) help.innerHTML = 'Flèches : se déplacer · souris : viser · Espace : bolter · F : gantelet · H : marqueurs · molette ou +/− : zoom (ZQSD aussi)<br>'
     + 'Le Terminator pivote vers le curseur ; une flèche vers l\'avant le fait avancer, vers l\'arrière reculer, de côté elle le fait pivoter puis avancer. Sans souris, les flèches l\'orientent et le font avancer. '
     + 'Victoire : balise 6 s, meute à terre, ou 2:00 tenues ; défaite : armure à 0 · Maj gantelet · V vue de contrôle · M son · Entrée manche suivante · P pause · autres vues : ?cam=fps|shoulder|combat|couloir|epaule|troisquarts';
+  showMusicCredit();
   // les flèches déplacent : elles ne doivent pas faire défiler la page
   addEventListener('keydown', e => { if (e.code.startsWith('Arrow')) e.preventDefault(); });
 }
@@ -1340,12 +1341,22 @@ function tick() {
   }
   if (w.done) endRound();
 }
+// Crédit de la banque musicale locale (hors dépôt) : le texte vient de son manifeste, jamais du code.
+// Rien ne s'affiche tant qu'aucune boucle locale n'est décodée.
+function showMusicCredit(credit: string | null = engine.musicCredit) {
+  const help = document.getElementById('help');
+  if (!help) return;
+  help.querySelector('.music-credit')?.remove();
+  const html = musicCreditMarkup(credit);
+  if (html) help.insertAdjacentHTML('beforeend', html);
+}
+engine.onMusicCredit(c => showMusicCredit(c));
 function flash(_o: number) { /* remplacé par un retour localisé (hitGlow / impact light / post). */ }
 async function endRound() {
   roundOver = true; director.endRound(w.winner); if (w.winner === 'pack') score.pack++; else score.term++;
   const msg = document.getElementById('msg')!; msg.style.display = 'block';
   const card = roundCard(w, { roundNo });
-  msg.innerHTML = roundMarkup(card) + '<p>La meute étudie ta tactique…</p>';
+  msg.innerHTML = roundMarkup(card) + musicCreditMarkup(engine.musicCredit) + '<p>La meute étudie ta tactique…</p>';
   if (shot || PLAY_SPEED !== 1 || qs.get('until') === 'end' || PROBE_READ || CAP_STEP) return;
   try {
     const r = await fetch('/api/round', { method: 'POST', body: JSON.stringify(rec.toJSON(`${w.winner} — ${w.reason}`)) }).then(r => r.json());
