@@ -7,7 +7,7 @@
 //    chemin relatif à la racine du dépôt) ; le plugin le remonte à `web/dist/index.html`, seule adresse que
 //    sert le serveur.
 import { resolve } from 'node:path';
-import { existsSync, renameSync, rmSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, cpSync, mkdirSync } from 'node:fs';
 import react from '@vitejs/plugin-react';
 
 const ROOT = import.meta.dirname;
@@ -18,9 +18,16 @@ const flattenHtml = () => ({
   closeBundle() {
     for (const name of ['index.html', 'sas.html']) {
       const from = resolve(ROOT, `web/dist/web/${name}`), to = resolve(ROOT, `web/dist/${name}`);
-      if (existsSync(from)) renameSync(from, to);
+      if (existsSync(from)) {
+        const html = readFileSync(from, 'utf8').replaceAll('../', './');
+        writeFileSync(to, html);
+      }
     }
-    rmSync(resolve(ROOT, 'web/dist/web'), { recursive: true, force: true });
+    // Preserve the now-empty HTML directory; no destructive cleanup is needed.
+    mkdirSync(resolve(ROOT, 'web/dist/assets'), { recursive: true });
+    cpSync(resolve(ROOT, 'web/models'), resolve(ROOT, 'web/dist/assets/models'), { recursive: true });
+    cpSync(resolve(ROOT, 'web/sfx/nightlords'), resolve(ROOT, 'web/dist/assets/sfx/nightlords'), { recursive: true });
+    cpSync(resolve(ROOT, 'policies'), resolve(ROOT, 'web/dist/policy'), { recursive: true });
   },
 });
 
@@ -40,12 +47,19 @@ export default ({ command }) => ({
   root: ROOT,
   // en développement la page est servie à la racine et importe le TypeScript source ; en production elle vit
   // sous /web/dist/ avec `main.js`, exactement l'URL que servait esbuild.
-  base: command === 'build' ? '/web/dist/' : '/',
+  base: command === 'build' ? './' : '/',
   publicDir: false,
-  plugins: [{ name: "nl-source-entry", transformIndexHtml: { order: "pre", handler: html => html.replace('src="./main.js"', 'src="/web/main.ts"') } }, react(), flattenHtml(), policyAlias()],
+  plugins: [react(), {
+    name: 'nl-static-asset-paths', apply: 'build',
+    transform(code, id) {
+      if (!id.startsWith(resolve(ROOT, 'web') + '/') || !/\.(ts|tsx|js)$/.test(id)) return;
+      return code.replaceAll('/web/models/', './assets/models/')
+        .replaceAll('/web/sfx/', './assets/sfx/').replaceAll('/policy/', './policy/');
+    },
+  }, flattenHtml(), policyAlias()],
   build: {
     outDir: 'web/dist',
-    emptyOutDir: true,
+    emptyOutDir: false,
     target: 'es2022',
     sourcemap: false,
     chunkSizeWarningLimit: 900,
