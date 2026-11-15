@@ -106,19 +106,44 @@ export function createViewmodel(): Viewmodel {
 
   const fist = new THREE.Group();
   fist.name = 'power-fist';
-  box(fist, 0.09, 0.20, 0.09, plate, 0, -0.16, 0.05);
-  box(fist, 0.10, 0.03, 0.10, brass, 0, -0.055, 0.05);
-  box(fist, 0.14, 0.08, 0.12, fistMat, 0, 0.02, 0.02);
-  box(fist, 0.145, 0.025, 0.04, brass, 0, 0.055, -0.01);
-  const fingerXs = [-0.052, -0.018, 0.016, 0.050];
-  for (const fx of fingerXs) {
-    box(fist, 0.028, 0.034, 0.07, fistMat, fx, 0.03, -0.08);
-    box(fist, 0.024, 0.028, 0.055, dark, fx, 0.028, -0.13);
-    box(fist, 0.018, 0.022, 0.03, brass, fx, 0.024, -0.165);
-    box(fist, 0.032, 0.038, 0.08, energyMat, fx, 0.03, -0.11);
+  // Armoured forearm, wrist coupling and palm: fingers curl around real knuckle pivots.
+  box(fist, .15, .22, .14, plate, 0, -.19, .06);
+  box(fist, .17, .035, .16, brass, 0, -.085, .06);
+  box(fist, .12, .055, .11, dark, 0, -.053, .045);
+  box(fist, .175, .10, .16, fistMat, 0, .015, .025);
+  box(fist, .15, .022, .12, plate, 0, .072, .025);
+  for (const x of [-.068,.068]) {
+    box(fist, .014, .15, .025, steel, x, -.16, -.012);
+    box(fist, .022, .028, .024, brass, x, .077, .065);
   }
-  box(fist, 0.03, 0.04, 0.06, fistMat, -0.085, -0.01, -0.02);
-  box(fist, 0.024, 0.03, 0.05, dark, -0.10, 0.01, -0.07);
+  for(let i=0;i<4;i++) {
+    box(fist,.028,.016,.092,plate,-.064+i*.043,.089,.025);
+    box(fist,.011,.009,.052,steel,-.064+i*.043,.101,.034);
+  }
+  box(fist,.06,.014,.038,brass,0,.105,.057);
+  const fingerJoints: THREE.Group[][] = [];
+  for (let i=0;i<4;i++) {
+    const joints: THREE.Group[] = [];
+    let parent: THREE.Group = fist;
+    const widths = [.039,.042,.040,.034];
+    for (let j=0;j<3;j++) {
+      const pivot = new THREE.Group();
+      pivot.name = `finger-${i}-joint-${j}`;
+      pivot.position.set(j===0 ? -.066+i*.044 : 0, j===0 ? .025 : 0, j===0 ? -.055 : -.046);
+      parent.add(pivot);
+      box(pivot,widths[i],.039,.048,fistMat,0,0,-.022);
+      box(pivot,widths[i]*.94,.012,.028,brass,0,.025,-.012);
+      box(pivot,widths[i]*.70,.018,.014,dark,0,0,-.048);
+      if(j===0) box(pivot,.012,.007,.025,energyMat,0,.033,-.015);
+      joints.push(pivot); parent=pivot;
+    }
+    fingerJoints.push(joints);
+  }
+  const thumb = new THREE.Group(); thumb.name='opposed-thumb';
+  thumb.position.set(.10,-.015,.015); thumb.rotation.set(-.3,-.8,-.45); fist.add(thumb);
+  box(thumb,.052,.055,.065,fistMat,0,0,-.025);
+  box(thumb,.045,.047,.048,plate,-.018,-.025,-.068);
+  box(thumb,.049,.012,.025,brass,0,.03,-.03);
   const fistLamp = new THREE.PointLight(0x6aa8ff, 1.05, 1.3, 1.5);
   fistLamp.position.set(-0.02, 0.08, 0.08);
   fist.add(fistLamp);
@@ -192,8 +217,8 @@ export function createViewmodel(): Viewmodel {
     recZ *= Math.exp(-dt * 14);
     recX *= Math.exp(-dt * 12);
     fireT = Math.max(0, fireT - dt / 0.075);
-    wind = Math.max(0, wind - dt / 0.55);
-    strike = Math.max(0, strike - dt / 0.16);
+    wind = Math.max(0, wind - dt / 0.8);
+    strike = Math.max(0, strike - dt / 0.26);
     const sway = moving ? 1 : 0.45;
     const sx = Math.sin(idle * 1.35) * 0.008 * sway + bobX * 0.35;
     const sy = Math.sin(idle * 1.05) * 0.006 * sway + bobY * 0.55;
@@ -209,7 +234,12 @@ export function createViewmodel(): Viewmodel {
     (tracer.material as THREE.LineBasicMaterial).opacity = fireT * 0.85;
     const pull = wind * 0.16;
     const punch = strike * 0.22;
-    fist.position.set(-0.24 + strike * 0.12 + reloadArc * 0.30, -0.23 + strike * 0.12 - reloadArc * 0.06, -0.58 - punch + pull);
+    fist.position.set(-0.24 + strike * 0.12 + reloadArc * 0.30, -0.17 + strike * 0.12 - reloadArc * 0.06, -0.58 - punch + pull);
+    const grip = 1 - reloadArc * .75;
+    fingerJoints.forEach((joints,i) => joints.forEach((joint,j) => {
+      joint.rotation.x = -(j===0 ? .45 : 1.15) * grip - wind*.12 + Math.sin(now*1.2+i)*.015;
+    }));
+    thumb.rotation.y = -.8 - grip*.25;
     fist.rotation.z = -0.18 - reloadArc * 0.65;
     fist.rotation.x = 0.55 - wind * 0.32 + strike * 0.45;
     fistMat.emissiveIntensity = 0.08 + wind * 1.1 + strike * 1.4;

@@ -62,6 +62,7 @@ export interface Belief { valid: boolean; x: number; y: number; age: number; fac
 export interface Mate { known: boolean; x: number; y: number; age: number; alive: boolean }
 export interface NL {
   hp?: number;
+  burstTicks?: number; burstRest?: number; recoveryTicks?: number;
   shotTicks?: number; shotX?: number; shotY?: number;
   role: number; x: number; y: number; facing: number; alive: boolean; cd: number; armTicks: number; belief: Belief;
   lastAction: number; noise: number; mates: Mate[];
@@ -109,7 +110,7 @@ export type Ev =
   | { type: 'step'; x: number; y: number; foot: 0 | 1; intensity: number };
 /** Options de simulation. `clawWindup` : armement de 2 ticks avant l'impact des griffes (défaut `true`).
  * `propKinds` : types de props **affichés** (assets chargés). Vide / absent = scène #44, tick pour tick. */
-export interface WorldOpts { fps?: boolean; clawWindup?: boolean; propKinds?: readonly PropKind[] }
+export interface WorldOpts { fps?: boolean; eliteDuel?: boolean; clawWindup?: boolean; propKinds?: readonly PropKind[] }
 export interface World {
   seed: number; tick: number; rng: Rng; t: Term; nls: NL[]; opts: Required<WorldOpts>;
   done: boolean; winner: 'pack' | 'terminator' | null; reason: string; events: Ev[];
@@ -178,11 +179,11 @@ export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: 
   for (let i = 0; i < N_NL; i++) {
     let x = 0, y = 0;
     do { x = 26 + rng() * 12; y = 2 + rng() * 20; } while (insideAny(x, y, 0.8, propSolids) || dist(x, y, t.x, t.y) < 12);
-    nls.push({ role: i, x, y, facing: Math.PI, alive: true, cd: 0, armTicks: 0, lastAction: 0, noise: 0, mates: [], stunTicks: 0,
+    nls.push({ hp: opts.eliteDuel ? 24 : 3, burstTicks: 0, burstRest: 0, role: i, x, y, facing: Math.PI, alive: true, cd: 0, armTicks: 0, lastAction: 0, noise: 0, mates: [], stunTicks: 0,
       belief: { valid: false, x: BEACON.x, y: BEACON.y, age: 99, facing: null, seen: false, heard: false, vox: false } });
   }
   for (const n of nls) n.mates = nls.map(() => ({ known: false, x: n.x, y: n.y, age: 99, alive: true }));
-  const w: World = { seed, tick: 0, rng, t, nls, opts: { fps: opts.fps ?? false, clawWindup: opts.clawWindup ?? true, propKinds }, done: false, winner: null, reason: '', events: [], propSolids };
+  const w: World = { seed, tick: 0, rng, t, nls, opts: { fps: opts.fps ?? false, eliteDuel: opts.eliteDuel ?? false, clawWindup: opts.clawWindup ?? true, propKinds }, done: false, winner: null, reason: '', events: [], propSolids };
   perceive(w);
   return w;
 }
@@ -277,10 +278,11 @@ export interface StepOut { rewards: number[]; died: boolean[] }
  */
 function clawImpact(w: World, i: number, n: NL, rewards: number[], died: boolean[]) {
   const t = w.t;
+  if (w.opts.eliteDuel) n.recoveryTicks = 3;
   if (dist(n.x, n.y, t.x, t.y) > NL_CFG.clawRange) { w.events.push({ type: 'whiff', who: i }); return; }
   const rel = Math.abs(angNorm(Math.atan2(n.y - t.y, n.x - t.x) - t.facing));
   const zone = rel < NL_CFG.frontHalf ? 'front' : rel > NL_CFG.rearHalf ? 'rear' : 'side';
-  const dmg = w.opts.fps ? (zone === 'rear' ? 4 : 2) : zone === 'front' ? 0 : zone === 'rear' ? NL_CFG.dmgRear : NL_CFG.dmgSide;
+  const dmg = w.opts.eliteDuel ? (zone === 'rear' ? 10 : 8) : w.opts.fps ? (zone === 'rear' ? 4 : 2) : zone === 'front' ? 0 : zone === 'rear' ? NL_CFG.dmgRear : NL_CFG.dmgSide;
   const before = t.hp; t.hp = Math.max(0, t.hp - dmg);
   w.events.push({ type: 'claw', who: i, dmg, zone });
   // --- Retour du coup (lot 4). Seul un coup qui **inflige des dégâts** secoue l'armure : une griffe sur l'avant est
@@ -324,11 +326,17 @@ function fistImpact(w: World, died: boolean[]) {
     if (!n.alive) return; const d = dist(n.x, n.y, t.x, t.y);
     if (d <= T_CFG.fistRange + NL_CFG.radius && Math.abs(angNorm(Math.atan2(n.y - t.y, n.x - t.x) - t.facing)) <= T_CFG.fistHalf && d < bd) { bd = d; best = i; }
   });
-  if (best >= 0) { w.nls[best].alive = false; died[best] = true; }
+  if (best >= 0) {
+    const n = w.nls[best];
+    if (w.opts.eliteDuel) {
+      if (!los(t.x,t.y,n.x,n.y,w.propSolids)) best = -1;
+      else { n.hp = (n.hp ?? 24) - 5; if (n.hp <= 0) { n.alive = false; died[best] = true; } }
+    } else { n.alive = false; died[best] = true; }
+  }
   // Le choc se propage aux survivants (la cible du contact, elle, est au sol) : c'est « la meute » qui perd l'initiative.
   let staggered = false;
-  for (const n of w.nls) { if (!n.alive) continue; n.stunTicks = Math.max(n.stunTicks, T_CFG.fistStunTicks); staggered = true; }
-  w.events.push({ type: 'fist', kill: best, staggered });
+  for (const n of w.nls) { if (!n.alive || (w.opts.eliteDuel && (best < 0 || n !== w.nls[best]))) continue; n.stunTicks = Math.max(n.stunTicks, T_CFG.fistStunTicks); staggered = true; }
+  w.events.push({ type: 'fist', kill: best >= 0 && died[best] ? best : -1, staggered });
 }
 
 export function step(w: World, ta: TAction, acts: number[]): StepOut {
@@ -426,7 +434,8 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
       if (best >= 0) {
         const n = w.nls[best];
         if (w.opts.fps) {
-          n.hp = (n.hp ?? 3) - 1; n.stunTicks = 3; n.armTicks = 0;
+          const exposed = (n.recoveryTicks ?? 0) > 0 || n.stunTicks > 1;
+          n.hp = (n.hp ?? 3) - (w.opts.eliteDuel && !exposed ? .2 : 1); n.stunTicks = w.opts.eliteDuel ? (exposed ? Math.max(n.stunTicks, 1) : 0) : 3; if (!w.opts.eliteDuel) n.armTicks = 0;
           if (n.hp <= 0) { n.alive = false; died[best] = true; }
         } else { n.alive = false; died[best] = true; }
       }
@@ -453,6 +462,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   // --- Night Lords (mêmes règles de collision et de portée)
   for (let i = 0; i < w.nls.length; i++) {
     const n = w.nls[i]; if (!n.alive || died[i]) continue;
+    if ((n.recoveryTicks ?? 0) > 0) n.recoveryTicks!--;
     const a = acts[i] ?? 0; n.lastAction = a; const f = nlFrame(n); n.noise = 0;
     const stunned = n.stunTicks > 0; // stagger du gantelet : ni attaque, ni course
     if (n.cd > 0 && !stunned) n.cd--; // le cd de griffe est **gelé** pendant le stagger : la prochaine attaque est repoussée d'autant
@@ -462,13 +472,13 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
       n.facing = Math.atan2(f.uy, f.ux);
       if (n.cd === 0 && !stunned) {
         n.cd = NL_CFG.clawCd; n.noise = NL_CFG.noiseClaw;
-        if (w.opts.clawWindup) { n.armTicks = w.opts.fps ? 6 : 2; w.events.push({ type: 'clawArm', who: i }); }
+        if (w.opts.clawWindup) { n.armTicks = w.opts.eliteDuel ? 4 : w.opts.fps ? 6 : 2; w.events.push({ type: 'clawArm', who: i }); }
         else clawImpact(w, i, n, rewards, died); // comportement d'avant : les dégâts tombent dans le tick
       }
     } else if (a > 0) {
       const dirs: Record<number, [number, number]> = { 1: [1, 0], 2: [-1, 0], 3: [0, 1], 4: [0, -1], 5: [0.7071, 0.7071], 6: [0.7071, -0.7071] };
       const [du, dv] = dirs[a]; const mx = f.ux * du + f.vx * dv, my = f.uy * du + f.vy * dv;
-      const sp = (w.opts.fps ? 3.2 : NL_CFG.speed) * (stunned ? T_CFG.stunSpeed : 1); // étourdi : il se traîne
+      const sp = (w.opts.eliteDuel ? ((n.burstTicks ?? 0) > 0 ? 8 : 5.4) : w.opts.fps ? 3.2 : NL_CFG.speed) * (stunned ? T_CFG.stunSpeed : 1); // étourdi : il se traîne
       const nx0 = n.x, ny0 = n.y;
       n.x += mx * sp * DT; n.y += my * sp * DT; n.facing = Math.atan2(my, mx); n.noise = NL_CFG.noiseMove;
       collide(n, NL_CFG.radius, w.propSolids, { x: nx0, y: ny0 });
@@ -483,10 +493,10 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
         if (n.shotTicks === 0) {
           const hit = Math.hypot(t.x - n.shotX!, t.y - n.shotY!) < 0.85 && los(n.x, n.y, t.x, t.y, w.propSolids);
           w.events.push({ type: 'enemyBolt', who: i, x: n.x, y: n.y, tx: n.shotX!, ty: n.shotY!, hit });
-          if (hit) { t.hp = Math.max(0, t.hp - 2); t.lastHitTick = w.tick; t.lastHitAngle = Math.atan2(n.y-t.y,n.x-t.x); w.events.push({ type: 'hit', dmg: 2, zone: 'front', hpAfter: t.hp, stagger: false, servoAlarm: 0 }); }
+          if (hit) { t.hp = Math.max(0, t.hp - (w.opts.eliteDuel ? 7 : 2)); t.lastHitTick = w.tick; t.lastHitAngle = Math.atan2(n.y-t.y,n.x-t.x); w.events.push({ type: 'hit', dmg: w.opts.eliteDuel ? 7 : 2, zone: 'front', hpAfter: t.hp, stagger: false, servoAlarm: 0 }); }
         }
-      } else if (d > 4 && d < 14 && w.tick % 50 === 10 && los(n.x,n.y,t.x,t.y,w.propSolids)) {
-        n.shotTicks = 8; n.shotX = t.x; n.shotY = t.y;
+      } else if ((!w.opts.eliteDuel || t.fistCharge === 0) && d > (w.opts.eliteDuel ? 3.2 : 4) && d < 14 && w.tick % (w.opts.eliteDuel ? 22 : 50) === 10 && los(n.x,n.y,t.x,t.y,w.propSolids)) {
+        n.shotTicks = w.opts.eliteDuel ? 5 : 8; n.shotX = t.x + (w.opts.eliteDuel ? t.vx * .5 : 0); n.shotY = t.y + (w.opts.eliteDuel ? t.vy * .5 : 0);
         w.events.push({ type: 'enemyAim', who: i });
       }
     }

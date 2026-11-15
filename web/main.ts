@@ -1,3 +1,4 @@
+import { eliteDuelAction } from '../src/fps-duel';
 // Rendu Three.js d'une sim pure à pas fixe (src/sim.ts) : modèles riggés, décor, capsules en repli.
 import * as THREE from 'three';
 import { newWorld, step, observe, nlFrame, nlSees, terminatorPerceives, DT, MAX_TICKS, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
@@ -1046,7 +1047,7 @@ function startRound() {
   // le build jouable garde l'armement des griffes (défaut) : il n'est plus celui des mesures b3
   queuedReload = queuedBolt = queuedFist = false;
   roundNo++; roundOver = false; if (roundNo > 1) seed += 1; // manche suivante : la graine d'après, jamais la même
-  w = newWorld(seed, FPS_DUEL ? { x: 4, y: 12, facing: 0 } : undefined, { fps: CAM_MODE === 'fps', propKinds: resolvePropKinds({ propsOn: PROPS_ON, loaded: loadedPropKinds }) }); camYaw = followYaw = w.t.facing; prev = snap();
+  w = newWorld(seed, FPS_DUEL ? { x: 4, y: 12, facing: 0 } : undefined, { fps: CAM_MODE === 'fps', eliteDuel: FPS_DUEL, propKinds: resolvePropKinds({ propsOn: PROPS_ON, loaded: loadedPropKinds }) }); camYaw = followYaw = w.t.facing; prev = snap();
   if (FPS_DUEL) {
     w.nls.forEach((n, i) => { n.alive = i === 0; n.x = 11; n.y = 12; n.facing = Math.PI; n.cd = 10; });
     prev = snap();
@@ -1124,7 +1125,7 @@ if (CAM_MODE === 'diablo') {
   addEventListener('keydown', e => { if (e.code.startsWith('Arrow')) e.preventDefault(); });
 }
 if (CAM_MODE === 'fps') {
-  document.getElementById('help')!.textContent = 'Cliquer pour jouer · ZQSD / WASD : bouger · souris : regarder · clic gauche : bolter · clic droit / F : gantelet · R : recharger · Entrée : recommencer · P : pause · Échap : quitter la visée';
+  document.getElementById('help')!.textContent = 'Esquivez son attaque, puis ripostez pendant sa récupération · ZQSD / WASD : bouger · souris : regarder · clic gauche : bolter · clic droit / F : gantelet · R : recharger · Entrée : recommencer · P : pause · Échap : quitter la visée';
 }
 function playerAction(): TAction {
   const k = (c: string) => keys.has(c);
@@ -1284,11 +1285,7 @@ function tick() {
   const acts = DEMO_CFG ? DEMO_CFG.nls(w.tick, w) : w.nls.map((n, i) => {
     if (!n.alive) return 0;
     if (FPS_DUEL) {
-      n.belief.valid = true; n.belief.x = w.t.x; n.belief.y = w.t.y;
-      const d = Math.hypot(n.x - w.t.x, n.y - w.t.y);
-      if ((n.shotTicks ?? 0) > 0 || n.armTicks > 0 || n.stunTicks > 0 || (n.cd > 0 && d < 3)) return 0;
-      if (d > 4 && w.tick % 100 < 55) return w.tick % 30 < 8 ? 3 : 0;
-      return d < 1.7 ? 7 : d < 5 && w.tick % 36 < 10 ? 3 : 1;
+      return eliteDuelAction(w, i);
     }
     if (!actor) { const f = nlFrame(n); return f.d < 1.6 ? 7 : 1; }
     const p = softmax(forward(actor, observe(w, i))); const a = sample(p, rng); lastP[i] = p[a]; return a;
@@ -1470,7 +1467,7 @@ function hud() {
   const extra = {
     duel: FPS_DUEL, roundNo, score, demo: !!DEMO_CFG, alarmOn: ALARM_ON,
     servoAlarm: w.t.servoAlarm > 0, servoCritical: w.t.servoCriticalSent,
-    policyLine: FPS_DUEL ? 'DUEL · TALOS' : `${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}`,
+    policyLine: FPS_DUEL ? ((w.nls[0].recoveryTicks ?? 0) > 0 ? 'OUVERTURE · RIPOSTEZ' : (w.nls[0].burstTicks ?? 0) > 0 ? 'ACCÉLÉRATION' : 'TALOS · ARMURE RENFORCÉE') : `${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}`,
     burnIn: FPS_DUEL ? '' : burnIn(),
     playSpeed: PLAY_SPEED !== 1 ? `lecture ×${String(PLAY_SPEED).replace('.', ',')}` : undefined,
   };
