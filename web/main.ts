@@ -27,7 +27,7 @@ import { impulseFall, stepFall, type FallBody } from './death-physics';
 import { IMPACT_DEMOS } from './impact-demos';
 import {
   applyRendererAtmosphere, applySceneAtmosphere, installCorridorLights, configureHunterSpot,
-  CAM, EPAULE, TROIS_QUARTS, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, POST_DITHER_SRGB, LAMP, STRIP_EMISSIVE,
+  CAM, EPAULE, TROIS_QUARTS, DIABLO, FOLLOW_YAW_BLEND, POST_VIGNETTE, POST_GRAIN, POST_DITHER_SRGB, LAMP, STRIP_EMISSIVE,
   sceneRenderTargetOptions, POST_FRAGMENT_SHADER, FOG_COLOR, TONE_MAPPING_EXPOSURE,
 } from './atmosphere';
 import {
@@ -96,6 +96,7 @@ const camFov = (portrait: boolean): number => {
     case 'couloir': return portrait ? CAM.fovPortrait : CAM.fov;
     case 'epaule': return portrait ? EPAULE.fovPortrait : EPAULE.fov;
     case 'troisquarts': return portrait ? TROIS_QUARTS.fovPortrait : TROIS_QUARTS.fov;
+    case 'diablo': return portrait ? DIABLO.fovPortrait : DIABLO.fov;
     case 'shoulder': return portrait ? COMBAT_CAM.fovPortrait : COMBAT_CAM.fov;
     default: { const _e: never = CAM_MODE; throw new Error(String(_e)); }
   }
@@ -127,6 +128,12 @@ if (CAM_MODE === 'fps') {
   shoulderFill.position.set(0.22, 0.12, 0.35);
   camera.add(shoulderFill);
   scene.add(camera);
+} else if (CAM_MODE === 'diablo') {
+  // Vue de dessus : la pénombre de couloir devient illisible à 15 m ; fog allongé et fill doux, sans toucher aux lampes.
+  renderer.toneMappingExposure = DIABLO.exposure;
+  scene.fog = new THREE.FogExp2(FOG_COLOR, DIABLO.fog);
+  scene.add(new THREE.HemisphereLight(0xb8c6d8, 0x20242c, 2.4));
+  scene.add(new THREE.AmbientLight(0x2a3548, 0.35));
 } else {
   renderer.toneMappingExposure = TONE_MAPPING_EXPOSURE;
 }
@@ -214,10 +221,10 @@ if (ENV) {
   const beams: THREE.Matrix4[] = [];
   for (let x = 2; x < ARENA.w; x += 4) beams.push(M(x, 5.55, ARENA.h / 2, 0.34, 0.34, ARENA.h));
   beams.push(M(ARENA.w / 2, 5.55, 1.2, ARENA.w, 0.42, 0.42), M(ARENA.w / 2, 5.55, ARENA.h - 1.2, ARENA.w, 0.42, 0.42));
-  inst(ribMat, beams);
+  if (CAM_MODE !== 'diablo') inst(ribMat, beams); // vue Diablo : coupe, ni poutres ni plafond au-dessus du joueur
   // plafond
   const ceil = new THREE.Mesh(new THREE.PlaneGeometry(ARENA.w, ARENA.h), new THREE.MeshStandardMaterial({ color: 0x0d1015, metalness: 0.1, roughness: 0.95, side: THREE.DoubleSide }));
-  ceil.rotation.x = Math.PI / 2; ceil.position.set(ARENA.w / 2, 5.75, ARENA.h / 2); scene.add(ceil);
+  ceil.rotation.x = Math.PI / 2; ceil.position.set(ARENA.w / 2, 5.75, ARENA.h / 2); if (CAM_MODE !== 'diablo') scene.add(ceil);
 }
 // Pilastres : socle, fût, chapiteau — la même boîte unitaire, une instance par bloc. La collision reste celle
 // de `PILLARS` ; ce qui change est ce qu'on voit d'elle.
@@ -1033,6 +1040,16 @@ function startRound() {
   director.huntCam = CAM_MODE === 'shoulder';
   director.beginRound();
 }
+let diabloDist = DIABLO.dist;
+if (CAM_MODE === 'diablo') {
+  const zoom = (factor: number) => { diabloDist = Math.min(DIABLO.distMax, Math.max(DIABLO.distMin, diabloDist * factor)); };
+  addEventListener('wheel', e => { e.preventDefault(); zoom(Math.exp(Math.max(-1, Math.min(1, e.deltaY / 240)) * Math.log(DIABLO.zoomStep))); }, { passive: false });
+  addEventListener('keydown', e => { if (e.code === 'Equal' || e.code === 'NumpadAdd') zoom(1 / DIABLO.zoomStep); if (e.code === 'Minus' || e.code === 'NumpadSubtract') zoom(DIABLO.zoomStep); });
+  let pinch = 0; // pincement à deux doigts : la distance entre les doigts pilote le zoom
+  addEventListener('touchmove', e => { if (e.touches.length !== 2) { pinch = 0; return; } const d = Math.hypot(e.touches[0]!.clientX - e.touches[1]!.clientX, e.touches[0]!.clientY - e.touches[1]!.clientY); if (pinch > 0) zoom(pinch / d); pinch = d; e.preventDefault(); }, { passive: false });
+  addEventListener('touchend', () => { pinch = 0; });
+  (window as unknown as { __diabloDist?: (d?: number) => number }).__diabloDist = (d?: number) => { if (d !== undefined) zoom(d / diabloDist); return diabloDist; };
+}
 function playerAction(): TAction {
   const k = (c: string) => keys.has(c);
   // `e.code` est la touche **physique** : sur un clavier AZERTY, la touche marquée Z est `KeyW`, et celle
@@ -1040,6 +1057,18 @@ function playerAction(): TAction {
   // rien : sur un Mac français, avancer et aller à gauche étaient muets. On accepte les deux nomenclatures.
   const arrows = (k('ArrowRight') ? 1 : 0) - (k('ArrowLeft') ? 1 : 0);
   const lookTurn = CAM_MODE === 'fps' ? turnTowardYaw(w.t.facing, fpsLook.yaw, T_CFG.turnMax, DT) : 0;
+  if (CAM_MODE === 'diablo' && arrows === 0) {
+    // ZQSD = directions à l'écran. La sim garde ses règles (rotation rampée, marche dans l'axe) : on traduit la
+    // direction voulue en consigne de rotation, et on n'avance que lorsque le Terminator regarde à moins de 50°.
+    const up = (k('KeyW') || k('KeyZ') ? 1 : 0) - (k('KeyS') ? 1 : 0), right = (k('KeyD') ? 1 : 0) - (k('KeyA') || k('KeyQ') ? 1 : 0);
+    const bolt = k('Space'), fist = k('KeyF') || k('ShiftLeft');
+    if (up === 0 && right === 0) return { fwd: 0, strafe: 0, turn: 0, bolt, fist };
+    const gx = Math.cos(DIABLO.yaw), gy = Math.sin(DIABLO.yaw), dx = up * gx - right * gy, dy = up * gy + right * gx;
+    const diff = wrapPi(Math.atan2(dy, dx) - w.t.facing);
+    const wantVel = Math.max(-T_CFG.turnMax, Math.min(T_CFG.turnMax, diff * 2.4));
+    const turn = Math.max(-1, Math.min(1, (wantVel - w.t.turnVel) / (T_CFG.turnAccel * DT)));
+    return { fwd: Math.cos(diff) > Math.cos(50 * Math.PI / 180) ? 1 : 0, strafe: 0, turn, bolt, fist };
+  }
   const turn = arrows !== 0 ? arrows : lookTurn;
   return { fwd: (k('KeyW') || k('KeyZ') ? 1 : 0) - (k('KeyS') ? 1 : 0), strafe: (k('KeyA') || k('KeyQ') ? 1 : 0) - (k('KeyD') ? 1 : 0), turn, bolt: k('Space'), fist: k('KeyF') || k('ShiftLeft') };
 }
@@ -1408,9 +1437,9 @@ function render(alpha: number) {
       l.color.setHex(focus ? 0x7cf4ff : 0xffc8a8);
     });
     if (scene.fog && (scene.fog as THREE.FogExp2).isFogExp2) {
-      (scene.fog as THREE.FogExp2).density = CAM_MODE === 'shoulder' ? (clawHold ? 0.022 : 0.036) : 0.042;
+      (scene.fog as THREE.FogExp2).density = CAM_MODE === 'shoulder' ? (clawHold ? 0.022 : 0.036) : CAM_MODE === 'diablo' ? DIABLO.fog : 0.042;
     }
-    renderer.toneMappingExposure = CAM_MODE === 'shoulder' ? (clawHold ? 1.62 : 1.50) : 1.52;
+    renderer.toneMappingExposure = CAM_MODE === 'shoulder' ? (clawHold ? 1.62 : 1.50) : CAM_MODE === 'diablo' ? DIABLO.exposure : 1.52;
     postMat.uniforms.uVignette.value = CAM_MODE === 'shoulder' ? 0.62 : 0.72;
   } else {
     tFill.intensity = 0;
@@ -1516,6 +1545,15 @@ function render(alpha: number) {
       );
       camera.position.set(lifted.camX + sx, lifted.camY, lifted.camZ + sz);
       camera.lookAt(subjX + fwdX * EPAULE.ahead + sx, EPAULE.eye, subjY + fz * EPAULE.ahead + sz);
+      break;
+    }
+    case 'diablo': {
+      // Lacet et plongée fixes, distance au zoom. Suit la position interpolée du Terminator (pas de lissage horaire :
+      // ?shot= et ?cap=1 restent déterministes).
+      const pitch = DIABLO.pitchDeg * Math.PI / 180, gx = Math.cos(DIABLO.yaw), gz = Math.sin(DIABLO.yaw);
+      const hd = diabloDist * Math.cos(pitch), h = diabloDist * Math.sin(pitch);
+      camera.position.set(subjX - gx * hd + sx, h, subjY - gz * hd + sz);
+      camera.lookAt(subjX + sx, DIABLO.eye, subjY + sz);
       break;
     }
     case 'troisquarts': {
