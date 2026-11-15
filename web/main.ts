@@ -1,6 +1,6 @@
 // Rendu Three.js d'une sim pure à pas fixe (src/sim.ts) : modèles riggés, décor, capsules en repli.
 import * as THREE from 'three';
-import { newWorld, step, observe, nlFrame, terminatorPerceives, DT, MAX_TICKS, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
+import { newWorld, step, observe, nlFrame, nlSees, terminatorPerceives, DT, MAX_TICKS, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
 import { hudMarkup, matchBeats, matchStatus, roundCard, roundMarkup, type MatchStatus } from '../src/match';
 import { PROP_PLACES, isPropKind, resolvePropKinds, type PropKind, type PropPlace } from '../src/props';
 import { POOL, UNSEEN, type Tactic } from '../src/tactics';
@@ -50,6 +50,8 @@ import {
 } from './camera/fps';
 import { createViewmodel, renderViewmodel, type Viewmodel } from './camera/viewmodel';
 import { fpsHudMarkup, dmgSide, marksHtml } from './camera/fps-hud';
+import { diabloControls, diabloKeys, rayToGround, type DiabloAim } from './controls/diablo';
+import { coneFan, noiseRingRadius } from './read-aids';
 
 const qs = new URLSearchParams(location.search);
 // Canal d'ambiance (`cogitator:hunters`) : muet sauf si l'URL demande explicitement `?control=1`.
@@ -655,6 +657,23 @@ const beliefs = ROLES.map((_, i) => { const m = new THREE.Mesh(new THREE.RingGeo
 const links = ROLES.map((_, i) => { const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]); const l = new THREE.Line(g, new THREE.LineDashedMaterial({ color: ROLE_COL[i], dashSize: 0.4, gapSize: 0.3 })); dbgGroup.add(l); return l; });
 const noiseRing = new THREE.Mesh(new THREE.RingGeometry(0.97, 1, 64), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.35, side: THREE.DoubleSide })); noiseRing.rotation.x = -Math.PI / 2; noiseRing.position.y = 0.06; dbgGroup.add(noiseRing);
 const tCone = fan(T_CFG.visionHalf, T_CFG.visionRange, 0xfff0c0, 0.05); dbgGroup.add(tCone);
+// Aides de lecture (vue Diablo seulement, touche H) : anneau de bruit `t.noise` et cônes de vision des NL.
+// Lecture seule de l'état de la sim ; aucun état horaire, donc ?shot= / ?cap=1 restent déterministes.
+const readGroup = new THREE.Group(); readGroup.visible = false; scene.add(readGroup);
+let readAids = CAM_MODE === 'diablo';
+const READ_CONE = { idle: 0x8ea2bf, idleOp: 0.045, seen: 0xff3a1a, seenOp: 0.15 };
+const readNoise = new THREE.Mesh(new THREE.RingGeometry(0.95, 1, 72), new THREE.MeshBasicMaterial({ color: 0xffd080, transparent: true, opacity: 0.42, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
+readNoise.rotation.x = -Math.PI / 2; readGroup.add(readNoise);
+const readConeGeo = (() => {
+  const pts = coneFan(NL_CFG.visionRange, NL_CFG.visionHalf, 28), g = new THREE.BufferGeometry(), idx: number[] = [];
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pts.flatMap(p => [p.x, 0, p.y]), 3));
+  for (let i = 1; i < pts.length - 1; i++) idx.push(0, i, i + 1);
+  g.setIndex(idx); return g;
+})();
+const readCones = ROLES.map(() => {
+  const m = new THREE.Mesh(readConeGeo, new THREE.MeshBasicMaterial({ color: READ_CONE.idle, transparent: true, opacity: READ_CONE.idleOp, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
+  readGroup.add(m); return m;
+});
 // La lumière des armes. Le flash de bouche est une vraie lumière ponctuelle : il éclaire les piliers et
 // découpe les silhouettes une fraction de seconde — c'est lui qui révèle les prédateurs. Le halo du gantelet
 // pulse en continu, bleu, faible. Deux lumières de plus dans la passe principale (aucun draw call).
@@ -762,6 +781,7 @@ addEventListener('keydown', e => {
   keys.add(e.code);
   if (e.code === 'KeyV') { debug = !debug; if (debug) buildLabels(); }
   if (e.code === 'KeyP') paused = !paused;
+  if (e.code === 'KeyH' && CAM_MODE === 'diablo') readAids = !readAids;
   if (e.code === 'KeyM') engine.toggleMute();
   if (e.code === 'Enter' && roundOver) startRound();
   if (e.code === 'Space') e.preventDefault();
@@ -1041,6 +1061,14 @@ function startRound() {
   director.beginRound();
 }
 let diabloDist = DIABLO.dist;
+let diabloCursor: { x: number; y: number } | null = null; // NDC du curseur souris sur le canvas, null hors canvas
+const diabloRay = new THREE.Raycaster();
+function diabloAim(): DiabloAim {
+  if (!diabloCursor) return null;
+  diabloRay.setFromCamera(new THREE.Vector2(diabloCursor.x, diabloCursor.y), camera);
+  const o = diabloRay.ray.origin, d = diabloRay.ray.direction;
+  return rayToGround(o.x, o.y, o.z, d.x, d.y, d.z);
+}
 if (CAM_MODE === 'diablo') {
   const zoom = (factor: number) => { diabloDist = Math.min(DIABLO.distMax, Math.max(DIABLO.distMin, diabloDist * factor)); };
   addEventListener('wheel', e => { e.preventDefault(); zoom(Math.exp(Math.max(-1, Math.min(1, e.deltaY / 240)) * Math.log(DIABLO.zoomStep))); }, { passive: false });
@@ -1049,27 +1077,41 @@ if (CAM_MODE === 'diablo') {
   addEventListener('touchmove', e => { if (e.touches.length !== 2) { pinch = 0; return; } const d = Math.hypot(e.touches[0]!.clientX - e.touches[1]!.clientX, e.touches[0]!.clientY - e.touches[1]!.clientY); if (pinch > 0) zoom(pinch / d); pinch = d; e.preventDefault(); }, { passive: false });
   addEventListener('touchend', () => { pinch = 0; });
   (window as unknown as { __diabloDist?: (d?: number) => number }).__diabloDist = (d?: number) => { if (d !== undefined) zoom(d / diabloDist); return diabloDist; };
+  // Visée souris : seule une vraie souris sur le canvas compte. Le tactile garde le schéma clavier/écran.
+  canvas.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    const r = canvas.getBoundingClientRect();
+    diabloCursor = { x: ((e.clientX - r.left) / r.width) * 2 - 1, y: -((e.clientY - r.top) / r.height) * 2 + 1 };
+  });
+  canvas.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') diabloCursor = null; });
+  addEventListener('blur', () => { diabloCursor = null; });
+  // Sonde de preuve (captures headless) : lecture seule.
+  (window as unknown as { __diabloProbe?: () => unknown }).__diabloProbe = () => ({
+    tick: w.tick, t: { x: w.t.x, y: w.t.y, facing: w.t.facing, turnVel: w.t.turnVel, noise: w.t.noise }, aim: diabloAim(), readAids,
+    sees: w.nls.map(n => n.alive && nlSees(w, n)),
+  });
+  const help = document.getElementById('help');
+  if (help) help.innerHTML = 'Flèches : se déplacer · souris : viser · Espace : bolter · F : gantelet · H : marqueurs · molette ou +/− : zoom (ZQSD aussi)<br>'
+    + 'Le Terminator pivote vers le curseur ; une flèche à moins de 50° de son cap le fait avancer, à l\'opposé reculer, de côté rien. Sans souris, les flèches l\'orientent et le font avancer. '
+    + 'Victoire : balise 6 s, meute à terre, ou 2:00 tenues ; défaite : armure à 0 · Maj gantelet · V vue de contrôle · M son · Entrée manche suivante · P pause · autres vues : ?cam=fps|shoulder|combat|couloir|epaule|troisquarts';
+  // les flèches déplacent : elles ne doivent pas faire défiler la page
+  addEventListener('keydown', e => { if (e.code.startsWith('Arrow')) e.preventDefault(); });
 }
 function playerAction(): TAction {
   const k = (c: string) => keys.has(c);
   // `e.code` est la touche **physique** : sur un clavier AZERTY, la touche marquée Z est `KeyW`, et celle
   // marquée A est `KeyQ`. Le bandeau annonçait « ZQSD/WASD » depuis le début alors que Z et Q ne faisaient
   // rien : sur un Mac français, avancer et aller à gauche étaient muets. On accepte les deux nomenclatures.
-  const arrows = (k('ArrowRight') ? 1 : 0) - (k('ArrowLeft') ? 1 : 0);
-  const lookTurn = CAM_MODE === 'fps' ? turnTowardYaw(w.t.facing, fpsLook.yaw, T_CFG.turnMax, DT) : 0;
   if (CAM_MODE === 'diablo') {
-    // ZQSD = directions à l'écran. La sim garde ses règles (rotation rampée, marche dans l'axe) : on traduit la
-    // direction voulue en consigne de rotation, et on n'avance que lorsque le Terminator regarde à moins de 50°.
-    // ←/→/↑/↓ suivent le même schéma écran que ZQSD : un seul schéma de contrôle en vue Diablo.
-    const up = (k('KeyW') || k('KeyZ') || k('ArrowUp') ? 1 : 0) - (k('KeyS') || k('ArrowDown') ? 1 : 0), right = (k('KeyD') || k('ArrowRight') ? 1 : 0) - (k('KeyA') || k('KeyQ') || k('ArrowLeft') ? 1 : 0);
-    const bolt = k('Space'), fist = k('KeyF') || k('ShiftLeft');
-    if (up === 0 && right === 0) return { fwd: 0, strafe: 0, turn: 0, bolt, fist };
-    const gx = Math.cos(DIABLO.yaw), gy = Math.sin(DIABLO.yaw), dx = up * gx - right * gy, dy = up * gy + right * gx;
-    const diff = wrapPi(Math.atan2(dy, dx) - w.t.facing);
-    const wantVel = Math.max(-T_CFG.turnMax, Math.min(T_CFG.turnMax, diff * 2.4));
-    const turn = Math.max(-1, Math.min(1, (wantVel - w.t.turnVel) / (T_CFG.turnAccel * DT)));
-    return { fwd: Math.cos(diff) > Math.cos(50 * Math.PI / 180) ? 1 : 0, strafe: 0, turn, bolt, fist };
+    // La sim garde ses règles (rotation rampée, marche dans l'axe, aucun pas de côté). Avec la souris, le Terminator
+    // pivote vers le point du sol visé et les flèches (référence) ou ZQSD (directions écran) ne font qu'avancer ou
+    // reculer ; sans souris, elles orientent et font avancer. Aucune rotation directe par ←/→ ici : elles déplacent.
+    // Logique pure : web/controls/diablo.ts.
+    const { fwd, turn } = diabloControls(w.t, diabloKeys(k), diabloAim(), DIABLO.yaw, T_CFG, DT);
+    return { fwd, strafe: 0, turn, bolt: k('Space'), fist: k('KeyF') || k('ShiftLeft') };
   }
+  const arrows = (k('ArrowRight') ? 1 : 0) - (k('ArrowLeft') ? 1 : 0); // hors Diablo : ←/→ pivotent
+  const lookTurn = CAM_MODE === 'fps' ? turnTowardYaw(w.t.facing, fpsLook.yaw, T_CFG.turnMax, DT) : 0;
   const turn = arrows !== 0 ? arrows : lookTurn;
   return { fwd: (k('KeyW') || k('KeyZ') ? 1 : 0) - (k('KeyS') ? 1 : 0), strafe: (k('KeyA') || k('KeyQ') ? 1 : 0) - (k('KeyD') ? 1 : 0), turn, bolt: k('Space'), fist: k('KeyF') || k('ShiftLeft') };
 }
@@ -1452,6 +1494,16 @@ function render(alpha: number) {
       const b = n.belief; beliefs[i].visible = n.alive && b.valid; beliefs[i].position.set(b.x, 0.08 + i * 0.01, b.y); (beliefs[i].material as THREE.MeshBasicMaterial).opacity = Math.max(0.15, 1 - b.age / 50);
       links[i].visible = n.alive && b.valid; links[i].geometry.setFromPoints([new THREE.Vector3(n.x, 0.1, n.y), new THREE.Vector3(b.x, 0.1, b.y)]); links[i].computeLineDistances(); });
     noiseRing.position.set(w.t.x, 0.06, w.t.y); noiseRing.scale.setScalar(w.t.noise); tCone.position.set(w.t.x, 0.04, w.t.y); tCone.rotation.y = -w.t.facing;
+  }
+  readGroup.visible = CAM_MODE === 'diablo' && readAids && !debug; // la vue de contrôle (V) dessine déjà ses cônes
+  if (readGroup.visible) {
+    readNoise.position.set(tx, 0.1, ty); readNoise.scale.setScalar(Math.max(1e-3, noiseRingRadius(w.t)));
+    w.nls.forEach((n, i) => {
+      const c = readCones[i]!; c.visible = n.alive; if (!n.alive) return;
+      c.position.set(lerp(prev.n[i][0], n.x), 0.085 + i * 0.003, lerp(prev.n[i][1], n.y)); c.rotation.y = -la(prev.n[i][2], n.facing);
+      const seen = nlSees(w, n), m = c.material as THREE.MeshBasicMaterial;
+      m.color.setHex(seen ? READ_CONE.seen : READ_CONE.idle); m.opacity = seen ? READ_CONE.seenOp : READ_CONE.idleOp;
+    });
   }
   // Occlusion unique : `losClear` / `liftFollowIfOccluded` / `desiredCombatPose` (web/combat-cam.ts).
   const portrait = innerHeight > innerWidth;
