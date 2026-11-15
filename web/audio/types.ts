@@ -3,6 +3,9 @@ export type BusName = 'sfx' | 'voice' | 'ambience' | 'music' | 'ui' | 'master';
 export type MusicPhase = 'explore' | 'tension' | 'combat' | 'stinger';
 
 export type SampleName =
+  | 'armor-tread'
+  | 'armor-lock'
+  | 'armor-vibro'
   | 'bolter-shot'
   | 'bolter-echo'
   | 'bolter-casing'

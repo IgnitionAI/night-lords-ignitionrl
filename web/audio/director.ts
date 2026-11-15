@@ -48,6 +48,7 @@ export class AudioDirector {
   private pending: PendingSound[] = [];
   private lastWorld: DirectorWorld | null = null;
   huntCam = false;
+  firstPerson = false;
 
   reset(): void {
     this.nlAcc = [0, 0, 0, 0];
@@ -80,6 +81,7 @@ export class AudioDirector {
         const intensity = Number(e.intensity ?? 1);
         const x = Number(e.x ?? w.t.x);
         const y = Number(e.y ?? w.t.y);
+        if (this.firstPerson) engine.play(intensity === 0 ? 'armor-lock' : 'armor-tread', { gain: intensity === 0 ? .8 : .65, pan: Number(e.foot) === 1 ? .12 : -.12, priority: 6 });
         const ok = engine.play(engine.nextTermStep(), { ...pos(x, y), intensity: 0.55 + 0.45 * (intensity || 1.15), priority: 4 });
         engine.play('term-hydraulic', { ...pos(x, y), gain: 0.35 + 0.4 * intensity, priority: 3, vary: true });
         return ok;
@@ -92,6 +94,7 @@ export class AudioDirector {
         return true;
       }
       case 'fistCharge':
+        if (this.firstPerson) engine.play('armor-vibro', { pan: -.2, priority: 7, vary: false });
         engine.play('fist-hum', { ...pos(w.t.x, w.t.y), priority: 6, gain: 0.7, send: 0.2 });
         return engine.play('term-servo', { ...pos(w.t.x, w.t.y), priority: 6, gain: 0.8 });
       case 'fistReady':
@@ -123,7 +126,13 @@ export class AudioDirector {
         this.queue('whiff', who, e);
         return true;
       }
+      case 'enemyBolt': {
+        const n = w.nls[Number(e.who ?? 0)];
+        if (n) engine.play('bolter-shot', { ...pos(n.x, n.y), gain: .65, rate: 1.1, priority: 8 });
+        return true;
+      }
       case 'hit': {
+        if (this.firstPerson) engine.play('armor-tread', { gain: .8, rate: .7, priority: 8 });
         if (Number(e.servoAlarm ?? 0) > 0) this.alarm();
         return true;
       }
@@ -157,7 +166,10 @@ export class AudioDirector {
   }
 
   private queue(kind: PendingKind, who: number | 'term', ev: SimEv): void {
-    this.pending.push({ kind, who, ev, due: this.time + CUE_FALLBACK[kind], flushed: false });
+    const pending = { kind, who, ev, due: this.time + CUE_FALLBACK[kind], flushed: false };
+    this.pending.push(pending);
+    // FPS weapons and damage are displayed on the simulation event itself.
+    if (this.firstPerson && this.lastWorld) this.playPending(pending, this.lastWorld);
   }
 
   private flushKind(kind: PendingKind, w: DirectorWorld, who?: number | 'term'): boolean {
@@ -196,6 +208,11 @@ export class AudioDirector {
         return;
       }
       case 'fist': {
+        if (this.firstPerson && !e.staggered && Number(e.kill ?? -1) < 0) {
+          engine.play('claw-swoosh', { pan: -.15, rate: .65, gain: .75, priority: 7 });
+          engine.play('armor-lock', { gain: .4, priority: 6 });
+          return;
+        }
         engine.play('fist-impact', { ...pos(w.t.x, w.t.y), priority: 10, send: 0.3 });
         engine.play('bolter-explode', { ...pos(w.t.x, w.t.y), priority: 7, gain: 0.35, rate: 0.55, send: 0.2 });
         engine.duck(0.22);
@@ -264,6 +281,7 @@ export class AudioDirector {
     this.time += dt;
     for (const e of events) this.handleEvent(e, w);
     this.flushDue(w);
+    this.pending = this.pending.filter(p => !p.flushed);
 
     const sp = Math.hypot(w.t.vx, w.t.vy);
     if (sp > 0.08) {
@@ -298,7 +316,7 @@ export class AudioDirector {
 
     this.voxCd -= dt;
     const close = w.nls.filter((n) => n.alive && Math.hypot(n.x - w.t.x, n.y - w.t.y) < 8);
-    if (this.voxCd <= 0 && close.length >= 2) {
+    if (this.voxCd <= 0 && close.length >= (this.firstPerson ? 1 : 2)) {
       const n = close[0];
       engine.play('nl-vox-come-for-you', { x: n.x, y: n.y, z: 1.6, priority: 7, vary: true, bus: 'voice', send: 0.4 });
       this.voxCd = 11;

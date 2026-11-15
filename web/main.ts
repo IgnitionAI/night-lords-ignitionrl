@@ -1082,6 +1082,7 @@ function startRound() {
   huntWhip = null;
   if (CAM_MODE === 'fps' && termRig) termRig.root.visible = false;
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
+  director.firstPerson = CAM_MODE === 'fps';
   director.huntCam = CAM_MODE === 'shoulder';
   director.beginRound();
   if (FPS_DUEL) { updateRigs(); advanceRigs(0.001); }
@@ -1638,7 +1639,7 @@ function render(alpha: number) {
           camera.updateMatrixWorld(true);
         }
       }
-      vm?.update(DT * 0.16, performance.now() * 0.001, pose.bobY, pose.bobY, Math.hypot(w.t.vx, w.t.vy) > 0.2, w.t.reloadLeft);
+      vm?.update(DT * 0.16, now, pose.bobY, pose.bobY, Math.hypot(w.t.vx, w.t.vy) > 0.2, w.t.reloadLeft);
       break;
     }
     case 'couloir': {
@@ -2061,7 +2062,7 @@ function termPoseReport() {
   };
 }
 (window as any).__animCues = peekAnimCues;
-subscribeAnimCues((cue) => { director.onAnimCue(cue); fx.onAnimCue(cue); vm?.ingestCue(cue); });
+subscribeAnimCues((cue) => { director.onAnimCue(cue); fx.onAnimCue(cue); if (CAM_MODE !== 'fps') vm?.ingestCue(cue); });
 await Promise.all([
   loadPolicy(),
   PROBE_READ ? Promise.resolve() : loadModels(),

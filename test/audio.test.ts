@@ -36,9 +36,9 @@ const EVENT_SOUNDS: { event: string; sounds: string[] }[] = [
   { event: 'stinger', sounds: ['stinger-victory', 'stinger-defeat'] },
 ];
 
-test('contrats gelés : NL_CFG.speed et T_CFG.fwd inchangés', () => {
+test('vitesses réactives : la passe audio ne ralentit pas le joueur', () => {
   assert.equal(NL_CFG.speed, 6);
-  assert.equal(T_CFG.fwd, 2.5);
+  assert.equal(T_CFG.fwd, 5);
 });
 
 test('mixeur : bus sfx/voice/ambience/music/ui, compresseur et limiteur sur le master', () => {

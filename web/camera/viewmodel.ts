@@ -15,7 +15,7 @@ export interface Viewmodel {
   muzzle: THREE.PointLight;
   tracer: THREE.Line;
   ingestCue(cue: AnimCue): void;
-  ingestSim(ev: { type: string }): void;
+  ingestSim(ev: { type: string; intensity?: number; foot?: number }): void;
   update(dt: number, now: number, bobX: number, bobY: number, moving: boolean, reload?: number): void;
   dispose(): void;
 }
@@ -182,6 +182,7 @@ export function createViewmodel(): Viewmodel {
   let wind = 0;
   let strike = 0;
   let idle = 0;
+  let tread = 0, treadSide = 1, armorHit = 0;
 
   const ingestCue = (cue: AnimCue) => {
     if (cue.role !== 'TERM') return;
@@ -197,9 +198,11 @@ export function createViewmodel(): Viewmodel {
     }
   };
 
-  const ingestSim = (ev: { type: string }) => {
+  const ingestSim = (ev: { type: string; intensity?: number; foot?: number }) => {
+    if (ev.type === 'step') { tread = ev.intensity === 0 ? 1.2 : .85; treadSide = ev.foot === 1 ? 1 : -1; }
+    if (ev.type === 'hit') armorHit = 1;
     if (ev.type === 'bolt') {
-      recZ = Math.max(recZ, 0.048);
+      recZ = Math.max(recZ, 0.072);
       recX = Math.max(recX, 0.01);
       fireT = 1;
     }
@@ -214,16 +217,18 @@ export function createViewmodel(): Viewmodel {
     dt = lastTime === null ? 0 : Math.max(0, Math.min(0.05, now - lastTime));
     lastTime = now;
     idle += dt;
-    recZ *= Math.exp(-dt * 14);
+    tread *= Math.exp(-dt * 10);
+    armorHit *= Math.exp(-dt * 8);
+    recZ *= Math.exp(-dt * 9);
     recX *= Math.exp(-dt * 12);
     fireT = Math.max(0, fireT - dt / 0.075);
     wind = Math.max(0, wind - dt / 0.8);
-    strike = Math.max(0, strike - dt / 0.26);
+    strike = Math.max(0, strike - dt / 0.38);
     const sway = moving ? 1 : 0.45;
     const sx = Math.sin(idle * 1.35) * 0.008 * sway + bobX * 0.35;
     const sy = Math.sin(idle * 1.05) * 0.006 * sway + bobY * 0.55;
-    root.position.set(sx, sy, recZ);
-    root.rotation.z = recX * 4 + bobX * 0.15;
+    root.position.set(sx + treadSide * tread * .006, sy - tread * .022, recZ + armorHit * .035);
+    root.rotation.z = recX * 3 + bobX * 0.15 + treadSide * tread * .012;
     const reloadArc = reload > 0 ? Math.sin(Math.PI * (1 - reload / 20)) : 0;
     bolter.position.set(0.22, -0.19 - reloadArc * 0.15, -0.58 + recZ * 1.3);
     bolter.rotation.z = 0.04 + reloadArc * 0.55;
@@ -233,8 +238,10 @@ export function createViewmodel(): Viewmodel {
     muzzle.intensity = 14 * fireT * fireT;
     (tracer.material as THREE.LineBasicMaterial).opacity = fireT * 0.85;
     const pull = wind * 0.16;
-    const punch = strike * 0.22;
-    fist.position.set(-0.24 + strike * 0.12 + reloadArc * 0.30, -0.17 + strike * 0.12 - reloadArc * 0.06, -0.58 - punch + pull);
+    const punch = Math.min(1, strike * 1.65) * .27;
+    // High-frequency vibration belongs to the energized gauntlet, never to the aiming camera.
+    const vibro = Math.sin(now * Math.PI * 2 * 32) * .0018 * wind;
+    fist.position.set(-0.24 + strike * 0.12 + reloadArc * 0.30, -0.17 + strike * 0.12 - reloadArc * 0.06, -0.58 - punch + pull + vibro);
     const grip = 1 - reloadArc * .75;
     fingerJoints.forEach((joints,i) => joints.forEach((joint,j) => {
       joint.rotation.x = -(j===0 ? .45 : 1.15) * grip - wind*.12 + Math.sin(now*1.2+i)*.015;

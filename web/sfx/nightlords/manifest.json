@@ -344,6 +344,36 @@
       "priority": 0,
       "license": "CC0 1.0 (layered Freesound recordings)",
       "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "armor-tread",
+      "file": "armor-tread.ogg",
+      "bus": "sfx",
+      "gain": 0.7,
+      "spatial": false,
+      "priority": 6,
+      "license": "CC0 1.0 (original procedural synthesis)",
+      "source": "scripts/build-armor-sounds.py"
+    },
+    {
+      "name": "armor-lock",
+      "file": "armor-lock.ogg",
+      "bus": "sfx",
+      "gain": 0.45,
+      "spatial": false,
+      "priority": 6,
+      "license": "CC0 1.0 (original procedural synthesis)",
+      "source": "scripts/build-armor-sounds.py"
+    },
+    {
+      "name": "armor-vibro",
+      "file": "armor-vibro.ogg",
+      "bus": "sfx",
+      "gain": 0.6,
+      "spatial": false,
+      "priority": 6,
+      "license": "CC0 1.0 (original procedural synthesis)",
+      "source": "scripts/build-armor-sounds.py"
     }
   ]
 }
