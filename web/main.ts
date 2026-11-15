@@ -1057,10 +1057,11 @@ function playerAction(): TAction {
   // rien : sur un Mac français, avancer et aller à gauche étaient muets. On accepte les deux nomenclatures.
   const arrows = (k('ArrowRight') ? 1 : 0) - (k('ArrowLeft') ? 1 : 0);
   const lookTurn = CAM_MODE === 'fps' ? turnTowardYaw(w.t.facing, fpsLook.yaw, T_CFG.turnMax, DT) : 0;
-  if (CAM_MODE === 'diablo' && arrows === 0) {
+  if (CAM_MODE === 'diablo') {
     // ZQSD = directions à l'écran. La sim garde ses règles (rotation rampée, marche dans l'axe) : on traduit la
     // direction voulue en consigne de rotation, et on n'avance que lorsque le Terminator regarde à moins de 50°.
-    const up = (k('KeyW') || k('KeyZ') ? 1 : 0) - (k('KeyS') ? 1 : 0), right = (k('KeyD') ? 1 : 0) - (k('KeyA') || k('KeyQ') ? 1 : 0);
+    // ←/→/↑/↓ suivent le même schéma écran que ZQSD : un seul schéma de contrôle en vue Diablo.
+    const up = (k('KeyW') || k('KeyZ') || k('ArrowUp') ? 1 : 0) - (k('KeyS') || k('ArrowDown') ? 1 : 0), right = (k('KeyD') || k('ArrowRight') ? 1 : 0) - (k('KeyA') || k('KeyQ') || k('ArrowLeft') ? 1 : 0);
     const bolt = k('Space'), fist = k('KeyF') || k('ShiftLeft');
     if (up === 0 && right === 0) return { fwd: 0, strafe: 0, turn: 0, bolt, fist };
     const gx = Math.cos(DIABLO.yaw), gy = Math.sin(DIABLO.yaw), dx = up * gx - right * gy, dy = up * gy + right * gx;

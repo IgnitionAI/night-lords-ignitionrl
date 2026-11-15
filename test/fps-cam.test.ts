@@ -14,9 +14,10 @@ import { matchStatus, hudMarkup } from '../src/match.ts';
 import { newWorld } from '../src/sim.ts';
 import { TERM_HEIGHT } from '../web/stride.ts';
 
-test('cam=fps est le défaut ; couloir / epaule / troisquarts restent', () => {
-  assert.equal(parseCamMode(null), 'fps');
-  assert.equal(parseCamMode(''), 'fps');
+test('cam=diablo est le défaut ; fps / couloir / epaule / troisquarts restent', () => {
+  assert.equal(parseCamMode(null), 'diablo');
+  assert.equal(parseCamMode(''), 'diablo');
+  assert.equal(parseCamMode('diablo'), 'diablo');
   assert.equal(parseCamMode('fps'), 'fps');
   assert.equal(parseCamMode('couloir'), 'couloir');
   assert.equal(parseCamMode('epaule'), 'epaule');
