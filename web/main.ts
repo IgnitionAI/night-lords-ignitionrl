@@ -52,6 +52,7 @@ import { createViewmodel, renderViewmodel, type Viewmodel } from './camera/viewm
 import { fpsHudMarkup, dmgSide, marksHtml } from './camera/fps-hud';
 import { diabloControls, diabloKeys, rayToGround, type DiabloAim } from './controls/diablo';
 import { coneGradient, noiseRingRadius } from './read-aids';
+import { equipNl } from './weapons';
 
 const qs = new URLSearchParams(location.search);
 // Canal d'ambiance (`cogitator:hunters`) : muet sauf si l'URL demande explicitement `?control=1`.
@@ -1954,7 +1955,9 @@ async function loadModels() {
   };
   await Promise.all(ROLES.map(async (_r, i) => {
     try {
-      const rig = await load(`NL-${i + 1}`, NL_HEIGHT, 0.22, true, 'nl', i);
+      // Frères v2 : textures bleu nuit déjà sombres, l'albédo ×0,22 des anciens modèles les rendait gris.
+      const rig = await load(`NL-${i + 1}`, NL_HEIGHT, 0.5, true, 'nl', i);
+      await equipNl(rig.root, i, rig.idle?.getClip() ?? null, loadGLB);
       nlMeshes[i].add(rig.root); nlRigs[i] = rig;
       for (const p of nlProxy.slice(i * 3, i * 3 + 3)) p.visible = false; // capsule + 2 yeux de ce rôle
     } catch (e) { console.warn('modèle NL-' + (i + 1) + ' absent, capsule conservée', e); }

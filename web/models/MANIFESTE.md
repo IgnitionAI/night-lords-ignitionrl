@@ -259,3 +259,18 @@ jamais au pixel.
   ombres (elles portent la lecture des silhouettes).
 - Synchronisation pied/sol : `timeScale = v · T / foulée` (foulée skinée au sol, même échelle que le
   chargeur). Le déplacement monde reste celui de la sim ; les clips n'ont pas de root motion horizontal.
+
+## Frères v2 — 15/11/2026
+
+Les quatre frères sont remplacés par des modèles Genex dérivés d'une base d'armure commune validée par Salim (concept → image modifiée par frère → personnage rigé Meshy, 30 000 polygones, hauteur native 2,30 m). Le rig garde les mêmes noms d'os : les clips de combat existants (`attack`, `hit`, `death`, `dodge`, `idle`) restent valides.
+
+| rôle | fichier | frère | id Genex |
+|---|---|---|---|
+| 1 | `NL-1*.glb` | Talos | `cmwiabic` |
+| 2 | `NL-2*.glb` | Uzas | `cmwiabh3` |
+| 3 | `NL-3*.glb` | Xarl | `cmwiabgj` |
+| 4 | `NL-4*.glb` | Cyrion | `cmwias94` (v2, la v1 était sans tête) |
+
+- `NL-n.glb` : textures WebP 1024, `NL-n-512.glb` : WebP 512 (`gltf-transform optimize --compress quantize`). `NL-n-walk/run.glb` : squelette et clip seulement.
+- Armes (`weapons/`) : modèles Genex texturés séparés (le passage en personnage rigé supprime l'arme tenue), simplifiés à 25 % et en WebP 512. Talos épée, Uzas hache tronçonneuse, Xarl épée tronçonneuse à deux mains, Cyrion bolter et couteau. Fixées à l'os de la main par `web/weapons.ts`.
+- Sources lourdes : `Shared/team/pipeline/demo-night-lords/assets/v2-persos-20261115/`.
