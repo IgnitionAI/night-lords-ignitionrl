@@ -1126,7 +1126,7 @@ if (CAM_MODE === 'diablo') {
   addEventListener('keydown', e => { if (e.code.startsWith('Arrow')) e.preventDefault(); });
 }
 if (CAM_MODE === 'fps') {
-  document.getElementById('help')!.textContent = 'Esquivez son attaque, puis ripostez pendant sa récupération · ZQSD / WASD : bouger · souris : regarder · clic gauche : bolter · clic droit / F : gantelet · R : recharger · Entrée : recommencer · P : pause · Échap : quitter la visée';
+  document.getElementById('help')!.textContent = 'ZQSD / WASD · Clic : bolter · F : gantelet · R : recharge · P : pause · Entrée : rejouer · Échap : souris';
 }
 function playerAction(): TAction {
   const k = (c: string) => keys.has(c);
