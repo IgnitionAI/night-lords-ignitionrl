@@ -55,3 +55,5 @@ Sur la politique FPS longue, avec tous les accessoires, le contournement porte l
 
 ## Sélection finale
 Sur le sous-ensemble identique de 60 épisodes avec accessoires et navigation : première politique 21/60, politique longue 20/60, politique entraînée avec accessoires 21/60. À égalité, la première est conservée : 4/10 contre elite, contre 1/10 pour la troisième. Ce sous-ensemble sert à la sélection et n'est pas un test indépendant. Les politiques expérimentales et leurs journaux restent disponibles. La promesse de quasi-invincibilité n'est pas atteinte et n'est pas annoncée.
+
+Politique livrée, contrôle final avec accessoires sur 180 épisodes : 53/180 victoires de la Griffe, détail [('march', 11), ('turret', 4), ('brawler', 14), ('backpedal', 14), ('elite', 6), ('kiter', 4)]. Le parcours complet est de nouveau validé avec cette politique : 30/30 extractions du pilote armé, 0/30 sans riposte.
