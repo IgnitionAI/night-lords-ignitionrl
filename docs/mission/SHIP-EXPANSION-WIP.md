@@ -1,3 +1,5 @@
+> Livraison validée le 16 novembre 2026. Ce journal conserve les étapes intermédiaires ; le bilan actuel est dans [VALIDATION-VAISSEAU.md](VALIDATION-VAISSEAU.md). Deux missions FPS complètes, 29 tests ciblés et reconstruction réussis. Les trois nouveaux acteurs tactiques entraînés ont été comparés et rejetés.
+
 # Ship expansion — work in progress
 
 Implemented this turn:

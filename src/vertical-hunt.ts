@@ -16,6 +16,7 @@ export function verticalStep(w:World,n:NL):boolean{
  const b=n.belief,h=n.height??0;
  if(v.phase==='climb'){n.height=Math.min(3,h+.22);if(n.height===3)v.phase='traverse';}
  else if(v.phase==='traverse'){
+  if(++v.wait>180){v.phase='drop';v.targetX=n.x;v.targetY=n.y;return true;}
   const r=CEILING_ROUTES[v.route],end=v.reverse?r.a:r.b,d=Math.hypot(end.x-n.x,end.y-n.y);
   if(d<.25){v.phase='perch';v.wait=0;}
   else{const from={x:n.x,y:n.y};n.x+=(end.x-n.x)/d*.24;n.y+=(end.y-n.y)/d*.24;collide(n,.45,w.propSolids,from);}
@@ -27,7 +28,7 @@ export function verticalStep(w:World,n:NL):boolean{
   }else if(v.wait>65){v.phase='drop';v.targetX=n.x;v.targetY=n.y;}
  }else{
   const from={x:n.x,y:n.y},d=Math.hypot(v.targetX-n.x,v.targetY-n.y);
-  if(d>.1){n.x+=(v.targetX-n.x)/d*Math.min(.32,d);n.y+=(v.targetY-n.y)/d*Math.min(.32,d);collide(n,.45,w.propSolids,from);}
+  if(d>1.35){n.x+=(v.targetX-n.x)/d*Math.min(.32,d-1.35);n.y+=(v.targetY-n.y)/d*Math.min(.32,d-1.35);collide(n,.45,w.propSolids,from);}
   n.height=Math.max(0,h-.3);
   if(n.height===0){n.vertical=undefined;n.verticalRest=65;n.recoveryTicks=4;}
  }

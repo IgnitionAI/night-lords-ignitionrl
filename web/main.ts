@@ -1,3 +1,6 @@
+import {beginClimb} from '../src/vertical-hunt';
+import {SHIP_WELLS} from '../src/ship-fittings';
+import {installShipFittings} from './ship-fittings';
 import {restoreVerticalPose,applyVerticalPose} from './vertical-pose';
 import {SHIP_SIZE,SHIP_WALLS,SHIP_LANDMARKS,CEILING_ROUTES} from '../src/ship-layout';
 import { griffeAction, tacticalState } from '../src/griffe';
@@ -92,7 +95,7 @@ applySceneAtmosphere(scene, FOG_MODE);
 const CAM_MODE: CamMode = parseCamMode(qs.get('cam'));
 if (CAM_MODE === 'fps') document.body.classList.add('fps');
 if (CAM_MODE === 'shoulder') document.body.classList.add('shoulder');
-const MISSION = CAM_MODE === 'fps' && !autoplay && !shot && !qs.has('demo') && qs.get('duel') !== '1';
+const MISSION = CAM_MODE === 'fps' && !autoplay && !shot && (!qs.has('demo')||['ceiling','coolant'].includes(qs.get('demo')??'')) && qs.get('duel') !== '1';
 const ARENA=MISSION?SHIP_SIZE:DUEL_ARENA, PILLARS=MISSION?SHIP_WALLS:DUEL_PILLARS;
 if (MISSION) document.body.classList.add('mission');
 let mission = newMission();
@@ -212,8 +215,12 @@ const hullMat = new THREE.MeshStandardMaterial({ map: wallMap, color: 0x8e97a6, 
 const ribMat = new THREE.MeshStandardMaterial({ color: 0x2a2f38, metalness: 0.7, roughness: 0.45 });
 
 const floorMat = ENV ? deckMat : new THREE.MeshStandardMaterial({ color: 0x0e1014, metalness: 0.05, roughness: 0.82 });
-const floor = new THREE.Mesh(new THREE.PlaneGeometry(ARENA.w, ARENA.h), floorMat);
-floor.rotation.x = -Math.PI / 2; floor.position.set(ARENA.w / 2, 0, ARENA.h / 2); floor.receiveShadow = true; scene.add(floor);
+const deckShape=new THREE.Shape();deckShape.moveTo(0,0);deckShape.lineTo(0,-ARENA.h);deckShape.lineTo(ARENA.w,-ARENA.h);deckShape.lineTo(ARENA.w,0);deckShape.closePath();
+if(MISSION)for(const b of SHIP_WELLS){const hole=new THREE.Path();hole.moveTo(b.x0,-b.y0);hole.lineTo(b.x1,-b.y0);hole.lineTo(b.x1,-b.y1);hole.lineTo(b.x0,-b.y1);hole.closePath();deckShape.holes.push(hole);}
+const floor = new THREE.Mesh(MISSION?new THREE.ShapeGeometry(deckShape):new THREE.PlaneGeometry(ARENA.w, ARENA.h), floorMat);
+if(MISSION){const uv=floor.geometry.getAttribute('uv');for(let i=0;i<uv.count;i++)uv.setXY(i,uv.getX(i)/ARENA.w,uv.getY(i)/ARENA.h);uv.needsUpdate=true;}
+floor.rotation.x = -Math.PI / 2; floor.position.set(MISSION?0:ARENA.w / 2, 0, MISSION?0:ARENA.h / 2); floor.receiveShadow = true; scene.add(floor);
+if(MISSION)installShipFittings(scene);
 // La grille était le seul repère d'échelle du grey-box ; gardée derrière ?grid=1.
 const grid = new THREE.GridHelper(40, 40, 0x2a2f3a, 0x15181f); grid.position.set(20, 0.01, 20); grid.scale.set(1, 1, 0.6);
 if (qs.get('grid') === '1') scene.add(grid);
@@ -234,6 +241,7 @@ if(MISSION){
   rail.position.set((r.a.x+r.b.x)/2,5.4,(r.a.y+r.b.y)/2);rail.rotation.y=-Math.atan2(dz,dx);scene.add(rail);
   const handrail=new THREE.Mesh(new THREE.BoxGeometry(len+.8,.09,.75),ribMat);handrail.position.copy(rail.position);handrail.position.y=5.17;handrail.rotation.y=rail.rotation.y;scene.add(handrail);
 
+  for(const p of [r.a,r.b]){for(const side of [-1,1]){const upright=new THREE.Mesh(new THREE.BoxGeometry(.07,5.4,.07),ribMat);upright.position.set(p.x+side*.43,2.7,p.y);scene.add(upright);}}
   for(const p of [r.a,r.b])for(let h=.4;h<5.4;h+=.45){const grip=new THREE.Mesh(new THREE.BoxGeometry(.8,.07,.15),ribMat);grip.position.set(p.x,h,p.y);scene.add(grip);}
  }
  for(const l of SHIP_LANDMARKS){
@@ -804,7 +812,7 @@ const postMat = new THREE.ShaderMaterial({
 postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), postMat));
 
 // ---------- état de jeu
-let w: World, prev: { t: [number, number, number]; n: [number, number, number][] }, rec: Recorder, rng: () => number, tactic: Tactic | null;
+let w: World, prev: { t: [number, number, number]; n: [number, number, number, number][] }, rec: Recorder, rng: () => number, tactic: Tactic | null;
 let roundNo = 0, score = { pack: 0, term: 0 }, paused = false, acc = 0, mixerSim = 0, hitstop = 0, shake = 0, lastActs: number[] = [0, 0, 0, 0], lastP: number[] = [0, 0, 0, 0], tracerT = 0;
 let nlPrevStun = [0, 0, 0, 0], nlPrevAction = [0, 0, 0, 0];
 let nlCamHold = [0, 0, 0, 0];
@@ -868,6 +876,22 @@ const snap = () => ({ t: [w.t.x, w.t.y, w.t.facing] as [number, number, number],
 const DEMO = qs.get('demo');
 interface DemoScript { place(w: World): void; player(t: number): TAction; nls(t: number, w: World): number[] }
 const DEMO_SCRIPTS: Record<string, DemoScript> = {
+  coolant: {
+    place(w:World){Object.assign(w.t,{x:40.4,y:21,facing:Math.PI/2,vx:0,vy:0});w.nls.forEach(n=>n.alive=false);mission.xenos.forEach((g,i)=>{g.x=64+i*.5;g.y=34;});},
+    player(){return {fwd:0,strafe:0,turn:0,bolt:false,fist:false};},
+    nls(){return [0,0,0,0];},
+  },
+  // Focused presentation fixture, never counted as a completed player mission.
+  ceiling: {
+    place(w:World){
+      mission.xenos.forEach(g=>g.hp=0);
+      Object.assign(w.t,{x:24,y:26,facing:-Math.PI/2,vx:0,vy:0});
+      w.nls.forEach(n=>n.alive=false);const n=w.nls[0];
+      Object.assign(n,{alive:true,x:24,y:15,facing:Math.PI/2,hp:7,stunTicks:0,armTicks:0});beginClimb(w,n);
+    },
+    player(){return {fwd:0,strafe:0,turn:0,bolt:false,fist:false};},
+    nls(_t,w){return w.nls.map((n,i)=>n.alive?griffeAction(w,i,1):0);},
+  },
   // Deux effets que le jeu joué ne donne jamais ensemble, à portée de lecture :
   //   t13 — le frère du flanc arme sa griffe (2 ticks, décidés par la simulation) et la rafale part :
   //   `?shot=14` montre les deux ensemble — armTicks = 1, flash à 75 % de sa course.
@@ -1428,7 +1452,7 @@ function tick() {
   if (CAM_MODE === 'fps') {
     if (DEMO_CFG) {
       fpsLook.yaw = w.t.facing;
-      fpsLook.pitch = -0.06;
+      fpsLook.pitch = DEMO==='ceiling'?.45:DEMO==='coolant'?-.3:-.06;
     } else if (autoplay) {
       const aim = pickAutoplayFocus(w.t, w.nls, w.events, fpsMeleeLock, w.tick);
       fpsMeleeLock = aim.lock;
@@ -1527,7 +1551,7 @@ function hud() {
   const prompt = document.getElementById('fps-prompt');
   if (prompt) { prompt.style.display = (FPS_DUEL || MISSION) && (!fpsStarted || paused) && !roundOver ? 'block' : 'none'; prompt.textContent = MISSION && !scene.userData.genestealersLoaded ? (scene.userData.genestealerError ? 'Chargement interrompu · Recharger la mission' : 'Préparation de la mission…') : paused ? 'Pause · P pour reprendre' : MISSION ? 'OPÉRATION CENDRES · Cliquer pour entrer' : 'DUEL FPS · Cliquer pour entrer'; }
   const status = matchStatus(w);
-  if (MISSION) {status.clock=mission.phase==='escape' ? `${Math.floor(Math.ceil(mission.remaining)/60)}:${String(Math.ceil(mission.remaining)%60).padStart(2,'0')}` : 'NON ARMÉE'; status.timePressure=mission.phase==='escape' && mission.remaining<20;}
+  if (MISSION) {status.clock=mission.phase==='escape' ? `${Math.floor(Math.ceil(mission.remaining)/60)}:${String(Math.ceil(mission.remaining)%60).padStart(2,'0')}` : mission.phase==='extracted'?'HORS ZONE':'NON ARMÉE'; status.timePressure=mission.phase==='escape' && mission.remaining<20;}
   h.innerHTML = CAM_MODE === 'fps' ? fpsHudMarkup(status, extra) : hudMarkup(matchStatus(w), extra);
   (window as unknown as { __NL?: unknown }).__NL = {
     mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, muted: engine.muted,

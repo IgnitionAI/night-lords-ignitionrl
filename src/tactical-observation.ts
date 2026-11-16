@@ -1,6 +1,6 @@
 import {nlFrame,angNorm,rayFree,type World} from './sim';
-export const TACTICAL_DIM=16,TACTICAL_ACTIONS=6;
-export const TACTICAL_NAMES=['assault','flank-left','flank-right','cover','dodge','ceiling'];
+export const TACTICAL_DIM=16,TACTICAL_ACTIONS=7;
+export const TACTICAL_NAMES=['assault','flank-left','flank-right','cover','dodge','ceiling','synchronize'];
 /** Actor inputs contain only own state, finite memory, perceived mates and public geometry. */
 export function tacticalObservation(w:World,i:number):Float32Array{
  const n=w.nls[i],b=n.belief,f=nlFrame(n);

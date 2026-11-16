@@ -18,3 +18,10 @@ test('all ship landmarks and objectives connect with Terminator clearance, inclu
  return found;}
  for(const blocked of [false,true]){const cells=flood(blocked);for(const p of [...SHIP_LANDMARKS,CORE,EXTRACTION])expect(cells.has(`${p.x},${p.y}`)).toBe(true);}
 });
+
+test('coolant wells block feet but leave bridge and sightline open',()=>{
+ const w=newWorld(1,undefined,{mission:true});
+ const p={x:36,y:24};collide(p,.8,w.propSolids);expect(Math.hypot(p.x-36,p.y-24)).toBeGreaterThan(.8);
+ const bridge={x:40,y:24};collide(bridge,.8,w.propSolids);expect(bridge).toEqual({x:40,y:24});
+ expect(los(34.5,24,40,24,w.propSolids)).toBe(true);
+});

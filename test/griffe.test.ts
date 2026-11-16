@@ -1,6 +1,6 @@
 import {PROP_KINDS} from '../src/props';
 import {test,expect} from 'bun:test';
-import {newWorld,nlFrame,rayFree} from '../src/sim';
+import {newWorld,nlFrame,rayFree,observe} from '../src/sim';
 import {griffeAction,tacticalState} from '../src/griffe';
 test('navigation corrects a blocked approach using fresh belief',()=>{
  const w=newWorld(4,undefined,{fps:true}),n=w.nls[0];n.x=16.3;n.y=12;n.facing=0;
@@ -54,3 +54,18 @@ test('mission shelter routing depends on belief, not hidden actual player coordi
  griffeAction(w,2,0);expect(tacticalState(w,2)?.mode).toBe('cover');
  w.tick=121;griffeAction(w,2,0);expect(tacticalState(w,2)?.mode).toBe('attack');
  });
+
+test('legacy mission actor cannot read unseen player armor or objective channel',()=>{
+ const w=newWorld(4,undefined,{fps:true,mission:true});w.nls[0].belief.valid=false;
+ const before=observe(w,0);w.t.hp=1;w.t.channel=50;
+ expect(observe(w,0)).toEqual(before);
+});
+
+test('synchronization waits briefly and cannot delay a perceived rear opening',()=>{
+ const w=newWorld(527,undefined,{fps:true,mission:true}),n=w.nls[2];w.tick=100;n.x=25;n.y=12;
+ n.belief={valid:true,x:31,y:12,age:0,facing:Math.PI,seen:true,heard:false,vox:false};n.dodgeRest=20;
+ n.mates[0]={known:true,alive:true,x:27,y:12,age:0};
+ expect(griffeAction(w,2,1)).toBe(0);expect(tacticalState(w,2)?.mode).toBe('sync');
+ w.tick=113;griffeAction(w,2,1);expect(tacticalState(w,2)?.mode).not.toBe('sync');
+ n.belief.facing=0;w.tick=114;griffeAction(w,2,1);expect(tacticalState(w,2)?.mode).toBe('attack');
+});

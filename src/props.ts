@@ -94,6 +94,7 @@ export function propCore(kind: PropKind): { hx: number; hy: number; height: numb
 }
 
 export interface PropPrism {
+  blocksSight?: boolean;
   index: number;
   kind: PropKind;
   cx: number;

@@ -1,3 +1,4 @@
+import {shipFittingPrisms} from './ship-fittings';
 import {verticalStep,type VerticalMotion} from './vertical-hunt';
 import {SHIP_SIZE,SHIP_WALLS,registerShip,isShip} from './ship-layout';
 // Simulation à pas fixe, pure (aucune dépendance) : la même sert au jeu, à l'entraînement et à l'éval.
@@ -64,7 +65,7 @@ export interface Belief { valid: boolean; x: number; y: number; age: number; fac
 export interface Mate { known: boolean; x: number; y: number; age: number; alive: boolean; retreatUntil?: number }
 export interface NL {
   hp?: number;
-  retreatUntil?: number; lastDamageTick?:number; height?: number; vertical?: VerticalMotion; verticalRest?: number;
+  observedArmor?: number; retreatUntil?: number; lastDamageTick?:number; height?: number; vertical?: VerticalMotion; verticalRest?: number;
   reloadHeardUntil?: number; shotRest?: number;
   dodgeTicks?: number; dodgeRest?: number; dodgeX?: number; dodgeY?: number;
   burstTicks?: number; burstRest?: number; recoveryTicks?: number;
@@ -142,7 +143,7 @@ export function segHitsBox(ax: number, ay: number, bx: number, by: number, b: Bo
 }
 export function los(ax: number, ay: number, bx: number, by: number, solids: readonly PropPrism[] = []): boolean {
   for (const b of geometry(solids).walls) if (segHitsBox(ax, ay, bx, by, b)) return false;
-  for (const o of solids) if (o.floor && distSegPrism(ax, ay, bx, by, o).d === 0) return false;
+  for (const o of solids) if (o.floor && o.blocksSight!==false && distSegPrism(ax, ay, bx, by, o).d === 0) return false;
   return true;
 }
 function insideAny(x: number, y: number, m: number, solids: readonly PropPrism[] = []) {
@@ -177,7 +178,7 @@ export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: 
   const rng = mulberry32(seed);
   const propKinds = (opts.propKinds ?? []) as PropKind[];
   const propSolids = propKinds.length ? propPrisms(propKinds) : [];
-  if(opts.mission)registerShip(propSolids);
+  if(opts.mission){propSolids.push(...shipFittingPrisms());registerShip(propSolids);}
   const t: Term = { x: 3, y: opts.mission ? 12 : 6 + rng() * 12, facing: 0, hp: T_CFG.hp, boltCd: 0, fistCd: 0, noise: T_CFG.noiseIdle, moving: false, channel: 0, lastHitTick: -999, lastHitAngle: 0,
     vx: 0, vy: 0, turnVel: 0, strideAcc: 0, foot: 0,
     ammo: T_CFG.boltAmmo, burstLeft: 0, burstCd: 0, reloadLeft: 0, fistCharge: 0,
@@ -230,7 +231,7 @@ function perceive(w: World) {
     const b = n.belief; b.seen = seers.includes(n);
     if(w.opts.mission && t.reloadLeft>0 && (b.seen || (dist(n.x,n.y,t.x,t.y)<7 && los(n.x,n.y,t.x,t.y,w.propSolids)))) n.reloadHeardUntil=w.tick+t.reloadLeft;
     b.vox = !b.seen && seers.some(m => dist(m.x, m.y, n.x, n.y) <= NL_CFG.voxRange); b.heard = false;
-    if (b.seen || b.vox) { b.valid = true; b.x = t.x; b.y = t.y; b.age = 0; b.facing = t.facing; }
+    if (b.seen || b.vox) { b.valid = true; b.x = t.x; b.y = t.y; b.age = 0; b.facing = t.facing; n.observedArmor=t.hp; }
     else {
       b.facing = null;
       if (dist(n.x, n.y, t.x, t.y) <= t.noise) {
@@ -263,8 +264,8 @@ export function observe(w: World, i: number): number[] {
   o.push(Math.min(1, b.valid ? b.age / 50 : 1), Math.min(1, f.d / 20));
   if (b.facing !== null) { const rel = angNorm(Math.atan2(n.y - b.y, n.x - b.x) - b.facing); o.push(Math.cos(rel), Math.sin(rel)); }
   else o.push(0, 0);
-  o.push(w.t.hp / T_CFG.hp); // armure entamée : visible et relayée (règle publique du prototype)
-  o.push(w.t.channel / T_CFG.channel); // la balise s'illumine pendant la téléportation : publique
+  o.push((w.opts.mission ? (b.valid&&b.age<50 ? n.observedArmor??T_CFG.hp : T_CFG.hp) : w.t.hp) / T_CFG.hp); // armure entamée : visible et relayée (règle publique du prototype)
+  o.push(w.opts.mission ? 0 : w.t.channel / T_CFG.channel); // la balise s'illumine pendant la téléportation : publique
   for (let j = 0; j < N_NL; j++) {
     if (j === i) continue; const k = n.mates[j];
     const dx = k.x - n.x, dy = k.y - n.y, live = k.alive && k.age < 99;
@@ -479,8 +480,9 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   for (let i = 0; i < w.nls.length; i++) {
     const n = w.nls[i]; if (!n.alive || died[i]) {if(n.vertical)verticalStep(w,n);continue;}
     if(verticalStep(w,n))continue;
+    const recovering=w.opts.mission&&(n.recoveryTicks??0)>0;
     if ((n.recoveryTicks ?? 0) > 0) n.recoveryTicks!--;
-    const a = acts[i] ?? 0; n.lastAction = a; const f = nlFrame(n); n.noise = 0;
+    const a = recovering?0:acts[i] ?? 0; n.lastAction = a; const f = nlFrame(n); n.noise = 0;
     const stunned = n.stunTicks > 0; // stagger du gantelet : ni attaque, ni course
     if (n.cd > 0 && !stunned) n.cd--; // le cd de griffe est **gelé** pendant le stagger : la prochaine attaque est repoussée d'autant
     // armement en cours : le coup tombe quand le compte atteint 0, soit 2 ticks après l'annonce (il était parti avant le choc)
@@ -511,7 +513,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
     if (d < mind && d > 0) { n.x = t.x + (n.x - t.x) / d * mind; n.y = t.y + (n.y - t.y) / d * mind; collide(n, NL_CFG.radius, w.propSolids); }
     if (w.opts.fps) {
       if(n.shotRest) n.shotRest--;
-      if (stunned) n.shotTicks = 0;
+      if (stunned || recovering) n.shotTicks = 0;
       else if ((n.shotTicks ?? 0) > 0) {
         n.shotTicks!--;
         if (n.shotTicks === 0) {
@@ -531,7 +533,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
     }
   }
   for (let i = 0; i < w.nls.length; i++) for (let j = i + 1; j < w.nls.length; j++) {
-    const a = w.nls[i], b = w.nls[j]; if (!a.alive || !b.alive) continue;
+    const a = w.nls[i], b = w.nls[j]; if (!a.alive || !b.alive || Math.abs((a.height??0)-(b.height??0))>1.4) continue;
     const d = dist(a.x, a.y, b.x, b.y), m = 2 * NL_CFG.radius;
     if (d < m && d > 0) { const p = (m - d) / 2; a.x -= (b.x - a.x) / d * p; a.y -= (b.y - a.y) / d * p; b.x += (b.x - a.x) / d * p; b.y += (b.y - a.y) / d * p; }
   }

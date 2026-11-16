@@ -57,6 +57,8 @@ export function missionStep(w: World, m: Mission, ta: TAction, acts: number[], i
 
 }
 export function missionText(w: World,m: Mission) {
+  if(m.phase==='extracted')return 'EXTRACTION RÉUSSIE · Charge armée · Mission accomplie';
+  if(m.phase==='lost')return `MISSION ÉCHOUÉE · ${w.reason}`;
   const target=m.phase==='escape'?EXTRACTION:CORE;
   const d=Math.ceil(Math.hypot(w.t.x-target.x,w.t.y-target.y));
   const heading=angNorm(Math.atan2(target.y-w.t.y,target.x-w.t.x)-w.t.facing);

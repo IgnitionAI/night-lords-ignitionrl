@@ -1,0 +1,2676 @@
+[
+  {
+    "target": [
+      10,
+      12
+    ],
+    "state": {
+      "mission": {
+        "phase": "infiltration",
+        "planted": 0,
+        "remaining": 90,
+        "extraction": 0,
+        "cleared": false,
+        "narrative": 0,
+        "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+        "radioUntil": 90,
+        "xenos": [
+          {
+            "x": 22,
+            "y": 20,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 40,
+            "y": 24,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 54,
+            "y": 20,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 62,
+            "y": 6,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 60,
+            "y": 32,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 24,
+            "y": 32,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          }
+        ]
+      },
+      "tick": 13,
+      "done": false,
+      "winner": null,
+      "reason": "",
+      "seed": 527,
+      "muted": false,
+      "hunt": {
+        "agents": [
+          {
+            "x": 48.62404437401284,
+            "y": 11.725356480829815,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "search",
+              "until": 0,
+              "search": 0,
+              "syncRest": 0
+            },
+            "alive": true,
+            "action": 1
+          },
+          {
+            "x": 33.41288960474557,
+            "y": 18.45,
+            "height": 0,
+            "tactic": {
+              "role": "bait",
+              "mode": "search",
+              "until": 0,
+              "search": 1,
+              "syncRest": 0
+            },
+            "alive": true,
+            "action": 4
+          },
+          {
+            "x": 56.017956028278235,
+            "y": 25.0225304364667,
+            "height": 0,
+            "tactic": {
+              "role": "hunter",
+              "mode": "search",
+              "until": 0,
+              "search": 2,
+              "syncRest": 0
+            },
+            "alive": true,
+            "action": 1
+          },
+          {
+            "x": 51.93001015282678,
+            "y": 27.309589326285472,
+            "height": 0,
+            "tactic": {
+              "role": "interceptor",
+              "mode": "search",
+              "until": 0,
+              "search": 3,
+              "syncRest": 0
+            },
+            "alive": true,
+            "action": 5
+          }
+        ]
+      },
+      "playerPosition": {
+        "x": 9.22,
+        "y": 12
+      },
+      "genestealersLoaded": 6,
+      "rendering": {
+        "frame": 252,
+        "calls": 1,
+        "triangles": 2,
+        "points": 0,
+        "lines": 0
+      },
+      "hp": 30,
+      "nlsAlive": 4,
+      "fistCharge": 0,
+      "events": [],
+      "seen": [
+        "step"
+      ],
+      "eventWho": [],
+      "msgShown": false,
+      "audio": {
+        "ok": true,
+        "enabled": true,
+        "muted": false,
+        "unlocked": true,
+        "state": "running",
+        "decoded": [
+          "term-step-01",
+          "bolter-shot",
+          "claw-metal",
+          "fist-impact",
+          "music-explore",
+          "bolter-echo",
+          "ir-corridor",
+          "bolter-casing",
+          "bolter-explode",
+          "claw-swoosh",
+          "claw-crackle",
+          "term-step-02",
+          "term-step-03",
+          "fist-hum",
+          "term-hydraulic",
+          "amb-drone",
+          "nl-step-01",
+          "nl-step-03",
+          "term-servo",
+          "nl-step-02",
+          "nl-jump",
+          "alarm-klaxon",
+          "amb-drip",
+          "nl-death",
+          "stinger-victory",
+          "nl-vox-come-for-you",
+          "armor-lock",
+          "nl-scream",
+          "armor-tread",
+          "amb-duct",
+          "stinger-defeat",
+          "armor-vibro",
+          "music-tension",
+          "music-combat",
+          "claw-swoosh::claw-swoosh-02.ogg",
+          "fist-impact::fist-impact-02.ogg",
+          "claw-metal::claw-metal-02.ogg",
+          "bolter-shot::bolter-shot-02.ogg",
+          "bolter-casing::bolter-casing-02.ogg",
+          "claw-crackle::claw-crackle-02.ogg",
+          "bolter-explode::bolter-explode-02.ogg",
+          "claw-swoosh::claw-swoosh-03.ogg",
+          "claw-metal::claw-metal-03.ogg",
+          "fist-impact::fist-impact-03.ogg",
+          "bolter-shot::bolter-shot-03.ogg",
+          "bolter-casing::bolter-casing-03.ogg",
+          "claw-crackle::claw-crackle-03.ogg",
+          "bolter-explode::bolter-explode-03.ogg"
+        ],
+        "missing": [],
+        "samples": 34,
+        "activeVoices": 18,
+        "polyphony": 18,
+        "musicPhase": "silence",
+        "ducked": false
+      },
+      "playSpeed": 1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "run",
+          "clip": "Armature|running|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "proc-dodge-right",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "run",
+          "clip": "Armature|running|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "run",
+          "clip": "Armature|running|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    }
+  },
+  {
+    "target": [
+      10,
+      6
+    ],
+    "state": {
+      "mission": {
+        "phase": "infiltration",
+        "planted": 0,
+        "remaining": 90,
+        "extraction": 0,
+        "cleared": false,
+        "narrative": 0,
+        "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+        "radioUntil": 90,
+        "xenos": [
+          {
+            "x": 22,
+            "y": 20,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 40,
+            "y": 24,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 54,
+            "y": 20,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 62,
+            "y": 6,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 60,
+            "y": 32,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 24,
+            "y": 32,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          }
+        ]
+      },
+      "tick": 31,
+      "done": false,
+      "winner": null,
+      "reason": "",
+      "seed": 527,
+      "muted": false,
+      "hunt": {
+        "agents": [
+          {
+            "x": 40.259666032814216,
+            "y": 11.595704416563915,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "search",
+              "until": 0,
+              "search": 0,
+              "syncRest": 0
+            },
+            "alive": true,
+            "action": 1
+          },
+          {
+            "x": 27.31081382382089,
+            "y": 20.232549566553566,
+            "height": 0,
+            "tactic": {
+              "role": "bait",
+              "mode": "search",
+              "until": 0,
+              "search": 1,
+              "syncRest": 0
+            },
+            "alive": true,
+            "action": 4
+          },
+          {
+            "x": 49.17841451147807,
+            "y": 21.166176578711493,
+            "height": 0,
+            "tactic": {
+              "role": "hunter",
+              "mode": "search",
+              "until": 0,
+              "search": 2,
+              "syncRest": 0
+            },
+            "alive": true,
+            "action": 6
+          },
+          {
+            "x": 53.61918281892665,
+            "y": 19.412339562670187,
+            "height": 0,
+            "tactic": {
+              "role": "interceptor",
+              "mode": "search",
+              "until": 0,
+              "search": 3,
+              "syncRest": 0
+            },
+            "alive": true,
+            "action": 3
+          }
+        ]
+      },
+      "playerPosition": {
+        "x": 10.499827341452454,
+        "y": 6.17739051406802
+      },
+      "genestealersLoaded": 6,
+      "rendering": {
+        "frame": 585,
+        "calls": 1,
+        "triangles": 2,
+        "points": 0,
+        "lines": 0
+      },
+      "hp": 30,
+      "nlsAlive": 4,
+      "fistCharge": 0,
+      "events": [],
+      "seen": [
+        "step"
+      ],
+      "eventWho": [],
+      "msgShown": false,
+      "audio": {
+        "ok": true,
+        "enabled": true,
+        "muted": false,
+        "unlocked": true,
+        "state": "running",
+        "decoded": [
+          "term-step-01",
+          "bolter-shot",
+          "claw-metal",
+          "fist-impact",
+          "music-explore",
+          "bolter-echo",
+          "ir-corridor",
+          "bolter-casing",
+          "bolter-explode",
+          "claw-swoosh",
+          "claw-crackle",
+          "term-step-02",
+          "term-step-03",
+          "fist-hum",
+          "term-hydraulic",
+          "amb-drone",
+          "nl-step-01",
+          "nl-step-03",
+          "term-servo",
+          "nl-step-02",
+          "nl-jump",
+          "alarm-klaxon",
+          "amb-drip",
+          "nl-death",
+          "stinger-victory",
+          "nl-vox-come-for-you",
+          "armor-lock",
+          "nl-scream",
+          "armor-tread",
+          "amb-duct",
+          "stinger-defeat",
+          "armor-vibro",
+          "music-tension",
+          "music-combat",
+          "claw-swoosh::claw-swoosh-02.ogg",
+          "fist-impact::fist-impact-02.ogg",
+          "claw-metal::claw-metal-02.ogg",
+          "bolter-shot::bolter-shot-02.ogg",
+          "bolter-casing::bolter-casing-02.ogg",
+          "claw-crackle::claw-crackle-02.ogg",
+          "bolter-explode::bolter-explode-02.ogg",
+          "claw-swoosh::claw-swoosh-03.ogg",
+          "claw-metal::claw-metal-03.ogg",
+          "fist-impact::fist-impact-03.ogg",
+          "bolter-shot::bolter-shot-03.ogg",
+          "bolter-casing::bolter-casing-03.ogg",
+          "claw-crackle::claw-crackle-03.ogg",
+          "bolter-explode::bolter-explode-03.ogg"
+        ],
+        "missing": [],
+        "samples": 34,
+        "activeVoices": 8,
+        "polyphony": 18,
+        "musicPhase": "silence",
+        "ducked": false
+      },
+      "playSpeed": 1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "run",
+          "clip": "Armature|running|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "proc-dodge-right",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": true,
+          "kind": "run",
+          "clip": "Armature|running|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": true,
+          "kind": "run",
+          "clip": "Armature|running|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    }
+  },
+  {
+    "target": [
+      62,
+      6
+    ],
+    "state": {
+      "mission": {
+        "phase": "infiltration",
+        "planted": 0,
+        "remaining": 90,
+        "extraction": 0,
+        "cleared": true,
+        "narrative": 3,
+        "radio": "GRIFFE ÉLIMINÉE · La chasse est terminée. Achevez le sabotage et évacuez.",
+        "radioUntil": 299,
+        "xenos": [
+          {
+            "x": 21.062769756665435,
+            "y": 18.395087163430812,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": true
+          },
+          {
+            "x": 40,
+            "y": 24,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 54,
+            "y": 20,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 62,
+            "y": 6,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 60,
+            "y": 32,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 24,
+            "y": 32,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          }
+        ]
+      },
+      "tick": 367,
+      "done": false,
+      "winner": null,
+      "reason": "",
+      "seed": 527,
+      "muted": false,
+      "hunt": {
+        "agents": [
+          {
+            "x": 30.27189769023973,
+            "y": 11.137112991581517,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 90,
+              "search": 0,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 2
+          },
+          {
+            "x": 20.79113645285681,
+            "y": 11.560012604879017,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 121,
+              "search": 2,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 40.728472664426725,
+            "y": 19.003571854978468,
+            "height": 0,
+            "tactic": {
+              "role": "hunter",
+              "mode": "withdraw",
+              "until": 253,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 38.30325860713991,
+            "y": 20.660905698971007,
+            "height": 0,
+            "tactic": {
+              "role": "interceptor",
+              "mode": "withdraw",
+              "until": 206,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 6
+          }
+        ]
+      },
+      "playerPosition": {
+        "x": 62.1156159667582,
+        "y": 5.950098392332643
+      },
+      "genestealersLoaded": 6,
+      "rendering": {
+        "frame": 6753,
+        "calls": 1,
+        "triangles": 2,
+        "points": 0,
+        "lines": 0
+      },
+      "hp": 28,
+      "nlsAlive": 0,
+      "fistCharge": 0,
+      "events": [],
+      "seen": [
+        "step",
+        "bolt",
+        "enemyAim",
+        "enemyBolt",
+        "hit",
+        "fistCharge",
+        "fistReady",
+        "fist"
+      ],
+      "eventWho": [],
+      "msgShown": false,
+      "audio": {
+        "ok": true,
+        "enabled": true,
+        "muted": false,
+        "unlocked": true,
+        "state": "running",
+        "decoded": [
+          "term-step-01",
+          "bolter-shot",
+          "claw-metal",
+          "fist-impact",
+          "music-explore",
+          "bolter-echo",
+          "ir-corridor",
+          "bolter-casing",
+          "bolter-explode",
+          "claw-swoosh",
+          "claw-crackle",
+          "term-step-02",
+          "term-step-03",
+          "fist-hum",
+          "term-hydraulic",
+          "amb-drone",
+          "nl-step-01",
+          "nl-step-03",
+          "term-servo",
+          "nl-step-02",
+          "nl-jump",
+          "alarm-klaxon",
+          "amb-drip",
+          "nl-death",
+          "stinger-victory",
+          "nl-vox-come-for-you",
+          "armor-lock",
+          "nl-scream",
+          "armor-tread",
+          "amb-duct",
+          "stinger-defeat",
+          "armor-vibro",
+          "music-tension",
+          "music-combat",
+          "claw-swoosh::claw-swoosh-02.ogg",
+          "fist-impact::fist-impact-02.ogg",
+          "claw-metal::claw-metal-02.ogg",
+          "bolter-shot::bolter-shot-02.ogg",
+          "bolter-casing::bolter-casing-02.ogg",
+          "claw-crackle::claw-crackle-02.ogg",
+          "bolter-explode::bolter-explode-02.ogg",
+          "claw-swoosh::claw-swoosh-03.ogg",
+          "claw-metal::claw-metal-03.ogg",
+          "fist-impact::fist-impact-03.ogg",
+          "bolter-shot::bolter-shot-03.ogg",
+          "bolter-casing::bolter-casing-03.ogg",
+          "claw-crackle::claw-crackle-03.ogg",
+          "bolter-explode::bolter-explode-03.ogg"
+        ],
+        "missing": [],
+        "samples": 34,
+        "activeVoices": 3,
+        "polyphony": 18,
+        "musicPhase": "tension",
+        "ducked": false
+      },
+      "playSpeed": 1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    }
+  },
+  {
+    "target": [
+      62,
+      14
+    ],
+    "state": {
+      "mission": {
+        "phase": "infiltration",
+        "planted": 0,
+        "remaining": 90,
+        "extraction": 0,
+        "cleared": true,
+        "narrative": 3,
+        "radio": "GRIFFE ÉLIMINÉE · La chasse est terminée. Achevez le sabotage et évacuez.",
+        "radioUntil": 299,
+        "xenos": [
+          {
+            "x": 21.062769756665435,
+            "y": 18.395087163430812,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": true
+          },
+          {
+            "x": 40,
+            "y": 24,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 54,
+            "y": 20,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 62,
+            "y": 6,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 60,
+            "y": 32,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 24,
+            "y": 32,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          }
+        ]
+      },
+      "tick": 385,
+      "done": false,
+      "winner": null,
+      "reason": "",
+      "seed": 527,
+      "muted": false,
+      "hunt": {
+        "agents": [
+          {
+            "x": 30.27189769023973,
+            "y": 11.137112991581517,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 90,
+              "search": 0,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 2
+          },
+          {
+            "x": 20.79113645285681,
+            "y": 11.560012604879017,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 121,
+              "search": 2,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 40.728472664426725,
+            "y": 19.003571854978468,
+            "height": 0,
+            "tactic": {
+              "role": "hunter",
+              "mode": "withdraw",
+              "until": 253,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 38.30325860713991,
+            "y": 20.660905698971007,
+            "height": 0,
+            "tactic": {
+              "role": "interceptor",
+              "mode": "withdraw",
+              "until": 206,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 6
+          }
+        ]
+      },
+      "playerPosition": {
+        "x": 62.01913190485774,
+        "y": 13.55978538865108
+      },
+      "genestealersLoaded": 6,
+      "rendering": {
+        "frame": 7083,
+        "calls": 1,
+        "triangles": 2,
+        "points": 0,
+        "lines": 0
+      },
+      "hp": 28,
+      "nlsAlive": 0,
+      "fistCharge": 0,
+      "events": [],
+      "seen": [
+        "step",
+        "bolt",
+        "enemyAim",
+        "enemyBolt",
+        "hit",
+        "fistCharge",
+        "fistReady",
+        "fist"
+      ],
+      "eventWho": [],
+      "msgShown": false,
+      "audio": {
+        "ok": true,
+        "enabled": true,
+        "muted": false,
+        "unlocked": true,
+        "state": "running",
+        "decoded": [
+          "term-step-01",
+          "bolter-shot",
+          "claw-metal",
+          "fist-impact",
+          "music-explore",
+          "bolter-echo",
+          "ir-corridor",
+          "bolter-casing",
+          "bolter-explode",
+          "claw-swoosh",
+          "claw-crackle",
+          "term-step-02",
+          "term-step-03",
+          "fist-hum",
+          "term-hydraulic",
+          "amb-drone",
+          "nl-step-01",
+          "nl-step-03",
+          "term-servo",
+          "nl-step-02",
+          "nl-jump",
+          "alarm-klaxon",
+          "amb-drip",
+          "nl-death",
+          "stinger-victory",
+          "nl-vox-come-for-you",
+          "armor-lock",
+          "nl-scream",
+          "armor-tread",
+          "amb-duct",
+          "stinger-defeat",
+          "armor-vibro",
+          "music-tension",
+          "music-combat",
+          "claw-swoosh::claw-swoosh-02.ogg",
+          "fist-impact::fist-impact-02.ogg",
+          "claw-metal::claw-metal-02.ogg",
+          "bolter-shot::bolter-shot-02.ogg",
+          "bolter-casing::bolter-casing-02.ogg",
+          "claw-crackle::claw-crackle-02.ogg",
+          "bolter-explode::bolter-explode-02.ogg",
+          "claw-swoosh::claw-swoosh-03.ogg",
+          "claw-metal::claw-metal-03.ogg",
+          "fist-impact::fist-impact-03.ogg",
+          "bolter-shot::bolter-shot-03.ogg",
+          "bolter-casing::bolter-casing-03.ogg",
+          "claw-crackle::claw-crackle-03.ogg",
+          "bolter-explode::bolter-explode-03.ogg"
+        ],
+        "missing": [],
+        "samples": 34,
+        "activeVoices": 1,
+        "polyphony": 18,
+        "musicPhase": "silence",
+        "ducked": false
+      },
+      "playSpeed": 1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    }
+  },
+  {
+    "target": [
+      67,
+      14
+    ],
+    "state": {
+      "mission": {
+        "phase": "infiltration",
+        "planted": 0,
+        "remaining": 90,
+        "extraction": 0,
+        "cleared": true,
+        "narrative": 3,
+        "radio": "GRIFFE ÉLIMINÉE · La chasse est terminée. Achevez le sabotage et évacuez.",
+        "radioUntil": 299,
+        "xenos": [
+          {
+            "x": 21.062769756665435,
+            "y": 18.395087163430812,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": true
+          },
+          {
+            "x": 40,
+            "y": 24,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 54,
+            "y": 20,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 62,
+            "y": 6,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 60,
+            "y": 32,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 24,
+            "y": 32,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          }
+        ]
+      },
+      "tick": 397,
+      "done": false,
+      "winner": null,
+      "reason": "",
+      "seed": 527,
+      "muted": false,
+      "hunt": {
+        "agents": [
+          {
+            "x": 30.27189769023973,
+            "y": 11.137112991581517,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 90,
+              "search": 0,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 2
+          },
+          {
+            "x": 20.79113645285681,
+            "y": 11.560012604879017,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 121,
+              "search": 2,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 40.728472664426725,
+            "y": 19.003571854978468,
+            "height": 0,
+            "tactic": {
+              "role": "hunter",
+              "mode": "withdraw",
+              "until": 253,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 38.30325860713991,
+            "y": 20.660905698971007,
+            "height": 0,
+            "tactic": {
+              "role": "interceptor",
+              "mode": "withdraw",
+              "until": 206,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 6
+          }
+        ]
+      },
+      "playerPosition": {
+        "x": 66.72452444613812,
+        "y": 13.99114573882946
+      },
+      "genestealersLoaded": 6,
+      "rendering": {
+        "frame": 7296,
+        "calls": 1,
+        "triangles": 2,
+        "points": 0,
+        "lines": 0
+      },
+      "hp": 28,
+      "nlsAlive": 0,
+      "fistCharge": 0,
+      "events": [
+        "step"
+      ],
+      "seen": [
+        "step",
+        "bolt",
+        "enemyAim",
+        "enemyBolt",
+        "hit",
+        "fistCharge",
+        "fistReady",
+        "fist"
+      ],
+      "eventWho": [
+        null
+      ],
+      "msgShown": false,
+      "audio": {
+        "ok": true,
+        "enabled": true,
+        "muted": false,
+        "unlocked": true,
+        "state": "running",
+        "decoded": [
+          "term-step-01",
+          "bolter-shot",
+          "claw-metal",
+          "fist-impact",
+          "music-explore",
+          "bolter-echo",
+          "ir-corridor",
+          "bolter-casing",
+          "bolter-explode",
+          "claw-swoosh",
+          "claw-crackle",
+          "term-step-02",
+          "term-step-03",
+          "fist-hum",
+          "term-hydraulic",
+          "amb-drone",
+          "nl-step-01",
+          "nl-step-03",
+          "term-servo",
+          "nl-step-02",
+          "nl-jump",
+          "alarm-klaxon",
+          "amb-drip",
+          "nl-death",
+          "stinger-victory",
+          "nl-vox-come-for-you",
+          "armor-lock",
+          "nl-scream",
+          "armor-tread",
+          "amb-duct",
+          "stinger-defeat",
+          "armor-vibro",
+          "music-tension",
+          "music-combat",
+          "claw-swoosh::claw-swoosh-02.ogg",
+          "fist-impact::fist-impact-02.ogg",
+          "claw-metal::claw-metal-02.ogg",
+          "bolter-shot::bolter-shot-02.ogg",
+          "bolter-casing::bolter-casing-02.ogg",
+          "claw-crackle::claw-crackle-02.ogg",
+          "bolter-explode::bolter-explode-02.ogg",
+          "claw-swoosh::claw-swoosh-03.ogg",
+          "claw-metal::claw-metal-03.ogg",
+          "fist-impact::fist-impact-03.ogg",
+          "bolter-shot::bolter-shot-03.ogg",
+          "bolter-casing::bolter-casing-03.ogg",
+          "claw-crackle::claw-crackle-03.ogg",
+          "bolter-explode::bolter-explode-03.ogg"
+        ],
+        "missing": [],
+        "samples": 34,
+        "activeVoices": 3,
+        "polyphony": 18,
+        "musicPhase": "silence",
+        "ducked": false
+      },
+      "playSpeed": 1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    }
+  },
+  {
+    "target": [
+      62,
+      14
+    ],
+    "state": {
+      "mission": {
+        "phase": "escape",
+        "planted": 40,
+        "remaining": 85.00000000000028,
+        "extraction": 0,
+        "cleared": true,
+        "narrative": 3,
+        "radio": "CHARGE ARMÉE · 90 secondes. Repliez-vous au sas initial !",
+        "radioUntil": 509,
+        "xenos": [
+          {
+            "x": 21.062769756665435,
+            "y": 18.395087163430812,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": true
+          },
+          {
+            "x": 40,
+            "y": 24,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 54,
+            "y": 20,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 62,
+            "y": 6,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 60,
+            "y": 32,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 24,
+            "y": 32,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          }
+        ]
+      },
+      "tick": 489,
+      "done": false,
+      "winner": null,
+      "reason": "",
+      "seed": 527,
+      "muted": false,
+      "hunt": {
+        "agents": [
+          {
+            "x": 30.27189769023973,
+            "y": 11.137112991581517,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 90,
+              "search": 0,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 2
+          },
+          {
+            "x": 20.79113645285681,
+            "y": 11.560012604879017,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 121,
+              "search": 2,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 40.728472664426725,
+            "y": 19.003571854978468,
+            "height": 0,
+            "tactic": {
+              "role": "hunter",
+              "mode": "withdraw",
+              "until": 253,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 38.30325860713991,
+            "y": 20.660905698971007,
+            "height": 0,
+            "tactic": {
+              "role": "interceptor",
+              "mode": "withdraw",
+              "until": 206,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 6
+          }
+        ]
+      },
+      "playerPosition": {
+        "x": 62.28437992725067,
+        "y": 14.000007999901513
+      },
+      "genestealersLoaded": 6,
+      "rendering": {
+        "frame": 8952,
+        "calls": 1,
+        "triangles": 2,
+        "points": 0,
+        "lines": 0
+      },
+      "hp": 28,
+      "nlsAlive": 0,
+      "fistCharge": 0,
+      "events": [
+        "step"
+      ],
+      "seen": [
+        "step",
+        "bolt",
+        "enemyAim",
+        "enemyBolt",
+        "hit",
+        "fistCharge",
+        "fistReady",
+        "fist"
+      ],
+      "eventWho": [
+        null
+      ],
+      "msgShown": false,
+      "audio": {
+        "ok": true,
+        "enabled": true,
+        "muted": false,
+        "unlocked": true,
+        "state": "running",
+        "decoded": [
+          "term-step-01",
+          "bolter-shot",
+          "claw-metal",
+          "fist-impact",
+          "music-explore",
+          "bolter-echo",
+          "ir-corridor",
+          "bolter-casing",
+          "bolter-explode",
+          "claw-swoosh",
+          "claw-crackle",
+          "term-step-02",
+          "term-step-03",
+          "fist-hum",
+          "term-hydraulic",
+          "amb-drone",
+          "nl-step-01",
+          "nl-step-03",
+          "term-servo",
+          "nl-step-02",
+          "nl-jump",
+          "alarm-klaxon",
+          "amb-drip",
+          "nl-death",
+          "stinger-victory",
+          "nl-vox-come-for-you",
+          "armor-lock",
+          "nl-scream",
+          "armor-tread",
+          "amb-duct",
+          "stinger-defeat",
+          "armor-vibro",
+          "music-tension",
+          "music-combat",
+          "claw-swoosh::claw-swoosh-02.ogg",
+          "fist-impact::fist-impact-02.ogg",
+          "claw-metal::claw-metal-02.ogg",
+          "bolter-shot::bolter-shot-02.ogg",
+          "bolter-casing::bolter-casing-02.ogg",
+          "claw-crackle::claw-crackle-02.ogg",
+          "bolter-explode::bolter-explode-02.ogg",
+          "claw-swoosh::claw-swoosh-03.ogg",
+          "claw-metal::claw-metal-03.ogg",
+          "fist-impact::fist-impact-03.ogg",
+          "bolter-shot::bolter-shot-03.ogg",
+          "bolter-casing::bolter-casing-03.ogg",
+          "claw-crackle::claw-crackle-03.ogg",
+          "bolter-explode::bolter-explode-03.ogg"
+        ],
+        "missing": [],
+        "samples": 34,
+        "activeVoices": 3,
+        "polyphony": 18,
+        "musicPhase": "silence",
+        "ducked": false
+      },
+      "playSpeed": 1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    }
+  },
+  {
+    "target": [
+      62,
+      6
+    ],
+    "state": {
+      "mission": {
+        "phase": "escape",
+        "planted": 40,
+        "remaining": 83.20000000000039,
+        "extraction": 0,
+        "cleared": true,
+        "narrative": 3,
+        "radio": "CHARGE ARMÉE · 90 secondes. Repliez-vous au sas initial !",
+        "radioUntil": 509,
+        "xenos": [
+          {
+            "x": 21.062769756665435,
+            "y": 18.395087163430812,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": true
+          },
+          {
+            "x": 40,
+            "y": 24,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 54,
+            "y": 20,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 62,
+            "y": 6,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 60,
+            "y": 32,
+            "hp": 2,
+            "windup": 0,
+            "cooldown": 0,
+            "active": false
+          },
+          {
+            "x": 24,
+            "y": 32,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          }
+        ]
+      },
+      "tick": 507,
+      "done": false,
+      "winner": null,
+      "reason": "",
+      "seed": 527,
+      "muted": false,
+      "hunt": {
+        "agents": [
+          {
+            "x": 30.27189769023973,
+            "y": 11.137112991581517,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 90,
+              "search": 0,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 2
+          },
+          {
+            "x": 20.79113645285681,
+            "y": 11.560012604879017,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 121,
+              "search": 2,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 40.728472664426725,
+            "y": 19.003571854978468,
+            "height": 0,
+            "tactic": {
+              "role": "hunter",
+              "mode": "withdraw",
+              "until": 253,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 38.30325860713991,
+            "y": 20.660905698971007,
+            "height": 0,
+            "tactic": {
+              "role": "interceptor",
+              "mode": "withdraw",
+              "until": 206,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 6
+          }
+        ]
+      },
+      "playerPosition": {
+        "x": 62.000153431711254,
+        "y": 6.280162776219564
+      },
+      "genestealersLoaded": 6,
+      "rendering": {
+        "frame": 9276,
+        "calls": 1,
+        "triangles": 2,
+        "points": 0,
+        "lines": 0
+      },
+      "hp": 28,
+      "nlsAlive": 0,
+      "fistCharge": 0,
+      "events": [],
+      "seen": [
+        "step",
+        "bolt",
+        "enemyAim",
+        "enemyBolt",
+        "hit",
+        "fistCharge",
+        "fistReady",
+        "fist"
+      ],
+      "eventWho": [],
+      "msgShown": false,
+      "audio": {
+        "ok": true,
+        "enabled": true,
+        "muted": false,
+        "unlocked": true,
+        "state": "running",
+        "decoded": [
+          "term-step-01",
+          "bolter-shot",
+          "claw-metal",
+          "fist-impact",
+          "music-explore",
+          "bolter-echo",
+          "ir-corridor",
+          "bolter-casing",
+          "bolter-explode",
+          "claw-swoosh",
+          "claw-crackle",
+          "term-step-02",
+          "term-step-03",
+          "fist-hum",
+          "term-hydraulic",
+          "amb-drone",
+          "nl-step-01",
+          "nl-step-03",
+          "term-servo",
+          "nl-step-02",
+          "nl-jump",
+          "alarm-klaxon",
+          "amb-drip",
+          "nl-death",
+          "stinger-victory",
+          "nl-vox-come-for-you",
+          "armor-lock",
+          "nl-scream",
+          "armor-tread",
+          "amb-duct",
+          "stinger-defeat",
+          "armor-vibro",
+          "music-tension",
+          "music-combat",
+          "claw-swoosh::claw-swoosh-02.ogg",
+          "fist-impact::fist-impact-02.ogg",
+          "claw-metal::claw-metal-02.ogg",
+          "bolter-shot::bolter-shot-02.ogg",
+          "bolter-casing::bolter-casing-02.ogg",
+          "claw-crackle::claw-crackle-02.ogg",
+          "bolter-explode::bolter-explode-02.ogg",
+          "claw-swoosh::claw-swoosh-03.ogg",
+          "claw-metal::claw-metal-03.ogg",
+          "fist-impact::fist-impact-03.ogg",
+          "bolter-shot::bolter-shot-03.ogg",
+          "bolter-casing::bolter-casing-03.ogg",
+          "claw-crackle::claw-crackle-03.ogg",
+          "bolter-explode::bolter-explode-03.ogg"
+        ],
+        "missing": [],
+        "samples": 34,
+        "activeVoices": 1,
+        "polyphony": 18,
+        "musicPhase": "silence",
+        "ducked": false
+      },
+      "playSpeed": 1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    }
+  },
+  {
+    "target": [
+      10,
+      6
+    ],
+    "state": {
+      "mission": {
+        "phase": "escape",
+        "planted": 40,
+        "remaining": 66.10000000000136,
+        "extraction": 0,
+        "cleared": true,
+        "narrative": 3,
+        "radio": "CHARGE ARMÉE · 90 secondes. Repliez-vous au sas initial !",
+        "radioUntil": 509,
+        "xenos": [
+          {
+            "x": 21.062769756665435,
+            "y": 18.395087163430812,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": true
+          },
+          {
+            "x": 40,
+            "y": 24,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 54,
+            "y": 20,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 62,
+            "y": 6,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 60,
+            "y": 32,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 24,
+            "y": 32,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          }
+        ]
+      },
+      "tick": 678,
+      "done": false,
+      "winner": null,
+      "reason": "",
+      "seed": 527,
+      "muted": false,
+      "hunt": {
+        "agents": [
+          {
+            "x": 30.27189769023973,
+            "y": 11.137112991581517,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 90,
+              "search": 0,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 2
+          },
+          {
+            "x": 20.79113645285681,
+            "y": 11.560012604879017,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 121,
+              "search": 2,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 40.728472664426725,
+            "y": 19.003571854978468,
+            "height": 0,
+            "tactic": {
+              "role": "hunter",
+              "mode": "withdraw",
+              "until": 253,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 38.30325860713991,
+            "y": 20.660905698971007,
+            "height": 0,
+            "tactic": {
+              "role": "interceptor",
+              "mode": "withdraw",
+              "until": 206,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 6
+          }
+        ]
+      },
+      "playerPosition": {
+        "x": 10.500109785632105,
+        "y": 6.317905749338123
+      },
+      "genestealersLoaded": 6,
+      "rendering": {
+        "frame": 12363,
+        "calls": 1,
+        "triangles": 2,
+        "points": 0,
+        "lines": 0
+      },
+      "hp": 28,
+      "nlsAlive": 0,
+      "fistCharge": 0,
+      "events": [],
+      "seen": [
+        "step",
+        "bolt",
+        "enemyAim",
+        "enemyBolt",
+        "hit",
+        "fistCharge",
+        "fistReady",
+        "fist"
+      ],
+      "eventWho": [],
+      "msgShown": false,
+      "audio": {
+        "ok": true,
+        "enabled": true,
+        "muted": false,
+        "unlocked": true,
+        "state": "running",
+        "decoded": [
+          "term-step-01",
+          "bolter-shot",
+          "claw-metal",
+          "fist-impact",
+          "music-explore",
+          "bolter-echo",
+          "ir-corridor",
+          "bolter-casing",
+          "bolter-explode",
+          "claw-swoosh",
+          "claw-crackle",
+          "term-step-02",
+          "term-step-03",
+          "fist-hum",
+          "term-hydraulic",
+          "amb-drone",
+          "nl-step-01",
+          "nl-step-03",
+          "term-servo",
+          "nl-step-02",
+          "nl-jump",
+          "alarm-klaxon",
+          "amb-drip",
+          "nl-death",
+          "stinger-victory",
+          "nl-vox-come-for-you",
+          "armor-lock",
+          "nl-scream",
+          "armor-tread",
+          "amb-duct",
+          "stinger-defeat",
+          "armor-vibro",
+          "music-tension",
+          "music-combat",
+          "claw-swoosh::claw-swoosh-02.ogg",
+          "fist-impact::fist-impact-02.ogg",
+          "claw-metal::claw-metal-02.ogg",
+          "bolter-shot::bolter-shot-02.ogg",
+          "bolter-casing::bolter-casing-02.ogg",
+          "claw-crackle::claw-crackle-02.ogg",
+          "bolter-explode::bolter-explode-02.ogg",
+          "claw-swoosh::claw-swoosh-03.ogg",
+          "claw-metal::claw-metal-03.ogg",
+          "fist-impact::fist-impact-03.ogg",
+          "bolter-shot::bolter-shot-03.ogg",
+          "bolter-casing::bolter-casing-03.ogg",
+          "claw-crackle::claw-crackle-03.ogg",
+          "bolter-explode::bolter-explode-03.ogg"
+        ],
+        "missing": [],
+        "samples": 34,
+        "activeVoices": 0,
+        "polyphony": 18,
+        "musicPhase": "silence",
+        "ducked": true
+      },
+      "playSpeed": 1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    }
+  },
+  {
+    "target": [
+      10,
+      12
+    ],
+    "state": {
+      "mission": {
+        "phase": "escape",
+        "planted": 40,
+        "remaining": 64.70000000000144,
+        "extraction": 0,
+        "cleared": true,
+        "narrative": 3,
+        "radio": "CHARGE ARMÉE · 90 secondes. Repliez-vous au sas initial !",
+        "radioUntil": 509,
+        "xenos": [
+          {
+            "x": 21.062769756665435,
+            "y": 18.395087163430812,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": true
+          },
+          {
+            "x": 40,
+            "y": 24,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 54,
+            "y": 20,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 62,
+            "y": 6,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 60,
+            "y": 32,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 24,
+            "y": 32,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          }
+        ]
+      },
+      "tick": 692,
+      "done": false,
+      "winner": null,
+      "reason": "",
+      "seed": 527,
+      "muted": false,
+      "hunt": {
+        "agents": [
+          {
+            "x": 30.27189769023973,
+            "y": 11.137112991581517,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 90,
+              "search": 0,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 2
+          },
+          {
+            "x": 20.79113645285681,
+            "y": 11.560012604879017,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 121,
+              "search": 2,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 40.728472664426725,
+            "y": 19.003571854978468,
+            "height": 0,
+            "tactic": {
+              "role": "hunter",
+              "mode": "withdraw",
+              "until": 253,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 38.30325860713991,
+            "y": 20.660905698971007,
+            "height": 0,
+            "tactic": {
+              "role": "interceptor",
+              "mode": "withdraw",
+              "until": 206,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 6
+          }
+        ]
+      },
+      "playerPosition": {
+        "x": 10.06394464629756,
+        "y": 11.240474665143156
+      },
+      "genestealersLoaded": 6,
+      "rendering": {
+        "frame": 12600,
+        "calls": 1,
+        "triangles": 2,
+        "points": 0,
+        "lines": 0
+      },
+      "hp": 28,
+      "nlsAlive": 0,
+      "fistCharge": 0,
+      "events": [],
+      "seen": [
+        "step",
+        "bolt",
+        "enemyAim",
+        "enemyBolt",
+        "hit",
+        "fistCharge",
+        "fistReady",
+        "fist"
+      ],
+      "eventWho": [],
+      "msgShown": false,
+      "audio": {
+        "ok": true,
+        "enabled": true,
+        "muted": false,
+        "unlocked": true,
+        "state": "running",
+        "decoded": [
+          "term-step-01",
+          "bolter-shot",
+          "claw-metal",
+          "fist-impact",
+          "music-explore",
+          "bolter-echo",
+          "ir-corridor",
+          "bolter-casing",
+          "bolter-explode",
+          "claw-swoosh",
+          "claw-crackle",
+          "term-step-02",
+          "term-step-03",
+          "fist-hum",
+          "term-hydraulic",
+          "amb-drone",
+          "nl-step-01",
+          "nl-step-03",
+          "term-servo",
+          "nl-step-02",
+          "nl-jump",
+          "alarm-klaxon",
+          "amb-drip",
+          "nl-death",
+          "stinger-victory",
+          "nl-vox-come-for-you",
+          "armor-lock",
+          "nl-scream",
+          "armor-tread",
+          "amb-duct",
+          "stinger-defeat",
+          "armor-vibro",
+          "music-tension",
+          "music-combat",
+          "claw-swoosh::claw-swoosh-02.ogg",
+          "fist-impact::fist-impact-02.ogg",
+          "claw-metal::claw-metal-02.ogg",
+          "bolter-shot::bolter-shot-02.ogg",
+          "bolter-casing::bolter-casing-02.ogg",
+          "claw-crackle::claw-crackle-02.ogg",
+          "bolter-explode::bolter-explode-02.ogg",
+          "claw-swoosh::claw-swoosh-03.ogg",
+          "claw-metal::claw-metal-03.ogg",
+          "fist-impact::fist-impact-03.ogg",
+          "bolter-shot::bolter-shot-03.ogg",
+          "bolter-casing::bolter-casing-03.ogg",
+          "claw-crackle::claw-crackle-03.ogg",
+          "bolter-explode::bolter-explode-03.ogg"
+        ],
+        "missing": [],
+        "samples": 34,
+        "activeVoices": 3,
+        "polyphony": 18,
+        "musicPhase": "silence",
+        "ducked": true
+      },
+      "playSpeed": 1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    }
+  },
+  {
+    "target": [
+      3,
+      12
+    ],
+    "state": {
+      "mission": {
+        "phase": "escape",
+        "planted": 40,
+        "remaining": 63.100000000001465,
+        "extraction": 0,
+        "cleared": true,
+        "narrative": 3,
+        "radio": "CHARGE ARMÉE · 90 secondes. Repliez-vous au sas initial !",
+        "radioUntil": 509,
+        "xenos": [
+          {
+            "x": 21.062769756665435,
+            "y": 18.395087163430812,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": true
+          },
+          {
+            "x": 40,
+            "y": 24,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 54,
+            "y": 20,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 62,
+            "y": 6,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 60,
+            "y": 32,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          },
+          {
+            "x": 24,
+            "y": 32,
+            "hp": 0,
+            "windup": 0,
+            "cooldown": 7,
+            "active": false
+          }
+        ]
+      },
+      "tick": 708,
+      "done": false,
+      "winner": null,
+      "reason": "",
+      "seed": 527,
+      "muted": false,
+      "hunt": {
+        "agents": [
+          {
+            "x": 30.27189769023973,
+            "y": 11.137112991581517,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 90,
+              "search": 0,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 2
+          },
+          {
+            "x": 20.79113645285681,
+            "y": 11.560012604879017,
+            "height": 0,
+            "tactic": {
+              "role": "leader",
+              "mode": "withdraw",
+              "until": 121,
+              "search": 2,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 40.728472664426725,
+            "y": 19.003571854978468,
+            "height": 0,
+            "tactic": {
+              "role": "hunter",
+              "mode": "withdraw",
+              "until": 253,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 4
+          },
+          {
+            "x": 38.30325860713991,
+            "y": 20.660905698971007,
+            "height": 0,
+            "tactic": {
+              "role": "interceptor",
+              "mode": "withdraw",
+              "until": 206,
+              "search": 6,
+              "syncRest": 0
+            },
+            "alive": false,
+            "action": 6
+          }
+        ]
+      },
+      "playerPosition": {
+        "x": 3.3391940218541096,
+        "y": 11.976710752398684
+      },
+      "genestealersLoaded": 6,
+      "rendering": {
+        "frame": 12900,
+        "calls": 1,
+        "triangles": 2,
+        "points": 0,
+        "lines": 0
+      },
+      "hp": 28,
+      "nlsAlive": 0,
+      "fistCharge": 0,
+      "events": [],
+      "seen": [
+        "step",
+        "bolt",
+        "enemyAim",
+        "enemyBolt",
+        "hit",
+        "fistCharge",
+        "fistReady",
+        "fist"
+      ],
+      "eventWho": [],
+      "msgShown": false,
+      "audio": {
+        "ok": true,
+        "enabled": true,
+        "muted": false,
+        "unlocked": true,
+        "state": "running",
+        "decoded": [
+          "term-step-01",
+          "bolter-shot",
+          "claw-metal",
+          "fist-impact",
+          "music-explore",
+          "bolter-echo",
+          "ir-corridor",
+          "bolter-casing",
+          "bolter-explode",
+          "claw-swoosh",
+          "claw-crackle",
+          "term-step-02",
+          "term-step-03",
+          "fist-hum",
+          "term-hydraulic",
+          "amb-drone",
+          "nl-step-01",
+          "nl-step-03",
+          "term-servo",
+          "nl-step-02",
+          "nl-jump",
+          "alarm-klaxon",
+          "amb-drip",
+          "nl-death",
+          "stinger-victory",
+          "nl-vox-come-for-you",
+          "armor-lock",
+          "nl-scream",
+          "armor-tread",
+          "amb-duct",
+          "stinger-defeat",
+          "armor-vibro",
+          "music-tension",
+          "music-combat",
+          "claw-swoosh::claw-swoosh-02.ogg",
+          "fist-impact::fist-impact-02.ogg",
+          "claw-metal::claw-metal-02.ogg",
+          "bolter-shot::bolter-shot-02.ogg",
+          "bolter-casing::bolter-casing-02.ogg",
+          "claw-crackle::claw-crackle-02.ogg",
+          "bolter-explode::bolter-explode-02.ogg",
+          "claw-swoosh::claw-swoosh-03.ogg",
+          "claw-metal::claw-metal-03.ogg",
+          "fist-impact::fist-impact-03.ogg",
+          "bolter-shot::bolter-shot-03.ogg",
+          "bolter-casing::bolter-casing-03.ogg",
+          "claw-crackle::claw-crackle-03.ogg",
+          "bolter-explode::bolter-explode-03.ogg"
+        ],
+        "missing": [],
+        "samples": 34,
+        "activeVoices": 2,
+        "polyphony": 18,
+        "musicPhase": "silence",
+        "ducked": true
+      },
+      "playSpeed": 1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "proc-death-throw",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        }
+      ]
+    }
+  }
+]
