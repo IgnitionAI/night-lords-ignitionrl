@@ -1,3 +1,4 @@
+import { replaceNightLordHelmet } from './nightlord-helmet';
 import { installDreadHull, addNightLordTrophies } from './dread-detail';
 import { eliteDuelAction } from '../src/fps-duel';
 // Rendu Three.js d'une sim pure à pas fixe (src/sim.ts) : modèles riggés, décor, capsules en repli.
@@ -418,6 +419,7 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   const h = measureHeight(root);
   root.scale.setScalar(targetHeight / h);
   root.rotation.y = Math.PI / 2; // le modele regarde +Z, la simulation regarde +X
+  if (look === 'nl') replaceNightLordHelmet(root);
   root.traverse((o: any) => {
     o.frustumCulled = false;
     if (!o.isMesh) return;

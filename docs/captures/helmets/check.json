@@ -1,0 +1,47 @@
+{
+  "errors": [],
+  "report": [
+    {
+      "model": 1,
+      "removedFaces": 1624,
+      "parent": "Head",
+      "scale": 0.8695652770384454
+    },
+    {
+      "model": 2,
+      "removedFaces": 328,
+      "parent": "Head",
+      "scale": 0.8695649511123399
+    },
+    {
+      "model": 3,
+      "removedFaces": 850,
+      "parent": "Head",
+      "scale": 0.8695651609471143
+    },
+    {
+      "model": 4,
+      "removedFaces": 1497,
+      "parent": "Head",
+      "scale": 0.8695651714870386
+    }
+  ],
+  "attachment": [
+    {
+      "parent": "Head",
+      "error": 0
+    },
+    {
+      "parent": "Head",
+      "error": 0
+    },
+    {
+      "parent": "Head",
+      "error": 0
+    },
+    {
+      "parent": "Head",
+      "error": 0
+    }
+  ]
+}
