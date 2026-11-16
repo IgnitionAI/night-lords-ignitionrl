@@ -1,0 +1,50 @@
+[
+  {
+    "path": "",
+    "status": 200
+  },
+  {
+    "path": "./modulepreload-polyfill.js",
+    "status": 200
+  },
+  {
+    "path": "./policy.js",
+    "status": 200
+  },
+  {
+    "path": "./main2.js",
+    "status": 200
+  },
+  {
+    "path": "./main.css",
+    "status": 200
+  },
+  {
+    "path": "fps.html",
+    "status": 200
+  },
+  {
+    "path": "./fps.js",
+    "status": 200
+  },
+  {
+    "path": "./modulepreload-polyfill.js",
+    "status": 200
+  },
+  {
+    "path": "./SkeletonUtils.js",
+    "status": 200
+  },
+  {
+    "path": "./policy.js",
+    "status": 200
+  },
+  {
+    "path": "./fps.css",
+    "status": 200
+  },
+  {
+    "path": "policy/strategy-actor.json",
+    "status": 200
+  }
+]

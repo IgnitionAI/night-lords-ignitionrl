@@ -45,7 +45,9 @@ createServer(async (req, res) => {
   }
   let p = url.pathname === '/' ? '/web/dist/index.html' : url.pathname === '/sas' ? '/web/dist/sas.html' : url.pathname; // pages construites par vite
   if (p.startsWith('/policy/')) p = '/policies/' + p.slice(8);
-  const f = join(ROOT, p);
+  let f = join(ROOT, p);
+  // Vite emits relative assets and the preserved FPS beside the entry HTML.
+  if (!existsSync(f)) f = join(ROOT, 'web/dist', p);
   if (!f.startsWith(ROOT) || !existsSync(f)) { res.writeHead(404); return res.end('404'); }
   res.writeHead(200, { 'content-type': types[extname(f)] ?? 'application/octet-stream', 'cache-control': 'no-store' }); res.end(readFileSync(f));
 }).listen(PORT, '127.0.0.1', () => console.log(`proto sur http://127.0.0.1:${PORT}/`));

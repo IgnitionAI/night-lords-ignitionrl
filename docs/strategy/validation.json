@@ -1,0 +1,47 @@
+{
+  "strategyTests": 18,
+  "regressionTests": 25,
+  "browserMatches": [
+    {
+      "mode": "adaptive",
+      "winner": "imperium",
+      "turns": 11,
+      "score": {
+        "imperium": 12,
+        "nightlords": 4
+      },
+      "errors": []
+    },
+    {
+      "mode": "baseline",
+      "winner": "nightlords",
+      "turns": 18,
+      "score": {
+        "imperium": 17,
+        "nightlords": 36
+      },
+      "errors": []
+    },
+    {
+      "mode": "ppo",
+      "winner": "imperium",
+      "turns": 21,
+      "score": {
+        "imperium": 31,
+        "nightlords": 10
+      },
+      "errors": []
+    }
+  ],
+  "fps": {
+    "errors": [],
+    "canvas": true
+  },
+  "policySHA256": "c97f67f9c540b5d7c50bef0eb5d31fa5d7746b48a7a6859ab9f03e65b51e96d3",
+  "limitations": [
+    "Durée humaine 15–20 minutes visée, non mesurée.",
+    "Quatre configurations de portes et trois styles scriptés ; pas de généralisation à de nouvelles cartes démontrée.",
+    "PPO local dérivé d’IgnitionAI, pas installation du framework complet."
+  ],
+  "published": false
+}

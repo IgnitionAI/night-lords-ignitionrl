@@ -16,7 +16,7 @@ const ROOT = import.meta.dirname;
 const flattenHtml = () => ({
   name: 'nl-flatten-html',
   closeBundle() {
-    for (const name of ['index.html', 'sas.html']) {
+    for (const name of ['index.html', 'sas.html', 'strategy.html', 'fps.html']) {
       const from = resolve(ROOT, `web/dist/web/${name}`), to = resolve(ROOT, `web/dist/${name}`);
       if (existsSync(from)) {
         const html = readFileSync(from, 'utf8').replaceAll('../', './');
@@ -64,7 +64,7 @@ export default ({ command }) => ({
     sourcemap: false,
     chunkSizeWarningLimit: 900,
     rollupOptions: {
-      input: { index: resolve(ROOT, 'web/index.html'), sas: resolve(ROOT, 'web/sas.html') },
+      input: { index: resolve(ROOT, 'web/index.html'), sas: resolve(ROOT, 'web/sas.html'), strategy: resolve(ROOT, 'web/strategy.html'), fps: resolve(ROOT, 'web/fps.html') },
       output: {
         entryFileNames: chunk => chunk.name === 'index' ? 'main.js' : '[name].js',
         chunkFileNames: '[name].js',
