@@ -1,6 +1,5 @@
-import {SHIP_SIZE,SHIP_WALLS,SHIP_LANDMARKS} from '../src/ship-layout';
-import {huntPhase} from '../src/hunt-rhythm';
-import { griffeAction } from '../src/griffe';
+import {SHIP_SIZE,SHIP_WALLS,SHIP_LANDMARKS,CEILING_ROUTES} from '../src/ship-layout';
+import { griffeAction, tacticalState } from '../src/griffe';
 import { newMission, missionStep, missionText } from '../src/mission';
 import { missionScene } from './mission-scene';
 import { refinedArmor, finishArmorMaterial, finishArmorShader } from './refined-armor';
@@ -228,6 +227,12 @@ const M = (x: number, y: number, z: number, sx: number, sy: number, sz: number) 
   new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion(), new THREE.Vector3(sx, sy, sz));
 
 if(MISSION){
+ for(const r of CEILING_ROUTES){
+  const dx=r.b.x-r.a.x,dz=r.b.y-r.a.y,len=Math.hypot(dx,dz);
+  const rail=new THREE.Mesh(new THREE.BoxGeometry(len+.8,.18,.35),ribMat);
+  rail.position.set((r.a.x+r.b.x)/2,5.4,(r.a.y+r.b.y)/2);rail.rotation.y=-Math.atan2(dz,dx);scene.add(rail);
+  for(const p of [r.a,r.b])for(let h=.4;h<5.4;h+=.45){const grip=new THREE.Mesh(new THREE.BoxGeometry(.8,.07,.15),ribMat);grip.position.set(p.x,h,p.y);scene.add(grip);}
+ }
  for(const l of SHIP_LANDMARKS){
   const c=document.createElement('canvas');c.width=512;c.height=128;
   const g=c.getContext('2d')!;g.fillStyle='#10202a';g.fillRect(0,0,512,128);
@@ -847,7 +852,7 @@ if (CAM_MODE === 'fps') {
     }
   });
 }
-const snap = () => ({ t: [w.t.x, w.t.y, w.t.facing] as [number, number, number], n: w.nls.map(n => [n.x, n.y, n.facing] as [number, number, number]) });
+const snap = () => ({ t: [w.t.x, w.t.y, w.t.facing] as [number, number, number], n: w.nls.map(n => [n.x, n.y, n.facing,n.height??0] as [number, number, number,number]) });
 // ---------- mode démo : mise en scène des ENTRÉES, jamais de la simulation
 // `?demo=reveal` place les cinq acteurs et leur donne un script d'actions. Le pas de simulation reste
 // intact : c'est step(w, ta, acts) qui décide des dégâts, des événements et du bruit. Ce qui est fabriqué,
@@ -1320,7 +1325,7 @@ function tick() {
     if (FPS_DUEL) {
       return eliteDuelAction(w, i);
     }
-    if (!actor) { const f = nlFrame(n); return f.d < 1.6 ? 7 : 1; }
+    if (!actor) { const f = nlFrame(n),a=f.d<1.6?7:1; return MISSION?griffeAction(w,i,a):a; }
     const p = softmax(forward(actor, observe(w, i))); const a = sample(p, rng); lastP[i] = p[a]; return MISSION ? griffeAction(w,i,a) : a;
   }); lastActs = acts;
   if (MISSION) {
@@ -1520,7 +1525,7 @@ function hud() {
   h.innerHTML = CAM_MODE === 'fps' ? fpsHudMarkup(status, extra) : hudMarkup(matchStatus(w), extra);
   (window as unknown as { __NL?: unknown }).__NL = {
     mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, muted: engine.muted,
-    hunt: MISSION ? {phase:huntPhase(w.tick), agents:w.nls.map(n=>({x:n.x,y:n.y,alive:n.alive,action:n.lastAction}))} : null,
+    hunt: MISSION ? {agents:w.nls.map((n,i)=>({x:n.x,y:n.y,height:n.height??0,vertical:n.vertical?.phase,tactic:tacticalState(w,i),alive:n.alive,action:n.lastAction}))} : null,
     playerPosition: {x:w.t.x,y:w.t.y}, genestealersLoaded: scene.userData.genestealersLoaded ?? 0, rendering: {...renderer.info.render}, hp: w.t.hp, nlsAlive: w.nls.filter((n) => n.alive).length,
     fistCharge: w.t.fistCharge,
     events: w.events.map((e) => e.type),
@@ -1569,8 +1574,9 @@ function render(alpha: number) {
     const g = nlMeshes[i];
     if (FPS_DUEL && i > 0) { g.visible = false; return; }
     const fall = nlFall[i];
+    g.rotation.z=n.alive&&n.dodgeTicks?-.35*(i%2?1:-1):0;
     const ox = fall?.ox ?? 0, oy = fall?.oy ?? 0, oz = fall?.oz ?? 0;
-    g.position.set(lerp(prev.n[i][0], n.x) + ox, oy, lerp(prev.n[i][1], n.y) + oz);
+    g.position.set(lerp(prev.n[i][0], n.x) + ox, oy+lerp(prev.n[i][3]??0,n.height??0), lerp(prev.n[i][1], n.y) + oz);
     if (nlRigs[i]) g.rotation.y = -la(prev.n[i][2], n.facing);
     else if (!n.alive) { g.rotation.set(Math.PI / 2, 0, 0); g.position.y = 0.4 + oy; }
     else g.rotation.y = -la(prev.n[i][2], n.facing);

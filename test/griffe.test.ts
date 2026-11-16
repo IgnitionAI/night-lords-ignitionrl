@@ -15,12 +15,11 @@ test('stale information cannot trigger a scripted route or reveal the player',()
  expect(griffeAction(w,0,5)).toBe(5);
 });
 
-test('mission rhythm suppresses attacks outside the short strike and never moves bodies itself',()=>{
- const w=newWorld(527,undefined,{fps:true,mission:true}),n=w.nls[0];
- n.belief={valid:true,x:27,y:12,age:0,facing:0,seen:true,heard:false,vox:false};
+test('perceived rear opportunity attacks regardless of old rhythm, without moving bodies',()=>{
  for(const tick of [0,180,360,500]){
-  w.tick=tick;const before={x:n.x,y:n.y,hp:n.hp};
-  expect(griffeAction(w,0,7)).not.toBe(7);
+  const w=newWorld(527,undefined,{fps:true,mission:true}),n=w.nls[0];w.tick=tick;n.x=25.5;n.y=12;
+  n.belief={valid:true,x:27,y:12,age:0,facing:0,seen:true,heard:false,vox:false};
+  const before={x:n.x,y:n.y,hp:n.hp};expect(griffeAction(w,0,0)).toBe(7);
   expect({x:n.x,y:n.y,hp:n.hp}).toEqual(before);
  }
 });

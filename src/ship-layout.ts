@@ -28,3 +28,12 @@ for(let y=0;y<SHIP_SIZE.h;y+=2){let start=-1;for(let x=0;x<=SHIP_SIZE.w;x+=2){
 const missionSolids=new WeakSet<object>();
 export function registerShip(solids:object){missionSolids.add(solids);}
 export function isShip(solids:object){return missionSolids.has(solids);}
+
+/** Physical wall grips and overhead maintenance rails. Endpoints stay above walkable lanes. */
+export const CEILING_ROUTES=[
+ {a:{x:10,y:11},b:{x:24,y:11}},
+ {a:{x:24,y:15},b:{x:24,y:23}},
+ {a:{x:42,y:15},b:{x:42,y:25}},
+ {a:{x:54,y:9},b:{x:62,y:9}},
+ {a:{x:62,y:25},b:{x:62,y:33}},
+];

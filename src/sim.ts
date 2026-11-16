@@ -1,3 +1,4 @@
+import {verticalStep,type VerticalMotion} from './vertical-hunt';
 import {SHIP_SIZE,SHIP_WALLS,registerShip,isShip} from './ship-layout';
 // Simulation à pas fixe, pure (aucune dépendance) : la même sert au jeu, à l'entraînement et à l'éval.
 // Principe repris de The Crucible (IgnitionAI/ignition, packages/demo-cage-duel) : tick fixe de 100 ms,
@@ -63,7 +64,9 @@ export interface Belief { valid: boolean; x: number; y: number; age: number; fac
 export interface Mate { known: boolean; x: number; y: number; age: number; alive: boolean }
 export interface NL {
   hp?: number;
+  lastDamageTick?:number; height?: number; vertical?: VerticalMotion; verticalRest?: number;
   reloadHeardUntil?: number; shotRest?: number;
+  dodgeTicks?: number; dodgeRest?: number; dodgeX?: number; dodgeY?: number;
   burstTicks?: number; burstRest?: number; recoveryTicks?: number;
   shotTicks?: number; shotX?: number; shotY?: number;
   role: number; x: number; y: number; facing: number; alive: boolean; cd: number; armTicks: number; belief: Belief;
@@ -184,7 +187,7 @@ export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: 
   for (let i = 0; i < N_NL; i++) {
     let x = 0, y = 0;
     do { x = opts.mission ? 20 + rng()*46 : 26 + rng() * 12; y = opts.mission ? 4+rng()*30 : 2 + rng() * 20; } while (insideAny(x, y, 0.8, propSolids) || dist(x, y, t.x, t.y) < 12);
-    nls.push({ hp: opts.eliteDuel ? 24 : 3, burstTicks: 0, burstRest: 0, role: i, x, y, facing: Math.PI, alive: true, cd: 0, armTicks: 0, lastAction: 0, noise: 0, mates: [], stunTicks: 0,
+    nls.push({ hp: opts.eliteDuel ? 24 : opts.mission ? 7 : 3, burstTicks: 0, burstRest: 0, role: i, x, y, facing: Math.PI, alive: true, cd: 0, armTicks: 0, lastAction: 0, noise: 0, mates: [], stunTicks: 0,
       belief: { valid: false, x: BEACON.x, y: BEACON.y, age: 99, facing: null, seen: false, heard: false, vox: false } });
   }
   for (const n of nls) n.mates = nls.map(() => ({ known: false, x: n.x, y: n.y, age: 99, alive: true }));
@@ -285,7 +288,7 @@ export interface StepOut { rewards: number[]; died: boolean[] }
 function clawImpact(w: World, i: number, n: NL, rewards: number[], died: boolean[]) {
   const t = w.t;
   if (w.opts.eliteDuel) n.recoveryTicks = 3;
-  if (dist(n.x, n.y, t.x, t.y) > NL_CFG.clawRange) { w.events.push({ type: 'whiff', who: i }); return; }
+  if ((n.height??0)>1 || !los(n.x,n.y,t.x,t.y,w.propSolids) || dist(n.x, n.y, t.x, t.y) > NL_CFG.clawRange) { w.events.push({ type: 'whiff', who: i }); return; }
   const rel = Math.abs(angNorm(Math.atan2(n.y - t.y, n.x - t.x) - t.facing));
   const zone = rel < NL_CFG.frontHalf ? 'front' : rel > NL_CFG.rearHalf ? 'rear' : 'side';
   const dmg = w.opts.eliteDuel ? (zone === 'rear' ? 10 : 8) : w.opts.fps ? (zone === 'rear' ? 4 : 2) : zone === 'front' ? 0 : zone === 'rear' ? NL_CFG.dmgRear : NL_CFG.dmgSide;
@@ -330,7 +333,7 @@ function fistImpact(w: World, died: boolean[]) {
   let best = -1, bd = 1e9;
   w.nls.forEach((n, i) => {
     if (!n.alive) return; const d = dist(n.x, n.y, t.x, t.y);
-    if (d <= T_CFG.fistRange + NL_CFG.radius && Math.abs(angNorm(Math.atan2(n.y - t.y, n.x - t.x) - t.facing)) <= T_CFG.fistHalf && d < bd) { bd = d; best = i; }
+    if ((n.height??0)<1.4 && d <= T_CFG.fistRange + NL_CFG.radius && Math.abs(angNorm(Math.atan2(n.y - t.y, n.x - t.x) - t.facing)) <= T_CFG.fistHalf && d < bd && (!w.opts.mission || los(t.x,t.y,n.x,n.y,w.propSolids))) { bd = d; best = i; }
   });
   const xeno = w.targets?.filter(g=>g.hp>0 && dist(g.x,g.y,t.x,t.y)<Math.min(bd,T_CFG.fistRange+.5) && Math.abs(angNorm(Math.atan2(g.y-t.y,g.x-t.x)-t.facing))<T_CFG.fistHalf && los(t.x,t.y,g.x,g.y,w.propSolids)).sort((a,b)=>dist(a.x,a.y,t.x,t.y)-dist(b.x,b.y,t.x,t.y))[0];
   if (xeno) { xeno.hp=0; xeno.windup=0; best=-1; }
@@ -343,7 +346,7 @@ function fistImpact(w: World, died: boolean[]) {
   }
   // Le choc se propage aux survivants (la cible du contact, elle, est au sol) : c'est « la meute » qui perd l'initiative.
   let staggered = false;
-  for (const n of w.nls) { if (!n.alive || (w.opts.eliteDuel && (best < 0 || n !== w.nls[best]))) continue; n.stunTicks = Math.max(n.stunTicks, T_CFG.fistStunTicks); staggered = true; }
+  for (const n of w.nls) { if (w.opts.mission && (dist(n.x,n.y,t.x,t.y)>3.2 || !los(t.x,t.y,n.x,n.y,w.propSolids))) continue; if (!n.alive || (w.opts.eliteDuel && (best < 0 || n !== w.nls[best]))) continue; n.stunTicks = Math.max(n.stunTicks, T_CFG.fistStunTicks); staggered = true; }
   w.events.push({ type: 'fist', kill: best >= 0 && died[best] ? best : -1, staggered });
 }
 
@@ -435,7 +438,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
         if (!n.alive) return; const d = dist(n.x, n.y, t.x, t.y); if (d > T_CFG.boltRange) return;
         const e = Math.abs(angNorm(Math.atan2(n.y - t.y, n.x - t.x) - t.facing));
         const height = 2.1788 + Math.tan(ta.aimPitch ?? 0) * d;
-        const verticalHit = !w.opts.fps || (height >= 0.1 && height <= 2.5);
+        const verticalHit = !w.opts.fps || (height >= (n.height??0)+0.1 && height <= (n.height??0)+2.5);
         if (verticalHit && e <= (w.opts.fps ? 0.015 : half) + Math.atan2(NL_CFG.radius, d) && d < bd && los(t.x, t.y, n.x, n.y, w.propSolids)) { bd = d; best = i; }
       });
       const xeno = w.targets?.filter(g=> {
@@ -448,7 +451,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
         const n = w.nls[best];
         if (w.opts.fps) {
           const exposed = (n.recoveryTicks ?? 0) > 0 || n.stunTicks > 1;
-          n.hp = (n.hp ?? 3) - (w.opts.eliteDuel && !exposed ? .2 : 1); n.stunTicks = w.opts.eliteDuel ? (exposed ? Math.max(n.stunTicks, 1) : 0) : 3; if (!w.opts.eliteDuel) n.armTicks = 0;
+          n.hp = (n.hp ?? 3) - (w.opts.eliteDuel && !exposed ? .2 : 1); n.lastDamageTick=w.tick; n.stunTicks = w.opts.eliteDuel ? (exposed ? Math.max(n.stunTicks, 1) : 0) : w.opts.mission ? 1 : 3; if (!w.opts.eliteDuel) n.armTicks = 0;
           if (n.hp <= 0) { n.alive = false; died[best] = true; }
         } else { n.alive = false; died[best] = true; }
       }
@@ -474,14 +477,21 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   if (wasReloading) { t.reloadLeft--; if (t.reloadLeft === 0) t.ammo = T_CFG.boltAmmo; }
   // --- Night Lords (mêmes règles de collision et de portée)
   for (let i = 0; i < w.nls.length; i++) {
-    const n = w.nls[i]; if (!n.alive || died[i]) continue;
+    const n = w.nls[i]; if (!n.alive || died[i]) {if(n.vertical)verticalStep(w,n);continue;}
+    if(verticalStep(w,n))continue;
     if ((n.recoveryTicks ?? 0) > 0) n.recoveryTicks!--;
     const a = acts[i] ?? 0; n.lastAction = a; const f = nlFrame(n); n.noise = 0;
     const stunned = n.stunTicks > 0; // stagger du gantelet : ni attaque, ni course
     if (n.cd > 0 && !stunned) n.cd--; // le cd de griffe est **gelé** pendant le stagger : la prochaine attaque est repoussée d'autant
     // armement en cours : le coup tombe quand le compte atteint 0, soit 2 ticks après l'annonce (il était parti avant le choc)
     if (n.armTicks > 0 && --n.armTicks === 0) clawImpact(w, i, n, rewards, died);
-    if (a === 7) {
+    if(n.dodgeRest)n.dodgeRest--;
+    if(w.opts.mission && (n.dodgeTicks??0)>0 && !stunned && !n.armTicks){
+      const from={x:n.x,y:n.y};
+      n.x+=(n.dodgeX??0)*.85;n.y+=(n.dodgeY??0)*.85;
+      collide(n,NL_CFG.radius,w.propSolids,from);n.dodgeTicks!--;
+      n.noise=NL_CFG.noiseMove;
+    } else if (a === 7) {
       n.facing = Math.atan2(f.uy, f.ux);
       if (n.cd === 0 && !stunned) {
         n.cd = NL_CFG.clawCd; n.noise = NL_CFG.noiseClaw;
@@ -491,7 +501,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
     } else if (a > 0) {
       const dirs: Record<number, [number, number]> = { 1: [1, 0], 2: [-1, 0], 3: [0, 1], 4: [0, -1], 5: [0.7071, 0.7071], 6: [0.7071, -0.7071] };
       const [du, dv] = dirs[a]; const mx = f.ux * du + f.vx * dv, my = f.uy * du + f.vy * dv;
-      const sp = (w.opts.eliteDuel ? ((n.burstTicks ?? 0) > 0 ? 8 : 5.4) : w.opts.fps ? 3.2 : NL_CFG.speed) * (stunned ? T_CFG.stunSpeed : 1); // étourdi : il se traîne
+      const sp = (w.opts.eliteDuel ? ((n.burstTicks ?? 0) > 0 ? 8 : 5.4) : w.opts.mission ? 4.8 : w.opts.fps ? 3.2 : NL_CFG.speed) * (stunned ? T_CFG.stunSpeed : 1); // étourdi : il se traîne
       const nx0 = n.x, ny0 = n.y;
       n.x += mx * sp * DT; n.y += my * sp * DT; n.facing = Math.atan2(my, mx); n.noise = NL_CFG.noiseMove;
       collide(n, NL_CFG.radius, w.propSolids, { x: nx0, y: ny0 });

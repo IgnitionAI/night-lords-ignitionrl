@@ -1,11 +1,13 @@
+import {beginClimb} from './vertical-hunt';
+import {CEILING_ROUTES} from './ship-layout';
 import {SHIP_LANDMARKS} from './ship-layout';
 import {shipHeading} from './ship-path';
 import { angNorm, nlFrame, rayFree, los, collide, geometry, type World } from './sim';
 /** Learned actor remains authoritative. A wounded, exposed squadmate may retreat during recovery. */
-export function griffeAction(w:World,i:number,learned:number):number {
+export function griffeAction(w:World,i:number,learned:number,choice?:number):number {
  const n=w.nls[i],b=n.belief;
  if(!n.alive)return 0;
- if(w.opts.mission)return huntAction(w,i,learned);
+ if(w.opts.mission)return huntAction(w,i,learned,choice);
  if(!b.valid||b.age>10||b.facing===null||n.armTicks||n.stunTicks)return learned;
  const f=nlFrame(n),front=Math.abs(angNorm(Math.atan2(n.y-b.y,n.x-b.x)-b.facing));
  if(n.mates.some((m,j)=>j!==i&&m.known&&m.alive&&m.age<10)&&(n.hp??3)===1&&n.cd>0&&front<.6&&f.d<3&&rayFree(n.x,n.y,-f.ux,-f.uy,1.2,w.propSolids)>.9)return 2;
@@ -43,13 +45,14 @@ export type TacticalMode='search'|'flank'|'attack'|'cover'|'withdraw';
 export interface TacticalState {role:ClawRole;mode:TacticalMode;until:number;search:number;}
 const tactics=new WeakMap<World,Map<number,TacticalState>>();
 export function tacticalState(w:World,i:number){return tactics.get(w)?.get(i);}
-function huntAction(w:World,i:number,learned:number):number {
+function huntAction(w:World,i:number,learned:number,choice?:number):number {
  const n=w.nls[i],b=n.belief;
  let states=tactics.get(w);if(!states){states=new Map();tactics.set(w,states);}
  let state=states.get(i);if(!state){state={role:'hunter',mode:'search',until:0,search:i};states.set(i,state);}
  // Roles use only confirmed living mates; never inspect an unseen brother's live position.
  const known=w.nls.map((_,j)=>j).filter(j=>j===i||(n.mates[j]?.known&&n.mates[j].alive&&n.mates[j].age<50));
  state.role=(['leader','bait','hunter','interceptor'] as ClawRole[])[known.indexOf(i)%4];
+ if(n.vertical)return 0;
  if(n.armTicks||n.stunTicks)return 0;
  if(!b.valid||b.age>45){
   state.mode='search';
@@ -58,20 +61,40 @@ function huntAction(w:World,i:number,learned:number):number {
   return travel(w,i,point.x,point.y);
  }
  const d=Math.hypot(n.x-b.x,n.y-b.y);
+ // Scripted reaction to visible aim; a short committed trajectory, not immunity.
+ if(b.seen&&b.facing!==null&&d>2.5&&d<13&&!n.dodgeRest){
+  const aimed=Math.abs(angNorm(Math.atan2(n.y-b.y,n.x-b.x)-b.facing))<.18;
+  if(aimed&&(choice===undefined||choice===4)){
+   const side=i%2?1:-1,dx=-Math.sin(b.facing)*side,dy=Math.cos(b.facing)*side;
+   for(const sign of [1,-1]){
+    const end={x:n.x+dx*sign*2.55,y:n.y+dy*sign*2.55};const expected={...end};
+    collide(end,.45,w.propSolids,n);
+    if(Math.hypot(end.x-expected.x,end.y-expected.y)<.05){n.dodgeX=dx*sign;n.dodgeY=dy*sign;n.dodgeTicks=3;n.dodgeRest=28;break;}
+   }
+  }
+ }
+
  const exposed=b.facing!==null&&Math.abs(angNorm(Math.atan2(n.y-b.y,n.x-b.x)-b.facing))>1.2;
  const support=n.mates.some((m,j)=>j!==i&&m.known&&m.alive&&m.age<15&&Math.hypot(m.x-b.x,m.y-b.y)<9);
  // Reload is an observation acquired by perception, never a read of the player state here.
  const opportunity=b.age<8&&(exposed||n.reloadHeardUntil!>w.tick||support&&d<5);
- if((n.hp??3)<=1&&n.cd>0){state.mode='withdraw';state.until=w.tick+25;}
+ if((n.hp??7)<=4&&w.tick-(n.lastDamageTick??-999)<15){state.mode='withdraw';state.until=w.tick+25;}
  else if(opportunity&&state.mode!=='withdraw'){state.mode='attack';state.until=w.tick+22;}
  else if(w.tick>=state.until)state.mode=state.role==='leader'||state.role==='bait'?'cover':'flank';
+ if(choice!==undefined&&state.mode!=='withdraw')state.mode=choice===0?'attack':choice===3?'cover':'flank';
  if(state.mode==='attack'&&b.age<15){if(d<1.75)return n.cd===0?7:learned;return travel(w,i,b.x,b.y);}
+ if(state.mode==='flank'&&(choice===5||choice===undefined&&state.role==='interceptor')&&!n.verticalRest){
+  if(beginClimb(w,n))return 0;
+  const grips=CEILING_ROUTES.flatMap(r=>[r.a,r.b]).filter(p=>Math.hypot(p.x-n.x,p.y-n.y)<8);
+  grips.sort((a,c)=>Math.hypot(a.x-n.x,a.y-n.y)-Math.hypot(c.x-n.x,c.y-n.y));
+  if(grips[0])return travel(w,i,grips[0].x,grips[0].y);
+ }
  if(state.mode==='cover'&&b.seen&&d>5&&d<11)return 0;
  let cache=shelters.get(w);if(!cache){cache=new Map();shelters.set(w,cache);}
  let target=cache.get(i);
  if(!target||target.until<=w.tick){
   target=undefined;let score=Infinity;const bounds=geometry(w.propSolids).size;
-  const desired=(b.facing??0)+(state.role==='interceptor'?Math.PI:state.role==='hunter'?1.7:-1.3);
+  const desired=(b.facing??0)+(choice===1?1.7:choice===2?-1.7:state.role==='interceptor'?Math.PI:state.role==='hunter'?1.7:-1.3);
   for(let y=1.5;y<bounds.h;y+=2)for(let x=1.5;x<bounds.w;x+=2){
    const range=Math.hypot(x-b.x,y-b.y);if(range<4||range>13)continue;
    const p={x,y};collide(p,.55,w.propSolids);if(Math.hypot(p.x-x,p.y-y)>.01)continue;

@@ -43,11 +43,11 @@ test('a Genestealer actually damages armor after the telegraph',()=>{
 });
 test('complete round trip uses movement, collision lanes and both interaction holds',()=>{
  const {w,m}=setup();Object.assign(w.t,{x:3,y:12,facing:0});
- const walk=(x:number,y:number)=>{let budget=200;while(Math.hypot(x-w.t.x,y-w.t.y)>.6 && budget--){missionStep(w,m,{...T_IDLE,fwd:1,aimYaw:Math.atan2(y-w.t.y,x-w.t.x)},[0,0,0,0],false);}expect(budget).toBeGreaterThan(0);};
- for(const [x,y] of [[14,12],[14,8],[28,8],[28,12],[36,12]])walk(x,y);
+ const walk=(x:number,y:number)=>{let budget=400;while(Math.hypot(x-w.t.x,y-w.t.y)>.6 && budget--){missionStep(w,m,{...T_IDLE,fwd:1,aimYaw:Math.atan2(y-w.t.y,x-w.t.x)},[0,0,0,0],false);}expect(budget).toBeGreaterThan(0);};
+ for(const [x,y] of [[10,12],[10,6],[62,6],[62,14],[67,14]])walk(x,y);
  for(let i=0;i<55;i++)missionStep(w,m,T_IDLE,[0,0,0,0],true);
  expect(m.phase).toBe('escape');
- for(const [x,y] of [[28,12],[28,8],[14,8],[14,12],[3,12]])walk(x,y);
+ for(const [x,y] of [[62,14],[62,12],[3,12]])walk(x,y);
  for(let i=0;i<35;i++)missionStep(w,m,T_IDLE,[0,0,0,0],true);
  expect(m.phase).toBe('extracted');expect(w.t.hp).toBe(30);
 });
