@@ -58,53 +58,26 @@ body.shoulder .offmark{width:22px;height:22px;margin:-11px 0 0 -11px;border-widt
 #fps-fx{display:none}
 @media (max-aspect-ratio:1/1){#dbg{left:8px;right:8px;top:auto;bottom:30px;max-width:none}}
 
-/* Interior of the visor: opaque recessed rim, transparent central aperture. */
-#helmet-shell{display:none;position:fixed;inset:0;pointer-events:none;z-index:2}
-body.fps #helmet-shell{display:block}
-#helmet-shell svg{width:100%;height:100%;display:block}
-body.fps #fps-fx{z-index:3}
-body.fps #hud{inset:0;max-width:none;padding:0;border:0;background:none;z-index:5;color:#d6b76f;font:12px/1.4 ui-monospace,monospace;text-shadow:0 0 6px #8f6d2e80,0 1px 3px #000}
-body.fps #hud .helm{display:contents}
-body.fps #hud .cell{position:absolute}
-body.fps #hud .armor{left:8.5%;top:34%;width:58px}
-body.fps #hud .ammo{right:8.5%;top:34%;width:58px;text-align:right}
-body.fps #hud .cell span{font-size:9px;letter-spacing:.12em;opacity:.9}
-body.fps #hud .cell b{font-size:15px;font-weight:500}
-body.fps #hud .pip{height:clamp(65px,19vh,155px);width:8px;background:repeating-linear-gradient(to top,#5c502f66 0 5px,transparent 5px 8px);position:relative;margin-top:9px;opacity:.85}
-body.fps #hud .ammo .pip{margin-left:auto}
-body.fps #hud .pip u{position:absolute;bottom:0;width:100%;background:repeating-linear-gradient(to top,#d9b25a 0 5px,transparent 5px 8px);filter:drop-shadow(0 0 3px #b38b3c66)}
-body.fps #hud .ammo em{display:block;font-size:9px;font-style:normal;margin-top:8px;white-space:nowrap}
-body.fps #hud .fist{bottom:10.5%;left:36%;text-align:left}
-body.fps #hud .clock{bottom:10.5%;right:36%;text-align:right}
-body.fps #hud .fist b,body.fps #hud .clock b{font-size:12px}
-body.fps #hud .meta{position:absolute;top:8.5%;left:25%;right:25%;text-align:center;font-size:9px;letter-spacing:.16em;color:#c2b284}
-body.fps #hud .score{position:absolute;bottom:3.2%;left:45%;right:30%;font-size:9px;opacity:.5}
-body.fps #hud .pack{position:absolute;bottom:3%;left:35%;font-size:10px;opacity:.6}
-body.fps #hud .alarms{position:absolute;top:15%;left:25%;right:25%;text-align:center;font-size:11px}
-body.fps #hud .demo,body.fps #hud .burn{position:absolute;top:18%;left:25%;right:25%;text-align:center}
-body.fps #help{left:18%;bottom:0.8%;max-width:64%;font-size:9px;line-height:1.2;text-align:center;opacity:.55;z-index:6}
-body.fps #fps-prompt,body.fps #msg{z-index:7}
-@media(max-aspect-ratio:1/1){body.fps #hud .armor{left:9%}body.fps #hud .ammo{right:9%}body.fps #hud .fist{left:24%}body.fps #hud .clock{right:24%}body.fps #hud .meta{left:15%;right:15%;font-size:8px}body.fps #help{font-size:7px;max-width:76%;left:12%}}
-</style></head><body>
+</style><link rel="stylesheet" href="/web/visor.css"></head><body>
 <canvas id="c"></canvas><div id="flash"></div>
 <div id="om0" class="offmark"></div><div id="om1" class="offmark"></div><div id="om2" class="offmark"></div><div id="om3" class="offmark"></div>
 <div id="fps-fx"><div id="reticle"></div><div id="hitmark"></div><div id="dmg"><i class="front"></i><i class="back"></i><i class="left"></i><i class="right"></i></div><div id="threats"></div></div>
 <div id="helmet-shell" aria-hidden="true">
 <svg viewBox="0 0 1000 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-<defs>
- <linearGradient id="helm-steel" x2="0" y2="1"><stop stop-color="#222a31"/><stop offset=".28" stop-color="#080d12"/><stop offset=".72" stop-color="#111820"/><stop offset="1" stop-color="#303740"/></linearGradient>
- <linearGradient id="helm-bevel" x2="0" y2="1"><stop stop-color="#65717b"/><stop offset=".25" stop-color="#232a31"/><stop offset=".7" stop-color="#06090d"/><stop offset="1" stop-color="#52616a"/></linearGradient>
- <radialGradient id="visor-edge"><stop offset=".62" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".56"/></radialGradient>
-</defs>
+<defs><radialGradient id="visor-edge"><stop offset=".48" stop-color="#434d12" stop-opacity="0"/><stop offset=".85" stop-color="#35400b" stop-opacity=".09"/><stop offset="1" stop-color="#020600" stop-opacity=".68"/></radialGradient>
+<pattern id="visor-ticks" width="20" height="18" patternUnits="userSpaceOnUse"><path d="M1 0V8" stroke="#adba57" stroke-width="2" opacity=".45"/></pattern></defs>
 <rect width="1000" height="600" fill="url(#visor-edge)"/>
-<path fill="url(#helm-steel)" fill-rule="evenodd" d="M0 0H1000V600H0Z M145 57L855 57L926 115L954 215L954 395L910 499L788 555H212L90 499L46 395V215L74 115Z"/>
-<path fill="none" stroke="url(#helm-bevel)" stroke-width="16" d="M145 57H855L926 115L954 215V395L910 499L788 555H212L90 499L46 395V215L74 115Z"/>
-<path fill="none" stroke="#030609" stroke-width="6" d="M150 67H850L916 121L944 218V392L902 491L785 545H215L98 491L56 392V218L84 121Z"/>
-<path fill="none" stroke="#9e8b5e" stroke-opacity=".42" stroke-width="1" d="M157 74H843L908 127 M64 231V388L106 484 M936 231V388L894 484 M224 537H776"/>
-<path fill="#05090d" stroke="#38424b" stroke-width="2" d="M345 0L375 30H625L655 0 M350 600L384 571H616L650 600"/>
-<path fill="none" stroke="#59636b" stroke-opacity=".4" stroke-width="2" d="M12 134L36 170V412L65 466 M988 134L964 170V412L935 466"/>
-<g fill="#080c11" stroke="#53606a" stroke-width="2"><circle cx="115" cy="42" r="6"/><circle cx="885" cy="42" r="6"/><circle cx="36" cy="300" r="5"/><circle cx="964" cy="300" r="5"/><circle cx="162" cy="560" r="6"/><circle cx="838" cy="560" r="6"/></g>
-<g stroke="#9b834e" stroke-width="2" opacity=".65"><path d="M429 22H457 M472 22H500 M515 22H543 M558 22H586"/></g>
+<path fill="#030602" fill-opacity=".68" fill-rule="evenodd" d="M0 0H1000V600H0Z M45 35L345 47H655L955 35L975 65V245L954 268V551L690 566H310L46 551V268L25 245V65Z"/>
+<g fill="none" stroke="#829c42" stroke-width="1.3" opacity=".55">
+<path d="M345 48L47 36L26 66V242L48 266V548L309 564 M655 48L953 36L974 66V242L952 266V548L691 564"/>
+<path d="M340 54L51 42L33 69V239L55 263V542L310 557 M660 54L949 42L967 69V239L945 263V542L690 557" opacity=".4"/>
+<path d="M358 48H642 M360 556V547H466 M534 547H640V556"/>
+<path d="M46 318V513 M954 318V513" stroke-width="4" opacity=".5"/>
+<path d="M64 302H78 M64 330H73 M64 358H78 M64 386H73 M64 414H78 M64 442H73 M64 470H78 M922 302H936 M927 330H936 M922 358H936 M927 386H936 M922 414H936 M927 442H936 M922 470H936"/>
+<path d="M305 300H328 M672 300H695 M495 282H505 M495 318H505" opacity=".35"/>
+</g>
+<rect x="300" y="455" width="400" height="18" fill="url(#visor-ticks)"/>
+<g fill="#a8b85b" opacity=".35"><rect x="92" y="133" width="68" height="3"/><rect x="840" y="133" width="68" height="3"/><rect x="92" y="348" width="94" height="3"/><rect x="814" y="348" width="94" height="3"/></g>
 </svg></div>
 <div id="fps-prompt"></div><div id="hud"></div><div id="dbg"></div><div id="msg"></div>
 <div id="help">Victoire Terminator : balise 6 s, meute à terre, ou 2:00 tenues. Défaite : armure à 0.<br>ZQSD ou WASD bouger · souris viser (clic pour verrouiller) · ←/→ pivoter · Espace storm bolter · F ou Maj gantelet · V vue de contrôle · M couper le son · Entrée manche suivante · P pause · vue Diablo par défaut : ZQSD = directions à l'écran, molette, pincement ou +/− pour zoomer · autres vues : ?cam=fps|shoulder|combat|couloir|epaule|troisquarts</div>

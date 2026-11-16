@@ -38,9 +38,9 @@ export function fpsHudMarkup(s: MatchStatus, extra: {
   const burn = extra.burnIn ? `<div class="burn">${extra.burnIn}</div>` : '';
   return `${demo}<div class="helm">
     <div class="cell armor"><span>ARMURE</span><b>${s.armor.hp}/${s.armor.max}</b>
-      <i class="pip"><u style="height:${armorPct}%"></u></i></div>
+      <i class="pip"><u style="width:${armorPct}%"></u></i></div>
     <div class="cell ammo"><span>BOLTER</span><b>${s.weapons.ammo}/${s.weapons.ammoMax}</b>
-      <i class="pip"><u style="height:${ammoPct}%"></u></i>
+      <i class="pip"><u style="width:${ammoPct}%"></u></i>
       <em>${s.weapons.bolterLabel}</em></div>
     <div class="cell fist"><span>GANTELET</span><b>${fist}</b></div>
     <div class="cell clock"><span>TEMPS</span><b class="${s.timePressure ? 'warn' : ''}">${s.clock}</b></div>

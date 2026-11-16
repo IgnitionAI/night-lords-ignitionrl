@@ -1,0 +1,35 @@
+/* Phosphor projected onto the visor. All gauges use the live match HUD. */
+#helmet-shell{display:none;position:fixed;inset:0;pointer-events:none;z-index:2}
+body.fps #helmet-shell{display:block}
+#helmet-shell svg{width:100%;height:100%;display:block}
+#helmet-shell:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,#a8ad2406 3px 4px);box-shadow:inset 0 0 48px #0009;pointer-events:none}
+body.fps #fps-fx{z-index:3}
+body.fps #hud{inset:0;max-width:none;padding:0;border:0;background:none;z-index:5;color:#bdca70;font:11px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;text-shadow:0 0 5px #9eab3766,0 1px 2px #000}
+body.fps #hud .helm{display:contents}
+body.fps #hud .cell{position:absolute;width:clamp(90px,15vw,210px);box-sizing:border-box;border:1px solid #849b456e;padding:9px 12px;background:linear-gradient(110deg,#111a09a6,#18200b24);box-shadow:inset 0 0 0 3px #03070066,0 0 0 3px #7b8e3122;clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%)}
+body.fps #hud .cell:before{content:"";display:block;width:45%;height:2px;background:#a6b84d80;margin-bottom:5px}
+body.fps #hud .armor{left:9%;top:25%}
+body.fps #hud .ammo{right:9%;top:25%;text-align:left}
+body.fps #hud .cell span{display:block;font-size:9px;letter-spacing:.17em;opacity:.8}
+body.fps #hud .cell b{font-size:19px;font-weight:500;font-variant-numeric:tabular-nums}
+body.fps #hud .pip{height:7px;width:100%;background:#778d3026;position:relative;margin-top:9px;overflow:hidden}
+body.fps #hud .pip u{display:block;height:100%;background:repeating-linear-gradient(90deg,#afc252 0 5px,transparent 5px 7px);box-shadow:0 0 6px #adbe4444}
+body.fps #hud .ammo em{display:block;font-size:10px;font-style:normal;margin-top:7px;overflow-wrap:anywhere}
+body.fps #hud .fist{left:12%;top:59%}
+body.fps #hud .clock{right:12%;top:59%;text-align:left}
+body.fps #hud .fist b,body.fps #hud .clock b{font-size:15px}
+body.fps #hud .meta{position:absolute;top:12%;left:28%;right:28%;margin:0;padding:12px 10px;text-align:center;font-size:clamp(10px,1.4vw,20px);font-weight:700;letter-spacing:.12em;color:#222b0b;background:linear-gradient(0deg,#9ba740c9,#b8c65fc9);border:1px solid #c1cd74;outline:3px double #8b9e4a88;text-shadow:0 0 2px #38421144;clip-path:polygon(0 0,100% 0,100% 75%,97% 100%,0 100%)}
+body.fps #hud .pack{position:absolute;top:12%;left:10%;margin:0;display:flex;gap:6px}
+body.fps #hud .pack b{display:grid;place-items:center;min-width:25px;height:27px;padding:0 3px;border:1px solid #95a84f88;outline:2px solid #748b3022;font-size:11px;color:#b7c65b}
+body.fps #hud .pack .down{opacity:.35;text-decoration:line-through}
+body.fps #hud .score{position:absolute;bottom:9%;right:12%;font-size:10px;padding:5px 10px;border:1px solid #91a54366;letter-spacing:.1em;background:#0b120877}
+body.fps #hud .alarms{position:absolute;top:23%;left:29%;right:29%;text-align:center;font-size:11px}
+body.fps #hud .demo,body.fps #hud .burn{position:absolute;top:30%;left:28%;right:28%;text-align:center}
+body.fps #help{left:15%;bottom:2%;max-width:70%;font:9px/1.4 ui-monospace,monospace;text-align:center;opacity:.6;color:#bac779;z-index:6}
+body.fps #fps-prompt,body.fps #msg{z-index:7;border-color:#a4b35c;color:#cbd68c;background:#0b130be8;font-family:ui-monospace,monospace}
+body.fps #fps-prompt{font-size:12px;top:37%;max-width:65%;text-align:center}
+body.fps #reticle{border:0;box-shadow:none;width:4px;height:4px;margin:-2px;background:#c3ce8a99;border-radius:0}
+body.fps #reticle:before{left:1px;top:-10px;width:1px;height:24px;background:#b5c67777}
+body.fps #reticle:after{left:-10px;top:1px;width:24px;height:1px;background:#b5c67777}
+@media(max-width:600px){body.fps #hud .cell{padding:6px;width:23%;font-size:9px}body.fps #hud .armor{left:6%;top:24%}body.fps #hud .ammo{right:6%;top:24%}body.fps #hud .fist{left:6%;top:65%}body.fps #hud .clock{right:6%;top:65%}body.fps #hud .cell span{font-size:8px;letter-spacing:.06em}body.fps #hud .cell b{font-size:14px}body.fps #hud .ammo em{font-size:9px}body.fps #hud .meta{left:17%;right:17%;top:9%;padding:9px 5px;font-size:10px}body.fps #hud .pack{left:7%;top:18%}body.fps #hud .pack b{min-width:15px;height:18px;font-size:9px}body.fps #hud .score{right:7%;bottom:9%;font-size:9px}body.fps #help{font-size:8px;left:10%;max-width:80%}}
+@media(max-height:450px) and (min-width:601px){body.fps #hud .meta{top:9%;padding:6px}body.fps #hud .cell{padding:5px 8px}body.fps #hud .fist,body.fps #hud .clock{top:62%}body.fps #hud .cell b{font-size:14px}body.fps #hud .cell:before{display:none}}
