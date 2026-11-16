@@ -61,10 +61,10 @@ export const NL_CFG = {
 export interface TAction { fwd: number; strafe: number; turn: number; bolt: boolean; fist: boolean; aimYaw?: number; aimPitch?: number; reload?: boolean }
 export const T_IDLE: TAction = { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false };
 export interface Belief { valid: boolean; x: number; y: number; age: number; facing: number | null; seen: boolean; heard: boolean; vox: boolean }
-export interface Mate { known: boolean; x: number; y: number; age: number; alive: boolean }
+export interface Mate { known: boolean; x: number; y: number; age: number; alive: boolean; retreatUntil?: number }
 export interface NL {
   hp?: number;
-  lastDamageTick?:number; height?: number; vertical?: VerticalMotion; verticalRest?: number;
+  retreatUntil?: number; lastDamageTick?:number; height?: number; vertical?: VerticalMotion; verticalRest?: number;
   reloadHeardUntil?: number; shotRest?: number;
   dodgeTicks?: number; dodgeRest?: number; dodgeX?: number; dodgeY?: number;
   burstTicks?: number; burstRest?: number; recoveryTicks?: number;
@@ -241,8 +241,8 @@ function perceive(w: World) {
     // frères : vus, entendus (bruit de leurs pas / griffes) ou à portée de vox ; sinon dernière position connue qui vieillit
     w.nls.forEach((m, j) => {
       if (j === n.role) return; const k = n.mates[j]; const d = dist(n.x, n.y, m.x, m.y);
-      const known = d <= NL_CFG.voxRange || (m.alive && (d <= m.noise || nlSeesPoint(n, m.x, m.y, NL_CFG.radius, w.propSolids))) || (!m.alive && nlSeesPoint(n, m.x, m.y, NL_CFG.radius, w.propSolids));
-      k.known = known; if (known) { k.x = m.x; k.y = m.y; k.age = 0; k.alive = m.alive; } else k.age++;
+      const known = (m.alive && d <= NL_CFG.voxRange) || (m.alive && (d <= m.noise || nlSeesPoint(n, m.x, m.y, NL_CFG.radius, w.propSolids))) || (!m.alive && nlSeesPoint(n, m.x, m.y, NL_CFG.radius, w.propSolids));
+      k.known = known; if (known) { k.x = m.x; k.y = m.y; k.age = 0; k.alive = m.alive; k.retreatUntil = m.retreatUntil ?? 0; } else k.age++;
     });
   }
 }

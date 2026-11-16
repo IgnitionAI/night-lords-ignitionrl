@@ -49,8 +49,9 @@ function huntAction(w:World,i:number,learned:number,choice?:number):number {
  const n=w.nls[i],b=n.belief;
  let states=tactics.get(w);if(!states){states=new Map();tactics.set(w,states);}
  let state=states.get(i);if(!state){state={role:'hunter',mode:'search',until:0,search:i};states.set(i,state);}
- // Roles use only confirmed living mates; never inspect an unseen brother's live position.
- const known=w.nls.map((_,j)=>j).filter(j=>j===i||(n.mates[j]?.known&&n.mates[j].alive&&n.mates[j].age<50));
+ // The initial roster is public. Losing contact is not evidence of death.
+ // A confirmed death remains remembered after the corpse leaves sight.
+ const known=n.mates.map((_,j)=>j).filter(j=>j===i||n.mates[j].alive);
  state.role=(['leader','bait','hunter','interceptor'] as ClawRole[])[known.indexOf(i)%4];
  if(n.vertical)return 0;
  if(n.armTicks||n.stunTicks)return 0;
@@ -78,10 +79,15 @@ function huntAction(w:World,i:number,learned:number,choice?:number):number {
  const support=n.mates.some((m,j)=>j!==i&&m.known&&m.alive&&m.age<15&&Math.hypot(m.x-b.x,m.y-b.y)<9);
  // Reload is an observation acquired by perception, never a read of the player state here.
  const opportunity=b.age<8&&(exposed||n.reloadHeardUntil!>w.tick||support&&d<5);
+ const retreatingMate=n.mates.some((m,j)=>j!==i&&m.known&&m.alive&&m.age<10&&(m.retreatUntil??0)>w.tick);
+ const previousMode=state.mode;
  if((n.hp??7)<=4&&w.tick-(n.lastDamageTick??-999)<15){state.mode='withdraw';state.until=w.tick+25;}
+ else if(retreatingMate&&b.age<15&&state.mode!=='withdraw'){state.mode='cover';state.until=w.tick+12;}
  else if(opportunity&&state.mode!=='withdraw'){state.mode='attack';state.until=w.tick+22;}
  else if(w.tick>=state.until)state.mode=state.role==='leader'||state.role==='bait'?'cover':'flank';
- if(choice!==undefined&&state.mode!=='withdraw')state.mode=choice===0?'attack':choice===3?'cover':'flank';
+ n.retreatUntil=state.mode==='withdraw'?state.until:0;
+ if(previousMode!==state.mode)shelters.get(w)?.delete(i);
+ if(choice!==undefined&&state.mode!=='withdraw'&&!retreatingMate)state.mode=choice===0?'attack':choice===3?'cover':'flank';
  if(state.mode==='attack'&&b.age<15){if(d<1.75)return n.cd===0?7:learned;return travel(w,i,b.x,b.y);}
  if(state.mode==='flank'&&(choice===5||choice===undefined&&state.role==='interceptor')&&!n.verticalRest){
   if(beginClimb(w,n))return 0;

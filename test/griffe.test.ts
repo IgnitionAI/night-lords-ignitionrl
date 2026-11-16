@@ -1,7 +1,7 @@
 import {PROP_KINDS} from '../src/props';
 import {test,expect} from 'bun:test';
 import {newWorld,nlFrame,rayFree} from '../src/sim';
-import {griffeAction} from '../src/griffe';
+import {griffeAction,tacticalState} from '../src/griffe';
 test('navigation corrects a blocked approach using fresh belief',()=>{
  const w=newWorld(4,undefined,{fps:true}),n=w.nls[0];n.x=16.3;n.y=12;n.facing=0;
  n.belief={valid:true,x:28,y:12,age:0,facing:0,seen:true,heard:false,vox:false};
@@ -35,4 +35,22 @@ test('mission shelter routing depends on belief, not hidden actual player coordi
  n.x=29.664809150000004;n.y=14.352334452864683;w.tick=1160;
  n.belief={valid:true,x:27,y:12,age:0,facing:0,seen:true,heard:false,vox:false};
  expect(griffeAction(w,1,1)).not.toBe(0);
+ });
+
+ test('roles survive lost contact and change only after a known casualty',()=>{
+ const w=newWorld(527,undefined,{fps:true,mission:true});
+ const roles=['leader','bait','hunter','interceptor'];
+ for(let i=0;i<4;i++){w.nls[i].belief.valid=false;griffeAction(w,i,0);expect(tacticalState(w,i)?.role).toBe(roles[i]);}
+ w.nls[0].alive=false; // An unseen casualty cannot change another hunter's role.
+ griffeAction(w,1,0);expect(tacticalState(w,1)?.role).toBe('bait');
+ w.nls[1].mates[0].alive=false;
+ griffeAction(w,1,0);expect(tacticalState(w,1)?.role).toBe('leader');
+ });
+ test('a fresh retreat report requests cover but an expired report does not',()=>{
+ const w=newWorld(527,undefined,{fps:true,mission:true}),n=w.nls[2];
+ w.tick=100;n.x=25;n.y=12;
+ n.belief={valid:true,x:27,y:12,age:0,facing:0,seen:true,heard:false,vox:false};
+ n.mates[1]={known:true,alive:true,x:24,y:12,age:0,retreatUntil:120};
+ griffeAction(w,2,0);expect(tacticalState(w,2)?.mode).toBe('cover');
+ w.tick=121;griffeAction(w,2,0);expect(tacticalState(w,2)?.mode).toBe('attack');
  });

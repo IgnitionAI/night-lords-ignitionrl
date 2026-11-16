@@ -16,4 +16,10 @@ Trial 2: 400 updates,114920 transitions; runs/ship-tactical-v2. Training opponen
 Reports: tactical-comparison-initial.json, tactical-comparison.json, tactical-comparison-v2.json. These are short combat encounters across3 opponent styles, not full missions and not human difficulty measurements. Neither learned policy is in the live game.
 
 ## Validation limits
-22 focused tests cover mission state, physical route roundtrip without enemies, geometry connectivity with alternate route, partial-information actions, physical dodges, ceiling transitions and vertical hits. Procedural suspension poses were viewed on the actual refined armor in a separate lit fixture; fixture captures are not proof of an in-game ambush. Full mission FPS combat validation remains ongoing.
+24 focused tests cover mission state, physical route roundtrip without enemies, geometry connectivity with alternate route, partial-information actions, physical dodges, ceiling transitions and vertical hits. Procedural suspension poses were viewed on the actual refined armor in a separate lit fixture; fixture captures are not proof of an in-game ambush. Full mission FPS combat validation remains ongoing.
+
+
+## Coordination correction
+Initial roles now persist when contact expires. Only a remembered confirmed death removes a brother from the local roster. A corpse no longer transmits its death over vox through walls. Living mates relay a finite retreat deadline through existing perception/vox; a fresh report requests cover, with expiry. Switching modes invalidates the cached shelter target. Regression tests cover lost contact, unseen casualties, confirmed reassignment and retreat-report expiry.
+
+A second live FPS test used the port approach without firing. It ended at tick256 with armor destroyed, all4 Night Lords alive and one interceptor physically traversing at height3. No browser errors or missing audio. The keyboard pilot drifted around a turn and did not reach its second waypoint; this is not evidence of a completed mission or balanced human difficulty. The pilot now stops movement briefly for large heading changes; that adjustment still requires validation.

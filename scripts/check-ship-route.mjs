@@ -1,7 +1,8 @@
 import {chromium} from 'playwright';
 import {spawn} from 'node:child_process';
 import {mkdirSync,writeFileSync} from 'node:fs';
-const dir='docs/captures/ship-route';mkdirSync(dir,{recursive:true});
+const alternate=process.env.SHIP_ROUTE==='port';
+const dir=alternate?'docs/captures/ship-route-port':'docs/captures/ship-route';mkdirSync(dir,{recursive:true});
 const server=spawn('bun',['x','vite','--host','127.0.0.1','--port','18244'],{stdio:'pipe'});let browser;
 try{
  await new Promise((resolve,reject)=>{const timeout=setTimeout(()=>reject(Error('Vite timeout')),15000);server.stdout.on('data',d=>{if(String(d).includes('18244')){clearTimeout(timeout);resolve();}});server.on('exit',()=>reject(Error('Vite exited')));});
@@ -12,13 +13,15 @@ try{
  await page.screenshot({path:dir+'/entry.png'});
  await page.mouse.click(480,300);
  const sequence=[];
- for(const target of [[62,12],[67,14],[62,12],[3,12]]){
+ const route=alternate?[[10,12],[10,6],[62,6],[62,14],[67,14],[62,14],[62,6],[10,6],[10,12],[3,12]]:[[62,12],[67,14],[62,12],[3,12]];
+ for(const target of route){
   const deadline=Date.now()+120000;
-  await page.keyboard.down('KeyW');await page.keyboard.down('Space');
+  await page.keyboard.down('KeyW');if(!alternate)await page.keyboard.down('Space');
   while(Date.now()<deadline){
    const state=await page.evaluate(()=>window.__NL);if(state.done)break;
    const p=state.playerPosition;if(Math.hypot(target[0]-p.x,target[1]-p.y)<.8)break;
-   await page.evaluate(([x,y])=>{const p=window.__NL.playerPosition,look=window.__FPS;let delta=Math.atan2(y-p.y,x-p.x)-look.yaw;while(delta>Math.PI)delta-=Math.PI*2;while(delta<-Math.PI)delta+=Math.PI*2;look.applyLook(delta/.00215,0);},target);
+   const headingError=await page.evaluate(([x,y])=>{const p=window.__NL.playerPosition,look=window.__FPS;let delta=Math.atan2(y-p.y,x-p.x)-look.yaw;while(delta>Math.PI)delta-=Math.PI*2;while(delta<-Math.PI)delta+=Math.PI*2;look.applyLook(delta/.00215,0);return Math.abs(delta);},target);
+   if(headingError>.25){await page.keyboard.up('KeyW');await page.waitForTimeout(700);await page.keyboard.down('KeyW');}
    await page.waitForTimeout(150);
   }
   await page.keyboard.up('KeyW');await page.keyboard.up('Space');
