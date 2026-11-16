@@ -3,7 +3,7 @@ import { ARENA, collide, los, type World } from './sim';
 const fields=new WeakMap<World,Map<string,Int16Array>>();
 const masks=new WeakMap<World,Uint8Array>();
 export function shipHeading(w:World,x:number,y:number,tx:number,ty:number):number {
- if(los(x,y,tx,ty,w.propSolids))return Math.atan2(ty-y,tx-x);
+ if(clearPath(w,x,y,tx,ty))return Math.atan2(ty-y,tx-x);
  const W=ARENA.w,H=ARENA.h,gx=Math.min(W-1,Math.max(0,Math.floor(tx))),gy=Math.min(H-1,Math.max(0,Math.floor(ty))),key=`${gx},${gy}`;
  let cache=fields.get(w);if(!cache){cache=new Map();fields.set(w,cache);}
  let dist=cache.get(key);
@@ -15,6 +15,17 @@ export function shipHeading(w:World,x:number,y:number,tx:number,ty:number):numbe
   if(cache.size>=16)cache.delete(cache.keys().next().value!);cache.set(key,dist);
  }
  const cx=Math.floor(x),cy=Math.floor(y);let best=Infinity,bx=tx,by=ty;
- for(let j=-1;j<=1;j++)for(let i=-1;i<=1;i++){const px=cx+i+.5,py=cy+j+.5;if(px<0||py<0||px>=W||py>=H)continue;const d=dist[Math.floor(py)*W+Math.floor(px)];if(d<0||!los(x,y,px,py,w.propSolids))continue;const score=d+Math.hypot(px-x,py-y)*.1;if(score<best){best=score;bx=px;by=py;}}
+ for(let j=-1;j<=1;j++)for(let i=-1;i<=1;i++){const px=cx+i+.5,py=cy+j+.5;if(px<0||py<0||px>=W||py>=H)continue;const d=dist[Math.floor(py)*W+Math.floor(px)];if(d<0||!clearPath(w,x,y,px,py))continue;const score=d+Math.hypot(px-x,py-y)*.1;if(score<best){best=score;bx=px;by=py;}}
  return Math.atan2(by-y,bx-x);
+}
+
+function clearPath(w:World,x:number,y:number,tx:number,ty:number):boolean {
+ if(!los(x,y,tx,ty,w.propSolids))return false;
+ const count=Math.ceil(Math.hypot(tx-x,ty-y)/.3);
+ for(let i=1;i<=count;i++) {
+  const px=x+(tx-x)*i/count,py=y+(ty-y)*i/count,p={x:px,y:py};
+  collide(p,.5,w.propSolids);
+  if(Math.hypot(p.x-px,p.y-py)>.03)return false;
+ }
+ return true;
 }

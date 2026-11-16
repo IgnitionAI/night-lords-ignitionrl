@@ -1,3 +1,4 @@
+import {huntPhase} from '../src/hunt-rhythm';
 import { griffeAction } from '../src/griffe';
 import { newMission, missionStep, missionText } from '../src/mission';
 import { missionScene } from './mission-scene';
@@ -1099,6 +1100,7 @@ function startRound() {
   if (CAM_MODE === 'fps' && termRig) termRig.root.visible = false;
   (document.getElementById('msg') as HTMLElement).style.display = 'none';
   director.firstPerson = CAM_MODE === 'fps';
+  director.mission = MISSION;
   director.huntCam = CAM_MODE === 'shoulder';
   director.beginRound();
   if (FPS_DUEL) { updateRigs(); advanceRigs(0.001); }
@@ -1504,6 +1506,7 @@ function hud() {
   h.innerHTML = CAM_MODE === 'fps' ? fpsHudMarkup(status, extra) : hudMarkup(matchStatus(w), extra);
   (window as unknown as { __NL?: unknown }).__NL = {
     mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, muted: engine.muted,
+    hunt: MISSION ? {phase:huntPhase(w.tick), agents:w.nls.map(n=>({x:n.x,y:n.y,alive:n.alive,action:n.lastAction}))} : null,
     playerPosition: {x:w.t.x,y:w.t.y}, genestealersLoaded: scene.userData.genestealersLoaded ?? 0, rendering: {...renderer.info.render}, hp: w.t.hp, nlsAlive: w.nls.filter((n) => n.alive).length,
     fistCharge: w.t.fistCharge,
     events: w.events.map((e) => e.type),
@@ -1837,7 +1840,7 @@ function render(alpha: number) {
   if (CAM_MODE === 'fps' || CAM_MODE === 'shoulder') {
     const threats = document.getElementById('threats');
     if (threats) {
-      threats.innerHTML = marksHtml(offscreenMarks(
+      threats.innerHTML = MISSION ? '' : marksHtml(offscreenMarks(
         { x: tx, y: ty, yaw: CAM_MODE === 'fps' ? fpsLook.yaw : tf },
         w.nls,
         camera,
@@ -1862,7 +1865,7 @@ function render(alpha: number) {
     }
     const threats = document.getElementById('threats');
     if (threats) {
-      threats.innerHTML = marksHtml(offscreenMarks(
+      threats.innerHTML = MISSION ? '' : marksHtml(offscreenMarks(
         { x: tx, y: ty, yaw: CAM_MODE === 'fps' ? fpsLook.yaw : camYaw },
         w.nls,
         camera,
@@ -1912,7 +1915,7 @@ function updateOffmarks() {
     const el = document.getElementById('om' + i);
     if (!el) continue;
     const n = w.nls[i];
-    if (!n?.alive) { el.style.display = 'none'; continue; }
+    if (MISSION || !n?.alive) { el.style.display = 'none'; continue; }
     const v = new THREE.Vector3(n.x, 1.45, n.y).project(camera);
     const mark = offscreenMarker({ x: v.x, y: v.y, z: v.z });
     if (!mark.visible) { el.style.display = 'none'; continue; }

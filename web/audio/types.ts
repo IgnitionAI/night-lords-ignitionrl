@@ -1,6 +1,6 @@
 export type BusName = 'sfx' | 'voice' | 'ambience' | 'music' | 'ui' | 'master';
 
-export type MusicPhase = 'explore' | 'tension' | 'combat' | 'stinger';
+export type MusicPhase = 'explore' | 'tension' | 'combat' | 'stinger' | 'silence';
 
 export type SampleName =
   | 'armor-tread'

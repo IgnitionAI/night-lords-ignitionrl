@@ -5,10 +5,10 @@
       "seed": 4200,
       "armed": true,
       "phase": "extracted",
-      "ticks": 256,
+      "ticks": 257,
       "position": [
-        2.9902248005817733,
-        12.000150412168509
+        2.9902247667321324,
+        12.000150412854396
       ],
       "waypoint": 15,
       "hp": 30,
@@ -21,7 +21,7 @@
       "seed": 4200,
       "armed": false,
       "phase": "lost",
-      "ticks": 116,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -39,8 +39,8 @@
       "phase": "extracted",
       "ticks": 256,
       "position": [
-        2.9902245839935686,
-        12.000150418453265
+        2.990224795049132,
+        12.000150412261473
       ],
       "waypoint": 15,
       "hp": 30,
@@ -53,7 +53,7 @@
       "seed": 4201,
       "armed": false,
       "phase": "lost",
-      "ticks": 124,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -69,10 +69,10 @@
       "seed": 4202,
       "armed": true,
       "phase": "extracted",
-      "ticks": 266,
+      "ticks": 257,
       "position": [
-        2.9902272239982404,
-        12.00014999967439
+        2.9902247751191213,
+        12.000150412762268
       ],
       "waypoint": 15,
       "hp": 30,
@@ -85,7 +85,7 @@
       "seed": 4202,
       "armed": false,
       "phase": "lost",
-      "ticks": 121,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -103,8 +103,8 @@
       "phase": "extracted",
       "ticks": 256,
       "position": [
-        2.9902247928799595,
-        12.000150412307903
+        2.990224735013315,
+        12.000150413306704
       ],
       "waypoint": 15,
       "hp": 30,
@@ -117,10 +117,10 @@
       "seed": 4203,
       "armed": false,
       "phase": "lost",
-      "ticks": 111,
+      "ticks": 153,
       "position": [
-        35.00195568875675,
-        11.804204937790233
+        35.00234975717814,
+        11.802530327663767
       ],
       "waypoint": 7,
       "hp": 0,
@@ -135,8 +135,8 @@
       "phase": "extracted",
       "ticks": 265,
       "position": [
-        2.9902323798376464,
-        12.000149907339516
+        2.990230148970523,
+        12.00014995455937
       ],
       "waypoint": 15,
       "hp": 30,
@@ -149,7 +149,7 @@
       "seed": 4204,
       "armed": false,
       "phase": "lost",
-      "ticks": 118,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -163,140 +163,140 @@
     },
     {
       "seed": 4205,
-      "armed": true,
-      "phase": "extracted",
-      "ticks": 265,
-      "position": [
-        2.990230188226893,
-        12.000149954584302
-      ],
-      "waypoint": 15,
-      "hp": 30,
-      "cleared": true,
-      "planted": true,
-      "nightLords": 0,
-      "xenos": 0
-    },
-    {
-      "seed": 4205,
-      "armed": false,
-      "phase": "lost",
-      "ticks": 118,
-      "position": [
-        34.99407255087096,
-        11.837192906317894
-      ],
-      "waypoint": 7,
-      "hp": 0,
-      "cleared": false,
-      "planted": false,
-      "nightLords": 4,
-      "xenos": 6
-    },
-    {
-      "seed": 4206,
-      "armed": true,
-      "phase": "extracted",
-      "ticks": 278,
-      "position": [
-        2.9902247993171978,
-        12.000150412205883
-      ],
-      "waypoint": 15,
-      "hp": 28,
-      "cleared": true,
-      "planted": true,
-      "nightLords": 0,
-      "xenos": 0
-    },
-    {
-      "seed": 4206,
-      "armed": false,
-      "phase": "lost",
-      "ticks": 118,
-      "position": [
-        35.00234975717814,
-        11.802530327663767
-      ],
-      "waypoint": 7,
-      "hp": 0,
-      "cleared": false,
-      "planted": false,
-      "nightLords": 4,
-      "xenos": 6
-    },
-    {
-      "seed": 4207,
-      "armed": true,
-      "phase": "extracted",
-      "ticks": 267,
-      "position": [
-        2.990227469100935,
-        12.000149997876974
-      ],
-      "waypoint": 15,
-      "hp": 30,
-      "cleared": true,
-      "planted": true,
-      "nightLords": 0,
-      "xenos": 0
-    },
-    {
-      "seed": 4207,
-      "armed": false,
-      "phase": "lost",
-      "ticks": 119,
-      "position": [
-        35.00234975717814,
-        11.802530327663767
-      ],
-      "waypoint": 7,
-      "hp": 0,
-      "cleared": false,
-      "planted": false,
-      "nightLords": 4,
-      "xenos": 6
-    },
-    {
-      "seed": 4208,
-      "armed": true,
-      "phase": "extracted",
-      "ticks": 257,
-      "position": [
-        2.9902247230323953,
-        12.00015041289094
-      ],
-      "waypoint": 15,
-      "hp": 30,
-      "cleared": true,
-      "planted": true,
-      "nightLords": 0,
-      "xenos": 0
-    },
-    {
-      "seed": 4208,
-      "armed": false,
-      "phase": "lost",
-      "ticks": 117,
-      "position": [
-        35.00234975717814,
-        11.802530327663767
-      ],
-      "waypoint": 7,
-      "hp": 0,
-      "cleared": false,
-      "planted": false,
-      "nightLords": 4,
-      "xenos": 6
-    },
-    {
-      "seed": 4209,
       "armed": true,
       "phase": "extracted",
       "ticks": 256,
       "position": [
-        2.9902247089414247,
-        12.000150413617613
+        2.9902247594623192,
+        12.000150412883578
+      ],
+      "waypoint": 15,
+      "hp": 30,
+      "cleared": true,
+      "planted": true,
+      "nightLords": 0,
+      "xenos": 0
+    },
+    {
+      "seed": 4205,
+      "armed": false,
+      "phase": "lost",
+      "ticks": 153,
+      "position": [
+        35.00234975717814,
+        11.802530327663767
+      ],
+      "waypoint": 7,
+      "hp": 0,
+      "cleared": false,
+      "planted": false,
+      "nightLords": 4,
+      "xenos": 6
+    },
+    {
+      "seed": 4206,
+      "armed": true,
+      "phase": "extracted",
+      "ticks": 264,
+      "position": [
+        2.990230106310915,
+        12.000149954627513
+      ],
+      "waypoint": 15,
+      "hp": 30,
+      "cleared": true,
+      "planted": true,
+      "nightLords": 0,
+      "xenos": 0
+    },
+    {
+      "seed": 4206,
+      "armed": false,
+      "phase": "lost",
+      "ticks": 153,
+      "position": [
+        35.00234975717814,
+        11.802530327663767
+      ],
+      "waypoint": 7,
+      "hp": 0,
+      "cleared": false,
+      "planted": false,
+      "nightLords": 4,
+      "xenos": 6
+    },
+    {
+      "seed": 4207,
+      "armed": true,
+      "phase": "extracted",
+      "ticks": 257,
+      "position": [
+        2.9902247710258516,
+        12.000150412813246
+      ],
+      "waypoint": 15,
+      "hp": 30,
+      "cleared": true,
+      "planted": true,
+      "nightLords": 0,
+      "xenos": 0
+    },
+    {
+      "seed": 4207,
+      "armed": false,
+      "phase": "lost",
+      "ticks": 153,
+      "position": [
+        35.00234975717814,
+        11.802530327663767
+      ],
+      "waypoint": 7,
+      "hp": 0,
+      "cleared": false,
+      "planted": false,
+      "nightLords": 4,
+      "xenos": 6
+    },
+    {
+      "seed": 4208,
+      "armed": true,
+      "phase": "extracted",
+      "ticks": 265,
+      "position": [
+        2.9902301665573705,
+        12.00014995458115
+      ],
+      "waypoint": 15,
+      "hp": 30,
+      "cleared": true,
+      "planted": true,
+      "nightLords": 0,
+      "xenos": 0
+    },
+    {
+      "seed": 4208,
+      "armed": false,
+      "phase": "lost",
+      "ticks": 153,
+      "position": [
+        35.00234975717814,
+        11.802530327663767
+      ],
+      "waypoint": 7,
+      "hp": 0,
+      "cleared": false,
+      "planted": false,
+      "nightLords": 4,
+      "xenos": 6
+    },
+    {
+      "seed": 4209,
+      "armed": true,
+      "phase": "extracted",
+      "ticks": 257,
+      "position": [
+        2.990224749384374,
+        12.000150413116913
       ],
       "waypoint": 15,
       "hp": 30,
@@ -309,10 +309,10 @@
       "seed": 4209,
       "armed": false,
       "phase": "lost",
-      "ticks": 117,
+      "ticks": 153,
       "position": [
-        35.00162230745417,
-        11.805501455063629
+        35.00234975717814,
+        11.802530327663767
       ],
       "waypoint": 7,
       "hp": 0,
@@ -325,10 +325,10 @@
       "seed": 4210,
       "armed": true,
       "phase": "extracted",
-      "ticks": 265,
+      "ticks": 256,
       "position": [
-        2.990232936518615,
-        12.000149906048085
+        2.990224759475865,
+        12.000150413052593
       ],
       "waypoint": 15,
       "hp": 30,
@@ -341,7 +341,7 @@
       "seed": 4210,
       "armed": false,
       "phase": "lost",
-      "ticks": 123,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -357,10 +357,10 @@
       "seed": 4211,
       "armed": true,
       "phase": "extracted",
-      "ticks": 257,
+      "ticks": 256,
       "position": [
-        2.9902247468853793,
-        12.00015041319348
+        2.990224725551736,
+        12.000150413398675
       ],
       "waypoint": 15,
       "hp": 30,
@@ -373,7 +373,7 @@
       "seed": 4211,
       "armed": false,
       "phase": "lost",
-      "ticks": 117,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -391,8 +391,8 @@
       "phase": "extracted",
       "ticks": 256,
       "position": [
-        2.990230685591123,
-        12.000150265180562
+        2.9902246038919276,
+        12.0001504163227
       ],
       "waypoint": 15,
       "hp": 30,
@@ -405,7 +405,7 @@
       "seed": 4212,
       "armed": false,
       "phase": "lost",
-      "ticks": 128,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -423,8 +423,8 @@
       "phase": "extracted",
       "ticks": 257,
       "position": [
-        2.9902247351936513,
-        12.000150413594989
+        2.9902247235925765,
+        12.000150413494113
       ],
       "waypoint": 15,
       "hp": 30,
@@ -453,10 +453,10 @@
       "seed": 4214,
       "armed": true,
       "phase": "extracted",
-      "ticks": 271,
+      "ticks": 266,
       "position": [
-        2.990232038741516,
-        12.000150230810721
+        2.990232335677968,
+        12.00014990782768
       ],
       "waypoint": 15,
       "hp": 30,
@@ -469,7 +469,7 @@
       "seed": 4214,
       "armed": false,
       "phase": "lost",
-      "ticks": 121,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -485,23 +485,23 @@
       "seed": 4215,
       "armed": true,
       "phase": "extracted",
-      "ticks": 264,
+      "ticks": 287,
       "position": [
-        2.9902258704810807,
-        12.000150001833433
+        2.9902345408450377,
+        12.00014992561704
       ],
       "waypoint": 15,
       "hp": 30,
-      "cleared": false,
+      "cleared": true,
       "planted": true,
-      "nightLords": 1,
+      "nightLords": 0,
       "xenos": 0
     },
     {
       "seed": 4215,
       "armed": false,
       "phase": "lost",
-      "ticks": 119,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -517,10 +517,10 @@
       "seed": 4216,
       "armed": true,
       "phase": "extracted",
-      "ticks": 264,
+      "ticks": 256,
       "position": [
-        2.990230889665894,
-        12.000149957988148
+        2.990224716601814,
+        12.000150413547255
       ],
       "waypoint": 15,
       "hp": 30,
@@ -533,7 +533,7 @@
       "seed": 4216,
       "armed": false,
       "phase": "lost",
-      "ticks": 121,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -549,10 +549,10 @@
       "seed": 4217,
       "armed": true,
       "phase": "extracted",
-      "ticks": 266,
+      "ticks": 257,
       "position": [
-        2.990220971716855,
-        12.00015003101081
+        2.9902247253919656,
+        12.000150413823693
       ],
       "waypoint": 15,
       "hp": 30,
@@ -565,7 +565,7 @@
       "seed": 4217,
       "armed": false,
       "phase": "lost",
-      "ticks": 127,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -581,10 +581,10 @@
       "seed": 4218,
       "armed": true,
       "phase": "extracted",
-      "ticks": 260,
+      "ticks": 256,
       "position": [
-        2.9902300793735805,
-        12.0001502803493
+        2.990230036362952,
+        12.000150281426507
       ],
       "waypoint": 15,
       "hp": 30,
@@ -597,7 +597,7 @@
       "seed": 4218,
       "armed": false,
       "phase": "lost",
-      "ticks": 120,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -613,13 +613,13 @@
       "seed": 4219,
       "armed": true,
       "phase": "extracted",
-      "ticks": 269,
+      "ticks": 256,
       "position": [
-        2.9902049965273796,
-        12.000150197067047
+        2.990229646720633,
+        12.00015029131051
       ],
       "waypoint": 15,
-      "hp": 28,
+      "hp": 30,
       "cleared": true,
       "planted": true,
       "nightLords": 0,
@@ -629,10 +629,10 @@
       "seed": 4219,
       "armed": false,
       "phase": "lost",
-      "ticks": 117,
+      "ticks": 153,
       "position": [
-        34.994119167922726,
-        11.837153836134368
+        35.00234975717814,
+        11.802530327663767
       ],
       "waypoint": 7,
       "hp": 0,
@@ -645,10 +645,10 @@
       "seed": 4220,
       "armed": true,
       "phase": "extracted",
-      "ticks": 255,
+      "ticks": 256,
       "position": [
-        2.990230794836163,
-        12.000150262427839
+        2.990224775873333,
+        12.000150412644519
       ],
       "waypoint": 15,
       "hp": 30,
@@ -661,10 +661,10 @@
       "seed": 4220,
       "armed": false,
       "phase": "lost",
-      "ticks": 115,
+      "ticks": 153,
       "position": [
-        35.00148076471213,
-        11.803689616543421
+        35.00234975717814,
+        11.802530327663767
       ],
       "waypoint": 7,
       "hp": 0,
@@ -679,8 +679,8 @@
       "phase": "extracted",
       "ticks": 255,
       "position": [
-        2.9902263872196273,
-        12.000150374163884
+        2.9902306826333396,
+        12.000150265238785
       ],
       "waypoint": 15,
       "hp": 30,
@@ -693,10 +693,10 @@
       "seed": 4221,
       "armed": false,
       "phase": "lost",
-      "ticks": 113,
+      "ticks": 153,
       "position": [
-        35.002706711865734,
-        11.772532451349752
+        35.00234975717814,
+        11.802530327663767
       ],
       "waypoint": 7,
       "hp": 0,
@@ -707,12 +707,76 @@
     },
     {
       "seed": 4222,
+      "armed": true,
+      "phase": "extracted",
+      "ticks": 255,
+      "position": [
+        2.9902307797489978,
+        12.000150262792541
+      ],
+      "waypoint": 15,
+      "hp": 30,
+      "cleared": true,
+      "planted": true,
+      "nightLords": 0,
+      "xenos": 0
+    },
+    {
+      "seed": 4222,
+      "armed": false,
+      "phase": "lost",
+      "ticks": 153,
+      "position": [
+        35.00234975717814,
+        11.802530327663767
+      ],
+      "waypoint": 7,
+      "hp": 0,
+      "cleared": false,
+      "planted": false,
+      "nightLords": 4,
+      "xenos": 6
+    },
+    {
+      "seed": 4223,
+      "armed": true,
+      "phase": "extracted",
+      "ticks": 267,
+      "position": [
+        2.990227403550784,
+        12.000150348053971
+      ],
+      "waypoint": 15,
+      "hp": 30,
+      "cleared": true,
+      "planted": true,
+      "nightLords": 0,
+      "xenos": 0
+    },
+    {
+      "seed": 4223,
+      "armed": false,
+      "phase": "lost",
+      "ticks": 153,
+      "position": [
+        35.00234975717814,
+        11.802530327663767
+      ],
+      "waypoint": 7,
+      "hp": 0,
+      "cleared": false,
+      "planted": false,
+      "nightLords": 4,
+      "xenos": 6
+    },
+    {
+      "seed": 4224,
       "armed": true,
       "phase": "extracted",
       "ticks": 265,
       "position": [
-        2.990226765804603,
-        12.00015001145245
+        2.990230202859694,
+        12.000149954609721
       ],
       "waypoint": 15,
       "hp": 30,
@@ -722,77 +786,13 @@
       "xenos": 0
     },
     {
-      "seed": 4222,
+      "seed": 4224,
       "armed": false,
       "phase": "lost",
-      "ticks": 124,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
-      ],
-      "waypoint": 7,
-      "hp": 0,
-      "cleared": false,
-      "planted": false,
-      "nightLords": 4,
-      "xenos": 6
-    },
-    {
-      "seed": 4223,
-      "armed": true,
-      "phase": "extracted",
-      "ticks": 255,
-      "position": [
-        2.9902308445002537,
-        12.000149915461595
-      ],
-      "waypoint": 15,
-      "hp": 30,
-      "cleared": false,
-      "planted": true,
-      "nightLords": 2,
-      "xenos": 0
-    },
-    {
-      "seed": 4223,
-      "armed": false,
-      "phase": "lost",
-      "ticks": 115,
-      "position": [
-        35.002468742074,
-        11.792531035559096
-      ],
-      "waypoint": 7,
-      "hp": 0,
-      "cleared": false,
-      "planted": false,
-      "nightLords": 4,
-      "xenos": 6
-    },
-    {
-      "seed": 4224,
-      "armed": true,
-      "phase": "extracted",
-      "ticks": 271,
-      "position": [
-        2.9902282747199282,
-        12.000150325141318
-      ],
-      "waypoint": 15,
-      "hp": 30,
-      "cleared": true,
-      "planted": true,
-      "nightLords": 0,
-      "xenos": 0
-    },
-    {
-      "seed": 4224,
-      "armed": false,
-      "phase": "lost",
-      "ticks": 112,
-      "position": [
-        35.002706711865734,
-        11.772532451349752
       ],
       "waypoint": 7,
       "hp": 0,
@@ -807,24 +807,24 @@
       "phase": "extracted",
       "ticks": 256,
       "position": [
-        2.9902344023148952,
-        12.000149928476942
+        2.990224777192167,
+        12.000150412718172
       ],
       "waypoint": 15,
       "hp": 30,
-      "cleared": false,
+      "cleared": true,
       "planted": true,
-      "nightLords": 1,
+      "nightLords": 0,
       "xenos": 0
     },
     {
       "seed": 4225,
       "armed": false,
       "phase": "lost",
-      "ticks": 117,
+      "ticks": 153,
       "position": [
-        34.99937513478154,
-        12.052512630280567
+        35.00234975717814,
+        11.802530327663767
       ],
       "waypoint": 7,
       "hp": 0,
@@ -837,10 +837,10 @@
       "seed": 4226,
       "armed": true,
       "phase": "extracted",
-      "ticks": 264,
+      "ticks": 256,
       "position": [
-        2.9902268516428157,
-        12.000149991409456
+        2.990228436452847,
+        12.000150321725735
       ],
       "waypoint": 15,
       "hp": 30,
@@ -853,7 +853,7 @@
       "seed": 4226,
       "armed": false,
       "phase": "lost",
-      "ticks": 122,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -871,8 +871,8 @@
       "phase": "extracted",
       "ticks": 256,
       "position": [
-        2.990230685591123,
-        12.000150265180562
+        2.9902248391759016,
+        12.00015041140223
       ],
       "waypoint": 15,
       "hp": 30,
@@ -885,7 +885,7 @@
       "seed": 4227,
       "armed": false,
       "phase": "lost",
-      "ticks": 120,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -901,10 +901,10 @@
       "seed": 4228,
       "armed": true,
       "phase": "extracted",
-      "ticks": 264,
+      "ticks": 256,
       "position": [
-        2.99023011177284,
-        12.000149954643149
+        2.9902308480516004,
+        12.000150261048658
       ],
       "waypoint": 15,
       "hp": 30,
@@ -917,7 +917,7 @@
       "seed": 4228,
       "armed": false,
       "phase": "lost",
-      "ticks": 120,
+      "ticks": 153,
       "position": [
         35.00234975717814,
         11.802530327663767
@@ -933,26 +933,26 @@
       "seed": 4229,
       "armed": true,
       "phase": "extracted",
-      "ticks": 255,
+      "ticks": 256,
       "position": [
-        2.990230794836163,
-        12.000150262427839
+        2.9902247593672775,
+        12.000150413051431
       ],
       "waypoint": 15,
       "hp": 30,
-      "cleared": false,
+      "cleared": true,
       "planted": true,
-      "nightLords": 1,
+      "nightLords": 0,
       "xenos": 0
     },
     {
       "seed": 4229,
       "armed": false,
       "phase": "lost",
-      "ticks": 115,
+      "ticks": 153,
       "position": [
         35.00234975717814,
-        11.802530327663765
+        11.802530327663767
       ],
       "waypoint": 7,
       "hp": 0,

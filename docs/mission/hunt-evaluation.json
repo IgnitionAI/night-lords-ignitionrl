@@ -1,0 +1,827 @@
+{
+  "description": "Stationary unarmed observer at central junction, all props, 116 seconds maximum. Visibility is geometric LOS, not player field of view. Scripted rhythm; unchanged PPO weights.",
+  "results": [
+    {
+      "agents": [
+        {
+          "x": 21.433683802104696,
+          "y": 3.946767536930605,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 6,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 21.5,
+            "y": 3.5,
+            "until": 1192
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 32.98943712475911,
+          "y": 19.502203055111814,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 47,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 33.5,
+            "y": 19.5,
+            "until": 1183
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 21.561947797833238,
+          "y": 6.052680037717863,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 6,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 21.5,
+            "y": 5.5,
+            "until": 1191
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 33.590147195906546,
+          "y": 16.981955816406852,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 47,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 33.5,
+            "y": 17.5,
+            "until": 1183
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        }
+      ],
+      "seed": 527,
+      "hp": 14,
+      "ticks": 1160,
+      "phases": {
+        "watch": {
+          "ticks": 180,
+          "visible": 180,
+          "near": 0,
+          "shots": 0,
+          "claws": 0
+        },
+        "stalk": {
+          "ticks": 260,
+          "visible": 31,
+          "near": 0,
+          "shots": 0,
+          "claws": 0
+        },
+        "strike": {
+          "ticks": 100,
+          "visible": 79,
+          "near": 56,
+          "shots": 1,
+          "claws": 11
+        },
+        "withdraw": {
+          "ticks": 620,
+          "visible": 160,
+          "near": 40,
+          "shots": 0,
+          "claws": 0
+        }
+      }
+    },
+    {
+      "agents": [
+        {
+          "x": 21.444426194729868,
+          "y": 4.3608578261709265,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 4,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 21.5,
+            "y": 3.5,
+            "until": 1194
+          },
+          "action": 4,
+          "arm": 0,
+          "stun": 0,
+          "next": 2
+        },
+        {
+          "x": 23.372411199737225,
+          "y": 20.96790744230926,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 4,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 23.5,
+            "y": 21.5,
+            "until": 1186
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 21.35858822929881,
+          "y": 6.263001194043927,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 4,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 21.5,
+            "y": 5.5,
+            "until": 1194
+          },
+          "action": 2,
+          "arm": 0,
+          "stun": 0,
+          "next": 4
+        },
+        {
+          "x": 23.89147979816821,
+          "y": 21.70605745193493,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 50,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 23.5,
+            "y": 21.5,
+            "until": 1186
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        }
+      ],
+      "seed": 528,
+      "hp": 12,
+      "ticks": 1160,
+      "phases": {
+        "watch": {
+          "ticks": 180,
+          "visible": 28,
+          "near": 15,
+          "shots": 0,
+          "claws": 0
+        },
+        "stalk": {
+          "ticks": 260,
+          "visible": 28,
+          "near": 0,
+          "shots": 0,
+          "claws": 0
+        },
+        "strike": {
+          "ticks": 100,
+          "visible": 84,
+          "near": 61,
+          "shots": 2,
+          "claws": 12
+        },
+        "withdraw": {
+          "ticks": 620,
+          "visible": 127,
+          "near": 32,
+          "shots": 0,
+          "claws": 0
+        }
+      }
+    },
+    {
+      "agents": [
+        {
+          "x": 21.69954610189067,
+          "y": 5.880331885203284,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 0,
+            "facing": 0,
+            "seen": false,
+            "heard": false,
+            "vox": true
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 21.5,
+            "y": 5.5,
+            "until": 1192
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 23.46742979173769,
+          "y": 20.908285823407308,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 45,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 23.5,
+            "y": 21.5,
+            "until": 1185
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 20.765932099565553,
+          "y": 6.556731124775062,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 0,
+            "facing": 0,
+            "seen": true,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 21.5,
+            "y": 3.5,
+            "until": 1157
+          },
+          "action": 5,
+          "arm": 0,
+          "stun": 0,
+          "next": 4
+        },
+        {
+          "x": 23.912881276337682,
+          "y": 21.884102370066103,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 45,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 23.5,
+            "y": 21.5,
+            "until": 1185
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        }
+      ],
+      "seed": 529,
+      "hp": 12,
+      "ticks": 1160,
+      "phases": {
+        "watch": {
+          "ticks": 180,
+          "visible": 31,
+          "near": 20,
+          "shots": 0,
+          "claws": 0
+        },
+        "stalk": {
+          "ticks": 260,
+          "visible": 14,
+          "near": 0,
+          "shots": 0,
+          "claws": 0
+        },
+        "strike": {
+          "ticks": 100,
+          "visible": 83,
+          "near": 60,
+          "shots": 1,
+          "claws": 12
+        },
+        "withdraw": {
+          "ticks": 620,
+          "visible": 127,
+          "near": 39,
+          "shots": 0,
+          "claws": 0
+        }
+      }
+    },
+    {
+      "agents": [
+        {
+          "x": 33.05705849734035,
+          "y": 7.3272938167349055,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 0,
+            "facing": 0,
+            "seen": false,
+            "heard": false,
+            "vox": true
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 33.5,
+            "y": 7.5,
+            "until": 884
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 27.634654250844214,
+          "y": 13.500735778884094,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 0,
+            "facing": 0,
+            "seen": true,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 33.5,
+            "y": 19.5,
+            "until": 816
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 1
+        },
+        {
+          "x": 16.029472933713546,
+          "y": 13.6150166291941,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 0,
+            "facing": 0,
+            "seen": false,
+            "heard": false,
+            "vox": true
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 15.5,
+            "y": 13.5,
+            "until": 869
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 25.867790204308527,
+          "y": 13.528364020524265,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 0,
+            "facing": 0,
+            "seen": true,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 23.5,
+            "y": 21.5,
+            "until": 813
+          },
+          "action": 0,
+          "arm": 2,
+          "stun": 0,
+          "next": 0
+        }
+      ],
+      "seed": 530,
+      "hp": 0,
+      "ticks": 851,
+      "phases": {
+        "watch": {
+          "ticks": 180,
+          "visible": 36,
+          "near": 14,
+          "shots": 0,
+          "claws": 0
+        },
+        "stalk": {
+          "ticks": 260,
+          "visible": 25,
+          "near": 0,
+          "shots": 0,
+          "claws": 0
+        },
+        "strike": {
+          "ticks": 91,
+          "visible": 85,
+          "near": 57,
+          "shots": 2,
+          "claws": 11
+        },
+        "withdraw": {
+          "ticks": 320,
+          "visible": 85,
+          "near": 25,
+          "shots": 0,
+          "claws": 0
+        }
+      }
+    },
+    {
+      "agents": [
+        {
+          "x": 33.48155049415139,
+          "y": 8.03139613854236,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 33,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 33.5,
+            "y": 7.5,
+            "until": 1166
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 35.07033549401229,
+          "y": 7.241579889757794,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 33,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 35.5,
+            "y": 7.5,
+            "until": 1178
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 21.31832709190763,
+          "y": 6.068031236063037,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 33,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 21.5,
+            "y": 5.5,
+            "until": 1166
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 35.56833367706461,
+          "y": 7.992090824435069,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 33,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 35.5,
+            "y": 7.5,
+            "until": 1178
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        }
+      ],
+      "seed": 531,
+      "hp": 18,
+      "ticks": 1160,
+      "phases": {
+        "watch": {
+          "ticks": 180,
+          "visible": 12,
+          "near": 0,
+          "shots": 0,
+          "claws": 0
+        },
+        "stalk": {
+          "ticks": 260,
+          "visible": 9,
+          "near": 0,
+          "shots": 0,
+          "claws": 0
+        },
+        "strike": {
+          "ticks": 100,
+          "visible": 56,
+          "near": 34,
+          "shots": 1,
+          "claws": 6
+        },
+        "withdraw": {
+          "ticks": 620,
+          "visible": 57,
+          "near": 24,
+          "shots": 0,
+          "claws": 0
+        }
+      }
+    },
+    {
+      "agents": [
+        {
+          "x": 35.49471153559163,
+          "y": 8.005683791630968,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 10,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 35.5,
+            "y": 7.5,
+            "until": 1166
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 32.853773855680025,
+          "y": 7.479970428276507,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 10,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 33.5,
+            "y": 7.5,
+            "until": 1185
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 21.435622097677506,
+          "y": 6.047438322883176,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 10,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 21.5,
+            "y": 5.5,
+            "until": 1165
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        },
+        {
+          "x": 15.867948090334789,
+          "y": 13.89777771403595,
+          "b": {
+            "valid": true,
+            "x": 27,
+            "y": 12,
+            "age": 27,
+            "facing": null,
+            "seen": false,
+            "heard": false,
+            "vox": false
+          },
+          "alive": true,
+          "hp": 3,
+          "shelter": {
+            "x": 15.5,
+            "y": 13.5,
+            "until": 1191
+          },
+          "action": 0,
+          "arm": 0,
+          "stun": 0,
+          "next": 0
+        }
+      ],
+      "seed": 532,
+      "hp": 12,
+      "ticks": 1160,
+      "phases": {
+        "watch": {
+          "ticks": 180,
+          "visible": 20,
+          "near": 4,
+          "shots": 0,
+          "claws": 0
+        },
+        "stalk": {
+          "ticks": 260,
+          "visible": 36,
+          "near": 0,
+          "shots": 0,
+          "claws": 0
+        },
+        "strike": {
+          "ticks": 100,
+          "visible": 58,
+          "near": 37,
+          "shots": 2,
+          "claws": 8
+        },
+        "withdraw": {
+          "ticks": 620,
+          "visible": 88,
+          "near": 20,
+          "shots": 0,
+          "claws": 0
+        }
+      }
+    }
+  ]
+}

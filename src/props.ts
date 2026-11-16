@@ -226,7 +226,7 @@ export function distSegPrism(ax: number, ay: number, bx: number, by: number, o: 
 
 export function firstHitT(ax: number, ay: number, bx: number, by: number, r: number, o: PropPrism): number {
   if (!o.floor) return Infinity;
-  if (distPointPrism(ax, ay, o) < r) return 0;
+  if (distPointPrism(ax, ay, o) < r - 1e-12) return 0;
   const seg = distSegPrism(ax, ay, bx, by, o);
   if (seg.d >= r - 1e-12) return Infinity;
   let tIn = Math.max(0, Math.min(1, seg.t));

@@ -1,3 +1,4 @@
+import {huntPhase,huntStriking} from './hunt-rhythm';
 // Simulation à pas fixe, pure (aucune dépendance) : la même sert au jeu, à l'entraînement et à l'éval.
 // Principe repris de The Crucible (IgnitionAI/ignition, packages/demo-cage-duel) : tick fixe de 100 ms,
 // la sim fait foi pour le rendu comme pour l'entraînement.
@@ -503,7 +504,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
           w.events.push({ type: 'enemyBolt', who: i, x: n.x, y: n.y, tx: n.shotX!, ty: n.shotY!, hit });
           if (hit) { t.hp = Math.max(0, t.hp - (w.opts.eliteDuel ? 7 : 2)); t.lastHitTick = w.tick; t.lastHitAngle = Math.atan2(n.y-t.y,n.x-t.x); w.events.push({ type: 'hit', dmg: w.opts.eliteDuel ? 7 : 2, zone: 'front', hpAfter: t.hp, stagger: false, servoAlarm: 0 }); }
         }
-      } else if ((!w.opts.eliteDuel || t.fistCharge === 0) && d > (w.opts.eliteDuel ? 3.2 : 4) && d < 14 && w.tick % (w.opts.eliteDuel ? 22 : 50) === 10 && los(n.x,n.y,t.x,t.y,w.propSolids)) {
+      } else if ((!w.opts.mission || huntStriking(w.tick,i)) && (!w.opts.eliteDuel || t.fistCharge === 0) && d > (w.opts.eliteDuel ? 3.2 : 4) && d < 14 && w.tick % (w.opts.eliteDuel ? 22 : 50) === 10 && los(n.x,n.y,t.x,t.y,w.propSolids)) {
         n.shotTicks = w.opts.eliteDuel ? 5 : 8; n.shotX = t.x + (w.opts.eliteDuel ? t.vx * .5 : 0); n.shotY = t.y + (w.opts.eliteDuel ? t.vy * .5 : 0);
         w.events.push({ type: 'enemyAim', who: i });
       }

@@ -48,6 +48,7 @@ export class AudioDirector {
   private time = 0;
   private pending: PendingSound[] = [];
   private lastWorld: DirectorWorld | null = null;
+  mission = false;
   huntCam = false;
   firstPerson = false;
 
@@ -71,7 +72,7 @@ export class AudioDirector {
     this.reset();
     engine.stopLoops();
     engine.startAmbience();
-    engine.setMusicPhase('explore');
+    engine.setMusicPhase(this.mission ? 'silence' : 'explore');
     this.started = true;
   }
 
@@ -267,7 +268,8 @@ export class AudioDirector {
   }
 
   private musicFor(w: DirectorWorld): MusicPhase {
-    if (this.combatUntil > this.time) return 'combat';
+    if (this.combatUntil > this.time) return this.mission ? 'tension' : 'combat';
+    if(this.mission)return 'silence';
     let min = Infinity;
     for (const n of w.nls) {
       if (!n.alive) continue;
@@ -323,7 +325,7 @@ export class AudioDirector {
     if (this.voxCd <= 0 && close.length >= (this.firstPerson ? 1 : 2)) {
       const n = close[0];
       engine.play('nl-vox-come-for-you', { x: n.x, y: n.y, z: 1.6, priority: 7, vary: true, bus: 'voice', send: 0.4 });
-      this.voxCd = 19;
+      this.voxCd = this.mission ? 37 : 19;
     }
 
     const phase = this.musicFor(w);
