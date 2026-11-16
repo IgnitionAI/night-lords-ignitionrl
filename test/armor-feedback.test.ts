@@ -43,3 +43,21 @@ test('weapon weight follows simulation time: freezes paused and settles after im
   assert.ok(Math.abs(vm.root.position.y) < .01);
   vm.dispose();
 });
+
+test('bolter magazine and breech animate and return to their mounted positions', () => {
+  const vm=createViewmodel();
+  const magazine=vm.bolter.getObjectByName('removable-magazine')!;
+  const breech=vm.bolter.getObjectByName('cycling-bolt')!;
+  vm.update(0,0,0,0,false,0);
+  const rest=magazine.position.y;
+  vm.update(.05,.05,0,0,false,10);
+  assert.ok(magazine.position.y < rest-.1);
+  vm.ingestSim({type:'bolt'});
+  vm.update(.01,.06,0,0,false,0);
+  assert.equal(magazine.position.y,rest);
+  assert.ok(breech.position.z>.08);
+  vm.update(.05,.11,0,0,false,0);
+  vm.update(.05,.16,0,0,false,0);
+  assert.equal(breech.position.z,.08);
+  vm.dispose();
+});

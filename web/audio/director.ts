@@ -38,6 +38,7 @@ export class AudioDirector {
   private nlAcc = [0, 0, 0, 0];
   private nlPrev = [{ x: 0, y: 0, alive: true }, { x: 0, y: 0, alive: true }, { x: 0, y: 0, alive: true }, { x: 0, y: 0, alive: true }];
   private voxCd = 0;
+  private screamCd = 0;
   private dripT = 0;
   private lastKill = -1;
   private combatUntil = 0;
@@ -52,7 +53,8 @@ export class AudioDirector {
 
   reset(): void {
     this.nlAcc = [0, 0, 0, 0];
-    this.voxCd = 0;
+    this.voxCd = 5;
+    this.screamCd = 0;
     this.dripT = 0;
     this.lastKill = -1;
     this.combatUntil = 0;
@@ -232,7 +234,8 @@ export class AudioDirector {
         engine.play('claw-swoosh', { ...pos(n.x, n.y), priority: 7, gain: 0.5 });
         engine.play('claw-metal', { ...pos(n.x, n.y), priority: 8, send: 0.28 });
         engine.play('claw-crackle', { ...pos(n.x, n.y), priority: 6, gain: 0.45, rate: 1.12 });
-        if (dmg > 0) {
+        if (dmg > 0 && this.screamCd <= 0) {
+          this.screamCd = 6;
           engine.play('nl-scream', { ...pos(n.x, n.y), priority: 6, gain: 0.45, bus: 'voice' });
           engine.duck(0.34);
         }
@@ -315,11 +318,12 @@ export class AudioDirector {
     }
 
     this.voxCd -= dt;
+    this.screamCd -= dt;
     const close = w.nls.filter((n) => n.alive && Math.hypot(n.x - w.t.x, n.y - w.t.y) < 8);
     if (this.voxCd <= 0 && close.length >= (this.firstPerson ? 1 : 2)) {
       const n = close[0];
       engine.play('nl-vox-come-for-you', { x: n.x, y: n.y, z: 1.6, priority: 7, vary: true, bus: 'voice', send: 0.4 });
-      this.voxCd = 11;
+      this.voxCd = 19;
     }
 
     const phase = this.musicFor(w);

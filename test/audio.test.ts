@@ -94,7 +94,7 @@ test('manifeste : fichier réel, échantillons présents, budget < 8 Mo', () => 
     assert.ok(st.size > 200, s.file + ' trop petit');
     bytes += st.size;
     names.add(s.name);
-    assert.ok(s.license.toLowerCase().includes('cc0'), s.name);
+    assert.ok(s.license.toLowerCase().includes('cc0') || (s.license.startsWith('Generated with Genex') && s.source.startsWith('Genex generation ')), s.name);
     if (s.name === 'bolter-shot' || s.name === 'fist-impact' || s.name === 'claw-metal') {
       assert.ok((s.variants?.length ?? 0) >= 2, s.name + ' variations');
     }

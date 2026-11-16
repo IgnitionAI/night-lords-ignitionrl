@@ -1,3 +1,4 @@
+import { installDreadHull, addNightLordTrophies } from './dread-detail';
 import { eliteDuelAction } from '../src/fps-duel';
 // Rendu Three.js d'une sim pure à pas fixe (src/sim.ts) : modèles riggés, décor, capsules en repli.
 import * as THREE from 'three';
@@ -290,6 +291,7 @@ beacon.position.set(BEACON.x, 0.05, BEACON.y); scene.add(beacon); const bl = new
 // Un seul appel de rendu par **type** de prop : les instances d'un même modèle partagent géométrie et
 // matériau (`InstancedMesh`), et c'est le seul moyen de poser vingt objets pour six appels.
 const PROPS_ON = !FPS_DUEL && qs.get('props') !== '0' && ENV;
+if (ENV && CAM_MODE === 'fps') installDreadHull(scene, ARENA.w, ARENA.h);
 let loadedPropKinds: PropKind[] = [];
 interface PropView { axis: 'x' | 'y' | 'z'; size: number; dim: number }
 const PROP_VIEW: Record<string, PropView> = {
@@ -368,7 +370,7 @@ const loadGLB = (url: string) => new Promise<any>((res, rej) => gltfLoader.load(
 // modèles portent 3 textures 1024² chacun, soit 80 Mio de VRAM avec mipmaps ; à 512² ils en font 20, et l'écart
 // mesuré au même tick est de −0,04/255, sous le plancher du grain. `?tex=1024` reprend les fichiers pleine
 // résolution pour comparer. La géométrie n'est pas touchée : elle est bloquée à 8 665 triangles côté outil.
-const TEX = qs.get('tex') === '1024' ? 1024 : 512;
+const TEX = qs.get('tex') === '512' ? 512 : 1024;
 async function loadModelGLB(name: string) {
   if (TEX === 512) { try { return await loadGLB(`/web/models/${name}-512.glb`); } catch { /* pas de variante : on prend l'original */ } }
   return loadGLB(`/web/models/${name}.glb`);
@@ -430,8 +432,8 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
       case 'nl':
         // Les textures sortent de Genex calibrees pour un studio, pas pour un couloir a 10 lux : on baisse
         // l'albedo pour que la forme passe devant le detail, et on garde le liseré de Fresnel de P2.
-        if (CAM_MODE === 'fps') m.normalScale?.setScalar(0.18);
-        if (m.color) { m.color.multiplyScalar(dim); m.envMapIntensity = 0.25; m.metalness *= 0.3; m.roughness = Math.max(m.roughness, 0.72); }
+        if (CAM_MODE === 'fps') m.normalScale?.setScalar(.22);
+        if (m.color) { m.color.multiplyScalar(dim); m.envMapIntensity = 0.25; m.metalness = CAM_MODE === 'fps' ? .38 : m.metalness * .3; m.roughness = CAM_MODE === 'fps' ? .62 : Math.max(m.roughness,.72); }
         // Injecté *avant* le brouillard : ajouté après, le liseré traversait 17 m de brume intact et le Night
         // Lord devenait un mannequin blanc à contre-jour (vu à t77). Avant, la brume le mange comme le reste.
         // Le liseré porte aussi le télégraphe de la griffe : du bleu froid au rouge ardent, et il s'intensifie.
@@ -2011,6 +2013,7 @@ async function loadModels() {
       // Frères v2 : textures bleu nuit déjà sombres, l'albédo ×0,22 des anciens modèles les rendait gris.
       const rig = await load(`NL-${i + 1}`, NL_HEIGHT, CAM_MODE === 'fps' ? 0.85 : 0.5, true, 'nl', i);
       await equipNl(rig.root, FPS_DUEL && i === 0 ? 3 : i, rig.idle?.getClip() ?? null, loadGLB);
+      if (CAM_MODE === 'fps') addNightLordTrophies(rig.root);
       nlMeshes[i].add(rig.root); nlRigs[i] = rig;
       for (const p of nlProxy.slice(i * 3, i * 3 + 3)) p.visible = false; // capsule + 2 yeux de ce rôle
     } catch (e) { console.warn('modèle NL-' + (i + 1) + ' absent, capsule conservée', e); }

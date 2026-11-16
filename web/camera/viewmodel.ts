@@ -2,8 +2,7 @@
 // pour que le canon ne traverse pas les piliers. Cues #72 : anticipation / impact / fire.
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { principalAxis } from '../weapons';
+import { buildSiegeBolter, detailGauntlet, wornMetalMap } from './weapon-detail';
 import type { AnimCue } from '../anim-cues';
 
 export interface Viewmodel {
@@ -54,20 +53,22 @@ export function createViewmodel(): Viewmodel {
   const root = new THREE.Group();
   scene.add(root);
 
-  scene.add(new THREE.AmbientLight(0xb8c4d8, 1.15));
-  const key = new THREE.DirectionalLight(0xffe4c0, 1.85);
+  scene.add(new THREE.AmbientLight(0x8996ad, .65));
+  const key = new THREE.DirectionalLight(0xffd6ac, 2.1);
   key.position.set(0.45, 0.7, 1.0);
   scene.add(key);
-  const fill = new THREE.DirectionalLight(0x7a94b8, 0.85);
+  const fill = new THREE.DirectionalLight(0x7a94b8, 1.1);
   fill.position.set(-0.7, 0.15, 0.8);
   scene.add(fill);
 
   const steel = ph(0x5a5348, { spec: 0x99a8b8, shine: 36, em: 0x1a1814, ei: 0.28 });
   const dark = ph(0x24201c, { spec: 0x556677, shine: 24, em: 0x0c0a08, ei: 0.2 });
-  const brass = ph(0xc49a42, { spec: 0xffe8b0, shine: 52, em: 0x5a3c10, ei: 0.55 });
-  const gold = ph(0xe0bc6a, { spec: 0xfff0c8, shine: 46, em: 0x5a4418, ei: 0.4 });
+  const brass = ph(0x8d7546, { spec: 0xffe8b0, shine: 52, em: 0x5a3c10, ei: 0.08 });
+  const gold = ph(0xb4a17a, { spec: 0xfff0c8, shine: 46, em: 0x5a4418, ei: 0.08 });
   const fistMat = ph(0x3a455c, { spec: 0x88aadd, shine: 32, em: 0x1c3c90, ei: 0.7 });
   const plate = ph(0x4a5368, { spec: 0x99bbdd, shine: 28, em: 0x121820, ei: 0.25 });
+  const wear = wornMetalMap();
+  for (const material of [steel, brass, gold, fistMat, plate]) material.map = wear;
   const energyMat = new THREE.MeshPhongMaterial({
     color: 0x4ec8ff, emissive: 0x2288ff, emissiveIntensity: 0.9,
     transparent: true, opacity: 0.55, depthWrite: false, shininess: 12,
@@ -163,18 +164,9 @@ export function createViewmodel(): Viewmodel {
   box(bolter, 0.105, 0.25, 0.12, plate, 0.015, -0.24, 0.15);
   box(bolter, 0.11, 0.045, 0.13, brass, 0.015, -0.13, 0.15);
   for (let i = 0; i < 4; i++) box(bolter, 0.07, 0.018, 0.06, fistMat, 0.008, -0.07 - i * 0.022, 0.085);
-  const fallbackParts = bolter.children.filter(o => o instanceof THREE.Mesh).slice(0, 12);
-  if (typeof document !== 'undefined') new GLTFLoader().load('/web/models/weapons/bolter.glb', gltf => {
-    const model = gltf.scene;
-    const { c, v, lo, hi } = principalAxis(model);
-    model.position.copy(c).negate();
-    const holder = new THREE.Group(); holder.add(model);
-    holder.quaternion.setFromUnitVectors(v, new THREE.Vector3(0, 0, -1));
-    holder.scale.setScalar(0.52 / (hi - lo));
-    holder.position.set(0, 0, -0.08);
-    bolter.add(holder);
-    fallbackParts.forEach(o => o.visible = false);
-  }, undefined, e => console.warn('Bolter FPS : modèle indisponible', e));
+  bolter.children.filter(o => o instanceof THREE.Mesh).slice(0, 12).forEach(o => o.visible = false);
+  const siege = buildSiegeBolter(); bolter.add(siege.root);
+  detailGauntlet(fist);
   let lastTime: number | null = null;
   let recZ = 0;
   let recX = 0;
@@ -233,12 +225,17 @@ export function createViewmodel(): Viewmodel {
     bolter.position.set(0.22, -0.19 - reloadArc * 0.15, -0.58 + recZ * 1.3);
     bolter.rotation.z = 0.04 + reloadArc * 0.55;
     bolter.rotation.x = 0.10 + recZ * 3.2;
+    const reloadProgress = THREE.MathUtils.clamp(1 - reload / 20, 0, 1);
+    const magTravel = reload > 0 ? Math.sin(Math.PI * reloadProgress) : 0;
+    siege.magazine.position.y = -.125 - magTravel * .17;
+    siege.magazine.rotation.x = magTravel * .18;
+    siege.slide.position.z = .08 + fireT * .045;
     (muzzleFlash.material as THREE.MeshBasicMaterial).opacity = fireT * fireT;
     muzzleFlash.scale.setScalar(0.6 + fireT * 1.8);
     muzzle.intensity = 14 * fireT * fireT;
     (tracer.material as THREE.LineBasicMaterial).opacity = fireT * 0.85;
     const pull = wind * 0.16;
-    const punch = Math.min(1, strike * 1.65) * .27;
+    const punch = strike * strike * .27;
     // High-frequency vibration belongs to the energized gauntlet, never to the aiming camera.
     const vibro = Math.sin(now * Math.PI * 2 * 32) * .0018 * wind;
     fist.position.set(-0.24 + strike * 0.12 + reloadArc * 0.30, -0.17 + strike * 0.12 - reloadArc * 0.06, -0.58 - punch + pull + vibro);
@@ -247,7 +244,7 @@ export function createViewmodel(): Viewmodel {
       joint.rotation.x = -(j===0 ? .45 : 1.15) * grip - wind*.12 + Math.sin(now*1.2+i)*.015;
     }));
     thumb.rotation.y = -.8 - grip*.25;
-    fist.rotation.z = -0.18 - reloadArc * 0.65;
+    fist.rotation.z = -0.18 - reloadArc * 0.65 - strike * .20;
     fist.rotation.x = 0.55 - wind * 0.32 + strike * 0.45;
     fistMat.emissiveIntensity = 0.08 + wind * 1.1 + strike * 1.4;
     energyMat.emissiveIntensity = 0.9 + wind * 1.3 + strike * 0.8;
