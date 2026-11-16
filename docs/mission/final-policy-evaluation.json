@@ -1,0 +1,151 @@
+{
+  "props": true,
+  "description": "Held-out FPS combat scenarios, no Genestealers or bomb. Not human difficulty or full mission completion.",
+  "seeds": "910000..910029",
+  "results": [
+    {
+      "file": "policies/mission.json",
+      "coordinated": false,
+      "tactic": "march",
+      "episodes": 30,
+      "packWins": 12,
+      "packWinRate": 0.4,
+      "meanSeconds": 61.776666666666664,
+      "meanDamage": 12.333333333333334,
+      "rearHitShare": 0.07058823529411765,
+      "encirclementTickShare": 0.0230399827335024
+    },
+    {
+      "file": "policies/mission.json",
+      "coordinated": false,
+      "tactic": "turret",
+      "episodes": 30,
+      "packWins": 3,
+      "packWinRate": 0.1,
+      "meanSeconds": 116.35666666666667,
+      "meanDamage": 3.6666666666666665,
+      "rearHitShare": 0,
+      "encirclementTickShare": 0
+    },
+    {
+      "file": "policies/mission.json",
+      "coordinated": false,
+      "tactic": "brawler",
+      "episodes": 30,
+      "packWins": 12,
+      "packWinRate": 0.4,
+      "meanSeconds": 61.81333333333333,
+      "meanDamage": 12.2,
+      "rearHitShare": 0.18831168831168832,
+      "encirclementTickShare": 0.015207075064710958
+    },
+    {
+      "file": "policies/mission.json",
+      "coordinated": false,
+      "tactic": "backpedal",
+      "episodes": 30,
+      "packWins": 17,
+      "packWinRate": 0.5666666666666667,
+      "meanSeconds": 58.03,
+      "meanDamage": 17,
+      "rearHitShare": 0.06751054852320675,
+      "encirclementTickShare": 0.02004710207364007
+    },
+    {
+      "file": "policies/mission.json",
+      "coordinated": false,
+      "tactic": "elite",
+      "episodes": 30,
+      "packWins": 4,
+      "packWinRate": 0.13333333333333333,
+      "meanSeconds": 99.11333333333333,
+      "meanDamage": 4.6,
+      "rearHitShare": 0,
+      "encirclementTickShare": 0.000638999125580144
+    },
+    {
+      "file": "policies/mission.json",
+      "coordinated": false,
+      "tactic": "kiter",
+      "episodes": 30,
+      "packWins": 5,
+      "packWinRate": 0.16666666666666666,
+      "meanSeconds": 97.41,
+      "meanDamage": 5.4,
+      "rearHitShare": 0.05,
+      "encirclementTickShare": 0.0027033501009478835
+    },
+    {
+      "file": "policies/mission.json",
+      "coordinated": true,
+      "tactic": "march",
+      "episodes": 30,
+      "packWins": 11,
+      "packWinRate": 0.36666666666666664,
+      "meanSeconds": 63.89666666666667,
+      "meanDamage": 11.133333333333333,
+      "rearHitShare": 0.06578947368421052,
+      "encirclementTickShare": 0.01664145234493192
+    },
+    {
+      "file": "policies/mission.json",
+      "coordinated": true,
+      "tactic": "turret",
+      "episodes": 30,
+      "packWins": 4,
+      "packWinRate": 0.13333333333333333,
+      "meanSeconds": 104.8,
+      "meanDamage": 4.533333333333333,
+      "rearHitShare": 0,
+      "encirclementTickShare": 0
+    },
+    {
+      "file": "policies/mission.json",
+      "coordinated": true,
+      "tactic": "brawler",
+      "episodes": 30,
+      "packWins": 14,
+      "packWinRate": 0.4666666666666667,
+      "meanSeconds": 62.33,
+      "meanDamage": 14.066666666666666,
+      "rearHitShare": 0.09326424870466321,
+      "encirclementTickShare": 0.015348414353708754
+    },
+    {
+      "file": "policies/mission.json",
+      "coordinated": true,
+      "tactic": "backpedal",
+      "episodes": 30,
+      "packWins": 14,
+      "packWinRate": 0.4666666666666667,
+      "meanSeconds": 60.95,
+      "meanDamage": 14.333333333333334,
+      "rearHitShare": 0.06965174129353234,
+      "encirclementTickShare": 0.014602132895816243
+    },
+    {
+      "file": "policies/mission.json",
+      "coordinated": true,
+      "tactic": "elite",
+      "episodes": 30,
+      "packWins": 6,
+      "packWinRate": 0.2,
+      "meanSeconds": 93.6,
+      "meanDamage": 6.466666666666667,
+      "rearHitShare": 0,
+      "encirclementTickShare": 0.0004985754985754986
+    },
+    {
+      "file": "policies/mission.json",
+      "coordinated": true,
+      "tactic": "kiter",
+      "episodes": 30,
+      "packWins": 4,
+      "packWinRate": 0.13333333333333333,
+      "meanSeconds": 72.35333333333334,
+      "meanDamage": 4.133333333333334,
+      "rearHitShare": 0.1,
+      "encirclementTickShare": 0.0019349488620657882
+    }
+  ]
+}

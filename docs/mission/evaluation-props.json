@@ -1,0 +1,151 @@
+{
+  "props": true,
+  "description": "Held-out FPS combat scenarios, no Genestealers or bomb. Not human difficulty or full mission completion.",
+  "seeds": "910000..910029",
+  "results": [
+    {
+      "file": "runs/mission-fps-advanced/actor.json",
+      "coordinated": false,
+      "tactic": "march",
+      "episodes": 30,
+      "packWins": 4,
+      "packWinRate": 0.13333333333333333,
+      "meanSeconds": 107.87,
+      "meanDamage": 4,
+      "rearHitShare": 0,
+      "encirclementTickShare": 0.010290164086400296
+    },
+    {
+      "file": "runs/mission-fps-advanced/actor.json",
+      "coordinated": false,
+      "tactic": "turret",
+      "episodes": 30,
+      "packWins": 12,
+      "packWinRate": 0.4,
+      "meanSeconds": 92.24666666666667,
+      "meanDamage": 12.466666666666667,
+      "rearHitShare": 0.1702127659574468,
+      "encirclementTickShare": 0.00393871503938715
+    },
+    {
+      "file": "runs/mission-fps-advanced/actor.json",
+      "coordinated": false,
+      "tactic": "brawler",
+      "episodes": 30,
+      "packWins": 8,
+      "packWinRate": 0.26666666666666666,
+      "meanSeconds": 92.17333333333333,
+      "meanDamage": 8.8,
+      "rearHitShare": 0.10679611650485436,
+      "encirclementTickShare": 0.010957616085635759
+    },
+    {
+      "file": "runs/mission-fps-advanced/actor.json",
+      "coordinated": false,
+      "tactic": "backpedal",
+      "episodes": 30,
+      "packWins": 13,
+      "packWinRate": 0.43333333333333335,
+      "meanSeconds": 69.59666666666666,
+      "meanDamage": 13.866666666666667,
+      "rearHitShare": 0.20253164556962025,
+      "encirclementTickShare": 0.030030173858901287
+    },
+    {
+      "file": "runs/mission-fps-advanced/actor.json",
+      "coordinated": false,
+      "tactic": "elite",
+      "episodes": 30,
+      "packWins": 8,
+      "packWinRate": 0.26666666666666666,
+      "meanSeconds": 101.93,
+      "meanDamage": 9,
+      "rearHitShare": 0,
+      "encirclementTickShare": 0.003106707217371399
+    },
+    {
+      "file": "runs/mission-fps-advanced/actor.json",
+      "coordinated": false,
+      "tactic": "kiter",
+      "episodes": 30,
+      "packWins": 3,
+      "packWinRate": 0.1,
+      "meanSeconds": 92.69666666666667,
+      "meanDamage": 3.6666666666666665,
+      "rearHitShare": 0.058823529411764705,
+      "encirclementTickShare": 0.006077169261749793
+    },
+    {
+      "file": "runs/mission-fps-advanced/actor.json",
+      "coordinated": true,
+      "tactic": "march",
+      "episodes": 30,
+      "packWins": 6,
+      "packWinRate": 0.2,
+      "meanSeconds": 97.87666666666667,
+      "meanDamage": 6.133333333333334,
+      "rearHitShare": 0.09523809523809523,
+      "encirclementTickShare": 0.011442972448319313
+    },
+    {
+      "file": "runs/mission-fps-advanced/actor.json",
+      "coordinated": true,
+      "tactic": "turret",
+      "episodes": 30,
+      "packWins": 13,
+      "packWinRate": 0.43333333333333335,
+      "meanSeconds": 97.53,
+      "meanDamage": 13.266666666666667,
+      "rearHitShare": 0.15555555555555556,
+      "encirclementTickShare": 0.004306367271608736
+    },
+    {
+      "file": "runs/mission-fps-advanced/actor.json",
+      "coordinated": true,
+      "tactic": "brawler",
+      "episodes": 30,
+      "packWins": 9,
+      "packWinRate": 0.3,
+      "meanSeconds": 86.49333333333334,
+      "meanDamage": 9.333333333333334,
+      "rearHitShare": 0.1623931623931624,
+      "encirclementTickShare": 0.00948049946045938
+    },
+    {
+      "file": "runs/mission-fps-advanced/actor.json",
+      "coordinated": true,
+      "tactic": "backpedal",
+      "episodes": 30,
+      "packWins": 11,
+      "packWinRate": 0.36666666666666664,
+      "meanSeconds": 70.70333333333333,
+      "meanDamage": 12.2,
+      "rearHitShare": 0.16129032258064516,
+      "encirclementTickShare": 0.022629767573428883
+    },
+    {
+      "file": "runs/mission-fps-advanced/actor.json",
+      "coordinated": true,
+      "tactic": "elite",
+      "episodes": 30,
+      "packWins": 8,
+      "packWinRate": 0.26666666666666666,
+      "meanSeconds": 106.44666666666667,
+      "meanDamage": 8.466666666666667,
+      "rearHitShare": 0,
+      "encirclementTickShare": 0.0008141792446921776
+    },
+    {
+      "file": "runs/mission-fps-advanced/actor.json",
+      "coordinated": true,
+      "tactic": "kiter",
+      "episodes": 30,
+      "packWins": 5,
+      "packWinRate": 0.16666666666666666,
+      "meanSeconds": 85.2,
+      "meanDamage": 6.4,
+      "rearHitShare": 0.039473684210526314,
+      "encirclementTickShare": 0.018427230046948358
+    }
+  ]
+}

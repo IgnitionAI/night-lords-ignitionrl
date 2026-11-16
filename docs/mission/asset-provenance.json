@@ -1,0 +1,17 @@
+{
+  "generation": "cmwizs0lw00im3olgoubwmmgw",
+  "source": "public/assets/genex/4b1c39a9-b2e6-4c00-95b9-c90df8659221/animate-cmwiznddx00hs3olgt5enenuv-walk-r-cmwizs0l.glb",
+  "runtime": "web/models/genestealer.glb",
+  "sha256": "0b4d879ba2de19c774f4371b741018c89fb6d20c2abfb9a1b3ed33e6914712b0",
+  "bytes": 17954932,
+  "triangles": 146072,
+  "clips": [
+    "fall",
+    "hurt",
+    "run",
+    "slash",
+    "walk"
+  ],
+  "clones": 6,
+  "notes": "Identical delivered asset copied into existing build asset pipeline. Studio inspect_use does not recognize renamed copies; live screenshots and runtime load count provide integration evidence."
+}

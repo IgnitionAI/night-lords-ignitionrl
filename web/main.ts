@@ -1,3 +1,6 @@
+import { griffeAction } from '../src/griffe';
+import { newMission, missionStep, missionText } from '../src/mission';
+import { missionScene } from './mission-scene';
 import { refinedArmor, finishArmorMaterial, finishArmorShader } from './refined-armor';
 import { replaceNightLordHelmet } from './nightlord-helmet';
 import { installDreadHull, addNightLordTrophies } from './dread-detail';
@@ -87,7 +90,11 @@ applySceneAtmosphere(scene, FOG_MODE);
 const CAM_MODE: CamMode = parseCamMode(qs.get('cam'));
 if (CAM_MODE === 'fps') document.body.classList.add('fps');
 if (CAM_MODE === 'shoulder') document.body.classList.add('shoulder');
-const FPS_DUEL = CAM_MODE === 'fps' && !autoplay && !shot && qs.get('duel') !== '0' && !qs.has('demo');
+const MISSION = CAM_MODE === 'fps' && !autoplay && !shot && !qs.has('demo') && qs.get('duel') !== '1';
+if (MISSION) document.body.classList.add('mission');
+let mission = newMission();
+const renderMission = MISSION ? missionScene(scene) : null;
+const FPS_DUEL = CAM_MODE === 'fps' && !autoplay && !shot && qs.get('duel') === '1' && !qs.has('demo');
 const PLAY_SPEED = Math.max(1, Math.min(2, Number(qs.get('speed') ?? 1) || 1));
 const PROBE_READ = qs.get('probe') === 'read';
 const CAP_STEP = qs.get('cap') === '1';
@@ -803,7 +810,7 @@ addEventListener('keydown', e => {
   if (CAM_MODE === 'fps') { if (e.code === 'KeyR') queuedReload = true; if (e.code === 'Space') queuedBolt = true; if (e.code === 'KeyF') queuedFist = true; }
   if (e.code === 'KeyV') { debug = !debug; if (debug) buildLabels(); }
   if (e.code === 'KeyP') paused = !paused;
-  if (e.code === 'Escape' && FPS_DUEL) { fpsStarted = false; keys.clear(); queuedReload = queuedBolt = queuedFist = false; }
+  if (e.code === 'Escape' && (FPS_DUEL || MISSION)) { fpsStarted = false; keys.clear(); queuedReload = queuedBolt = queuedFist = false; }
   if (e.code === 'KeyH' && CAM_MODE === 'diablo') readAids = !readAids;
   if (e.code === 'KeyM') engine.toggleMute();
   if (e.code === 'Enter' && (roundOver || FPS_DUEL)) startRound();
@@ -811,7 +818,7 @@ addEventListener('keydown', e => {
 });
 addEventListener('keyup', e => keys.delete(e.code));
 if (CAM_MODE === 'fps') {
-  canvas.addEventListener('click', () => { fpsStarted = true; if (!fpsDragLook) canvas.requestPointerLock?.()?.catch(() => { fpsDragLook = true; }); });
+  canvas.addEventListener('click', () => { if(MISSION && !scene.userData.genestealersLoaded)return; fpsStarted = true; if (!fpsDragLook) canvas.requestPointerLock?.()?.catch(() => { fpsDragLook = true; }); });
   canvas.addEventListener('contextmenu', e => e.preventDefault());
   addEventListener('mousedown', e => { if (fpsStarted && e.button < 3) { keys.add(e.button === 0 ? 'MouseFire' : 'MouseFist'); if (e.button === 0) queuedBolt = true; if (e.button === 2) queuedFist = true; } });
   addEventListener('mouseup', e => keys.delete(e.button === 0 ? 'MouseFire' : 'MouseFist'));
@@ -1054,7 +1061,9 @@ function startRound() {
   // le build jouable garde l'armement des griffes (défaut) : il n'est plus celui des mesures b3
   queuedReload = queuedBolt = queuedFist = false;
   roundNo++; roundOver = false; if (roundNo > 1) seed += 1; // manche suivante : la graine d'après, jamais la même
-  w = newWorld(seed, FPS_DUEL ? { x: 4, y: 12, facing: 0 } : undefined, { fps: CAM_MODE === 'fps', eliteDuel: FPS_DUEL, propKinds: resolvePropKinds({ propsOn: PROPS_ON, loaded: loadedPropKinds }) }); camYaw = followYaw = w.t.facing; prev = snap();
+  w = newWorld(seed, FPS_DUEL ? { x: 4, y: 12, facing: 0 } : undefined, { fps: CAM_MODE === 'fps', eliteDuel: FPS_DUEL, mission: MISSION, propKinds: resolvePropKinds({ propsOn: PROPS_ON, loaded: loadedPropKinds }) }); camYaw = followYaw = w.t.facing; prev = snap();
+  mission = newMission();
+  if (MISSION) { w.t.x=3; w.t.y=12; w.t.facing=0; prev=snap(); }
   if (FPS_DUEL) {
     w.nls.forEach((n, i) => { n.alive = i === 0; n.x = 11; n.y = 12; n.facing = Math.PI; n.cd = 10; });
     prev = snap();
@@ -1133,7 +1142,7 @@ if (CAM_MODE === 'diablo') {
   addEventListener('keydown', e => { if (e.code.startsWith('Arrow')) e.preventDefault(); });
 }
 if (CAM_MODE === 'fps') {
-  document.getElementById('help')!.textContent = 'ZQSD / WASD · Clic : bolter · F : gantelet · R : recharge · P : pause · Entrée : rejouer · Échap : souris';
+  document.getElementById('help')!.textContent = 'ZQSD / WASD · Clic : bolter · F : gantelet · R : recharge · E : bombe / extraction · P : pause · Entrée : rejouer · Échap : souris';
 }
 function playerAction(): TAction {
   const k = (c: string) => keys.has(c);
@@ -1247,7 +1256,7 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
       index: i,
       facing: n.facing, x: n.x, y: n.y, termX: w.t.x, termY: w.t.y,
     });
-    if (FPS_DUEL) {
+    if (FPS_DUEL || MISSION) {
       intent.meleeVariant = 'single';
       if (w.events.some(e => e.type === 'enemyBolt' && e.who === i)) {
         intent.attack = true; intent.attackStyle = 'shoot';
@@ -1296,9 +1305,16 @@ function tick() {
       return eliteDuelAction(w, i);
     }
     if (!actor) { const f = nlFrame(n); return f.d < 1.6 ? 7 : 1; }
-    const p = softmax(forward(actor, observe(w, i))); const a = sample(p, rng); lastP[i] = p[a]; return a;
+    const p = softmax(forward(actor, observe(w, i))); const a = sample(p, rng); lastP[i] = p[a]; return MISSION ? griffeAction(w,i,a) : a;
   }); lastActs = acts;
-  step(w, ta, acts);
+  if (MISSION) {
+    const phase=mission.phase, narrative=mission.narrative, xenoHp=mission.xenos.map(g=>g.hp);
+    missionStep(w, mission, ta, acts, keys.has('KeyE'));
+    if(phase!=='escape' && mission.phase==='escape') engine.play('alarm-klaxon',{gain:.55,bus:'ui'});
+    if(narrative!==mission.narrative) engine.play(mission.narrative===2?'nl-vox-come-for-you':'amb-duct',{gain:.55,x:w.t.x,y:1.5,z:w.t.y-5});
+    mission.xenos.forEach((g,i)=>{if(g.hp<xenoHp[i]){hitMarkT=.18;hitMarkKill=g.hp<=0;engine.play(g.hp<=0?'nl-death':'claw-metal',{x:g.x,y:1,z:g.y,gain:.4,rate:.7});}if(g.hp>0 && g.windup===6) engine.play('claw-swoosh',{x:g.x,y:1,z:g.y,gain:.7,rate:.65});});
+    if(mission.phase==='escape' && mission.remaining<20 && w.tick%30===0) engine.play('alarm-klaxon',{gain:.32,bus:'ui'});
+  } else step(w, ta, acts);
   // Après le pas, avant les événements : un tick couvre [t, t+DT], et la rafale qui part maintenant doit
   // porter l'horodatage de la fin du tick, sinon son flash est déjà éteint quand l'image est rendue.
   updateImpact(DT);
@@ -1409,6 +1425,7 @@ function flash(_o: number) { /* remplacé par un retour localisé (hitGlow / imp
 async function endRound() {
   roundOver = true; director.endRound(w.winner); if (w.winner === 'pack') score.pack++; else score.term++;
   const msg = document.getElementById('msg')!; msg.style.display = 'block';
+  if (MISSION) { msg.innerHTML = `<h2>${w.reason}</h2><p>Entrée : nouvelle mission</p>`; return; }
   if (FPS_DUEL) {
     msg.innerHTML = `<h2>${w.winner === 'terminator' ? 'Duel remporté' : 'Armure détruite'}</h2><p>Entrée : recommencer le duel</p>`;
     return;
@@ -1426,7 +1443,7 @@ async function endRound() {
 async function loadPolicy() {
   const sel = policyFileFromQuery(qs.get('policy'));
   try {
-    const j = await fetch(`/policy/${sel.file}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null);
+    const j = await fetch(`/policy/${MISSION && !qs.has('policy') ? 'mission.json' : sel.file}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null);
     if (j) {
       actor = j;
       const q = qs.get('policy');
@@ -1473,19 +1490,21 @@ function nlBodyReport() {
 }
 function hud() {
   const extra = {
-    duel: FPS_DUEL, roundNo, score, demo: !!DEMO_CFG, alarmOn: ALARM_ON,
+    mission: MISSION, radio: MISSION && w.tick < mission.radioUntil ? mission.radio : '', duel: FPS_DUEL, roundNo, score, demo: !!DEMO_CFG, alarmOn: ALARM_ON,
     servoAlarm: w.t.servoAlarm > 0, servoCritical: w.t.servoCriticalSent,
-    policyLine: FPS_DUEL ? ((w.nls[0].recoveryTicks ?? 0) > 0 ? 'OUVERTURE · RIPOSTEZ' : (w.nls[0].burstTicks ?? 0) > 0 ? 'ACCÉLÉRATION' : 'TALOS · ARMURE RENFORCÉE') : `${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}`,
-    burnIn: FPS_DUEL ? '' : burnIn(),
+    policyLine: MISSION ? missionText(w, mission) : FPS_DUEL ? ((w.nls[0].recoveryTicks ?? 0) > 0 ? 'OUVERTURE · RIPOSTEZ' : (w.nls[0].burstTicks ?? 0) > 0 ? 'ACCÉLÉRATION' : 'TALOS · ARMURE RENFORCÉE') : `${policyLabel}${autoplay ? ` · Terminator en autoplay (${autoplay})` : ''}`,
+    burnIn: (FPS_DUEL || MISSION) ? '' : burnIn(),
     playSpeed: PLAY_SPEED !== 1 ? `lecture ×${String(PLAY_SPEED).replace('.', ',')}` : undefined,
   };
   const h = document.getElementById('hud')!;
   const prompt = document.getElementById('fps-prompt');
-  if (prompt) { prompt.style.display = FPS_DUEL && (!fpsStarted || paused) && !roundOver ? 'block' : 'none'; prompt.textContent = paused ? 'Pause · P pour reprendre' : 'DUEL FPS · Cliquer pour entrer'; }
-  h.innerHTML = CAM_MODE === 'fps' ? fpsHudMarkup(matchStatus(w), extra) : hudMarkup(matchStatus(w), extra);
+  if (prompt) { prompt.style.display = (FPS_DUEL || MISSION) && (!fpsStarted || paused) && !roundOver ? 'block' : 'none'; prompt.textContent = MISSION && !scene.userData.genestealersLoaded ? (scene.userData.genestealerError ? 'Chargement interrompu · Recharger la mission' : 'Préparation de la mission…') : paused ? 'Pause · P pour reprendre' : MISSION ? 'OPÉRATION CENDRES · Cliquer pour entrer' : 'DUEL FPS · Cliquer pour entrer'; }
+  const status = matchStatus(w);
+  if (MISSION) {status.clock=mission.phase==='escape' ? `${Math.floor(Math.ceil(mission.remaining)/60)}:${String(Math.ceil(mission.remaining)%60).padStart(2,'0')}` : 'NON ARMÉE'; status.timePressure=mission.phase==='escape' && mission.remaining<20;}
+  h.innerHTML = CAM_MODE === 'fps' ? fpsHudMarkup(status, extra) : hudMarkup(matchStatus(w), extra);
   (window as unknown as { __NL?: unknown }).__NL = {
-    tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, muted: engine.muted,
-    hp: w.t.hp, nlsAlive: w.nls.filter((n) => n.alive).length,
+    mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, muted: engine.muted,
+    playerPosition: {x:w.t.x,y:w.t.y}, genestealersLoaded: scene.userData.genestealersLoaded ?? 0, rendering: {...renderer.info.render}, hp: w.t.hp, nlsAlive: w.nls.filter((n) => n.alive).length,
     fistCharge: w.t.fistCharge,
     events: w.events.map((e) => e.type),
     seen: (() => {
@@ -1527,6 +1546,7 @@ function render(alpha: number) {
   const tx = lerp(prev.t[0], w.t.x), ty = lerp(prev.t[1], w.t.y), tf = la(prev.t[2], w.t.facing);
   const subjX = FOCUS_NL !== null ? lerp(prev.n[FOCUS_NL][0], w.nls[FOCUS_NL].x) : tx;
   const subjY = FOCUS_NL !== null ? lerp(prev.n[FOCUS_NL][1], w.nls[FOCUS_NL].y) : ty;
+  renderMission?.(mission, w.tick * DT + alpha * DT, tx, ty);
   term.position.set(tx, 0, ty); term.rotation.y = -tf; fistM.position.x = w.t.fistCd > 8 ? 1.2 : 0.55;
   w.nls.forEach((n, i) => {
     const g = nlMeshes[i];
@@ -1538,7 +1558,7 @@ function render(alpha: number) {
     else if (!n.alive) { g.rotation.set(Math.PI / 2, 0, 0); g.position.y = 0.4 + oy; }
     else g.rotation.y = -la(prev.n[i][2], n.facing);
     // Match : pas de mesh orphelin. Les planches `?demo=` gardent le clip de mort à l'écran.
-    g.visible = n.alive || (FPS_DUEL && !!nlFall[i]) || nlCamHold[i]! > 0 || !!DEMO_CFG;
+    g.visible = n.alive || ((FPS_DUEL || MISSION) && !!nlFall[i]) || nlCamHold[i]! > 0 || !!DEMO_CFG;
   });
   hitGlowNL.forEach((l, i) => { l.intensity = 5.5 * (nlRigs[i]?.combat.hitFlash ?? 0); });
   hitGlowT.intensity = 6.5 * (termRig?.combat.hitFlash ?? 0);
@@ -2152,7 +2172,7 @@ if (PROBE_READ) {
     for (let i = 0; i < steps && !roundOver; i++) tick();
     finishCap();
     return {
-      tick: w.tick, done: w.done, winner: w.winner, reason: w.reason,
+      mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason,
       msgShown: document.getElementById('msg')?.style.display === 'block',
       hold: nlCamHold.slice(),
       term: { x: w.t.x, y: w.t.y, facing: w.t.facing },
@@ -2179,7 +2199,7 @@ if (PROBE_READ) {
   if (w.done) await endRound();
   (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY = true;
   (window as unknown as { __NL?: unknown }).__NL = {
-    tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, playSpeed: PLAY_SPEED,
+    mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, playSpeed: PLAY_SPEED,
   };
   document.title = 'READY';
 } else if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
@@ -2217,7 +2237,7 @@ if (PROBE_READ) {
     if (PLAY_SPEED !== 1) dt = Math.max(dt, 0.2);
     fx.advance(dt, now * 0.001, w.t.hp / T_CFG.hp);
     const simDt = PLAY_SPEED !== 1 ? dt * PLAY_SPEED : fx.simDelta(dt);
-    if (!paused && !roundOver && (!FPS_DUEL || fpsStarted)) { acc += simDt; while (acc >= DT) { acc -= DT; tick(); if (roundOver) break; } }
+    if (!paused && !roundOver && (!(FPS_DUEL || MISSION) || fpsStarted)) { acc += simDt; while (acc >= DT) { acc -= DT; tick(); if (roundOver) break; } }
     if (!shot && !paused) {
       const alpha = roundOver ? 1 : acc / DT;
       const displaySim = Math.max(0, simT - DT + alpha * DT);

@@ -3,8 +3,9 @@
 import { mkdirSync, writeFileSync, appendFileSync, readFileSync } from 'node:fs';
 import { performance } from 'node:perf_hooks';
 import { PPO, DEFAULT_PPO } from './ppo';
+import { PROP_KINDS } from './props';
 import { newWorld, step, observe, OBS_DIM, N_ACT, N_NL, type World } from './sim';
-import { POOL, ghost, bcGhost, randomized, type Tactic } from './tactics';
+import { POOL, UNSEEN, ghost, bcGhost, randomized, type Tactic } from './tactics';
 import type { ActorJSON } from './policy';
 import { summarize, type Recording } from './recorder';
 import { mulberry32 } from './rng';
@@ -34,12 +35,13 @@ let nextSeed = 1 + (seed0 * 104729) % 700000; // seeds d'entraînement < 900 000
 
 interface Traj { obs: number[][]; act: number[]; lp: number[]; val: number[]; rew: number[]; done: boolean }
 interface Env { w: World; tactic: Tactic; opp: string; traj: Traj[] }
-const poolNames = Object.keys(POOL);
+const trainingPool = args.fps === 'true' ? {...POOL, ...UNSEEN} : POOL;
+const poolNames = Object.keys(trainingPool);
 let trainProgress = 0;
 function makeEnv(): Env {
   const s = nextSeed++; let tactic: Tactic, opp: string, w: World;
   // entraînement : sans armement, pour rester comparable aux mesures b3 (le build jouable, lui, arme les griffes)
-  const O = { clawWindup: false };
+  const O = { propKinds: args.props === 'true' ? PROP_KINDS : [], clawWindup: args.fps === 'true', fps: args.fps === 'true' };
   if (ghostBC && rng() < ghostShare) { opp = 'ghostBC'; tactic = bcGhost(ghostBC, s); w = newWorld(s, undefined, O); }
   else if (ghostSummary && rng() < ghostShare) { opp = 'ghost'; tactic = ghost(ghostSummary, s); w = newWorld(s, ghostSummary.spawn, O); }
   else if (preset.curriculumB6) {
@@ -54,7 +56,7 @@ function makeEnv(): Env {
     const picked = pickB4Opp(rng, trainProgress);
     opp = picked.opp; tactic = picked.tactic; w = newWorld(s, undefined, O);
   }
-  else { const fixed = poolNames.filter(k => k !== 'randomized'); opp = rng() < 0.5 ? 'randomized' : fixed[Math.floor(rng() * fixed.length)]; tactic = opp === 'randomized' ? randomized(s) : POOL[opp](); w = newWorld(s, undefined, O); }
+  else { const fixed = poolNames.filter(k => k !== 'randomized'); opp = rng() < 0.5 ? 'randomized' : fixed[Math.floor(rng() * fixed.length)]; tactic = opp === 'randomized' ? randomized(s) : trainingPool[opp](); w = newWorld(s, undefined, O); }
   return { w, tactic, opp, traj: Array.from({ length: N_NL }, () => ({ obs: [], act: [], lp: [], val: [], rew: [], done: false })) };
 }
 const envs = Array.from({ length: E }, makeEnv);
@@ -113,7 +115,7 @@ for (let u = 1; u <= U; u++) {
   appendFileSync(`${out}/metrics.jsonl`, JSON.stringify(line) + '\n');
   if (u % 5 === 0 || u === U) console.log(JSON.stringify(line));
   if (u % 25 === 0 || u === U) {
-    const meta = { updates: u, transitions, seconds: line.seconds, ghost: !!ghostSummary, ghostBC: args.ghostBC ?? null, init: initPath ?? null, preset: preset.preset || null, shapeB4: preset.shapeB4, curriculumB4: preset.curriculumB4, shapeB5: preset.shapeB5, curriculumB5: preset.curriculumB5, shapeB6: preset.shapeB6, curriculumB6: preset.curriculumB6, lr: preset.lr, entCoef: preset.entCoef, seed: seed0 };
+    const meta = { props: args.props === 'true', fps: args.fps === 'true', updates: u, transitions, seconds: line.seconds, ghost: !!ghostSummary, ghostBC: args.ghostBC ?? null, init: initPath ?? null, preset: preset.preset || null, shapeB4: preset.shapeB4, curriculumB4: preset.curriculumB4, shapeB5: preset.shapeB5, curriculumB5: preset.curriculumB5, shapeB6: preset.shapeB6, curriculumB6: preset.curriculumB6, lr: preset.lr, entCoef: preset.entCoef, seed: seed0 };
     ppo.save(`${out}/full.json`, meta); writeFileSync(`${out}/actor.json`, JSON.stringify(ppo.exportActor(`${out}@${u}`, meta)));
   }
 }
