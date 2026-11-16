@@ -1,0 +1,17 @@
+{
+  "src/sim.ts": true,
+  "src/fps-duel.ts": true,
+  "web/visor.css": true,
+  "web/camera/viewmodel.ts": true,
+  "web/weapons.ts": true,
+  "web/audio/director.ts": true,
+  "web/audio/mixer.ts": true,
+  "web/audio/engine.ts": true,
+  "web/audio/mock-context.ts": true,
+  "web/audio/voices.ts": true,
+  "web/audio/types.ts": true,
+  "web/audio/music-local.ts": true,
+  "web/audio/index.ts": true,
+  "web/audio/occlusion.ts": true,
+  "web/audio/nightlords-audio.d.ts": true
+}

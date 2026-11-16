@@ -1,0 +1,53 @@
+{
+  "errors": [],
+  "report": [
+    {
+      "model": 1,
+      "triangles": 82375,
+      "textures": [
+        [
+          4096,
+          4096
+        ]
+      ],
+      "tracks": 44,
+      "scale": 1.0000000871603694
+    },
+    {
+      "model": 2,
+      "triangles": 82375,
+      "textures": [
+        [
+          4096,
+          4096
+        ]
+      ],
+      "tracks": 44,
+      "scale": 1.0000000871603694
+    },
+    {
+      "model": 3,
+      "triangles": 82375,
+      "textures": [
+        [
+          4096,
+          4096
+        ]
+      ],
+      "tracks": 44,
+      "scale": 1.0000000871603694
+    },
+    {
+      "model": 4,
+      "triangles": 82375,
+      "textures": [
+        [
+          4096,
+          4096
+        ]
+      ],
+      "tracks": 44,
+      "scale": 1.0000000871603694
+    }
+  ]
+}

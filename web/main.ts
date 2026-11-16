@@ -1,3 +1,4 @@
+import { refinedArmor, finishArmorMaterial, finishArmorShader } from './refined-armor';
 import { replaceNightLordHelmet } from './nightlord-helmet';
 import { installDreadHull, addNightLordTrophies } from './dread-detail';
 import { eliteDuelAction } from '../src/fps-duel';
@@ -419,7 +420,7 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   const h = measureHeight(root);
   root.scale.setScalar(targetHeight / h);
   root.rotation.y = Math.PI / 2; // le modele regarde +Z, la simulation regarde +X
-  if (look === 'nl') replaceNightLordHelmet(root);
+  if (look === 'nl' && !root.userData.refinedArmor) replaceNightLordHelmet(root);
   root.traverse((o: any) => {
     o.frustumCulled = false;
     if (!o.isMesh) return;
@@ -436,10 +437,12 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
         // l'albedo pour que la forme passe devant le detail, et on garde le liseré de Fresnel de P2.
         if (CAM_MODE === 'fps') m.normalScale?.setScalar(.22);
         if (m.color) { m.color.multiplyScalar(dim); m.envMapIntensity = 0.25; m.metalness = CAM_MODE === 'fps' ? .38 : m.metalness * .3; m.roughness = CAM_MODE === 'fps' ? .62 : Math.max(m.roughness,.72); }
+        if (root.userData.refinedArmor) finishArmorMaterial(m);
         // Injecté *avant* le brouillard : ajouté après, le liseré traversait 17 m de brume intact et le Night
         // Lord devenait un mannequin blanc à contre-jour (vu à t77). Avant, la brume le mange comme le reste.
         // Le liseré porte aussi le télégraphe de la griffe : du bleu froid au rouge ardent, et il s'intensifie.
         m.onBeforeCompile = (sh) => {
+          if (root.userData.refinedArmor) finishArmorShader(sh);
           sh.uniforms.uTell = tell;
           sh.fragmentShader = 'uniform float uTell;\n' + sh.fragmentShader.replace('#include <fog_fragment>', `
        float fres = pow(1.0 - clamp(abs(dot(normalize(normal), normalize(vViewPosition))), 0.0, 1.0), 4.2);
@@ -2008,6 +2011,12 @@ async function loadModels() {
         clips.push(...(a.animations ?? []).map((c) => remapClip(c)));
       } catch { /* extra absent */ }
     }
+    if (look === 'nl') {
+      try {
+        const armor = await refinedArmor(model, clips, loadGLB);
+        return rigOf(armor, armor.animations, target, 1, allowRun, look, who);
+      } catch (error) { console.warn('Armure détaillée indisponible, modèle original conservé', error); }
+    }
     return rigOf(model, clips, target, dim, allowRun, look, who);
   };
   await Promise.all(ROLES.map(async (_r, i) => {
@@ -2015,7 +2024,7 @@ async function loadModels() {
       // Frères v2 : textures bleu nuit déjà sombres, l'albédo ×0,22 des anciens modèles les rendait gris.
       const rig = await load(`NL-${i + 1}`, NL_HEIGHT, CAM_MODE === 'fps' ? 0.85 : 0.5, true, 'nl', i);
       await equipNl(rig.root, FPS_DUEL && i === 0 ? 3 : i, rig.idle?.getClip() ?? null, loadGLB);
-      if (CAM_MODE === 'fps') addNightLordTrophies(rig.root);
+      if (CAM_MODE === 'fps' && !rig.root.userData.refinedArmor) addNightLordTrophies(rig.root);
       nlMeshes[i].add(rig.root); nlRigs[i] = rig;
       for (const p of nlProxy.slice(i * 3, i * 3 + 3)) p.visible = false; // capsule + 2 yeux de ce rôle
     } catch (e) { console.warn('modèle NL-' + (i + 1) + ' absent, capsule conservée', e); }
