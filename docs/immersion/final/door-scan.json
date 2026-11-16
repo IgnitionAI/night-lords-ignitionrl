@@ -1,0 +1,432 @@
+{
+  "errors": [],
+  "audio": {
+    "enabled": true,
+    "phase": "planning",
+    "volumes": {
+      "master": 0.7,
+      "music": 0.3,
+      "ambience": 0.28,
+      "effects": 0.65
+    },
+    "played": {
+      "servo": 4,
+      "door": 1
+    },
+    "transitions": [],
+    "errors": [],
+    "tracks": [
+      {
+        "name": "planning",
+        "paused": false,
+        "time": 24.72164,
+        "volume": 0.20999871753318386,
+        "ready": 4
+      },
+      {
+        "name": "combat",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "ending",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "hull",
+        "paused": false,
+        "time": 8.773621,
+        "volume": 0.19599880303097164,
+        "ready": 4
+      }
+    ]
+  },
+  "visual": {
+    "pixelRatio": 0.6,
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "ready": true,
+    "assets": [
+      "./assets/models/TERM-idle.glb",
+      "./assets/models/TERM-hit.glb",
+      "./assets/models/TERM-walk.glb",
+      "./assets/models/TERM-shoot.glb",
+      "./assets/models/NL-1-idle.glb",
+      "./assets/models/NL-1-death.glb",
+      "./assets/models/NL-1-hit.glb",
+      "./assets/models/NL-1-walk.glb",
+      "./assets/models/NL-2-idle.glb",
+      "./assets/models/NL-2-walk.glb",
+      "./assets/models/NL-2-death.glb",
+      "./assets/models/NL-2-hit.glb",
+      "./assets/models/NL-3-idle.glb",
+      "./assets/models/NL-3-walk.glb",
+      "./assets/models/NL-3-hit.glb",
+      "./assets/models/NL-3-death.glb",
+      "./assets/models/NL-4-idle.glb",
+      "./assets/models/NL-4-walk.glb",
+      "./assets/models/NL-4-hit.glb",
+      "./assets/models/NL-4-death.glb",
+      "./assets/models/strategy/TERM.glb",
+      "./assets/models/strategy/NL-2.glb",
+      "./assets/models/strategy/NL-1.glb",
+      "./assets/models/strategy/NL-4.glb",
+      "./assets/models/strategy/NL-3.glb",
+      "./assets/models/strategy/noctis-kit.glb",
+      "./assets/models/strategy/bolter.glb"
+    ],
+    "errors": [],
+    "drawCalls": 42,
+    "triangles": 99758,
+    "frameMs": {
+      "median": 66.70000000000073,
+      "p95": 100
+    },
+    "animations": [
+      "aim",
+      "walk",
+      "idle",
+      "interact"
+    ],
+    "figures": [
+      {
+        "id": "t0",
+        "clip": "idle",
+        "time": 4.766399999999995,
+        "position": [
+          2.5,
+          0,
+          9.5
+        ],
+        "head": [
+          2.5045172348636475,
+          0.7459936562111672,
+          9.507912039457022
+        ],
+        "leftFoot": [
+          2.497028247195616,
+          0.08281323326827314,
+          9.420288158965066
+        ],
+        "rightFoot": [
+          2.5094114768431024,
+          0.08063558374106639,
+          9.59015306480891
+        ]
+      },
+      {
+        "id": "t1",
+        "clip": "idle",
+        "time": 4.766399999999995,
+        "position": [
+          6.5,
+          0,
+          10.5
+        ],
+        "head": [
+          6.504517234863083,
+          0.7459936562111672,
+          10.507912039457345
+        ],
+        "leftFoot": [
+          6.497028247201309,
+          0.08281323326827314,
+          10.420288158964853
+        ],
+        "rightFoot": [
+          6.509411476836665,
+          0.08063558374106639,
+          10.59015306480958
+        ]
+      },
+      {
+        "id": "t2",
+        "clip": "idle",
+        "time": 4.766399999999995,
+        "position": [
+          2.5,
+          0,
+          11.5
+        ],
+        "head": [
+          2.5045172348636475,
+          0.7459936562111672,
+          11.507912039457022
+        ],
+        "leftFoot": [
+          2.497028247195616,
+          0.08281323326827314,
+          11.420288158965066
+        ],
+        "rightFoot": [
+          2.5094114768431024,
+          0.08063558374106639,
+          11.59015306480891
+        ]
+      },
+      {
+        "id": "t3",
+        "clip": "idle",
+        "time": 4.766399999999995,
+        "position": [
+          3.5,
+          0,
+          11.5
+        ],
+        "head": [
+          3.5045172348636475,
+          0.7459936562111672,
+          11.507912039457022
+        ],
+        "leftFoot": [
+          3.497028247195616,
+          0.08281323326827314,
+          11.420288158965066
+        ],
+        "rightFoot": [
+          3.5094114768431024,
+          0.08063558374106639,
+          11.59015306480891
+        ]
+      }
+    ]
+  },
+  "state": {
+    "view": {
+      "turn": 5,
+      "observer": -1,
+      "side": "imperium",
+      "units": [
+        {
+          "id": "t0",
+          "name": "VAEL",
+          "side": "imperium",
+          "commander": -1,
+          "x": 2,
+          "y": 9,
+          "hp": 10,
+          "maxHp": 10,
+          "scan": 0
+        },
+        {
+          "id": "t1",
+          "name": "TOR",
+          "side": "imperium",
+          "commander": -1,
+          "x": 6,
+          "y": 10,
+          "hp": 10,
+          "maxHp": 10,
+          "scan": 2
+        },
+        {
+          "id": "t2",
+          "name": "CAEL",
+          "side": "imperium",
+          "commander": -1,
+          "x": 2,
+          "y": 11,
+          "hp": 10,
+          "maxHp": 10,
+          "scan": 0
+        },
+        {
+          "id": "t3",
+          "name": "BRANN",
+          "side": "imperium",
+          "commander": -1,
+          "x": 3,
+          "y": 11,
+          "hp": 10,
+          "maxHp": 10,
+          "scan": 0
+        }
+      ],
+      "contacts": [],
+      "doors": [
+        {
+          "id": "D1",
+          "x": 7,
+          "y": 10,
+          "open": false
+        },
+        {
+          "id": "D2",
+          "x": 15,
+          "y": 4,
+          "open": true
+        },
+        {
+          "id": "D3",
+          "x": 17,
+          "y": 10,
+          "open": true
+        },
+        {
+          "id": "D4",
+          "x": 15,
+          "y": 17,
+          "open": true
+        },
+        {
+          "id": "D5",
+          "x": 24,
+          "y": 10,
+          "open": true
+        }
+      ],
+      "objectives": [
+        {
+          "id": "relay",
+          "name": "Relais de commandement",
+          "x": 11,
+          "y": 4,
+          "owner": null
+        },
+        {
+          "id": "power",
+          "name": "Alimentation",
+          "x": 14,
+          "y": 10,
+          "owner": null
+        },
+        {
+          "id": "archive",
+          "name": "Archives",
+          "x": 11,
+          "y": 17,
+          "owner": null
+        }
+      ],
+      "visible": [
+        "4,5",
+        "4,6",
+        "1,7",
+        "2,7",
+        "3,7",
+        "4,7",
+        "5,7",
+        "6,7",
+        "1,8",
+        "2,8",
+        "3,8",
+        "4,8",
+        "5,8",
+        "6,8",
+        "1,9",
+        "2,9",
+        "3,9",
+        "4,9",
+        "5,9",
+        "6,9",
+        "1,10",
+        "2,10",
+        "3,10",
+        "4,10",
+        "5,10",
+        "6,10",
+        "7,10",
+        "1,11",
+        "2,11",
+        "3,11",
+        "4,11",
+        "5,11",
+        "6,11",
+        "1,12",
+        "2,12",
+        "3,12",
+        "4,12",
+        "5,12",
+        "6,12",
+        "1,13",
+        "2,13",
+        "3,13",
+        "4,13",
+        "5,13",
+        "6,13",
+        "4,14",
+        "4,15",
+        "4,16"
+      ],
+      "explored": [
+        "4,4",
+        "4,5",
+        "4,6",
+        "1,7",
+        "2,7",
+        "3,7",
+        "4,7",
+        "5,7",
+        "6,7",
+        "1,8",
+        "2,8",
+        "3,8",
+        "4,8",
+        "5,8",
+        "6,8",
+        "1,9",
+        "2,9",
+        "3,9",
+        "4,9",
+        "5,9",
+        "6,9",
+        "1,10",
+        "2,10",
+        "3,10",
+        "4,10",
+        "5,10",
+        "6,10",
+        "7,10",
+        "8,10",
+        "1,11",
+        "2,11",
+        "3,11",
+        "4,11",
+        "5,11",
+        "6,11",
+        "1,12",
+        "2,12",
+        "3,12",
+        "4,12",
+        "5,12",
+        "6,12",
+        "1,13",
+        "2,13",
+        "3,13",
+        "4,13",
+        "5,13",
+        "6,13",
+        "4,14",
+        "4,15",
+        "4,16",
+        "8,11",
+        "9,11",
+        "10,11",
+        "9,12",
+        "9,9",
+        "10,9",
+        "11,9",
+        "9,10",
+        "10,10",
+        "11,10",
+        "12,10",
+        "11,11"
+      ],
+      "score": {
+        "imperium": 0,
+        "nightlords": 2
+      }
+    },
+    "orders": [],
+    "selected": "t1",
+    "mode": "scan",
+    "busy": false,
+    "started": true,
+    "winner": null,
+    "enemyMode": "ppo"
+  }
+}

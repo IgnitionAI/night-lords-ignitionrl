@@ -1,0 +1,561 @@
+[
+  {
+    "name": "TERM",
+    "result": {
+      "jobId": "ee415d41-5233-4114-a403-ab3ad109b6c9",
+      "provider": "Local Blender",
+      "runtimeVersion": "5.2.1",
+      "status": "downloaded",
+      "name": "tactical-term",
+      "renamed": "The asset name tactical-TERM became tactical-term.",
+      "files": [
+        "public/assets/blender/ee415d41-5233-4114-a403-ab3ad109b6c9/model.glb",
+        "public/assets/blender/ee415d41-5233-4114-a403-ab3ad109b6c9/render-front.png",
+        "public/assets/blender/ee415d41-5233-4114-a403-ab3ad109b6c9/render.png"
+      ],
+      "stats": {
+        "ok": true,
+        "meshes": [
+          {
+            "name": "char1",
+            "polygons": 6000,
+            "triangles": 6000,
+            "materials": [
+              "BakedMaterial"
+            ],
+            "slots": [
+              {
+                "slot": 0,
+                "material": "BakedMaterial",
+                "polygons": 6000,
+                "triangles": 6000
+              }
+            ]
+          },
+          {
+            "name": "Icosphere",
+            "polygons": 80,
+            "triangles": 80,
+            "materials": [],
+            "slots": [
+              {
+                "slot": 0,
+                "material": null,
+                "polygons": 80,
+                "triangles": 80
+              }
+            ]
+          }
+        ],
+        "meshCount": 2,
+        "polygons": 6080,
+        "triangles": 6080,
+        "size": [
+          1.9021157026290894,
+          1.9999998807907104,
+          2.7041244506835938
+        ],
+        "framedSize": [
+          1.9021157026290894,
+          1.9999998807907104,
+          2.7041244506835938
+        ],
+        "materials": [
+          "BakedMaterial"
+        ],
+        "armatures": [
+          {
+            "name": "Armature",
+            "bones": 24,
+            "appliedScale": 0.01
+          }
+        ],
+        "actions": [
+          "Armature|clip0|baselayer"
+        ],
+        "rig": true,
+        "glbBytes": 811708,
+        "renderer": "workbench",
+        "seconds": 0.71
+      },
+      "derivedFrom": {
+        "file": "web/models/TERM-512.glb",
+        "sha256": "37c91656121a9824a6dff71e1e9334983319601ac30862aa3a42cee9183fa2e8"
+      },
+      "guidance": "Files are relative to the game workspace. Load model.glb with GLTFLoader at its returned asset path (omit public/ in a built app URL). Inspect these renders, integrate the mesh into the scene, then use the preview to verify visible use. A delivered file alone is not integration proof.",
+      "imageFiles": [
+        {
+          "path": "/Users/salimlaimeche/dev/night-lords-ignitionrl/.studio/bridge/res/53c7749d-baa3-4f8b-a5ac-88ee3a958633.png",
+          "label": "render.png"
+        },
+        {
+          "path": "/Users/salimlaimeche/dev/night-lords-ignitionrl/.studio/bridge/res/0c26c84c-b040-4eb4-88f2-7dcd9293d92f.png",
+          "label": "render-front.png"
+        }
+      ],
+      "imageGuidance": "Open these exact image files before judging this tool observation."
+    }
+  },
+  {
+    "name": "NL-1",
+    "result": {
+      "jobId": "68402b89-64e0-4787-8560-270c5e0c2342",
+      "provider": "Local Blender",
+      "runtimeVersion": "5.2.1",
+      "status": "downloaded",
+      "name": "tactical-nl-1",
+      "renamed": "The asset name tactical-NL-1 became tactical-nl-1.",
+      "files": [
+        "public/assets/blender/68402b89-64e0-4787-8560-270c5e0c2342/model.glb",
+        "public/assets/blender/68402b89-64e0-4787-8560-270c5e0c2342/render-front.png",
+        "public/assets/blender/68402b89-64e0-4787-8560-270c5e0c2342/render.png"
+      ],
+      "stats": {
+        "ok": true,
+        "meshes": [
+          {
+            "name": "char1",
+            "polygons": 6000,
+            "triangles": 6000,
+            "materials": [
+              "Material_0.009"
+            ],
+            "slots": [
+              {
+                "slot": 0,
+                "material": "Material_0.009",
+                "polygons": 6000,
+                "triangles": 6000
+              }
+            ]
+          },
+          {
+            "name": "Icosphere",
+            "polygons": 80,
+            "triangles": 80,
+            "materials": [],
+            "slots": [
+              {
+                "slot": 0,
+                "material": null,
+                "polygons": 80,
+                "triangles": 80
+              }
+            ]
+          }
+        ],
+        "meshCount": 2,
+        "polygons": 6080,
+        "triangles": 6080,
+        "size": [
+          1.9021157026290894,
+          1.9999998807907104,
+          3.3059616088867188
+        ],
+        "framedSize": [
+          1.9021157026290894,
+          1.9999998807907104,
+          3.3059616088867188
+        ],
+        "materials": [
+          "Material_0.009"
+        ],
+        "armatures": [
+          {
+            "name": "Armature",
+            "bones": 24,
+            "appliedScale": 0.01
+          }
+        ],
+        "actions": [
+          "Armature|clip0|baselayer"
+        ],
+        "rig": true,
+        "glbBytes": 933816,
+        "renderer": "workbench",
+        "seconds": 0.61
+      },
+      "derivedFrom": {
+        "file": "web/models/NL-1-512.glb",
+        "sha256": "b52a3f093b46c7b10ab62e45008e7f96dc5160b08c3fd298756bfbdaa42ed58f"
+      },
+      "guidance": "Files are relative to the game workspace. Load model.glb with GLTFLoader at its returned asset path (omit public/ in a built app URL). Inspect these renders, integrate the mesh into the scene, then use the preview to verify visible use. A delivered file alone is not integration proof.",
+      "imageFiles": [
+        {
+          "path": "/Users/salimlaimeche/dev/night-lords-ignitionrl/.studio/bridge/res/a18ab94d-c458-4f87-a36b-92dea59c7d64.png",
+          "label": "render.png"
+        },
+        {
+          "path": "/Users/salimlaimeche/dev/night-lords-ignitionrl/.studio/bridge/res/307e74ca-5fb1-4a93-99ea-d0a1e801351f.png",
+          "label": "render-front.png"
+        }
+      ],
+      "imageGuidance": "Open these exact image files before judging this tool observation."
+    }
+  },
+  {
+    "name": "NL-2",
+    "result": {
+      "jobId": "dbaf75c2-6165-4e06-b2dc-6c223dd269a6",
+      "provider": "Local Blender",
+      "runtimeVersion": "5.2.1",
+      "status": "downloaded",
+      "name": "tactical-nl-2",
+      "renamed": "The asset name tactical-NL-2 became tactical-nl-2.",
+      "files": [
+        "public/assets/blender/dbaf75c2-6165-4e06-b2dc-6c223dd269a6/model.glb",
+        "public/assets/blender/dbaf75c2-6165-4e06-b2dc-6c223dd269a6/render-front.png",
+        "public/assets/blender/dbaf75c2-6165-4e06-b2dc-6c223dd269a6/render.png"
+      ],
+      "stats": {
+        "ok": true,
+        "meshes": [
+          {
+            "name": "char1",
+            "polygons": 6000,
+            "triangles": 6000,
+            "materials": [
+              "Material_0.008"
+            ],
+            "slots": [
+              {
+                "slot": 0,
+                "material": "Material_0.008",
+                "polygons": 6000,
+                "triangles": 6000
+              }
+            ]
+          },
+          {
+            "name": "Icosphere",
+            "polygons": 80,
+            "triangles": 80,
+            "materials": [],
+            "slots": [
+              {
+                "slot": 0,
+                "material": null,
+                "polygons": 80,
+                "triangles": 80
+              }
+            ]
+          }
+        ],
+        "meshCount": 2,
+        "polygons": 6080,
+        "triangles": 6080,
+        "size": [
+          1.9021157026290894,
+          1.9999998807907104,
+          3.3227622509002686
+        ],
+        "framedSize": [
+          1.9021157026290894,
+          1.9999998807907104,
+          3.3227622509002686
+        ],
+        "materials": [
+          "Material_0.008"
+        ],
+        "armatures": [
+          {
+            "name": "Armature",
+            "bones": 24,
+            "appliedScale": 0.01
+          }
+        ],
+        "actions": [
+          "Armature|clip0|baselayer"
+        ],
+        "rig": true,
+        "glbBytes": 908424,
+        "renderer": "workbench",
+        "seconds": 0.61
+      },
+      "derivedFrom": {
+        "file": "web/models/NL-2-512.glb",
+        "sha256": "69de6b4327689d02384421d05cd49d20657f676388362e025c8912445267f825"
+      },
+      "guidance": "Files are relative to the game workspace. Load model.glb with GLTFLoader at its returned asset path (omit public/ in a built app URL). Inspect these renders, integrate the mesh into the scene, then use the preview to verify visible use. A delivered file alone is not integration proof.",
+      "imageFiles": [
+        {
+          "path": "/Users/salimlaimeche/dev/night-lords-ignitionrl/.studio/bridge/res/47a03df5-e257-4c02-9490-3f2fc797139f.png",
+          "label": "render.png"
+        },
+        {
+          "path": "/Users/salimlaimeche/dev/night-lords-ignitionrl/.studio/bridge/res/10f342b4-9333-47de-9182-b7eaaf267dfe.png",
+          "label": "render-front.png"
+        }
+      ],
+      "imageGuidance": "Open these exact image files before judging this tool observation."
+    }
+  },
+  {
+    "name": "NL-3",
+    "result": {
+      "jobId": "5c02527e-6f2e-43b7-9748-e66cee7b2299",
+      "provider": "Local Blender",
+      "runtimeVersion": "5.2.1",
+      "status": "downloaded",
+      "name": "tactical-nl-3",
+      "renamed": "The asset name tactical-NL-3 became tactical-nl-3.",
+      "files": [
+        "public/assets/blender/5c02527e-6f2e-43b7-9748-e66cee7b2299/model.glb",
+        "public/assets/blender/5c02527e-6f2e-43b7-9748-e66cee7b2299/render-front.png",
+        "public/assets/blender/5c02527e-6f2e-43b7-9748-e66cee7b2299/render.png"
+      ],
+      "stats": {
+        "ok": true,
+        "meshes": [
+          {
+            "name": "char1",
+            "polygons": 6000,
+            "triangles": 6000,
+            "materials": [
+              "Material_0.001"
+            ],
+            "slots": [
+              {
+                "slot": 0,
+                "material": "Material_0.001",
+                "polygons": 6000,
+                "triangles": 6000
+              }
+            ]
+          },
+          {
+            "name": "Icosphere",
+            "polygons": 80,
+            "triangles": 80,
+            "materials": [],
+            "slots": [
+              {
+                "slot": 0,
+                "material": null,
+                "polygons": 80,
+                "triangles": 80
+              }
+            ]
+          }
+        ],
+        "meshCount": 2,
+        "polygons": 6080,
+        "triangles": 6080,
+        "size": [
+          1.9021157026290894,
+          1.9999998807907104,
+          3.3020834922790527
+        ],
+        "framedSize": [
+          1.9021157026290894,
+          1.9999998807907104,
+          3.3020834922790527
+        ],
+        "materials": [
+          "Material_0.001"
+        ],
+        "armatures": [
+          {
+            "name": "Armature",
+            "bones": 24,
+            "appliedScale": 0.01
+          }
+        ],
+        "actions": [
+          "Armature|clip0|baselayer"
+        ],
+        "rig": true,
+        "glbBytes": 891992,
+        "renderer": "workbench",
+        "seconds": 0.6
+      },
+      "derivedFrom": {
+        "file": "web/models/NL-3-512.glb",
+        "sha256": "76e57d42ef42a2f74b815cc5830e6ca158a90eaea6d90a975371d408655c8ba2"
+      },
+      "guidance": "Files are relative to the game workspace. Load model.glb with GLTFLoader at its returned asset path (omit public/ in a built app URL). Inspect these renders, integrate the mesh into the scene, then use the preview to verify visible use. A delivered file alone is not integration proof.",
+      "imageFiles": [
+        {
+          "path": "/Users/salimlaimeche/dev/night-lords-ignitionrl/.studio/bridge/res/998d5a69-ff7f-4cc3-b21a-b3c3bd9fe2ad.png",
+          "label": "render.png"
+        },
+        {
+          "path": "/Users/salimlaimeche/dev/night-lords-ignitionrl/.studio/bridge/res/950b66d5-0ad0-453f-8ac8-4ce6bc5d99a3.png",
+          "label": "render-front.png"
+        }
+      ],
+      "imageGuidance": "Open these exact image files before judging this tool observation."
+    }
+  },
+  {
+    "name": "NL-4",
+    "result": {
+      "jobId": "4c64196c-d906-4563-b645-5d8f0ff84df8",
+      "provider": "Local Blender",
+      "runtimeVersion": "5.2.1",
+      "status": "downloaded",
+      "name": "tactical-nl-4",
+      "renamed": "The asset name tactical-NL-4 became tactical-nl-4.",
+      "files": [
+        "public/assets/blender/4c64196c-d906-4563-b645-5d8f0ff84df8/model.glb",
+        "public/assets/blender/4c64196c-d906-4563-b645-5d8f0ff84df8/render-front.png",
+        "public/assets/blender/4c64196c-d906-4563-b645-5d8f0ff84df8/render.png"
+      ],
+      "stats": {
+        "ok": true,
+        "meshes": [
+          {
+            "name": "char1",
+            "polygons": 6000,
+            "triangles": 6000,
+            "materials": [
+              "Material_0.013"
+            ],
+            "slots": [
+              {
+                "slot": 0,
+                "material": "Material_0.013",
+                "polygons": 6000,
+                "triangles": 6000
+              }
+            ]
+          },
+          {
+            "name": "Icosphere",
+            "polygons": 80,
+            "triangles": 80,
+            "materials": [],
+            "slots": [
+              {
+                "slot": 0,
+                "material": null,
+                "polygons": 80,
+                "triangles": 80
+              }
+            ]
+          }
+        ],
+        "meshCount": 2,
+        "polygons": 6080,
+        "triangles": 6080,
+        "size": [
+          1.9021157026290894,
+          1.9999998807907104,
+          3.3000378608703613
+        ],
+        "framedSize": [
+          1.9021157026290894,
+          1.9999998807907104,
+          3.3000378608703613
+        ],
+        "materials": [
+          "Material_0.013"
+        ],
+        "armatures": [
+          {
+            "name": "Armature",
+            "bones": 24,
+            "appliedScale": 0.01
+          }
+        ],
+        "actions": [
+          "Armature|clip0|baselayer"
+        ],
+        "rig": true,
+        "glbBytes": 824284,
+        "renderer": "workbench",
+        "seconds": 0.58
+      },
+      "derivedFrom": {
+        "file": "web/models/NL-4-512.glb",
+        "sha256": "570e0ac9bff20ebbad9c4a2ca494db9cc15802d620511bd507bf85908422f033"
+      },
+      "guidance": "Files are relative to the game workspace. Load model.glb with GLTFLoader at its returned asset path (omit public/ in a built app URL). Inspect these renders, integrate the mesh into the scene, then use the preview to verify visible use. A delivered file alone is not integration proof.",
+      "imageFiles": [
+        {
+          "path": "/Users/salimlaimeche/dev/night-lords-ignitionrl/.studio/bridge/res/9ca2c2c2-bf58-4797-b839-24a443783943.png",
+          "label": "render.png"
+        },
+        {
+          "path": "/Users/salimlaimeche/dev/night-lords-ignitionrl/.studio/bridge/res/e962a3de-3abb-42f2-98eb-e764a56a0a85.png",
+          "label": "render-front.png"
+        }
+      ],
+      "imageGuidance": "Open these exact image files before judging this tool observation."
+    }
+  },
+  {
+    "name": "weapons/bolter",
+    "result": {
+      "jobId": "526ff0e6-8944-4c43-9cd9-a22768198265",
+      "provider": "Local Blender",
+      "runtimeVersion": "5.2.1",
+      "status": "downloaded",
+      "name": "tactical-weapons-bolter",
+      "files": [
+        "public/assets/blender/526ff0e6-8944-4c43-9cd9-a22768198265/model.glb",
+        "public/assets/blender/526ff0e6-8944-4c43-9cd9-a22768198265/render-front.png",
+        "public/assets/blender/526ff0e6-8944-4c43-9cd9-a22768198265/render.png"
+      ],
+      "stats": {
+        "ok": true,
+        "meshes": [
+          {
+            "name": "tripo_node_b4194f8c-4b91-42a2-8ff4-d630e47e87c0",
+            "polygons": 6000,
+            "triangles": 6000,
+            "materials": [
+              "tripo_material_b4194f8c-4b91-42a2-8ff4-d630e47e87c0"
+            ],
+            "slots": [
+              {
+                "slot": 0,
+                "material": "tripo_material_b4194f8c-4b91-42a2-8ff4-d630e47e87c0",
+                "polygons": 6000,
+                "triangles": 6000
+              }
+            ]
+          }
+        ],
+        "meshCount": 1,
+        "polygons": 6000,
+        "triangles": 6000,
+        "size": [
+          0.3284052759408951,
+          1.005561888217926,
+          0.6630978882312775
+        ],
+        "framedSize": [
+          0.3284052759408951,
+          1.005561888217926,
+          0.6630978882312775
+        ],
+        "materials": [
+          "tripo_material_b4194f8c-4b91-42a2-8ff4-d630e47e87c0"
+        ],
+        "armatures": [],
+        "actions": [],
+        "rig": false,
+        "glbBytes": 358204,
+        "renderer": "workbench",
+        "seconds": 0.35
+      },
+      "derivedFrom": {
+        "file": "web/models/weapons/bolter.glb",
+        "sha256": "686459e546558d6af7cd4076521055b0d7ad2fd4951830377ac39ab2e892a17f"
+      },
+      "guidance": "Files are relative to the game workspace. Load model.glb with GLTFLoader at its returned asset path (omit public/ in a built app URL). Inspect these renders, integrate the mesh into the scene, then use the preview to verify visible use. A delivered file alone is not integration proof.",
+      "imageFiles": [
+        {
+          "path": "/Users/salimlaimeche/dev/night-lords-ignitionrl/.studio/bridge/res/0ed655e5-934c-44f3-867d-0b9998c73c73.png",
+          "label": "render.png"
+        },
+        {
+          "path": "/Users/salimlaimeche/dev/night-lords-ignitionrl/.studio/bridge/res/a6fa7671-7b7f-4030-a112-fe827d4def00.png",
+          "label": "render-front.png"
+        }
+      ],
+      "imageGuidance": "Open these exact image files before judging this tool observation."
+    }
+  }
+]

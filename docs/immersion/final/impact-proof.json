@@ -1,0 +1,1276 @@
+{
+  "errors": [],
+  "frames": [
+    {
+      "ms": 2894.199999988079,
+      "visual": {
+        "effects": 36,
+        "pixelRatio": 1,
+        "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+        "ready": true,
+        "assets": [
+          "./assets/models/TERM-idle.glb",
+          "./assets/models/TERM-walk.glb",
+          "./assets/models/TERM-hit.glb",
+          "./assets/models/TERM-shoot.glb",
+          "./assets/models/NL-1-idle.glb",
+          "./assets/models/NL-1-walk.glb",
+          "./assets/models/NL-1-hit.glb",
+          "./assets/models/NL-1-death.glb",
+          "./assets/models/NL-2-walk.glb",
+          "./assets/models/NL-2-death.glb",
+          "./assets/models/NL-2-idle.glb",
+          "./assets/models/NL-2-hit.glb",
+          "./assets/models/NL-3-idle.glb",
+          "./assets/models/NL-3-walk.glb",
+          "./assets/models/NL-3-hit.glb",
+          "./assets/models/NL-3-death.glb",
+          "./assets/models/NL-4-walk.glb",
+          "./assets/models/NL-4-idle.glb",
+          "./assets/models/NL-4-hit.glb",
+          "./assets/models/NL-4-death.glb",
+          "./assets/models/strategy/TERM.glb",
+          "./assets/models/strategy/NL-2.glb",
+          "./assets/models/strategy/NL-1.glb",
+          "./assets/models/strategy/NL-3.glb",
+          "./assets/models/strategy/NL-4.glb",
+          "./assets/models/strategy/noctis-kit.glb",
+          "./assets/models/strategy/bolter.glb"
+        ],
+        "errors": [],
+        "drawCalls": 79,
+        "triangles": 106222,
+        "frameMs": {
+          "median": 16.69999999999891,
+          "p95": 16.799999999999272
+        },
+        "animations": [
+          "walk",
+          "idle",
+          "aim",
+          "fire"
+        ],
+        "figures": [
+          {
+            "id": "t0",
+            "clip": "idle",
+            "time": 0.23329999999999929,
+            "position": [
+              12.5,
+              0,
+              10.5
+            ],
+            "head": [
+              12.499331297091226,
+              0.7462207757951534,
+              10.507156101344865
+            ],
+            "leftFoot": [
+              12.554250332328248,
+              0.08619566964882322,
+              10.488166887865017
+            ],
+            "rightFoot": [
+              12.387095855966164,
+              0.08420837824045813,
+              10.518158794855362
+            ]
+          },
+          {
+            "id": "t1",
+            "clip": "idle",
+            "time": 0.23329999999999929,
+            "position": [
+              14.5,
+              0,
+              10.5
+            ],
+            "head": [
+              14.499331297091226,
+              0.7462207757951534,
+              10.507156101344865
+            ],
+            "leftFoot": [
+              14.554250332328248,
+              0.08619566964882322,
+              10.488166887865017
+            ],
+            "rightFoot": [
+              14.387095855966164,
+              0.08420837824045813,
+              10.518158794855362
+            ]
+          },
+          {
+            "id": "t2",
+            "clip": "fire",
+            "time": 0.1832999999999993,
+            "position": [
+              4.5,
+              0,
+              17.5
+            ],
+            "head": [
+              4.504187332911435,
+              0.746226971779056,
+              17.50815272189327
+            ],
+            "leftFoot": [
+              4.576632972964494,
+              0.09237758443548841,
+              17.3506310839784
+            ],
+            "rightFoot": [
+              4.576048672572997,
+              0.09035771981105326,
+              17.66350567659566
+            ]
+          },
+          {
+            "id": "t3",
+            "clip": "fire",
+            "time": 0.1832999999999993,
+            "position": [
+              6.5,
+              0,
+              17.5
+            ],
+            "head": [
+              6.504187332911435,
+              0.746226971779056,
+              17.50815272189327
+            ],
+            "leftFoot": [
+              6.576632972964494,
+              0.09237758443548841,
+              17.3506310839784
+            ],
+            "rightFoot": [
+              6.576048672572997,
+              0.09035771981105326,
+              17.66350567659566
+            ]
+          },
+          {
+            "id": "n3",
+            "clip": "fire",
+            "time": 0.1832999999999993,
+            "position": [
+              11.5,
+              0,
+              17.5
+            ],
+            "head": [
+              11.4756443181768,
+              0.6772863762421745,
+              17.490778261778537
+            ],
+            "leftFoot": [
+              11.465950598641273,
+              0.08131789502939235,
+              17.63562284029564
+            ],
+            "rightFoot": [
+              11.41103879068707,
+              0.07572185388212938,
+              17.345722153329227
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "ms": 2933.199999988079,
+      "visual": {
+        "effects": 36,
+        "pixelRatio": 1,
+        "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+        "ready": true,
+        "assets": [
+          "./assets/models/TERM-idle.glb",
+          "./assets/models/TERM-walk.glb",
+          "./assets/models/TERM-hit.glb",
+          "./assets/models/TERM-shoot.glb",
+          "./assets/models/NL-1-idle.glb",
+          "./assets/models/NL-1-walk.glb",
+          "./assets/models/NL-1-hit.glb",
+          "./assets/models/NL-1-death.glb",
+          "./assets/models/NL-2-walk.glb",
+          "./assets/models/NL-2-death.glb",
+          "./assets/models/NL-2-idle.glb",
+          "./assets/models/NL-2-hit.glb",
+          "./assets/models/NL-3-idle.glb",
+          "./assets/models/NL-3-walk.glb",
+          "./assets/models/NL-3-hit.glb",
+          "./assets/models/NL-3-death.glb",
+          "./assets/models/NL-4-walk.glb",
+          "./assets/models/NL-4-idle.glb",
+          "./assets/models/NL-4-hit.glb",
+          "./assets/models/NL-4-death.glb",
+          "./assets/models/strategy/TERM.glb",
+          "./assets/models/strategy/NL-2.glb",
+          "./assets/models/strategy/NL-1.glb",
+          "./assets/models/strategy/NL-3.glb",
+          "./assets/models/strategy/NL-4.glb",
+          "./assets/models/strategy/noctis-kit.glb",
+          "./assets/models/strategy/bolter.glb"
+        ],
+        "errors": [],
+        "drawCalls": 79,
+        "triangles": 106222,
+        "frameMs": {
+          "median": 16.69999999999891,
+          "p95": 16.799999999999272
+        },
+        "animations": [
+          "walk",
+          "idle",
+          "aim",
+          "fire"
+        ],
+        "figures": [
+          {
+            "id": "t0",
+            "clip": "idle",
+            "time": 0.2832999999999993,
+            "position": [
+              12.5,
+              0,
+              10.5
+            ],
+            "head": [
+              12.499965905869276,
+              0.7461883445467018,
+              10.507070342611167
+            ],
+            "leftFoot": [
+              12.553735734266265,
+              0.08678019378420415,
+              10.488725371180006
+            ],
+            "rightFoot": [
+              12.386163530389247,
+              0.08480923139538962,
+              10.515817695980868
+            ]
+          },
+          {
+            "id": "t1",
+            "clip": "idle",
+            "time": 0.2832999999999993,
+            "position": [
+              14.5,
+              0,
+              10.5
+            ],
+            "head": [
+              14.499965905869276,
+              0.7461883445467018,
+              10.507070342611167
+            ],
+            "leftFoot": [
+              14.553735734266265,
+              0.08678019378420415,
+              10.488725371180006
+            ],
+            "rightFoot": [
+              14.386163530389247,
+              0.08480923139538962,
+              10.515817695980868
+            ]
+          },
+          {
+            "id": "t2",
+            "clip": "fire",
+            "time": 0.23329999999999929,
+            "position": [
+              4.5,
+              0,
+              17.5
+            ],
+            "head": [
+              4.5007774046408935,
+              0.7459284163056504,
+              17.50810903370891
+            ],
+            "leftFoot": [
+              4.576632972964494,
+              0.09237758443548841,
+              17.3506310839784
+            ],
+            "rightFoot": [
+              4.576048672572997,
+              0.09035771981105326,
+              17.66350567659566
+            ]
+          },
+          {
+            "id": "t3",
+            "clip": "fire",
+            "time": 0.23329999999999929,
+            "position": [
+              6.5,
+              0,
+              17.5
+            ],
+            "head": [
+              6.5007774046408935,
+              0.7459284163056504,
+              17.50810903370891
+            ],
+            "leftFoot": [
+              6.576632972964494,
+              0.09237758443548841,
+              17.3506310839784
+            ],
+            "rightFoot": [
+              6.576048672572997,
+              0.09035771981105326,
+              17.66350567659566
+            ]
+          },
+          {
+            "id": "n3",
+            "clip": "fire",
+            "time": 0.23329999999999929,
+            "position": [
+              11.5,
+              0,
+              17.5
+            ],
+            "head": [
+              11.478522399465458,
+              0.6771954427187932,
+              17.49079525059144
+            ],
+            "leftFoot": [
+              11.465950598641273,
+              0.08131789502939235,
+              17.63562284029564
+            ],
+            "rightFoot": [
+              11.41103879068707,
+              0.07572185388212938,
+              17.345722153329227
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "ms": 2951,
+      "visual": {
+        "effects": 36,
+        "pixelRatio": 1,
+        "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+        "ready": true,
+        "assets": [
+          "./assets/models/TERM-idle.glb",
+          "./assets/models/TERM-walk.glb",
+          "./assets/models/TERM-hit.glb",
+          "./assets/models/TERM-shoot.glb",
+          "./assets/models/NL-1-idle.glb",
+          "./assets/models/NL-1-walk.glb",
+          "./assets/models/NL-1-hit.glb",
+          "./assets/models/NL-1-death.glb",
+          "./assets/models/NL-2-walk.glb",
+          "./assets/models/NL-2-death.glb",
+          "./assets/models/NL-2-idle.glb",
+          "./assets/models/NL-2-hit.glb",
+          "./assets/models/NL-3-idle.glb",
+          "./assets/models/NL-3-walk.glb",
+          "./assets/models/NL-3-hit.glb",
+          "./assets/models/NL-3-death.glb",
+          "./assets/models/NL-4-walk.glb",
+          "./assets/models/NL-4-idle.glb",
+          "./assets/models/NL-4-hit.glb",
+          "./assets/models/NL-4-death.glb",
+          "./assets/models/strategy/TERM.glb",
+          "./assets/models/strategy/NL-2.glb",
+          "./assets/models/strategy/NL-1.glb",
+          "./assets/models/strategy/NL-3.glb",
+          "./assets/models/strategy/NL-4.glb",
+          "./assets/models/strategy/noctis-kit.glb",
+          "./assets/models/strategy/bolter.glb"
+        ],
+        "errors": [],
+        "drawCalls": 79,
+        "triangles": 106222,
+        "frameMs": {
+          "median": 16.69999999999891,
+          "p95": 16.799999999999272
+        },
+        "animations": [
+          "walk",
+          "idle",
+          "aim",
+          "fire"
+        ],
+        "figures": [
+          {
+            "id": "t0",
+            "clip": "idle",
+            "time": 0.29989999999999783,
+            "position": [
+              12.5,
+              0,
+              10.5
+            ],
+            "head": [
+              12.500109518189781,
+              0.7461769961249807,
+              10.507046762472717
+            ],
+            "leftFoot": [
+              12.553676158483906,
+              0.08698795001389381,
+              10.48936805455267
+            ],
+            "rightFoot": [
+              12.385759924616735,
+              0.08502177549464485,
+              10.514055935543265
+            ]
+          },
+          {
+            "id": "t1",
+            "clip": "idle",
+            "time": 0.29989999999999783,
+            "position": [
+              14.5,
+              0,
+              10.5
+            ],
+            "head": [
+              14.500109518189781,
+              0.7461769961249807,
+              10.507046762472717
+            ],
+            "leftFoot": [
+              14.553676158483906,
+              0.08698795001389381,
+              10.48936805455267
+            ],
+            "rightFoot": [
+              14.385759924616735,
+              0.08502177549464485,
+              10.514055935543265
+            ]
+          },
+          {
+            "id": "t2",
+            "clip": "fire",
+            "time": 0.24989999999999785,
+            "position": [
+              4.5,
+              0,
+              17.5
+            ],
+            "head": [
+              4.499648864259238,
+              0.7457939247571476,
+              17.508094999744635
+            ],
+            "leftFoot": [
+              4.576632972964493,
+              0.09237758443548841,
+              17.3506310839784
+            ],
+            "rightFoot": [
+              4.576048672572998,
+              0.09035771981105326,
+              17.66350567659566
+            ]
+          },
+          {
+            "id": "t3",
+            "clip": "fire",
+            "time": 0.24989999999999785,
+            "position": [
+              6.5,
+              0,
+              17.5
+            ],
+            "head": [
+              6.499648864259238,
+              0.7457939247571476,
+              17.508094999744635
+            ],
+            "leftFoot": [
+              6.576632972964493,
+              0.09237758443548841,
+              17.3506310839784
+            ],
+            "rightFoot": [
+              6.576048672572998,
+              0.09035771981105326,
+              17.66350567659566
+            ]
+          },
+          {
+            "id": "n3",
+            "clip": "fire",
+            "time": 0.24989999999999785,
+            "position": [
+              11.5,
+              0,
+              17.5
+            ],
+            "head": [
+              11.479476589772554,
+              0.6771353769638659,
+              17.490800717696168
+            ],
+            "leftFoot": [
+              11.465950598641273,
+              0.08131789502939235,
+              17.63562284029564
+            ],
+            "rightFoot": [
+              11.41103879068707,
+              0.07572185388212938,
+              17.345722153329227
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "ms": 2967.4000000059605,
+      "visual": {
+        "effects": 36,
+        "pixelRatio": 1,
+        "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+        "ready": true,
+        "assets": [
+          "./assets/models/TERM-idle.glb",
+          "./assets/models/TERM-walk.glb",
+          "./assets/models/TERM-hit.glb",
+          "./assets/models/TERM-shoot.glb",
+          "./assets/models/NL-1-idle.glb",
+          "./assets/models/NL-1-walk.glb",
+          "./assets/models/NL-1-hit.glb",
+          "./assets/models/NL-1-death.glb",
+          "./assets/models/NL-2-walk.glb",
+          "./assets/models/NL-2-death.glb",
+          "./assets/models/NL-2-idle.glb",
+          "./assets/models/NL-2-hit.glb",
+          "./assets/models/NL-3-idle.glb",
+          "./assets/models/NL-3-walk.glb",
+          "./assets/models/NL-3-hit.glb",
+          "./assets/models/NL-3-death.glb",
+          "./assets/models/NL-4-walk.glb",
+          "./assets/models/NL-4-idle.glb",
+          "./assets/models/NL-4-hit.glb",
+          "./assets/models/NL-4-death.glb",
+          "./assets/models/strategy/TERM.glb",
+          "./assets/models/strategy/NL-2.glb",
+          "./assets/models/strategy/NL-1.glb",
+          "./assets/models/strategy/NL-3.glb",
+          "./assets/models/strategy/NL-4.glb",
+          "./assets/models/strategy/noctis-kit.glb",
+          "./assets/models/strategy/bolter.glb"
+        ],
+        "errors": [],
+        "drawCalls": 79,
+        "triangles": 106222,
+        "frameMs": {
+          "median": 16.69999999999891,
+          "p95": 16.799999999999272
+        },
+        "animations": [
+          "walk",
+          "idle",
+          "aim",
+          "fire"
+        ],
+        "figures": [
+          {
+            "id": "t0",
+            "clip": "idle",
+            "time": 0.31659999999999855,
+            "position": [
+              12.5,
+              0,
+              10.5
+            ],
+            "head": [
+              12.500244487595552,
+              0.7461660144495049,
+              10.507025048312066
+            ],
+            "leftFoot": [
+              12.55361231676592,
+              0.08720348529747515,
+              10.48987280604579
+            ],
+            "rightFoot": [
+              12.385445296299025,
+              0.08524193444020148,
+              10.512584156499573
+            ]
+          },
+          {
+            "id": "t1",
+            "clip": "idle",
+            "time": 0.31659999999999855,
+            "position": [
+              14.5,
+              0,
+              10.5
+            ],
+            "head": [
+              14.500244487595552,
+              0.7461660144495049,
+              10.507025048312066
+            ],
+            "leftFoot": [
+              14.55361231676592,
+              0.08720348529747515,
+              10.48987280604579
+            ],
+            "rightFoot": [
+              14.385445296299025,
+              0.08524193444020148,
+              10.512584156499573
+            ]
+          },
+          {
+            "id": "t2",
+            "clip": "fire",
+            "time": 0.26659999999999856,
+            "position": [
+              4.5,
+              0,
+              17.5
+            ],
+            "head": [
+              4.498515777622875,
+              0.745640882484964,
+              17.50808112372054
+            ],
+            "leftFoot": [
+              4.576632972964493,
+              0.09237758443548841,
+              17.3506310839784
+            ],
+            "rightFoot": [
+              4.576048672572998,
+              0.09035771981105326,
+              17.66350567659566
+            ]
+          },
+          {
+            "id": "t3",
+            "clip": "fire",
+            "time": 0.26659999999999856,
+            "position": [
+              6.5,
+              0,
+              17.5
+            ],
+            "head": [
+              6.498515777622875,
+              0.745640882484964,
+              17.50808112372054
+            ],
+            "leftFoot": [
+              6.576632972964493,
+              0.09237758443548841,
+              17.3506310839784
+            ],
+            "rightFoot": [
+              6.576048672572998,
+              0.09035771981105326,
+              17.66350567659566
+            ]
+          },
+          {
+            "id": "n3",
+            "clip": "fire",
+            "time": 0.26659999999999856,
+            "position": [
+              11.5,
+              0,
+              17.5
+            ],
+            "head": [
+              11.480435466077525,
+              0.6770599430549719,
+              17.49080612836132
+            ],
+            "leftFoot": [
+              11.465950598641273,
+              0.08131789502939235,
+              17.63562284029564
+            ],
+            "rightFoot": [
+              11.41103879068707,
+              0.07572185388212938,
+              17.345722153329227
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "ms": 2984.199999988079,
+      "visual": {
+        "effects": 36,
+        "pixelRatio": 1,
+        "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+        "ready": true,
+        "assets": [
+          "./assets/models/TERM-idle.glb",
+          "./assets/models/TERM-walk.glb",
+          "./assets/models/TERM-hit.glb",
+          "./assets/models/TERM-shoot.glb",
+          "./assets/models/NL-1-idle.glb",
+          "./assets/models/NL-1-walk.glb",
+          "./assets/models/NL-1-hit.glb",
+          "./assets/models/NL-1-death.glb",
+          "./assets/models/NL-2-walk.glb",
+          "./assets/models/NL-2-death.glb",
+          "./assets/models/NL-2-idle.glb",
+          "./assets/models/NL-2-hit.glb",
+          "./assets/models/NL-3-idle.glb",
+          "./assets/models/NL-3-walk.glb",
+          "./assets/models/NL-3-hit.glb",
+          "./assets/models/NL-3-death.glb",
+          "./assets/models/NL-4-walk.glb",
+          "./assets/models/NL-4-idle.glb",
+          "./assets/models/NL-4-hit.glb",
+          "./assets/models/NL-4-death.glb",
+          "./assets/models/strategy/TERM.glb",
+          "./assets/models/strategy/NL-2.glb",
+          "./assets/models/strategy/NL-1.glb",
+          "./assets/models/strategy/NL-3.glb",
+          "./assets/models/strategy/NL-4.glb",
+          "./assets/models/strategy/noctis-kit.glb",
+          "./assets/models/strategy/bolter.glb"
+        ],
+        "errors": [],
+        "drawCalls": 79,
+        "triangles": 106222,
+        "frameMs": {
+          "median": 16.69999999999891,
+          "p95": 16.799999999999272
+        },
+        "animations": [
+          "walk",
+          "idle",
+          "aim",
+          "fire"
+        ],
+        "figures": [
+          {
+            "id": "t0",
+            "clip": "idle",
+            "time": 0.33329999999999926,
+            "position": [
+              12.5,
+              0,
+              10.5
+            ],
+            "head": [
+              12.500394731860982,
+              0.7461547837919169,
+              10.507006541439935
+            ],
+            "leftFoot": [
+              12.553523830350246,
+              0.08742171819180533,
+              10.49026128692636
+            ],
+            "rightFoot": [
+              12.38517383401721,
+              0.0854644735845273,
+              10.511351457415058
+            ]
+          },
+          {
+            "id": "t1",
+            "clip": "idle",
+            "time": 0.33329999999999926,
+            "position": [
+              14.5,
+              0,
+              10.5
+            ],
+            "head": [
+              14.500394731860982,
+              0.7461547837919169,
+              10.507006541439935
+            ],
+            "leftFoot": [
+              14.553523830350246,
+              0.08742171819180533,
+              10.49026128692636
+            ],
+            "rightFoot": [
+              14.38517383401721,
+              0.0854644735845273,
+              10.511351457415058
+            ]
+          },
+          {
+            "id": "t2",
+            "clip": "fire",
+            "time": 0.2832999999999993,
+            "position": [
+              4.5,
+              0,
+              17.5
+            ],
+            "head": [
+              4.497385228229799,
+              0.745470083999811,
+              17.508067494314776
+            ],
+            "leftFoot": [
+              4.576632972964493,
+              0.09237758443548841,
+              17.3506310839784
+            ],
+            "rightFoot": [
+              4.576048672572998,
+              0.09035771981105326,
+              17.66350567659566
+            ]
+          },
+          {
+            "id": "t3",
+            "clip": "fire",
+            "time": 0.2832999999999993,
+            "position": [
+              6.5,
+              0,
+              17.5
+            ],
+            "head": [
+              6.497385228229799,
+              0.745470083999811,
+              17.508067494314776
+            ],
+            "leftFoot": [
+              6.576632972964493,
+              0.09237758443548841,
+              17.3506310839784
+            ],
+            "rightFoot": [
+              6.576048672572998,
+              0.09035771981105326,
+              17.66350567659566
+            ]
+          },
+          {
+            "id": "n3",
+            "clip": "fire",
+            "time": 0.2832999999999993,
+            "position": [
+              11.5,
+              0,
+              17.5
+            ],
+            "head": [
+              11.481393041543996,
+              0.6769694763031147,
+              17.490811448055243
+            ],
+            "leftFoot": [
+              11.465950598641273,
+              0.08131789502939235,
+              17.63562284029564
+            ],
+            "rightFoot": [
+              11.41103879068707,
+              0.07572185388212938,
+              17.345722153329227
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "ms": 3000.2999999821186,
+      "visual": {
+        "effects": 36,
+        "pixelRatio": 1,
+        "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+        "ready": true,
+        "assets": [
+          "./assets/models/TERM-idle.glb",
+          "./assets/models/TERM-walk.glb",
+          "./assets/models/TERM-hit.glb",
+          "./assets/models/TERM-shoot.glb",
+          "./assets/models/NL-1-idle.glb",
+          "./assets/models/NL-1-walk.glb",
+          "./assets/models/NL-1-hit.glb",
+          "./assets/models/NL-1-death.glb",
+          "./assets/models/NL-2-walk.glb",
+          "./assets/models/NL-2-death.glb",
+          "./assets/models/NL-2-idle.glb",
+          "./assets/models/NL-2-hit.glb",
+          "./assets/models/NL-3-idle.glb",
+          "./assets/models/NL-3-walk.glb",
+          "./assets/models/NL-3-hit.glb",
+          "./assets/models/NL-3-death.glb",
+          "./assets/models/NL-4-walk.glb",
+          "./assets/models/NL-4-idle.glb",
+          "./assets/models/NL-4-hit.glb",
+          "./assets/models/NL-4-death.glb",
+          "./assets/models/strategy/TERM.glb",
+          "./assets/models/strategy/NL-2.glb",
+          "./assets/models/strategy/NL-1.glb",
+          "./assets/models/strategy/NL-3.glb",
+          "./assets/models/strategy/NL-4.glb",
+          "./assets/models/strategy/noctis-kit.glb",
+          "./assets/models/strategy/bolter.glb"
+        ],
+        "errors": [],
+        "drawCalls": 79,
+        "triangles": 106222,
+        "frameMs": {
+          "median": 16.69999999999891,
+          "p95": 16.799999999999272
+        },
+        "animations": [
+          "walk",
+          "idle",
+          "aim",
+          "fire"
+        ],
+        "figures": [
+          {
+            "id": "t0",
+            "clip": "idle",
+            "time": 0.35,
+            "position": [
+              12.5,
+              0,
+              10.5
+            ],
+            "head": [
+              12.50051339916024,
+              0.7461448313000292,
+              10.506988304032195
+            ],
+            "leftFoot": [
+              12.553458227523578,
+              0.08764001649160344,
+              10.490561296197088
+            ],
+            "rightFoot": [
+              12.384975301068677,
+              0.085686238441011,
+              10.510318871810984
+            ]
+          },
+          {
+            "id": "t1",
+            "clip": "idle",
+            "time": 0.35,
+            "position": [
+              14.5,
+              0,
+              10.5
+            ],
+            "head": [
+              14.50051339916024,
+              0.7461448313000292,
+              10.506988304032195
+            ],
+            "leftFoot": [
+              14.553458227523578,
+              0.08764001649160344,
+              10.490561296197088
+            ],
+            "rightFoot": [
+              14.384975301068677,
+              0.085686238441011,
+              10.510318871810984
+            ]
+          },
+          {
+            "id": "t2",
+            "clip": "fire",
+            "time": 0.3,
+            "position": [
+              4.5,
+              0,
+              17.5
+            ],
+            "head": [
+              4.496257494311695,
+              0.7452815713357208,
+              17.50805411488159
+            ],
+            "leftFoot": [
+              4.576632972964493,
+              0.09237758443548841,
+              17.3506310839784
+            ],
+            "rightFoot": [
+              4.576048672572998,
+              0.09035771981105326,
+              17.66350567659566
+            ]
+          },
+          {
+            "id": "t3",
+            "clip": "fire",
+            "time": 0.3,
+            "position": [
+              6.5,
+              0,
+              17.5
+            ],
+            "head": [
+              6.496257494311695,
+              0.7452815713357208,
+              17.50805411488159
+            ],
+            "leftFoot": [
+              6.576632972964493,
+              0.09237758443548841,
+              17.3506310839784
+            ],
+            "rightFoot": [
+              6.576048672572998,
+              0.09035771981105326,
+              17.66350567659566
+            ]
+          },
+          {
+            "id": "n3",
+            "clip": "fire",
+            "time": 0.3,
+            "position": [
+              11.5,
+              0,
+              17.5
+            ],
+            "head": [
+              11.482349080508278,
+              0.6768639989725742,
+              17.490816675468732
+            ],
+            "leftFoot": [
+              11.465950598641273,
+              0.08131789502939235,
+              17.63562284029564
+            ],
+            "rightFoot": [
+              11.41103879068707,
+              0.07572185388212938,
+              17.345722153329227
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "visual": {
+    "effects": 0,
+    "pixelRatio": 1,
+    "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+    "ready": true,
+    "assets": [
+      "./assets/models/TERM-idle.glb",
+      "./assets/models/TERM-walk.glb",
+      "./assets/models/TERM-hit.glb",
+      "./assets/models/TERM-shoot.glb",
+      "./assets/models/NL-1-idle.glb",
+      "./assets/models/NL-1-walk.glb",
+      "./assets/models/NL-1-hit.glb",
+      "./assets/models/NL-1-death.glb",
+      "./assets/models/NL-2-walk.glb",
+      "./assets/models/NL-2-death.glb",
+      "./assets/models/NL-2-idle.glb",
+      "./assets/models/NL-2-hit.glb",
+      "./assets/models/NL-3-idle.glb",
+      "./assets/models/NL-3-walk.glb",
+      "./assets/models/NL-3-hit.glb",
+      "./assets/models/NL-3-death.glb",
+      "./assets/models/NL-4-walk.glb",
+      "./assets/models/NL-4-idle.glb",
+      "./assets/models/NL-4-hit.glb",
+      "./assets/models/NL-4-death.glb",
+      "./assets/models/strategy/TERM.glb",
+      "./assets/models/strategy/NL-2.glb",
+      "./assets/models/strategy/NL-1.glb",
+      "./assets/models/strategy/NL-3.glb",
+      "./assets/models/strategy/NL-4.glb",
+      "./assets/models/strategy/noctis-kit.glb",
+      "./assets/models/strategy/bolter.glb"
+    ],
+    "errors": [],
+    "drawCalls": 59,
+    "triangles": 100046,
+    "frameMs": {
+      "median": 16.700000000000728,
+      "p95": 16.799999999999272
+    },
+    "animations": [
+      "walk",
+      "idle",
+      "aim",
+      "fire",
+      "hit",
+      "death",
+      "reload"
+    ],
+    "figures": [
+      {
+        "id": "t0",
+        "clip": "idle",
+        "time": 7.73300000000004,
+        "position": [
+          12.5,
+          0,
+          10.5
+        ],
+        "head": [
+          12.48230314659264,
+          0.7461936419404664,
+          10.506520937632136
+        ],
+        "leftFoot": [
+          12.582763989890186,
+          0.08835363734108678,
+          10.501808317818847
+        ],
+        "rightFoot": [
+          12.413777732168834,
+          0.08668056143034816,
+          10.51378587070782
+        ]
+      },
+      {
+        "id": "t1",
+        "clip": "idle",
+        "time": 7.73300000000004,
+        "position": [
+          14.5,
+          0,
+          10.5
+        ],
+        "head": [
+          14.48230314659264,
+          0.7461936419404664,
+          10.506520937632136
+        ],
+        "leftFoot": [
+          14.582763989890186,
+          0.08835363734108678,
+          10.501808317818847
+        ],
+        "rightFoot": [
+          14.413777732168834,
+          0.08668056143034816,
+          10.51378587070782
+        ]
+      },
+      {
+        "id": "t2",
+        "clip": "idle",
+        "time": 6.06650000000002,
+        "position": [
+          4.5,
+          0,
+          17.5
+        ],
+        "head": [
+          4.508598522469484,
+          0.7462342536885017,
+          17.497802099473432
+        ],
+        "leftFoot": [
+          4.502076397398051,
+          0.08838290286520611,
+          17.433378393064473
+        ],
+        "rightFoot": [
+          4.516282368877913,
+          0.0863555559698092,
+          17.6024807986563
+        ]
+      },
+      {
+        "id": "t3",
+        "clip": "idle",
+        "time": 6.06650000000002,
+        "position": [
+          6.5,
+          0,
+          17.5
+        ],
+        "head": [
+          6.508598522469484,
+          0.7462342536885017,
+          17.497802099473432
+        ],
+        "leftFoot": [
+          6.502076397398051,
+          0.08838290286520611,
+          17.433378393064473
+        ],
+        "rightFoot": [
+          6.516282368877913,
+          0.0863555559698092,
+          17.6024807986563
+        ]
+      }
+    ]
+  },
+  "audio": {
+    "enabled": true,
+    "phase": "planning",
+    "volumes": {
+      "master": 0.7,
+      "music": 0.3,
+      "ambience": 0.28,
+      "effects": 0.65
+    },
+    "played": {
+      "servo": 40,
+      "bolter": 3,
+      "impact": 2
+    },
+    "transitions": [
+      "planning → combat",
+      "combat → planning"
+    ],
+    "errors": [],
+    "tracks": [
+      {
+        "name": "planning",
+        "paused": false,
+        "time": 6.124032,
+        "volume": 0.20998563981705845,
+        "ready": 4
+      },
+      {
+        "name": "combat",
+        "paused": true,
+        "time": 0,
+        "volume": 0.00001436018294147699,
+        "ready": 4
+      },
+      {
+        "name": "ending",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "hull",
+        "paused": false,
+        "time": 8.964781,
+        "volume": 0.19599999999999987,
+        "ready": 4
+      }
+    ]
+  }
+}

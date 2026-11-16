@@ -1,0 +1,117 @@
+{
+  "audio": [
+    {
+      "name": "planning",
+      "generationId": "cmwjfyaxm00yn2po79bud5cir",
+      "deliveryId": "a9a7cf91-bc2e-4f60-9f7a-9e7770cd4a7d",
+      "creditsQuoted": 27,
+      "source": "public/assets/genex/a9a7cf91-bc2e-4f60-9f7a-9e7770cd4a7d/original-instrumental-gothic-science-fic-cmwjfyax.mp3",
+      "sha256": "39d253b114319716932032f9b6cc73e0def1c49b12b1a1020db701e384d47de0"
+    },
+    {
+      "name": "combat",
+      "generationId": "cmwjfybtl00zb34rxjkl775s7",
+      "deliveryId": "a1db9726-7985-448b-bd49-e10a11fb0112",
+      "creditsQuoted": 27,
+      "source": "public/assets/genex/a1db9726-7985-448b-bd49-e10a11fb0112/original-instrumental-combat-loop-for-go-cmwjfybt.mp3",
+      "sha256": "d147da343f2b94bec2e200c5c786566997f5dd342cd222320e6f36a5abc1952f"
+    },
+    {
+      "name": "ending",
+      "generationId": "cmwjfycll00zi34rxgj3xjda0",
+      "deliveryId": "216904ac-6181-49a6-853d-3ead58f824e5",
+      "creditsQuoted": 14,
+      "source": "public/assets/genex/216904ac-6181-49a6-853d-3ead58f824e5/original-instrumental-aftermath-of-gothi-cmwjfycl.mp3",
+      "sha256": "f359832b6a3531301026c82b16f68b474676551cc1ad20d4db59f46fc3f95480"
+    },
+    {
+      "name": "servo",
+      "generationId": "cmwjfydcd00yw2po79zxm0077",
+      "deliveryId": "7f2d200d-c76d-4d18-aad1-f74b28c378ff",
+      "creditsQuoted": 2,
+      "source": "public/assets/genex/7f2d200d-c76d-4d18-aad1-f74b28c378ff/one-heavy-armored-mechanical-footstep-on-cmwjfydc.mp3",
+      "sha256": "8ca77e5e2416da04bd4fcb97ba4455e7bc915b81a18ca322f25d79ade885bcc6"
+    },
+    {
+      "name": "bolter",
+      "generationId": "cmwjfydwv00zo34rx01hlmias",
+      "deliveryId": "e3c83fa8-4f52-4387-973f-413f55f5d6f3",
+      "creditsQuoted": 2,
+      "source": "public/assets/genex/e3c83fa8-4f52-4387-973f-413f55f5d6f3/single-massive-futuristic-explosive-rifl-cmwjfydw.mp3",
+      "sha256": "0d54392a04df047a26ab25b62e14b4e1f3bf10ad198c22c6a213b0fe46efde8d"
+    },
+    {
+      "name": "door",
+      "generationId": "cmwjfyeks00zv34rx57i7wt5a",
+      "deliveryId": "0d336f5a-6097-4889-8572-722e52428b39",
+      "creditsQuoted": 2,
+      "source": "public/assets/genex/0d336f5a-6097-4889-8572-722e52428b39/one-massive-gothic-starship-bulkhead-doo-cmwjfyek.mp3",
+      "sha256": "f91459ed958435ec3257b618d75bb3ee1dfc6de0ac862c08895c9019212ad8cf"
+    },
+    {
+      "name": "impact",
+      "generationId": "cmwjfyf3r010134rxhk1czewd",
+      "deliveryId": "1eba503f-8da6-4d92-a306-7b09fde946eb",
+      "creditsQuoted": 2,
+      "source": "public/assets/genex/1eba503f-8da6-4d92-a306-7b09fde946eb/single-sharp-projectile-impact-against-t-cmwjfyf3.mp3",
+      "sha256": "f55bf6a07e19375953ca4e38b7e7abd95db7c7e5ebb5a978f8280237f0a1f9c6"
+    }
+  ],
+  "models": [
+    {
+      "name": "TERM",
+      "path": "web/models/strategy/TERM.glb",
+      "jobId": "ee415d41-5233-4114-a403-ab3ad109b6c9",
+      "triangles": 6080,
+      "sha256": "e4dfbf205701909c12246ca6d53948b71efe081c4a9b53abf6c07333b7e9ad99"
+    },
+    {
+      "name": "NL-1",
+      "path": "web/models/strategy/NL-1.glb",
+      "jobId": "68402b89-64e0-4787-8560-270c5e0c2342",
+      "triangles": 6080,
+      "sha256": "f66eaf8f8b7815c27aa563eadfc1cf9e82afd3a293709d7d157aaf0e55ae5e88"
+    },
+    {
+      "name": "NL-2",
+      "path": "web/models/strategy/NL-2.glb",
+      "jobId": "dbaf75c2-6165-4e06-b2dc-6c223dd269a6",
+      "triangles": 6080,
+      "sha256": "a7a7314261860dedb1f5e6702edf22cb8154d24756e7ec0f8e8f4649e36ba8cb"
+    },
+    {
+      "name": "NL-3",
+      "path": "web/models/strategy/NL-3.glb",
+      "jobId": "5c02527e-6f2e-43b7-9748-e66cee7b2299",
+      "triangles": 6080,
+      "sha256": "2d0a8098e0409b6002c9960448e9fe9872c130b7fc8640d8af5654af2daef736"
+    },
+    {
+      "name": "NL-4",
+      "path": "web/models/strategy/NL-4.glb",
+      "jobId": "4c64196c-d906-4563-b645-5d8f0ff84df8",
+      "triangles": 6080,
+      "sha256": "b93239a7467bfef8420dff8133873d8e7f340a1b31e18cb84c5384388570c966"
+    },
+    {
+      "name": "weapons/bolter",
+      "path": "web/models/strategy/bolter.glb",
+      "jobId": "526ff0e6-8944-4c43-9cd9-a22768198265",
+      "triangles": 6000,
+      "sha256": "3e904353adb653a80021396e53f58ceb3c4fb42882c22e269a0be21d7814919a"
+    }
+  ],
+  "kit": {
+    "path": "web/models/strategy/noctis-kit.glb",
+    "jobId": "de932d7e-0191-4f40-aeca-dd2d6725f053",
+    "assemblies": [
+      "Relay",
+      "Power",
+      "Archives",
+      "Bulkhead",
+      "Buttress"
+    ],
+    "triangles": 15724
+  },
+  "totalQuotedCredits": 76
+}

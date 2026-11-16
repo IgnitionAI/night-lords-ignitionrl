@@ -1,0 +1,66 @@
+bun test v1.4.4 (38afee6c8)
+
+test/strategy-presentation.test.ts:
+(pass) unseen orders, routes and hits never enter the presentation [10.26ms]
+(pass) visible hostile routes terminate at the known visibility boundary [4.50ms]
+(pass) a hit on an ally never reveals a hidden shooter or tracer [0.58ms]
+(pass) animation presentation preserves recorded movement and does not mutate history [1.25ms]
+
+test/mission.test.ts:
+(pass) eliminating the claw does not skip sabotage; arming and extraction finish mission [4.43ms]
+(pass) leaving interaction resets arming and early extraction never wins [1.23ms]
+(pass) detonation is a loss and terminal states do not advance [0.08ms]
+(pass) Genestealer attack has windup and can be evaded [0.89ms]
+(pass) a Genestealer intercepts a bolt before a Night Lord behind it [1.10ms]
+(pass) a Genestealer actually damages armor after the telegraph [0.27ms]
+(pass) complete round trip uses movement, collision lanes and both interaction holds [9.05ms]
+(pass) a creature hit interrupts the final tick of bomb arming [0.37ms]
+(pass) death on the last extraction tick cannot become a victory [0.08ms]
+(pass) an active Genestealer navigates around ship pillars [5.35ms]
+
+test/fps-cam.test.ts:
+(pass) cam=fps est le défaut ; fps / couloir / epaule / troisquarts restent [3.36ms]
+(pass) œil FPS = hauteur de visor Dreadnought (~2,18 m) [0.08ms]
+(pass) pitch clampé ; yaw wrap [0.09ms]
+(pass) turn souris ne casse pas ZQSD : consigne bornée [-1,1] [0.03ms]
+(pass) bob de pas : impulsion lourde, pas flottante (ω élevé, z amorti) [0.10ms]
+(pass) œil poussé hors pilier et hors arène [0.06ms]
+(pass) pose FPS : hauteur d'œil, look devant [0.05ms]
+(pass) HUD casque : armure, munitions, gantelet, alarme — pas le pavé 3e personne [0.54ms]
+(pass) indicateurs de dégâts : rear → back, flanc selon l'angle [0.03ms]
+(pass) vitesse de base et normalisation angulaire
+(pass) FPS éclaire plus que le couloir 3e personne (expo / fog)
+(pass) visée autoplay : griffe armée derrière gagne sur un NL inoffensif devant [0.06ms]
+(pass) hint d'événement : claw.who et bolt.tx/ty [0.09ms]
+(pass) autoplay FPS : NL < 3 m ou griffe → snap vers l'assaillant (caméra seulement) [0.10ms]
+(pass) viewmodel : storm bolter (canons + mag) et poing (doigts) identifiables [40.26ms]
+
+test/strategy.test.ts:
+(pass) observations exclude hidden enemies and do not alias the world [1.84ms]
+(pass) hidden player movement cannot change commander decision [4.07ms]
+(pass) orders validated independently: invalid unit, movement and fire refused [0.22ms]
+(pass) physical doors block movement routes and visibility [0.22ms]
+(pass) position-targeted fire can be dodged by simultaneous movement [0.65ms]
+(pass) overwatch reacts once to movement [0.55ms]
+(pass) same-cell movement conflict never overlaps units [1.17ms]
+(pass) capture requires interaction and yields points from turn four [1.00ms]
+(pass) memory expires without tracking hidden target [0.37ms]
+(pass) radio preserves observed coordinates and timestamps [0.21ms]
+(pass) two commanders and complete deterministic match bounded at 24 turns [52.39ms]
+(pass) reconnaissance increases observed floor without revealing through closed doors [0.58ms]
+(pass) contested objective cannot be captured and no interaction means no capture [0.62ms]
+(pass) simultaneous lethal fire resolves for both camps [0.72ms]
+(pass) historical facts remain immutable after further turns [1.02ms]
+(pass) unseen door status is not disclosed by view [0.25ms]
+(pass) all three objectives have alternate approaches with closed center door [0.30ms]
+(pass) animation records each physical movement step without cutting corners [0.42ms]
+
+test/ship-layout.test.ts:
+(pass) mission ship is larger without changing duel geometry [0.16ms]
+(pass) all ship landmarks and objectives connect with Terminator clearance, including an alternate route [102.68ms]
+(pass) coolant wells block feet but leave bridge and sightline open [0.14ms]
+
+ 50 pass
+ 0 fail
+ 103 expect() calls
+Ran 50 tests across 5 files. [332.00ms]

@@ -27,6 +27,9 @@ const flattenHtml = () => ({
     mkdirSync(resolve(ROOT, 'web/dist/assets'), { recursive: true });
     cpSync(resolve(ROOT, 'web/models'), resolve(ROOT, 'web/dist/assets/models'), { recursive: true });
     cpSync(resolve(ROOT, 'web/sfx/nightlords'), resolve(ROOT, 'web/dist/assets/sfx/nightlords'), { recursive: true });
+    for (const row of JSON.parse(readFileSync(resolve(ROOT, 'docs/immersion/generations.json'), 'utf8'))) {
+      for (const file of row.delivery?.files ?? []) { const target=resolve(ROOT, 'web/dist', file.replace(/^public\//,'')); mkdirSync(resolve(target,'..'),{recursive:true});cpSync(resolve(ROOT,file),target); }
+    }
     cpSync(resolve(ROOT, 'policies'), resolve(ROOT, 'web/dist/policy'), { recursive: true });
   },
 });
@@ -54,7 +57,7 @@ export default ({ command }) => ({
     transform(code, id) {
       if (!id.startsWith(resolve(ROOT, 'web') + '/') || !/\.(ts|tsx|js)$/.test(id)) return;
       return code.replaceAll('/web/models/', './assets/models/')
-        .replaceAll('/web/sfx/', './assets/sfx/').replaceAll('/policy/', './policy/');
+        .replaceAll('/public/assets/genex/', './assets/genex/').replaceAll('/web/sfx/', './assets/sfx/').replaceAll('/policy/', './policy/');
     },
   }, flattenHtml(), policyAlias()],
   build: {

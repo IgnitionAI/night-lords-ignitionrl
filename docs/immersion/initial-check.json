@@ -1,0 +1,191 @@
+{
+  "errors": [],
+  "visual": {
+    "effects": 0,
+    "pixelRatio": 1,
+    "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)",
+    "ready": true,
+    "assets": [
+      "./assets/models/TERM-idle.glb",
+      "./assets/models/TERM-walk.glb",
+      "./assets/models/TERM-hit.glb",
+      "./assets/models/TERM-shoot.glb",
+      "./assets/models/NL-1-idle.glb",
+      "./assets/models/NL-1-walk.glb",
+      "./assets/models/NL-1-hit.glb",
+      "./assets/models/NL-1-death.glb",
+      "./assets/models/NL-2-idle.glb",
+      "./assets/models/NL-2-walk.glb",
+      "./assets/models/NL-2-death.glb",
+      "./assets/models/NL-2-hit.glb",
+      "./assets/models/NL-3-idle.glb",
+      "./assets/models/NL-3-death.glb",
+      "./assets/models/NL-3-hit.glb",
+      "./assets/models/NL-3-walk.glb",
+      "./assets/models/NL-4-idle.glb",
+      "./assets/models/NL-4-walk.glb",
+      "./assets/models/NL-4-hit.glb",
+      "./assets/models/NL-4-death.glb",
+      "./assets/models/strategy/TERM.glb",
+      "./assets/models/strategy/NL-1.glb",
+      "./assets/models/strategy/NL-2.glb",
+      "./assets/models/strategy/NL-3.glb",
+      "./assets/models/strategy/NL-4.glb",
+      "./assets/models/strategy/noctis-kit.glb",
+      "./assets/models/strategy/bolter.glb"
+    ],
+    "errors": [],
+    "drawCalls": 36,
+    "triangles": 98864,
+    "frameMs": {
+      "median": 16.699999999999932,
+      "p95": 16.799999999999955
+    },
+    "animations": [],
+    "figures": [
+      {
+        "id": "t0",
+        "clip": "idle",
+        "time": 2.8831999999999964,
+        "position": [
+          2.5,
+          0,
+          9.5
+        ],
+        "head": [
+          2.499097724191903,
+          0.7449141837028066,
+          9.523477672798585
+        ],
+        "leftFoot": [
+          2.4948398177479256,
+          0.08547458306881595,
+          9.42573759010697
+        ],
+        "rightFoot": [
+          2.5059351760423927,
+          0.08310548438559551,
+          9.594975550583332
+        ]
+      },
+      {
+        "id": "t1",
+        "clip": "idle",
+        "time": 2.8831999999999964,
+        "position": [
+          3.5,
+          0,
+          9.5
+        ],
+        "head": [
+          3.499097724191903,
+          0.7449141837028066,
+          9.523477672798585
+        ],
+        "leftFoot": [
+          3.4948398177479256,
+          0.08547458306881595,
+          9.42573759010697
+        ],
+        "rightFoot": [
+          3.5059351760423927,
+          0.08310548438559551,
+          9.594975550583332
+        ]
+      },
+      {
+        "id": "t2",
+        "clip": "idle",
+        "time": 2.8831999999999964,
+        "position": [
+          2.5,
+          0,
+          11.5
+        ],
+        "head": [
+          2.499097724191903,
+          0.7449141837028066,
+          11.523477672798585
+        ],
+        "leftFoot": [
+          2.4948398177479256,
+          0.08547458306881595,
+          11.42573759010697
+        ],
+        "rightFoot": [
+          2.5059351760423927,
+          0.08310548438559551,
+          11.594975550583332
+        ]
+      },
+      {
+        "id": "t3",
+        "clip": "idle",
+        "time": 2.8831999999999964,
+        "position": [
+          3.5,
+          0,
+          11.5
+        ],
+        "head": [
+          3.499097724191903,
+          0.7449141837028066,
+          11.523477672798585
+        ],
+        "leftFoot": [
+          3.4948398177479256,
+          0.08547458306881595,
+          11.42573759010697
+        ],
+        "rightFoot": [
+          3.5059351760423927,
+          0.08310548438559551,
+          11.594975550583332
+        ]
+      }
+    ]
+  },
+  "audio": {
+    "enabled": true,
+    "phase": "planning",
+    "volumes": {
+      "master": 0.7,
+      "music": 0.3,
+      "ambience": 0.28,
+      "effects": 0.65
+    },
+    "played": {},
+    "transitions": [],
+    "errors": [],
+    "tracks": [
+      {
+        "name": "planning",
+        "paused": false,
+        "time": 1.825778,
+        "volume": 0.19914561707251327,
+        "ready": 4
+      },
+      {
+        "name": "combat",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "ending",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "hull",
+        "paused": false,
+        "time": 1.857098,
+        "volume": 0.1858692426010124,
+        "ready": 4
+      }
+    ]
+  }
+}

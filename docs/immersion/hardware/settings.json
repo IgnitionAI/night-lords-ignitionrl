@@ -1,0 +1,59 @@
+{
+  "muted": {
+    "enabled": true,
+    "phase": "planning",
+    "volumes": {
+      "master": 0,
+      "music": 0.2,
+      "ambience": 0.18,
+      "effects": 0.6
+    },
+    "played": {},
+    "transitions": [],
+    "errors": [],
+    "tracks": [
+      {
+        "name": "planning",
+        "paused": false,
+        "time": 0.163821,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "combat",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "ending",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "hull",
+        "paused": false,
+        "time": 0.181239,
+        "volume": 0,
+        "ready": 4
+      }
+    ]
+  },
+  "persisted": {
+    "enabled": false,
+    "phase": "planning",
+    "volumes": {
+      "master": 0.55,
+      "music": 0.2,
+      "ambience": 0.18,
+      "effects": 0.6
+    },
+    "played": {},
+    "transitions": [],
+    "errors": [],
+    "tracks": []
+  }
+}
