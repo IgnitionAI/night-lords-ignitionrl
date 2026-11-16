@@ -1,6 +1,6 @@
-import {huntPhase,huntStriking} from './hunt-rhythm';
+import {SHIP_LANDMARKS} from './ship-layout';
 import {shipHeading} from './ship-path';
-import { angNorm, nlFrame, rayFree, los, collide, type World } from './sim';
+import { angNorm, nlFrame, rayFree, los, collide, geometry, type World } from './sim';
 /** Learned actor remains authoritative. A wounded, exposed squadmate may retreat during recovery. */
 export function griffeAction(w:World,i:number,learned:number):number {
  const n=w.nls[i],b=n.belief;
@@ -38,41 +38,51 @@ function travel(w:World,i:number,x:number,y:number):number {
  }
  return action;
 }
+export type ClawRole='leader'|'bait'|'hunter'|'interceptor';
+export type TacticalMode='search'|'flank'|'attack'|'cover'|'withdraw';
+export interface TacticalState {role:ClawRole;mode:TacticalMode;until:number;search:number;}
+const tactics=new WeakMap<World,Map<number,TacticalState>>();
+export function tacticalState(w:World,i:number){return tactics.get(w)?.get(i);}
 function huntAction(w:World,i:number,learned:number):number {
- const n=w.nls[i],b=n.belief,phase=huntPhase(w.tick);
+ const n=w.nls[i],b=n.belief;
+ let states=tactics.get(w);if(!states){states=new Map();tactics.set(w,states);}
+ let state=states.get(i);if(!state){state={role:'hunter',mode:'search',until:0,search:i};states.set(i,state);}
+ // Roles use only confirmed living mates; never inspect an unseen brother's live position.
+ const known=w.nls.map((_,j)=>j).filter(j=>j===i||(n.mates[j]?.known&&n.mates[j].alive&&n.mates[j].age<50));
+ state.role=(['leader','bait','hunter','interceptor'] as ClawRole[])[known.indexOf(i)%4];
  if(n.armTicks||n.stunTicks)return 0;
- // No fresh contact: hold the last shelter, never track the real player.
- if(!b.valid||b.age>50) {
-  // Search patrol follows authored corridors, not the unknown player position.
-  if(phase==='watch')return 0;
-  const patrol=[[28,8],[21,8],[14,12],[21,16],[28,16],[35,12]];
-  const point=patrol[(Math.floor(w.tick/100)+i*2)%patrol.length];
-  return travel(w,i,point[0],point[1]);
+ if(!b.valid||b.age>45){
+  state.mode='search';
+  const point=SHIP_LANDMARKS[state.search%SHIP_LANDMARKS.length];
+  if(Math.hypot(n.x-point.x,n.y-point.y)<1)state.search++;
+  return travel(w,i,point.x,point.y);
  }
  const d=Math.hypot(n.x-b.x,n.y-b.y);
- if(huntStriking(w.tick,i)) {
-  if(b.age>10)return 0;
-  if(d<2)return learned===7?7:learned;
-  return travel(w,i,b.x,b.y);
- }
+ const exposed=b.facing!==null&&Math.abs(angNorm(Math.atan2(n.y-b.y,n.x-b.x)-b.facing))>1.2;
+ const support=n.mates.some((m,j)=>j!==i&&m.known&&m.alive&&m.age<15&&Math.hypot(m.x-b.x,m.y-b.y)<9);
+ // Reload is an observation acquired by perception, never a read of the player state here.
+ const opportunity=b.age<8&&(exposed||n.reloadHeardUntil!>w.tick||support&&d<5);
+ if((n.hp??3)<=1&&n.cd>0){state.mode='withdraw';state.until=w.tick+25;}
+ else if(opportunity&&state.mode!=='withdraw'){state.mode='attack';state.until=w.tick+22;}
+ else if(w.tick>=state.until)state.mode=state.role==='leader'||state.role==='bait'?'cover':'flank';
+ if(state.mode==='attack'&&b.age<15){if(d<1.75)return n.cd===0?7:learned;return travel(w,i,b.x,b.y);}
+ if(state.mode==='cover'&&b.seen&&d>5&&d<11)return 0;
  let cache=shelters.get(w);if(!cache){cache=new Map();shelters.set(w,cache);}
  let target=cache.get(i);
- if(!target||target.until<=w.tick) {
-  let score=Infinity;
-  for(let y=1.5;y<23;y+=2)for(let x=1.5;x<39;x+=2) {
-   const range=Math.hypot(x-b.x,y-b.y);
-   if(range<5||range>13||[[0,0],[.7,0],[-.7,0],[0,.7],[0,-.7]].some(([dx,dy])=>los(x+dx,y+dy,b.x,b.y,w.propSolids)))continue;
-   const p={x,y};collide(p,.55,w.propSolids);
-   if(Math.hypot(p.x-x,p.y-y)>.01)continue;
-   const flank=Math.atan2(y-b.y,x-b.x),desired=(b.facing??0)+(i%2?1:-1)*(1.3+i*.3);
-   const cost=Math.hypot(x-n.x,y-n.y)+Math.abs(angNorm(flank-desired))*2+Math.abs(range-(phase==='stalk'?6:10));
-   if(cost<score){score=cost;target={x,y,until:w.tick+35};}
+ if(!target||target.until<=w.tick){
+  target=undefined;let score=Infinity;const bounds=geometry(w.propSolids).size;
+  const desired=(b.facing??0)+(state.role==='interceptor'?Math.PI:state.role==='hunter'?1.7:-1.3);
+  for(let y=1.5;y<bounds.h;y+=2)for(let x=1.5;x<bounds.w;x+=2){
+   const range=Math.hypot(x-b.x,y-b.y);if(range<4||range>13)continue;
+   const p={x,y};collide(p,.55,w.propSolids);if(Math.hypot(p.x-x,p.y-y)>.01)continue;
+   const hidden=!los(x,y,b.x,b.y,w.propSolids);
+   if(state.mode==='withdraw'&&!hidden)continue;
+   const cost=Math.hypot(x-n.x,y-n.y)*.45+Math.abs(angNorm(Math.atan2(y-b.y,x-b.x)-desired))*4+Math.abs(range-(state.mode==='withdraw'?11:5))+(hidden?0:4);
+   if(cost<score){score=cost;target={x,y,until:w.tick+20};}
   }
-  if(target)cache.set(i,target);
+  if(target)cache.set(i,target);else cache.delete(i);
  }
- if(target)return travel(w,i,target.x,target.y);
- // Open ground has no magical disappearance: physically back off.
- return d<9?2:0;
+ return target?travel(w,i,target.x,target.y):d<6?2:0;
 }
 /** Read-only diagnostics for encounter evaluation. */
 export function huntShelter(w:World,i:number){const p=shelters.get(w)?.get(i);return p?{...p}:null;}

@@ -1,4 +1,4 @@
-import {huntPhase,huntStriking} from './hunt-rhythm';
+import {SHIP_SIZE,SHIP_WALLS,registerShip,isShip} from './ship-layout';
 // Simulation à pas fixe, pure (aucune dépendance) : la même sert au jeu, à l'entraînement et à l'éval.
 // Principe repris de The Crucible (IgnitionAI/ignition, packages/demo-cage-duel) : tick fixe de 100 ms,
 // la sim fait foi pour le rendu comme pour l'entraînement.
@@ -63,6 +63,7 @@ export interface Belief { valid: boolean; x: number; y: number; age: number; fac
 export interface Mate { known: boolean; x: number; y: number; age: number; alive: boolean }
 export interface NL {
   hp?: number;
+  reloadHeardUntil?: number; shotRest?: number;
   burstTicks?: number; burstRest?: number; recoveryTicks?: number;
   shotTicks?: number; shotX?: number; shotY?: number;
   role: number; x: number; y: number; facing: number; alive: boolean; cd: number; armTicks: number; belief: Belief;
@@ -137,17 +138,18 @@ export function segHitsBox(ax: number, ay: number, bx: number, by: number, b: Bo
   return true;
 }
 export function los(ax: number, ay: number, bx: number, by: number, solids: readonly PropPrism[] = []): boolean {
-  for (const b of PILLARS) if (segHitsBox(ax, ay, bx, by, b)) return false;
+  for (const b of geometry(solids).walls) if (segHitsBox(ax, ay, bx, by, b)) return false;
   for (const o of solids) if (o.floor && distSegPrism(ax, ay, bx, by, o).d === 0) return false;
   return true;
 }
 function insideAny(x: number, y: number, m: number, solids: readonly PropPrism[] = []) {
-  if (PILLARS.some(b => x > b.x0 - m && x < b.x1 + m && y > b.y0 - m && y < b.y1 + m)) return true;
+  if (geometry(solids).walls.some(b => x > b.x0 - m && x < b.x1 + m && y > b.y0 - m && y < b.y1 + m)) return true;
   return solids.some(o => o.floor && distPointPrism(x, y, o) <= m);
 }
 export function collide(p: { x: number; y: number }, r: number, solids: readonly PropPrism[] = [], from?: { x: number; y: number }) {
-  p.x = Math.min(ARENA.w - r, Math.max(r, p.x)); p.y = Math.min(ARENA.h - r, Math.max(r, p.y));
-  for (const b of PILLARS) {
+  const bounds=geometry(solids).size;
+  p.x = Math.min(bounds.w - r, Math.max(r, p.x)); p.y = Math.min(bounds.h - r, Math.max(r, p.y));
+  for (const b of geometry(solids).walls) {
     const cx = Math.min(b.x1, Math.max(b.x0, p.x)), cy = Math.min(b.y1, Math.max(b.y0, p.y));
     const dx = p.x - cx, dy = p.y - cy, d = Math.hypot(dx, dy);
     if (d > 0 && d < r) { p.x = cx + dx / d * r; p.y = cy + dy / d * r; }
@@ -163,7 +165,7 @@ export function collide(p: { x: number; y: number }, r: number, solids: readonly
 export function rayFree(x: number, y: number, dx: number, dy: number, max = 6, solids: readonly PropPrism[] = []): number {
   for (let s = 0.25; s <= max; s += 0.25) {
     const px = x + dx * s, py = y + dy * s;
-    if (px < 0 || py < 0 || px > ARENA.w || py > ARENA.h || insideAny(px, py, 0, solids)) return s;
+    if (px < 0 || py < 0 || px > geometry(solids).size.w || py > geometry(solids).size.h || insideAny(px, py, 0, solids)) return s;
   }
   return max;
 }
@@ -172,7 +174,8 @@ export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: 
   const rng = mulberry32(seed);
   const propKinds = (opts.propKinds ?? []) as PropKind[];
   const propSolids = propKinds.length ? propPrisms(propKinds) : [];
-  const t: Term = { x: 3, y: 6 + rng() * 12, facing: 0, hp: T_CFG.hp, boltCd: 0, fistCd: 0, noise: T_CFG.noiseIdle, moving: false, channel: 0, lastHitTick: -999, lastHitAngle: 0,
+  if(opts.mission)registerShip(propSolids);
+  const t: Term = { x: 3, y: opts.mission ? 12 : 6 + rng() * 12, facing: 0, hp: T_CFG.hp, boltCd: 0, fistCd: 0, noise: T_CFG.noiseIdle, moving: false, channel: 0, lastHitTick: -999, lastHitAngle: 0,
     vx: 0, vy: 0, turnVel: 0, strideAcc: 0, foot: 0,
     ammo: T_CFG.boltAmmo, burstLeft: 0, burstCd: 0, reloadLeft: 0, fistCharge: 0,
     staggerTicks: 0, servoAlarm: 0, servoCriticalSent: false };
@@ -180,7 +183,7 @@ export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: 
   const nls: NL[] = [];
   for (let i = 0; i < N_NL; i++) {
     let x = 0, y = 0;
-    do { x = 26 + rng() * 12; y = 2 + rng() * 20; } while (insideAny(x, y, 0.8, propSolids) || dist(x, y, t.x, t.y) < 12);
+    do { x = opts.mission ? 20 + rng()*46 : 26 + rng() * 12; y = opts.mission ? 4+rng()*30 : 2 + rng() * 20; } while (insideAny(x, y, 0.8, propSolids) || dist(x, y, t.x, t.y) < 12);
     nls.push({ hp: opts.eliteDuel ? 24 : 3, burstTicks: 0, burstRest: 0, role: i, x, y, facing: Math.PI, alive: true, cd: 0, armTicks: 0, lastAction: 0, noise: 0, mates: [], stunTicks: 0,
       belief: { valid: false, x: BEACON.x, y: BEACON.y, age: 99, facing: null, seen: false, heard: false, vox: false } });
   }
@@ -222,6 +225,7 @@ function perceive(w: World) {
   for (const n of w.nls) {
     if (!n.alive) continue;
     const b = n.belief; b.seen = seers.includes(n);
+    if(w.opts.mission && t.reloadLeft>0 && (b.seen || (dist(n.x,n.y,t.x,t.y)<7 && los(n.x,n.y,t.x,t.y,w.propSolids)))) n.reloadHeardUntil=w.tick+t.reloadLeft;
     b.vox = !b.seen && seers.some(m => dist(m.x, m.y, n.x, n.y) <= NL_CFG.voxRange); b.heard = false;
     if (b.seen || b.vox) { b.valid = true; b.x = t.x; b.y = t.y; b.age = 0; b.facing = t.facing; }
     else {
@@ -496,6 +500,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
     const d = dist(n.x, n.y, t.x, t.y), mind = NL_CFG.radius + T_CFG.radius;
     if (d < mind && d > 0) { n.x = t.x + (n.x - t.x) / d * mind; n.y = t.y + (n.y - t.y) / d * mind; collide(n, NL_CFG.radius, w.propSolids); }
     if (w.opts.fps) {
+      if(n.shotRest) n.shotRest--;
       if (stunned) n.shotTicks = 0;
       else if ((n.shotTicks ?? 0) > 0) {
         n.shotTicks!--;
@@ -504,8 +509,8 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
           w.events.push({ type: 'enemyBolt', who: i, x: n.x, y: n.y, tx: n.shotX!, ty: n.shotY!, hit });
           if (hit) { t.hp = Math.max(0, t.hp - (w.opts.eliteDuel ? 7 : 2)); t.lastHitTick = w.tick; t.lastHitAngle = Math.atan2(n.y-t.y,n.x-t.x); w.events.push({ type: 'hit', dmg: w.opts.eliteDuel ? 7 : 2, zone: 'front', hpAfter: t.hp, stagger: false, servoAlarm: 0 }); }
         }
-      } else if ((!w.opts.mission || huntStriking(w.tick,i)) && (!w.opts.eliteDuel || t.fistCharge === 0) && d > (w.opts.eliteDuel ? 3.2 : 4) && d < 14 && w.tick % (w.opts.eliteDuel ? 22 : 50) === 10 && los(n.x,n.y,t.x,t.y,w.propSolids)) {
-        n.shotTicks = w.opts.eliteDuel ? 5 : 8; n.shotX = t.x + (w.opts.eliteDuel ? t.vx * .5 : 0); n.shotY = t.y + (w.opts.eliteDuel ? t.vy * .5 : 0);
+      } else if ((!w.opts.mission || (n.belief.seen && !n.shotRest)) && (!w.opts.eliteDuel || t.fistCharge === 0) && d > (w.opts.eliteDuel ? 3.2 : 4) && d < 14 && (w.opts.mission || w.tick % (w.opts.eliteDuel ? 22 : 50) === 10) && los(n.x,n.y,t.x,t.y,w.propSolids)) {
+        n.shotRest = 32+i*3; n.shotTicks = w.opts.eliteDuel ? 5 : 8; n.shotX = t.x + (w.opts.eliteDuel ? t.vx * .5 : 0); n.shotY = t.y + (w.opts.eliteDuel ? t.vy * .5 : 0);
         w.events.push({ type: 'enemyAim', who: i });
       }
     }
@@ -587,3 +592,5 @@ export function beaconHeading(x: number, y: number): number {
   if (bx === 0 && by === 0) return Math.atan2(BEACON.y - y, BEACON.x - x);
   return Math.atan2(by, bx);
 }
+
+export function geometry(solids:readonly PropPrism[]){return isShip(solids)?{size:SHIP_SIZE,walls:SHIP_WALLS}:{size:ARENA,walls:PILLARS};}

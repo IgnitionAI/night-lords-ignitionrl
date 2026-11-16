@@ -1,7 +1,7 @@
 import { shipHeading } from './ship-path';
 import { angNorm, collide, DT, los, step, type TAction, type World } from './sim';
 
-export const CORE = { x: 36.5, y: 12, r: 2.2 };
+export const CORE = { x: 67, y: 14, r: 2.2 };
 export const EXTRACTION = { x: 3, y: 12, r: 2.2 };
 export interface Xeno { x: number; y: number; hp: number; windup: number; cooldown: number; active: boolean; }
 export interface Mission {
@@ -12,7 +12,7 @@ export interface Mission {
 export function newMission(): Mission {
   return { phase: 'infiltration', planted: 0, remaining: 90, extraction: 0, cleared: false, narrative: 0,
     radio: 'FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.', radioUntil: 90,
-    xenos: [[14,3],[20,21],[28,12],[35,4],[35,20],[13,21]].map(([x,y]) => ({x,y,hp:2,windup:0,cooldown:0,active:false})) };
+    xenos: [[22,20],[40,24],[54,20],[62,6],[60,32],[24,32]].map(([x,y]) => ({x,y,hp:2,windup:0,cooldown:0,active:false})) };
 }
 export function missionStep(w: World, m: Mission, ta: TAction, acts: number[], interact: boolean) {
   if (w.done) return;

@@ -1,3 +1,4 @@
+import {SHIP_SIZE,SHIP_WALLS,SHIP_LANDMARKS} from '../src/ship-layout';
 import {huntPhase} from '../src/hunt-rhythm';
 import { griffeAction } from '../src/griffe';
 import { newMission, missionStep, missionText } from '../src/mission';
@@ -8,7 +9,7 @@ import { installDreadHull, addNightLordTrophies } from './dread-detail';
 import { eliteDuelAction } from '../src/fps-duel';
 // Rendu Three.js d'une sim pure à pas fixe (src/sim.ts) : modèles riggés, décor, capsules en repli.
 import * as THREE from 'three';
-import { newWorld, step, observe, nlFrame, nlSees, terminatorPerceives, DT, MAX_TICKS, ARENA, PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
+import { newWorld, step, observe, nlFrame, nlSees, terminatorPerceives, DT, MAX_TICKS, ARENA as DUEL_ARENA, PILLARS as DUEL_PILLARS, BEACON, ROLES, T_CFG, NL_CFG, NL_ACTIONS, type World, type TAction } from '../src/sim';
 import { hudMarkup, matchBeats, matchStatus, roundCard, roundMarkup, type MatchStatus } from '../src/match';
 import { PROP_PLACES, isPropKind, resolvePropKinds, type PropKind, type PropPlace } from '../src/props';
 import { POOL, UNSEEN, type Tactic } from '../src/tactics';
@@ -92,6 +93,7 @@ const CAM_MODE: CamMode = parseCamMode(qs.get('cam'));
 if (CAM_MODE === 'fps') document.body.classList.add('fps');
 if (CAM_MODE === 'shoulder') document.body.classList.add('shoulder');
 const MISSION = CAM_MODE === 'fps' && !autoplay && !shot && !qs.has('demo') && qs.get('duel') !== '1';
+const ARENA=MISSION?SHIP_SIZE:DUEL_ARENA, PILLARS=MISSION?SHIP_WALLS:DUEL_PILLARS;
 if (MISSION) document.body.classList.add('mission');
 let mission = newMission();
 const renderMission = MISSION ? missionScene(scene) : null;
@@ -225,6 +227,18 @@ const inst = (mat: THREE.Material, mats: THREE.Matrix4[], cast = true) => {
 const M = (x: number, y: number, z: number, sx: number, sy: number, sz: number) =>
   new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion(), new THREE.Vector3(sx, sy, sz));
 
+if(MISSION){
+ for(const l of SHIP_LANDMARKS){
+  const c=document.createElement('canvas');c.width=512;c.height=128;
+  const g=c.getContext('2d')!;g.fillStyle='#10202a';g.fillRect(0,0,512,128);
+  g.strokeStyle='#6eacb0';g.lineWidth=8;g.strokeRect(4,4,504,120);
+  g.fillStyle='#d7e4d6';g.font='bold 27px monospace';g.textAlign='center';g.fillText(l.name,256,75);
+  const sign=new THREE.Mesh(new THREE.PlaneGeometry(3.8,.95),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),side:THREE.DoubleSide}));
+  sign.position.set(l.x,4.4,l.y);scene.add(sign);
+  const light=new THREE.PointLight(0x92c3cd,5,12,2);light.position.set(l.x,4.7,l.y);scene.add(light);
+ }
+}
+
 if (ENV) {
   // membrures de pont : une nervure tous les 3 m dans le sens de la largeur, + les deux lisses de rive
   const ribs: THREE.Matrix4[] = [];
@@ -247,7 +261,7 @@ if (ENV) {
 const shaftM: THREE.Matrix4[] = [], plinthM: THREE.Matrix4[] = [], capM: THREE.Matrix4[] = [], ribVM: THREE.Matrix4[] = [];
 for (const b of PILLARS) {
   const w = b.x1 - b.x0, d = b.y1 - b.y0, cx = (b.x0 + b.x1) / 2, cz = (b.y0 + b.y1) / 2;
-  shaftM.push(M(cx, 2, cz, w, 4, d));
+  shaftM.push(M(cx, MISSION?2.875:2, cz, w, MISSION?5.75:4, d));
   if (ENV) {
     plinthM.push(M(cx, 0.14, cz, w + 0.5, 0.28, d + 0.5));
     capM.push(M(cx, 4.15, cz, w + 0.4, 0.3, d + 0.4));
@@ -280,7 +294,7 @@ if (ENV) {
 const ALL_LIGHTS = qs.get('lights') === 'all';
 const alarmLamps: THREE.PointLight[] = [];
 PILLARS.forEach((b, i) => {
-  if (ENV && !ALL_LIGHTS && i % 3 !== 0) return; // deux vraies lampes sur sept suffisent avec les bandes
+  if (MISSION || (ENV && !ALL_LIGHTS && i % 3 !== 0)) return; // deux vraies lampes sur sept suffisent avec les bandes
   const lamp = new THREE.PointLight(LAMP.color, LAMP.intensity, LAMP.distance, LAMP.decay); lamp.position.set((b.x0 + b.x1) / 2, 3.6, b.y0 - 0.3);
   lamp.userData.baseIntensity = LAMP.intensity;
   scene.add(lamp);

@@ -1,10 +1,10 @@
-import { ARENA, collide, los, type World } from './sim';
+import { geometry, collide, los, type World } from './sim';
 // Shared flood field for creatures; no allocations per creature and no diagonal corner cutting.
 const fields=new WeakMap<World,Map<string,Int16Array>>();
 const masks=new WeakMap<World,Uint8Array>();
 export function shipHeading(w:World,x:number,y:number,tx:number,ty:number):number {
  if(clearPath(w,x,y,tx,ty))return Math.atan2(ty-y,tx-x);
- const W=ARENA.w,H=ARENA.h,gx=Math.min(W-1,Math.max(0,Math.floor(tx))),gy=Math.min(H-1,Math.max(0,Math.floor(ty))),key=`${gx},${gy}`;
+ const {w:W,h:H}=geometry(w.propSolids).size,gx=Math.min(W-1,Math.max(0,Math.floor(tx))),gy=Math.min(H-1,Math.max(0,Math.floor(ty))),key=`${gx},${gy}`;
  let cache=fields.get(w);if(!cache){cache=new Map();fields.set(w,cache);}
  let dist=cache.get(key);
  if(!dist){
