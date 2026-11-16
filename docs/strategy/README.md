@@ -1,5 +1,7 @@
 # Guerre de coursives — prototype de stratégie
 
+> Historique du premier prototype classique. La version plateau actuelle, ses règles et ses mesures se trouvent dans [le jalon tactique](../boarding/README.md). Les chiffres ci-dessous concernent uniquement l’ancien mode sans PC ni cartes.
+
 Le concept a été approuvé dans la conversation : quatre Terminators contre deux commandants Night Lords, trois systèmes disputés, ordres simultanés. Le FPS reste accessible par `web/fps.html` ; son HTML original est conservé à cet emplacement et ses modules ne sont pas modifiés. La page d’entrée présente désormais la stratégie. Rien n’est publié.
 
 ## Partie

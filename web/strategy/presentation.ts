@@ -18,7 +18,7 @@ export function presentRound(r:Round,v:View):Presentation{
   const orders=r.orders.filter(o=>ids.has(o.unit)).filter(o=>!o.target||vis.has(key(o.target))||o.unit.startsWith('t')).map(o=>structuredClone(o));
   const after=r.after.filter(u=>ids.has(u.id)).map(u=>u.side==='imperium'||vis.has(key(u))?{...u}:{...units.find(x=>x.id===u.id)!,x:-100,y:-100});
   const shots:VisibleShot[]=[];
-  for(const o of orders.filter(o=>o.kind==='fire')){
+  for(const o of orders.filter(o=>o.kind==='fire'||o.kind==='special'&&o.unit==='t1')){
     const u=after.find(u=>u.id===o.unit);if(!u||!o.target||!vis.has(key(o.target))||u.x<0)continue;
     shots.push({from:u.id,target:{...o.target},hit:r.playerEvents.some(e=>e.startsWith(u.name+' touche '))});
   }
