@@ -6,7 +6,7 @@ export type SimEv = { type: string; [k: string]: unknown };
 
 export interface DirectorWorld {
   t: { x: number; y: number; vx: number; vy: number; servoAlarm: number };
-  nls: { alive: boolean; x: number; y: number }[];
+  nls: { alive: boolean; x: number; y: number; height?:number; vertical?:{phase:string}; dodgeTicks?:number }[];
   done: boolean;
   winner: 'pack' | 'terminator' | null;
 }
@@ -35,6 +35,8 @@ interface PendingSound {
 }
 
 export class AudioDirector {
+  private verticalPhases:string[]=[];
+  private verticalCueTicks=[0,0,0,0];
   private nlAcc = [0, 0, 0, 0];
   private nlPrev = [{ x: 0, y: 0, alive: true }, { x: 0, y: 0, alive: true }, { x: 0, y: 0, alive: true }, { x: 0, y: 0, alive: true }];
   private voxCd = 0;
@@ -54,6 +56,7 @@ export class AudioDirector {
 
   reset(): void {
     this.nlAcc = [0, 0, 0, 0];
+    this.verticalPhases=[];this.verticalCueTicks=[0,0,0,0];
     this.voxCd = 5;
     this.screamCd = 0;
     this.dripT = 0;
@@ -302,11 +305,19 @@ export class AudioDirector {
       const n = w.nls[i];
       const prev = this.nlPrev[i] ?? n;
       if (n.alive) {
+        const phase=n.vertical?.phase??'ground';
+        this.verticalCueTicks[i]-=dt;
+        if(phase!==this.verticalPhases[i]&&phase!=='ground'){
+          engine.play(phase==='drop'?'nl-jump':'claw-metal',{x:n.x,y:n.y,z:(n.height??0)+1.8,gain:.55,priority:7,send:.25});
+        }else if((phase==='climb'||phase==='traverse')&&this.verticalCueTicks[i]<=0){
+          engine.play('claw-metal',{x:n.x,y:n.y,z:(n.height??0)+2,gain:.24,rate:.75,priority:4});this.verticalCueTicks[i]=.65;
+        }
+        this.verticalPhases[i]=phase;
         const d = Math.hypot(n.x - prev.x, n.y - prev.y);
         const speed = dt > 0 ? d / dt : 0;
         const stride = speed > NL_WALK_SPEED * 1.15 ? NL_RUN_STRIDE : NL_WALK_STRIDE;
         this.nlAcc[i] += d;
-        if (this.nlAcc[i] >= stride * 0.92 && speed > 0.4) {
+        if (!n.vertical && this.nlAcc[i] >= stride * 0.92 && speed > 0.4) {
           this.nlAcc[i] = 0;
           engine.play(engine.nextNlStep(), { x: n.x, y: n.y, z: 0.2, priority: 3, intensity: Math.min(1, speed / 6), send: 0.12 });
         }

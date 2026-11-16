@@ -1,3 +1,4 @@
+import {restoreVerticalPose,applyVerticalPose} from './vertical-pose';
 import {SHIP_SIZE,SHIP_WALLS,SHIP_LANDMARKS,CEILING_ROUTES} from '../src/ship-layout';
 import { griffeAction, tacticalState } from '../src/griffe';
 import { newMission, missionStep, missionText } from '../src/mission';
@@ -231,6 +232,8 @@ if(MISSION){
   const dx=r.b.x-r.a.x,dz=r.b.y-r.a.y,len=Math.hypot(dx,dz);
   const rail=new THREE.Mesh(new THREE.BoxGeometry(len+.8,.18,.35),ribMat);
   rail.position.set((r.a.x+r.b.x)/2,5.4,(r.a.y+r.b.y)/2);rail.rotation.y=-Math.atan2(dz,dx);scene.add(rail);
+  const handrail=new THREE.Mesh(new THREE.BoxGeometry(len+.8,.09,.75),ribMat);handrail.position.copy(rail.position);handrail.position.y=5.17;handrail.rotation.y=rail.rotation.y;scene.add(handrail);
+
   for(const p of [r.a,r.b])for(let h=.4;h<5.4;h+=.45){const grip=new THREE.Mesh(new THREE.BoxGeometry(.8,.07,.15),ribMat);grip.position.set(p.x,h,p.y);scene.add(grip);}
  }
  for(const l of SHIP_LANDMARKS){
@@ -634,9 +637,12 @@ function advanceRigs(dt: number) {
   for (const rig of [...nlRigs, termRig]) {
     if (!rig) continue;
     const ts = Math.max(Math.abs(rig.current?.timeScale ?? 1), Math.abs(rig.overlay?.timeScale ?? 1));
+    restoreVerticalPose(rig.root);
     advanceMixer(rig.mixer, dt, mixerSubstepCount(dt, ts));
     scanRigCues(rig);
-    if (rig.kind !== 'death') applyFootIk(rig.root);
+    const hunter=typeof rig.who==='number'?w.nls[rig.who]:null;
+    if(hunter?.vertical)applyVerticalPose(rig.root,hunter,w.tick*DT);
+    else if (rig.kind !== 'death') applyFootIk(rig.root);
   }
   for (let i = 0; i < nlFall.length; i++) {
     const b = nlFall[i]; if (!b) continue;

@@ -1,10 +1,11 @@
+import {shipOpponent} from '../src/ship-opponent';
 import {newWorld,step,T_IDLE,type World} from '../src/sim';
 import {tacticalObservation} from '../src/tactical-observation';
 import {griffeAction,tacticalState} from '../src/griffe';
 import {forward,softmax,sample} from '../src/policy';
 import {mulberry32} from '../src/rng';
 import {readFileSync,writeFileSync} from 'node:fs';
-const actor=JSON.parse(readFileSync('runs/ship-tactical/actor.json','utf8'));
+const actor=JSON.parse(readFileSync(process.env.TACTICAL_ACTOR??'runs/ship-tactical/actor.json','utf8'));
 function opponent(w:World,style:number){
  const visible=w.nls.filter(n=>n.alive&&Math.hypot(n.x-w.t.x,n.y-w.t.y)<16);
  visible.sort((a,b)=>Math.hypot(a.x-w.t.x,a.y-w.t.y)-Math.hypot(b.x-w.t.x,b.y-w.t.y));
@@ -18,10 +19,10 @@ for(const learned of [false,true])for(let seed=900001;seed<=900012;seed++)for(le
  for(let tick=0;tick<500&&!w.done&&w.nls.some(n=>n.alive);tick++){
   if(tick%8===0&&learned)choices=w.nls.map((_,i)=>sample(softmax(forward(actor,Array.from(tacticalObservation(w,i)))),rng));
   const acts=w.nls.map((n,i)=>griffeAction(w,i,Math.hypot(n.x-n.belief.x,n.y-n.belief.y)<1.7?7:1,learned?choices[i]:undefined));
-  step(w,opponent(w,style),acts);
+  step(w,process.env.REACTION_PLAYER?shipOpponent(w,style):opponent(w,style),acts);
   dodge+=w.nls.filter(n=>n.alive&&n.dodgeTicks).length;vertical+=w.nls.filter(n=>n.alive&&n.vertical).length;search+=w.nls.filter((n,i)=>n.alive&&tacticalState(w,i)?.mode==='search').length;contacts+=w.events.filter(e=>e.type==='claw'||e.type==='enemyBolt').length;
  }
  rows.push({learned,seed,style,damage:30-w.t.hp,survivors:w.nls.filter(n=>n.alive).length,win:w.winner==='pack',dodge,vertical,search,contacts});
 }
 const summary=[false,true].map(learned=>{const r=rows.filter(x=>x.learned===learned);return {learned,episodes:r.length,wins:r.filter(x=>x.win).length,...Object.fromEntries(['damage','survivors','dodge','vertical','search','contacts'].map(key=>[key,r.reduce((sum,x)=>sum+(x as any)[key],0)/r.length]))};});
-writeFileSync('docs/mission/tactical-comparison.json',JSON.stringify({scope:'Held-out combat encounters; not full mission or human difficulty',summary,rows},null,2));console.log(JSON.stringify(summary,null,2));
+writeFileSync(process.env.TACTICAL_REPORT??'docs/mission/tactical-comparison.json',JSON.stringify({scope:'Held-out combat encounters; not full mission or human difficulty',summary,rows},null,2));console.log(JSON.stringify(summary,null,2));

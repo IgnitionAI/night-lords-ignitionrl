@@ -26,3 +26,14 @@ NOT COMPLETE:
 - tfjs-node4 requires scripts/tfjs-node-compat.cjs under Node26 (removed util helper). Studio background sandbox cannot read ps for resource guard; stopped that job; reran via approved escalated exec with guards intact and completed. No live training remains.
 - Held-out72 bouts (36 each) in docs/mission/tactical-comparison.json: rule damage1.667, learned.611, both0wins; perfect tracking opponent. First comparison archived initial.json. Learned candidate NOT promoted; it has weak near-uniform entropy and is worse. Need improve training/reward/encounter starts, compare reaction-limited players too, and integrate only if justified. No learned tactical actor currently used in live game.
 - Still outstanding: convincing ceiling poses and attacks in real FPS; spatial audio for vertical transitions; coordination/roles stability and covered retreat; catwalk details; full combat mission validation. Do not finish Loop or claim difficulty achieved.
+
+
+## Pose/audio and second learning trial
+- Added web/vertical-pose.ts: reversible post-mixer CCD arm reach, knee tuck, alternating reach on traverse. Real refined model checked via web/vertical-review.html and scripts/check-vertical-pose.mjs. Fixture screenshots docs/captures/vertical; no page errors. Hands around5.16m below main rail5.4; added5.17m handrail strip. Still needs in-game motion review with equipped weapons/actual clips.
+- AudioDirector emits climb/traverse metal contact and drop cue at hunter height, suppresses floor footfalls while suspended.
+- Added src/ship-opponent.ts: test opponents only see within cone+LOS, reacquire every3ticks and turn at most.25rad/tick. Original perfect-tracking stress adversary retained in eval script; REACTION_PLAYER=1 selects bounded opponent.
+- Second PPO trial completed in exec session34545,400updates output runs/ship-tactical-v2; not a Studio job. Same guard and approved Node compatibility preloader. Eval accepts TACTICAL_ACTOR,TACTICAL_REPORT env. Never promote without comparing. Need await this session before ending current turn.
+
+Trial2 complete114920transitions, rejected (see TACTICAL-ARCHITECTURE.md). FPS route session91710 currently running. No source changes while its Vite instance is running. Test22pass after pose/audio. Need review route output, finish combat/coordination tuning, no finish claim yet.
+
+FPS route session91710 completed: errors[],6xenos4skinned34audio no missing. Seed527 aggressive axial keyboard route shooting forward died tick160 before core; oneNL and oneXeno killed. This is real browser combat proof, NOT completed mission or difficulty rating. Captures docs/captures/ship-route/check.json,sequence.json,62-12.png. No active jobs/sessions now. Must still complete mission FPS and inspect vertical in actual game; role consistency and covered retreat need work.
