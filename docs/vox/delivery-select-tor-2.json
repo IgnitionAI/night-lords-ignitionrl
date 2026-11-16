@@ -1,0 +1,40 @@
+{
+  "id": "dd3e8fcc-a032-4c7d-91d5-638360cbdd4a",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/dd3e8fcc-a032-4c7d-91d5-638360cbdd4a/mon-armure-tient-vos-ordres-cmwjktah.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:35.477Z",
+  "generationId": "cmwjktahh001g3lll534w5dxm",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjktahh001g3lll534w5dxm/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjktahh001g3lll534w5dxm",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktahh001g3lll534w5dxm/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/dd3e8fcc-a032-4c7d-91d5-638360cbdd4a/output/mon-armure-tient-vos-ordres-cmwjktah.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktahh001g3lll534w5dxm/audio-voice",
+        "bytes": 34315
+      }
+    ],
+    "downloadFailures": []
+  }
+}

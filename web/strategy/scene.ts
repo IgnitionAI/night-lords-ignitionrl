@@ -8,6 +8,7 @@ import {measureHeight} from '../stride';
 import {attachWeapon} from '../weapons';
 import {rounded,type Presentation} from './presentation';
 import type {ShipAudio} from './audio';
+import {voiceCue} from './vox-cues';
 
 type Figure={group:T.Group;body:T.Object3D;mixer:T.AnimationMixer;actions:Record<string,T.AnimationAction>;current:string;ring:T.Mesh;label:T.Sprite;hp:T.Mesh;unit:Unit;heading:number;dead:boolean;};
 const v3=(p:Pos,h=0)=>new T.Vector3(p.x+.5,h,p.y+.5);
@@ -146,14 +147,16 @@ export class TacticalScene{
       const fraction=u.side==='imperium'?Math.min(1,local/.94):Math.min(1,local/.68);position={x:a.x+(b.x-a.x)*fraction,y:a.y+(b.y-a.y)*fraction};
       const allowed=u.side==='imperium'||a.x>=0&&b.x>=0&&vis.has(key(rounded(position)));if(!allowed)continue;
       f.group.visible=true;f.group.position.copy(v3(position));
+      if(moving&&u.side==='imperium')this.cue('vox-moving-'+u.id,.5,t,()=>this.audio.speak(voiceCue(u,'moving','action')));
+      if(u.side==='imperium'&&o?.kind==='guard')this.cue('vox-guard-'+u.id,.3,t,()=>this.audio.speak(voiceCue(u,'guarding','action')));
       if(moving){f.heading=Math.atan2(b.x-a.x,b.y-a.y);this.action(f,'walk');f.actions.walk.timeScale=u.side==='imperium'?1.5:1.8;this.cue('step-'+u.id+'-'+seg,.5+seg*.72+.12,t,()=>this.audio.effect('servo',position,focus));}
       else if(t<2.7){this.action(f,o?.kind==='interact'||o?.kind==='scan'?'interact':o?.kind==='fire'||o?.kind==='guard'?'aim':'idle');if(o?.target)f.heading=Math.atan2(o.target.x-position.x,o.target.y-position.y);}
       let delta=Math.atan2(Math.sin(f.heading-f.body.rotation.y),Math.cos(f.heading-f.body.rotation.y));f.body.rotation.y+=delta*.18;
-      const shot=p.shots.find(s=>s.from===u.id);if(shot){if(t>=2.7&&t<3.25){this.action(f,'fire');f.heading=Math.atan2(shot.target.x-position.x,shot.target.y-position.y);}else if(t>=3.25&&t<4.15)this.action(f,'reload');this.cue('shot-'+u.id,2.88,t,()=>{this.burst(f,shot.target,shot.hit);this.audio.effect('bolter',position,focus);});}
-      if(end.hp<u.hp){this.cue('hit-'+u.id,3.03,t,()=>{this.action(f,end.hp<=0?'death':'hit');this.audio.effect('impact',position,focus);this.sparks(v3(position,.45),0xffa650);});if(t>=3.03&&end.hp<=0){this.action(f,'death');f.dead=true;f.group.position.y=-.3*Math.min(1,(t-3.03));}}
+      const shot=p.shots.find(s=>s.from===u.id);if(shot){if(t>=2.7&&t<3.25){this.action(f,'fire');f.heading=Math.atan2(shot.target.x-position.x,shot.target.y-position.y);}else if(t>=3.25&&t<4.15)this.action(f,'reload');this.cue('shot-'+u.id,2.88,t,()=>{if(u.side==='imperium')this.audio.speak(voiceCue(u,'firing','action'));this.burst(f,shot.target,shot.hit);this.audio.effect('bolter',position,focus);});}
+      if(end.hp<u.hp){this.cue('hit-'+u.id,3.03,t,()=>{if(u.side==='imperium'&&end.hp<=0)this.audio.silenceUnit(u.id);if(u.side==='imperium'&&end.hp>0)this.audio.speak(voiceCue(u,'hurt','action'));this.action(f,end.hp<=0?'death':'hit');this.audio.effect('impact',position,focus);this.sparks(v3(position,.45),0xffa650);});if(t>=3.03&&end.hp<=0){this.action(f,'death');f.dead=true;f.group.position.y=-.3*Math.min(1,(t-3.03));}}
       f.hp.scale.x=.55*(t>3.03?end.hp:u.hp)/u.maxHp;
-      if(o?.kind==='interact')this.cue('interact-'+u.id,.22,t,()=>{if(o.target&&p.doors.some(d=>key(d)===key(o.target!)))this.audio.effect('door',o.target,focus);});
-      if(o?.kind==='scan')this.cue('scan-'+u.id,.2,t,()=>{const ring=new T.Mesh(new T.RingGeometry(.43,.47,64),new T.MeshBasicMaterial({color:color.friendly,transparent:true,opacity:.6,depthWrite:false}));ring.position.copy(v3(u,.05));ring.rotation.x=-Math.PI/2;this.fx.add(ring);this.effects.push({obj:ring,ttl:1.5,life:1.5});});
+      if(o?.kind==='interact')this.cue('interact-'+u.id,.22,t,()=>{if(u.side==='imperium')this.audio.speak(voiceCue(u,'working','action'));if(o.target&&p.doors.some(d=>key(d)===key(o.target!)))this.audio.effect('door',o.target,focus);});
+      if(o?.kind==='scan')this.cue('scan-'+u.id,.2,t,()=>{if(u.side==='imperium')this.audio.speak(voiceCue(u,'scanning','action'));const ring=new T.Mesh(new T.RingGeometry(.43,.47,64),new T.MeshBasicMaterial({color:color.friendly,transparent:true,opacity:.6,depthWrite:false}));ring.position.copy(v3(u,.05));ring.rotation.x=-Math.PI/2;this.fx.add(ring);this.effects.push({obj:ring,ttl:1.5,life:1.5});});
     }
     if(t>4.3){this.running=undefined;r.done();}
   }

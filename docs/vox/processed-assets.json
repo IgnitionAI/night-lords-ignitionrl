@@ -1,0 +1,1465 @@
+[
+  {
+    "id": "select-vael-1",
+    "unit": "t0",
+    "text": "Oui, commandant.",
+    "source": "public/assets/genex/d9994e64-fbdd-40ce-8fbb-1ff8c56a93e5/oui-commandant-cmwjksea.mp3",
+    "output": "web/sfx/vox/t0-select-vael-1-vox2.mp3",
+    "deliveryId": "d9994e64-fbdd-40ce-8fbb-1ff8c56a93e5",
+    "seconds": 1.416,
+    "bytes": 16604,
+    "sha256": "d1766d0e4d3236862f34997a009a31c8c55d641fab37b8c90862b9425ac69e1e",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "select-vael-2",
+    "unit": "t0",
+    "text": "J'écoute, commandant.",
+    "source": "public/assets/genex/a882d291-df25-4c5f-9c56-a6ab5525e803/j-coute-commandant-cmwjksfz.mp3",
+    "output": "web/sfx/vox/t0-select-vael-2-vox2.mp3",
+    "deliveryId": "a882d291-df25-4c5f-9c56-a6ab5525e803",
+    "seconds": 1.728,
+    "bytes": 20492,
+    "sha256": "8d84521b4403b18c0f0306a697056b241b8b7ce493e6c20d72225bdfad9d4c5a",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "select-vael-3",
+    "unit": "t0",
+    "text": "Votre volonté sera faite.",
+    "source": "public/assets/genex/fa33e642-8493-446d-b5f4-9796e95f2b4c/votre-volont-sera-faite-cmwjksi0.mp3",
+    "output": "web/sfx/vox/t0-select-vael-3-vox2.mp3",
+    "deliveryId": "fa33e642-8493-446d-b5f4-9796e95f2b4c",
+    "seconds": 2.064,
+    "bytes": 24092,
+    "sha256": "4746939a66842aa6b93779eebcb035765fb9ba64da3aa8f21dec208d423591ef",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "select-tor-1",
+    "unit": "t1",
+    "text": "Prêt à faire mon devoir.",
+    "source": "public/assets/genex/116c37d5-4e40-4b37-9334-8e6686be2304/pr-t-faire-mon-devoir-cmwjkt8p.mp3",
+    "output": "web/sfx/vox/t1-select-tor-1-vox2.mp3",
+    "deliveryId": "116c37d5-4e40-4b37-9334-8e6686be2304",
+    "seconds": 1.848,
+    "bytes": 21644,
+    "sha256": "7fa3438586bab76e34be4b557566458c03364c6986399c7e286176ca1747e475",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "select-tor-2",
+    "unit": "t1",
+    "text": "Mon armure tient. Vos ordres ?",
+    "source": "public/assets/genex/dd3e8fcc-a032-4c7d-91d5-638360cbdd4a/mon-armure-tient-vos-ordres-cmwjktah.mp3",
+    "output": "web/sfx/vox/t1-select-tor-2-vox2.mp3",
+    "deliveryId": "dd3e8fcc-a032-4c7d-91d5-638360cbdd4a",
+    "seconds": 2.232,
+    "bytes": 25580,
+    "sha256": "249705d8bdb541b97061481205cc709f030669e549940250bc5132257ab2b933",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "select-tor-3",
+    "unit": "t1",
+    "text": "Parlez, commandant.",
+    "source": "public/assets/genex/0b05a7dc-660c-43bf-bd77-6fc4be63d659/parlez-commandant-cmwjktbx.mp3",
+    "output": "web/sfx/vox/t1-select-tor-3-vox2.mp3",
+    "deliveryId": "0b05a7dc-660c-43bf-bd77-6fc4be63d659",
+    "seconds": 1.728,
+    "bytes": 20684,
+    "sha256": "05ce91f8b3bc0beed6f38198a4febfdff63faba5275c7ece0e0a4fd319fb98ee",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "select-cael-1",
+    "unit": "t2",
+    "text": "Canal ouvert, commandant.",
+    "source": "public/assets/genex/821f6bab-ef96-44b4-b482-667892fc1d8b/canal-ouvert-commandant-cmwjktdl.mp3",
+    "output": "web/sfx/vox/t2-select-cael-1-vox2.mp3",
+    "deliveryId": "821f6bab-ef96-44b4-b482-667892fc1d8b",
+    "seconds": 1.872,
+    "bytes": 21476,
+    "sha256": "38565a4ec12d11e0e7660148e78eb7bd5a7befbfb6c30a28661000316e427f92",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "select-cael-2",
+    "unit": "t2",
+    "text": "À l'écoute. Pour l'Empereur.",
+    "source": "public/assets/genex/15a68b18-02a3-4f8e-83e7-37247b7f51d5/l-coute-pour-l-empereur-cmwjktf6.mp3",
+    "output": "web/sfx/vox/t2-select-cael-2-vox2.mp3",
+    "deliveryId": "15a68b18-02a3-4f8e-83e7-37247b7f51d5",
+    "seconds": 2.304,
+    "bytes": 27308,
+    "sha256": "b1c84cc0ae6b4a90848d4a16ff54e360d7c40753d1949f059ebe9a5a77b20e07",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "select-cael-3",
+    "unit": "t2",
+    "text": "Mes sens sont en éveil.",
+    "source": "public/assets/genex/bba46700-0f2b-416c-b0d1-b2ded2930269/mes-sens-sont-en-veil-cmwjktgy.mp3",
+    "output": "web/sfx/vox/t2-select-cael-3-vox2.mp3",
+    "deliveryId": "bba46700-0f2b-416c-b0d1-b2ded2930269",
+    "seconds": 1.728,
+    "bytes": 20564,
+    "sha256": "e0a44e50052ff8aad4b6b5d82eda63d7ec000a9afe23b972b472a829c2f159e5",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "select-brann-1",
+    "unit": "t3",
+    "text": "Le devoir m'appelle.",
+    "source": "public/assets/genex/557af5ee-dee2-4381-abb8-8219d1a22d0d/le-devoir-m-appelle-cmwjktio.mp3",
+    "output": "web/sfx/vox/t3-select-brann-1-vox2.mp3",
+    "deliveryId": "557af5ee-dee2-4381-abb8-8219d1a22d0d",
+    "seconds": 1.704,
+    "bytes": 19676,
+    "sha256": "8abd65288825280cd8e66c625ebb1932a803086c39b1d4af84d784a29f9a072c",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "select-brann-2",
+    "unit": "t3",
+    "text": "Toujours fidèle, commandant.",
+    "source": "public/assets/genex/81355647-0a35-4fd3-b880-2ef17a05549c/toujours-fid-le-commandant-cmwjktkg.mp3",
+    "output": "web/sfx/vox/t3-select-brann-2-vox2.mp3",
+    "deliveryId": "81355647-0a35-4fd3-b880-2ef17a05549c",
+    "seconds": 1.896,
+    "bytes": 21932,
+    "sha256": "9756750ca316cba0ac9160d9dafc294a66b9452d292577e6455beea53942e8b0",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "select-brann-3",
+    "unit": "t3",
+    "text": "Que l'Empereur nous guide.",
+    "source": "public/assets/genex/c124b162-ef05-4413-afa1-0fb3dd78560e/que-l-empereur-nous-guide-cmwjktm4.mp3",
+    "output": "web/sfx/vox/t3-select-brann-3-vox2.mp3",
+    "deliveryId": "c124b162-ef05-4413-afa1-0fb3dd78560e",
+    "seconds": 1.776,
+    "bytes": 20708,
+    "sha256": "479c303dc8ebfd0f0c6e5bd5663daff92a0c6500e78cc1c23269f69deacefc88",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-move-1",
+    "unit": "t0",
+    "text": "À vos ordres.",
+    "source": "public/assets/genex/611441da-30de-4d31-a5d5-5bad54ea1e32/vos-ordres-cmwjktnt.mp3",
+    "output": "web/sfx/vox/t0-ack-move-1-vox2.mp3",
+    "deliveryId": "611441da-30de-4d31-a5d5-5bad54ea1e32",
+    "seconds": 1.2,
+    "bytes": 14204,
+    "sha256": "2575dfbef88e49a8d2eaeed93ac4e7720bf2311bacf9fd0320538daadc0aac93",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-move-1",
+    "unit": "t1",
+    "text": "À vos ordres.",
+    "source": "public/assets/genex/611441da-30de-4d31-a5d5-5bad54ea1e32/vos-ordres-cmwjktnt.mp3",
+    "output": "web/sfx/vox/t1-ack-move-1-vox2.mp3",
+    "deliveryId": "611441da-30de-4d31-a5d5-5bad54ea1e32",
+    "seconds": 1.2,
+    "bytes": 14540,
+    "sha256": "de04dcd65a6736e6938ee62533ce00941fc64a6144b6edaff51f38dc7c8aadbb",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-move-1",
+    "unit": "t2",
+    "text": "À vos ordres.",
+    "source": "public/assets/genex/611441da-30de-4d31-a5d5-5bad54ea1e32/vos-ordres-cmwjktnt.mp3",
+    "output": "web/sfx/vox/t2-ack-move-1-vox2.mp3",
+    "deliveryId": "611441da-30de-4d31-a5d5-5bad54ea1e32",
+    "seconds": 1.176,
+    "bytes": 14156,
+    "sha256": "73a0b6878f45634bcca606c78124a2ae6e877affd481714b8872cfd1b74c8e17",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-move-1",
+    "unit": "t3",
+    "text": "À vos ordres.",
+    "source": "public/assets/genex/611441da-30de-4d31-a5d5-5bad54ea1e32/vos-ordres-cmwjktnt.mp3",
+    "output": "web/sfx/vox/t3-ack-move-1-vox2.mp3",
+    "deliveryId": "611441da-30de-4d31-a5d5-5bad54ea1e32",
+    "seconds": 1.2,
+    "bytes": 14204,
+    "sha256": "9072670523383a073b78bc22649b6e9285664fcd2e3ce5f178bbebf1b06eaf57",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-move-1",
+    "unit": "command",
+    "text": "À vos ordres.",
+    "source": "public/assets/genex/611441da-30de-4d31-a5d5-5bad54ea1e32/vos-ordres-cmwjktnt.mp3",
+    "output": "web/sfx/vox/command-ack-move-1-vox2.mp3",
+    "deliveryId": "611441da-30de-4d31-a5d5-5bad54ea1e32",
+    "seconds": 1.2,
+    "bytes": 14492,
+    "sha256": "f7d595a4bf47ff00ec8233e9629d98f642970b2776f39831c4b0ce993da7f7c4",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-move-2",
+    "unit": "t0",
+    "text": "Itinéraire reçu.",
+    "source": "public/assets/genex/e958875d-3321-4e02-9203-8dbd472c328b/itin-raire-re-u-cmwjktpg.mp3",
+    "output": "web/sfx/vox/t0-ack-move-2-vox2.mp3",
+    "deliveryId": "e958875d-3321-4e02-9203-8dbd472c328b",
+    "seconds": 1.752,
+    "bytes": 20588,
+    "sha256": "9cdeb4b994a64a456de57f823ee4262062f8149812fd49284672b1c932735a46",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-move-2",
+    "unit": "t1",
+    "text": "Itinéraire reçu.",
+    "source": "public/assets/genex/e958875d-3321-4e02-9203-8dbd472c328b/itin-raire-re-u-cmwjktpg.mp3",
+    "output": "web/sfx/vox/t1-ack-move-2-vox2.mp3",
+    "deliveryId": "e958875d-3321-4e02-9203-8dbd472c328b",
+    "seconds": 1.8,
+    "bytes": 21116,
+    "sha256": "5449a9692cf541fe27342a82b48de4f2a0f337fa6f1086cdc47e803328dc7846",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-move-2",
+    "unit": "t2",
+    "text": "Itinéraire reçu.",
+    "source": "public/assets/genex/e958875d-3321-4e02-9203-8dbd472c328b/itin-raire-re-u-cmwjktpg.mp3",
+    "output": "web/sfx/vox/t2-ack-move-2-vox2.mp3",
+    "deliveryId": "e958875d-3321-4e02-9203-8dbd472c328b",
+    "seconds": 1.752,
+    "bytes": 21068,
+    "sha256": "27088f1f9535a235371284e4373ebcb02f160828567e45543eba1aadf31fd086",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-move-2",
+    "unit": "t3",
+    "text": "Itinéraire reçu.",
+    "source": "public/assets/genex/e958875d-3321-4e02-9203-8dbd472c328b/itin-raire-re-u-cmwjktpg.mp3",
+    "output": "web/sfx/vox/t3-ack-move-2-vox2.mp3",
+    "deliveryId": "e958875d-3321-4e02-9203-8dbd472c328b",
+    "seconds": 1.776,
+    "bytes": 21116,
+    "sha256": "f09fe3b1f680df260bc17f54b2114036f3428f69d4750ca1cac18725314ebdb6",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-move-2",
+    "unit": "command",
+    "text": "Itinéraire reçu.",
+    "source": "public/assets/genex/e958875d-3321-4e02-9203-8dbd472c328b/itin-raire-re-u-cmwjktpg.mp3",
+    "output": "web/sfx/vox/command-ack-move-2-vox2.mp3",
+    "deliveryId": "e958875d-3321-4e02-9203-8dbd472c328b",
+    "seconds": 1.752,
+    "bytes": 20948,
+    "sha256": "af5c1c98ad6e518842a5c788f16a6ba734db60eaf5d2fae67fd61be8ed777b23",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-fire-1",
+    "unit": "t0",
+    "text": "Coordonnées de tir reçues.",
+    "source": "public/assets/genex/3c7efd35-dceb-4ddf-8bc2-d493f8ade04c/coordonn-es-de-tir-re-ues-cmwjktqw.mp3",
+    "output": "web/sfx/vox/t0-ack-fire-1-vox2.mp3",
+    "deliveryId": "3c7efd35-dceb-4ddf-8bc2-d493f8ade04c",
+    "seconds": 1.944,
+    "bytes": 22796,
+    "sha256": "e3dec0c7afafde39e60141eff00109155eda998404cac4ad7e8960daeaae150a",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-fire-1",
+    "unit": "t1",
+    "text": "Coordonnées de tir reçues.",
+    "source": "public/assets/genex/3c7efd35-dceb-4ddf-8bc2-d493f8ade04c/coordonn-es-de-tir-re-ues-cmwjktqw.mp3",
+    "output": "web/sfx/vox/t1-ack-fire-1-vox2.mp3",
+    "deliveryId": "3c7efd35-dceb-4ddf-8bc2-d493f8ade04c",
+    "seconds": 1.968,
+    "bytes": 23564,
+    "sha256": "7977a524c7dcd573a07196bcc1aee00c010667cd004aa538c9a5f49b52f37aab",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-fire-1",
+    "unit": "t2",
+    "text": "Coordonnées de tir reçues.",
+    "source": "public/assets/genex/3c7efd35-dceb-4ddf-8bc2-d493f8ade04c/coordonn-es-de-tir-re-ues-cmwjktqw.mp3",
+    "output": "web/sfx/vox/t2-ack-fire-1-vox2.mp3",
+    "deliveryId": "3c7efd35-dceb-4ddf-8bc2-d493f8ade04c",
+    "seconds": 1.944,
+    "bytes": 23708,
+    "sha256": "825a084ba0bcf31ff79dc7e4d3d2137ddda6fa8904f50dddad8c61d3d34d7e42",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-fire-1",
+    "unit": "t3",
+    "text": "Coordonnées de tir reçues.",
+    "source": "public/assets/genex/3c7efd35-dceb-4ddf-8bc2-d493f8ade04c/coordonn-es-de-tir-re-ues-cmwjktqw.mp3",
+    "output": "web/sfx/vox/t3-ack-fire-1-vox2.mp3",
+    "deliveryId": "3c7efd35-dceb-4ddf-8bc2-d493f8ade04c",
+    "seconds": 1.968,
+    "bytes": 23132,
+    "sha256": "f2fb8ad85b9aa6ef3f98db10981970e4d4faafce686edfa03b7445adf1d3a61b",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-fire-1",
+    "unit": "command",
+    "text": "Coordonnées de tir reçues.",
+    "source": "public/assets/genex/3c7efd35-dceb-4ddf-8bc2-d493f8ade04c/coordonn-es-de-tir-re-ues-cmwjktqw.mp3",
+    "output": "web/sfx/vox/command-ack-fire-1-vox2.mp3",
+    "deliveryId": "3c7efd35-dceb-4ddf-8bc2-d493f8ade04c",
+    "seconds": 1.92,
+    "bytes": 23204,
+    "sha256": "60ada95c7f0c6d6c260f03c2e8e856797e81bd71ec929ec69563a44d9a039f85",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-fire-2",
+    "unit": "t0",
+    "text": "Bolter prêt.",
+    "source": "public/assets/genex/a53c7852-8d22-4b8e-9277-fbc1bc4629e0/bolter-pr-t-cmwjl4um.mp3",
+    "output": "web/sfx/vox/t0-ack-fire-2-vox2.mp3",
+    "deliveryId": "a53c7852-8d22-4b8e-9277-fbc1bc4629e0",
+    "seconds": 1.368,
+    "bytes": 17084,
+    "sha256": "e7b5141fe3fe32a5d7d46255ac08949d967663df8c4e3c4f234123c8871ff14b",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-fire-2",
+    "unit": "t1",
+    "text": "Bolter prêt.",
+    "source": "public/assets/genex/a53c7852-8d22-4b8e-9277-fbc1bc4629e0/bolter-pr-t-cmwjl4um.mp3",
+    "output": "web/sfx/vox/t1-ack-fire-2-vox2.mp3",
+    "deliveryId": "a53c7852-8d22-4b8e-9277-fbc1bc4629e0",
+    "seconds": 1.392,
+    "bytes": 16892,
+    "sha256": "afd5b266035020152a8d7709a3668291da5f1535776f181e9f37b6270a5f00ea",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-fire-2",
+    "unit": "t2",
+    "text": "Bolter prêt.",
+    "source": "public/assets/genex/a53c7852-8d22-4b8e-9277-fbc1bc4629e0/bolter-pr-t-cmwjl4um.mp3",
+    "output": "web/sfx/vox/t2-ack-fire-2-vox2.mp3",
+    "deliveryId": "a53c7852-8d22-4b8e-9277-fbc1bc4629e0",
+    "seconds": 1.368,
+    "bytes": 16604,
+    "sha256": "a06ec305be6861d3d4f008f1ee163157538ff9708f7b872b4f68499c7f0fddb8",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-fire-2",
+    "unit": "t3",
+    "text": "Bolter prêt.",
+    "source": "public/assets/genex/a53c7852-8d22-4b8e-9277-fbc1bc4629e0/bolter-pr-t-cmwjl4um.mp3",
+    "output": "web/sfx/vox/t3-ack-fire-2-vox2.mp3",
+    "deliveryId": "a53c7852-8d22-4b8e-9277-fbc1bc4629e0",
+    "seconds": 1.368,
+    "bytes": 16364,
+    "sha256": "00b9f6b6d868007c96e40932b4ba2b7b5b731815a9102265fe99a00263c66b93",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-fire-2",
+    "unit": "command",
+    "text": "Bolter prêt.",
+    "source": "public/assets/genex/a53c7852-8d22-4b8e-9277-fbc1bc4629e0/bolter-pr-t-cmwjl4um.mp3",
+    "output": "web/sfx/vox/command-ack-fire-2-vox2.mp3",
+    "deliveryId": "a53c7852-8d22-4b8e-9277-fbc1bc4629e0",
+    "seconds": 1.368,
+    "bytes": 16940,
+    "sha256": "332d55581ce57b9de2bb041c8797133f479315e37d6406773fc3f875893eec63",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-guard-1",
+    "unit": "t0",
+    "text": "Je couvrirai ce secteur.",
+    "source": "public/assets/genex/767a2d55-671d-460b-98dc-f960d1099e55/je-couvrirai-ce-secteur-cmwjl61p.mp3",
+    "output": "web/sfx/vox/t0-ack-guard-1-vox2.mp3",
+    "deliveryId": "767a2d55-671d-460b-98dc-f960d1099e55",
+    "seconds": 1.656,
+    "bytes": 19388,
+    "sha256": "d191aa135661b2e9e2bfb5d62e0fc6ab847bed83271ccdb9ab8126d36482a784",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-guard-1",
+    "unit": "t1",
+    "text": "Je couvrirai ce secteur.",
+    "source": "public/assets/genex/767a2d55-671d-460b-98dc-f960d1099e55/je-couvrirai-ce-secteur-cmwjl61p.mp3",
+    "output": "web/sfx/vox/t1-ack-guard-1-vox2.mp3",
+    "deliveryId": "767a2d55-671d-460b-98dc-f960d1099e55",
+    "seconds": 1.68,
+    "bytes": 19796,
+    "sha256": "80d1e1edd8a2e96e60adc2033b6569b9870dbafb5d1581485a5d60767bce4cc9",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-guard-1",
+    "unit": "t2",
+    "text": "Je couvrirai ce secteur.",
+    "source": "public/assets/genex/767a2d55-671d-460b-98dc-f960d1099e55/je-couvrirai-ce-secteur-cmwjl61p.mp3",
+    "output": "web/sfx/vox/t2-ack-guard-1-vox2.mp3",
+    "deliveryId": "767a2d55-671d-460b-98dc-f960d1099e55",
+    "seconds": 1.656,
+    "bytes": 20252,
+    "sha256": "5e5b1a21a10462ffe990459b10d7327dfd4c09053a3f7f0aa80311d5ae891183",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-guard-1",
+    "unit": "t3",
+    "text": "Je couvrirai ce secteur.",
+    "source": "public/assets/genex/767a2d55-671d-460b-98dc-f960d1099e55/je-couvrirai-ce-secteur-cmwjl61p.mp3",
+    "output": "web/sfx/vox/t3-ack-guard-1-vox2.mp3",
+    "deliveryId": "767a2d55-671d-460b-98dc-f960d1099e55",
+    "seconds": 1.68,
+    "bytes": 19604,
+    "sha256": "a7843502dce391645445e01a8aa1c65a5562b5e94bfbd833715201f6b56b8055",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-guard-1",
+    "unit": "command",
+    "text": "Je couvrirai ce secteur.",
+    "source": "public/assets/genex/767a2d55-671d-460b-98dc-f960d1099e55/je-couvrirai-ce-secteur-cmwjl61p.mp3",
+    "output": "web/sfx/vox/command-ack-guard-1-vox2.mp3",
+    "deliveryId": "767a2d55-671d-460b-98dc-f960d1099e55",
+    "seconds": 1.656,
+    "bytes": 19676,
+    "sha256": "e6e7044910463f93bc15bb9a8b08c0f80f5d3c35f99c2d324fb1a1c84a5a1e74",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-guard-2",
+    "unit": "t0",
+    "text": "Position de veille confirmée.",
+    "source": "public/assets/genex/1cc9fa6a-2687-42a8-95f0-e2b0fce8159f/position-de-veille-confirm-e-cmwjl6cg.mp3",
+    "output": "web/sfx/vox/t0-ack-guard-2-vox2.mp3",
+    "deliveryId": "1cc9fa6a-2687-42a8-95f0-e2b0fce8159f",
+    "seconds": 1.92,
+    "bytes": 21932,
+    "sha256": "d8a5874d12e6a3dad0fd38993b244a43412ffde6989dd7e6e4cdf0f98d0b9e38",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-guard-2",
+    "unit": "t1",
+    "text": "Position de veille confirmée.",
+    "source": "public/assets/genex/1cc9fa6a-2687-42a8-95f0-e2b0fce8159f/position-de-veille-confirm-e-cmwjl6cg.mp3",
+    "output": "web/sfx/vox/t1-ack-guard-2-vox2.mp3",
+    "deliveryId": "1cc9fa6a-2687-42a8-95f0-e2b0fce8159f",
+    "seconds": 1.944,
+    "bytes": 22292,
+    "sha256": "c636840772f32eb9b33b993849f906865b0c523d521775c54abd2a74b0fd0272",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-guard-2",
+    "unit": "t2",
+    "text": "Position de veille confirmée.",
+    "source": "public/assets/genex/1cc9fa6a-2687-42a8-95f0-e2b0fce8159f/position-de-veille-confirm-e-cmwjl6cg.mp3",
+    "output": "web/sfx/vox/t2-ack-guard-2-vox2.mp3",
+    "deliveryId": "1cc9fa6a-2687-42a8-95f0-e2b0fce8159f",
+    "seconds": 1.92,
+    "bytes": 22220,
+    "sha256": "489ccf1c49c20727cb0fa4f227abfffb9e5dff66770c5b3638c262e92750c64d",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-guard-2",
+    "unit": "t3",
+    "text": "Position de veille confirmée.",
+    "source": "public/assets/genex/1cc9fa6a-2687-42a8-95f0-e2b0fce8159f/position-de-veille-confirm-e-cmwjl6cg.mp3",
+    "output": "web/sfx/vox/t3-ack-guard-2-vox2.mp3",
+    "deliveryId": "1cc9fa6a-2687-42a8-95f0-e2b0fce8159f",
+    "seconds": 1.944,
+    "bytes": 22268,
+    "sha256": "ee5bcb6d5c69721288498bffce7e9f159451ffbe55bad09f6cb2f4cf96a58550",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-guard-2",
+    "unit": "command",
+    "text": "Position de veille confirmée.",
+    "source": "public/assets/genex/1cc9fa6a-2687-42a8-95f0-e2b0fce8159f/position-de-veille-confirm-e-cmwjl6cg.mp3",
+    "output": "web/sfx/vox/command-ack-guard-2-vox2.mp3",
+    "deliveryId": "1cc9fa6a-2687-42a8-95f0-e2b0fce8159f",
+    "seconds": 1.92,
+    "bytes": 22316,
+    "sha256": "7822585cc25c154e0675fcfa6f83291268a0167977f8ccf249925c8d4a95c3d3",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-scan-1",
+    "unit": "t0",
+    "text": "Auspex prêt, commandant.",
+    "source": "public/assets/genex/a345893a-a7da-4fbd-91b0-c67a333f2d8a/auspex-pr-t-commandant-cmwjl6ng.mp3",
+    "output": "web/sfx/vox/t0-ack-scan-1-vox2.mp3",
+    "deliveryId": "a345893a-a7da-4fbd-91b0-c67a333f2d8a",
+    "seconds": 1.896,
+    "bytes": 22124,
+    "sha256": "693f58d20dce83121f26dfbfcddcd48f890f919322855f8491597126e8b0ac82",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-scan-1",
+    "unit": "t1",
+    "text": "Auspex prêt, commandant.",
+    "source": "public/assets/genex/a345893a-a7da-4fbd-91b0-c67a333f2d8a/auspex-pr-t-commandant-cmwjl6ng.mp3",
+    "output": "web/sfx/vox/t1-ack-scan-1-vox2.mp3",
+    "deliveryId": "a345893a-a7da-4fbd-91b0-c67a333f2d8a",
+    "seconds": 1.92,
+    "bytes": 22628,
+    "sha256": "98c13b6c574bde48e875411746354fbfe422aa467691b2748b0a701896472d75",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-scan-1",
+    "unit": "t2",
+    "text": "Auspex prêt, commandant.",
+    "source": "public/assets/genex/a345893a-a7da-4fbd-91b0-c67a333f2d8a/auspex-pr-t-commandant-cmwjl6ng.mp3",
+    "output": "web/sfx/vox/t2-ack-scan-1-vox2.mp3",
+    "deliveryId": "a345893a-a7da-4fbd-91b0-c67a333f2d8a",
+    "seconds": 1.896,
+    "bytes": 22700,
+    "sha256": "7f651f3d5694139e6f443b115cef2ad6dde31655778f21a701997be6536392df",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-scan-1",
+    "unit": "t3",
+    "text": "Auspex prêt, commandant.",
+    "source": "public/assets/genex/a345893a-a7da-4fbd-91b0-c67a333f2d8a/auspex-pr-t-commandant-cmwjl6ng.mp3",
+    "output": "web/sfx/vox/t3-ack-scan-1-vox2.mp3",
+    "deliveryId": "a345893a-a7da-4fbd-91b0-c67a333f2d8a",
+    "seconds": 1.92,
+    "bytes": 22724,
+    "sha256": "1ed40e8c5eada567a511293c52d5f230e481674bbb5115872fe382c763bb598a",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-scan-1",
+    "unit": "command",
+    "text": "Auspex prêt, commandant.",
+    "source": "public/assets/genex/a345893a-a7da-4fbd-91b0-c67a333f2d8a/auspex-pr-t-commandant-cmwjl6ng.mp3",
+    "output": "web/sfx/vox/command-ack-scan-1-vox2.mp3",
+    "deliveryId": "a345893a-a7da-4fbd-91b0-c67a333f2d8a",
+    "seconds": 1.896,
+    "bytes": 22772,
+    "sha256": "6ea2edeca3f28187a249701544a662eb3349c10aa6d42fd29ebf53f0544d359b",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-scan-2",
+    "unit": "t0",
+    "text": "Reconnaissance, bien reçu.",
+    "source": "public/assets/genex/a570cb00-d23f-41a3-ae9f-69489ccc3888/reconnaissance-bien-re-u-cmwjl6y7.mp3",
+    "output": "web/sfx/vox/t0-ack-scan-2-vox2.mp3",
+    "deliveryId": "a570cb00-d23f-41a3-ae9f-69489ccc3888",
+    "seconds": 2.112,
+    "bytes": 24620,
+    "sha256": "d1e5477f54cff2c697b4b5f28702f7f10689547ec37159b1ccb1f49cb1fcfd8c",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-scan-2",
+    "unit": "t1",
+    "text": "Reconnaissance, bien reçu.",
+    "source": "public/assets/genex/a570cb00-d23f-41a3-ae9f-69489ccc3888/reconnaissance-bien-re-u-cmwjl6y7.mp3",
+    "output": "web/sfx/vox/t1-ack-scan-2-vox2.mp3",
+    "deliveryId": "a570cb00-d23f-41a3-ae9f-69489ccc3888",
+    "seconds": 2.136,
+    "bytes": 24620,
+    "sha256": "beba608f34e04a5f13920d57e88421fbe649c6421b648d1401f568eefe3f0db0",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-scan-2",
+    "unit": "t2",
+    "text": "Reconnaissance, bien reçu.",
+    "source": "public/assets/genex/a570cb00-d23f-41a3-ae9f-69489ccc3888/reconnaissance-bien-re-u-cmwjl6y7.mp3",
+    "output": "web/sfx/vox/t2-ack-scan-2-vox2.mp3",
+    "deliveryId": "a570cb00-d23f-41a3-ae9f-69489ccc3888",
+    "seconds": 2.112,
+    "bytes": 24836,
+    "sha256": "2b9571345bb721d810269a48de1f1e0ee69c07c56db7fb90185ea08013086a80",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-scan-2",
+    "unit": "t3",
+    "text": "Reconnaissance, bien reçu.",
+    "source": "public/assets/genex/a570cb00-d23f-41a3-ae9f-69489ccc3888/reconnaissance-bien-re-u-cmwjl6y7.mp3",
+    "output": "web/sfx/vox/t3-ack-scan-2-vox2.mp3",
+    "deliveryId": "a570cb00-d23f-41a3-ae9f-69489ccc3888",
+    "seconds": 2.136,
+    "bytes": 24740,
+    "sha256": "ded315d306388fde84e9267e80e7dee75abbfcd29a31bba661f5bfa738d51476",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-scan-2",
+    "unit": "command",
+    "text": "Reconnaissance, bien reçu.",
+    "source": "public/assets/genex/a570cb00-d23f-41a3-ae9f-69489ccc3888/reconnaissance-bien-re-u-cmwjl6y7.mp3",
+    "output": "web/sfx/vox/command-ack-scan-2-vox2.mp3",
+    "deliveryId": "a570cb00-d23f-41a3-ae9f-69489ccc3888",
+    "seconds": 2.112,
+    "bytes": 24788,
+    "sha256": "897a4350899778a84c852974a3aa74d0b1147f6f1e470d7081f24788e057a73b",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-interact-1",
+    "unit": "t0",
+    "text": "Ordre reçu. Je m'en charge.",
+    "source": "public/assets/genex/66fae788-47a9-42fd-8ccd-f1e71cdd1c78/ordre-re-u-je-m-en-charge-cmwjl78t.mp3",
+    "output": "web/sfx/vox/t0-ack-interact-1-vox2.mp3",
+    "deliveryId": "66fae788-47a9-42fd-8ccd-f1e71cdd1c78",
+    "seconds": 2.328,
+    "bytes": 27260,
+    "sha256": "320655b1d11c659d1cc97c21e6ead354867e12a188a63583d5a5e464736d3c3a",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-interact-1",
+    "unit": "t1",
+    "text": "Ordre reçu. Je m'en charge.",
+    "source": "public/assets/genex/66fae788-47a9-42fd-8ccd-f1e71cdd1c78/ordre-re-u-je-m-en-charge-cmwjl78t.mp3",
+    "output": "web/sfx/vox/t1-ack-interact-1-vox2.mp3",
+    "deliveryId": "66fae788-47a9-42fd-8ccd-f1e71cdd1c78",
+    "seconds": 2.352,
+    "bytes": 27164,
+    "sha256": "517dcb95da05fd5405f467823cb0db7d88f9d3e5b41c785fe8272cadbb2d45ec",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-interact-1",
+    "unit": "t2",
+    "text": "Ordre reçu. Je m'en charge.",
+    "source": "public/assets/genex/66fae788-47a9-42fd-8ccd-f1e71cdd1c78/ordre-re-u-je-m-en-charge-cmwjl78t.mp3",
+    "output": "web/sfx/vox/t2-ack-interact-1-vox2.mp3",
+    "deliveryId": "66fae788-47a9-42fd-8ccd-f1e71cdd1c78",
+    "seconds": 2.328,
+    "bytes": 27164,
+    "sha256": "6845842a34c2fb4def2b33b9c5314ba5709e3e9461d2ab62fe64a226aaeb292f",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-interact-1",
+    "unit": "t3",
+    "text": "Ordre reçu. Je m'en charge.",
+    "source": "public/assets/genex/66fae788-47a9-42fd-8ccd-f1e71cdd1c78/ordre-re-u-je-m-en-charge-cmwjl78t.mp3",
+    "output": "web/sfx/vox/t3-ack-interact-1-vox2.mp3",
+    "deliveryId": "66fae788-47a9-42fd-8ccd-f1e71cdd1c78",
+    "seconds": 2.352,
+    "bytes": 26876,
+    "sha256": "6a95cdb5089bd28ecef7cfaf34b60acc04d9edae6edeb790b0de31dfb53d5b2a",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-interact-1",
+    "unit": "command",
+    "text": "Ordre reçu. Je m'en charge.",
+    "source": "public/assets/genex/66fae788-47a9-42fd-8ccd-f1e71cdd1c78/ordre-re-u-je-m-en-charge-cmwjl78t.mp3",
+    "output": "web/sfx/vox/command-ack-interact-1-vox2.mp3",
+    "deliveryId": "66fae788-47a9-42fd-8ccd-f1e71cdd1c78",
+    "seconds": 2.328,
+    "bytes": 26924,
+    "sha256": "aa86ae066d36dd2aaa5464545bbaa9bd35d5bb1d656c5c165053016d4af1755f",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-interact-2",
+    "unit": "t0",
+    "text": "Interface repérée.",
+    "source": "public/assets/genex/d546361f-6ee4-43d1-9a35-5a9bf9537e7f/interface-rep-r-e-cmwjl7jt.mp3",
+    "output": "web/sfx/vox/t0-ack-interact-2-vox2.mp3",
+    "deliveryId": "d546361f-6ee4-43d1-9a35-5a9bf9537e7f",
+    "seconds": 1.752,
+    "bytes": 20156,
+    "sha256": "32f364d9dc10bf8edf4848c8cb6c13bef7f68ef31fcd317149e51571c8ceae95",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-interact-2",
+    "unit": "t1",
+    "text": "Interface repérée.",
+    "source": "public/assets/genex/d546361f-6ee4-43d1-9a35-5a9bf9537e7f/interface-rep-r-e-cmwjl7jt.mp3",
+    "output": "web/sfx/vox/t1-ack-interact-2-vox2.mp3",
+    "deliveryId": "d546361f-6ee4-43d1-9a35-5a9bf9537e7f",
+    "seconds": 1.776,
+    "bytes": 20780,
+    "sha256": "c1b4cff0ebe58c535b0e8ea19321f446e0cd22ea459b5f9c0a25f7b3ed742736",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-interact-2",
+    "unit": "t2",
+    "text": "Interface repérée.",
+    "source": "public/assets/genex/d546361f-6ee4-43d1-9a35-5a9bf9537e7f/interface-rep-r-e-cmwjl7jt.mp3",
+    "output": "web/sfx/vox/t2-ack-interact-2-vox2.mp3",
+    "deliveryId": "d546361f-6ee4-43d1-9a35-5a9bf9537e7f",
+    "seconds": 1.752,
+    "bytes": 20300,
+    "sha256": "095d7833deed6645130aea02827892c3dd7f563096d0ee29e95774443621c6fb",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-interact-2",
+    "unit": "t3",
+    "text": "Interface repérée.",
+    "source": "public/assets/genex/d546361f-6ee4-43d1-9a35-5a9bf9537e7f/interface-rep-r-e-cmwjl7jt.mp3",
+    "output": "web/sfx/vox/t3-ack-interact-2-vox2.mp3",
+    "deliveryId": "d546361f-6ee4-43d1-9a35-5a9bf9537e7f",
+    "seconds": 1.776,
+    "bytes": 20708,
+    "sha256": "7e828bd8ff60abf85da21fe7023b9fceb561243f72530c1c1d4baf17d8af23d1",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-interact-2",
+    "unit": "command",
+    "text": "Interface repérée.",
+    "source": "public/assets/genex/d546361f-6ee4-43d1-9a35-5a9bf9537e7f/interface-rep-r-e-cmwjl7jt.mp3",
+    "output": "web/sfx/vox/command-ack-interact-2-vox2.mp3",
+    "deliveryId": "d546361f-6ee4-43d1-9a35-5a9bf9537e7f",
+    "seconds": 1.752,
+    "bytes": 20348,
+    "sha256": "6e5028b8b04c27f6bd1e721224faa3401fb7e64b2054a967f581709801c6a92e",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "execute-1",
+    "unit": "t0",
+    "text": "J'exécute.",
+    "source": "public/assets/genex/586aac90-8829-4618-a5f2-00dec8404c10/j-ex-cute-cmwjl7uu.mp3",
+    "output": "web/sfx/vox/t0-execute-1-vox2.mp3",
+    "deliveryId": "586aac90-8829-4618-a5f2-00dec8404c10",
+    "seconds": 1.344,
+    "bytes": 16508,
+    "sha256": "653d0c4273ce85dc06ef580faa6852486b674189c39abc6139eff0eebf8cd473",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "execute-1",
+    "unit": "t1",
+    "text": "J'exécute.",
+    "source": "public/assets/genex/586aac90-8829-4618-a5f2-00dec8404c10/j-ex-cute-cmwjl7uu.mp3",
+    "output": "web/sfx/vox/t1-execute-1-vox2.mp3",
+    "deliveryId": "586aac90-8829-4618-a5f2-00dec8404c10",
+    "seconds": 1.344,
+    "bytes": 16196,
+    "sha256": "274d42661587d34ae6b282d1dbe649dc12385bbb112f5942c9698c81cd201427",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "execute-1",
+    "unit": "t2",
+    "text": "J'exécute.",
+    "source": "public/assets/genex/586aac90-8829-4618-a5f2-00dec8404c10/j-ex-cute-cmwjl7uu.mp3",
+    "output": "web/sfx/vox/t2-execute-1-vox2.mp3",
+    "deliveryId": "586aac90-8829-4618-a5f2-00dec8404c10",
+    "seconds": 1.344,
+    "bytes": 16604,
+    "sha256": "129f26854ca59ad03f7059f73000f0c14e647068068ac587564415fbcc9e106e",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "execute-1",
+    "unit": "t3",
+    "text": "J'exécute.",
+    "source": "public/assets/genex/586aac90-8829-4618-a5f2-00dec8404c10/j-ex-cute-cmwjl7uu.mp3",
+    "output": "web/sfx/vox/t3-execute-1-vox2.mp3",
+    "deliveryId": "586aac90-8829-4618-a5f2-00dec8404c10",
+    "seconds": 1.368,
+    "bytes": 16796,
+    "sha256": "d8ace931c2309e27e93acc19d91e4d1d8b385e10ac9e0a5947e7be258319c96f",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "execute-1",
+    "unit": "command",
+    "text": "J'exécute.",
+    "source": "public/assets/genex/586aac90-8829-4618-a5f2-00dec8404c10/j-ex-cute-cmwjl7uu.mp3",
+    "output": "web/sfx/vox/command-execute-1-vox2.mp3",
+    "deliveryId": "586aac90-8829-4618-a5f2-00dec8404c10",
+    "seconds": 1.344,
+    "bytes": 16604,
+    "sha256": "7177590654e2278e3e143754e806319f2c29192ab3ee10560c5f107a77186446",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "execute-2",
+    "unit": "t0",
+    "text": "Frères, en avant.",
+    "source": "public/assets/genex/38909ae4-2b7b-4be1-9035-e4573fa987f7/fr-res-en-avant-cmwjl85o.mp3",
+    "output": "web/sfx/vox/t0-execute-2-vox2.mp3",
+    "deliveryId": "38909ae4-2b7b-4be1-9035-e4573fa987f7",
+    "seconds": 1.8,
+    "bytes": 20516,
+    "sha256": "fd29fe25e1a2cb1ba88d23d4418bf6342f3dc24c953ca87df1647e0327bb25f7",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "execute-2",
+    "unit": "t1",
+    "text": "Frères, en avant.",
+    "source": "public/assets/genex/38909ae4-2b7b-4be1-9035-e4573fa987f7/fr-res-en-avant-cmwjl85o.mp3",
+    "output": "web/sfx/vox/t1-execute-2-vox2.mp3",
+    "deliveryId": "38909ae4-2b7b-4be1-9035-e4573fa987f7",
+    "seconds": 1.824,
+    "bytes": 20876,
+    "sha256": "65924cba23444f64c3b70c406d8d5bc44db51a31ce50ef50292d80aae22eacb9",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "execute-2",
+    "unit": "t2",
+    "text": "Frères, en avant.",
+    "source": "public/assets/genex/38909ae4-2b7b-4be1-9035-e4573fa987f7/fr-res-en-avant-cmwjl85o.mp3",
+    "output": "web/sfx/vox/t2-execute-2-vox2.mp3",
+    "deliveryId": "38909ae4-2b7b-4be1-9035-e4573fa987f7",
+    "seconds": 1.8,
+    "bytes": 21308,
+    "sha256": "38d29a9e60c028f054fd2999457921e83c834632a9247489d276f762aca80df5",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "execute-2",
+    "unit": "t3",
+    "text": "Frères, en avant.",
+    "source": "public/assets/genex/38909ae4-2b7b-4be1-9035-e4573fa987f7/fr-res-en-avant-cmwjl85o.mp3",
+    "output": "web/sfx/vox/t3-execute-2-vox2.mp3",
+    "deliveryId": "38909ae4-2b7b-4be1-9035-e4573fa987f7",
+    "seconds": 1.824,
+    "bytes": 20972,
+    "sha256": "59e17e0495d4961dde7183b913f9fb11c201d556ae2a944c9dae59d6f6743673",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "execute-2",
+    "unit": "command",
+    "text": "Frères, en avant.",
+    "source": "public/assets/genex/38909ae4-2b7b-4be1-9035-e4573fa987f7/fr-res-en-avant-cmwjl85o.mp3",
+    "output": "web/sfx/vox/command-execute-2-vox2.mp3",
+    "deliveryId": "38909ae4-2b7b-4be1-9035-e4573fa987f7",
+    "seconds": 1.8,
+    "bytes": 20780,
+    "sha256": "0fa55f792aec835dbfc28331724352004127f9a460a1070eab576981a53d013a",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "moving",
+    "unit": "t0",
+    "text": "Progression en cours.",
+    "source": "public/assets/genex/20d0814d-5691-489e-b6d8-040cd007cd29/progression-en-cours-cmwjl8gc.mp3",
+    "output": "web/sfx/vox/t0-moving-vox2.mp3",
+    "deliveryId": "20d0814d-5691-489e-b6d8-040cd007cd29",
+    "seconds": 1.656,
+    "bytes": 19964,
+    "sha256": "2ae18af32646022b10be65b29769ea91f0df66cbc171fd027afe8fac98fd4fb6",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "moving",
+    "unit": "t1",
+    "text": "Progression en cours.",
+    "source": "public/assets/genex/20d0814d-5691-489e-b6d8-040cd007cd29/progression-en-cours-cmwjl8gc.mp3",
+    "output": "web/sfx/vox/t1-moving-vox2.mp3",
+    "deliveryId": "20d0814d-5691-489e-b6d8-040cd007cd29",
+    "seconds": 1.68,
+    "bytes": 20444,
+    "sha256": "17d109e2d7c8b6e41ef752623ef572e5a9e9644dcd3d28a1fa5492862957aafc",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "moving",
+    "unit": "t2",
+    "text": "Progression en cours.",
+    "source": "public/assets/genex/20d0814d-5691-489e-b6d8-040cd007cd29/progression-en-cours-cmwjl8gc.mp3",
+    "output": "web/sfx/vox/t2-moving-vox2.mp3",
+    "deliveryId": "20d0814d-5691-489e-b6d8-040cd007cd29",
+    "seconds": 1.656,
+    "bytes": 19676,
+    "sha256": "1d28f57369d89b7496a3cee285baf532bdff59c15ec22f29088863106270ee27",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "moving",
+    "unit": "t3",
+    "text": "Progression en cours.",
+    "source": "public/assets/genex/20d0814d-5691-489e-b6d8-040cd007cd29/progression-en-cours-cmwjl8gc.mp3",
+    "output": "web/sfx/vox/t3-moving-vox2.mp3",
+    "deliveryId": "20d0814d-5691-489e-b6d8-040cd007cd29",
+    "seconds": 1.68,
+    "bytes": 20300,
+    "sha256": "5f9979de09dd9c4096422a9f6e3acc09ced4228502780c8b9a87549241e0568f",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "moving",
+    "unit": "command",
+    "text": "Progression en cours.",
+    "source": "public/assets/genex/20d0814d-5691-489e-b6d8-040cd007cd29/progression-en-cours-cmwjl8gc.mp3",
+    "output": "web/sfx/vox/command-moving-vox2.mp3",
+    "deliveryId": "20d0814d-5691-489e-b6d8-040cd007cd29",
+    "seconds": 1.656,
+    "bytes": 19628,
+    "sha256": "3c26a0861d8038d4eca46ebda78e21f709fcec61f1baa24a93e2ddd7fcceace5",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  }
+]

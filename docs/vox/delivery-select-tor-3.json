@@ -1,0 +1,40 @@
+{
+  "id": "0b05a7dc-660c-43bf-bd77-6fc4be63d659",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/0b05a7dc-660c-43bf-bd77-6fc4be63d659/parlez-commandant-cmwjktbx.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:37.590Z",
+  "generationId": "cmwjktbxg00142bnydpmjgp54",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjktbxg00142bnydpmjgp54/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjktbxg00142bnydpmjgp54",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktbxg00142bnydpmjgp54/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/0b05a7dc-660c-43bf-bd77-6fc4be63d659/output/parlez-commandant-cmwjktbx.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktbxg00142bnydpmjgp54/audio-voice",
+        "bytes": 26792
+      }
+    ],
+    "downloadFailures": []
+  }
+}

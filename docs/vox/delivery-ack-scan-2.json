@@ -1,0 +1,40 @@
+{
+  "id": "a570cb00-d23f-41a3-ae9f-69489ccc3888",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/a570cb00-d23f-41a3-ae9f-69489ccc3888/reconnaissance-bien-re-u-cmwjl6y7.mp3"
+  ],
+  "createdAt": "2026-11-16T18:19:53.241Z",
+  "generationId": "cmwjl6y74004w2bnyw66yh97k",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjl6y74004w2bnyw66yh97k/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjl6y74004w2bnyw66yh97k",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl6y74004w2bnyw66yh97k/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/a570cb00-d23f-41a3-ae9f-69489ccc3888/output/reconnaissance-bien-re-u-cmwjl6y7.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl6y74004w2bnyw66yh97k/audio-voice",
+        "bytes": 33061
+      }
+    ],
+    "downloadFailures": []
+  }
+}

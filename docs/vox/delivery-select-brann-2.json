@@ -1,0 +1,40 @@
+{
+  "id": "81355647-0a35-4fd3-b880-2ef17a05549c",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/81355647-0a35-4fd3-b880-2ef17a05549c/toujours-fid-le-commandant-cmwjktkg.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:48.471Z",
+  "generationId": "cmwjktkgb001s2bnyzojjttg8",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjktkgb001s2bnyzojjttg8/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjktkgb001s2bnyzojjttg8",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktkgb001s2bnyzojjttg8/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/81355647-0a35-4fd3-b880-2ef17a05549c/output/toujours-fid-le-commandant-cmwjktkg.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktkgb001s2bnyzojjttg8/audio-voice",
+        "bytes": 29300
+      }
+    ],
+    "downloadFailures": []
+  }
+}

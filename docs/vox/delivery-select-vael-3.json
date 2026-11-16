@@ -1,0 +1,40 @@
+{
+  "id": "fa33e642-8493-446d-b5f4-9796e95f2b4c",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/fa33e642-8493-446d-b5f4-9796e95f2b4c/votre-volont-sera-faite-cmwjksi0.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:31.103Z",
+  "generationId": "cmwjksi0y000p2bnyov5jliag",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjksi0y000p2bnyov5jliag/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjksi0y000p2bnyov5jliag",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjksi0y000p2bnyov5jliag/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/fa33e642-8493-446d-b5f4-9796e95f2b4c/output/votre-volont-sera-faite-cmwjksi0.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjksi0y000p2bnyov5jliag/audio-voice",
+        "bytes": 31807
+      }
+    ],
+    "downloadFailures": []
+  }
+}

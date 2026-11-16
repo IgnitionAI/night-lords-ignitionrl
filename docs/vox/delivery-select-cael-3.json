@@ -1,0 +1,40 @@
+{
+  "id": "bba46700-0f2b-416c-b0d1-b2ded2930269",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/bba46700-0f2b-416c-b0d1-b2ded2930269/mes-sens-sont-en-veil-cmwjktgy.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:44.249Z",
+  "generationId": "cmwjktgyu00213lll3sjxo31g",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjktgyu00213lll3sjxo31g/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjktgyu00213lll3sjxo31g",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktgyu00213lll3sjxo31g/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/bba46700-0f2b-416c-b0d1-b2ded2930269/output/mes-sens-sont-en-veil-cmwjktgy.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktgyu00213lll3sjxo31g/audio-voice",
+        "bytes": 26792
+      }
+    ],
+    "downloadFailures": []
+  }
+}

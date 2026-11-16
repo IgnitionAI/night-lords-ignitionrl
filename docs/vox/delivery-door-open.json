@@ -1,0 +1,40 @@
+{
+  "id": "c122ef4a-8506-4fb8-825d-619d0527c7f3",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/c122ef4a-8506-4fb8-825d-619d0527c7f3/passage-ouvert-cmwjl9yn.mp3"
+  ],
+  "createdAt": "2026-11-16T18:21:44.102Z",
+  "generationId": "cmwjl9ynn006i3lllnyk43hzm",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjl9ynn006i3lllnyk43hzm/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjl9ynn006i3lllnyk43hzm",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl9ynn006i3lllnyk43hzm/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/c122ef4a-8506-4fb8-825d-619d0527c7f3/output/passage-ouvert-cmwjl9yn.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl9ynn006i3lllnyk43hzm/audio-voice",
+        "bytes": 20105
+      }
+    ],
+    "downloadFailures": []
+  }
+}

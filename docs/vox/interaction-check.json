@@ -1,0 +1,909 @@
+{
+  "start": {
+    "vox": {
+      "active": {
+        "unit": "t0",
+        "event": "select",
+        "line": "select-vael-1",
+        "time": 0.010667,
+        "paused": false,
+        "ready": 4
+      },
+      "caption": {
+        "name": "VAEL",
+        "unit": "t0",
+        "text": "Oui, commandant."
+      },
+      "pending": [],
+      "gain": 0.5950000286102295,
+      "maxConcurrent": 1,
+      "history": [
+        {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-1",
+          "time": 976.5999999940395,
+          "status": "playing"
+        }
+      ],
+      "errors": []
+    },
+    "duckLevel": 1,
+    "enabled": true,
+    "phase": "planning",
+    "volumes": {
+      "master": 0.7,
+      "music": 0.3,
+      "ambience": 0.28,
+      "effects": 0.65,
+      "vox": 0.85
+    },
+    "played": {},
+    "transitions": [],
+    "errors": [],
+    "tracks": [
+      {
+        "name": "planning",
+        "paused": false,
+        "time": 0.041288,
+        "volume": 0.05626023046875,
+        "ready": 4
+      },
+      {
+        "name": "combat",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "ending",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "hull",
+        "paused": false,
+        "time": 0.078367,
+        "volume": 0.052509548437500005,
+        "ready": 4
+      }
+    ]
+  },
+  "ducked": {
+    "vox": {
+      "active": {
+        "unit": "t0",
+        "event": "select",
+        "line": "select-vael-1",
+        "time": 0.397481,
+        "paused": false,
+        "ready": 4
+      },
+      "caption": {
+        "name": "VAEL",
+        "unit": "t0",
+        "text": "Oui, commandant."
+      },
+      "pending": [],
+      "gain": 0.5950000286102295,
+      "maxConcurrent": 1,
+      "history": [
+        {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-1",
+          "time": 976.5999999940395,
+          "status": "playing"
+        }
+      ],
+      "errors": []
+    },
+    "duckLevel": 0.3592006468,
+    "enabled": true,
+    "phase": "planning",
+    "volumes": {
+      "master": 0.7,
+      "music": 0.3,
+      "ambience": 0.28,
+      "effects": 0.65,
+      "vox": 0.85
+    },
+    "played": {},
+    "transitions": [],
+    "errors": [],
+    "tracks": [
+      {
+        "name": "planning",
+        "paused": false,
+        "time": 0.426285,
+        "volume": 0.04583448805057788,
+        "ready": 4
+      },
+      {
+        "name": "combat",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "ending",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "hull",
+        "paused": false,
+        "time": 0.464588,
+        "volume": 0.11909459488721805,
+        "ready": 4
+      }
+    ]
+  },
+  "units": [
+    {
+      "vox": {
+        "active": {
+          "unit": "t1",
+          "event": "select",
+          "line": "select-tor-2",
+          "time": 0.010667,
+          "paused": false,
+          "ready": 4
+        },
+        "caption": {
+          "name": "TOR",
+          "unit": "t1",
+          "text": "Mon armure tient. Vos ordres ?"
+        },
+        "pending": [],
+        "gain": 0.5950000286102295,
+        "maxConcurrent": 1,
+        "history": [
+          {
+            "unit": "t0",
+            "event": "select",
+            "line": "select-vael-1",
+            "time": 976.5999999940395,
+            "status": "interrupted"
+          },
+          {
+            "unit": "t1",
+            "event": "select",
+            "line": "select-tor-2",
+            "time": 1656.4000000059605,
+            "status": "playing"
+          }
+        ],
+        "errors": []
+      },
+      "duckLevel": 0.5673719168953733,
+      "enabled": true,
+      "phase": "planning",
+      "volumes": {
+        "master": 0.7,
+        "music": 0.3,
+        "ambience": 0.28,
+        "effects": 0.65,
+        "vox": 0.85
+      },
+      "played": {},
+      "transitions": [],
+      "errors": [],
+      "tracks": [
+        {
+          "name": "planning",
+          "paused": false,
+          "time": 0.717662,
+          "volume": 0.08986356839486784,
+          "ready": 4
+        },
+        {
+          "name": "combat",
+          "paused": true,
+          "time": 0,
+          "volume": 0,
+          "ready": 4
+        },
+        {
+          "name": "ending",
+          "paused": true,
+          "time": 0,
+          "volume": 0,
+          "ready": 4
+        },
+        {
+          "name": "hull",
+          "paused": false,
+          "time": 0.757551,
+          "volume": 0.14782660427424116,
+          "ready": 4
+        }
+      ]
+    },
+    {
+      "vox": {
+        "active": {
+          "unit": "t2",
+          "event": "select",
+          "line": "select-cael-3",
+          "time": 0.010667,
+          "paused": false,
+          "ready": 4
+        },
+        "caption": {
+          "name": "CAEL",
+          "unit": "t2",
+          "text": "Mes sens sont en éveil."
+        },
+        "pending": [],
+        "gain": 0.5950000286102295,
+        "maxConcurrent": 1,
+        "history": [
+          {
+            "unit": "t0",
+            "event": "select",
+            "line": "select-vael-1",
+            "time": 976.5999999940395,
+            "status": "interrupted"
+          },
+          {
+            "unit": "t1",
+            "event": "select",
+            "line": "select-tor-2",
+            "time": 1656.4000000059605,
+            "status": "interrupted"
+          },
+          {
+            "unit": "t2",
+            "event": "select",
+            "line": "select-cael-3",
+            "time": 2457,
+            "status": "playing"
+          }
+        ],
+        "errors": []
+      },
+      "duckLevel": 0.6335540893739053,
+      "enabled": true,
+      "phase": "planning",
+      "volumes": {
+        "master": 0.7,
+        "music": 0.3,
+        "ambience": 0.28,
+        "effects": 0.65,
+        "vox": 0.85
+      },
+      "played": {},
+      "transitions": [],
+      "errors": [],
+      "tracks": [
+        {
+          "name": "planning",
+          "paused": false,
+          "time": 1.51804,
+          "volume": 0.12365297845069832,
+          "ready": 4
+        },
+        {
+          "name": "combat",
+          "paused": true,
+          "time": 0,
+          "volume": 0,
+          "ready": 4
+        },
+        {
+          "name": "ending",
+          "paused": true,
+          "time": 0,
+          "volume": 0,
+          "ready": 4
+        },
+        {
+          "name": "hull",
+          "paused": false,
+          "time": 1.555737,
+          "volume": 0.18216194716387318,
+          "ready": 4
+        }
+      ]
+    },
+    {
+      "vox": {
+        "active": {
+          "unit": "t3",
+          "event": "select",
+          "line": "select-brann-1",
+          "time": 0.013772,
+          "paused": false,
+          "ready": 4
+        },
+        "caption": {
+          "name": "BRANN",
+          "unit": "t3",
+          "text": "Le devoir m'appelle."
+        },
+        "pending": [],
+        "gain": 0.5950000286102295,
+        "maxConcurrent": 1,
+        "history": [
+          {
+            "unit": "t0",
+            "event": "select",
+            "line": "select-vael-1",
+            "time": 976.5999999940395,
+            "status": "interrupted"
+          },
+          {
+            "unit": "t1",
+            "event": "select",
+            "line": "select-tor-2",
+            "time": 1656.4000000059605,
+            "status": "interrupted"
+          },
+          {
+            "unit": "t2",
+            "event": "select",
+            "line": "select-cael-3",
+            "time": 2457,
+            "status": "interrupted"
+          },
+          {
+            "unit": "t3",
+            "event": "select",
+            "line": "select-brann-1",
+            "time": 3256.5,
+            "status": "playing"
+          }
+        ],
+        "errors": []
+      },
+      "duckLevel": 0.8377740321281978,
+      "enabled": true,
+      "phase": "planning",
+      "volumes": {
+        "master": 0.7,
+        "music": 0.3,
+        "ambience": 0.28,
+        "effects": 0.65,
+        "vox": 0.85
+      },
+      "played": {},
+      "transitions": [],
+      "errors": [],
+      "tracks": [
+        {
+          "name": "planning",
+          "paused": false,
+          "time": 2.335912,
+          "volume": 0.17236448117984748,
+          "ready": 4
+        },
+        {
+          "name": "combat",
+          "paused": true,
+          "time": 0,
+          "volume": 0,
+          "ready": 4
+        },
+        {
+          "name": "ending",
+          "paused": true,
+          "time": 0,
+          "volume": 0,
+          "ready": 4
+        },
+        {
+          "name": "hull",
+          "paused": false,
+          "time": 2.374692,
+          "volume": 0.19202494897005892,
+          "ready": 4
+        }
+      ]
+    },
+    {
+      "vox": {
+        "active": {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-2",
+          "time": 0.010667,
+          "paused": false,
+          "ready": 4
+        },
+        "caption": {
+          "name": "VAEL",
+          "unit": "t0",
+          "text": "J'écoute, commandant."
+        },
+        "pending": [],
+        "gain": 0.5950000286102295,
+        "maxConcurrent": 1,
+        "history": [
+          {
+            "unit": "t0",
+            "event": "select",
+            "line": "select-vael-1",
+            "time": 976.5999999940395,
+            "status": "interrupted"
+          },
+          {
+            "unit": "t1",
+            "event": "select",
+            "line": "select-tor-2",
+            "time": 1656.4000000059605,
+            "status": "interrupted"
+          },
+          {
+            "unit": "t2",
+            "event": "select",
+            "line": "select-cael-3",
+            "time": 2457,
+            "status": "interrupted"
+          },
+          {
+            "unit": "t3",
+            "event": "select",
+            "line": "select-brann-1",
+            "time": 3256.5,
+            "status": "interrupted"
+          },
+          {
+            "unit": "t0",
+            "event": "select",
+            "line": "select-vael-2",
+            "time": 4096.5999999940395,
+            "status": "playing"
+          }
+        ],
+        "errors": []
+      },
+      "duckLevel": 0.6339365003922321,
+      "enabled": true,
+      "phase": "planning",
+      "volumes": {
+        "master": 0.7,
+        "music": 0.3,
+        "ambience": 0.28,
+        "effects": 0.65,
+        "vox": 0.85
+      },
+      "played": {},
+      "transitions": [],
+      "errors": [],
+      "tracks": [
+        {
+          "name": "planning",
+          "paused": false,
+          "time": 3.17081,
+          "volume": 0.13240926545580423,
+          "ready": 4
+        },
+        {
+          "name": "combat",
+          "paused": true,
+          "time": 0,
+          "volume": 0,
+          "ready": 4
+        },
+        {
+          "name": "ending",
+          "paused": true,
+          "time": 0,
+          "volume": 0,
+          "ready": 4
+        },
+        {
+          "name": "hull",
+          "paused": false,
+          "time": 3.210159,
+          "volume": 0.19494378540377583,
+          "ready": 4
+        }
+      ]
+    }
+  ],
+  "rapid": {
+    "vox": {
+      "active": {
+        "unit": "t3",
+        "event": "select",
+        "line": "select-brann-2",
+        "time": 0.015268,
+        "paused": false,
+        "ready": 4
+      },
+      "caption": {
+        "name": "BRANN",
+        "unit": "t3",
+        "text": "Toujours fidèle, commandant."
+      },
+      "pending": [],
+      "gain": 0.5950000286102295,
+      "maxConcurrent": 1,
+      "history": [
+        {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-1",
+          "time": 976.5999999940395,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t1",
+          "event": "select",
+          "line": "select-tor-2",
+          "time": 1656.4000000059605,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t2",
+          "event": "select",
+          "line": "select-cael-3",
+          "time": 2457,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "select",
+          "line": "select-brann-1",
+          "time": 3256.5,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-2",
+          "time": 4096.5999999940395,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "select",
+          "line": "select-brann-2",
+          "time": 5216.4000000059605,
+          "status": "playing"
+        }
+      ],
+      "errors": []
+    },
+    "duckLevel": 0.9809144266217151,
+    "enabled": true,
+    "phase": "planning",
+    "volumes": {
+      "master": 0.7,
+      "music": 0.3,
+      "ambience": 0.28,
+      "effects": 0.65,
+      "vox": 0.85
+    },
+    "played": {},
+    "transitions": [],
+    "errors": [],
+    "tracks": [
+      {
+        "name": "planning",
+        "paused": false,
+        "time": 4.284021,
+        "volume": 0.2057922897814923,
+        "ready": 4
+      },
+      {
+        "name": "combat",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "ending",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "hull",
+        "paused": false,
+        "time": 4.323759,
+        "volume": 0.19580994894484455,
+        "ready": 4
+      }
+    ]
+  },
+  "recovered": {
+    "vox": {
+      "active": null,
+      "caption": null,
+      "pending": [],
+      "gain": 0.47450000047683716,
+      "maxConcurrent": 1,
+      "history": [
+        {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-1",
+          "time": 976.5999999940395,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t1",
+          "event": "select",
+          "line": "select-tor-2",
+          "time": 1656.4000000059605,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t2",
+          "event": "select",
+          "line": "select-cael-3",
+          "time": 2457,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "select",
+          "line": "select-brann-1",
+          "time": 3256.5,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-2",
+          "time": 4096.5999999940395,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "select",
+          "line": "select-brann-2",
+          "time": 5216.4000000059605,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "select",
+          "line": "select-brann-3",
+          "time": 5497,
+          "status": "ended"
+        }
+      ],
+      "errors": []
+    },
+    "duckLevel": 0.9999361653080374,
+    "enabled": true,
+    "phase": "planning",
+    "volumes": {
+      "master": 0.65,
+      "music": 0.3,
+      "ambience": 0.28,
+      "effects": 0.65,
+      "vox": 0.73
+    },
+    "played": {},
+    "transitions": [],
+    "errors": [],
+    "tracks": [
+      {
+        "name": "planning",
+        "paused": false,
+        "time": 7.618345,
+        "volume": 0.19498674585015588,
+        "ready": 4
+      },
+      {
+        "name": "combat",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "ending",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "hull",
+        "paused": false,
+        "time": 7.656463,
+        "volume": 0.181999247326036,
+        "ready": 4
+      }
+    ]
+  },
+  "persisted": {
+    "vox": null,
+    "duckLevel": 1,
+    "enabled": false,
+    "phase": "planning",
+    "volumes": {
+      "master": 0.65,
+      "music": 0.3,
+      "ambience": 0.28,
+      "effects": 0.65,
+      "vox": 0.73
+    },
+    "played": {},
+    "transitions": [],
+    "errors": [],
+    "tracks": []
+  },
+  "ack": {
+    "vox": {
+      "active": {
+        "unit": "t0",
+        "event": "ack-move",
+        "line": "ack-move-1",
+        "time": 0.010667,
+        "paused": false,
+        "ready": 4
+      },
+      "caption": {
+        "name": "VAEL",
+        "unit": "t0",
+        "text": "À vos ordres."
+      },
+      "pending": [],
+      "gain": 0.47450000047683716,
+      "maxConcurrent": 1,
+      "history": [
+        {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-1",
+          "time": 510.7999999821186,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "ack-move",
+          "line": "ack-move-1",
+          "time": 2310.899999976158,
+          "status": "playing"
+        }
+      ],
+      "errors": []
+    },
+    "duckLevel": 0.9725613504169752,
+    "enabled": true,
+    "phase": "planning",
+    "volumes": {
+      "master": 0.65,
+      "music": 0.3,
+      "ambience": 0.28,
+      "effects": 0.65,
+      "vox": 0.73
+    },
+    "played": {},
+    "transitions": [],
+    "errors": [],
+    "tracks": [
+      {
+        "name": "planning",
+        "paused": false,
+        "time": 1.935395,
+        "volume": 0.1812621874652987,
+        "ready": 4
+      },
+      {
+        "name": "combat",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "ending",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "hull",
+        "paused": false,
+        "time": 1.953384,
+        "volume": 0.1739510227933133,
+        "ready": 4
+      }
+    ]
+  },
+  "final": {
+    "vox": {
+      "active": null,
+      "caption": null,
+      "pending": [],
+      "gain": 0.47450000047683716,
+      "maxConcurrent": 1,
+      "history": [
+        {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-1",
+          "time": 510.7999999821186,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "ack-move",
+          "line": "ack-move-1",
+          "time": 2310.899999976158,
+          "status": "ended"
+        }
+      ],
+      "errors": []
+    },
+    "duckLevel": 0.9999687291307764,
+    "enabled": true,
+    "phase": "planning",
+    "volumes": {
+      "master": 0.65,
+      "music": 0.3,
+      "ambience": 0.28,
+      "effects": 0.65,
+      "vox": 0.73
+    },
+    "played": {},
+    "transitions": [],
+    "errors": [],
+    "tracks": [
+      {
+        "name": "planning",
+        "paused": false,
+        "time": 4.467303,
+        "volume": 0.19483212446079798,
+        "ready": 4
+      },
+      {
+        "name": "combat",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "ending",
+        "paused": true,
+        "time": 0,
+        "volume": 0,
+        "ready": 4
+      },
+      {
+        "name": "hull",
+        "paused": false,
+        "time": 4.487256,
+        "volume": 0.18184900273979462,
+        "ready": 4
+      }
+    ]
+  },
+  "errors": [],
+  "failed": [],
+  "requests": [
+    "http://127.0.0.1:18231/assets/sfx/vox/t0-select-vael-1-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t0-select-vael-2-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t1-select-tor-2-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t2-select-cael-2-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t0-select-vael-3-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t1-select-tor-1-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t1-select-tor-3-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t2-select-cael-1-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t3-select-brann-2-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t3-select-brann-1-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t3-select-brann-3-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t2-select-cael-3-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t0-ack-move-1-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t0-ack-move-2-vox2.mp3",
+    "http://127.0.0.1:18231/assets/sfx/vox/t0-ack-fire-1-vox2.mp3"
+  ]
+}

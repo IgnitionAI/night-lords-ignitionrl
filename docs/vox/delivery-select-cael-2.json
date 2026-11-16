@@ -1,0 +1,40 @@
+{
+  "id": "15a68b18-02a3-4f8e-83e7-37247b7f51d5",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/15a68b18-02a3-4f8e-83e7-37247b7f51d5/l-coute-pour-l-empereur-cmwjktf6.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:41.832Z",
+  "generationId": "cmwjktf6c001d2bnybsygwfrx",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjktf6c001d2bnybsygwfrx/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjktf6c001d2bnybsygwfrx",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktf6c001d2bnybsygwfrx/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/15a68b18-02a3-4f8e-83e7-37247b7f51d5/output/l-coute-pour-l-empereur-cmwjktf6.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktf6c001d2bnybsygwfrx/audio-voice",
+        "bytes": 36823
+      }
+    ],
+    "downloadFailures": []
+  }
+}

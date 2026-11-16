@@ -1,0 +1,40 @@
+{
+  "id": "c124b162-ef05-4413-afa1-0fb3dd78560e",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/c124b162-ef05-4413-afa1-0fb3dd78560e/que-l-empereur-nous-guide-cmwjktm4.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:50.896Z",
+  "generationId": "cmwjktm4d002d3lll2l83itl5",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjktm4d002d3lll2l83itl5/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjktm4d002d3lll2l83itl5",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktm4d002d3lll2l83itl5/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/c124b162-ef05-4413-afa1-0fb3dd78560e/output/que-l-empereur-nous-guide-cmwjktm4.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktm4d002d3lll2l83itl5/audio-voice",
+        "bytes": 28046
+      }
+    ],
+    "downloadFailures": []
+  }
+}

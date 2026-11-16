@@ -1,0 +1,40 @@
+{
+  "id": "a882d291-df25-4c5f-9c56-a6ab5525e803",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/a882d291-df25-4c5f-9c56-a6ab5525e803/j-coute-commandant-cmwjksfz.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:28.860Z",
+  "generationId": "cmwjksfzf00153lllfsrafvfo",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjksfzf00153lllfsrafvfo/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjksfzf00153lllfsrafvfo",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjksfzf00153lllfsrafvfo/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/a882d291-df25-4c5f-9c56-a6ab5525e803/output/j-coute-commandant-cmwjksfz.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjksfzf00153lllfsrafvfo/audio-voice",
+        "bytes": 26792
+      }
+    ],
+    "downloadFailures": []
+  }
+}

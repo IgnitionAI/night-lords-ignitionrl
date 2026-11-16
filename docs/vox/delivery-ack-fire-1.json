@@ -1,0 +1,40 @@
+{
+  "id": "3c7efd35-dceb-4ddf-8bc2-d493f8ade04c",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/3c7efd35-dceb-4ddf-8bc2-d493f8ade04c/coordonn-es-de-tir-re-ues-cmwjktqw.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:57.687Z",
+  "generationId": "cmwjktqwj00242bny3jzu47ks",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjktqwj00242bny3jzu47ks/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjktqwj00242bny3jzu47ks",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktqwj00242bny3jzu47ks/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/3c7efd35-dceb-4ddf-8bc2-d493f8ade04c/output/coordonn-es-de-tir-re-ues-cmwjktqw.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktqwj00242bny3jzu47ks/audio-voice",
+        "bytes": 30554
+      }
+    ],
+    "downloadFailures": []
+  }
+}

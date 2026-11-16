@@ -1,0 +1,40 @@
+{
+  "id": "a345893a-a7da-4fbd-91b0-c67a333f2d8a",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/a345893a-a7da-4fbd-91b0-c67a333f2d8a/auspex-pr-t-commandant-cmwjl6ng.mp3"
+  ],
+  "createdAt": "2026-11-16T18:19:50.877Z",
+  "generationId": "cmwjl6ngp004n2bnyly1b2jns",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjl6ngp004n2bnyly1b2jns/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjl6ngp004n2bnyly1b2jns",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl6ngp004n2bnyly1b2jns/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/a345893a-a7da-4fbd-91b0-c67a333f2d8a/output/auspex-pr-t-commandant-cmwjl6ng.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl6ngp004n2bnyly1b2jns/audio-voice",
+        "bytes": 29300
+      }
+    ],
+    "downloadFailures": []
+  }
+}

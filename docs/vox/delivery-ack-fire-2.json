@@ -1,0 +1,40 @@
+{
+  "id": "a53c7852-8d22-4b8e-9277-fbc1bc4629e0",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/a53c7852-8d22-4b8e-9277-fbc1bc4629e0/bolter-pr-t-cmwjl4um.mp3"
+  ],
+  "createdAt": "2026-11-16T18:19:42.261Z",
+  "generationId": "cmwjl4um4003h2bnyvbzsda63",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjl4um4003h2bnyvbzsda63/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjl4um4003h2bnyvbzsda63",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl4um4003h2bnyvbzsda63/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/a53c7852-8d22-4b8e-9277-fbc1bc4629e0/output/bolter-pr-t-cmwjl4um.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl4um4003h2bnyvbzsda63/audio-voice",
+        "bytes": 20105
+      }
+    ],
+    "downloadFailures": []
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "e958875d-3321-4e02-9203-8dbd472c328b",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/e958875d-3321-4e02-9203-8dbd472c328b/itin-raire-re-u-cmwjktpg.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:55.425Z",
+  "generationId": "cmwjktpg2002t3lll8ms4afdl",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjktpg2002t3lll8ms4afdl/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjktpg2002t3lll8ms4afdl",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktpg2002t3lll8ms4afdl/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/e958875d-3321-4e02-9203-8dbd472c328b/output/itin-raire-re-u-cmwjktpg.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktpg2002t3lll8ms4afdl/audio-voice",
+        "bytes": 28046
+      }
+    ],
+    "downloadFailures": []
+  }
+}

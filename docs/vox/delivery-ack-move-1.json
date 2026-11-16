@@ -1,0 +1,40 @@
+{
+  "id": "611441da-30de-4d31-a5d5-5bad54ea1e32",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/611441da-30de-4d31-a5d5-5bad54ea1e32/vos-ordres-cmwjktnt.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:53.155Z",
+  "generationId": "cmwjktnt4002n3lll75dttpp8",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjktnt4002n3lll75dttpp8/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjktnt4002n3lll75dttpp8",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktnt4002n3lll75dttpp8/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/611441da-30de-4d31-a5d5-5bad54ea1e32/output/vos-ordres-cmwjktnt.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktnt4002n3lll75dttpp8/audio-voice",
+        "bytes": 18851
+      }
+    ],
+    "downloadFailures": []
+  }
+}
