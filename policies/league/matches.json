@@ -1,0 +1,211 @@
+{
+  "dir": "policies/league",
+  "gens": [
+    1,
+    10,
+    50
+  ],
+  "seedBase": 910000,
+  "seeds": "910000..910005",
+  "nPerPairing": 2,
+  "wallSeconds": 0.2,
+  "matches": [
+    {
+      "home": "gen-1",
+      "away": "gen-10",
+      "winner": "home",
+      "seed": 910000,
+      "homeSeed": 910000,
+      "awaySeed": 910000,
+      "homeGeneration": 1,
+      "awayGeneration": 10,
+      "homeHash": "d431493152247e7d60ed1660731a7b4088d17582c762f4bd098ddc7ad7654ab6",
+      "awayHash": "4614a71eaa278cf3044ac07b21fdf40bab9e5e1e750e56ce0a23d9d52f25b3be",
+      "homeGame": {
+        "ticks": 333,
+        "seconds": 33.3,
+        "damage": 0,
+        "alive": 0,
+        "worldWinner": "terminator",
+        "reason": "meute anéantie"
+      },
+      "awayGame": {
+        "ticks": 320,
+        "seconds": 32,
+        "damage": 0,
+        "alive": 0,
+        "worldWinner": "terminator",
+        "reason": "meute anéantie"
+      },
+      "envTactic": "march",
+      "envIsCheckpoint": false,
+      "nlVsNl": false,
+      "pairing": "same-seed-probe"
+    },
+    {
+      "home": "gen-1",
+      "away": "gen-10",
+      "winner": "away",
+      "seed": 910001,
+      "homeSeed": 910001,
+      "awaySeed": 910001,
+      "homeGeneration": 1,
+      "awayGeneration": 10,
+      "homeHash": "d431493152247e7d60ed1660731a7b4088d17582c762f4bd098ddc7ad7654ab6",
+      "awayHash": "4614a71eaa278cf3044ac07b21fdf40bab9e5e1e750e56ce0a23d9d52f25b3be",
+      "homeGame": {
+        "ticks": 187,
+        "seconds": 18.7,
+        "damage": 0,
+        "alive": 0,
+        "worldWinner": "terminator",
+        "reason": "meute anéantie"
+      },
+      "awayGame": {
+        "ticks": 318,
+        "seconds": 31.8,
+        "damage": 0,
+        "alive": 0,
+        "worldWinner": "terminator",
+        "reason": "meute anéantie"
+      },
+      "envTactic": "march",
+      "envIsCheckpoint": false,
+      "nlVsNl": false,
+      "pairing": "same-seed-probe"
+    },
+    {
+      "home": "gen-1",
+      "away": "gen-50",
+      "winner": "home",
+      "seed": 910002,
+      "homeSeed": 910002,
+      "awaySeed": 910002,
+      "homeGeneration": 1,
+      "awayGeneration": 50,
+      "homeHash": "d431493152247e7d60ed1660731a7b4088d17582c762f4bd098ddc7ad7654ab6",
+      "awayHash": "27c34864950528c4a0a701f72becf00b84b582e86aa42821816f46faa5ecfff5",
+      "homeGame": {
+        "ticks": 356,
+        "seconds": 35.6,
+        "damage": 0,
+        "alive": 0,
+        "worldWinner": "terminator",
+        "reason": "meute anéantie"
+      },
+      "awayGame": {
+        "ticks": 343,
+        "seconds": 34.3,
+        "damage": 0,
+        "alive": 0,
+        "worldWinner": "terminator",
+        "reason": "meute anéantie"
+      },
+      "envTactic": "march",
+      "envIsCheckpoint": false,
+      "nlVsNl": false,
+      "pairing": "same-seed-probe"
+    },
+    {
+      "home": "gen-1",
+      "away": "gen-50",
+      "winner": "away",
+      "seed": 910003,
+      "homeSeed": 910003,
+      "awaySeed": 910003,
+      "homeGeneration": 1,
+      "awayGeneration": 50,
+      "homeHash": "d431493152247e7d60ed1660731a7b4088d17582c762f4bd098ddc7ad7654ab6",
+      "awayHash": "27c34864950528c4a0a701f72becf00b84b582e86aa42821816f46faa5ecfff5",
+      "homeGame": {
+        "ticks": 339,
+        "seconds": 33.9,
+        "damage": 0,
+        "alive": 0,
+        "worldWinner": "terminator",
+        "reason": "meute anéantie"
+      },
+      "awayGame": {
+        "ticks": 412,
+        "seconds": 41.2,
+        "damage": 0,
+        "alive": 0,
+        "worldWinner": "terminator",
+        "reason": "meute anéantie"
+      },
+      "envTactic": "march",
+      "envIsCheckpoint": false,
+      "nlVsNl": false,
+      "pairing": "same-seed-probe"
+    },
+    {
+      "home": "gen-10",
+      "away": "gen-50",
+      "winner": "away",
+      "seed": 910004,
+      "homeSeed": 910004,
+      "awaySeed": 910004,
+      "homeGeneration": 10,
+      "awayGeneration": 50,
+      "homeHash": "4614a71eaa278cf3044ac07b21fdf40bab9e5e1e750e56ce0a23d9d52f25b3be",
+      "awayHash": "27c34864950528c4a0a701f72becf00b84b582e86aa42821816f46faa5ecfff5",
+      "homeGame": {
+        "ticks": 279,
+        "seconds": 27.9,
+        "damage": 0,
+        "alive": 0,
+        "worldWinner": "terminator",
+        "reason": "meute anéantie"
+      },
+      "awayGame": {
+        "ticks": 299,
+        "seconds": 29.9,
+        "damage": 0,
+        "alive": 0,
+        "worldWinner": "terminator",
+        "reason": "meute anéantie"
+      },
+      "envTactic": "march",
+      "envIsCheckpoint": false,
+      "nlVsNl": false,
+      "pairing": "same-seed-probe"
+    },
+    {
+      "home": "gen-10",
+      "away": "gen-50",
+      "winner": "away",
+      "seed": 910005,
+      "homeSeed": 910005,
+      "awaySeed": 910005,
+      "homeGeneration": 10,
+      "awayGeneration": 50,
+      "homeHash": "4614a71eaa278cf3044ac07b21fdf40bab9e5e1e750e56ce0a23d9d52f25b3be",
+      "awayHash": "27c34864950528c4a0a701f72becf00b84b582e86aa42821816f46faa5ecfff5",
+      "homeGame": {
+        "ticks": 204,
+        "seconds": 20.4,
+        "damage": 0,
+        "alive": 0,
+        "worldWinner": "terminator",
+        "reason": "meute anéantie"
+      },
+      "awayGame": {
+        "ticks": 218,
+        "seconds": 21.8,
+        "damage": 0,
+        "alive": 0,
+        "worldWinner": "terminator",
+        "reason": "meute anéantie"
+      },
+      "envTactic": "march",
+      "envIsCheckpoint": false,
+      "nlVsNl": false,
+      "pairing": "same-seed-probe"
+    }
+  ],
+  "elo": {
+    "gen-1": 1497.1896126785725,
+    "gen-10": 1470.927747833061,
+    "gen-50": 1531.8826394883665
+  }
+}

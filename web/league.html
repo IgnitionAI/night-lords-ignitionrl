@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ligue Night Lords — self-play</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/web/league.css">
+</head>
+<body>
+  <header>
+    <p class="eyebrow">self-play · ligue ELO</p>
+    <h1>Ligue des générations</h1>
+    <p class="lead">Pas de combat Night Lords contre Night Lords. Sur une même graine, chaque génération pilote seule les 4 rôles contre la sonde <code>march</code>. L’ELO vient de <code>matches.json</code>, jamais de cotes en dur. Entraînement : co-play avec partenaires figés (rôles 2–3), pas des adversaires.</p>
+  </header>
+  <p id="err" hidden></p>
+  <section id="app" hidden>
+    <div class="row">
+      <label>Home
+        <select id="home"></select>
+      </label>
+      <label>Away
+        <select id="away"></select>
+      </label>
+      <button type="button" id="play">Match / replay</button>
+    </div>
+    <p id="matchMeta"></p>
+    <canvas id="arena" width="800" height="480" aria-label="replay ligue"></canvas>
+    <h2>Classement ELO</h2>
+    <p class="hint">Source : journal des matchs · K=32 · nuls S=0,5 · mise à jour simultanée · ordre du journal</p>
+    <table id="elo">
+      <thead><tr><th>Politique</th><th>ELO</th><th>Hash SHA-256</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <h2>Journal</h2>
+    <table id="log">
+      <thead><tr><th>Home</th><th>Away</th><th>Winner</th><th>Seed</th><th>Home monde / ticks / dmg</th><th>Away monde / ticks / dmg</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+  <script type="module" src="/web/league.ts"></script>
+</body>
+</html>
