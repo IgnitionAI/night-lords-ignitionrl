@@ -1,0 +1,40 @@
+{
+  "id": "6065433a-c341-4bd9-9f16-19971d77e7e8",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/6065433a-c341-4bd9-9f16-19971d77e7e8/vous-allez-le-regretter-cmwjluz7.mp3"
+  ],
+  "createdAt": "2026-11-16T18:36:59.800Z",
+  "generationId": "cmwjluz7z00a62bny1s14nd7i",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjluz7z00a62bny1s14nd7i/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjluz7z00a62bny1s14nd7i",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjluz7z00a62bny1s14nd7i/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/6065433a-c341-4bd9-9f16-19971d77e7e8/output/vous-allez-le-regretter-cmwjluz7.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjluz7z00a62bny1s14nd7i/audio-voice",
+        "bytes": 28046
+      }
+    ],
+    "downloadFailures": []
+  }
+}

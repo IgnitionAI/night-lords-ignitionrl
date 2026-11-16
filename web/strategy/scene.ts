@@ -8,7 +8,7 @@ import {measureHeight} from '../stride';
 import {attachWeapon} from '../weapons';
 import {rounded,type Presentation} from './presentation';
 import type {ShipAudio} from './audio';
-import {voiceCue} from './vox-cues';
+import {voiceCue,hostileActionCue} from './vox-cues';
 
 type Figure={group:T.Group;body:T.Object3D;mixer:T.AnimationMixer;actions:Record<string,T.AnimationAction>;current:string;ring:T.Mesh;label:T.Sprite;hp:T.Mesh;unit:Unit;heading:number;dead:boolean;};
 const v3=(p:Pos,h=0)=>new T.Vector3(p.x+.5,h,p.y+.5);
@@ -128,6 +128,7 @@ export class TacticalScene{
   private action(f:Figure,name:string){if(f.current===name)return;const a=f.actions[name]??f.actions.idle,b=f.actions[f.current];a.reset().setEffectiveWeight(1).play();if(b)b.crossFadeTo(a,.16,false);f.current=name;this.animated.add(name);}
   update(v:View,selected:string,orders:Order[],override?:Unit[],reveal=false){this.view=v;this.selected=selected;this.orders=orders;this.reveal=reveal;if(this.running)return;
     const visible=new Set(v.visible),explored=new Set(v.explored);CELLS.forEach((p,i)=>this.tiles.setColorAt(i,new T.Color(reveal||visible.has(key(p))?0x81929a:explored.has(key(p))?0x455360:0x25313c)));this.tiles.instanceColor!.needsUpdate=true;
+    this.audio.observeVoxEnemies(reveal?[]:v.contacts.filter(c=>c.seen===v.turn&&c.hp>0&&visible.has(key(c))).map(c=>c.id));
     for(const f of this.figures.values())f.group.visible=false;
     for(const u of override??[...v.units,...v.contacts.filter(c=>c.seen===v.turn)]){if(!reveal&&u.side!=='imperium'&&!visible.has(key(u)))continue;const f=this.figure(u);if(!f)continue;f.group.visible=true;f.group.position.copy(v3(u));f.ring.material.color.setHex(u.id===selected?color.selected:u.side==='imperium'?color.friendly:color.hostile);f.ring.scale.setScalar(u.id===selected?1.15:1);f.hp.scale.x=.55*Math.max(0,u.hp)/u.maxHp;f.dead=u.hp<=0;if(!f.dead)this.action(f,'idle');else{this.action(f,'death');f.actions.death.time=f.actions.death.getClip().duration;f.actions.death.paused=true;}f.label.visible=!f.dead;f.hp.visible=!f.dead;}
     this.renderer.shadowMap.needsUpdate=true;this.setDoors(v.doors,1);for(const o of v.objectives){const r=this.systems.get(o.id)!.children[0] as T.Mesh;(r.material as T.MeshBasicMaterial).color.setHex(o.owner==='imperium'?color.friendly:o.owner==='nightlords'?color.hostile:0xb59a60);}
@@ -140,24 +141,27 @@ export class TacticalScene{
   async play(p:Presentation){await this.ready;this.clearGroup(this.routes);this.clearGroup(this.ghosts);this.audio.setPhase(p.combat?'combat':'planning');return new Promise<void>(done=>{this.running={p,start:performance.now(),done,fired:new Set()};});}
   private cue(id:string,at:number,t:number,fn:()=>void){const r=this.running!;if(t>=at&&!r.fired.has(id)){r.fired.add(id);fn();}}
   private sequence(now:number){const r=this.running!;const t=(now-r.start)/1000,p=r.p,vis=new Set(p.visible),focus={x:this.center.x,y:this.center.z};
+    const visibleEnemies:string[]=[];
     this.renderer.shadowMap.needsUpdate=true;this.setDoors(p.doors,.13);
     for(const f of this.figures.values())f.group.visible=false;
     for(const u of p.units){const f=this.figure(u)!;const end=p.after.find(v=>v.id===u.id)!,route=p.movement[u.id],o=p.orders.find(o=>o.unit===u.id);let position:Pos=u;
       const motion=Math.min(3,Math.max(0,(t-.5)/.72)),seg=Math.min(2,Math.floor(motion)),local=motion-seg,a=route[seg],b=route[seg+1];const moving=key(a)!==key(b)&&t>=.5&&t<2.66;
       const fraction=u.side==='imperium'?Math.min(1,local/.94):Math.min(1,local/.68);position={x:a.x+(b.x-a.x)*fraction,y:a.y+(b.y-a.y)*fraction};
       const allowed=u.side==='imperium'||a.x>=0&&b.x>=0&&vis.has(key(rounded(position)));if(!allowed)continue;
+      if(u.side==='nightlords')visibleEnemies.push(u.id);
       f.group.visible=true;f.group.position.copy(v3(position));
       if(moving&&u.side==='imperium')this.cue('vox-moving-'+u.id,.5,t,()=>this.audio.speak(voiceCue(u,'moving','action')));
       if(u.side==='imperium'&&o?.kind==='guard')this.cue('vox-guard-'+u.id,.3,t,()=>this.audio.speak(voiceCue(u,'guarding','action')));
       if(moving){f.heading=Math.atan2(b.x-a.x,b.y-a.y);this.action(f,'walk');f.actions.walk.timeScale=u.side==='imperium'?1.5:1.8;this.cue('step-'+u.id+'-'+seg,.5+seg*.72+.12,t,()=>this.audio.effect('servo',position,focus));}
       else if(t<2.7){this.action(f,o?.kind==='interact'||o?.kind==='scan'?'interact':o?.kind==='fire'||o?.kind==='guard'?'aim':'idle');if(o?.target)f.heading=Math.atan2(o.target.x-position.x,o.target.y-position.y);}
       let delta=Math.atan2(Math.sin(f.heading-f.body.rotation.y),Math.cos(f.heading-f.body.rotation.y));f.body.rotation.y+=delta*.18;
-      const shot=p.shots.find(s=>s.from===u.id);if(shot){if(t>=2.7&&t<3.25){this.action(f,'fire');f.heading=Math.atan2(shot.target.x-position.x,shot.target.y-position.y);}else if(t>=3.25&&t<4.15)this.action(f,'reload');this.cue('shot-'+u.id,2.88,t,()=>{if(u.side==='imperium')this.audio.speak(voiceCue(u,'firing','action'));this.burst(f,shot.target,shot.hit);this.audio.effect('bolter',position,focus);});}
-      if(end.hp<u.hp){this.cue('hit-'+u.id,3.03,t,()=>{if(u.side==='imperium'&&end.hp<=0)this.audio.silenceUnit(u.id);if(u.side==='imperium'&&end.hp>0)this.audio.speak(voiceCue(u,'hurt','action'));this.action(f,end.hp<=0?'death':'hit');this.audio.effect('impact',position,focus);this.sparks(v3(position,.45),0xffa650);});if(t>=3.03&&end.hp<=0){this.action(f,'death');f.dead=true;f.group.position.y=-.3*Math.min(1,(t-3.03));}}
+      const shot=p.shots.find(s=>s.from===u.id);if(shot){if(t>=2.7&&t<3.25){this.action(f,'fire');f.heading=Math.atan2(shot.target.x-position.x,shot.target.y-position.y);}else if(t>=3.25&&t<4.15)this.action(f,'reload');this.cue('shot-'+u.id,2.88,t,()=>{const cue=u.side==='imperium'?voiceCue(u,'firing','action'):hostileActionCue(p,u.id,'nl-attack');if(cue)this.audio.speak(cue);this.burst(f,shot.target,shot.hit);this.audio.effect('bolter',position,focus);});}
+      if(end.hp<u.hp){this.cue('hit-'+u.id,3.03,t,()=>{if(end.hp<=0)this.audio.silenceUnit(u.id);const cue=u.side==='nightlords'?hostileActionCue(p,u.id,end.hp<=0?'nl-death':'nl-hurt'):end.hp>0?voiceCue(u,'hurt','action'):undefined;if(cue)this.audio.speak(cue);this.action(f,end.hp<=0?'death':'hit');this.audio.effect('impact',position,focus);this.sparks(v3(position,.45),0xffa650);});if(t>=3.03&&end.hp<=0){this.action(f,'death');f.dead=true;f.group.position.y=-.3*Math.min(1,(t-3.03));}}
       f.hp.scale.x=.55*(t>3.03?end.hp:u.hp)/u.maxHp;
       if(o?.kind==='interact')this.cue('interact-'+u.id,.22,t,()=>{if(u.side==='imperium')this.audio.speak(voiceCue(u,'working','action'));if(o.target&&p.doors.some(d=>key(d)===key(o.target!)))this.audio.effect('door',o.target,focus);});
       if(o?.kind==='scan')this.cue('scan-'+u.id,.2,t,()=>{if(u.side==='imperium')this.audio.speak(voiceCue(u,'scanning','action'));const ring=new T.Mesh(new T.RingGeometry(.43,.47,64),new T.MeshBasicMaterial({color:color.friendly,transparent:true,opacity:.6,depthWrite:false}));ring.position.copy(v3(u,.05));ring.rotation.x=-Math.PI/2;this.fx.add(ring);this.effects.push({obj:ring,ttl:1.5,life:1.5});});
     }
+    this.audio.observeVoxEnemies(visibleEnemies);
     if(t>4.3){this.running=undefined;r.done();}
   }
   private burst(f:Figure,target:Pos,hit:boolean){const from=f.group.position.clone().add(new T.Vector3(0,.55,0)),to=v3(target,.5),dir=to.clone().sub(from).normalize();from.addScaledVector(dir,.3);

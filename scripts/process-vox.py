@@ -4,6 +4,7 @@ Original Genex takes stay untouched. No runtime speech service is required.
 from pathlib import Path
 import json, subprocess, wave, io, hashlib
 import numpy as np
+from nightlords_vox import render as render_hostile, PROFILE as hostile_profile
 
 root=Path(__file__).resolve().parents[1]
 lines=json.loads((root/'docs/vox/lines.json').read_text())
@@ -22,9 +23,12 @@ for line in lines:
  delivered=json.loads(delivery.read_text())
  if not delivered.get('files'):continue
  source=root/delivered['files'][0]
- entry={**line,'sources':{}}
- for unit in ([line['unit']] if 'unit' in line else profiles):
-  p=profiles[unit];dest=out/f"{unit}-{line['id']}-vox2.mp3"
+ entry={**line,'faction':line.get('faction','imperium'),'sources':{}}
+ for unit in (['nightlords'] if line.get('faction')=='nightlords' else [line['unit']] if 'unit' in line else profiles):
+  p=hostile_profile if unit=='nightlords' else profiles[unit]
+  version='chaos-vox3' if unit=='nightlords' else 'vox2'
+  dest=out/f"{unit}-{line['id']}-{version}.mp3"
+  if unit=='nightlords': render_hostile(source,dest)
   if not dest.exists():
    # Low resonant voice, compressed radio band, mild nonlinear amplifier,
    # amplitude-modulated metallic layer and short helmet reflections.
@@ -56,6 +60,13 @@ for line in lines:
   manifest.append({'id':line['id'],'unit':unit,'text':line['text'],'source':str(source.relative_to(root)),'output':str(dest.relative_to(root)),'deliveryId':delivered['id'],'seconds':float(probe['duration']),'bytes':int(probe['size']),'sha256':hashlib.sha256(dest.read_bytes()).hexdigest(),'profile':p})
  catalog.append(entry)
 (root/'docs/vox/processed-assets.json').write_text(json.dumps(manifest,indent=2,ensure_ascii=False)+'\n')
-code="import type {VoxEvent} from './vox-cues';\nexport const VOX_LINES: {id:string;text:string;unit?:string;event:VoxEvent;sources:Record<string,string>}[] = "+json.dumps(catalog,ensure_ascii=False,indent=2)+";\n"
+# These helmet vocalisations already belong to the game. No new generation.
+for id,event,text,file in [('nl-attack-growl','nl-attack','[Cri de combat]','armored-growl.ogg'),('nl-death-growl','nl-death','[Râle étouffé]','armored-death.ogg')]:
+ source=root/'web/sfx/nightlords'/file
+ if not source.exists(): raise FileNotFoundError(source)
+ dest=out/f'nightlords-{id}-chaos-vox3.mp3'
+ render_hostile(source,dest)
+ catalog.append(dict(id=id,event=event,text=text,faction='nightlords',sources={'nightlords':'/web/sfx/vox/'+dest.name}))
+code="import type {VoxEvent} from './vox-cues';\nexport const VOX_LINES: {id:string;text:string;unit?:string;faction:'imperium'|'nightlords';event:VoxEvent;sources:Record<string,string>}[] = "+json.dumps(catalog,ensure_ascii=False,indent=2)+";\n"
 (root/'web/strategy/vox-assets.ts').write_text(code)
 print(f'{len(catalog)} lines, {len(manifest)} helmet renders')

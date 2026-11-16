@@ -11,7 +11,9 @@ export class ShipAudio{
   onVox:(caption:{name:string;text:string;unit:string}|null)=>void=()=>{};
   private radio?:VoxRadio;private ducked=false;private duckLevel=1;
   speak(cue:VoxCue){this.radio?.speak(cue);}
-  clearVox(){this.radio?.boundary();}
+  clearVox(resetRecent=false){this.radio?.boundary(resetRecent);}
+  observeVoxEnemies(ids:string[]){this.radio?.observeEnemies(ids);}
+  previewNightLords(){this.radio?.previewNightLords();}
   finishVox(){this.radio?.clearPending();}
   silenceUnit(id:string){this.radio?.silenceUnit(id);}
   played:Record<string,number>={};transitions:string[]=[];errors:string[]=[];

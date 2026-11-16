@@ -1,0 +1,40 @@
+{
+  "id": "2317501b-6560-4ec9-8542-40eeb5ead8f9",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/2317501b-6560-4ec9-8542-40eeb5ead8f9/ave-dominus-nox-cmwjlsqy.mp3"
+  ],
+  "createdAt": "2026-11-16T18:35:15.772Z",
+  "generationId": "cmwjlsqyk009p2bnyzukzacem",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjlsqyk009p2bnyzukzacem/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjlsqyk009p2bnyzukzacem",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlsqyk009p2bnyzukzacem/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/2317501b-6560-4ec9-8542-40eeb5ead8f9/output/ave-dominus-nox-cmwjlsqy.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlsqyk009p2bnyzukzacem/audio-voice",
+        "bytes": 30554
+      }
+    ],
+    "downloadFailures": []
+  }
+}

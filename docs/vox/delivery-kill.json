@@ -1,0 +1,40 @@
+{
+  "id": "d049c080-8bf8-4707-a98f-d18ff7bc4337",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/d049c080-8bf8-4707-a98f-d18ff7bc4337/ennemi-neutralis-cmwjlojs.mp3"
+  ],
+  "createdAt": "2026-11-16T18:31:59.837Z",
+  "generationId": "cmwjlojsi008i2bnyietjknp2",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjlojsi008i2bnyietjknp2/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjlojsi008i2bnyietjknp2",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlojsi008i2bnyietjknp2/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/d049c080-8bf8-4707-a98f-d18ff7bc4337/output/ennemi-neutralis-cmwjlojs.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlojsi008i2bnyietjknp2/audio-voice",
+        "bytes": 25538
+      }
+    ],
+    "downloadFailures": []
+  }
+}

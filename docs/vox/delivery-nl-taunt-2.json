@@ -1,0 +1,40 @@
+{
+  "id": "a2162b3f-df70-4309-825b-7b757d3b4a51",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/a2162b3f-df70-4309-825b-7b757d3b4a51/votre-peur-nous-appartient-cmwjls9z.mp3"
+  ],
+  "createdAt": "2026-11-16T18:34:53.695Z",
+  "generationId": "cmwjls9zd009g2bny4komgap9",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjls9zd009g2bny4komgap9/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjls9zd009g2bny4komgap9",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjls9zd009g2bny4komgap9/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/a2162b3f-df70-4309-825b-7b757d3b4a51/output/votre-peur-nous-appartient-cmwjls9z.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjls9zd009g2bny4komgap9/audio-voice",
+        "bytes": 34315
+      }
+    ],
+    "downloadFailures": []
+  }
+}

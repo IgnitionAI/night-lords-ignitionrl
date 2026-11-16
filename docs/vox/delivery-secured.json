@@ -1,0 +1,40 @@
+{
+  "id": "d9f2f2f3-3b14-4016-ade1-e71cae7fd783",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/d9f2f2f3-3b14-4016-ade1-e71cae7fd783/objectif-s-curis-commandant-cmwjlmov.mp3"
+  ],
+  "createdAt": "2026-11-16T18:30:33.100Z",
+  "generationId": "cmwjlmovu00893llln19a8hve",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjlmovu00893llln19a8hve/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjlmovu00893llln19a8hve",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlmovu00893llln19a8hve/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/d9f2f2f3-3b14-4016-ade1-e71cae7fd783/output/objectif-s-curis-commandant-cmwjlmov.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlmovu00893llln19a8hve/audio-voice",
+        "bytes": 33061
+      }
+    ],
+    "downloadFailures": []
+  }
+}

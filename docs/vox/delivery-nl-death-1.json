@@ -1,0 +1,40 @@
+{
+  "id": "7f12cdfa-549e-4384-8c18-2c19ac95da73",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/7f12cdfa-549e-4384-8c18-2c19ac95da73/la-nuit-m-emporte-cmwjlvfp.mp3"
+  ],
+  "createdAt": "2026-11-16T18:37:21.104Z",
+  "generationId": "cmwjlvfp2000130qkmhi3pf3w",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjlvfp2000130qkmhi3pf3w/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjlvfp2000130qkmhi3pf3w",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlvfp2000130qkmhi3pf3w/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/7f12cdfa-549e-4384-8c18-2c19ac95da73/output/la-nuit-m-emporte-cmwjlvfp.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlvfp2000130qkmhi3pf3w/audio-voice",
+        "bytes": 35569
+      }
+    ],
+    "downloadFailures": []
+  }
+}

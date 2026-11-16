@@ -1,0 +1,1540 @@
+{
+  "decoded": [
+    {
+      "url": "/assets/sfx/vox/t0-select-vael-1-vox2.mp3",
+      "duration": 1.3862291666666666,
+      "peak": 0.5801997780799866,
+      "rms": 0.12930262677528861
+    },
+    {
+      "url": "/assets/sfx/vox/t0-select-vael-2-vox2.mp3",
+      "duration": 1.6947708333333333,
+      "peak": 0.628287136554718,
+      "rms": 0.1233702239069018
+    },
+    {
+      "url": "/assets/sfx/vox/t0-select-vael-3-vox2.mp3",
+      "duration": 2.0267291666666667,
+      "peak": 0.5635368824005127,
+      "rms": 0.12443232153925839
+    },
+    {
+      "url": "/assets/sfx/vox/t1-select-tor-1-vox2.mp3",
+      "duration": 1.8104583333333333,
+      "peak": 0.518280029296875,
+      "rms": 0.12097957382414018
+    },
+    {
+      "url": "/assets/sfx/vox/t1-select-tor-2-vox2.mp3",
+      "duration": 2.1974375,
+      "peak": 0.5532640814781189,
+      "rms": 0.12030098627834623
+    },
+    {
+      "url": "/assets/sfx/vox/t1-select-tor-3-vox2.mp3",
+      "duration": 1.6810208333333334,
+      "peak": 0.5651106834411621,
+      "rms": 0.12444072373864334
+    },
+    {
+      "url": "/assets/sfx/vox/t2-select-cael-1-vox2.mp3",
+      "duration": 1.8433125,
+      "peak": 0.526070773601532,
+      "rms": 0.12381841294485552
+    },
+    {
+      "url": "/assets/sfx/vox/t2-select-cael-2-vox2.mp3",
+      "duration": 2.274625,
+      "peak": 0.6045743227005005,
+      "rms": 0.12106752452032511
+    },
+    {
+      "url": "/assets/sfx/vox/t2-select-cael-3-vox2.mp3",
+      "duration": 1.7018958333333334,
+      "peak": 0.5524053573608398,
+      "rms": 0.12364459669932809
+    },
+    {
+      "url": "/assets/sfx/vox/t3-select-brann-1-vox2.mp3",
+      "duration": 1.6582916666666667,
+      "peak": 0.5058038234710693,
+      "rms": 0.12551563076600003
+    },
+    {
+      "url": "/assets/sfx/vox/t3-select-brann-2-vox2.mp3",
+      "duration": 1.8613958333333334,
+      "peak": 0.5108185410499573,
+      "rms": 0.12349092694111971
+    },
+    {
+      "url": "/assets/sfx/vox/t3-select-brann-3-vox2.mp3",
+      "duration": 1.747875,
+      "peak": 0.5176087021827698,
+      "rms": 0.1311079226129749
+    },
+    {
+      "url": "/assets/sfx/vox/t0-ack-move-1-vox2.mp3",
+      "duration": 1.1563125,
+      "peak": 0.5624927282333374,
+      "rms": 0.12537067534143564
+    },
+    {
+      "url": "/assets/sfx/vox/t1-ack-move-1-vox2.mp3",
+      "duration": 1.1662708333333334,
+      "peak": 0.5588933229446411,
+      "rms": 0.12017185791064817
+    },
+    {
+      "url": "/assets/sfx/vox/t2-ack-move-1-vox2.mp3",
+      "duration": 1.1508541666666667,
+      "peak": 0.6315455436706543,
+      "rms": 0.13155603813751626
+    },
+    {
+      "url": "/assets/sfx/vox/t3-ack-move-1-vox2.mp3",
+      "duration": 1.1597291666666667,
+      "peak": 0.6551902890205383,
+      "rms": 0.12158889082390589
+    },
+    {
+      "url": "/assets/sfx/vox/command-ack-move-1-vox2.mp3",
+      "duration": 1.1580625,
+      "peak": 0.6650447249412537,
+      "rms": 0.12417025247395644
+    },
+    {
+      "url": "/assets/sfx/vox/t0-ack-move-2-vox2.mp3",
+      "duration": 1.7246666666666666,
+      "peak": 0.5862605571746826,
+      "rms": 0.12185881068587535
+    },
+    {
+      "url": "/assets/sfx/vox/t1-ack-move-2-vox2.mp3",
+      "duration": 1.7529791666666668,
+      "peak": 0.5244618654251099,
+      "rms": 0.12045079730997119
+    },
+    {
+      "url": "/assets/sfx/vox/t2-ack-move-2-vox2.mp3",
+      "duration": 1.72375,
+      "peak": 0.5878494381904602,
+      "rms": 0.12061319730308599
+    },
+    {
+      "url": "/assets/sfx/vox/t3-ack-move-2-vox2.mp3",
+      "duration": 1.752,
+      "peak": 0.5288615226745605,
+      "rms": 0.12109520834513439
+    },
+    {
+      "url": "/assets/sfx/vox/command-ack-move-2-vox2.mp3",
+      "duration": 1.7250625,
+      "peak": 0.5666707158088684,
+      "rms": 0.11957076549064735
+    },
+    {
+      "url": "/assets/sfx/vox/t0-ack-fire-1-vox2.mp3",
+      "duration": 1.90425,
+      "peak": 0.503450870513916,
+      "rms": 0.12535421165927238
+    },
+    {
+      "url": "/assets/sfx/vox/t1-ack-fire-1-vox2.mp3",
+      "duration": 1.9209791666666667,
+      "peak": 0.49346980452537537,
+      "rms": 0.123668060496578
+    },
+    {
+      "url": "/assets/sfx/vox/t2-ack-fire-1-vox2.mp3",
+      "duration": 1.8981458333333334,
+      "peak": 0.5417855381965637,
+      "rms": 0.1223264814806174
+    },
+    {
+      "url": "/assets/sfx/vox/t3-ack-fire-1-vox2.mp3",
+      "duration": 1.9265208333333332,
+      "peak": 0.48725277185440063,
+      "rms": 0.12382233599707752
+    },
+    {
+      "url": "/assets/sfx/vox/command-ack-fire-1-vox2.mp3",
+      "duration": 1.8900833333333333,
+      "peak": 0.5094287395477295,
+      "rms": 0.12474584006594755
+    },
+    {
+      "url": "/assets/sfx/vox/t0-ack-fire-2-vox2.mp3",
+      "duration": 1.3284166666666666,
+      "peak": 0.5995231866836548,
+      "rms": 0.11440493700827778
+    },
+    {
+      "url": "/assets/sfx/vox/t1-ack-fire-2-vox2.mp3",
+      "duration": 1.3457916666666667,
+      "peak": 0.5952852964401245,
+      "rms": 0.11481749375063202
+    },
+    {
+      "url": "/assets/sfx/vox/t2-ack-fire-2-vox2.mp3",
+      "duration": 1.3289166666666667,
+      "peak": 0.5910258889198303,
+      "rms": 0.11055896654504975
+    },
+    {
+      "url": "/assets/sfx/vox/t3-ack-fire-2-vox2.mp3",
+      "duration": 1.3406458333333333,
+      "peak": 0.581021785736084,
+      "rms": 0.11532281183291293
+    },
+    {
+      "url": "/assets/sfx/vox/command-ack-fire-2-vox2.mp3",
+      "duration": 1.3288125,
+      "peak": 0.6318085789680481,
+      "rms": 0.11407951948324048
+    },
+    {
+      "url": "/assets/sfx/vox/t0-ack-guard-1-vox2.mp3",
+      "duration": 1.6295,
+      "peak": 0.5630972385406494,
+      "rms": 0.11963232087392935
+    },
+    {
+      "url": "/assets/sfx/vox/t1-ack-guard-1-vox2.mp3",
+      "duration": 1.6518333333333333,
+      "peak": 0.508242130279541,
+      "rms": 0.12258233038231559
+    },
+    {
+      "url": "/assets/sfx/vox/t2-ack-guard-1-vox2.mp3",
+      "duration": 1.6311041666666666,
+      "peak": 0.582429826259613,
+      "rms": 0.12230007941061016
+    },
+    {
+      "url": "/assets/sfx/vox/t3-ack-guard-1-vox2.mp3",
+      "duration": 1.6470625,
+      "peak": 0.5573620200157166,
+      "rms": 0.1229953305488783
+    },
+    {
+      "url": "/assets/sfx/vox/command-ack-guard-1-vox2.mp3",
+      "duration": 1.6315625,
+      "peak": 0.5464022755622864,
+      "rms": 0.12164484389572308
+    },
+    {
+      "url": "/assets/sfx/vox/t0-ack-guard-2-vox2.mp3",
+      "duration": 1.8799166666666667,
+      "peak": 0.49646902084350586,
+      "rms": 0.12353182080239762
+    },
+    {
+      "url": "/assets/sfx/vox/t1-ack-guard-2-vox2.mp3",
+      "duration": 1.9094375,
+      "peak": 0.49566346406936646,
+      "rms": 0.12327810036152044
+    },
+    {
+      "url": "/assets/sfx/vox/t2-ack-guard-2-vox2.mp3",
+      "duration": 1.8823333333333334,
+      "peak": 0.5234203934669495,
+      "rms": 0.12413914367066842
+    },
+    {
+      "url": "/assets/sfx/vox/t3-ack-guard-2-vox2.mp3",
+      "duration": 1.8995208333333333,
+      "peak": 0.49119308590888977,
+      "rms": 0.12219554550648243
+    },
+    {
+      "url": "/assets/sfx/vox/command-ack-guard-2-vox2.mp3",
+      "duration": 1.873625,
+      "peak": 0.5116624236106873,
+      "rms": 0.12115372095606507
+    },
+    {
+      "url": "/assets/sfx/vox/t0-ack-scan-1-vox2.mp3",
+      "duration": 1.8675625,
+      "peak": 0.6346923112869263,
+      "rms": 0.12142285471422956
+    },
+    {
+      "url": "/assets/sfx/vox/t1-ack-scan-1-vox2.mp3",
+      "duration": 1.8912083333333334,
+      "peak": 0.627324104309082,
+      "rms": 0.12163983593221805
+    },
+    {
+      "url": "/assets/sfx/vox/t2-ack-scan-1-vox2.mp3",
+      "duration": 1.8600416666666666,
+      "peak": 0.6340232491493225,
+      "rms": 0.1212478814690126
+    },
+    {
+      "url": "/assets/sfx/vox/t3-ack-scan-1-vox2.mp3",
+      "duration": 1.8887083333333334,
+      "peak": 0.6234801411628723,
+      "rms": 0.12049832072712231
+    },
+    {
+      "url": "/assets/sfx/vox/command-ack-scan-1-vox2.mp3",
+      "duration": 1.8614375,
+      "peak": 0.6611291766166687,
+      "rms": 0.1215746294681477
+    },
+    {
+      "url": "/assets/sfx/vox/t0-ack-scan-2-vox2.mp3",
+      "duration": 2.0824583333333333,
+      "peak": 0.6116983294487,
+      "rms": 0.12029187356278119
+    },
+    {
+      "url": "/assets/sfx/vox/t1-ack-scan-2-vox2.mp3",
+      "duration": 2.108375,
+      "peak": 0.571332573890686,
+      "rms": 0.12314393990185535
+    },
+    {
+      "url": "/assets/sfx/vox/t2-ack-scan-2-vox2.mp3",
+      "duration": 2.078291666666667,
+      "peak": 0.6126580238342285,
+      "rms": 0.11980661592631214
+    },
+    {
+      "url": "/assets/sfx/vox/t3-ack-scan-2-vox2.mp3",
+      "duration": 2.1056666666666666,
+      "peak": 0.6246110200881958,
+      "rms": 0.11931543997287693
+    },
+    {
+      "url": "/assets/sfx/vox/command-ack-scan-2-vox2.mp3",
+      "duration": 2.082375,
+      "peak": 0.6319297552108765,
+      "rms": 0.11919094676186448
+    },
+    {
+      "url": "/assets/sfx/vox/t0-ack-interact-1-vox2.mp3",
+      "duration": 2.2823125,
+      "peak": 0.5841110348701477,
+      "rms": 0.1216520519232697
+    },
+    {
+      "url": "/assets/sfx/vox/t1-ack-interact-1-vox2.mp3",
+      "duration": 2.3131875,
+      "peak": 0.6367920637130737,
+      "rms": 0.11940057825303456
+    },
+    {
+      "url": "/assets/sfx/vox/t2-ack-interact-1-vox2.mp3",
+      "duration": 2.282625,
+      "peak": 0.5953707695007324,
+      "rms": 0.11905421008354501
+    },
+    {
+      "url": "/assets/sfx/vox/t3-ack-interact-1-vox2.mp3",
+      "duration": 2.3068541666666667,
+      "peak": 0.5918940305709839,
+      "rms": 0.12020497863355238
+    },
+    {
+      "url": "/assets/sfx/vox/command-ack-interact-1-vox2.mp3",
+      "duration": 2.283333333333333,
+      "peak": 0.6448580622673035,
+      "rms": 0.11902281352800877
+    },
+    {
+      "url": "/assets/sfx/vox/t0-ack-interact-2-vox2.mp3",
+      "duration": 1.7071041666666666,
+      "peak": 0.53317791223526,
+      "rms": 0.12142535642708065
+    },
+    {
+      "url": "/assets/sfx/vox/t1-ack-interact-2-vox2.mp3",
+      "duration": 1.7293541666666667,
+      "peak": 0.5600718259811401,
+      "rms": 0.1196005479409412
+    },
+    {
+      "url": "/assets/sfx/vox/t2-ack-interact-2-vox2.mp3",
+      "duration": 1.7049791666666667,
+      "peak": 0.5224630832672119,
+      "rms": 0.12111144166803106
+    },
+    {
+      "url": "/assets/sfx/vox/t3-ack-interact-2-vox2.mp3",
+      "duration": 1.729625,
+      "peak": 0.568543553352356,
+      "rms": 0.12418433136049065
+    },
+    {
+      "url": "/assets/sfx/vox/command-ack-interact-2-vox2.mp3",
+      "duration": 1.7073958333333332,
+      "peak": 0.5366466045379639,
+      "rms": 0.12033437531845817
+    },
+    {
+      "url": "/assets/sfx/vox/t0-execute-1-vox2.mp3",
+      "duration": 1.3107916666666666,
+      "peak": 0.6157931685447693,
+      "rms": 0.11382888996183083
+    },
+    {
+      "url": "/assets/sfx/vox/t1-execute-1-vox2.mp3",
+      "duration": 1.3175208333333333,
+      "peak": 0.6395597457885742,
+      "rms": 0.11589357396020074
+    },
+    {
+      "url": "/assets/sfx/vox/t2-execute-1-vox2.mp3",
+      "duration": 1.3065625,
+      "peak": 0.6468183994293213,
+      "rms": 0.11126490446705371
+    },
+    {
+      "url": "/assets/sfx/vox/t3-execute-1-vox2.mp3",
+      "duration": 1.321625,
+      "peak": 0.6492908000946045,
+      "rms": 0.11704571848625496
+    },
+    {
+      "url": "/assets/sfx/vox/command-execute-1-vox2.mp3",
+      "duration": 1.3005416666666667,
+      "peak": 0.6164607405662537,
+      "rms": 0.11027274137558543
+    },
+    {
+      "url": "/assets/sfx/vox/t0-execute-2-vox2.mp3",
+      "duration": 1.7678541666666667,
+      "peak": 0.6601232290267944,
+      "rms": 0.12048548794470623
+    },
+    {
+      "url": "/assets/sfx/vox/t1-execute-2-vox2.mp3",
+      "duration": 1.7870208333333333,
+      "peak": 0.5889236927032471,
+      "rms": 0.12099528022318283
+    },
+    {
+      "url": "/assets/sfx/vox/t2-execute-2-vox2.mp3",
+      "duration": 1.7581041666666666,
+      "peak": 0.620975136756897,
+      "rms": 0.12139610588063117
+    },
+    {
+      "url": "/assets/sfx/vox/t3-execute-2-vox2.mp3",
+      "duration": 1.7905416666666667,
+      "peak": 0.6999332904815674,
+      "rms": 0.12467114276969324
+    },
+    {
+      "url": "/assets/sfx/vox/command-execute-2-vox2.mp3",
+      "duration": 1.7694375,
+      "peak": 0.6732539534568787,
+      "rms": 0.12008324854871212
+    },
+    {
+      "url": "/assets/sfx/vox/t0-moving-vox2.mp3",
+      "duration": 1.6162708333333333,
+      "peak": 0.5815349817276001,
+      "rms": 0.12155736496833884
+    },
+    {
+      "url": "/assets/sfx/vox/t1-moving-vox2.mp3",
+      "duration": 1.6423333333333334,
+      "peak": 0.5708966255187988,
+      "rms": 0.12657135766824185
+    },
+    {
+      "url": "/assets/sfx/vox/t2-moving-vox2.mp3",
+      "duration": 1.6153541666666666,
+      "peak": 0.5193467736244202,
+      "rms": 0.1209053671870147
+    },
+    {
+      "url": "/assets/sfx/vox/t3-moving-vox2.mp3",
+      "duration": 1.6386041666666666,
+      "peak": 0.5436514616012573,
+      "rms": 0.1261329412677837
+    },
+    {
+      "url": "/assets/sfx/vox/command-moving-vox2.mp3",
+      "duration": 1.6181666666666668,
+      "peak": 0.5663172602653503,
+      "rms": 0.1205999150089058
+    },
+    {
+      "url": "/assets/sfx/vox/t0-firing-vox2.mp3",
+      "duration": 1.7376875,
+      "peak": 0.5391815900802612,
+      "rms": 0.11734513842370335
+    },
+    {
+      "url": "/assets/sfx/vox/t1-firing-vox2.mp3",
+      "duration": 1.7624583333333332,
+      "peak": 0.5115722417831421,
+      "rms": 0.11784897859118167
+    },
+    {
+      "url": "/assets/sfx/vox/t2-firing-vox2.mp3",
+      "duration": 1.734875,
+      "peak": 0.6050834655761719,
+      "rms": 0.11561340332473173
+    },
+    {
+      "url": "/assets/sfx/vox/t3-firing-vox2.mp3",
+      "duration": 1.760875,
+      "peak": 0.5369783639907837,
+      "rms": 0.11677588098458172
+    },
+    {
+      "url": "/assets/sfx/vox/command-firing-vox2.mp3",
+      "duration": 1.73925,
+      "peak": 0.5200531482696533,
+      "rms": 0.11635777186913425
+    },
+    {
+      "url": "/assets/sfx/vox/t0-scanning-vox2.mp3",
+      "duration": 2.2050625,
+      "peak": 0.5268247127532959,
+      "rms": 0.1243864909440488
+    },
+    {
+      "url": "/assets/sfx/vox/t1-scanning-vox2.mp3",
+      "duration": 2.228083333333333,
+      "peak": 0.5255739688873291,
+      "rms": 0.12536045782276117
+    },
+    {
+      "url": "/assets/sfx/vox/t2-scanning-vox2.mp3",
+      "duration": 2.1961041666666667,
+      "peak": 0.5454936027526855,
+      "rms": 0.12331811840856056
+    },
+    {
+      "url": "/assets/sfx/vox/t3-scanning-vox2.mp3",
+      "duration": 2.226916666666667,
+      "peak": 0.5342507362365723,
+      "rms": 0.1256087037394062
+    },
+    {
+      "url": "/assets/sfx/vox/command-scanning-vox2.mp3",
+      "duration": 2.2034166666666666,
+      "peak": 0.5177599191665649,
+      "rms": 0.12362288119469744
+    },
+    {
+      "url": "/assets/sfx/vox/t0-working-vox2.mp3",
+      "duration": 1.9113125,
+      "peak": 0.5528551936149597,
+      "rms": 0.1218955736360919
+    },
+    {
+      "url": "/assets/sfx/vox/t1-working-vox2.mp3",
+      "duration": 1.9401875,
+      "peak": 0.5628427267074585,
+      "rms": 0.12106090289478
+    },
+    {
+      "url": "/assets/sfx/vox/t2-working-vox2.mp3",
+      "duration": 1.9110416666666667,
+      "peak": 0.5558119416236877,
+      "rms": 0.11951932981788801
+    },
+    {
+      "url": "/assets/sfx/vox/t3-working-vox2.mp3",
+      "duration": 1.9330208333333334,
+      "peak": 0.6033966541290283,
+      "rms": 0.12207348663306501
+    },
+    {
+      "url": "/assets/sfx/vox/command-working-vox2.mp3",
+      "duration": 1.906625,
+      "peak": 0.5899113416671753,
+      "rms": 0.11842250364008328
+    },
+    {
+      "url": "/assets/sfx/vox/t0-guarding-vox2.mp3",
+      "duration": 2.1115833333333334,
+      "peak": 0.6241426467895508,
+      "rms": 0.11498472857429075
+    },
+    {
+      "url": "/assets/sfx/vox/t1-guarding-vox2.mp3",
+      "duration": 2.1353541666666667,
+      "peak": 0.6406771540641785,
+      "rms": 0.12012651624086813
+    },
+    {
+      "url": "/assets/sfx/vox/t2-guarding-vox2.mp3",
+      "duration": 2.108604166666667,
+      "peak": 0.5982638001441956,
+      "rms": 0.11701126544142541
+    },
+    {
+      "url": "/assets/sfx/vox/t3-guarding-vox2.mp3",
+      "duration": 2.1348125,
+      "peak": 0.6347488760948181,
+      "rms": 0.11562405340528648
+    },
+    {
+      "url": "/assets/sfx/vox/command-guarding-vox2.mp3",
+      "duration": 2.1105625,
+      "peak": 0.6119139790534973,
+      "rms": 0.11397491681519392
+    },
+    {
+      "url": "/assets/sfx/vox/t0-door-open-vox2.mp3",
+      "duration": 1.2601875,
+      "peak": 0.5454187989234924,
+      "rms": 0.11836044382778231
+    },
+    {
+      "url": "/assets/sfx/vox/t1-door-open-vox2.mp3",
+      "duration": 1.2804375,
+      "peak": 0.5506324768066406,
+      "rms": 0.11849716584013249
+    },
+    {
+      "url": "/assets/sfx/vox/t2-door-open-vox2.mp3",
+      "duration": 1.2632083333333333,
+      "peak": 0.5590353012084961,
+      "rms": 0.11705637902391948
+    },
+    {
+      "url": "/assets/sfx/vox/t3-door-open-vox2.mp3",
+      "duration": 1.2706666666666666,
+      "peak": 0.5889126658439636,
+      "rms": 0.11856794806823567
+    },
+    {
+      "url": "/assets/sfx/vox/command-door-open-vox2.mp3",
+      "duration": 1.2655416666666666,
+      "peak": 0.5804212689399719,
+      "rms": 0.11616370618924415
+    },
+    {
+      "url": "/assets/sfx/vox/t0-door-closed-vox2.mp3",
+      "duration": 1.3761875,
+      "peak": 0.5442982912063599,
+      "rms": 0.11177085636194947
+    },
+    {
+      "url": "/assets/sfx/vox/t1-door-closed-vox2.mp3",
+      "duration": 1.4012291666666667,
+      "peak": 0.5940790772438049,
+      "rms": 0.11650332135970083
+    },
+    {
+      "url": "/assets/sfx/vox/t2-door-closed-vox2.mp3",
+      "duration": 1.3735208333333333,
+      "peak": 0.589912474155426,
+      "rms": 0.11609530743631871
+    },
+    {
+      "url": "/assets/sfx/vox/t3-door-closed-vox2.mp3",
+      "duration": 1.3966041666666666,
+      "peak": 0.5430436730384827,
+      "rms": 0.11604340062964918
+    },
+    {
+      "url": "/assets/sfx/vox/command-door-closed-vox2.mp3",
+      "duration": 1.3741041666666667,
+      "peak": 0.5143775343894958,
+      "rms": 0.10978874581744771
+    },
+    {
+      "url": "/assets/sfx/vox/t0-secured-vox2.mp3",
+      "duration": 2.1083125,
+      "peak": 0.5454897284507751,
+      "rms": 0.1264473329274043
+    },
+    {
+      "url": "/assets/sfx/vox/t1-secured-vox2.mp3",
+      "duration": 2.1419166666666665,
+      "peak": 0.5355639457702637,
+      "rms": 0.12754861013459215
+    },
+    {
+      "url": "/assets/sfx/vox/t2-secured-vox2.mp3",
+      "duration": 2.1075,
+      "peak": 0.5466772317886353,
+      "rms": 0.12372290391327366
+    },
+    {
+      "url": "/assets/sfx/vox/t3-secured-vox2.mp3",
+      "duration": 2.1311458333333335,
+      "peak": 0.5112500786781311,
+      "rms": 0.12760660872170826
+    },
+    {
+      "url": "/assets/sfx/vox/command-secured-vox2.mp3",
+      "duration": 2.1049583333333333,
+      "peak": 0.5911548137664795,
+      "rms": 0.12315646941848335
+    },
+    {
+      "url": "/assets/sfx/vox/t0-blocked-vox2.mp3",
+      "duration": 1.6329791666666666,
+      "peak": 0.5731020569801331,
+      "rms": 0.11793753683593931
+    },
+    {
+      "url": "/assets/sfx/vox/t1-blocked-vox2.mp3",
+      "duration": 1.67,
+      "peak": 0.5317827463150024,
+      "rms": 0.11635446141613968
+    },
+    {
+      "url": "/assets/sfx/vox/t2-blocked-vox2.mp3",
+      "duration": 1.6432708333333332,
+      "peak": 0.5929004549980164,
+      "rms": 0.11600051182920376
+    },
+    {
+      "url": "/assets/sfx/vox/t3-blocked-vox2.mp3",
+      "duration": 1.6654166666666668,
+      "peak": 0.5138086080551147,
+      "rms": 0.11755888976027196
+    },
+    {
+      "url": "/assets/sfx/vox/command-blocked-vox2.mp3",
+      "duration": 1.6528541666666667,
+      "peak": 0.5993853211402893,
+      "rms": 0.11572830955075919
+    },
+    {
+      "url": "/assets/sfx/vox/t0-contact-vox2.mp3",
+      "duration": 2.267125,
+      "peak": 0.5033202171325684,
+      "rms": 0.12826914569500159
+    },
+    {
+      "url": "/assets/sfx/vox/t1-contact-vox2.mp3",
+      "duration": 2.2963125,
+      "peak": 0.5034970045089722,
+      "rms": 0.12783345181751804
+    },
+    {
+      "url": "/assets/sfx/vox/t2-contact-vox2.mp3",
+      "duration": 2.2612916666666667,
+      "peak": 0.5032835602760315,
+      "rms": 0.12619011460511922
+    },
+    {
+      "url": "/assets/sfx/vox/t3-contact-vox2.mp3",
+      "duration": 2.2899166666666666,
+      "peak": 0.5417234301567078,
+      "rms": 0.1289581522202714
+    },
+    {
+      "url": "/assets/sfx/vox/command-contact-vox2.mp3",
+      "duration": 2.264,
+      "peak": 0.5087628364562988,
+      "rms": 0.1269533534914346
+    },
+    {
+      "url": "/assets/sfx/vox/t0-hurt-vox2.mp3",
+      "duration": 2.3052916666666667,
+      "peak": 0.673436164855957,
+      "rms": 0.11521088309319397
+    },
+    {
+      "url": "/assets/sfx/vox/t1-hurt-vox2.mp3",
+      "duration": 2.329875,
+      "peak": 0.6255849003791809,
+      "rms": 0.11566626218450457
+    },
+    {
+      "url": "/assets/sfx/vox/t2-hurt-vox2.mp3",
+      "duration": 2.3007916666666666,
+      "peak": 0.5703976154327393,
+      "rms": 0.1134921165295716
+    },
+    {
+      "url": "/assets/sfx/vox/t3-hurt-vox2.mp3",
+      "duration": 2.3275208333333333,
+      "peak": 0.6208573579788208,
+      "rms": 0.1147432028902905
+    },
+    {
+      "url": "/assets/sfx/vox/command-hurt-vox2.mp3",
+      "duration": 2.300666666666667,
+      "peak": 0.6481422185897827,
+      "rms": 0.11322704793808087
+    },
+    {
+      "url": "/assets/sfx/vox/t0-kill-vox2.mp3",
+      "duration": 1.6202291666666666,
+      "peak": 0.5249366760253906,
+      "rms": 0.12356217631203437
+    },
+    {
+      "url": "/assets/sfx/vox/t1-kill-vox2.mp3",
+      "duration": 1.6373958333333334,
+      "peak": 0.538249671459198,
+      "rms": 0.12431697735821014
+    },
+    {
+      "url": "/assets/sfx/vox/t2-kill-vox2.mp3",
+      "duration": 1.6198541666666666,
+      "peak": 0.5408435463905334,
+      "rms": 0.12404639160897925
+    },
+    {
+      "url": "/assets/sfx/vox/t3-kill-vox2.mp3",
+      "duration": 1.6347291666666666,
+      "peak": 0.5494229793548584,
+      "rms": 0.12560780084145212
+    },
+    {
+      "url": "/assets/sfx/vox/command-kill-vox2.mp3",
+      "duration": 1.6169583333333333,
+      "peak": 0.5412359237670898,
+      "rms": 0.121403285192034
+    },
+    {
+      "url": "/assets/sfx/vox/t0-fallen-vox2.mp3",
+      "duration": 1.446125,
+      "peak": 0.565733015537262,
+      "rms": 0.11847362150328762
+    },
+    {
+      "url": "/assets/sfx/vox/t1-fallen-vox2.mp3",
+      "duration": 1.4584583333333334,
+      "peak": 0.5461182594299316,
+      "rms": 0.12374524669353175
+    },
+    {
+      "url": "/assets/sfx/vox/t2-fallen-vox2.mp3",
+      "duration": 1.4439583333333332,
+      "peak": 0.5616883039474487,
+      "rms": 0.11667985439507209
+    },
+    {
+      "url": "/assets/sfx/vox/t3-fallen-vox2.mp3",
+      "duration": 1.4638541666666667,
+      "peak": 0.5455132126808167,
+      "rms": 0.1220804992357182
+    },
+    {
+      "url": "/assets/sfx/vox/command-fallen-vox2.mp3",
+      "duration": 1.4449583333333333,
+      "peak": 0.5485325455665588,
+      "rms": 0.11537569704641282
+    },
+    {
+      "url": "/assets/sfx/vox/t0-recon-done-vox2.mp3",
+      "duration": 1.7004166666666667,
+      "peak": 0.4506370425224304,
+      "rms": 0.12185654330528883
+    },
+    {
+      "url": "/assets/sfx/vox/t1-recon-done-vox2.mp3",
+      "duration": 1.7230625,
+      "peak": 0.4767686426639557,
+      "rms": 0.12242678091768021
+    },
+    {
+      "url": "/assets/sfx/vox/t2-recon-done-vox2.mp3",
+      "duration": 1.698,
+      "peak": 0.47953739762306213,
+      "rms": 0.1202536757851657
+    },
+    {
+      "url": "/assets/sfx/vox/t3-recon-done-vox2.mp3",
+      "duration": 1.7210208333333334,
+      "peak": 0.5143847465515137,
+      "rms": 0.12249943131071865
+    },
+    {
+      "url": "/assets/sfx/vox/command-recon-done-vox2.mp3",
+      "duration": 1.6996041666666666,
+      "peak": 0.511699378490448,
+      "rms": 0.12059071162563827
+    },
+    {
+      "url": "/assets/sfx/vox/t0-victory-vox2.mp3",
+      "duration": 2.10125,
+      "peak": 0.48494601249694824,
+      "rms": 0.12456500106167619
+    },
+    {
+      "url": "/assets/sfx/vox/t1-victory-vox2.mp3",
+      "duration": 2.1251875,
+      "peak": 0.5274479985237122,
+      "rms": 0.125625331122013
+    },
+    {
+      "url": "/assets/sfx/vox/t2-victory-vox2.mp3",
+      "duration": 2.0939375,
+      "peak": 0.5187644362449646,
+      "rms": 0.12356659914077528
+    },
+    {
+      "url": "/assets/sfx/vox/t3-victory-vox2.mp3",
+      "duration": 2.12325,
+      "peak": 0.5418381690979004,
+      "rms": 0.12552468708908113
+    },
+    {
+      "url": "/assets/sfx/vox/command-victory-vox2.mp3",
+      "duration": 2.1010625,
+      "peak": 0.4999409019947052,
+      "rms": 0.12226143366939013
+    },
+    {
+      "url": "/assets/sfx/vox/t0-defeat-vox2.mp3",
+      "duration": 2.6868958333333333,
+      "peak": 0.6464170813560486,
+      "rms": 0.12485389730022266
+    },
+    {
+      "url": "/assets/sfx/vox/t1-defeat-vox2.mp3",
+      "duration": 2.7249791666666665,
+      "peak": 0.5700129270553589,
+      "rms": 0.12469879602185119
+    },
+    {
+      "url": "/assets/sfx/vox/t2-defeat-vox2.mp3",
+      "duration": 2.6835,
+      "peak": 0.6745151877403259,
+      "rms": 0.1260450148064134
+    },
+    {
+      "url": "/assets/sfx/vox/t3-defeat-vox2.mp3",
+      "duration": 2.714375,
+      "peak": 0.6299007534980774,
+      "rms": 0.12604891273674704
+    },
+    {
+      "url": "/assets/sfx/vox/command-defeat-vox2.mp3",
+      "duration": 2.6850625,
+      "peak": 0.6121997833251953,
+      "rms": 0.12442456659809237
+    },
+    {
+      "url": "/assets/sfx/vox/t0-cancel-vox2.mp3",
+      "duration": 1.46975,
+      "peak": 0.5453025102615356,
+      "rms": 0.1209190345721128
+    },
+    {
+      "url": "/assets/sfx/vox/t1-cancel-vox2.mp3",
+      "duration": 1.4801875,
+      "peak": 0.5027630925178528,
+      "rms": 0.12216863713681475
+    },
+    {
+      "url": "/assets/sfx/vox/t2-cancel-vox2.mp3",
+      "duration": 1.466,
+      "peak": 0.5422829985618591,
+      "rms": 0.12290632351788537
+    },
+    {
+      "url": "/assets/sfx/vox/t3-cancel-vox2.mp3",
+      "duration": 1.4813958333333332,
+      "peak": 0.5086177587509155,
+      "rms": 0.12105277172395193
+    },
+    {
+      "url": "/assets/sfx/vox/command-cancel-vox2.mp3",
+      "duration": 1.4698333333333333,
+      "peak": 0.5261090993881226,
+      "rms": 0.11924412865605126
+    },
+    {
+      "url": "/assets/sfx/vox/t0-invalid-vox2.mp3",
+      "duration": 2.0324375,
+      "peak": 0.5676896572113037,
+      "rms": 0.12107881007647145
+    },
+    {
+      "url": "/assets/sfx/vox/t1-invalid-vox2.mp3",
+      "duration": 2.0606875,
+      "peak": 0.5605846047401428,
+      "rms": 0.12111634229371562
+    },
+    {
+      "url": "/assets/sfx/vox/t2-invalid-vox2.mp3",
+      "duration": 2.0349166666666667,
+      "peak": 0.5440567135810852,
+      "rms": 0.12023786184367924
+    },
+    {
+      "url": "/assets/sfx/vox/t3-invalid-vox2.mp3",
+      "duration": 2.0555625,
+      "peak": 0.5600247383117676,
+      "rms": 0.12053848187554055
+    },
+    {
+      "url": "/assets/sfx/vox/command-invalid-vox2.mp3",
+      "duration": 2.0314375,
+      "peak": 0.557244598865509,
+      "rms": 0.11891776386994982
+    },
+    {
+      "url": "/assets/sfx/vox/nightlords-nl-taunt-1-chaos-vox3.mp3",
+      "duration": 1.65475,
+      "peak": 0.5217177271842957,
+      "rms": 0.1142058099765089
+    },
+    {
+      "url": "/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+      "duration": 2.3315,
+      "peak": 0.5411227345466614,
+      "rms": 0.12047779304601937
+    },
+    {
+      "url": "/assets/sfx/vox/nightlords-nl-attack-1-chaos-vox3.mp3",
+      "duration": 2.091083333333333,
+      "peak": 0.4970361590385437,
+      "rms": 0.10851801893129544
+    },
+    {
+      "url": "/assets/sfx/vox/nightlords-nl-attack-2-chaos-vox3.mp3",
+      "duration": 2.042333333333333,
+      "peak": 0.47192224860191345,
+      "rms": 0.11519173004566616
+    },
+    {
+      "url": "/assets/sfx/vox/nightlords-nl-hurt-1-chaos-vox3.mp3",
+      "duration": 1.9092083333333334,
+      "peak": 0.4724661707878113,
+      "rms": 0.10360020023946823
+    },
+    {
+      "url": "/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+      "duration": 2.366791666666667,
+      "peak": 0.5435522198677063,
+      "rms": 0.11383397904818716
+    },
+    {
+      "url": "/assets/sfx/vox/nightlords-nl-attack-growl-chaos-vox3.mp3",
+      "duration": 2.0010416666666666,
+      "peak": 0.4412744641304016,
+      "rms": 0.1084090771710828
+    },
+    {
+      "url": "/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+      "duration": 2.50775,
+      "peak": 0.43445658683776855,
+      "rms": 0.11123207844801217
+    }
+  ],
+  "played": [
+    "select-vael-1",
+    "select-vael-2",
+    "select-vael-3",
+    "select-tor-2",
+    "select-tor-3",
+    "select-tor-1",
+    "select-cael-3",
+    "select-cael-1",
+    "select-cael-2",
+    "select-brann-1",
+    "select-brann-2",
+    "select-brann-3",
+    "ack-move-1",
+    "ack-move-2",
+    "ack-fire-1",
+    "ack-fire-2",
+    "ack-guard-1",
+    "ack-guard-2",
+    "ack-scan-1",
+    "ack-scan-2",
+    "ack-interact-1",
+    "ack-interact-2",
+    "execute-1",
+    "execute-2",
+    "moving",
+    "firing",
+    "scanning",
+    "working",
+    "guarding",
+    "door-open",
+    "door-closed",
+    "secured",
+    "blocked",
+    "contact",
+    "hurt",
+    "kill",
+    "fallen",
+    "recon-done",
+    "victory",
+    "defeat",
+    "cancel",
+    "invalid",
+    "nl-taunt-1",
+    "nl-taunt-2",
+    "nl-attack-1",
+    "nl-attack-2",
+    "nl-hurt-1",
+    "nl-death-1",
+    "nl-attack-growl",
+    "nl-death-growl"
+  ],
+  "privacy": {
+    "active": null,
+    "pending": []
+  },
+  "vanished": {
+    "active": null
+  },
+  "witnessedDeath": {
+    "active": {
+      "unit": "n0",
+      "event": "nl-death",
+      "line": "nl-death-1",
+      "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+      "time": 0.064,
+      "paused": false,
+      "ready": 4
+    }
+  },
+  "final": {
+    "radio": {
+      "active": null,
+      "caption": null,
+      "pending": [],
+      "gain": 0.699999988079071,
+      "maxConcurrent": 1,
+      "history": [
+        {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-select-vael-1-vox2.mp3",
+          "time": 807.5,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-select-vael-2-vox2.mp3",
+          "time": 1046,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-3",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-select-vael-3-vox2.mp3",
+          "time": 1285.6000000238419,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t1",
+          "event": "select",
+          "line": "select-tor-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-select-tor-2-vox2.mp3",
+          "time": 1526.5,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t1",
+          "event": "select",
+          "line": "select-tor-3",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-select-tor-3-vox2.mp3",
+          "time": 1765.7000000178814,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t1",
+          "event": "select",
+          "line": "select-tor-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-select-tor-1-vox2.mp3",
+          "time": 2005.9000000059605,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t2",
+          "event": "select",
+          "line": "select-cael-3",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-select-cael-3-vox2.mp3",
+          "time": 2245.9000000059605,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t2",
+          "event": "select",
+          "line": "select-cael-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-select-cael-1-vox2.mp3",
+          "time": 2485.600000023842,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t2",
+          "event": "select",
+          "line": "select-cael-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-select-cael-2-vox2.mp3",
+          "time": 2726.600000023842,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "select",
+          "line": "select-brann-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-select-brann-1-vox2.mp3",
+          "time": 2965.4000000059605,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "select",
+          "line": "select-brann-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-select-brann-2-vox2.mp3",
+          "time": 3205.7000000178814,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "select",
+          "line": "select-brann-3",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-select-brann-3-vox2.mp3",
+          "time": 3445.7000000178814,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "ack-move",
+          "line": "ack-move-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-ack-move-1-vox2.mp3",
+          "time": 3685.4000000059605,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "ack-move",
+          "line": "ack-move-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-ack-move-2-vox2.mp3",
+          "time": 3926.2000000178814,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "ack-fire",
+          "line": "ack-fire-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-ack-fire-1-vox2.mp3",
+          "time": 4165.9000000059605,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "ack-fire",
+          "line": "ack-fire-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-ack-fire-2-vox2.mp3",
+          "time": 4406.700000017881,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "ack-guard",
+          "line": "ack-guard-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-ack-guard-1-vox2.mp3",
+          "time": 4645.800000011921,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "ack-guard",
+          "line": "ack-guard-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-ack-guard-2-vox2.mp3",
+          "time": 4845.9000000059605,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "ack-scan",
+          "line": "ack-scan-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-ack-scan-1-vox2.mp3",
+          "time": 5086.100000023842,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "ack-scan",
+          "line": "ack-scan-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-ack-scan-2-vox2.mp3",
+          "time": 5326.100000023842,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "ack-interact",
+          "line": "ack-interact-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-ack-interact-1-vox2.mp3",
+          "time": 5565.5,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "ack-interact",
+          "line": "ack-interact-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-ack-interact-2-vox2.mp3",
+          "time": 5765.9000000059605,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-execute-1-vox2.mp3",
+          "time": 6007.300000011921,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-execute-2-vox2.mp3",
+          "time": 6245.4000000059605,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+          "time": 6485.800000011921,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "firing",
+          "line": "firing",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-firing-vox2.mp3",
+          "time": 6726.4000000059605,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "scanning",
+          "line": "scanning",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-scanning-vox2.mp3",
+          "time": 6965.700000017881,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "working",
+          "line": "working",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-working-vox2.mp3",
+          "time": 7206.100000023842,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "guarding",
+          "line": "guarding",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-guarding-vox2.mp3",
+          "time": 7446.200000017881,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "door-open",
+          "line": "door-open",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-door-open-vox2.mp3",
+          "time": 7685.600000023842,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "door-closed",
+          "line": "door-closed",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-door-closed-vox2.mp3",
+          "time": 7926.100000023842,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "secured",
+          "line": "secured",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-secured-vox2.mp3",
+          "time": 8165.4000000059605,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "blocked",
+          "line": "blocked",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-blocked-vox2.mp3",
+          "time": 8405.100000023842,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "contact",
+          "line": "contact",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+          "time": 8645.800000011921,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "hurt",
+          "line": "hurt",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-hurt-vox2.mp3",
+          "time": 8885.40000000596,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "kill",
+          "line": "kill",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+          "time": 9126.200000017881,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "fallen",
+          "line": "fallen",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-fallen-vox2.mp3",
+          "time": 9365.300000011921,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "recon-done",
+          "line": "recon-done",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-recon-done-vox2.mp3",
+          "time": 9606.200000017881,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "victory",
+          "line": "victory",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-victory-vox2.mp3",
+          "time": 9845.600000023842,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "defeat",
+          "line": "defeat",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-defeat-vox2.mp3",
+          "time": 10085.300000011921,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "cancel",
+          "line": "cancel",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-cancel-vox2.mp3",
+          "time": 10326.200000017881,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "invalid",
+          "line": "invalid",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-invalid-vox2.mp3",
+          "time": 10565.40000000596,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n0",
+          "event": "nl-taunt",
+          "line": "nl-taunt-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-1-chaos-vox3.mp3",
+          "time": 10806.40000000596,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n0",
+          "event": "nl-taunt",
+          "line": "nl-taunt-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+          "time": 11045.700000017881,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n0",
+          "event": "nl-attack",
+          "line": "nl-attack-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-attack-1-chaos-vox3.mp3",
+          "time": 11245.90000000596,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n0",
+          "event": "nl-attack",
+          "line": "nl-attack-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-attack-2-chaos-vox3.mp3",
+          "time": 11485.200000017881,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n0",
+          "event": "nl-hurt",
+          "line": "nl-hurt-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-hurt-1-chaos-vox3.mp3",
+          "time": 11726.100000023842,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n0",
+          "event": "nl-death",
+          "line": "nl-death-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+          "time": 11965.40000000596,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n0",
+          "event": "nl-attack",
+          "line": "nl-attack-growl",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-attack-growl-chaos-vox3.mp3",
+          "time": 12165.200000017881,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n0",
+          "event": "nl-death",
+          "line": "nl-death-growl",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+          "time": 12406.5,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n0",
+          "event": "nl-taunt",
+          "line": "nl-taunt-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-1-chaos-vox3.mp3",
+          "time": 12765.40000000596,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n0",
+          "event": "nl-death",
+          "line": "nl-death-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+          "time": 13045.800000011921,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-select-vael-1-vox2.mp3",
+          "time": 15565.300000011921,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t1",
+          "event": "fallen",
+          "line": "fallen",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-fallen-vox2.mp3",
+          "time": 15765.200000017881,
+          "status": "ended"
+        }
+      ],
+      "errors": []
+    },
+    "ducked": false
+  },
+  "errors": []
+}

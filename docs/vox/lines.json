@@ -1,44 +1,260 @@
 [
-  {"id":"select-vael-1","text":"Oui, commandant.","unit":"t0","event":"select"},
-  {"id":"select-vael-2","text":"J'écoute, commandant.","unit":"t0","event":"select"},
-  {"id":"select-vael-3","text":"Votre volonté sera faite.","unit":"t0","event":"select"},
-  {"id":"select-tor-1","text":"Prêt à faire mon devoir.","unit":"t1","event":"select"},
-  {"id":"select-tor-2","text":"Mon armure tient. Vos ordres ?","unit":"t1","event":"select"},
-  {"id":"select-tor-3","text":"Parlez, commandant.","unit":"t1","event":"select"},
-  {"id":"select-cael-1","text":"Canal ouvert, commandant.","unit":"t2","event":"select"},
-  {"id":"select-cael-2","text":"À l'écoute. Pour l'Empereur.","unit":"t2","event":"select"},
-  {"id":"select-cael-3","text":"Mes sens sont en éveil.","unit":"t2","event":"select"},
-  {"id":"select-brann-1","text":"Le devoir m'appelle.","unit":"t3","event":"select"},
-  {"id":"select-brann-2","text":"Toujours fidèle, commandant.","unit":"t3","event":"select"},
-  {"id":"select-brann-3","text":"Que l'Empereur nous guide.","unit":"t3","event":"select"},
-  {"id":"ack-move-1","text":"À vos ordres.","event":"ack-move"},
-  {"id":"ack-move-2","text":"Itinéraire reçu.","event":"ack-move"},
-  {"id":"ack-fire-1","text":"Coordonnées de tir reçues.","event":"ack-fire"},
-  {"id":"ack-fire-2","text":"Bolter prêt.","event":"ack-fire"},
-  {"id":"ack-guard-1","text":"Je couvrirai ce secteur.","event":"ack-guard"},
-  {"id":"ack-guard-2","text":"Position de veille confirmée.","event":"ack-guard"},
-  {"id":"ack-scan-1","text":"Auspex prêt, commandant.","event":"ack-scan"},
-  {"id":"ack-scan-2","text":"Reconnaissance, bien reçu.","event":"ack-scan"},
-  {"id":"ack-interact-1","text":"Ordre reçu. Je m'en charge.","event":"ack-interact"},
-  {"id":"ack-interact-2","text":"Interface repérée.","event":"ack-interact"},
-  {"id":"execute-1","text":"J'exécute.","event":"execute"},
-  {"id":"execute-2","text":"Frères, en avant.","event":"execute"},
-  {"id":"moving","text":"Progression en cours.","event":"moving"},
-  {"id":"firing","text":"Feu purificateur !","event":"firing"},
-  {"id":"scanning","text":"Balayage auspex en cours.","event":"scanning"},
-  {"id":"working","text":"Connexion aux systèmes.","event":"working"},
-  {"id":"guarding","text":"Secteur sous surveillance.","event":"guarding"},
-  {"id":"door-open","text":"Passage ouvert.","event":"door-open"},
-  {"id":"door-closed","text":"Sas verrouillé.","event":"door-closed"},
-  {"id":"secured","text":"Objectif sécurisé, commandant.","event":"secured"},
-  {"id":"blocked","text":"Progression bloquée.","event":"blocked"},
-  {"id":"contact","text":"Contact visuel. L'ennemi est là.","event":"contact"},
-  {"id":"hurt","text":"Armure touchée. Je tiens.","event":"hurt"},
-  {"id":"kill","text":"Ennemi neutralisé.","event":"kill"},
-  {"id":"fallen","text":"Un frère est tombé.","event":"fallen"},
-  {"id":"recon-done","text":"Balayage terminé.","event":"recon-done"},
-  {"id":"victory","text":"La victoire est à l'Empereur.","event":"victory"},
-  {"id":"defeat","text":"Opération compromise. Repli.","event":"defeat"},
-  {"id":"cancel","text":"Ordre annulé.","event":"cancel"},
-  {"id":"invalid","text":"Impossible, commandant.","event":"invalid"}
+  {
+    "id": "select-vael-1",
+    "text": "Oui, commandant.",
+    "unit": "t0",
+    "event": "select"
+  },
+  {
+    "id": "select-vael-2",
+    "text": "J'écoute, commandant.",
+    "unit": "t0",
+    "event": "select"
+  },
+  {
+    "id": "select-vael-3",
+    "text": "Votre volonté sera faite.",
+    "unit": "t0",
+    "event": "select"
+  },
+  {
+    "id": "select-tor-1",
+    "text": "Prêt à faire mon devoir.",
+    "unit": "t1",
+    "event": "select"
+  },
+  {
+    "id": "select-tor-2",
+    "text": "Mon armure tient. Vos ordres ?",
+    "unit": "t1",
+    "event": "select"
+  },
+  {
+    "id": "select-tor-3",
+    "text": "Parlez, commandant.",
+    "unit": "t1",
+    "event": "select"
+  },
+  {
+    "id": "select-cael-1",
+    "text": "Canal ouvert, commandant.",
+    "unit": "t2",
+    "event": "select"
+  },
+  {
+    "id": "select-cael-2",
+    "text": "À l'écoute. Pour l'Empereur.",
+    "unit": "t2",
+    "event": "select"
+  },
+  {
+    "id": "select-cael-3",
+    "text": "Mes sens sont en éveil.",
+    "unit": "t2",
+    "event": "select"
+  },
+  {
+    "id": "select-brann-1",
+    "text": "Le devoir m'appelle.",
+    "unit": "t3",
+    "event": "select"
+  },
+  {
+    "id": "select-brann-2",
+    "text": "Toujours fidèle, commandant.",
+    "unit": "t3",
+    "event": "select"
+  },
+  {
+    "id": "select-brann-3",
+    "text": "Que l'Empereur nous guide.",
+    "unit": "t3",
+    "event": "select"
+  },
+  {
+    "id": "ack-move-1",
+    "text": "À vos ordres.",
+    "event": "ack-move"
+  },
+  {
+    "id": "ack-move-2",
+    "text": "Itinéraire reçu.",
+    "event": "ack-move"
+  },
+  {
+    "id": "ack-fire-1",
+    "text": "Coordonnées de tir reçues.",
+    "event": "ack-fire"
+  },
+  {
+    "id": "ack-fire-2",
+    "text": "Bolter prêt.",
+    "event": "ack-fire"
+  },
+  {
+    "id": "ack-guard-1",
+    "text": "Je couvrirai ce secteur.",
+    "event": "ack-guard"
+  },
+  {
+    "id": "ack-guard-2",
+    "text": "Position de veille confirmée.",
+    "event": "ack-guard"
+  },
+  {
+    "id": "ack-scan-1",
+    "text": "Auspex prêt, commandant.",
+    "event": "ack-scan"
+  },
+  {
+    "id": "ack-scan-2",
+    "text": "Reconnaissance, bien reçu.",
+    "event": "ack-scan"
+  },
+  {
+    "id": "ack-interact-1",
+    "text": "Ordre reçu. Je m'en charge.",
+    "event": "ack-interact"
+  },
+  {
+    "id": "ack-interact-2",
+    "text": "Interface repérée.",
+    "event": "ack-interact"
+  },
+  {
+    "id": "execute-1",
+    "text": "J'exécute.",
+    "event": "execute"
+  },
+  {
+    "id": "execute-2",
+    "text": "Frères, en avant.",
+    "event": "execute"
+  },
+  {
+    "id": "moving",
+    "text": "Progression en cours.",
+    "event": "moving"
+  },
+  {
+    "id": "firing",
+    "text": "Feu purificateur !",
+    "event": "firing"
+  },
+  {
+    "id": "scanning",
+    "text": "Balayage auspex en cours.",
+    "event": "scanning"
+  },
+  {
+    "id": "working",
+    "text": "Connexion aux systèmes.",
+    "event": "working"
+  },
+  {
+    "id": "guarding",
+    "text": "Secteur sous surveillance.",
+    "event": "guarding"
+  },
+  {
+    "id": "door-open",
+    "text": "Passage ouvert.",
+    "event": "door-open"
+  },
+  {
+    "id": "door-closed",
+    "text": "Sas verrouillé.",
+    "event": "door-closed"
+  },
+  {
+    "id": "secured",
+    "text": "Objectif sécurisé, commandant.",
+    "event": "secured"
+  },
+  {
+    "id": "blocked",
+    "text": "Progression bloquée.",
+    "event": "blocked"
+  },
+  {
+    "id": "contact",
+    "text": "Contact visuel. L'ennemi est là.",
+    "event": "contact"
+  },
+  {
+    "id": "hurt",
+    "text": "Armure touchée. Je tiens.",
+    "event": "hurt"
+  },
+  {
+    "id": "kill",
+    "text": "Ennemi neutralisé.",
+    "event": "kill"
+  },
+  {
+    "id": "fallen",
+    "text": "Un frère est tombé.",
+    "event": "fallen"
+  },
+  {
+    "id": "recon-done",
+    "text": "Balayage terminé.",
+    "event": "recon-done"
+  },
+  {
+    "id": "victory",
+    "text": "La victoire est à l'Empereur.",
+    "event": "victory"
+  },
+  {
+    "id": "defeat",
+    "text": "Opération compromise. Repli.",
+    "event": "defeat"
+  },
+  {
+    "id": "cancel",
+    "text": "Ordre annulé.",
+    "event": "cancel"
+  },
+  {
+    "id": "invalid",
+    "text": "Impossible, commandant.",
+    "event": "invalid"
+  },
+  {
+    "id": "nl-taunt-1",
+    "text": "Nous venons pour vous.",
+    "event": "nl-taunt",
+    "faction": "nightlords"
+  },
+  {
+    "id": "nl-taunt-2",
+    "text": "Votre peur nous appartient.",
+    "event": "nl-taunt",
+    "faction": "nightlords"
+  },
+  {
+    "id": "nl-attack-1",
+    "text": "Ave Dominus Nox !",
+    "event": "nl-attack",
+    "faction": "nightlords"
+  },
+  {
+    "id": "nl-attack-2",
+    "text": "Que la terreur commence !",
+    "event": "nl-attack",
+    "faction": "nightlords"
+  },
+  {
+    "id": "nl-hurt-1",
+    "text": "Vous allez le regretter.",
+    "event": "nl-hurt",
+    "faction": "nightlords"
+  },
+  {
+    "id": "nl-death-1",
+    "text": "La nuit... m'emporte.",
+    "event": "nl-death",
+    "faction": "nightlords"
+  }
 ]

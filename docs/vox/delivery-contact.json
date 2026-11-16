@@ -1,0 +1,40 @@
+{
+  "id": "91d62706-9001-48d6-b001-1dbd6043752e",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/91d62706-9001-48d6-b001-1dbd6043752e/contact-visuel-l-ennemi-est-l-cmwjlnm6.mp3"
+  ],
+  "createdAt": "2026-11-16T18:31:16.307Z",
+  "generationId": "cmwjlnm6j008i3lllfxec533w",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjlnm6j008i3lllfxec533w/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjlnm6j008i3lllfxec533w",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlnm6j008i3lllfxec533w/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/91d62706-9001-48d6-b001-1dbd6043752e/output/contact-visuel-l-ennemi-est-l-cmwjlnm6.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlnm6j008i3lllfxec533w/audio-voice",
+        "bytes": 35569
+      }
+    ],
+    "downloadFailures": []
+  }
+}

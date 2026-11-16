@@ -1,0 +1,40 @@
+{
+  "id": "20e8afa3-414a-4484-be02-e7249ca108bf",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/20e8afa3-414a-4484-be02-e7249ca108bf/impossible-commandant-cmwjlrca.mp3"
+  ],
+  "createdAt": "2026-11-16T18:34:10.166Z",
+  "generationId": "cmwjlrcao009y3lll37ww7pfb",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjlrcao009y3lll37ww7pfb/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjlrcao009y3lll37ww7pfb",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlrcao009y3lll37ww7pfb/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/20e8afa3-414a-4484-be02-e7249ca108bf/output/impossible-commandant-cmwjlrca.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlrcao009y3lll37ww7pfb/audio-voice",
+        "bytes": 31807
+      }
+    ],
+    "downloadFailures": []
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "db9cffac-f05a-4920-801e-c374f74c1aeb",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/db9cffac-f05a-4920-801e-c374f74c1aeb/progression-bloqu-e-cmwjln5n.mp3"
+  ],
+  "createdAt": "2026-11-16T18:30:54.842Z",
+  "generationId": "cmwjln5n800802bnyrm1v6c00",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjln5n800802bnyrm1v6c00/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjln5n800802bnyrm1v6c00",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjln5n800802bnyrm1v6c00/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/db9cffac-f05a-4920-801e-c374f74c1aeb/output/progression-bloqu-e-cmwjln5n.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjln5n800802bnyrm1v6c00/audio-voice",
+        "bytes": 26792
+      }
+    ],
+    "downloadFailures": []
+  }
+}
