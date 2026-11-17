@@ -9,7 +9,7 @@ const browser=await chromium.launch({headless:true,args:['--use-angle=metal']});
 try{
  const page=await browser.newPage({locale:language==='fr'?'fr-FR':'en-GB',viewport:{width:1280,height:800}}),errors:string[]=[],failed:string[]=[];
  page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)failed.push(r.url());});
- await page.goto('http://127.0.0.1:18231/');await page.locator('#start').waitFor();
+ await page.goto('http://127.0.0.1:18231/strategy.html');await page.locator('#start').waitFor();
  assert.equal(await page.locator('#mission option').count(),3);assert.equal(await page.locator('#configuration option').count(),3);
  await page.selectOption('#enemy','ppo');await page.click('#start');await page.click('#overview');
  await page.click('#sound');await page.click('#vox-test');await page.waitForTimeout(3500);await page.click('#vox-test-nightlords');await page.waitForTimeout(4000);await page.click('#audio-close');

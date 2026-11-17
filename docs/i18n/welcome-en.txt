@@ -5,7 +5,7 @@ FR
 EN
 Settings
 Briefing
-FPS mode ↗
+Menu
 NOCTIS CRUISER / DECK VII
 PLANNING
 6 / 6 CP available
@@ -103,7 +103,7 @@ Opponents
 Two adaptive commanders — heuristics
 Scripted baseline — fixed objectives
 Two PPO commanders — trained with IgnitionRL
-DEPLOY TERMINATORS
+← Main menuDEPLOY TERMINATORS
 
 1–4: brothers · M: move · T: fire · G: overwatch · R: recon · E: interact · C: ability · Enter: execute.
 The debrief records observable decisions and measured AI results.
