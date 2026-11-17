@@ -11,6 +11,6 @@ test('fist no longer stuns distant or hidden brothers',()=>{
 });
 test('visible aim triggers bounded physical dodge with recovery',()=>{
  const {w,n}=setup();Object.assign(n.belief,{valid:true,seen:true,x:20,y:20,facing:0,age:0});
- griffeAction(w,0,0);expect(n.dodgeTicks).toBe(3);const y=n.y;
- step(w,T_IDLE,[0,0,0,0]);expect(Math.abs(n.y-y)).toBeCloseTo(.85);expect(n.dodgeRest).toBe(27);expect(n.hp).toBe(7);
+ griffeAction(w,0,0);expect(n.dodgeTicks).toBe(5);const y=n.y;
+ step(w,T_IDLE,[0,0,0,0]);expect(Math.abs(n.y-y)).toBeCloseTo(.30);expect(n.dodgeRest).toBe(33);expect(n.hp).toBe(7);
 });

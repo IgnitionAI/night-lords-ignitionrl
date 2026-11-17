@@ -1,7 +1,7 @@
 import {beginClimb} from './vertical-hunt';
 import {CEILING_ROUTES} from './ship-layout';
 import {SHIP_LANDMARKS} from './ship-layout';
-import {shipHeading} from './ship-path';
+import {shipHeading,clearPath} from './ship-path';
 import {travel,searchContact} from './fps-navigation';
 import {lightAction,isDark} from './fps-lighting';
 import { angNorm, nlFrame, rayFree, los, collide, geometry, type World } from './sim';
@@ -31,7 +31,7 @@ export function griffeAction(w:World,i:number,learned:number,choice?:number):num
 const shelters=new WeakMap<World,Map<number,{x:number,y:number,until:number}>>();
 export type ClawRole='leader'|'bait'|'hunter'|'interceptor';
 export type TacticalMode='search'|'flank'|'attack'|'cover'|'withdraw'|'sync';
-export interface TacticalState {role:ClawRole;mode:TacticalMode;until:number;search:number;syncRest:number;}
+export interface TacticalState {role:ClawRole;mode:TacticalMode;until:number;search:number;syncRest:number;coverSince?:number;}
 const tactics=new WeakMap<World,Map<number,TacticalState>>();
 export function tacticalState(w:World,i:number){return tactics.get(w)?.get(i);}
 function huntAction(w:World,i:number,learned:number,choice?:number):number {
@@ -43,7 +43,7 @@ function huntAction(w:World,i:number,learned:number,choice?:number):number {
  const known=n.mates.map((_,j)=>j).filter(j=>j===i||n.mates[j].alive);
  state.role=(['leader','bait','hunter','interceptor'] as ClawRole[])[known.indexOf(i)%4];
  if(n.vertical)return 0;
- if(n.armTicks||n.stunTicks||(n.recoveryTicks??0)>0)return 0;
+ if(n.armTicks||n.stunTicks||n.shotTicks||(n.recoveryTicks??0)>0)return 0;
  const lighting=lightAction(w,i);if(lighting!==undefined){state.mode=(n.lightRetreatUntil??0)>w.tick?'withdraw':'cover';return lighting;}
  if(b.valid&&!b.seen&&!b.vox&&b.age>8&&b.age<90){state.mode='search';return searchContact(w,i);}
  if(!b.valid||b.age>=90){
@@ -59,9 +59,9 @@ function huntAction(w:World,i:number,learned:number,choice?:number):number {
   if(aimed&&(choice===undefined||choice===4)){
    const side=i%2?1:-1,dx=-Math.sin(b.facing)*side,dy=Math.cos(b.facing)*side;
    for(const sign of [1,-1]){
-    const end={x:n.x+dx*sign*2.55,y:n.y+dy*sign*2.55};const expected={...end};
+    const end={x:n.x+dx*sign*1.81,y:n.y+dy*sign*1.81};const expected={...end};
     collide(end,.45,w.propSolids,n);
-    if(Math.hypot(end.x-expected.x,end.y-expected.y)<.05){n.dodgeX=dx*sign;n.dodgeY=dy*sign;n.dodgeTicks=3;n.dodgeRest=28;break;}
+    if(Math.hypot(end.x-expected.x,end.y-expected.y)<.05&&clearPath(w,n.x,n.y,end.x,end.y,.45)){n.dodgeX=dx*sign;n.dodgeY=dy*sign;n.dodgeTicks=5;n.dodgeRest=34;break;}
    }
   }
  }
@@ -95,7 +95,11 @@ function huntAction(w:World,i:number,learned:number,choice?:number):number {
   grips.sort((a,c)=>Math.hypot(a.x-n.x,a.y-n.y)-Math.hypot(c.x-n.x,c.y-n.y));
   if(grips[0])return travel(w,i,grips[0].x,grips[0].y);
  }
- if(state.mode==='cover'&&b.seen&&d>5&&d<11)return 0;
+ if(state.mode==='cover'&&b.seen&&d>5&&d<11){
+  state.coverSince??=w.tick;
+  if(w.tick-state.coverSince<18)return 0;
+  state.mode='flank';state.until=w.tick+35;
+ }else if(state.mode!=='cover')state.coverSince=undefined;
  let cache=shelters.get(w);if(!cache){cache=new Map();shelters.set(w,cache);}
  let target=cache.get(i);
  if(!target||target.until<=w.tick){

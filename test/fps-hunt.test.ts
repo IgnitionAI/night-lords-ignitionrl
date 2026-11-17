@@ -32,3 +32,24 @@ test('separation handles coincident hunters without pushing them through a wall'
  step(w,T_IDLE,[0,0]);const [a,b]=w.nls;expect(Math.hypot(a.x-b.x,a.y-b.y)).toBeGreaterThan(.3);
  for(const n of [a,b]){const p={x:n.x,y:n.y};collide(p,.45,w.propSolids);expect(Math.hypot(p.x-n.x,p.y-n.y)).toBeLessThan(.001);}
 });
+
+function closeCombat(){const w=newWorld(3,{x:6,y:12,facing:Math.PI},{fps:true,eliteDuel:true});w.lighting=undefined;
+ w.nls.forEach((n,i)=>n.alive=i===0);Object.assign(w.nls[0],{x:4.4,y:12,facing:0});Object.assign(w.nls[0].belief,{valid:true,x:6,y:12,age:0,seen:true});return w;}
+test('a claw cannot begin out of reach or against a hidden target',()=>{
+ const w=closeCombat();w.t.x=12;step(w,T_IDLE,[7]);expect(w.nls[0].armTicks).toBe(0);
+ w.t.x=20;w.nls[0].x=16;step(w,T_IDLE,[7]);expect(w.nls[0].armTicks).toBe(0);
+});
+test('committed swing misses a sidestep and leaves a full stationary riposte window',()=>{
+ const w=closeCombat(),n=w.nls[0];step(w,T_IDLE,[7]);expect(n.armTicks).toBe(6);
+ for(let k=0;k<3;k++)step(w,T_IDLE,[0]);const facing=n.attackFacing;
+ // Deterministic dodge fixture: remain in range but outside the committed weapon arc.
+ w.t.x=n.x;w.t.y=n.y+1.6;
+ for(let k=0;k<3;k++)step(w,T_IDLE,[7]);expect(w.t.hp).toBe(30);expect(w.events.some(e=>e.type==='whiff')).toBe(true);
+ expect(n.attackFacing).toBe(facing);expect(n.recoveryTicks).toBe(10);
+ const point=[n.x,n.y];for(let k=0;k<10;k++)step(w,T_IDLE,[1]);expect([n.x,n.y]).toEqual(point);
+});
+test('visible aligned strike lands once after preparation without increasing damage',()=>{
+ const w=closeCombat();step(w,T_IDLE,[7]);for(let k=0;k<5;k++)step(w,T_IDLE,[7]);expect(w.t.hp).toBe(30);
+ step(w,T_IDLE,[7]);expect(w.t.hp).toBe(22);
+ for(let k=0;k<10;k++)step(w,T_IDLE,[7]);expect(w.t.hp).toBe(22);
+});

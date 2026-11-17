@@ -59,12 +59,14 @@ export const NL_CFG = {
   frontHalf: 1.05, rearHalf: 2.1, dmgSide: 1, dmgRear: 2, hearSigma: 1.5,
   noiseMove: 5, noiseClaw: 7, voxRange: 14, // un frère n'est connu que vu, entendu ou à portée de vox
 };
+export const FPS_CLAW={windup:6,recovery:7,eliteRecovery:10,arc:.72};
 
 export interface TAction { fwd: number; strafe: number; turn: number; bolt: boolean; fist: boolean; aimYaw?: number; aimPitch?: number; reload?: boolean }
 export const T_IDLE: TAction = { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: false };
 export interface Belief { valid: boolean; x: number; y: number; age: number; facing: number | null; seen: boolean; heard: boolean; vox: boolean }
 export interface Mate { known: boolean; x: number; y: number; age: number; alive: boolean; retreatUntil?: number }
 export interface NL {
+  attackFacing?:number;
   lightRetreatUntil?:number; lightCover?:{x:number;y:number};
   vx?:number; vy?:number; navHeading?:number; navDistance?:number; heardTick?:number;
   hp?: number;
@@ -297,8 +299,9 @@ export interface StepOut { rewards: number[]; died: boolean[] }
  */
 function clawImpact(w: World, i: number, n: NL, rewards: number[], died: boolean[]) {
   const t = w.t;
-  if (w.opts.eliteDuel) n.recoveryTicks = 3;
-  if ((n.height??0)>1 || !los(n.x,n.y,t.x,t.y,w.propSolids) || dist(n.x, n.y, t.x, t.y) > NL_CFG.clawRange) { w.events.push({ type: 'whiff', who: i }); return; }
+  if (w.opts.fps){n.recoveryTicks=w.opts.eliteDuel?FPS_CLAW.eliteRecovery:FPS_CLAW.recovery;n.cd=n.recoveryTicks+4;}
+  const offArc=w.opts.fps&&Math.abs(angNorm(Math.atan2(t.y-n.y,t.x-n.x)-(n.attackFacing??n.facing)))>FPS_CLAW.arc;
+  if (offArc || (n.height??0)>1 || !los(n.x,n.y,t.x,t.y,w.propSolids) || dist(n.x, n.y, t.x, t.y) > NL_CFG.clawRange) { w.events.push({ type: 'whiff', who: i }); return; }
   const rel = Math.abs(angNorm(Math.atan2(n.y - t.y, n.x - t.x) - t.facing));
   const zone = rel < NL_CFG.frontHalf ? 'front' : rel > NL_CFG.rearHalf ? 'rear' : 'side';
   const dmg = w.opts.eliteDuel ? (zone === 'rear' ? 10 : 8) : w.opts.fps ? (zone === 'rear' ? 4 : 2) : zone === 'front' ? 0 : zone === 'rear' ? NL_CFG.dmgRear : NL_CFG.dmgSide;
@@ -349,6 +352,7 @@ function fistImpact(w: World, died: boolean[]) {
   if (xeno) { xeno.hp=0; xeno.windup=0; best=-1; }
   if (best >= 0) {
     const n = w.nls[best];
+    n.lastDamageTick=w.tick;
     if (w.opts.eliteDuel) {
       if (!los(t.x,t.y,n.x,n.y,w.propSolids)) best = -1;
       else { n.hp = (n.hp ?? 24) - 5; if (n.hp <= 0) { n.alive = false; died[best] = true; } }
@@ -489,24 +493,38 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   for (let i = 0; i < w.nls.length; i++) {
     const n = w.nls[i]; if (!n.alive || died[i]) {if(n.vertical)verticalStep(w,n);continue;}
     if(verticalStep(w,n))continue;
-    const recovering=w.opts.mission&&(n.recoveryTicks??0)>0;
+    const recovering=w.opts.fps&&(n.recoveryTicks??0)>0;
     if ((n.recoveryTicks ?? 0) > 0) n.recoveryTicks!--;
-    const a = recovering?0:acts[i] ?? 0; n.lastAction = a; const f = nlFrame(n); n.noise = 0;
+    const busy=w.opts.fps&&(n.armTicks>0||(n.shotTicks??0)>0);
+    const a = recovering||busy?0:acts[i] ?? 0; n.lastAction = a; const f = nlFrame(n); n.noise = 0;
     const stunned = n.stunTicks > 0; // stagger du gantelet : ni attaque, ni course
     if (n.cd > 0 && !stunned) n.cd--; // le cd de griffe est **gelé** pendant le stagger : la prochaine attaque est repoussée d'autant
     // armement en cours : le coup tombe quand le compte atteint 0, soit 2 ticks après l'annonce (il était parti avant le choc)
+    if(w.opts.fps&&n.armTicks>0){
+      if(stunned){n.armTicks=0;n.recoveryTicks=4;}
+      else if(n.armTicks>3&&nlSees(w,n)){
+        const aim=Math.atan2(t.y-n.y,t.x-n.x),base=n.attackFacing??n.facing;
+        n.attackFacing=angNorm(base+Math.max(-.14,Math.min(.14,angNorm(aim-base))));
+      }
+      n.facing=n.attackFacing??n.facing;
+    }
     if (n.armTicks > 0 && --n.armTicks === 0) clawImpact(w, i, n, rewards, died);
     if(n.dodgeRest)n.dodgeRest--;
     if(w.opts.mission && (n.dodgeTicks??0)>0 && !stunned && !n.armTicks){
       const from={x:n.x,y:n.y};
-      n.x+=(n.dodgeX??0)*.85;n.y+=(n.dodgeY??0)*.85;
+      const distance=[0,.16,.35,.5,.5,.30][n.dodgeTicks!]??.3;
+      n.x+=(n.dodgeX??0)*distance;n.y+=(n.dodgeY??0)*distance;
       collide(n,NL_CFG.radius,w.propSolids,from);n.dodgeTicks!--;
+      n.vx=(n.x-from.x)/DT;n.vy=(n.y-from.y)/DT;if(!n.dodgeTicks)n.recoveryTicks=3;
       n.noise=NL_CFG.noiseMove;
     } else if (a === 7) {
-      n.facing = Math.atan2(f.uy, f.ux);
-      if (n.cd === 0 && !stunned) {
+      const aim=Math.atan2(f.uy,f.ux);
+      n.facing=w.opts.fps?angNorm(n.facing+Math.max(-.32,Math.min(.32,angNorm(aim-n.facing)))):aim;
+      n.vx=0;n.vy=0;
+      if (n.cd === 0 && !stunned && (!w.opts.fps||(nlSees(w,n)&&dist(n.x,n.y,t.x,t.y)<=NL_CFG.clawRange&&Math.abs(angNorm(aim-n.facing))<.55))) {
         n.cd = NL_CFG.clawCd; n.noise = NL_CFG.noiseClaw;
-        if (w.opts.clawWindup) { n.armTicks = w.opts.eliteDuel ? 4 : w.opts.fps ? 6 : 2; w.events.push({ type: 'clawArm', who: i }); }
+        n.attackFacing=n.facing;
+        if (w.opts.clawWindup) { n.armTicks = w.opts.fps ? FPS_CLAW.windup : 2; w.events.push({ type: 'clawArm', who: i }); }
         else clawImpact(w, i, n, rewards, died); // comportement d'avant : les dégâts tombent dans le tick
       }
     } else if (a > 0) {
@@ -529,7 +547,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
       if(w.opts.fps){n.vx=(n.x-nx0)/DT;n.vy=(n.y-ny0)/DT;}
     } else {
       const face=Math.atan2(f.uy,f.ux);
-      n.facing=w.opts.fps?angNorm(n.facing+Math.max(-.32,Math.min(.32,angNorm(face-n.facing)))):face;
+      if(!w.opts.fps||!busy&&!recovering)n.facing=w.opts.fps?angNorm(n.facing+Math.max(-.32,Math.min(.32,angNorm(face-n.facing)))):face;
       n.vx=0;n.vy=0;
     }
     collide(n, NL_CFG.radius, w.propSolids);
@@ -537,7 +555,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
     if (d < mind && d > 0) { n.x = t.x + (n.x - t.x) / d * mind; n.y = t.y + (n.y - t.y) / d * mind; collide(n, NL_CFG.radius, w.propSolids); }
     if (w.opts.fps) {
       if(n.shotRest) n.shotRest--;
-      if (stunned || recovering || w.lighting?.circuits.some(c=>c.saboteur===i&&c.warningUntil>w.tick)) n.shotTicks = 0;
+      if (stunned || recovering || (n.recoveryTicks??0)>0 || n.armTicks || (n.dodgeTicks??0)>0 || w.lighting?.circuits.some(c=>c.saboteur===i&&c.warningUntil>w.tick)) n.shotTicks = 0;
       else if ((n.shotTicks ?? 0) > 0) {
         n.shotTicks!--;
         if (n.shotTicks === 0) {
@@ -545,8 +563,8 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
           w.events.push({ type: 'enemyBolt', who: i, x: n.x, y: n.y, tx: n.shotX!, ty: n.shotY!, hit });
           if (hit) { t.hp = Math.max(0, t.hp - (w.opts.eliteDuel ? 7 : 2)); t.lastHitTick = w.tick; t.lastHitAngle = Math.atan2(n.y-t.y,n.x-t.x); w.events.push({ type: 'hit', dmg: w.opts.eliteDuel ? 7 : 2, zone: 'front', hpAfter: t.hp, stagger: false, servoAlarm: 0 }); }
         }
-      } else if ((!w.opts.mission || (n.belief.seen && !n.shotRest)) && (!w.opts.eliteDuel || t.fistCharge === 0) && d > (w.opts.eliteDuel ? 3.2 : 4) && d < 14 && (w.opts.mission || w.tick % (w.opts.eliteDuel ? 22 : 50) === 10) && los(n.x,n.y,t.x,t.y,w.propSolids)) {
-        n.shotRest = 32+i*3; n.shotTicks = w.opts.eliteDuel ? 5 : 8; n.shotX = t.x + (w.opts.eliteDuel ? t.vx * .5 : 0); n.shotY = t.y + (w.opts.eliteDuel ? t.vy * .5 : 0);
+      } else if (!n.shotRest && nlSees(w,n) && d > (w.opts.eliteDuel ? 3.2 : 4) && d < 12 && (w.opts.mission || w.tick % (w.opts.eliteDuel ? 22 : 50) === 10)) {
+        n.shotRest = 32+i*3; n.shotTicks = w.opts.eliteDuel ? 7 : 8; n.shotX = t.x; n.shotY = t.y;
         w.events.push({ type: 'enemyAim', who: i });
       }
     }

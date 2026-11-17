@@ -1385,7 +1385,7 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
     if(rig.hunter){
       // Side/back movement is locomotion; only the simulation's actual evade flag is an evade.
       intent.dodge = false;
-      rig.hunter.signal({arm:n.armTicks,shot:n.shotTicks??0,windup:(FPS_DUEL?4:6)*DT,
+      rig.hunter.signal({arm:n.armTicks,shot:n.shotTicks??0,windup:6*DT,
         impact:flags.claw.includes(i)||flags.whiff.includes(i),
         fire:w.events.some(e=>e.type==='enemyBolt'&&e.who===i),
         hit:hitOnCompletedTick(n.lastDamageTick,w.tick)||intent.hit,dodge:(n.dodgeTicks??0)>0});

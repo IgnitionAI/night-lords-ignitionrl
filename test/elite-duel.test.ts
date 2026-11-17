@@ -14,7 +14,7 @@ test('sprint ends and cannot restart before cooldown',()=>{
  for(let k=0;k<6;k++){w.tick++;eliteDuelAction(w,0);}expect(w.nls[0].burstTicks).toBe(0);expect(w.nls[0].burstRest).toBeGreaterThan(0);
 });
 test('attack reveals a recovery window even when dodged',()=>{
- const w=duel();w.nls[0].armTicks=1;step(w,T_IDLE,[0]);expect(w.nls[0].recoveryTicks).toBe(3);expect(w.t.hp).toBe(30);
+ const w=duel();w.nls[0].armTicks=1;step(w,T_IDLE,[0]);expect(w.nls[0].recoveryTicks).toBe(10);expect(w.t.hp).toBe(30);
 });
 test('controller does not overwrite target behind solid pillar',()=>{
  const w=duel();w.nls[0].x=20;w.t.x=15;w.nls[0].belief.x=4;eliteDuelAction(w,0);expect(w.nls[0].belief.x).toBe(4);
