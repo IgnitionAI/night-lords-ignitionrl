@@ -1,0 +1,7226 @@
+{
+  "fixture": true,
+  "tag": "before",
+  "fps": 10,
+  "errors": [],
+  "trace": [
+    {
+      "time": 0,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 0.1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 0.2,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 0.3,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 0.4,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 0.5,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 0.6,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 0.7,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 0.8,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 0.9,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 1,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 1.1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 9.8,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 1,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 1.2,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 9.6,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 1,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 1.3,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 9.4,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 1,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 1.4,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 9.2,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 1,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 1.5,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 9,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 1,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 1.6,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8.8,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 1,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 1.7,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8.6,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 1,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 1.8,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8.4,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 1,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 1.9,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8.2,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 1,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 2,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "proc-dodge-left",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 3,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 2.1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "proc-dodge-left",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 12.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 3,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 2.2,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "proc-dodge-left",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 12.4,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 3,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 2.3,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "proc-dodge-left",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 12.6,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 3,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 2.4,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 12.8,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 3,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 2.5,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 13,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 3,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 2.6,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 13.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 3,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 2.7,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 13.4,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 3,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 2.8,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 13.6,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 3,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 2.9,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 13.8,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 3,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 3,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "proc-dodge-right",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 14,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 4,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 3.1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "proc-dodge-right",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 13.8,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 4,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 3.2,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "proc-dodge-right",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 13.6,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 4,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 3.3,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "proc-dodge-right",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 13.4,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 4,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 3.4,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 13.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 4,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 3.5,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 13,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 4,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 3.6,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 12.8,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 4,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 3.7,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 12.6,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 4,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 3.8,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 12.4,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 4,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 3.9,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 12.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 4,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 4,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "Armature|dodge|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8,
+        "y": 12.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 2,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 4.1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "Armature|dodge|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8.2,
+        "y": 12.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 2,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 4.2,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "Armature|dodge|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8.4,
+        "y": 12.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 2,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 4.3,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "dodge",
+          "clip": "Armature|dodge|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8.6,
+        "y": 12.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 2,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 4.4,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 8.8,
+        "y": 12.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 2,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 4.5,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 9,
+        "y": 12.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 2,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 4.6,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 9.2,
+        "y": 12.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 2,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 4.7,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 9.4,
+        "y": 12.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 2,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 4.8,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 9.6,
+        "y": 12.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 2,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 4.9,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 9.8,
+        "y": 12.2,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 2,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 5,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "walk",
+          "clip": "Armature|walking_man|baselayer",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 5.1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 5.2,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 5.3,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 5.4,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 5.5,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 5.6,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 5.7,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 5.8,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 5.9,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 6,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 4,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 6.1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 3,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 6.2,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 2,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 6.3,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 1,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 6.4,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Armature|attack|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 6.5,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 6.6,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 6.7,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 6.8,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 6.9,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 7,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 7.1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 7.2,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 7.3,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 7.4,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 7.5,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 7.6,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "hit",
+          "clip": "Idle_3",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 1,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 7.7,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "hit",
+          "clip": "Idle_3",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 7.8,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "hit",
+          "clip": "Idle_3",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 7.9,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 8,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 8.1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0
+      }
+    },
+    {
+      "time": 8.2,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 5
+      }
+    },
+    {
+      "time": 8.3,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 4
+      }
+    },
+    {
+      "time": 8.4,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 3
+      }
+    },
+    {
+      "time": 8.5,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 2
+      }
+    },
+    {
+      "time": 8.6,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 1
+      }
+    },
+    {
+      "time": 8.7,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Idle_3",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 0
+      }
+    },
+    {
+      "time": 8.8,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Idle_3",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 0
+      }
+    },
+    {
+      "time": 8.9,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Idle_3",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 0
+      }
+    },
+    {
+      "time": 9,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Idle_3",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 0
+      }
+    },
+    {
+      "time": 9.1,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "attack",
+          "clip": "Idle_3",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 0
+      }
+    },
+    {
+      "time": 9.2,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 0
+      }
+    },
+    {
+      "time": 9.3,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 0
+      }
+    },
+    {
+      "time": 9.4,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 0
+      }
+    },
+    {
+      "time": 9.5,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 0
+      }
+    },
+    {
+      "time": 9.6,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 0
+      }
+    },
+    {
+      "time": 9.7,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 0
+      }
+    },
+    {
+      "time": 9.8,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 0
+      }
+    },
+    {
+      "time": 9.9,
+      "bodies": [
+        {
+          "i": 0,
+          "alive": true,
+          "kind": "idle",
+          "clip": "Idle_3",
+          "loco": true,
+          "skinned": 1,
+          "visibleSkinned": 1,
+          "proxyVisible": false
+        },
+        {
+          "i": 1,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 2,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        },
+        {
+          "i": 3,
+          "alive": false,
+          "kind": "death",
+          "clip": "Armature|death|baselayer",
+          "loco": false,
+          "skinned": 1,
+          "visibleSkinned": 0,
+          "proxyVisible": false
+        }
+      ],
+      "n": {
+        "hp": 24,
+        "burstTicks": 0,
+        "burstRest": 0,
+        "role": 0,
+        "x": 10,
+        "y": 12,
+        "facing": 3.141592653589793,
+        "alive": true,
+        "cd": 10,
+        "armTicks": 0,
+        "lastAction": 0,
+        "noise": 0,
+        "mates": [],
+        "stunTicks": 0,
+        "belief": {
+          "valid": false,
+          "x": 37.5,
+          "y": 12,
+          "age": 100,
+          "facing": null,
+          "seen": false,
+          "heard": false,
+          "vox": false
+        },
+        "dodgeTicks": 0,
+        "shotTicks": 0
+      }
+    }
+  ]
+}

@@ -2306,6 +2306,36 @@ if (PROBE_READ) {
       camWorld: camera.position.toArray(),
     };
   };
+  // Deterministic visual fixture, available only in explicit capture mode.
+  if (qs.get('motionlab') === '1') {
+    let frame = 0;
+    w.t.x = 4; w.t.y = 12; w.t.facing = 0; fpsLook.yaw = 0; fpsLook.pitch = -.16;
+    w.nls.forEach((n,i) => {n.alive=i===0; n.x=10; n.y=12; n.facing=Math.PI; n.armTicks=0;n.stunTicks=0;n.dodgeTicks=0;});
+    prev=snap();
+    (window as any).__motionFrame=() => {
+      const t=frame/60, k=Math.floor(frame/6);
+      if(frame%6===0){
+        prev=snap(); w.tick=k; simT=k*DT; w.events=[];
+        const n=w.nls[0];n.armTicks=0;n.stunTicks=0;n.lastAction=0;
+        if(t<1){n.x=10;n.y=12;}
+        else if(t<2){n.x=10-(t-1)*2;n.lastAction=1;}
+        else if(t<3){n.x=8;n.y=12+(t-2)*2;n.lastAction=3;}
+        else if(t<4){n.x=8;n.y=14-(t-3)*2;n.lastAction=4;}
+        else if(t<5){n.x=8+(t-4)*2;n.lastAction=2;}
+        else if(t<6){n.x=10;n.y=12;}
+        else if(t<6.4){n.armTicks=4-(k-60);if(k===60)w.events=[{type:'clawArm',who:0}];}
+        else if(k===64)w.events=[{type:'claw',who:0} as any];
+        else if(k===76){n.stunTicks=1;w.events=[{type:'hit',who:0} as any];}
+        else if(t>=8.2&&t<8.7){n.shotTicks=5-(k-82);}
+        else if(k===87){n.shotTicks=0;w.events=[{type:'enemyBolt',who:0} as any];}
+        updateRigs();
+      }
+      // Place the rig first: post-mixer IK operates in current world coordinates.
+      render((frame%6)/6);advanceRigs(1/60);render((frame%6)/6);hud();
+      frame++;
+      return {time:t,bodies:nlBodyReport(),n:{...w.nls[0],mates:[]}};
+    };
+  }
   finishCap();
 } else if (qs.get('until') === 'end') {
   while (w.tick < MAX_TICKS && !w.done) tick();
