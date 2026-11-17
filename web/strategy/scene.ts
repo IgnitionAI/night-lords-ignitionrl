@@ -1,3 +1,4 @@
+import {loading} from '../ui/loading';
 import {t,onLocaleChange,getLocale} from '../i18n';
 import * as T from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
@@ -45,14 +46,14 @@ export class TacticalScene{
     const matrix=new T.Matrix4();CELLS.forEach((p,i)=>{this.tiles.setMatrixAt(i,matrix.makeTranslation(p.x+.5,-.08,p.y+.5));this.tiles.setColorAt(i,new T.Color(0x283642));});this.scene.add(this.tiles,this.routes,this.ghosts,this.props,this.fx);
     this.architecture();this.ready=this.loadAssets();new ResizeObserver(()=>this.resize()).observe(canvas);this.resize();this.controls();requestAnimationFrame(t=>this.frame(t));
   }
-  private async load(url:string){const g=await this.loader.loadAsync(url);this.assetPaths.push(url);return g;}
+  private async load(url:string){const g=await this.loader.loadAsync(url);this.assetPaths.push(url);loading?.file();return g;}
   private async loadAssets(){
     try{
       const jobs=['TERM','NL-1','NL-2','NL-3','NL-4'].map(async name=>{
         const [model,...motion]=await Promise.all([this.load(`/web/models/strategy/${name}.glb`),...['idle','walk','hit',...(name==='TERM'?['shoot']:['death'])].map(k=>this.load(`/web/models/${name}-${k}.glb`))]);
         const clips:Record<string,T.AnimationClip>={};['idle','walk','hit',...(name==='TERM'?['shoot']:['death'])].forEach((kind,i)=>{const c=motion[i].animations[0].clone();c.name=kind;c.tracks=c.tracks.filter(t=>t.name.endsWith('.quaternion'));clips[kind]=c;});this.templates.set(name,{scene:model.scene,clips});
       });
-      await Promise.all(jobs);
+      await Promise.all(jobs);loading?.complete('models');loading?.report('Assemblage du pont…');
       const kit=await this.load('/web/models/strategy/noctis-kit.glb');const assemblies:T.Object3D[]=[];
       const place=(name:string,p:Pos,scale:number,rot=0)=>{const m=new T.Group();const offset={Relay:0,Power:3,Archives:6,Bulkhead:9,Buttress:12}[name]??0;for(const piece of kit.scene.children.filter(o=>o.name.startsWith(name+'_'))){const c=piece.clone(true);c.position.x-=offset;m.add(c);}if(!m.children.length)throw Error('Missing assembly '+name);m.position.copy(v3(p));m.scale.setScalar(scale);m.rotation.y=rot;m.traverse(o=>{if((o as T.Mesh).isMesh){o.castShadow=true;o.receiveShadow=true;}});this.props.add(m);assemblies.push(m);return m;};
       // Blender assemblies use metres; 1 tactical cell represents roughly 3 metres.
@@ -68,7 +69,7 @@ export class TacticalScene{
       const bolt=await this.load('/web/models/strategy/bolter.glb');
       // Make the four loyalists now; enemy models are instantiated only when observed.
       if(this.view)for(const u of [...this.view.units,...this.view.contacts.filter(c=>c.seen===this.view!.turn)])this.figure(u,bolt.scene);
-      this.bolt=bolt.scene;this.onStatus?.('Armures et systèmes prêts');if(this.view)this.update(this.view,this.selected,this.orders);
+      this.bolt=bolt.scene;loading?.complete('world');this.onStatus?.('Armures et systèmes prêts');if(this.view)this.update(this.view,this.selected,this.orders);
     }catch(e){this.assetErrors.push(String(e));this.onStatus?.('Un modèle n’a pas pu être chargé. Recharge la vue.');throw e;}
   }
   private bolt?:T.Object3D;
@@ -180,6 +181,7 @@ export class TacticalScene{
     const pixel=(this.camera.top-this.camera.bottom)/Math.max(1,this.canvas.clientHeight);this.scene.traverse(o=>{if((o as T.Sprite).isSprite&&o.userData.labelPx){const p=o.userData.labelPx;o.scale.set(p.width*pixel,p.height*pixel,1);}});
     if(!document.hidden)this.renderer.render(this.scene,this.camera);
   }
+  prepare(){this.renderer.compile(this.scene,this.camera);this.renderer.render(this.scene,this.camera);}
   private resize(){const r=this.canvas.getBoundingClientRect();if(!r.width||!r.height)return;this.renderer.setSize(r.width,r.height,false);this.setCamera();}
   private setCamera(){const r=this.canvas.getBoundingClientRect(),aspect=r.width/r.height,half=Math.max(11.4,16/aspect)/this.zoom;Object.assign(this.camera,{left:-half*aspect,right:half*aspect,top:half,bottom:-half});this.camera.position.copy(this.center).add(this.plan?new T.Vector3(0,40,.01):new T.Vector3(13,32,25));this.camera.lookAt(this.center);this.camera.updateProjectionMatrix();this.camera.updateMatrixWorld();this.audio.listener({x:this.center.x,y:this.center.z});}
   zoomBy(f:number){this.zoom=Math.max(.8,Math.min(3.8,this.zoom*f));this.setCamera();}

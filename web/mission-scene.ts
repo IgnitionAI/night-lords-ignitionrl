@@ -19,7 +19,7 @@ export function missionScene(scene: THREE.Scene) {
   const bodies=Array.from({length:6},()=>{const g=new THREE.Group();scene.add(g);return g;});
   const actors:{mixer:THREE.AnimationMixer,actions:Record<string,THREE.AnimationAction>,current:string,hp:number}[]=[];
   let lastTime=0;
-  new GLTFLoader().load('/web/models/genestealer.glb',gltf=>{
+  scene.userData.resourcesReady=new Promise<void>((resolve,reject)=>{new GLTFLoader().load('/web/models/genestealer.glb',gltf=>{
     // Preserve vertical motion, remove horizontal root travel: simulation owns collisions.
     const clips=gltf.animations.map(source=>{const c=source.clone();for(const t of c.tracks){
       if(t.name.includes('Hips')&&t.name.endsWith('.position'))for(let k=0;k<t.values.length;k+=3){t.values[k]=t.values[0];t.values[k+2]=t.values[2];}
@@ -34,8 +34,9 @@ export function missionScene(scene: THREE.Scene) {
       clips.forEach(c=>{const a=mixer.clipAction(c);if(['slash','hurt','fall'].includes(c.name)){a.setLoop(THREE.LoopOnce,1);a.clampWhenFinished=true;}actions[c.name]=a;});
       actors[i]={mixer,actions,current:'',hp:2};
     });
-    scene.userData.genestealersLoaded=6;
-  },undefined,error=>{scene.userData.genestealerError=String(error);console.error('Genestealer model',error);});
+    scene.userData.genestealersLoaded=6;resolve();
+  },undefined,error=>{scene.userData.genestealerError=String(error);reject(error);});});
+  scene.userData.resourcesReady.catch(()=>{});
   const nodules=new THREE.InstancedMesh(sphere,flesh,60), matrix=new THREE.Matrix4();
   for(let i=0;i<60;i++){const x=7+(i*7.31)%31,z=i%2?.65:23.35,y=.1+(i%6)*.28;
     matrix.compose(new THREE.Vector3(x,y,z),new THREE.Quaternion(),new THREE.Vector3(.2+(i%4)*.08,.2,.25));nodules.setMatrixAt(i,matrix);}

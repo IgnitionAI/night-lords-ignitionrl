@@ -1,3 +1,4 @@
+import {loading,finishLoading} from './ui/loading';
 import {VoxRadio} from './strategy/vox';
 import {voiceCue} from './strategy/vox-cues';
 import {t,setHTML,setText,localize,languagePicker,onLocaleChange,getLocale} from './i18n';
@@ -413,7 +414,7 @@ async function loadProps() {
 // Le facteur d'echelle est cale sur la hauteur du collider, pas sur un gout : NL radius 0,45 -> 2,0 m de haut,
 // Terminator radius 0,8 -> 2,6 m. Sinon le visuel deborde de la boite de collision et traverse les murs.
 const gltfLoader = new GLTFLoader();
-const loadGLB = (url: string) => new Promise<any>((res, rej) => gltfLoader.load(url, res, undefined, rej));
+const loadGLB = (url: string) => new Promise<any>((res, rej) => gltfLoader.load(url, gltf=>{loading?.file();res(gltf);}, undefined, rej));
 // LOD de **texture** : c'est le seul levier qui reste sur ces assets, et il est gratuit à l'œil. Les cinq
 // modèles portent 3 textures 1024² chacun, soit 80 Mio de VRAM avec mipmaps ; à 512² ils en font 20, et l'écart
 // mesuré au même tick est de −0,04/255, sous le plancher du grain. `?tex=1024` reprend les fichiers pleine
@@ -2132,7 +2133,7 @@ async function loadModels() {
       if (CAM_MODE === 'fps' && !rig.root.userData.refinedArmor) addNightLordTrophies(rig.root);
       nlMeshes[i].add(rig.root); nlRigs[i] = rig;
       for (const p of nlProxy.slice(i * 3, i * 3 + 3)) p.visible = false; // capsule + 2 yeux de ce rôle
-    } catch (e) { console.warn('modèle NL-' + (i + 1) + ' absent, capsule conservée', e); }
+    } catch (e) { throw new Error('Required Night Lord model failed', {cause:e}); }
   }));
   try {
     termRig = await load('TERM', TERM_HEIGHT, 1, false, 'term', 'term');
@@ -2141,7 +2142,7 @@ async function loadModels() {
     termRig.root.traverse((o: any) => { const m = o.material; if (m && m.emissive) { if (!m.userData.baseEmissive) m.userData.baseEmissive = m.emissive.clone(); alarmMats.push(m); } });
     for (const c of term.children) if ((c as THREE.Mesh).isMesh) (c as THREE.Mesh).visible = false;
     if (CAM_MODE === 'fps') termRig.root.visible = false;
-  } catch (e) { console.warn('modèle TERM absent, cubes conservés', e); }
+  } catch (e) { throw new Error('Required Terminator model failed', {cause:e}); }
   nlRigs.forEach((rig, i) => {
     if (!rig) return;
     rig.root.traverse((o: any) => {
@@ -2182,10 +2183,12 @@ function termPoseReport() {
 }
 (window as any).__animCues = peekAnimCues;
 subscribeAnimCues((cue) => { director.onAnimCue(cue); fx.onAnimCue(cue); if (CAM_MODE !== 'fps') vm?.ingestCue(cue); });
+loading?.complete('module');loading?.report('Décodage des armures…');
 await Promise.all([
   loadPolicy(),
-  PROBE_READ ? Promise.resolve() : loadModels(),
-  PROBE_READ ? Promise.resolve() : loadProps(),
+  MISSION ? scene.userData.resourcesReady : Promise.resolve(),
+  (PROBE_READ ? Promise.resolve() : loadModels()).then(()=>loading?.complete('models')),
+  (PROBE_READ ? Promise.resolve() : loadProps()).then(()=>loading?.complete('world')),
   shot || PROBE_READ || CAP_STEP ? Promise.resolve() : initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }).then(() => {
     engine.setOccluders(PILLARS);
   }),
@@ -2194,6 +2197,8 @@ await Promise.all([
 audio.attachLifecycle();
 (window as unknown as { __AUDIO?: typeof engine }).__AUDIO = engine;
 resize(); startRound();
+loading?.complete('audio');loading?.report('Initialisation de la scène…');
+render(0);loading?.complete('scene');finishLoading();
 // ---- sonde temporaire (retirée avant commit)
 if (Number(qs.get('hitscan') ?? 0)) {
   const out: any[] = []; const base = seed; const n = Number(qs.get('hitscan'));

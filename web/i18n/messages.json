@@ -1686,5 +1686,257 @@
   [
     "ZQSD ou WASD bouger · souris viser (clic pour verrouiller) · ←/→ pivoter · Espace storm bolter · F ou Maj gantelet · V vue de contrôle · M couper le son · Entrée manche suivante · P pause · vue Diablo par défaut : ZQSD = directions à l'écran, molette, pincement ou +/− pour zoomer · autres vues :",
     "WASD or ZQSD: move · mouse: aim (click to lock) · ←/→: turn · Space: storm bolter · F or Shift: power fist · V: control view · M: mute · Enter: next round · P: pause · Diablo view: WASD = screen directions, scroll, pinch or +/− to zoom · other views:"
+  ],
+  [
+    "Noctis — Guerre de coursives",
+    "Noctis — Corridor Warfare"
+  ],
+  [
+    "LE SILENCE PRÉCÈDE LA CHASSE",
+    "SILENCE PRECEDES THE HUNT"
+  ],
+  [
+    "Quatre frères. Un vaisseau perdu.",
+    "Four brothers. One lost ship."
+  ],
+  [
+    "La nuit vous observe.",
+    "The night is watching."
+  ],
+  [
+    "Menu principal",
+    "Main menu"
+  ],
+  [
+    "Menu",
+    "Menu"
+  ],
+  [
+    "JOUER",
+    "PLAY"
+  ],
+  [
+    "PARAMÈTRES",
+    "SETTINGS"
+  ],
+  [
+    "COMMANDES",
+    "CONTROLS"
+  ],
+  [
+    "Commandes",
+    "Controls"
+  ],
+  [
+    "Retour",
+    "Back"
+  ],
+  [
+    "IMPERIUM / VIIIᵉ LÉGION",
+    "IMPERIUM / VIII LEGION"
+  ],
+  [
+    "TRANSMISSION VOX · NOCTIS",
+    "VOX TRANSMISSION · NOCTIS"
+  ],
+  [
+    "PONT VII",
+    "DECK VII"
+  ],
+  [
+    "ORDRES SIMULTANÉS · COMBAT FPS",
+    "SIMULTANEOUS ORDERS · FPS COMBAT"
+  ],
+  [
+    "Choisir votre opération",
+    "Choose your operation"
+  ],
+  [
+    "Commandement tactique",
+    "Tactical command"
+  ],
+  [
+    "Combat FPS",
+    "FPS combat"
+  ],
+  [
+    "Dirigez quatre Terminators. Répartissez vos points de commandement, combinez vos cartes et anticipez les ordres ennemis.",
+    "Lead four Terminators. Allocate command points, combine your cards and anticipate enemy orders."
+  ],
+  [
+    "Entrez dans l’armure. Explorez le Noctis en vue subjective ou affrontez Talos dans un duel rapproché.",
+    "Step inside the armour. Explore the Noctis in first person or face Talos in a close-range duel."
+  ],
+  [
+    "PRÉPARER LA MISSION",
+    "PREPARE MISSION"
+  ],
+  [
+    "DUEL CONTRE TALOS",
+    "DUEL WITH TALOS"
+  ],
+  [
+    "NOCTIS / COMMANDEMENT",
+    "NOCTIS / COMMAND"
+  ],
+  [
+    "Sélectionner un frère, puis préparer son ordre.",
+    "Select a brother, then prepare his order."
+  ],
+  [
+    "Exécuter les ordres simultanément.",
+    "Execute all orders simultaneously."
+  ],
+  [
+    "Molette · Glisser",
+    "Scroll · Drag"
+  ],
+  [
+    "Zoomer et déplacer la carte.",
+    "Zoom and pan the map."
+  ],
+  [
+    "ZQSD / WASD · Souris",
+    "WASD / ZQSD · Mouse"
+  ],
+  [
+    "Se déplacer et viser.",
+    "Move and aim."
+  ],
+  [
+    "Clic / Espace · F / Maj · R",
+    "Click / Space · F / Shift · R"
+  ],
+  [
+    "Tirer, frapper au gantelet, recharger.",
+    "Fire, strike with the power fist, reload."
+  ],
+  [
+    "Échap / P",
+    "Esc / P"
+  ],
+  [
+    "Mettre en pause et accéder au menu.",
+    "Pause and open the menu."
+  ],
+  [
+    "Les réglages détaillés du son sont accessibles dans chaque mode.",
+    "Detailed audio settings are available in each mode."
+  ],
+  [
+    "← Menu principal",
+    "← Main menu"
+  ],
+  [
+    "Retour au menu",
+    "Return to menu"
+  ],
+  [
+    "Chargement",
+    "Loading"
+  ],
+  [
+    "Établissement de la liaison…",
+    "Establishing uplink…"
+  ],
+  [
+    "La liaison a été interrompue.",
+    "The uplink was interrupted."
+  ],
+  [
+    "NOCTIS / LIAISON AUSPEX",
+    "NOCTIS / AUSPEX UPLINK"
+  ],
+  [
+    "Préparation du pont",
+    "Preparing the deck"
+  ],
+  [
+    "Entrée dans le Noctis",
+    "Entering the Noctis"
+  ],
+  [
+    "Préparation des ressources",
+    "Preparing resources"
+  ],
+  [
+    "Une ressource nécessaire est indisponible. Vérifiez votre connexion, puis réessayez.",
+    "A required resource is unavailable. Check your connection, then try again."
+  ],
+  [
+    "Réessayer",
+    "Retry"
+  ],
+  [
+    "étapes prêtes",
+    "stages ready"
+  ],
+  [
+    "modèles décodés",
+    "models decoded"
+  ],
+  [
+    "Assemblage du pont…",
+    "Assembling the deck…"
+  ],
+  [
+    "Décodage des armures…",
+    "Decoding armour…"
+  ],
+  [
+    "Initialisation de la scène…",
+    "Preparing the scene…"
+  ],
+  [
+    "Partie en pause",
+    "Game paused"
+  ],
+  [
+    "Reprendre la partie",
+    "Resume game"
+  ],
+  [
+    "Quitter la partie ?",
+    "Leave this game?"
+  ],
+  [
+    "La progression de cette partie sera perdue.",
+    "Progress in this game will be lost."
+  ],
+  [
+    "Rester ici",
+    "Stay here"
+  ],
+  [
+    "Quitter",
+    "Leave"
+  ],
+  [
+    "MISSION / SUSPENDUE",
+    "MISSION / PAUSED"
+  ],
+  [
+    "DÉPLOYER",
+    "DEPLOY"
+  ],
+  [
+    "Vos ordres sont conservés. Reprenez le commandement quand vous êtes prêt.",
+    "Your orders are preserved. Resume command when you are ready."
+  ],
+  [
+    "La mission est prête. Cliquez pour prendre le contrôle de votre armure.",
+    "The mission is ready. Click to take control of your armour."
+  ],
+  [
+    "Les Night Lords attendent votre retour.",
+    "The Night Lords await your return."
+  ],
+  [
+    "Pause",
+    "Pause"
+  ],
+  [
+    "Son FPS",
+    "FPS audio"
   ]
 ]
