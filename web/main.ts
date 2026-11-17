@@ -1,3 +1,4 @@
+import { HunterMotion } from './hunter-motion';
 import {openPanel,controlsMarkup,languageSettings} from './ui/shell';
 import {readMaster,saveMaster} from './ui/preferences';
 import {loading,finishLoading} from './ui/loading';
@@ -427,7 +428,9 @@ async function loadModelGLB(name: string) {
   return loadGLB(`/web/models/${name}.glb`);
 }
 type CharacterLook = 'nl' | 'term';
+let hunterFrameDt = 0;
 interface Rig {
+  hunter: HunterMotion | null;
   root: THREE.Object3D; mixer: THREE.AnimationMixer;
   walk: THREE.AnimationAction | null; run: THREE.AnimationAction | null; idle: THREE.AnimationAction | null;
   attack: THREE.AnimationAction | null; shoot: THREE.AnimationAction | null;
@@ -527,6 +530,7 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   if (walkWeight) { walkWeight.setEffectiveWeight(0.38); walkWeight.play(); }
   return {
     root, mixer, walk, run: mk(runClip), idle,
+    hunter: look === 'nl' && (FPS_DUEL || MISSION) ? new HunterMotion(root, FPS_DUEL || who === 3) : null,
     attack: look === 'term' ? mkAdd(mixer, resolved.attack, false) : mkShot(resolved.attack, false),
     shoot: mkAdd(mixer, resolved.shoot, false),
     hit: mkAdd(mixer, resolved.hit, false),
@@ -653,15 +657,17 @@ function scanRigCues(rig: Rig) {
 
 function advanceRigs(dt: number) {
   if (!(dt > 0)) return;
+  hunterFrameDt += dt;
   for (const rig of [...nlRigs, termRig]) {
     if (!rig) continue;
     const ts = Math.max(Math.abs(rig.current?.timeScale ?? 1), Math.abs(rig.overlay?.timeScale ?? 1));
+    rig.hunter?.restore();
     restoreVerticalPose(rig.root);
     advanceMixer(rig.mixer, dt, mixerSubstepCount(dt, ts));
     scanRigCues(rig);
     const hunter=typeof rig.who==='number'?w.nls[rig.who]:null;
     if(hunter?.vertical)applyVerticalPose(rig.root,hunter,w.tick*DT);
-    else if (rig.kind !== 'death') applyFootIk(rig.root);
+    else if (rig.kind !== 'death' && !rig.hunter) applyFootIk(rig.root);
   }
   for (let i = 0; i < nlFall.length; i++) {
     const b = nlFall[i]; if (!b) continue;
@@ -1206,6 +1212,7 @@ function startRound() {
   director.mission = MISSION;
   director.huntCam = CAM_MODE === 'shoulder';
   director.beginRound();
+  for(const rig of nlRigs)rig?.hunter?.reset();
   if (FPS_DUEL) { updateRigs(); advanceRigs(0.001); }
 }
 let diabloDist = DIABLO.dist;
@@ -1366,6 +1373,14 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
       if (w.events.some(e => e.type === 'enemyBolt' && e.who === i)) {
         intent.attack = true; intent.attackStyle = 'shoot';
       }
+    }
+    if(rig.hunter){
+      // Side/back movement is locomotion; only the simulation's actual evade flag is an evade.
+      intent.dodge = false;
+      rig.hunter.signal({arm:n.armTicks,shot:n.shotTicks??0,windup:(FPS_DUEL?4:6)*DT,
+        impact:flags.claw.includes(i)||flags.whiff.includes(i),
+        fire:w.events.some(e=>e.type==='enemyBolt'&&e.who===i),
+        hit:n.lastDamageTick===w.tick||intent.hit,dodge:(n.dodgeTicks??0)>0});
     }
     const wasDeath = rig.combat.state === 'death';
     rig.combat = tickMachine(rig.combat, intent, DT, rig.clipDurations);
@@ -1589,7 +1604,7 @@ function nlBodyReport() {
     const clip = rig?.current?.getClip().name ?? null;
     const kind = rig?.kind ?? null;
     return {
-      i, alive: n.alive, kind, clip,
+      i, alive: n.alive, kind, clip, motion:rig?.hunter?.report(),
       loco: kind ? isLoco(kind) : false,
       skinned, visibleSkinned, proxyVisible,
     };
@@ -1660,15 +1675,21 @@ function render(alpha: number) {
     const g = nlMeshes[i];
     if (FPS_DUEL && i > 0) { g.visible = false; return; }
     const fall = nlFall[i];
-    g.rotation.z=n.alive&&n.dodgeTicks?-.35*(i%2?1:-1):0;
+    g.rotation.z=nlRigs[i]?.hunter?0:(n.alive&&n.dodgeTicks?-.35*(i%2?1:-1):0);
     const ox = fall?.ox ?? 0, oy = fall?.oy ?? 0, oz = fall?.oz ?? 0;
     g.position.set(lerp(prev.n[i][0], n.x) + ox, oy+lerp(prev.n[i][3]??0,n.height??0), lerp(prev.n[i][1], n.y) + oz);
     if (nlRigs[i]) g.rotation.y = -la(prev.n[i][2], n.facing);
     else if (!n.alive) { g.rotation.set(Math.PI / 2, 0, 0); g.position.y = 0.4 + oy; }
     else g.rotation.y = -la(prev.n[i][2], n.facing);
     // Match : pas de mesh orphelin. Les planches `?demo=` gardent le clip de mort à l'écran.
+    const motion=nlRigs[i]?.hunter;
+    if(motion){
+      if(n.alive&&!n.vertical){g.updateWorldMatrix(true,true);motion.apply(hunterFrameDt);}
+      else motion.suspend();
+    }
     g.visible = n.alive || ((FPS_DUEL || MISSION) && !!nlFall[i]) || nlCamHold[i]! > 0 || !!DEMO_CFG;
   });
+  hunterFrameDt=0;
   hitGlowNL.forEach((l, i) => { l.intensity = 5.5 * (nlRigs[i]?.combat.hitFlash ?? 0); });
   hitGlowT.intensity = 6.5 * (termRig?.combat.hitFlash ?? 0);
   // Même clé que `?shot=` : fill T/NL + fog un cran plus court, pour que cap=1 ne soit pas plus sombre.
@@ -2311,7 +2332,7 @@ if (PROBE_READ) {
     let frame = 0;
     w.t.x = 4; w.t.y = 12; w.t.facing = 0; fpsLook.yaw = 0; fpsLook.pitch = -.16;
     w.nls.forEach((n,i) => {n.alive=i===0; n.x=10; n.y=12; n.facing=Math.PI; n.armTicks=0;n.stunTicks=0;n.dodgeTicks=0;});
-    prev=snap();
+    prev=snap();for(const rig of nlRigs)rig?.hunter?.reset();
     (window as any).__motionFrame=() => {
       const t=frame/60, k=Math.floor(frame/6);
       if(frame%6===0){
