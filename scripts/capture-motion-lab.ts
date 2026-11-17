@@ -12,6 +12,7 @@ try {
  await p.evaluate(()=>document.querySelectorAll('.game-shell,#fps-prompt,#fps-entry').forEach(e=>(e as HTMLElement).style.display='none'));
  for(let i=0;i<600;i++){
   const v=await p.evaluate(()=>(window as any).__motionFrame());
+  if(i>=360&&i<=408&&i%2===0)await p.screenshot({path:`${out}/action-${i}.jpg`,type:'jpeg',quality:92,clip:{x:430,y:180,width:420,height:360}});
   if(i%6===0){trace.push(v);await p.screenshot({path:`${out}/frame-${String(i/6).padStart(3,'0')}.jpg`,type:'jpeg',quality:85});}
  }
  writeFileSync(`${out}/trace.json`,JSON.stringify({fixture:true,tag,fps:10,errors,trace},null,2));console.log(tag,errors,trace.length);

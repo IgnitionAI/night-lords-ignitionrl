@@ -1,7 +1,7 @@
 import {test,expect} from 'bun:test';
 import {readFileSync} from 'node:fs';
 import * as T from 'three';
-import {HunterMotion,attackEnvelope,stepDuration} from '../web/hunter-motion';
+import {HunterMotion,attackEnvelope,stepDuration,hitOnCompletedTick} from '../web/hunter-motion';
 import {parseGlb,measureHeight} from '../web/stride';
 (globalThis as any).self=globalThis;
 (globalThis as any).Image=class {width=1;height=1;onload:any;set src(_v:string){queueMicrotask(()=>this.onload?.());}};
@@ -27,7 +27,7 @@ test('sprint does not stretch the rig or depend on render frequency',async()=>{
  }
 });
 test('attack anticipation cannot precede the actual windup and recovers to guard',()=>{
- for(const windup of [.4,.6]){expect(attackEnvelope(windup-.13,windup).strike).toBe(0);expect(attackEnvelope(windup,windup).strike).toBeCloseTo(1);expect(attackEnvelope(windup+.45,windup).recover).toBe(1);}
+ for(const windup of [.4,.6]){expect(attackEnvelope(windup-.19,windup).strike).toBe(0);expect(attackEnvelope(windup,windup).strike).toBeCloseTo(1);expect(attackEnvelope(windup+.45,windup).recover).toBe(1);}
  expect(stepDuration(6)).toBeLessThan(stepDuration(2));expect(stepDuration(100)).toBe(.17);
 });
 
@@ -39,4 +39,39 @@ test('reversals do not leave a planted foot behind or snap the facing',async()=>
   group.updateMatrixWorld(true);motion.restore();motion.apply(1/60);
  }
  expect(motion.report().contactError).toBeLessThan(.08);
+});
+
+test('fast lateral dodges and rapidly changing directions release contacts before overextension',async()=>{
+ const {group,motion}=await hunter();
+ for(let i=0;i<600;i++){
+  const heading=Math.floor(i/15)*1.8;group.position.x+=Math.cos(heading)*8/60;group.position.z+=Math.sin(heading)*8/60;
+  group.rotation.y=motion.facing(-heading,1/60);group.updateMatrixWorld(true);motion.restore();motion.apply(1/60);
+ }
+ expect(motion.report().contactError).toBeLessThan(.08);
+});
+
+test('a real armoured duel hit triggers a visual reaction even without simulation stun',async()=>{
+ const {newWorld,step,T_IDLE}=await import('../src/sim');
+ const w=newWorld(527,{x:4,y:12,facing:0},{fps:true,eliteDuel:true});
+ w.nls.forEach((n,i)=>{n.alive=i===0;n.x=8;n.y=12;});
+ step(w,{...T_IDLE,bolt:true,aimPitch:-.1},[0,0,0,0]);
+ expect(w.nls[0].hp).toBeLessThan(24);expect(w.nls[0].stunTicks).toBe(0);
+ const hit=hitOnCompletedTick(w.nls[0].lastDamageTick,w.tick);expect(hit).toBe(true);
+ expect(hitOnCompletedTick(w.nls[0].lastDamageTick,w.tick+1)).toBe(false);
+ const {motion}=await hunter();motion.signal({arm:0,shot:0,windup:.4,impact:false,fire:false,hit,dodge:false});motion.apply(.07);
+ expect(motion.report().state).toBe('hit');
+});
+
+test('strike and interrupted preparation blend continuously with grounded feet',async()=>{
+ for(const interrupted of [false,true]){
+  const {root,motion}=await hunter();let last:T.Vector3|undefined,maxJump=0;
+  for(let i=0;i<70;i++){
+   if(i===0)motion.signal({arm:4,shot:0,windup:.4,impact:false,fire:false,hit:false,dodge:false});
+   if(interrupted&&i===12)motion.signal({arm:0,shot:0,windup:.4,impact:false,fire:false,hit:true,dodge:false});
+   if(!interrupted&&i===24)motion.signal({arm:0,shot:0,windup:.4,impact:true,fire:false,hit:false,dodge:false});
+   motion.restore();motion.apply(1/60);const hand=root.getObjectByName('RightHand')!.getWorldPosition(new T.Vector3());
+   if(last)maxJump=Math.max(maxJump,last.distanceTo(hand));last=hand;
+  }
+  expect(maxJump).toBeLessThan(.16);expect(motion.report().state).toBe('idle');expect(motion.report().contactError).toBeLessThan(.03);
+ }
 });

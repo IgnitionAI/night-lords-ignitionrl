@@ -1,4 +1,4 @@
-import { HunterMotion } from './hunter-motion';
+import { HunterMotion, hitOnCompletedTick } from './hunter-motion';
 import {openPanel,controlsMarkup,languageSettings} from './ui/shell';
 import {readMaster,saveMaster} from './ui/preferences';
 import {loading,finishLoading} from './ui/loading';
@@ -1380,7 +1380,7 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
       rig.hunter.signal({arm:n.armTicks,shot:n.shotTicks??0,windup:(FPS_DUEL?4:6)*DT,
         impact:flags.claw.includes(i)||flags.whiff.includes(i),
         fire:w.events.some(e=>e.type==='enemyBolt'&&e.who===i),
-        hit:n.lastDamageTick===w.tick||intent.hit,dodge:(n.dodgeTicks??0)>0});
+        hit:hitOnCompletedTick(n.lastDamageTick,w.tick)||intent.hit,dodge:(n.dodgeTicks??0)>0});
     }
     const wasDeath = rig.combat.state === 'death';
     rig.combat = tickMachine(rig.combat, intent, DT, rig.clipDurations);

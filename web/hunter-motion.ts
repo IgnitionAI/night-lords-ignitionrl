@@ -5,10 +5,11 @@ import * as T from 'three';
 const V=()=>new T.Vector3();
 const clamp=T.MathUtils.clamp;
 const smooth=(x:number)=>{x=clamp(x,0,1);return x*x*(3-2*x);};
+export const hitOnCompletedTick=(damageTick:number|undefined,completedTick:number)=>damageTick!==undefined&&damageTick===completedTick-1;
 export const stepDuration=(speed:number)=>clamp(.32-speed*.023,.17,.32);
 export const attackEnvelope=(age:number,windup:number)=>({
-  prepare:smooth(age/Math.max(.15,windup-.14)),
-  strike:smooth((age-windup+.12)/.12),
+  prepare:smooth(age/Math.max(.15,windup-.20)),
+  strike:smooth((age-windup+.18)/.18),
   recover:smooth((age-windup-.06)/.32),
 });
 type Pose={bone:T.Object3D;p:T.Vector3;q:T.Quaternion};
@@ -41,6 +42,7 @@ export class HunterMotion {
   private feet:Foot[]=[]; private hips:T.Object3D;private spine:T.Object3D;private head:T.Object3D;
   private origin=V();private rotation=new T.Quaternion();private last=V();private velocity=V();
   private initialized=false;private elapsed=0;private activeFoot=-1;private nextFoot=0;
+  private canceledAt:number|null=null;private cancelAge=0;
   private attackAge=99;private shotAge=99;private hitAge=99;private windup=.4;
   private preparing=false;private aiming=false;private dodge=0;private distance=0;
   private aimBlend=0;private dodgeBlend=0;private yaw:number|null=null;
@@ -70,10 +72,10 @@ export class HunterMotion {
     const error=Math.atan2(Math.sin(target-this.yaw),Math.cos(target-this.yaw));
     this.yaw+=clamp(error,-6*dt,6*dt);return this.yaw;
   }
-  reset(){this.restore();this.initialized=false;this.elapsed=0;this.attackAge=this.shotAge=this.hitAge=99;this.preparing=this.aiming=false;this.activeFoot=-1;this.nextFoot=0;this.yaw=null;this.aimBlend=this.dodgeBlend=0;this.contactError=0;}
+  reset(){this.restore();this.initialized=false;this.elapsed=0;this.attackAge=this.shotAge=this.hitAge=99;this.canceledAt=null;this.cancelAge=0;this.preparing=this.aiming=false;this.activeFoot=-1;this.nextFoot=0;this.yaw=null;this.aimBlend=this.dodgeBlend=0;this.contactError=0;}
   signal(s:HunterSignal){
-    if(s.arm>0&&!this.preparing){this.attackAge=0;this.windup=s.windup;}
-    if(this.preparing&&s.arm===0&&!s.impact&&s.hit)this.attackAge=this.windup+.08;
+    if(s.arm>0&&!this.preparing){this.attackAge=0;this.canceledAt=null;this.cancelAge=0;this.windup=s.windup;}
+    if(this.preparing&&s.arm===0&&!s.impact&&s.hit){this.canceledAt=this.attackAge;this.cancelAge=0;}
     this.preparing=s.arm>0;this.aiming=s.shot>0;
     // Impact is authoritative: the visual swing cannot run early or postpone damage.
     if(s.impact)this.attackAge=this.windup;
@@ -95,14 +97,14 @@ export class HunterMotion {
       for(const f of this.feet){f.anchor.copy(this.point(f.side*.24,.20,f.side*.05));f.phase=1;}
       this.initialized=true;
     }else if(dt>0){this.velocity.copy(delta).divideScalar(dt);this.distance+=delta.length();}
-    this.last.copy(this.origin);this.elapsed+=dt;this.attackAge+=dt;this.shotAge+=dt;this.hitAge+=dt;
+    this.last.copy(this.origin);this.elapsed+=dt;this.attackAge+=dt;this.cancelAge+=dt;this.shotAge+=dt;this.hitAge+=dt;
     if(this.preparing)this.attackAge=Math.min(this.attackAge,this.windup-.001);
-    const aimTarget=this.ranged&&(this.aiming||this.shotAge<.2)?1:0;
+    const aimTarget=this.aiming||this.shotAge<.2?1:0;
     this.aimBlend+=(aimTarget-this.aimBlend)*(1-Math.exp(-14*dt));
     this.dodgeBlend+=(this.dodge-this.dodgeBlend)*(1-Math.exp(-18*dt));
     const hit=this.hitAge<.32?Math.sin(Math.PI*clamp(this.hitAge/.07,0,1)/2)*(1-smooth((this.hitAge-.07)/.25)):0;
     const recoil=this.shotAge<.22?(1-smooth(this.shotAge/.22))*.065:0;
-    const attack=attackEnvelope(this.attackAge,this.windup),weight=1-attack.recover;
+    const attack=attackEnvelope(this.canceledAt??this.attackAge,this.windup),weight=(1-attack.recover)*(this.canceledAt===null?1:1-smooth(this.cancelAge/.16));
     const coil=attack.prepare*(1-attack.strike)*weight,cut=attack.strike*weight;
     const speed=this.velocity.length();const localV=this.velocity.clone().applyQuaternion(this.rotation.clone().invert());
     const moving=speed>.12;
@@ -112,12 +114,13 @@ export class HunterMotion {
     const settle=moving?.014*Math.cos(this.distance*6):.003*Math.sin(this.elapsed*2.1);
     hipsWorld.copy(this.point(0,1.04+settle-.022*hit-.035*this.dodgeBlend-.02*coil,.025*cut));
     this.hips.position.copy(this.hips.parent!.worldToLocal(hipsWorld));
-    this.spine.quaternion.multiply(new T.Quaternion().setFromEuler(new T.Euler(clamp(localV.z*.009,-.035,.06)-hit*.14+cut*.07,coil*-.20+cut*.24,clamp(-localV.x*.009,-.045,.045))));
+    this.spine.quaternion.multiply(new T.Quaternion().setFromEuler(new T.Euler(clamp(localV.z*.009,-.035,.06)-hit*.14+cut*.07-recoil*.7,coil*-.20+cut*.24,clamp(-localV.x*.009,-.045,.045))));
     this.head.quaternion.multiply(new T.Quaternion().setFromEuler(new T.Euler(hit*.07,-coil*-.14-cut*.16,0)));
     this.root.updateWorldMatrix(true,true);
     // Feet remain in world space through translations and facing changes. Only the swinging foot moves.
     const duration=stepDuration(speed);
     const homes=this.feet.map(f=>this.point(f.side*.24,.20,f.side*.05));
+    this.activeFoot=this.feet.findIndex(f=>f.phase<1);
     if(this.activeFoot<0){
       const errors=this.feet.map((f,i)=>Math.hypot(f.anchor.x-homes[i].x,f.anchor.z-homes[i].z));
       let pick=this.nextFoot;
@@ -133,7 +136,13 @@ export class HunterMotion {
     }
     for(let i=0;i<2;i++){
       const f=this.feet[i];let target=f.anchor.clone();
-      if(this.activeFoot===i){
+      // At sprint speed or an abrupt evasive turn, release a loaded foot before the leg overextends.
+      // This permits a short flight phase; an airborne foot must never be reported as planted.
+      if(f.phase>=1&&Math.hypot(f.anchor.x-homes[i].x,f.anchor.z-homes[i].z)>.44){
+        f.from.copy(f.anchor);f.to.copy(homes[i]).addScaledVector(this.velocity,.13);
+        f.phase=0;f.duration=Math.min(.14,duration);f.lift=.10;
+      }
+      if(f.phase<1){
         f.phase=Math.min(1,f.phase+dt/f.duration);
         // Replan the landing during a reversal; never finish a stride in the old travel direction.
         const landing=homes[i].clone();
@@ -154,11 +163,11 @@ export class HunterMotion {
       if(arm.side===-1){
         // Right weapon: draw back, committed diagonal cut, then recover into the same guard.
         hand.lerp(new T.Vector3(-.42,1.59,.02),coil);
-        hand.lerp(new T.Vector3(.13,1.16,.61),cut);
+        hand.lerp(new T.Vector3(-.05,1.24,.46),cut);
         if(this.ranged)hand.lerp(new T.Vector3(-.27,1.43,.53-recoil),this.aimBlend*(1-weight));
       }else{
         hand.lerp(new T.Vector3(.28,1.39,.30),Math.min(1,coil+cut)*.6);
-        if(this.ranged)hand.lerp(new T.Vector3(.16,1.34,.49-recoil),this.aimBlend*(1-weight));
+        hand.lerp(this.ranged?new T.Vector3(.16,1.34,.49-recoil):new T.Vector3(.26,1.43,.53-recoil),this.aimBlend*(1-weight));
       }
       hand.z-=hit*.055;
       const target=this.point(hand.x,hand.y,hand.z);
