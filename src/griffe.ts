@@ -2,10 +2,12 @@ import {beginClimb} from './vertical-hunt';
 import {CEILING_ROUTES} from './ship-layout';
 import {SHIP_LANDMARKS} from './ship-layout';
 import {shipHeading} from './ship-path';
+import {travel,searchContact} from './fps-navigation';
 import { angNorm, nlFrame, rayFree, los, collide, geometry, type World } from './sim';
 /** Learned actor remains authoritative. A wounded, exposed squadmate may retreat during recovery. */
 export function griffeAction(w:World,i:number,learned:number,choice?:number):number {
  const n=w.nls[i],b=n.belief;
+ n.navHeading=undefined;n.navDistance=undefined;
  if(!n.alive)return 0;
  if(w.opts.mission)return huntAction(w,i,learned,choice);
  if(!b.valid||b.age>10||b.facing===null||n.armTicks||n.stunTicks)return learned;
@@ -26,20 +28,6 @@ export function griffeAction(w:World,i:number,learned:number,choice?:number):num
 }
 
 const shelters=new WeakMap<World,Map<number,{x:number,y:number,until:number}>>();
-function travel(w:World,i:number,x:number,y:number):number {
- const n=w.nls[i],f=nlFrame(n);
- if(Math.hypot(n.x-x,n.y-y)<.65)return 0;
- const h=shipHeading(w,n.x,n.y,x,y);
- let best=-Infinity,action=0;
- for(const [k,u,v] of [[1,1,0],[2,-1,0],[3,0,1],[4,0,-1],[5,.707,.707],[6,.707,-.707]]) {
-  const dx=f.ux*u+f.vx*v,dy=f.uy*u+f.vy*v;
-  const next={x:n.x+dx*.32,y:n.y+dy*.32};collide(next,.45,w.propSolids,n);
-  if(Math.hypot(next.x-n.x,next.y-n.y)<.025)continue;
-  const score=(next.x-n.x)*Math.cos(h)+(next.y-n.y)*Math.sin(h);
-  if(score>best){best=score;action=k;}
- }
- return action;
-}
 export type ClawRole='leader'|'bait'|'hunter'|'interceptor';
 export type TacticalMode='search'|'flank'|'attack'|'cover'|'withdraw'|'sync';
 export interface TacticalState {role:ClawRole;mode:TacticalMode;until:number;search:number;syncRest:number;}
@@ -55,7 +43,8 @@ function huntAction(w:World,i:number,learned:number,choice?:number):number {
  state.role=(['leader','bait','hunter','interceptor'] as ClawRole[])[known.indexOf(i)%4];
  if(n.vertical)return 0;
  if(n.armTicks||n.stunTicks||(n.recoveryTicks??0)>0)return 0;
- if(!b.valid||b.age>45){
+ if(b.valid&&!b.seen&&!b.vox&&b.age>8&&b.age<90){state.mode='search';return searchContact(w,i);}
+ if(!b.valid||b.age>=90){
   state.mode='search';
   const point=SHIP_LANDMARKS[state.search%SHIP_LANDMARKS.length];
   if(Math.hypot(n.x-point.x,n.y-point.y)<1)state.search++;
@@ -92,7 +81,12 @@ function huntAction(w:World,i:number,learned:number,choice?:number):number {
  const wantsSync=choice===6||(choice===undefined&&state.role==='hunter'&&support&&!exposed&&d>4&&d<10);
  if(wantsSync&&state.mode==='flank'&&w.tick>=state.syncRest){state.mode='sync';state.until=w.tick+12;state.syncRest=w.tick+45;}
  if(state.mode==='sync'&&w.tick<state.until)return 0;
- if(state.mode==='attack'&&b.age<15){if(d<1.75)return n.cd===0?7:learned;return travel(w,i,b.x,b.y);}
+ if(state.mode==='attack'&&b.age<15){
+  if(d<1.75&&b.seen)return n.cd===0?7:(learned>0&&learned<7?learned:0);
+  // Stable assigned sides keep the rear hunters out of the leader's approach lane.
+  const angle=Math.atan2(n.y-b.y,n.x-b.x),offset=d>3.2?(i%2?-.65:.65):0;
+  return travel(w,i,b.x+Math.cos(angle+offset)*1.35,b.y+Math.sin(angle+offset)*1.35,.2);
+ }
  if(state.mode==='flank'&&(choice===5||choice===undefined&&state.role==='interceptor')&&!n.verticalRest){
   if(beginClimb(w,n))return 0;
   const grips=CEILING_ROUTES.flatMap(r=>[r.a,r.b]).filter(p=>Math.hypot(p.x-n.x,p.y-n.y)<8);

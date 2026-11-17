@@ -64,6 +64,7 @@ export const T_IDLE: TAction = { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: 
 export interface Belief { valid: boolean; x: number; y: number; age: number; facing: number | null; seen: boolean; heard: boolean; vox: boolean }
 export interface Mate { known: boolean; x: number; y: number; age: number; alive: boolean; retreatUntil?: number }
 export interface NL {
+  vx?:number; vy?:number; navHeading?:number; navDistance?:number; heardTick?:number;
   hp?: number;
   observedArmor?: number; retreatUntil?: number; lastDamageTick?:number; height?: number; vertical?: VerticalMotion; verticalRest?: number;
   reloadHeardUntil?: number; shotRest?: number;
@@ -229,14 +230,17 @@ function perceive(w: World) {
   for (const n of w.nls) {
     if (!n.alive) continue;
     const b = n.belief; b.seen = seers.includes(n);
-    if(w.opts.mission && t.reloadLeft>0 && (b.seen || (dist(n.x,n.y,t.x,t.y)<7 && los(n.x,n.y,t.x,t.y,w.propSolids)))) n.reloadHeardUntil=w.tick+t.reloadLeft;
+    if(w.opts.fps && t.reloadLeft>0 && (b.seen || (dist(n.x,n.y,t.x,t.y)<7 && los(n.x,n.y,t.x,t.y,w.propSolids)))) n.reloadHeardUntil=w.tick+t.reloadLeft;
     b.vox = !b.seen && seers.some(m => dist(m.x, m.y, n.x, n.y) <= NL_CFG.voxRange); b.heard = false;
     if (b.seen || b.vox) { b.valid = true; b.x = t.x; b.y = t.y; b.age = 0; b.facing = t.facing; n.observedArmor=t.hp; }
     else {
       b.facing = null;
       if (dist(n.x, n.y, t.x, t.y) <= t.noise) {
-        b.heard = true; b.valid = true; b.age = 0;
-        b.x = t.x + gauss(w.rng) * NL_CFG.hearSigma; b.y = t.y + gauss(w.rng) * NL_CFG.hearSigma;
+        b.heard = true; b.valid = true;
+        if(!w.opts.fps || w.tick-(n.heardTick??-99)>=6){
+          b.age=0;n.heardTick=w.tick;
+          b.x = t.x + gauss(w.rng) * NL_CFG.hearSigma; b.y = t.y + gauss(w.rng) * NL_CFG.hearSigma;
+        }else b.age++;
       } else b.age++;
     }
     // frères : vus, entendus (bruit de leurs pas / griffes) ou à portée de vox ; sinon dernière position connue qui vieillit
@@ -502,12 +506,27 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
       }
     } else if (a > 0) {
       const dirs: Record<number, [number, number]> = { 1: [1, 0], 2: [-1, 0], 3: [0, 1], 4: [0, -1], 5: [0.7071, 0.7071], 6: [0.7071, -0.7071] };
-      const [du, dv] = dirs[a]; const mx = f.ux * du + f.vx * dv, my = f.uy * du + f.vy * dv;
+      const [du, dv] = dirs[a]; let mx = f.ux * du + f.vx * dv, my = f.uy * du + f.vy * dv;
+      if(w.opts.fps&&n.navHeading!==undefined){mx=Math.cos(n.navHeading);my=Math.sin(n.navHeading);}
       const sp = (w.opts.eliteDuel ? ((n.burstTicks ?? 0) > 0 ? 8 : 5.4) : w.opts.mission ? 4.8 : w.opts.fps ? 3.2 : NL_CFG.speed) * (stunned ? T_CFG.stunSpeed : 1); // étourdi : il se traîne
       const nx0 = n.x, ny0 = n.y;
-      n.x += mx * sp * DT; n.y += my * sp * DT; n.facing = Math.atan2(my, mx); n.noise = NL_CFG.noiseMove;
+      if(w.opts.fps){
+        const speed=sp*Math.min(1,(n.navDistance??10)/1.4);
+        let dx=mx*speed-(n.vx??0),dy=my*speed-(n.vy??0),change=Math.hypot(dx,dy),limit=18*DT;
+        if(change>limit){dx*=limit/change;dy*=limit/change;}
+        n.vx=(n.vx??0)+dx;n.vy=(n.vy??0)+dy;
+        n.x+=n.vx*DT;n.y+=n.vy*DT;
+        const face=n.belief.seen&&f.d<5?Math.atan2(f.uy,f.ux):Math.atan2(n.vy,n.vx);
+        n.facing=angNorm(n.facing+Math.max(-.32,Math.min(.32,angNorm(face-n.facing))));
+      }else{n.x += mx * sp * DT; n.y += my * sp * DT; n.facing = Math.atan2(my, mx);}
+      n.noise = NL_CFG.noiseMove;
       collide(n, NL_CFG.radius, w.propSolids, { x: nx0, y: ny0 });
-    } else n.facing = Math.atan2(f.uy, f.ux);
+      if(w.opts.fps){n.vx=(n.x-nx0)/DT;n.vy=(n.y-ny0)/DT;}
+    } else {
+      const face=Math.atan2(f.uy,f.ux);
+      n.facing=w.opts.fps?angNorm(n.facing+Math.max(-.32,Math.min(.32,angNorm(face-n.facing)))):face;
+      n.vx=0;n.vy=0;
+    }
     collide(n, NL_CFG.radius, w.propSolids);
     const d = dist(n.x, n.y, t.x, t.y), mind = NL_CFG.radius + T_CFG.radius;
     if (d < mind && d > 0) { n.x = t.x + (n.x - t.x) / d * mind; n.y = t.y + (n.y - t.y) / d * mind; collide(n, NL_CFG.radius, w.propSolids); }
@@ -535,7 +554,11 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   for (let i = 0; i < w.nls.length; i++) for (let j = i + 1; j < w.nls.length; j++) {
     const a = w.nls[i], b = w.nls[j]; if (!a.alive || !b.alive || Math.abs((a.height??0)-(b.height??0))>1.4) continue;
     const d = dist(a.x, a.y, b.x, b.y), m = 2 * NL_CFG.radius;
-    if (d < m && d > 0) { const p = (m - d) / 2; a.x -= (b.x - a.x) / d * p; a.y -= (b.y - a.y) / d * p; b.x += (b.x - a.x) / d * p; b.y += (b.y - a.y) / d * p; }
+    if(w.opts.fps&&d<m){
+      const ax=a.x,ay=a.y,bx=b.x,by=b.y,dx=d>1e-6?(bx-ax)/d:1,dy=d>1e-6?(by-ay)/d:0,p=(m-d)/2;
+      a.x-=dx*p;a.y-=dy*p;b.x+=dx*p;b.y+=dy*p;
+      collide(a,NL_CFG.radius,w.propSolids,{x:ax,y:ay});collide(b,NL_CFG.radius,w.propSolids,{x:bx,y:by});
+    } else if (d < m && d > 0) { const p = (m - d) / 2; a.x -= (b.x - a.x) / d * p; a.y -= (b.y - a.y) / d * p; b.x += (b.x - a.x) / d * p; b.y += (b.y - a.y) / d * p; }
   }
   // --- Gantelet : la charge se décompte **en fin de tick**, après que la meute a joué. L'impact tombe donc à la fin
   // du 8ᵉ tick qui suit l'entrée, sur les positions de fin de tick (comme un contact, pas comme un tir). Le stagger
