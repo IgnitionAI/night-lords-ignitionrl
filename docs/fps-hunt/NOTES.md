@@ -35,3 +35,5 @@ Dans ces scénarios, la pénétration maximale d'un obstacle passe de 0,137 m à
 - Parcours de l'aperçu Genex : menu, choix du duel et déploiement observés séparément des captures automatisées. La séquence de commandes suivante a été acceptée sans erreur ; son image finale montre le retour à l'accueil. Les effets précis du recul, du tir et de la pause sont donc attestés par les captures automatisées, pas par cette seule image.
 
 Le rapport chiffré est dans `report.json`. Le jeu reste à apprécier dans Reload : menace ressentie, lisibilité des attaques et sensation du poids ne peuvent pas être validées à la place du joueur.
+
+Dernière vérification : reconstruction Studio réussie (avertissement de taille de bundle existant). L'aperçu a présenté un écran vide après rechargement, sans erreur console ; un rafraîchissement a rétabli l'accueil, observé à nouveau. Aucun correctif de menu n'a été introduit sur la seule base de cet incident transitoire.
