@@ -9,7 +9,7 @@ export function initialLocale(saved: string | null, languages: readonly string[]
 let saved: string | null = null;
 try { saved = globalThis.localStorage?.getItem(LANGUAGE_KEY) ?? null; } catch {}
 let locale: Locale = initialLocale(saved, typeof navigator === 'undefined' ? ['fr'] : navigator.languages?.length ? navigator.languages : [navigator.language]);
-const catalog = new Map<string,string>(pairs);
+const catalog = new Map<string,string>(pairs.map(([fr,en])=>[fr,en] as const));
 const escape = (s:string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 // Source phrases are stable gettext-style keys. A single longest-match pass also
 // translates historical engine reports without modifying saved events or rules.

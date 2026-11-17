@@ -790,5 +790,671 @@
         "public/assets/genex/50baf625-84d8-4a1e-8efe-a3b43fd8061e/purifying-fire-cmwkin59.mp3"
       ]
     }
+  },
+  {
+    "id": "scanning",
+    "text": "Auspex sweep in progress.",
+    "event": "scanning",
+    "submitted": true,
+    "generation": {
+      "id": "165272c6-f4e3-4d68-927c-fe34c938637a",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:54:59.394Z",
+      "generationId": "cmwkinl8w03dv3gt905azkfc8",
+      "remoteStatus": "pending",
+      "requestId": "dc75d50c-c6f4-4ed9-b914-78f01ab32f6c",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkinl8w03dv3gt905azkfc8",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkinl8w03dv3gt905azkfc8 --json"
+      }
+    },
+    "delivery": {
+      "id": "ed16aa7f-9eb0-4097-b164-cc2de4c49c91",
+      "files": [
+        "public/assets/genex/ed16aa7f-9eb0-4097-b164-cc2de4c49c91/auspex-sweep-in-progress-cmwkinl8.mp3"
+      ]
+    }
+  },
+  {
+    "id": "working",
+    "text": "Connecting to the systems.",
+    "event": "working",
+    "submitted": true,
+    "generation": {
+      "id": "2f26b782-1206-494f-acb4-927a3fc33d8f",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:55:20.379Z",
+      "generationId": "cmwkio18x03hu30qk9oytc5iz",
+      "remoteStatus": "pending",
+      "requestId": "8323c1be-9283-4f21-9b68-93f390b198a3",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkio18x03hu30qk9oytc5iz",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkio18x03hu30qk9oytc5iz --json"
+      }
+    },
+    "delivery": {
+      "id": "3ba5dccd-426e-43e7-a8a1-471f60a3bb4e",
+      "files": [
+        "public/assets/genex/3ba5dccd-426e-43e7-a8a1-471f60a3bb4e/connecting-to-the-systems-cmwkio18.mp3"
+      ]
+    }
+  },
+  {
+    "id": "guarding",
+    "text": "Sector under watch.",
+    "event": "guarding",
+    "submitted": true,
+    "generation": {
+      "id": "dabcf281-85bb-4037-809e-2dbf846a49fa",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:55:40.937Z",
+      "generationId": "cmwkioh7803e73gt9fraqvsae",
+      "remoteStatus": "pending",
+      "requestId": "b2bb0e5c-9538-44c5-9584-bb8ba5d43839",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkioh7803e73gt9fraqvsae",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkioh7803e73gt9fraqvsae --json"
+      }
+    },
+    "delivery": {
+      "id": "54dbadfd-ce1c-4c69-92a7-fef85932a787",
+      "files": [
+        "public/assets/genex/54dbadfd-ce1c-4c69-92a7-fef85932a787/sector-under-watch-cmwkioh7.mp3"
+      ]
+    }
+  },
+  {
+    "id": "door-open",
+    "text": "Passage open.",
+    "event": "door-open",
+    "submitted": true,
+    "generation": {
+      "id": "33f866e6-4615-4184-8899-44351c90bedf",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:56:01.487Z",
+      "generationId": "cmwkiox1h03eh3gt9lbmd2d6q",
+      "remoteStatus": "pending",
+      "requestId": "a162145d-c3ac-4333-ae5c-b022b95784c1",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkiox1h03eh3gt9lbmd2d6q",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkiox1h03eh3gt9lbmd2d6q --json"
+      }
+    },
+    "delivery": {
+      "id": "2c226df4-7a1f-429b-b157-dbb504a285be",
+      "files": [
+        "public/assets/genex/2c226df4-7a1f-429b-b157-dbb504a285be/passage-open-cmwkiox1.mp3"
+      ]
+    }
+  },
+  {
+    "id": "door-closed",
+    "text": "Airlock sealed.",
+    "event": "door-closed",
+    "submitted": true,
+    "generation": {
+      "id": "c2d5ab06-7cec-4888-b3e5-6ba40daba038",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:56:22.186Z",
+      "generationId": "cmwkipd6r03es3gt9kz2p2bpm",
+      "remoteStatus": "pending",
+      "requestId": "f41eb605-5c5e-4174-8113-56bfe23054d6",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkipd6r03es3gt9kz2p2bpm",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkipd6r03es3gt9kz2p2bpm --json"
+      }
+    },
+    "delivery": {
+      "id": "5043e36e-08e8-4ec6-9d93-0c9cd02656b3",
+      "files": [
+        "public/assets/genex/5043e36e-08e8-4ec6-9d93-0c9cd02656b3/airlock-sealed-cmwkipd6.mp3"
+      ]
+    }
+  },
+  {
+    "id": "secured",
+    "text": "Objective secured, commander.",
+    "event": "secured",
+    "submitted": true,
+    "generation": {
+      "id": "545ca12d-b308-4997-8a6c-fa0f8712fe40",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:56:43.471Z",
+      "generationId": "cmwkipte403ii30qkacxnizfa",
+      "remoteStatus": "pending",
+      "requestId": "d763f0a5-d9ae-46a4-994e-d8cf3f39c616",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkipte403ii30qkacxnizfa",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkipte403ii30qkacxnizfa --json"
+      }
+    },
+    "delivery": {
+      "id": "feb022eb-403c-4053-831d-dc1439fd286e",
+      "files": [
+        "public/assets/genex/feb022eb-403c-4053-831d-dc1439fd286e/objective-secured-commander-cmwkipte.mp3"
+      ]
+    }
+  },
+  {
+    "id": "blocked",
+    "text": "Advance blocked.",
+    "event": "blocked",
+    "submitted": true,
+    "generation": {
+      "id": "5aa59bc0-26a5-4067-96a6-e4a3e5eba694",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:57:04.011Z",
+      "generationId": "cmwkiq9az03ip30qkj5mwcg2z",
+      "remoteStatus": "pending",
+      "requestId": "ad67d58e-b4fc-4e8f-aac5-a793dae1e98d",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkiq9az03ip30qkj5mwcg2z",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkiq9az03ip30qkj5mwcg2z --json"
+      }
+    },
+    "delivery": {
+      "id": "db134673-e124-484a-8450-47f972bee447",
+      "files": [
+        "public/assets/genex/db134673-e124-484a-8450-47f972bee447/advance-blocked-cmwkiq9a.mp3"
+      ]
+    }
+  },
+  {
+    "id": "contact",
+    "text": "Visual contact. The enemy is here.",
+    "event": "contact",
+    "submitted": true,
+    "generation": {
+      "id": "1a61ec84-3fdc-4373-af6d-c63832fb295a",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:57:24.400Z",
+      "generationId": "cmwkiqp0i03iv30qkqdrloele",
+      "remoteStatus": "pending",
+      "requestId": "3e09a7dd-6d6d-45af-a62b-61b84078e0ad",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkiqp0i03iv30qkqdrloele",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkiqp0i03iv30qkqdrloele --json"
+      }
+    },
+    "delivery": {
+      "id": "d61df578-7709-4108-9266-ba17560dbd75",
+      "files": [
+        "public/assets/genex/d61df578-7709-4108-9266-ba17560dbd75/visual-contact-the-enemy-is-here-cmwkiqp0.mp3"
+      ]
+    }
+  },
+  {
+    "id": "hurt",
+    "text": "Armour hit. I hold.",
+    "event": "hurt",
+    "submitted": true,
+    "generation": {
+      "id": "993ef247-f301-44dc-aa52-591ed7126628",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:57:45.087Z",
+      "generationId": "cmwkir50003j130qkrbndd8io",
+      "remoteStatus": "pending",
+      "requestId": "065ed100-50e1-4fc8-b216-97c51e7fa111",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkir50003j130qkrbndd8io",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkir50003j130qkrbndd8io --json"
+      }
+    },
+    "delivery": {
+      "id": "d9ecc659-836e-414f-8aa7-b34b6bf6725d",
+      "files": [
+        "public/assets/genex/d9ecc659-836e-414f-8aa7-b34b6bf6725d/armour-hit-i-hold-cmwkir50.mp3"
+      ]
+    }
+  },
+  {
+    "id": "kill",
+    "text": "Enemy neutralised.",
+    "event": "kill",
+    "submitted": true,
+    "generation": {
+      "id": "ab4e9acd-3244-4d34-9bca-35a53ad3d65d",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:58:05.780Z",
+      "generationId": "cmwkirl0303j830qkvp59wgee",
+      "remoteStatus": "pending",
+      "requestId": "a1d8acec-c705-4003-a95c-0ee15eef95da",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkirl0303j830qkvp59wgee",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkirl0303j830qkvp59wgee --json"
+      }
+    },
+    "delivery": {
+      "id": "177e7851-d074-4ba6-8c74-7bad9e0d0a2e",
+      "files": [
+        "public/assets/genex/177e7851-d074-4ba6-8c74-7bad9e0d0a2e/enemy-neutralised-cmwkirl0.mp3"
+      ]
+    }
+  },
+  {
+    "id": "fallen",
+    "text": "A brother has fallen.",
+    "event": "fallen",
+    "submitted": true,
+    "generation": {
+      "id": "ef689c37-ca77-4b70-ad54-44526440d5ca",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:58:26.470Z",
+      "generationId": "cmwkis10a03fd3gt9nqoj3pik",
+      "remoteStatus": "pending",
+      "requestId": "80f8a43a-8de4-4676-a56f-b1ca8833a36c",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkis10a03fd3gt9nqoj3pik",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkis10a03fd3gt9nqoj3pik --json"
+      }
+    },
+    "delivery": {
+      "id": "fc764f51-b50b-4687-a95c-83a3b794b447",
+      "files": [
+        "public/assets/genex/fc764f51-b50b-4687-a95c-83a3b794b447/a-brother-has-fallen-cmwkis10.mp3"
+      ]
+    }
+  },
+  {
+    "id": "recon-done",
+    "text": "Sweep complete.",
+    "event": "recon-done",
+    "submitted": true,
+    "generation": {
+      "id": "ddd04f90-a5e2-46ea-9a84-9977ee2ed0d2",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:58:47.221Z",
+      "generationId": "cmwkish1u03fj3gt9hpdgj2ju",
+      "remoteStatus": "pending",
+      "requestId": "a9767dbd-2c7f-45e6-b2a6-4caffcdda605",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkish1u03fj3gt9hpdgj2ju",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkish1u03fj3gt9hpdgj2ju --json"
+      }
+    },
+    "delivery": {
+      "id": "f5a37448-9abe-4724-8525-9d3162dae5bf",
+      "files": [
+        "public/assets/genex/f5a37448-9abe-4724-8525-9d3162dae5bf/sweep-complete-cmwkish1.mp3"
+      ]
+    }
+  },
+  {
+    "id": "victory",
+    "text": "Victory belongs to the Emperor.",
+    "event": "victory",
+    "submitted": true,
+    "generation": {
+      "id": "0135bf82-a3ea-45ab-ad5f-449273a9d764",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:59:07.636Z",
+      "generationId": "cmwkiswmz03fp3gt969hj070l",
+      "remoteStatus": "pending",
+      "requestId": "05ef31eb-680f-4565-8342-f4de75740477",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkiswmz03fp3gt969hj070l",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkiswmz03fp3gt969hj070l --json"
+      }
+    },
+    "delivery": {
+      "id": "0d507036-1009-4934-a2d7-d77d76747e3d",
+      "files": [
+        "public/assets/genex/0d507036-1009-4934-a2d7-d77d76747e3d/victory-belongs-to-the-emperor-cmwkiswm.mp3"
+      ]
+    }
+  },
+  {
+    "id": "defeat",
+    "text": "Operation compromised. Fall back.",
+    "event": "defeat",
+    "submitted": true,
+    "generation": {
+      "id": "d23bb4e3-c299-4d60-87db-5d130e14d0f7",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:59:28.476Z",
+      "generationId": "cmwkitcr203fv3gt9ce1l725s",
+      "remoteStatus": "pending",
+      "requestId": "0baca112-333f-45ab-9df3-0f860ba10b23",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkitcr203fv3gt9ce1l725s",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkitcr203fv3gt9ce1l725s --json"
+      }
+    },
+    "delivery": {
+      "id": "e6d7bed2-2659-4ca9-9e66-4da8a68c7bf9",
+      "files": [
+        "public/assets/genex/e6d7bed2-2659-4ca9-9e66-4da8a68c7bf9/operation-compromised-fall-back-cmwkitcr.mp3"
+      ]
+    }
+  },
+  {
+    "id": "cancel",
+    "text": "Order cancelled.",
+    "event": "cancel",
+    "submitted": true,
+    "generation": {
+      "id": "ad8779fc-026f-43c3-a293-a4359d2bb9ad",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:59:49.318Z",
+      "generationId": "cmwkitssy03g43gt9etno4h1y",
+      "remoteStatus": "pending",
+      "requestId": "67c599ad-7fab-4e1a-b62a-dec06d3d41d2",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkitssy03g43gt9etno4h1y",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkitssy03g43gt9etno4h1y --json"
+      }
+    },
+    "delivery": {
+      "id": "58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b",
+      "files": [
+        "public/assets/genex/58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b/order-cancelled-cmwkitss.mp3"
+      ]
+    }
+  },
+  {
+    "id": "invalid",
+    "text": "Impossible, commander.",
+    "event": "invalid",
+    "submitted": true,
+    "generation": {
+      "id": "b321cacf-67e4-460a-b21a-70b6d9add7d8",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T10:00:10.013Z",
+      "generationId": "cmwkiu8zo03jx30qk1mkr2osr",
+      "remoteStatus": "pending",
+      "requestId": "eccda76b-058b-49d0-9a1f-a623692db026",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkiu8zo03jx30qk1mkr2osr",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkiu8zo03jx30qk1mkr2osr --json"
+      }
+    },
+    "delivery": {
+      "id": "c8272d89-bca5-4c16-bb1c-71f21b8acadc",
+      "files": [
+        "public/assets/genex/c8272d89-bca5-4c16-bb1c-71f21b8acadc/impossible-commander-cmwkiu8z.mp3"
+      ]
+    }
+  },
+  {
+    "id": "nl-taunt-1",
+    "text": "We are coming for you.",
+    "event": "nl-taunt",
+    "faction": "nightlords",
+    "submitted": true,
+    "generation": {
+      "id": "cc9bb9d8-66ae-4f41-806a-a83837816266",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T10:00:31.168Z",
+      "generationId": "cmwkiupb703gi3gt9ya4o3aef",
+      "remoteStatus": "pending",
+      "requestId": "379aa28c-e4f3-4015-a790-7778488c07de",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkiupb703gi3gt9ya4o3aef",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkiupb703gi3gt9ya4o3aef --json"
+      }
+    },
+    "delivery": {
+      "id": "44f10d6d-4b5c-4605-a972-02b19547751e",
+      "files": [
+        "public/assets/genex/44f10d6d-4b5c-4605-a972-02b19547751e/we-are-coming-for-you-cmwkiupb.mp3"
+      ]
+    }
+  },
+  {
+    "id": "nl-taunt-2",
+    "text": "Your fear belongs to us.",
+    "event": "nl-taunt",
+    "faction": "nightlords",
+    "submitted": true,
+    "generation": {
+      "id": "414194fa-c9d1-43f1-910a-e0d984098de8",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T10:00:52.300Z",
+      "generationId": "cmwkiv5g703gr3gt90xgrd2m3",
+      "remoteStatus": "pending",
+      "requestId": "22afedc0-1744-4e75-9e19-abbb73cdbb33",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkiv5g703gr3gt90xgrd2m3",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkiv5g703gr3gt90xgrd2m3 --json"
+      }
+    },
+    "delivery": {
+      "id": "b0547256-d316-4479-9d16-640856efc52f",
+      "files": [
+        "public/assets/genex/b0547256-d316-4479-9d16-640856efc52f/your-fear-belongs-to-us-cmwkiv5g.mp3"
+      ]
+    }
+  },
+  {
+    "id": "nl-attack-1",
+    "text": "Ave Dominus Nox!",
+    "event": "nl-attack",
+    "faction": "nightlords",
+    "submitted": true,
+    "generation": {
+      "id": "f31a67c1-264a-40de-981d-452952ddcbef",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T10:01:14.058Z",
+      "generationId": "cmwkivmom03h03gt9602swhxa",
+      "remoteStatus": "pending",
+      "requestId": "8c32c9ad-4514-4b4f-8efa-b54860ced21b",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkivmom03h03gt9602swhxa",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkivmom03h03gt9602swhxa --json"
+      }
+    },
+    "delivery": {
+      "id": "86653e54-33d3-4145-a6ef-107727197005",
+      "files": [
+        "public/assets/genex/86653e54-33d3-4145-a6ef-107727197005/ave-dominus-nox-cmwkivmo.mp3"
+      ]
+    }
+  },
+  {
+    "id": "nl-attack-2",
+    "text": "Let the terror begin!",
+    "event": "nl-attack",
+    "faction": "nightlords",
+    "submitted": true,
+    "generation": {
+      "id": "caafd22c-b87d-4467-b3c6-6b932121ad7d",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T10:01:35.515Z",
+      "generationId": "cmwkiw37x03kd30qk7bs8s5t7",
+      "remoteStatus": "pending",
+      "requestId": "5598f139-7ba4-4729-8367-07b68fa5d18c",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkiw37x03kd30qk7bs8s5t7",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkiw37x03kd30qk7bs8s5t7 --json"
+      }
+    },
+    "delivery": {
+      "id": "845c769b-0a94-495e-a7b1-708cdff95cb1",
+      "files": [
+        "public/assets/genex/845c769b-0a94-495e-a7b1-708cdff95cb1/let-the-terror-begin-cmwkiw37.mp3"
+      ]
+    }
+  },
+  {
+    "id": "nl-hurt-1",
+    "text": "You will regret this.",
+    "event": "nl-hurt",
+    "faction": "nightlords",
+    "submitted": true,
+    "generation": {
+      "id": "fdfe35f5-84e2-4eaa-aa91-e3a574bdce3d",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T10:01:57.707Z",
+      "generationId": "cmwkiwjxb03kn30qkl4yioa58",
+      "remoteStatus": "pending",
+      "requestId": "15956a25-80a8-4392-b9f5-73a9c0f40d68",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkiwjxb03kn30qkl4yioa58",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkiwjxb03kn30qkl4yioa58 --json"
+      }
+    },
+    "delivery": {
+      "id": "2ec4efdb-9ab6-4767-bc9c-78c46feba52a",
+      "files": [
+        "public/assets/genex/2ec4efdb-9ab6-4767-bc9c-78c46feba52a/you-will-regret-this-cmwkiwjx.mp3"
+      ]
+    }
+  },
+  {
+    "id": "nl-death-1",
+    "text": "The night... takes me.",
+    "event": "nl-death",
+    "faction": "nightlords",
+    "submitted": true,
+    "generation": {
+      "id": "c4db4b22-0177-4880-aadd-31cb12e6bd1e",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T10:02:18.394Z",
+      "generationId": "cmwkiwzw503hj3gt90k8dvnj7",
+      "remoteStatus": "pending",
+      "requestId": "0eb09dcc-3138-4275-9c31-de9d0e294dfe",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkiwzw503hj3gt90k8dvnj7",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkiwzw503hj3gt90k8dvnj7 --json"
+      }
+    },
+    "delivery": {
+      "id": "d05312e1-333c-44ed-b60e-9caf7ea7f87e",
+      "files": [
+        "public/assets/genex/d05312e1-333c-44ed-b60e-9caf7ea7f87e/the-night-takes-me-cmwkiwzw.mp3"
+      ]
+    }
   }
 ]

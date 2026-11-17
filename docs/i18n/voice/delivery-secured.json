@@ -1,0 +1,40 @@
+{
+  "id": "feb022eb-403c-4053-831d-dc1439fd286e",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/feb022eb-403c-4053-831d-dc1439fd286e/objective-secured-commander-cmwkipte.mp3"
+  ],
+  "createdAt": "2026-11-17T09:56:44.218Z",
+  "generationId": "cmwkipte403ii30qkacxnizfa",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkipte403ii30qkacxnizfa/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkipte403ii30qkacxnizfa",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkipte403ii30qkacxnizfa/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/feb022eb-403c-4053-831d-dc1439fd286e/output/objective-secured-commander-cmwkipte.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkipte403ii30qkacxnizfa/audio-voice",
+        "bytes": 31807
+      }
+    ],
+    "downloadFailures": []
+  }
+}

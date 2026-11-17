@@ -2,7 +2,7 @@
 import {parse} from '@babel/parser';
 import {readFileSync,writeFileSync} from 'node:fs';
 for(const file of ['web/strategy/main.ts','web/main.ts']){
- let s=readFileSync(file,'utf8');const edits=[];
+ let s=readFileSync(file,'utf8');if(s.includes('setHTML,setText,localize'))continue;const edits=[];
  const ast=parse(s,{sourceType:'module',plugins:['typescript']});
  function walk(n){if(!n||typeof n!=='object')return;
   if(n.type==='AssignmentExpression'&&n.left.type==='MemberExpression'&&['innerHTML','textContent','title'].includes(n.left.property.name)&&['=','+='].includes(n.operator)){

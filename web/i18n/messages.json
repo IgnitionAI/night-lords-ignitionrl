@@ -1634,5 +1634,57 @@
   [
     "FLANC",
     "FLANK"
+  ],
+  [
+    "tu passes plutôt par le nord",
+    "you tend to take the north route"
+  ],
+  [
+    "tu passes plutôt par le sud",
+    "you tend to take the south route"
+  ],
+  [
+    "tu passes par le centre",
+    "you take the centre route"
+  ],
+  [
+    "tu préfères le gantelet",
+    "you favour the power fist"
+  ],
+  [
+    "tu préfères le storm bolter",
+    "you favour the storm bolter"
+  ],
+  [
+    "tu engages vers",
+    "you engage at about"
+  ],
+  [
+    "tu recules souvent",
+    "you often retreat"
+  ],
+  [
+    "tu restes souvent immobile",
+    "you often stay still"
+  ],
+  [
+    "fine-tuning refusé",
+    "fine-tuning unavailable"
+  ],
+  [
+    "occupé",
+    "busy"
+  ],
+  [
+    "inchangée (garde-fou)",
+    "unchanged (safeguard)"
+  ],
+  [
+    "Victoire Terminator : balise 6 s, meute à terre, ou 2:00 tenues. Défaite : armure à 0.",
+    "Terminator victory: beacon 6 s, pack defeated, or survive 2:00. Defeat: armour at 0."
+  ],
+  [
+    "ZQSD ou WASD bouger · souris viser (clic pour verrouiller) · ←/→ pivoter · Espace storm bolter · F ou Maj gantelet · V vue de contrôle · M couper le son · Entrée manche suivante · P pause · vue Diablo par défaut : ZQSD = directions à l'écran, molette, pincement ou +/− pour zoomer · autres vues :",
+    "WASD or ZQSD: move · mouse: aim (click to lock) · ←/→: turn · Space: storm bolter · F or Shift: power fist · V: control view · M: mute · Enter: next round · P: pause · Diablo view: WASD = screen directions, scroll, pinch or +/− to zoom · other views:"
   ]
 ]

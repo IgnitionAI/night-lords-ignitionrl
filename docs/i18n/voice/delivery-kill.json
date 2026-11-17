@@ -1,0 +1,40 @@
+{
+  "id": "177e7851-d074-4ba6-8c74-7bad9e0d0a2e",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/177e7851-d074-4ba6-8c74-7bad9e0d0a2e/enemy-neutralised-cmwkirl0.mp3"
+  ],
+  "createdAt": "2026-11-17T09:58:06.685Z",
+  "generationId": "cmwkirl0303j830qkvp59wgee",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkirl0303j830qkvp59wgee/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkirl0303j830qkvp59wgee",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkirl0303j830qkvp59wgee/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/177e7851-d074-4ba6-8c74-7bad9e0d0a2e/output/enemy-neutralised-cmwkirl0.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkirl0303j830qkvp59wgee/audio-voice",
+        "bytes": 24284
+      }
+    ],
+    "downloadFailures": []
+  }
+}

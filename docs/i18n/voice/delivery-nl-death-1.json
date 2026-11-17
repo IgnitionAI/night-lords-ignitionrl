@@ -1,0 +1,40 @@
+{
+  "id": "d05312e1-333c-44ed-b60e-9caf7ea7f87e",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/d05312e1-333c-44ed-b60e-9caf7ea7f87e/the-night-takes-me-cmwkiwzw.mp3"
+  ],
+  "createdAt": "2026-11-17T10:02:19.288Z",
+  "generationId": "cmwkiwzw503hj3gt90k8dvnj7",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkiwzw503hj3gt90k8dvnj7/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkiwzw503hj3gt90k8dvnj7",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiwzw503hj3gt90k8dvnj7/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/d05312e1-333c-44ed-b60e-9caf7ea7f87e/output/the-night-takes-me-cmwkiwzw.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiwzw503hj3gt90k8dvnj7/audio-voice",
+        "bytes": 35569
+      }
+    ],
+    "downloadFailures": []
+  }
+}

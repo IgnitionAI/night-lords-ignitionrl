@@ -1,0 +1,40 @@
+{
+  "id": "f5a37448-9abe-4724-8525-9d3162dae5bf",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/f5a37448-9abe-4724-8525-9d3162dae5bf/sweep-complete-cmwkish1.mp3"
+  ],
+  "createdAt": "2026-11-17T09:58:48.244Z",
+  "generationId": "cmwkish1u03fj3gt9hpdgj2ju",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkish1u03fj3gt9hpdgj2ju/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkish1u03fj3gt9hpdgj2ju",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkish1u03fj3gt9hpdgj2ju/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/f5a37448-9abe-4724-8525-9d3162dae5bf/output/sweep-complete-cmwkish1.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkish1u03fj3gt9hpdgj2ju/audio-voice",
+        "bytes": 24284
+      }
+    ],
+    "downloadFailures": []
+  }
+}

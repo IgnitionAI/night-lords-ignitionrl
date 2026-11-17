@@ -1,0 +1,12 @@
+{
+  "spokenLines": 48,
+  "reusedVocalisations": 2,
+  "catalogEntries": 50,
+  "processedAudioFiles": 170,
+  "rawGenerations": 48,
+  "maxSeconds": 2.88,
+  "nightLordsProfile": "chaos-vox3",
+  "builtFilesIdentical": true,
+  "idsAndEventsPreserved": true,
+  "englishTextMatchesScript": true
+}

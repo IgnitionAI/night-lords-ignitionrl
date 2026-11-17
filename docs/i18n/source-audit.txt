@@ -1,0 +1,6 @@
+web/main.ts:367 " absent, la scène reste celle de #44" => " absent, la scène reste celle de #44"
+web/main.ts:2122 "Armure détaillée indisponible, modèle original conservé" => "Armour détaillée indisponible, modèle original conservé"
+web/main.ts:2134 "modèle NL-" => "modèle NL-"
+web/main.ts:2134 " absent, capsule conservée" => " absent, capsule conservée"
+web/main.ts:2143 "modèle TERM absent, cubes conservés" => "modèle TERM absent, cubes conservés"
+src/strategy/engine.ts:42 "Partie terminée" => "Partie terminée"

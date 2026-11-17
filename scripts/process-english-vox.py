@@ -8,6 +8,7 @@ from nightlords_vox import render as render_hostile, PROFILE as hostile_profile
 
 root=Path(__file__).resolve().parents[1]
 lines=json.loads((root/'docs/i18n/voice/lines.json').read_text())
+assert all((root/f"docs/i18n/voice/delivery-{line['id']}.json").exists() for line in lines), 'Wait for every English delivery before processing'
 profiles={
  't0':dict(pitch=.78,tempo=1.28,high=105,low=2900,ring=67,delay=8),
  't1':dict(pitch=.72,tempo=1.37,high=95,low=2700,ring=61,delay=10),

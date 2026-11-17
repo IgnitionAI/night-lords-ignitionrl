@@ -823,8 +823,10 @@ postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), postMat));
 let w: World, prev: { t: [number, number, number]; n: [number, number, number, number][] }, rec: Recorder, rng: () => number, tactic: Tactic | null;
 let roundNo = 0, score = { pack: 0, term: 0 }, paused = false, acc = 0, mixerSim = 0, hitstop = 0, shake = 0, lastActs: number[] = [0, 0, 0, 0], lastP: number[] = [0, 0, 0, 0], tracerT = 0;
 document.getElementById('fps-settings')!.onclick=()=>{
- const wasPaused=paused;paused=true;keys.clear();document.exitPointerLock?.();
- settingsPanel.hidden=false;setHTML(settingsPanel,`<section><h2>Paramètres</h2>${languagePicker()}<p>La langue choisie s’applique aux textes, aux sous-titres et aux voix.</p><button id="fps-sound-toggle">${engine.muted?'Activer le son':'Couper le son'}</button><button id="fps-settings-close">Reprendre</button></section>`);
+ const wasPaused=paused;paused=true;keys.clear();queuedReload=queuedBolt=queuedFist=false;document.exitPointerLock?.();
+ settingsPanel.hidden=false;setHTML(settingsPanel,`<section><h2>Paramètres</h2>${languagePicker()}<p>La langue choisie s’applique aux textes, aux sous-titres et aux voix.</p><p><button id="fps-vox-test">VOX TERMINATORS</button><button id="fps-vox-nightlords">VOX NIGHT LORDS</button></p><button id="fps-sound-toggle">${engine.muted?'Activer le son':'Couper le son'}</button><button id="fps-settings-close">Reprendre</button></section>`);
+ document.getElementById('fps-vox-test')!.onclick=()=>{engine.unlock();startFpsRadio();};
+ document.getElementById('fps-vox-nightlords')!.onclick=()=>{engine.unlock();startFpsRadio();fpsRadio?.previewNightLords();};
  document.getElementById('fps-sound-toggle')!.onclick=()=>{engine.toggleMute();setText(document.getElementById('fps-sound-toggle')!,engine.muted?'Activer le son':'Couper le son');};
  document.getElementById('fps-settings-close')!.onclick=()=>{settingsPanel.hidden=true;paused=wasPaused;};
 };
@@ -855,11 +857,12 @@ let lastMatch: MatchStatus | null = null;
 const keys = new Set<string>();
 const fpsCaption=document.createElement('div');fpsCaption.id='fps-vox-caption';fpsCaption.hidden=true;fpsCaption.setAttribute('role','status');document.body.append(fpsCaption);
 let fpsRadio:VoxRadio|undefined;
-function startFpsRadio(){
+function ensureFpsRadio(){
  if(!fpsRadio && engine.ctx){fpsRadio=new VoxRadio(engine.ctx as AudioContext,()=>engine.muted?0:.65,on=>{if(on)engine.duck(.4);},c=>{fpsCaption.hidden=!c;if(c)setText(fpsCaption,`VOX / ${c.name} · ${c.text}`);});fpsRadio.observeEnemies(['nl-radio']);}
- if(fpsRadio)fpsRadio.speak(voiceCue({id:'t0',name:'TERMINATOR'},'select'));
 }
-director.onSpokenVox=()=>fpsRadio?.speak({unit:'nl-radio',name:'NIGHT LORDS',faction:'nightlords',event:'nl-taunt',scope:'action',priority:45});
+function startFpsRadio(){ensureFpsRadio();fpsRadio?.speak(voiceCue({id:'t0',name:'TERMINATOR'},'select'));}
+
+director.onSpokenVox=()=>{ensureFpsRadio();fpsRadio?.speak({unit:'nl-radio',name:'NIGHT LORDS',faction:'nightlords',event:'nl-taunt',scope:'action',priority:45});};
 onLocaleChange(()=>{fpsRadio?.boundary(true);});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)fpsRadio?.suspend();});
 

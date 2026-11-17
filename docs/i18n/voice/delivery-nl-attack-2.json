@@ -1,0 +1,40 @@
+{
+  "id": "845c769b-0a94-495e-a7b1-708cdff95cb1",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/845c769b-0a94-495e-a7b1-708cdff95cb1/let-the-terror-begin-cmwkiw37.mp3"
+  ],
+  "createdAt": "2026-11-17T10:01:36.854Z",
+  "generationId": "cmwkiw37x03kd30qk7bs8s5t7",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkiw37x03kd30qk7bs8s5t7/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkiw37x03kd30qk7bs8s5t7",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiw37x03kd30qk7bs8s5t7/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/845c769b-0a94-495e-a7b1-708cdff95cb1/output/let-the-terror-begin-cmwkiw37.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiw37x03kd30qk7bs8s5t7/audio-voice",
+        "bytes": 31807
+      }
+    ],
+    "downloadFailures": []
+  }
+}

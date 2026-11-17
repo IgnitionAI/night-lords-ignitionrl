@@ -1,0 +1,40 @@
+{
+  "id": "fc764f51-b50b-4687-a95c-83a3b794b447",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/fc764f51-b50b-4687-a95c-83a3b794b447/a-brother-has-fallen-cmwkis10.mp3"
+  ],
+  "createdAt": "2026-11-17T09:58:27.525Z",
+  "generationId": "cmwkis10a03fd3gt9nqoj3pik",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkis10a03fd3gt9nqoj3pik/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkis10a03fd3gt9nqoj3pik",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkis10a03fd3gt9nqoj3pik/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/fc764f51-b50b-4687-a95c-83a3b794b447/output/a-brother-has-fallen-cmwkis10.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkis10a03fd3gt9nqoj3pik/audio-voice",
+        "bytes": 29300
+      }
+    ],
+    "downloadFailures": []
+  }
+}
