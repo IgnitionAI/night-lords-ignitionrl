@@ -1,0 +1,40 @@
+{
+  "id": "50baf625-84d8-4a1e-8efe-a3b43fd8061e",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/50baf625-84d8-4a1e-8efe-a3b43fd8061e/purifying-fire-cmwkin59.mp3"
+  ],
+  "createdAt": "2026-11-17T09:54:39.777Z",
+  "generationId": "cmwkin59l03hc30qkdwkqwiyh",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkin59l03hc30qkdwkqwiyh/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkin59l03hc30qkdwkqwiyh",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkin59l03hc30qkdwkqwiyh/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/50baf625-84d8-4a1e-8efe-a3b43fd8061e/output/purifying-fire-cmwkin59.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkin59l03hc30qkdwkqwiyh/audio-voice",
+        "bytes": 26792
+      }
+    ],
+    "downloadFailures": []
+  }
+}

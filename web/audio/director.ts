@@ -50,6 +50,7 @@ export class AudioDirector {
   private time = 0;
   private pending: PendingSound[] = [];
   private lastWorld: DirectorWorld | null = null;
+  onSpokenVox?:()=>void;
   mission = false;
   huntCam = false;
   firstPerson = false;
@@ -335,7 +336,7 @@ export class AudioDirector {
     const close = w.nls.filter((n) => n.alive && Math.hypot(n.x - w.t.x, n.y - w.t.y) < 8);
     if (this.voxCd <= 0 && close.length >= (this.firstPerson ? 1 : 2)) {
       const n = close[0];
-      engine.play('nl-vox-come-for-you', { x: n.x, y: n.y, z: 1.6, priority: 7, vary: true, bus: 'voice', send: 0.4 });
+      if(this.onSpokenVox)this.onSpokenVox();else engine.play('nl-vox-come-for-you', { x: n.x, y: n.y, z: 1.6, priority: 7, vary: true, bus: 'voice', send: 0.4 });
       this.voxCd = this.mission ? 37 : 19;
     }
 

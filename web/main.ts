@@ -1,3 +1,5 @@
+import {VoxRadio} from './strategy/vox';
+import {voiceCue} from './strategy/vox-cues';
 import {t,setHTML,setText,localize,languagePicker,onLocaleChange,getLocale} from './i18n';
 import {beginClimb} from '../src/vertical-hunt';
 import {SHIP_WELLS} from '../src/ship-fittings';
@@ -252,10 +254,10 @@ if(MISSION){
  }
  for(const l of SHIP_LANDMARKS){
   const c=document.createElement('canvas');c.width=512;c.height=128;
-  const g=c.getContext('2d')!;g.fillStyle='#10202a';g.fillRect(0,0,512,128);
+  const g=c.getContext('2d')!,texture=new THREE.CanvasTexture(c);const paint=()=>{g.fillStyle='#10202a';g.fillRect(0,0,512,128);
   g.strokeStyle='#6eacb0';g.lineWidth=8;g.strokeRect(4,4,504,120);
-  g.fillStyle='#d7e4d6';g.font='bold 27px monospace';g.textAlign='center';g.fillText(l.name,256,75);
-  const sign=new THREE.Mesh(new THREE.PlaneGeometry(3.8,.95),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),side:THREE.DoubleSide}));
+  g.fillStyle='#d7e4d6';g.font='bold 27px monospace';g.textAlign='center';g.fillText(t(l.name),256,75);texture.needsUpdate=true;};paint();onLocaleChange(paint);
+  const sign=new THREE.Mesh(new THREE.PlaneGeometry(3.8,.95),new THREE.MeshBasicMaterial({map:texture,side:THREE.DoubleSide}));
   sign.position.set(l.x,4.4,l.y);scene.add(sign);
   const light=new THREE.PointLight(0x92c3cd,5,12,2);light.position.set(l.x,4.7,l.y);scene.add(light);
  }
@@ -851,12 +853,22 @@ let muzzleT = 0, fistT = 0;
 let roundOver = false, lastSummary = '';
 let lastMatch: MatchStatus | null = null;
 const keys = new Set<string>();
+const fpsCaption=document.createElement('div');fpsCaption.id='fps-vox-caption';fpsCaption.hidden=true;fpsCaption.setAttribute('role','status');document.body.append(fpsCaption);
+let fpsRadio:VoxRadio|undefined;
+function startFpsRadio(){
+ if(!fpsRadio && engine.ctx){fpsRadio=new VoxRadio(engine.ctx as AudioContext,()=>engine.muted?0:.65,on=>{if(on)engine.duck(.4);},c=>{fpsCaption.hidden=!c;if(c)setText(fpsCaption,`VOX / ${c.name} · ${c.text}`);});fpsRadio.observeEnemies(['nl-radio']);}
+ if(fpsRadio)fpsRadio.speak(voiceCue({id:'t0',name:'TERMINATOR'},'select'));
+}
+director.onSpokenVox=()=>fpsRadio?.speak({unit:'nl-radio',name:'NIGHT LORDS',faction:'nightlords',event:'nl-taunt',scope:'action',priority:45});
+onLocaleChange(()=>{fpsRadio?.boundary(true);});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)fpsRadio?.suspend();});
+
 let queuedReload = false, queuedBolt = false, queuedFist = false;
 addEventListener('keydown', e => {
+  if(!settingsPanel.hidden)return;
   keys.add(e.code);
   if (CAM_MODE === 'fps') { if (e.code === 'KeyR') queuedReload = true; if (e.code === 'Space') queuedBolt = true; if (e.code === 'KeyF') queuedFist = true; }
   if (e.code === 'KeyV') { debug = !debug; if (debug) buildLabels(); }
-  if (!settingsPanel.hidden) return;
   if (e.code === 'KeyP') paused = !paused;
   if (e.code === 'Escape' && (FPS_DUEL || MISSION)) { fpsStarted = false; keys.clear(); queuedReload = queuedBolt = queuedFist = false; }
   if (e.code === 'KeyH' && CAM_MODE === 'diablo') readAids = !readAids;
@@ -866,7 +878,7 @@ addEventListener('keydown', e => {
 });
 addEventListener('keyup', e => keys.delete(e.code));
 if (CAM_MODE === 'fps') {
-  canvas.addEventListener('click', () => { if(MISSION && !scene.userData.genestealersLoaded)return; fpsStarted = true; if (!fpsDragLook) canvas.requestPointerLock?.()?.catch(() => { fpsDragLook = true; }); });
+  canvas.addEventListener('click', () => { if(MISSION && !scene.userData.genestealersLoaded)return; fpsStarted = true; startFpsRadio(); if (!fpsDragLook) canvas.requestPointerLock?.()?.catch(() => { fpsDragLook = true; }); });
   canvas.addEventListener('contextmenu', e => e.preventDefault());
   addEventListener('mousedown', e => { if (settingsPanel.hidden && e.target === canvas && fpsStarted && e.button < 3) { keys.add(e.button === 0 ? 'MouseFire' : 'MouseFist'); if (e.button === 0) queuedBolt = true; if (e.button === 2) queuedFist = true; } });
   addEventListener('mouseup', e => keys.delete(e.button === 0 ? 'MouseFire' : 'MouseFist'));
@@ -1122,6 +1134,7 @@ const DEMO_SCRIPTS: Record<string, DemoScript> = {
 };
 const DEMO_CFG = DEMO ? IMPACT_DEMOS[DEMO] ?? DEMO_SCRIPTS[DEMO] ?? null : null;
 function startRound() {
+  fpsRadio?.boundary(true);
   // le build jouable garde l'armement des griffes (défaut) : il n'est plus celui des mesures b3
   queuedReload = queuedBolt = queuedFist = false;
   roundNo++; roundOver = false; if (roundNo > 1) seed += 1; // manche suivante : la graine d'après, jamais la même
@@ -1462,6 +1475,8 @@ function tick() {
     if (w.nls[i].alive && w.nls[i].lastAction === 2 && nlPrevAction[i] !== 2) nlJump.push(i);
   }
   director.tick(w, DT, w.events, { nlJump });
+  if(w.events.some(e=>e.type==='hit'))fpsRadio?.speak(voiceCue({id:'t0',name:'TERMINATOR'},'hurt','result'));
+  if(w.events.some(e=>'kill' in e&&e.kill>=0))fpsRadio?.speak(voiceCue({id:'t0',name:'TERMINATOR'},'kill','result'));
   updateRigs(); if (shot || CAP_STEP || qs.get('until') === 'end') advanceRigs(DT); updateCamYaw();
   if (CAM_MODE === 'fps') {
     if (DEMO_CFG) {
@@ -1488,7 +1503,7 @@ function showMusicCredit(credit: string | null = engine.musicCredit) {
 engine.onMusicCredit(c => showMusicCredit(c));
 function flash(_o: number) { /* remplacé par un retour localisé (hitGlow / impact light / post). */ }
 async function endRound() {
-  roundOver = true; director.endRound(w.winner); if (w.winner === 'pack') score.pack++; else score.term++;
+  roundOver = true; director.endRound(w.winner);fpsRadio?.boundary();fpsRadio?.speak(voiceCue({id:'command',name:'COMMANDEMENT'},w.winner==='terminator'?'victory':'defeat','result')); if (w.winner === 'pack') score.pack++; else score.term++;
   const msg = document.getElementById('msg')!; msg.style.display = 'block';
   if (MISSION) { setHTML(msg, `<h2>${w.reason}</h2><p>Entrée : nouvelle mission</p>`); return; }
   if (FPS_DUEL) {
@@ -1581,7 +1596,7 @@ function hud() {
     })(),
     eventWho: w.events.map((e) => ('who' in e ? (e as { who?: number }).who : ('kill' in e ? (e as { kill?: number }).kill : null))),
     msgShown: document.getElementById('msg')?.style.display === 'block',
-    audio: engine.status(), playSpeed: PLAY_SPEED,
+    audio: engine.status(), vox:fpsRadio?.diagnostics(), playSpeed: PLAY_SPEED,
     bodies: nlBodyReport(),
   };
   (window as unknown as { __FPS?: unknown }).__FPS = {

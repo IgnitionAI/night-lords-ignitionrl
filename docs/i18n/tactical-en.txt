@@ -1,0 +1,77 @@
+IGNITION · THEATRE OF OPERATIONS / 01
+Boarding War
+TURN 01 / 18
+FR
+EN
+Settings
+Briefing
+FPS mode ↗
+NOCTIS CRUISER / DECK VII
+PLANNING
+6 / 6 CP available
+THREAT 0 / 7 · noise 0
+At 7 : decompression / ARCHIVES
+＋
+−
+Squad
+Overview
+Plan view
+Scroll: zoom · Drag: pan
+Cover · 1 CP
+Reduce each hit received this turn by 1. Stacks with a defensive reserve.
+Breach · 1 CP
+Open sealed doors adjacent to your group before movement. +2 noise.
+Jamming · 1 CP
+Next turn: enemy sight −2 and contact sharing interrupted.
+◆ Terminators
+◆ Confirmed contact
+◇ Last known position
+▰ Door · ▧ Cover
+SHIP CONTROL
+IMPERIUM 0
+0 VIIIᵉ
+
+Deck VII breach · 24 points or the highest score after 18 turns. Take the archives; return their data to the airlock for 6 extra points.
+
+01 / Command relay
+Control unconfirmed · +1 pt/turn
+02 / Power
+Control unconfirmed · +1 pt/turn
+03 / Archives
+Control unconfirmed · +2 pt/turn
+TERMINATOR SQUAD
+VAEL
+10/10
+Wait · 0
+Commander · 2 charges
+TOR
+10/10
+Wait · 0
+Support · 2 charges
+CAEL
+10/10
+Wait · 0
+Apothecary · 2 charges
+BRANN
+10/10
+Wait · 0
+Breacher · 2 charges
+ORDER / VAEL
+Move · 1
+Rally · 2
+Aimed fire · 2
+Overwatch · 1
+Recon · 1
+Interact · 1
+Wait · 0
+
+Click a tile: up to 3 tiles per turn. Other units can block the path. Shift + click targets a tile occupied by an ally.
+
+Reserve a reaction · 1 CPClear this order
+EXECUTE ORDERS
+
+0 order(s) · 0 CP committed. No order: wait. Reserve: −2 damage on the first hit. Cards: one per turn, draw every two turns.
+
+Two enemy commanders · limited intelligence
+Tactical agents · heuristic decisions
+Abandon and view debrief

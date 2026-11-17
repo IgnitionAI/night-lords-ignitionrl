@@ -1,0 +1,22 @@
+OPERATION ASHES · Click to enter
+ARMOUR
+30/30
+BOLTER
+30/30
+ready 30/30
+POWER FIST
+ready
+DETONATION
+NOT ARMED
+T
+U
+X
+C
+OPERATION ASHES
+BROTHER VARREN · Squad scattered. Reach the core. We will cover your extraction.
+CORE ↑ 65 m · Hold E while stationary to arm (0 %)
+WASD / ZQSD · Click: bolter · F: power fist · R: reload · E: bomb / extraction · P: pause · Enter: replay · Escape: release mouse
+FR
+EN
+Settings
+Tactical ↗

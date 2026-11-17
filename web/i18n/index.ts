@@ -70,5 +70,6 @@ export function setHTML(el:Element,value:unknown,append=false){
 export function languagePicker(){return `<span class="language-picker" role="group" aria-label="Langue"><button type="button" data-locale="fr" aria-pressed="${locale==='fr'}">FR</button><button type="button" data-locale="en" aria-pressed="${locale==='en'}">EN</button></span>`;}
 if(typeof document!=='undefined'){
   document.documentElement.lang=locale;
+  localize(document.head);
   document.addEventListener('click',event=>{const b=(event.target as Element)?.closest<HTMLButtonElement>('[data-locale]');if(b){event.preventDefault();setLocale(b.dataset.locale as Locale);}});
 }

@@ -1,3 +1,4 @@
+import {t,onLocaleChange,getLocale} from '../i18n';
 import * as T from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {clone} from 'three/addons/utils/SkeletonUtils.js';
@@ -17,9 +18,10 @@ const material=(c:number,m=.5,r=.6)=>new T.MeshStandardMaterial({color:c,metalne
 const boxGeo=new T.BoxGeometry(1,1,1);
 const ringGeo=new T.RingGeometry(.38,.42,40);
 const labels=new Map<string,T.Texture>();
-function textSprite(text:string,tint='#d4d1b5',size=1){
+function textSprite(source:string,tint='#d4d1b5',size=1){
+  const text=t(source);
   const id=text+tint;let texture=labels.get(id);if(!texture){const c=document.createElement('canvas');c.width=Math.max(150,text.length*24+32);c.height=64;const x=c.getContext('2d')!;x.fillStyle='rgba(5,13,17,.85)';x.fillRect(0,0,c.width,64);x.font='bold 36px monospace';x.textAlign='center';x.fillStyle=tint;x.fillText(text,c.width/2,44);texture=new T.CanvasTexture(c);labels.set(id,texture);}
-  const sprite=new T.Sprite(new T.SpriteMaterial({map:texture,depthTest:false,transparent:true}));sprite.scale.set(2.5*size,.39*size,1);sprite.renderOrder=8;sprite.userData.labelPx={width:text.length*6+18,height:17};return sprite;
+  const sprite=new T.Sprite(new T.SpriteMaterial({map:texture,depthTest:false,transparent:true}));sprite.scale.set(2.5*size,.39*size,1);sprite.renderOrder=8;sprite.userData.labelPx={width:text.length*6+18,height:17};sprite.userData.i18n={source,tint,size};return sprite;
 }
 function meshBox(parent:T.Object3D,p:number[],s:number[],mat:T.Material){const m=new T.Mesh(boxGeo,mat);m.position.set(...p as [number,number,number]);m.scale.set(...s as [number,number,number]);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m;}
 function surfaceTexture(){const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d')!;x.fillStyle='#8f9898';x.fillRect(0,0,256,256);let seed=421;for(let i=0;i<7000;i++){seed=(seed*1664525+1013904223)>>>0;const px=seed%256;seed=(seed*1664525+1013904223)>>>0;x.fillStyle=i%2?'#ffffff12':'#00000013';x.fillRect(px,seed%256,2,2);}x.strokeStyle='#29363b';x.lineWidth=5;x.strokeRect(4,4,248,248);x.strokeStyle='#ccd1bf';x.lineWidth=2;x.strokeRect(9,9,238,238);for(let i=0;i<6;i++){x.fillStyle='#263238';x.fillRect(20,35+i*32,216,5);x.fillStyle='#a4aeaa';x.fillRect(20,42+i*32,216,2);}for(const a of [15,241])for(const b of [15,241]){x.fillStyle='#242a2d';x.beginPath();x.arc(a,b,4,0,Math.PI*2);x.fill();}const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;return t;}
@@ -33,6 +35,7 @@ export class TacticalScene{
   private assetPaths:string[]=[];private assetErrors:string[]=[];private animated=new Set<string>();private pointerStart?:{x:number;y:number;cx:number;cz:number};dragged=false;
   private quality=0;private qualityFrames=0;
   onStatus?:(s:string)=>void;
+  private localeSubscription=onLocaleChange(()=>this.scene.traverse(o=>{const info=o.userData.i18n;if(info){const translated=textSprite(info.source,info.tint,info.size);(o as T.Sprite).material.map=translated.material.map;(o as T.Sprite).material.needsUpdate=true;o.userData.labelPx=translated.userData.labelPx;translated.material.dispose();}}));
   constructor(private canvas:HTMLCanvasElement,private audio:ShipAudio){
     this.renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:false,preserveDrawingBuffer:true});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.25));this.renderer.setClearColor(0x081015);this.renderer.outputColorSpace=T.SRGBColorSpace;this.renderer.toneMapping=T.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.25;this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=T.PCFSoftShadowMap;this.renderer.shadowMap.autoUpdate=false;this.renderer.shadowMap.needsUpdate=true;
     const pmrem=new T.PMREMGenerator(this.renderer);const room=new RoomEnvironment();this.scene.environment=pmrem.fromScene(room,.04).texture;room.dispose();pmrem.dispose();

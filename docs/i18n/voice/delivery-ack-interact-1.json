@@ -1,0 +1,40 @@
+{
+  "id": "91fe9dc5-b723-464b-8c4c-e08674cef286",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/91fe9dc5-b723-464b-8c4c-e08674cef286/order-received-i-will-see-to-it-cmwkikul.mp3"
+  ],
+  "createdAt": "2026-11-17T09:52:52.546Z",
+  "generationId": "cmwkikulw03cy3gt9vt1rfjwd",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkikulw03cy3gt9vt1rfjwd/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkikulw03cy3gt9vt1rfjwd",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkikulw03cy3gt9vt1rfjwd/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/91fe9dc5-b723-464b-8c4c-e08674cef286/output/order-received-i-will-see-to-it-cmwkikul.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkikulw03cy3gt9vt1rfjwd/audio-voice",
+        "bytes": 39331
+      }
+    ],
+    "downloadFailures": []
+  }
+}

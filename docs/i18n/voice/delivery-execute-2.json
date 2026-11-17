@@ -1,0 +1,40 @@
+{
+  "id": "0cbc4098-8378-4ec8-be93-4bcc83881943",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/0cbc4098-8378-4ec8-be93-4bcc83881943/brothers-advance-cmwkim9f.mp3"
+  ],
+  "createdAt": "2026-11-17T09:53:58.387Z",
+  "generationId": "cmwkim9fp03gu30qkge6z58nx",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkim9fp03gu30qkge6z58nx/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkim9fp03gu30qkge6z58nx",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkim9fp03gu30qkge6z58nx/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/0cbc4098-8378-4ec8-be93-4bcc83881943/output/brothers-advance-cmwkim9f.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkim9fp03gu30qkge6z58nx/audio-voice",
+        "bytes": 30554
+      }
+    ],
+    "downloadFailures": []
+  }
+}

@@ -1,3 +1,4 @@
+import {t,onLocaleChange} from './i18n';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
@@ -40,8 +41,8 @@ export function missionScene(scene: THREE.Scene) {
     matrix.compose(new THREE.Vector3(x,y,z),new THREE.Quaternion(),new THREE.Vector3(.2+(i%4)*.08,.2,.25));nodules.setMatrixAt(i,matrix);}
   scene.add(nodules);
   for(const [x,z,label] of [[3,12,'SAS 01 · EXTRACTION'],[22,1,'PONT ÉVENTRÉ'],[36.5,12,'NOYAU · CHARGE']] as const){
-    const c=document.createElement('canvas');c.width=512;c.height=96;const ctx=c.getContext('2d')!;ctx.fillStyle='#101b21';ctx.fillRect(0,0,512,96);ctx.strokeStyle='#a48c4e';ctx.strokeRect(3,3,506,90);ctx.font='24px monospace';ctx.fillStyle='#d2c58f';ctx.textAlign='center';ctx.fillText(label,256,57);
-    const sign=new THREE.Mesh(new THREE.PlaneGeometry(2.8,.52),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),side:THREE.DoubleSide}));sign.position.set(x,3.4,z);sign.rotation.y=Math.PI/2;scene.add(sign);
+    const c=document.createElement('canvas');c.width=512;c.height=96;const ctx=c.getContext('2d')!,texture=new THREE.CanvasTexture(c);const paint=()=>{ctx.fillStyle='#101b21';ctx.fillRect(0,0,512,96);ctx.strokeStyle='#a48c4e';ctx.strokeRect(3,3,506,90);ctx.font='24px monospace';ctx.fillStyle='#d2c58f';ctx.textAlign='center';ctx.fillText(t(label),256,57);texture.needsUpdate=true;};paint();onLocaleChange(paint);
+    const sign=new THREE.Mesh(new THREE.PlaneGeometry(2.8,.52),new THREE.MeshBasicMaterial({map:texture,side:THREE.DoubleSide}));sign.position.set(x,3.4,z);sign.rotation.y=Math.PI/2;scene.add(sign);
   }
   return (m:Mission,time:number,tx:number,ty:number)=> {
     glow.emissive.setHex(m.phase==='escape'?0xdd3e18:0x22aabb);

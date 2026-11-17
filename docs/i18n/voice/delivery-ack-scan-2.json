@@ -1,0 +1,40 @@
+{
+  "id": "1f840a71-6135-41c9-b197-8720eab4fd8c",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/1f840a71-6135-41c9-b197-8720eab4fd8c/reconnaissance-acknowledged-cmwkikdz.mp3"
+  ],
+  "createdAt": "2026-11-17T09:52:30.937Z",
+  "generationId": "cmwkikdzj03cq3gt9tuzdgn5t",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkikdzj03cq3gt9tuzdgn5t/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkikdzj03cq3gt9tuzdgn5t",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkikdzj03cq3gt9tuzdgn5t/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/1f840a71-6135-41c9-b197-8720eab4fd8c/output/reconnaissance-acknowledged-cmwkikdz.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkikdzj03cq3gt9tuzdgn5t/audio-voice",
+        "bytes": 26792
+      }
+    ],
+    "downloadFailures": []
+  }
+}
