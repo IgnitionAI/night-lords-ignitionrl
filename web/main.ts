@@ -1,3 +1,4 @@
+import {t,setHTML,setText,localize,languagePicker,onLocaleChange,getLocale} from './i18n';
 import {beginClimb} from '../src/vertical-hunt';
 import {SHIP_WELLS} from '../src/ship-fittings';
 import {installShipFittings} from './ship-fittings';
@@ -66,6 +67,11 @@ import { diabloControls, diabloKeys, rayToGround, type DiabloAim } from './contr
 import { coneGradient, noiseRingRadius } from './read-aids';
 import { equipNl } from './weapons';
 
+// Language controls are available before deployment and while paused.
+const localeBar=document.createElement('nav');localeBar.id='fps-language';
+setHTML(localeBar, `${languagePicker()}<button id="fps-settings">Paramètres</button><a href="./index.html">Plateau ↗</a>`);document.body.append(localeBar);
+const settingsPanel=document.createElement('div');settingsPanel.id='fps-settings-panel';settingsPanel.hidden=true;document.body.append(settingsPanel);
+localize(document.body);
 const qs = new URLSearchParams(location.search);
 // Canal d'ambiance (`cogitator:hunters`) : muet sauf si l'URL demande explicitement `?control=1`.
 // C'est un flag distinct de `?debug=1` (vue de contrôle historique, touche V), et rien de ce canal ne va au HUD.
@@ -814,6 +820,13 @@ postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), postMat));
 // ---------- état de jeu
 let w: World, prev: { t: [number, number, number]; n: [number, number, number, number][] }, rec: Recorder, rng: () => number, tactic: Tactic | null;
 let roundNo = 0, score = { pack: 0, term: 0 }, paused = false, acc = 0, mixerSim = 0, hitstop = 0, shake = 0, lastActs: number[] = [0, 0, 0, 0], lastP: number[] = [0, 0, 0, 0], tracerT = 0;
+document.getElementById('fps-settings')!.onclick=()=>{
+ const wasPaused=paused;paused=true;keys.clear();document.exitPointerLock?.();
+ settingsPanel.hidden=false;setHTML(settingsPanel,`<section><h2>Paramètres</h2>${languagePicker()}<p>La langue choisie s’applique aux textes, aux sous-titres et aux voix.</p><button id="fps-sound-toggle">${engine.muted?'Activer le son':'Couper le son'}</button><button id="fps-settings-close">Reprendre</button></section>`);
+ document.getElementById('fps-sound-toggle')!.onclick=()=>{engine.toggleMute();setText(document.getElementById('fps-sound-toggle')!,engine.muted?'Activer le son':'Couper le son');};
+ document.getElementById('fps-settings-close')!.onclick=()=>{settingsPanel.hidden=true;paused=wasPaused;};
+};
+
 let nlPrevStun = [0, 0, 0, 0], nlPrevAction = [0, 0, 0, 0];
 let nlCamHold = [0, 0, 0, 0];
 // Dernier tick publié sur le canal d'ambiance : garantit « une fois par tick au plus », même en pause.
@@ -843,6 +856,7 @@ addEventListener('keydown', e => {
   keys.add(e.code);
   if (CAM_MODE === 'fps') { if (e.code === 'KeyR') queuedReload = true; if (e.code === 'Space') queuedBolt = true; if (e.code === 'KeyF') queuedFist = true; }
   if (e.code === 'KeyV') { debug = !debug; if (debug) buildLabels(); }
+  if (!settingsPanel.hidden) return;
   if (e.code === 'KeyP') paused = !paused;
   if (e.code === 'Escape' && (FPS_DUEL || MISSION)) { fpsStarted = false; keys.clear(); queuedReload = queuedBolt = queuedFist = false; }
   if (e.code === 'KeyH' && CAM_MODE === 'diablo') readAids = !readAids;
@@ -854,7 +868,7 @@ addEventListener('keyup', e => keys.delete(e.code));
 if (CAM_MODE === 'fps') {
   canvas.addEventListener('click', () => { if(MISSION && !scene.userData.genestealersLoaded)return; fpsStarted = true; if (!fpsDragLook) canvas.requestPointerLock?.()?.catch(() => { fpsDragLook = true; }); });
   canvas.addEventListener('contextmenu', e => e.preventDefault());
-  addEventListener('mousedown', e => { if (fpsStarted && e.button < 3) { keys.add(e.button === 0 ? 'MouseFire' : 'MouseFist'); if (e.button === 0) queuedBolt = true; if (e.button === 2) queuedFist = true; } });
+  addEventListener('mousedown', e => { if (settingsPanel.hidden && e.target === canvas && fpsStarted && e.button < 3) { keys.add(e.button === 0 ? 'MouseFire' : 'MouseFist'); if (e.button === 0) queuedBolt = true; if (e.button === 2) queuedFist = true; } });
   addEventListener('mouseup', e => keys.delete(e.button === 0 ? 'MouseFire' : 'MouseFist'));
   addEventListener('blur', () => keys.clear());
   document.addEventListener('pointerlockchange', () => {
@@ -1185,15 +1199,15 @@ if (CAM_MODE === 'diablo') {
     sees: w.nls.map(n => n.alive && nlSees(w, n)),
   });
   const help = document.getElementById('help');
-  if (help) help.innerHTML = 'Flèches : se déplacer · souris : viser à 360° (même en marchant) · Espace : bolter · F : gantelet · H : marqueurs · molette ou +/− : zoom (ZQSD aussi)<br>'
+  if (help) setHTML(help, 'Flèches : se déplacer · souris : viser à 360° (même en marchant) · Espace : bolter · F : gantelet · H : marqueurs · molette ou +/− : zoom (ZQSD aussi)<br>'
     + 'Le Terminator pivote vers le curseur ; une flèche vers l\'avant le fait avancer, vers l\'arrière reculer, de côté la marche attend que la visée soit alignée. Sans souris, les flèches l\'orientent et le font avancer. '
-    + 'Victoire : balise 6 s, meute à terre, ou 2:00 tenues ; défaite : armure à 0 · Maj gantelet · V vue de contrôle · M son · Entrée manche suivante · P pause · autres vues : ?cam=fps|shoulder|combat|couloir|epaule|troisquarts';
+    + 'Victoire : balise 6 s, meute à terre, ou 2:00 tenues ; défaite : armure à 0 · Maj gantelet · V vue de contrôle · M son · Entrée manche suivante · P pause · autres vues : ?cam=fps|shoulder|combat|couloir|epaule|troisquarts');
   showMusicCredit();
   // les flèches déplacent : elles ne doivent pas faire défiler la page
   addEventListener('keydown', e => { if (e.code.startsWith('Arrow')) e.preventDefault(); });
 }
 if (CAM_MODE === 'fps') {
-  document.getElementById('help')!.textContent = 'ZQSD / WASD · Clic : bolter · F : gantelet · R : recharge · E : bombe / extraction · P : pause · Entrée : rejouer · Échap : souris';
+  setText(document.getElementById('help')!, 'ZQSD / WASD · Clic : bolter · F : gantelet · R : recharge · E : bombe / extraction · P : pause · Entrée : rejouer · Échap : souris');
 }
 function playerAction(): TAction {
   const k = (c: string) => keys.has(c);
@@ -1221,7 +1235,7 @@ function playerAction(): TAction {
   return { fwd: (k('KeyW') || k('KeyZ') ? 1 : 0) - (k('KeyS') ? 1 : 0), strafe: (k('KeyA') || k('KeyQ') ? 1 : 0) - (k('KeyD') ? 1 : 0), turn, bolt: k('Space'), fist: k('KeyF') || k('ShiftLeft') };
 }
 function floatText(x: number, y: number, text: string, color: string) {
-  const v = new THREE.Vector3(x, 2.5, y).project(camera); const el = document.createElement('div'); el.className = 'float'; el.textContent = text; el.style.color = color;
+  const v = new THREE.Vector3(x, 2.5, y).project(camera); const el = document.createElement('div'); el.className = 'float'; setText(el, text); el.style.color = color;
   el.style.left = `${(v.x + 1) / 2 * innerWidth}px`; el.style.top = `${(1 - v.y) / 2 * innerHeight}px`; document.body.appendChild(el);
   requestAnimationFrame(() => { el.style.transform = 'translateY(-40px)'; el.style.opacity = '0'; }); setTimeout(() => el.remove(), 800);
 }
@@ -1476,20 +1490,20 @@ function flash(_o: number) { /* remplacé par un retour localisé (hitGlow / imp
 async function endRound() {
   roundOver = true; director.endRound(w.winner); if (w.winner === 'pack') score.pack++; else score.term++;
   const msg = document.getElementById('msg')!; msg.style.display = 'block';
-  if (MISSION) { msg.innerHTML = `<h2>${w.reason}</h2><p>Entrée : nouvelle mission</p>`; return; }
+  if (MISSION) { setHTML(msg, `<h2>${w.reason}</h2><p>Entrée : nouvelle mission</p>`); return; }
   if (FPS_DUEL) {
-    msg.innerHTML = `<h2>${w.winner === 'terminator' ? 'Duel remporté' : 'Armure détruite'}</h2><p>Entrée : recommencer le duel</p>`;
+    setHTML(msg, `<h2>${w.winner === 'terminator' ? 'Duel remporté' : 'Armure détruite'}</h2><p>Entrée : recommencer le duel</p>`);
     return;
   }
   const card = roundCard(w, { roundNo });
-  msg.innerHTML = roundMarkup(card) + musicCreditMarkup(engine.musicCredit) + '<p>La meute étudie ta tactique…</p>';
+  setHTML(msg, roundMarkup(card) + musicCreditMarkup(engine.musicCredit) + '<p>La meute étudie ta tactique…</p>');
   if (shot || PLAY_SPEED !== 1 || qs.get('until') === 'end' || PROBE_READ || CAP_STEP) return;
   try {
     const r = await fetch('/api/round', { method: 'POST', body: JSON.stringify(rec.toJSON(`${w.winner} — ${w.reason}`)) }).then(r => r.json());
     lastSummary = r.summary;
-    if (r.ok) { await loadPolicy(); msg.innerHTML += `<p>Ce qu'elle a lu : ${r.summary}.<br>Fantôme appris par imitation sur tes ${r.roundsUsed} dernière(s) manche(s), meute ré-entraînée contre lui (${r.updates} mises à jour PPO, ${r.seconds.toFixed(0)} s).</p>`; }
-    else msg.innerHTML += `<p>Ce qu'elle a lu : ${r.summary}.<br>Pas de ré-entraînement : ${r.reason ?? 'échec'}.</p>`;
-  } catch { msg.innerHTML += '<p>Serveur local absent : pas de ré-entraînement.</p>'; }
+    if (r.ok) { await loadPolicy(); setHTML(msg, `<p>Ce qu'elle a lu : ${r.summary}.<br>Fantôme appris par imitation sur tes ${r.roundsUsed} dernière(s) manche(s), meute ré-entraînée contre lui (${r.updates} mises à jour PPO, ${r.seconds.toFixed(0)} s).</p>`, true); }
+    else setHTML(msg, `<p>Ce qu'elle a lu : ${r.summary}.<br>Pas de ré-entraînement : ${r.reason ?? 'échec'}.</p>`, true);
+  } catch { setHTML(msg, '<p>Serveur local absent : pas de ré-entraînement.</p>', true); }
 }
 async function loadPolicy() {
   const sel = policyFileFromQuery(qs.get('policy'));
@@ -1549,10 +1563,10 @@ function hud() {
   };
   const h = document.getElementById('hud')!;
   const prompt = document.getElementById('fps-prompt');
-  if (prompt) { prompt.style.display = (FPS_DUEL || MISSION) && (!fpsStarted || paused) && !roundOver ? 'block' : 'none'; prompt.textContent = MISSION && !scene.userData.genestealersLoaded ? (scene.userData.genestealerError ? 'Chargement interrompu · Recharger la mission' : 'Préparation de la mission…') : paused ? 'Pause · P pour reprendre' : MISSION ? 'OPÉRATION CENDRES · Cliquer pour entrer' : 'DUEL FPS · Cliquer pour entrer'; }
+  if (prompt) { prompt.style.display = (FPS_DUEL || MISSION) && (!fpsStarted || paused) && !roundOver ? 'block' : 'none'; setText(prompt, MISSION && !scene.userData.genestealersLoaded ? (scene.userData.genestealerError ? 'Chargement interrompu · Recharger la mission' : 'Préparation de la mission…') : paused ? 'Pause · P pour reprendre' : MISSION ? 'OPÉRATION CENDRES · Cliquer pour entrer' : 'DUEL FPS · Cliquer pour entrer'); }
   const status = matchStatus(w);
   if (MISSION) {status.clock=mission.phase==='escape' ? `${Math.floor(Math.ceil(mission.remaining)/60)}:${String(Math.ceil(mission.remaining)%60).padStart(2,'0')}` : mission.phase==='extracted'?'HORS ZONE':'NON ARMÉE'; status.timePressure=mission.phase==='escape' && mission.remaining<20;}
-  h.innerHTML = CAM_MODE === 'fps' ? fpsHudMarkup(status, extra) : hudMarkup(matchStatus(w), extra);
+  setHTML(h, CAM_MODE === 'fps' ? fpsHudMarkup(status, extra) : hudMarkup(matchStatus(w), extra));
   (window as unknown as { __NL?: unknown }).__NL = {
     mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, muted: engine.muted,
     hunt: MISSION ? {agents:w.nls.map((n,i)=>({x:n.x,y:n.y,height:n.height??0,vertical:n.vertical?.phase,tactic:tacticalState(w,i),alive:n.alive,action:n.lastAction}))} : null,
@@ -1581,9 +1595,9 @@ function hud() {
     applyLook: (dx: number, dy: number) => applyLookDelta(fpsLook, dx, dy),
   };
   const d = document.getElementById('dbg')!; d.style.display = debug ? 'block' : 'none';
-  if (debug) d.innerHTML = `<b>Vue de contrôle — ce que perçoit chaque Night Lord</b><table><tr><th>rôle</th><th>état</th><th>voit</th><th>entend</th><th>vox</th><th>âge</th><th>action (p)</th></tr>`
+  if (debug) setHTML(d, `<b>Vue de contrôle — ce que perçoit chaque Night Lord</b><table><tr><th>rôle</th><th>état</th><th>voit</th><th>entend</th><th>vox</th><th>âge</th><th>action (p)</th></tr>`
     + w.nls.map((n, i) => `<tr style="color:${ROLE_CSS[i]}"><td>${ROLES[i]}</td><td>${n.alive ? 'debout' : 'mort'}</td><td>${n.alive && n.belief.seen ? '●' : '·'}</td><td>${n.alive && n.belief.heard ? '●' : '·'}</td><td>${n.alive && n.belief.vox ? '●' : '·'}</td><td>${n.alive && n.belief.valid ? (n.belief.age * DT).toFixed(1) + ' s' : '—'}</td><td>${n.alive ? NL_ACTIONS[lastActs[i]] + (actor ? ` (${lastP[i].toFixed(2)})` : '') : ''}</td></tr>`).join('')
-    + `</table>Anneau blanc = portée du bruit du Terminator (${w.t.noise} m). Anneaux colorés = où chaque frère croit qu'il est. Le Terminator perçoit : ${terminatorPerceives(w).map(i => ROLES[i]).join(', ') || 'personne'}.`;
+    + `</table>Anneau blanc = portée du bruit du Terminator (${w.t.noise} m). Anneaux colorés = où chaque frère croit qu'il est. Le Terminator perçoit : ${terminatorPerceives(w).map(i => ROLES[i]).join(', ') || 'personne'}.`);
 }
 // Les impulsions, elles, tombent au pas de simulation : c'est la simulation qui décide qu'un pas est posé et
 // qu'une rafale part. Ce qui les met en forme est continu.
@@ -1890,11 +1904,11 @@ function render(alpha: number) {
   if (CAM_MODE === 'fps' || CAM_MODE === 'shoulder') {
     const threats = document.getElementById('threats');
     if (threats) {
-      threats.innerHTML = MISSION ? '' : marksHtml(offscreenMarks(
+      setHTML(threats, MISSION ? '' : marksHtml(offscreenMarks(
         { x: tx, y: ty, yaw: CAM_MODE === 'fps' ? fpsLook.yaw : tf },
         w.nls,
         camera,
-      ));
+      )));
     }
   }
   if (CAM_MODE === 'fps' || CAM_MODE === 'shoulder') {
@@ -1915,11 +1929,11 @@ function render(alpha: number) {
     }
     const threats = document.getElementById('threats');
     if (threats) {
-      threats.innerHTML = MISSION ? '' : marksHtml(offscreenMarks(
+      setHTML(threats, MISSION ? '' : marksHtml(offscreenMarks(
         { x: tx, y: ty, yaw: CAM_MODE === 'fps' ? fpsLook.yaw : camYaw },
         w.nls,
         camera,
-      ));
+      )));
     }
     const hm = document.getElementById('hitmark');
     if (hm) {
@@ -2170,7 +2184,7 @@ if (Number(qs.get('hitscan') ?? 0)) {
     while (w.tick < 400 && !w.done) { tick(); const h = w.events.find((e: any) => e.type === 'hit'); if (h) { got = { seed, tick: w.tick, dmg: h.dmg, zone: h.zone, hpAfter: h.hpAfter, alarm: h.servoAlarm }; break; } }
     if (got) out.push(got); roundOver = true;
   }
-  (window as any).__hits = out; document.title = 'HITS';
+  (window as any).__hits = out; document.title=t('HITS');
 }
 if (PROBE_READ) {
   const frames: ReturnType<typeof screenReadability>[] = [];
@@ -2208,7 +2222,7 @@ if (PROBE_READ) {
     killMiss: kills.filter((k) => !k.readable),
     termOnScreen: termFrames, termScreenHMedian, termLosShare,
   };
-  document.title = 'READY';
+  document.title=t('READY');
 } else if (CAP_STEP) {
   const finishCap = () => {
     hitstop = 0; shake = 0;
@@ -2254,7 +2268,7 @@ if (PROBE_READ) {
   (window as unknown as { __NL?: unknown }).__NL = {
     mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, playSpeed: PLAY_SPEED,
   };
-  document.title = 'READY';
+  document.title=t('READY');
 } else if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image
   while (w.tick < shot && !w.done) tick();
   hitstop = 0; shake = 0;
@@ -2277,7 +2291,7 @@ if (PROBE_READ) {
   };
   (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY = true;
   (window as any).__nlBodies = nlBodyReport();
-  document.title = 'READY';
+  document.title=t('READY');
 } else {
   let last = performance.now();
   let pumping = false;

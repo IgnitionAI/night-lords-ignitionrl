@@ -58,6 +58,13 @@ body.shoulder .offmark{width:22px;height:22px;margin:-11px 0 0 -11px;border-widt
 #fps-fx{display:none}
 @media (max-aspect-ratio:1/1){#dbg{left:8px;right:8px;top:auto;bottom:30px;max-width:none}}
 
+
+#fps-language{position:fixed;z-index:35;top:12px;right:12px;display:flex;gap:6px;align-items:center;background:#081219df;padding:6px;border:1px solid #657b7e;font:12px monospace}
+#fps-language button,#fps-settings-panel button{background:#172a32;color:#e5e9da;border:1px solid #657b7e;padding:7px;cursor:pointer;font:inherit}
+#fps-language a{color:#d8e3d7;text-decoration:none} .language-picker{display:inline-flex;gap:4px}.language-picker button[aria-pressed="true"]{outline:2px solid #b9d5cd}
+#fps-settings-panel{position:fixed;inset:0;z-index:50;background:#000a;display:grid;place-items:center;color:#e5e9da;font:15px system-ui}#fps-settings-panel[hidden]{display:none}
+#fps-settings-panel section{background:#09151e;border:1px solid #657b7e;max-width:420px;padding:24px;margin:16px}#fps-settings-panel p{line-height:1.6}
+@media(max-width:600px){#fps-language{top:4px;right:4px;font-size:10px}#hud{top:52px!important}}
 </style><link rel="stylesheet" href="/web/visor.css"></head><body>
 <canvas id="c"></canvas><div id="flash"></div>
 <div id="om0" class="offmark"></div><div id="om1" class="offmark"></div><div id="om2" class="offmark"></div><div id="om3" class="offmark"></div>

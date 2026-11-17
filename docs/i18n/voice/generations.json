@@ -1,0 +1,524 @@
+[
+  {
+    "id": "select-vael-1",
+    "text": "Yes, commander.",
+    "unit": "t0",
+    "event": "select",
+    "submitted": true,
+    "generation": {
+      "id": "4f90361e-c9d4-4aa0-848a-cf360d18adc7",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:45:50.597Z",
+      "generationId": "cmwkibu3803cd30qkb7zunif4",
+      "remoteStatus": "pending",
+      "requestId": "932501d2-37e8-4a76-9811-e490d276d31c",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkibu3803cd30qkb7zunif4",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkibu3803cd30qkb7zunif4 --json"
+      }
+    },
+    "delivery": {
+      "id": "b6ec835b-de4b-47a7-ad95-e1c9d256075a",
+      "files": [
+        "public/assets/genex/b6ec835b-de4b-47a7-ad95-e1c9d256075a/yes-commander-cmwkibu3.mp3"
+      ]
+    }
+  },
+  {
+    "id": "select-vael-2",
+    "text": "Listening, commander.",
+    "unit": "t0",
+    "event": "select",
+    "submitted": true,
+    "generation": {
+      "id": "5045d1c7-186c-488a-b118-3a5fe56ab2d2",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:46:12.540Z",
+      "generationId": "cmwkicarr039g3gt9jjepr3c4",
+      "remoteStatus": "pending",
+      "requestId": "16e5059e-8b3c-4d90-8848-2078e70fe8cf",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkicarr039g3gt9jjepr3c4",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkicarr039g3gt9jjepr3c4 --json"
+      }
+    },
+    "delivery": {
+      "id": "579a099e-aa62-489c-81e3-1c2a5d895c8d",
+      "files": [
+        "public/assets/genex/579a099e-aa62-489c-81e3-1c2a5d895c8d/listening-commander-cmwkicar.mp3"
+      ]
+    }
+  },
+  {
+    "id": "select-vael-3",
+    "text": "Your will shall be done.",
+    "unit": "t0",
+    "event": "select",
+    "submitted": true,
+    "generation": {
+      "id": "6c5faf2b-81f0-42e5-b66c-42974611d634",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:46:33.284Z",
+      "generationId": "cmwkicqns03cj30qk5tt744hy",
+      "remoteStatus": "pending",
+      "requestId": "4890f920-90ab-4421-b343-94302d7a9287",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkicqns03cj30qk5tt744hy",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkicqns03cj30qk5tt744hy --json"
+      }
+    },
+    "delivery": {
+      "id": "30b97f19-7696-435b-84b2-ac99d383e32f",
+      "files": [
+        "public/assets/genex/30b97f19-7696-435b-84b2-ac99d383e32f/your-will-shall-be-done-cmwkicqn.mp3"
+      ]
+    }
+  },
+  {
+    "id": "select-tor-1",
+    "text": "Ready to do my duty.",
+    "unit": "t1",
+    "event": "select",
+    "submitted": true,
+    "generation": {
+      "id": "1c9439e2-b5a5-449c-ba25-b03459e9a35d",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:46:54.427Z",
+      "generationId": "cmwkid6ze03d330qkbtndu9yf",
+      "remoteStatus": "pending",
+      "requestId": "248b73f9-3593-4518-b710-a76601eb6527",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkid6ze03d330qkbtndu9yf",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkid6ze03d330qkbtndu9yf --json"
+      }
+    },
+    "delivery": {
+      "id": "02b6470a-1254-4ba6-9d7f-d83a3373d00e",
+      "files": [
+        "public/assets/genex/02b6470a-1254-4ba6-9d7f-d83a3373d00e/ready-to-do-my-duty-cmwkid6z.mp3"
+      ]
+    }
+  },
+  {
+    "id": "select-tor-2",
+    "text": "My armour holds. Your orders?",
+    "unit": "t1",
+    "event": "select",
+    "submitted": true,
+    "generation": {
+      "id": "19cd46fc-49a2-40fd-9a1a-b9c6e3512685",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:47:15.418Z",
+      "generationId": "cmwkidnv2039x3gt9t2rhyy1r",
+      "remoteStatus": "pending",
+      "requestId": "b789540b-a14b-4e6d-8176-e3b2aabfc96c",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkidnv2039x3gt9t2rhyy1r",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkidnv2039x3gt9t2rhyy1r --json"
+      }
+    },
+    "delivery": {
+      "id": "d2c53f43-ea78-495e-b30e-cf9d671b41ef",
+      "files": [
+        "public/assets/genex/d2c53f43-ea78-495e-b30e-cf9d671b41ef/my-armour-holds-your-orders-cmwkidnv.mp3"
+      ]
+    }
+  },
+  {
+    "id": "select-tor-3",
+    "text": "Speak, commander.",
+    "unit": "t1",
+    "event": "select",
+    "submitted": true,
+    "generation": {
+      "id": "a5f02b31-ec71-44d6-9523-3c1869b6e932",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:47:37.171Z",
+      "generationId": "cmwkie3vp03db30qk73qxf5ai",
+      "remoteStatus": "pending",
+      "requestId": "36467901-348b-4542-88f5-26d0380edb94",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkie3vp03db30qk73qxf5ai",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkie3vp03db30qk73qxf5ai --json"
+      }
+    },
+    "delivery": {
+      "id": "abc083a0-21d7-40a4-be8d-5fff53978c77",
+      "files": [
+        "public/assets/genex/abc083a0-21d7-40a4-be8d-5fff53978c77/speak-commander-cmwkie3v.mp3"
+      ]
+    }
+  },
+  {
+    "id": "select-cael-1",
+    "text": "Channel open, commander.",
+    "unit": "t2",
+    "event": "select",
+    "submitted": true,
+    "generation": {
+      "id": "0a1bbd95-97cb-4138-83ef-f98b7405d7b6",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:47:57.862Z",
+      "generationId": "cmwkiejza03dl30qkxbwbd6kg",
+      "remoteStatus": "pending",
+      "requestId": "83f90a25-6674-4f47-958d-da9ef3710560",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkiejza03dl30qkxbwbd6kg",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkiejza03dl30qkxbwbd6kg --json"
+      }
+    },
+    "delivery": {
+      "id": "08e4324e-87cd-458d-94ad-a379f507fa52",
+      "files": [
+        "public/assets/genex/08e4324e-87cd-458d-94ad-a379f507fa52/channel-open-commander-cmwkiejz.mp3"
+      ]
+    }
+  },
+  {
+    "id": "select-cael-2",
+    "text": "Listening. For the Emperor.",
+    "unit": "t2",
+    "event": "select",
+    "submitted": true,
+    "generation": {
+      "id": "7618bb45-ce2d-407b-bb70-b8e711efade7",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:48:18.784Z",
+      "generationId": "cmwkiezz703dt30qkkpfu0x5t",
+      "remoteStatus": "pending",
+      "requestId": "c02c40d6-516a-4f7d-9cef-6e6559bd2d1c",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkiezz703dt30qkkpfu0x5t",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkiezz703dt30qkkpfu0x5t --json"
+      }
+    },
+    "delivery": {
+      "id": "3cb225a9-e7ca-4b22-9a71-076fbfc1e004",
+      "files": [
+        "public/assets/genex/3cb225a9-e7ca-4b22-9a71-076fbfc1e004/listening-for-the-emperor-cmwkiezz.mp3"
+      ]
+    }
+  },
+  {
+    "id": "select-cael-3",
+    "text": "My senses are alert.",
+    "unit": "t2",
+    "event": "select",
+    "submitted": true,
+    "generation": {
+      "id": "2679a08d-7bb5-4e38-945e-2ce591856b82",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:48:39.534Z",
+      "generationId": "cmwkifg0x03e330qklefekont",
+      "remoteStatus": "pending",
+      "requestId": "970f2c2f-270c-4155-8a12-79483c8f0096",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkifg0x03e330qklefekont",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkifg0x03e330qklefekont --json"
+      }
+    },
+    "delivery": {
+      "id": "23e10dd7-cf93-4337-9ac9-02be823bffde",
+      "files": [
+        "public/assets/genex/23e10dd7-cf93-4337-9ac9-02be823bffde/my-senses-are-alert-cmwkifg0.mp3"
+      ]
+    }
+  },
+  {
+    "id": "select-brann-1",
+    "text": "Duty calls.",
+    "unit": "t3",
+    "event": "select",
+    "submitted": true,
+    "generation": {
+      "id": "28b15baa-2899-48ba-88e1-c0602e379bf0",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:49:00.301Z",
+      "generationId": "cmwkifw1z03ef30qkqdpa33oo",
+      "remoteStatus": "pending",
+      "requestId": "36bc12e7-ea61-4449-be3d-95a5e74b8013",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkifw1z03ef30qkqdpa33oo",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkifw1z03ef30qkqdpa33oo --json"
+      }
+    },
+    "delivery": {
+      "id": "bd3ac47f-93c6-48b7-82d8-d7602777eac5",
+      "files": [
+        "public/assets/genex/bd3ac47f-93c6-48b7-82d8-d7602777eac5/duty-calls-cmwkifw1.mp3"
+      ]
+    }
+  },
+  {
+    "id": "select-brann-2",
+    "text": "Ever faithful, commander.",
+    "unit": "t3",
+    "event": "select",
+    "submitted": true,
+    "generation": {
+      "id": "9be0eef4-e6e2-4e06-a219-872ac6a14c7c",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:49:20.831Z",
+      "generationId": "cmwkigbwg03ao3gt9935pwwtc",
+      "remoteStatus": "pending",
+      "requestId": "41e82701-a897-49cb-9dd4-d2c87787de1e",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkigbwg03ao3gt9935pwwtc",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkigbwg03ao3gt9935pwwtc --json"
+      }
+    },
+    "delivery": {
+      "id": "09749c48-7b2f-469c-8ea7-075d8f1a77fd",
+      "files": [
+        "public/assets/genex/09749c48-7b2f-469c-8ea7-075d8f1a77fd/ever-faithful-commander-cmwkigbw.mp3"
+      ]
+    }
+  },
+  {
+    "id": "select-brann-3",
+    "text": "May the Emperor guide us.",
+    "unit": "t3",
+    "event": "select",
+    "submitted": true,
+    "generation": {
+      "id": "279d5496-d435-473a-b912-f34403fc5042",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:49:41.691Z",
+      "generationId": "cmwkigs0k03ev30qk2f9d1sni",
+      "remoteStatus": "pending",
+      "requestId": "24150601-0854-4d42-88c3-ef7c5825e1f1",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkigs0k03ev30qk2f9d1sni",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkigs0k03ev30qk2f9d1sni --json"
+      }
+    },
+    "delivery": {
+      "id": "02e68ae2-c931-46b9-920b-15069c9d6aa1",
+      "files": [
+        "public/assets/genex/02e68ae2-c931-46b9-920b-15069c9d6aa1/may-the-emperor-guide-us-cmwkigs0.mp3"
+      ]
+    }
+  },
+  {
+    "id": "ack-move-1",
+    "text": "At your command.",
+    "event": "ack-move",
+    "submitted": true,
+    "generation": {
+      "id": "c26172b5-b41d-4698-9277-cf92b12f5c17",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:50:02.441Z",
+      "generationId": "cmwkih81g03b23gt9uzo33ils",
+      "remoteStatus": "pending",
+      "requestId": "c7109ca4-e6a9-4d52-b40a-eec0e8c5763d",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkih81g03b23gt9uzo33ils",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkih81g03b23gt9uzo33ils --json"
+      }
+    },
+    "delivery": {
+      "id": "2d0689ea-feca-4c79-9f70-53b42fb9f2ea",
+      "files": [
+        "public/assets/genex/2d0689ea-feca-4c79-9f70-53b42fb9f2ea/at-your-command-cmwkih81.mp3"
+      ]
+    }
+  },
+  {
+    "id": "ack-move-2",
+    "text": "Route received.",
+    "event": "ack-move",
+    "submitted": true,
+    "generation": {
+      "id": "a30c93e0-f7e3-48a2-9da8-fa2b93877d66",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:50:23.358Z",
+      "generationId": "cmwkihopd03b93gt9n2qyf3vc",
+      "remoteStatus": "pending",
+      "requestId": "04753481-44f7-46e5-9634-60e32d32c83d",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkihopd03b93gt9n2qyf3vc",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkihopd03b93gt9n2qyf3vc --json"
+      }
+    },
+    "delivery": {
+      "id": "6f24a74d-721f-4765-9930-5e63a75e07a4",
+      "files": [
+        "public/assets/genex/6f24a74d-721f-4765-9930-5e63a75e07a4/route-received-cmwkihop.mp3"
+      ]
+    }
+  },
+  {
+    "id": "ack-fire-1",
+    "text": "Firing coordinates received.",
+    "event": "ack-fire",
+    "submitted": true,
+    "generation": {
+      "id": "42fc8e08-8f99-4d46-b208-341bbd9bcb4b",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:50:45.166Z",
+      "generationId": "cmwkii57k03fa30qk8rktk2lz",
+      "remoteStatus": "pending",
+      "requestId": "cda003a4-f65f-4769-a9fa-3a28b714ef9f",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkii57k03fa30qk8rktk2lz",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkii57k03fa30qk8rktk2lz --json"
+      }
+    },
+    "delivery": {
+      "id": "fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714",
+      "files": [
+        "public/assets/genex/fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714/firing-coordinates-received-cmwkii57.mp3"
+      ]
+    }
+  },
+  {
+    "id": "ack-fire-2",
+    "text": "Bolter ready.",
+    "event": "ack-fire",
+    "submitted": true,
+    "generation": {
+      "id": "6391e86e-bdfb-4755-b1c5-84c7f3e89d6e",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:51:06.232Z",
+      "generationId": "cmwkiilep03fo30qk956mkcai",
+      "remoteStatus": "pending",
+      "requestId": "987334c8-abda-40c5-985e-655243fe8a70",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkiilep03fo30qk956mkcai",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkiilep03fo30qk956mkcai --json"
+      }
+    },
+    "delivery": {
+      "id": "34c81e9a-aba9-4cfa-a39d-c9a05c5f6dbb",
+      "files": [
+        "public/assets/genex/34c81e9a-aba9-4cfa-a39d-c9a05c5f6dbb/bolter-ready-cmwkiile.mp3"
+      ]
+    }
+  },
+  {
+    "id": "ack-guard-1",
+    "text": "I will cover this sector.",
+    "event": "ack-guard",
+    "submitted": true,
+    "generation": {
+      "id": "1a6e281d-6e0a-4536-99d6-221f5c81441a",
+      "project": "night-lords-ignitionrl",
+      "operation": "voice",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-17T09:51:27.148Z",
+      "generationId": "cmwkij1dk03bs3gt9tx6o438n",
+      "remoteStatus": "pending",
+      "requestId": "5adbf63e-c1a9-4cf1-81b8-ee15dc1fc374",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "voice",
+        "id": "cmwkij1dk03bs3gt9tx6o438n",
+        "status": "pending",
+        "nextCommand": "genex wait cmwkij1dk03bs3gt9tx6o438n --json"
+      }
+    },
+    "delivery": {
+      "id": "b6e7136f-50d0-4af1-9003-613677925d28",
+      "files": [
+        "public/assets/genex/b6e7136f-50d0-4af1-9003-613677925d28/i-will-cover-this-sector-cmwkij1d.mp3"
+      ]
+    }
+  }
+]

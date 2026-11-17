@@ -1,0 +1,40 @@
+{
+  "id": "abc083a0-21d7-40a4-be8d-5fff53978c77",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/abc083a0-21d7-40a4-be8d-5fff53978c77/speak-commander-cmwkie3v.mp3"
+  ],
+  "createdAt": "2026-11-17T09:47:38.071Z",
+  "generationId": "cmwkie3vp03db30qk73qxf5ai",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkie3vp03db30qk73qxf5ai/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkie3vp03db30qk73qxf5ai",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkie3vp03db30qk73qxf5ai/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/abc083a0-21d7-40a4-be8d-5fff53978c77/output/speak-commander-cmwkie3v.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkie3vp03db30qk73qxf5ai/audio-voice",
+        "bytes": 26792
+      }
+    ],
+    "downloadFailures": []
+  }
+}

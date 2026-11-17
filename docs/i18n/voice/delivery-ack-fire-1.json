@@ -1,0 +1,40 @@
+{
+  "id": "fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714/firing-coordinates-received-cmwkii57.mp3"
+  ],
+  "createdAt": "2026-11-17T09:50:46.378Z",
+  "generationId": "cmwkii57k03fa30qk8rktk2lz",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkii57k03fa30qk8rktk2lz/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkii57k03fa30qk8rktk2lz",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkii57k03fa30qk8rktk2lz/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714/output/firing-coordinates-received-cmwkii57.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkii57k03fa30qk8rktk2lz/audio-voice",
+        "bytes": 29300
+      }
+    ],
+    "downloadFailures": []
+  }
+}

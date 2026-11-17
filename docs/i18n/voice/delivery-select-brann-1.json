@@ -1,0 +1,40 @@
+{
+  "id": "bd3ac47f-93c6-48b7-82d8-d7602777eac5",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/bd3ac47f-93c6-48b7-82d8-d7602777eac5/duty-calls-cmwkifw1.mp3"
+  ],
+  "createdAt": "2026-11-17T09:49:01.045Z",
+  "generationId": "cmwkifw1z03ef30qkqdpa33oo",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkifw1z03ef30qkqdpa33oo/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkifw1z03ef30qkqdpa33oo",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkifw1z03ef30qkqdpa33oo/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/bd3ac47f-93c6-48b7-82d8-d7602777eac5/output/duty-calls-cmwkifw1.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkifw1z03ef30qkqdpa33oo/audio-voice",
+        "bytes": 21358
+      }
+    ],
+    "downloadFailures": []
+  }
+}

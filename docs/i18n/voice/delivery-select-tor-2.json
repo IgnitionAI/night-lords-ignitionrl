@@ -1,0 +1,40 @@
+{
+  "id": "d2c53f43-ea78-495e-b30e-cf9d671b41ef",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/d2c53f43-ea78-495e-b30e-cf9d671b41ef/my-armour-holds-your-orders-cmwkidnv.mp3"
+  ],
+  "createdAt": "2026-11-17T09:47:17.230Z",
+  "generationId": "cmwkidnv2039x3gt9t2rhyy1r",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkidnv2039x3gt9t2rhyy1r/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkidnv2039x3gt9t2rhyy1r",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkidnv2039x3gt9t2rhyy1r/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/d2c53f43-ea78-495e-b30e-cf9d671b41ef/output/my-armour-holds-your-orders-cmwkidnv.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkidnv2039x3gt9t2rhyy1r/audio-voice",
+        "bytes": 40585
+      }
+    ],
+    "downloadFailures": []
+  }
+}

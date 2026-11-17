@@ -1,0 +1,40 @@
+{
+  "id": "3cb225a9-e7ca-4b22-9a71-076fbfc1e004",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/3cb225a9-e7ca-4b22-9a71-076fbfc1e004/listening-for-the-emperor-cmwkiezz.mp3"
+  ],
+  "createdAt": "2026-11-17T09:48:19.525Z",
+  "generationId": "cmwkiezz703dt30qkkpfu0x5t",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkiezz703dt30qkkpfu0x5t/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkiezz703dt30qkkpfu0x5t",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiezz703dt30qkkpfu0x5t/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/3cb225a9-e7ca-4b22-9a71-076fbfc1e004/output/listening-for-the-emperor-cmwkiezz.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiezz703dt30qkkpfu0x5t/audio-voice",
+        "bytes": 38077
+      }
+    ],
+    "downloadFailures": []
+  }
+}

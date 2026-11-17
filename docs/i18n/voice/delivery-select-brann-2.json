@@ -1,0 +1,40 @@
+{
+  "id": "09749c48-7b2f-469c-8ea7-075d8f1a77fd",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/09749c48-7b2f-469c-8ea7-075d8f1a77fd/ever-faithful-commander-cmwkigbw.mp3"
+  ],
+  "createdAt": "2026-11-17T09:49:21.735Z",
+  "generationId": "cmwkigbwg03ao3gt9935pwwtc",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkigbwg03ao3gt9935pwwtc/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkigbwg03ao3gt9935pwwtc",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkigbwg03ao3gt9935pwwtc/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/09749c48-7b2f-469c-8ea7-075d8f1a77fd/output/ever-faithful-commander-cmwkigbw.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkigbwg03ao3gt9935pwwtc/audio-voice",
+        "bytes": 31807
+      }
+    ],
+    "downloadFailures": []
+  }
+}

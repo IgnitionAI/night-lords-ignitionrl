@@ -1,0 +1,40 @@
+{
+  "id": "23e10dd7-cf93-4337-9ac9-02be823bffde",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/23e10dd7-cf93-4337-9ac9-02be823bffde/my-senses-are-alert-cmwkifg0.mp3"
+  ],
+  "createdAt": "2026-11-17T09:48:40.282Z",
+  "generationId": "cmwkifg0x03e330qklefekont",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkifg0x03e330qklefekont/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkifg0x03e330qklefekont",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkifg0x03e330qklefekont/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/23e10dd7-cf93-4337-9ac9-02be823bffde/output/my-senses-are-alert-cmwkifg0.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkifg0x03e330qklefekont/audio-voice",
+        "bytes": 30554
+      }
+    ],
+    "downloadFailures": []
+  }
+}

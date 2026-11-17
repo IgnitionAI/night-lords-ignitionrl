@@ -1,0 +1,40 @@
+{
+  "id": "30b97f19-7696-435b-84b2-ac99d383e32f",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/30b97f19-7696-435b-84b2-ac99d383e32f/your-will-shall-be-done-cmwkicqn.mp3"
+  ],
+  "createdAt": "2026-11-17T09:46:34.187Z",
+  "generationId": "cmwkicqns03cj30qk5tt744hy",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkicqns03cj30qk5tt744hy/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkicqns03cj30qk5tt744hy",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkicqns03cj30qk5tt744hy/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/30b97f19-7696-435b-84b2-ac99d383e32f/output/your-will-shall-be-done-cmwkicqn.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkicqns03cj30qk5tt744hy/audio-voice",
+        "bytes": 30554
+      }
+    ],
+    "downloadFailures": []
+  }
+}

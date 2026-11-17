@@ -1,0 +1,1618 @@
+[
+  [
+    "Langue",
+    "Language"
+  ],
+  [
+    "Paramètres",
+    "Settings"
+  ],
+  [
+    "IGNITION · THÉÂTRE D’OPÉRATIONS / 01",
+    "IGNITION · THEATRE OF OPERATIONS / 01"
+  ],
+  [
+    "Guerre de coursives",
+    "Boarding War"
+  ],
+  [
+    "Son",
+    "Sound"
+  ],
+  [
+    "FPS conservé ↗",
+    "FPS mode ↗"
+  ],
+  [
+    "CROISEUR NOCTIS / PONT VII",
+    "NOCTIS CRUISER / DECK VII"
+  ],
+  [
+    "Carte tactique 3D : sélectionner une unité puis une destination",
+    "3D tactical map: select a unit, then a destination"
+  ],
+  [
+    "Agrandir",
+    "Zoom in"
+  ],
+  [
+    "Réduire",
+    "Zoom out"
+  ],
+  [
+    "Escouade",
+    "Squad"
+  ],
+  [
+    "Vue générale",
+    "Overview"
+  ],
+  [
+    "Vue plan",
+    "Plan view"
+  ],
+  [
+    "Vue 3D",
+    "3D view"
+  ],
+  [
+    "Molette : zoom · Glisser : déplacer la vue",
+    "Scroll: zoom · Drag: pan"
+  ],
+  [
+    "Éveil des systèmes du Noctis…",
+    "Waking the Noctis systems…"
+  ],
+  [
+    "Contact confirmé",
+    "Confirmed contact"
+  ],
+  [
+    "Dernière position connue",
+    "Last known position"
+  ],
+  [
+    "Porte · ▧ Couvert",
+    "Door · ▧ Cover"
+  ],
+  [
+    "CONTRÔLE DU VAISSEAU",
+    "SHIP CONTROL"
+  ],
+  [
+    "ESCOUADE TERMINATOR",
+    "TERMINATOR SQUAD"
+  ],
+  [
+    "ORDRE",
+    "ORDER"
+  ],
+  [
+    "Réserver une réaction · 1 PC",
+    "Reserve a reaction · 1 CP"
+  ],
+  [
+    "Effacer cet ordre",
+    "Clear this order"
+  ],
+  [
+    "EXÉCUTER LES ORDRES",
+    "EXECUTE ORDERS"
+  ],
+  [
+    "Deux commandants adverses · renseignements limités",
+    "Two enemy commanders · limited intelligence"
+  ],
+  [
+    "Abandonner et voir le débrief",
+    "Abandon and view debrief"
+  ],
+  [
+    "AUSPEX / AMBIANCE SONORE",
+    "AUSPEX / SOUND SETTINGS"
+  ],
+  [
+    "Le souffle du vaisseau",
+    "The breath of the ship"
+  ],
+  [
+    "Voix de casque, musique, ventilation et combat se règlent indépendamment.",
+    "Helmet voices, music, ventilation and combat have separate volume controls."
+  ],
+  [
+    "Volume général",
+    "Master volume"
+  ],
+  [
+    "Musique",
+    "Music"
+  ],
+  [
+    "Ambiance du vaisseau",
+    "Ship ambience"
+  ],
+  [
+    "Armes et servomoteurs",
+    "Weapons and servos"
+  ],
+  [
+    "Communications VOX",
+    "VOX communications"
+  ],
+  [
+    "REVENIR AU PONT",
+    "RETURN TO THE DECK"
+  ],
+  [
+    "Déplacement · 1",
+    "Move · 1"
+  ],
+  [
+    "Tir ciblé · 2",
+    "Aimed fire · 2"
+  ],
+  [
+    "Surveillance · 1",
+    "Overwatch · 1"
+  ],
+  [
+    "Reconnaissance · 1",
+    "Recon · 1"
+  ],
+  [
+    "Interaction · 1",
+    "Interact · 1"
+  ],
+  [
+    "Attendre · 0",
+    "Wait · 0"
+  ],
+  [
+    "Capacité · 2",
+    "Ability · 2"
+  ],
+  [
+    "Clique une case : jusqu’à 3 cases par tour. Les autres unités peuvent bloquer le passage. Maj + clic permet de viser une case occupée par un allié.",
+    "Click a tile: up to 3 tiles per turn. Other units can block the path. Shift + click targets a tile occupied by an ally."
+  ],
+  [
+    "Clique une position visible à 7 cases maximum. Le tir reste dirigé vers cette case si la cible bouge.",
+    "Click a visible tile within 7 tiles. Fire stays aimed at that tile if the target moves."
+  ],
+  [
+    "Couvre les passages à 6 cases : un tir de réaction contre le premier ennemi en mouvement.",
+    "Cover lanes within 6 tiles: one reaction shot at the first moving enemy."
+  ],
+  [
+    "Étend la vision à 10 cases pendant deux tours. Le résultat apparaît après résolution.",
+    "Extend sight to 10 tiles for two turns. Results appear after resolution."
+  ],
+  [
+    "Clique une porte ou un objectif adjacent. Un porteur de données peut les déposer au SAS (3,10).",
+    "Click an adjacent door or objective. A data carrier can deliver data to the AIRLOCK (3,10)."
+  ],
+  [
+    "Aucun PC dépensé, aucune surveillance. Une réserve peut protéger cette unité.",
+    "No CP spent, no overwatch. A reserve can protect this unit."
+  ],
+  [
+    "Sélectionne une cible pour la capacité du frère.",
+    "Select a target for this brother’s ability."
+  ],
+  [
+    "TOUR",
+    "TURN"
+  ],
+  [
+    "points ou meilleur score après",
+    "points or the highest score after"
+  ],
+  [
+    "PC libres",
+    "CP available"
+  ],
+  [
+    "MENACE",
+    "THREAT"
+  ],
+  [
+    "bruit",
+    "noise"
+  ],
+  [
+    "À",
+    "At"
+  ],
+  [
+    "RELAIS",
+    "RELAY"
+  ],
+  [
+    "ALIMENTATION",
+    "POWER"
+  ],
+  [
+    "SAS",
+    "AIRLOCK"
+  ],
+  [
+    "Main épuisée · une carte revient tous les deux tours.",
+    "Hand exhausted · one card returns every two turns."
+  ],
+  [
+    "Plus assez de PC : efface un ordre ou une réserve.",
+    "Not enough CP: clear an order or a reserve."
+  ],
+  [
+    "Sous notre contrôle",
+    "Under our control"
+  ],
+  [
+    "Dernier contrôle : ennemi",
+    "Last controlled by the enemy"
+  ],
+  [
+    "Contrôle non confirmé",
+    "Control unconfirmed"
+  ],
+  [
+    "pt/tour",
+    "pt/turn"
+  ],
+  [
+    "HORS COMBAT",
+    "OUT OF ACTION"
+  ],
+  [
+    "RÉSERVE",
+    "RESERVE"
+  ],
+  [
+    "IMMOBILISÉ",
+    "PINNED"
+  ],
+  [
+    "DONNÉES",
+    "DATA"
+  ],
+  [
+    "ordre(s)",
+    "order(s)"
+  ],
+  [
+    "PC engagés. Sans ordre : attente. Réserve : −2 au premier impact. Carte : une par tour, pioche tous les deux tours.",
+    "CP committed. No order: wait. Reserve: −2 damage on the first hit. Cards: one per turn, draw every two turns."
+  ],
+  [
+    "ÉCHO INCERTAIN",
+    "UNCERTAIN ECHO"
+  ],
+  [
+    "Reconnaître pour vérifier.",
+    "Recon to verify."
+  ],
+  [
+    "Données à ramener au SAS (3,10).",
+    "Return the data to the AIRLOCK (3,10)."
+  ],
+  [
+    "RÉSOLUTION SIMULTANÉE",
+    "SIMULTANEOUS RESOLUTION"
+  ],
+  [
+    "OPÉRATION TERMINÉE",
+    "OPERATION COMPLETE"
+  ],
+  [
+    "PLANIFICATION",
+    "PLANNING"
+  ],
+  [
+    "PPO entraîné · bilan dans le débrief",
+    "Trained PPO · results in the debrief"
+  ],
+  [
+    "IA scriptée de référence",
+    "Scripted AI baseline"
+  ],
+  [
+    "Agents tactiques · décisions heuristiques",
+    "Tactical agents · heuristic decisions"
+  ],
+  [
+    "Ordre impossible : vérifie la portée, la visibilité, les charges ou une immobilisation.",
+    "Invalid order: check range, visibility, charges or pinning."
+  ],
+  [
+    "Budget partagé dépassé : libère des PC sur un autre ordre, une carte ou une réserve.",
+    "Shared budget exceeded: free up CP from another order, a card or a reserve."
+  ],
+  [
+    "préparé.",
+    "prepared."
+  ],
+  [
+    "Aucun événement visible. Les commandants adverses ont résolu leurs ordres.",
+    "No visible events. Enemy commanders have resolved their orders."
+  ],
+  [
+    "Résolution terminée. Réévalue les positions et prépare le prochain tour.",
+    "Resolution complete. Reassess positions and prepare the next turn."
+  ],
+  [
+    "NOCTIS / OPÉRATION DE PLATEAU",
+    "NOCTIS / TACTICAL OPERATION"
+  ],
+  [
+    "Chaque ordre a un prix.",
+    "Every order has a price."
+  ],
+  [
+    "Quatre Terminators, deux commandants Night Lords. Prépare toute ton escouade, puis les deux camps agissent simultanément.",
+    "Four Terminators, two Night Lords commanders. Plan for your whole squad, then both sides act simultaneously."
+  ],
+  [
+    "01 / Répartis 6 PC",
+    "01 / Allocate 6 CP"
+  ],
+  [
+    "Déplacer, surveiller, reconnaître ou interagir : 1 PC. Tir ou capacité : 2. Attendre : gratuit. Réserver 1 PC réduit le premier impact de 2.",
+    "Move, overwatch, recon or interact: 1 CP. Fire or ability: 2. Wait: free. Reserve 1 CP to reduce the first hit by 2."
+  ],
+  [
+    "02 / Combine",
+    "02 / Combine"
+  ],
+  [
+    "Une carte par tour, 1 PC. Tir croisé, brèche, couverture ou brouillage. Chaque frère dispose aussi de deux charges de sa capacité.",
+    "One card per turn, 1 CP. Crossfire, breach, cover or jamming. Each brother also has two charges of his ability."
+  ],
+  [
+    "03 / Choisis tes risques",
+    "03 / Choose your risks"
+  ],
+  [
+    "Le temps et les tirs font monter la menace. Le prochain incident est annoncé. Quitte le secteur ou prépare ta protection.",
+    "Time and gunfire increase threat. The next incident is announced. Leave the sector or prepare your defences."
+  ],
+  [
+    "Points dès le tour 4. Relais : vision +1 ; alimentation : réparation locale. Les archives permettent un retour de données au sas (+6). Stabiliser un frère gravement blessé rapporte +3, une fois. Les échos incertains ne confirment jamais un ennemi.",
+    "Scoring starts on turn 4. Relay: +1 sight; power: local repairs. Retrieve archive data and return it to the airlock (+6). Stabilising a critically wounded brother awards +3 once. Uncertain echoes never confirm an enemy."
+  ],
+  [
+    "Configuration du pont",
+    "Deck configuration"
+  ],
+  [
+    "I · Accès nord fermé",
+    "I · North access sealed"
+  ],
+  [
+    "II · Accès ouverts",
+    "II · Open access"
+  ],
+  [
+    "III · Accès nord et sud fermés",
+    "III · North and south access sealed"
+  ],
+  [
+    "Adversaires",
+    "Opponents"
+  ],
+  [
+    "Deux commandants adaptatifs — heuristiques",
+    "Two adaptive commanders — heuristics"
+  ],
+  [
+    "Référence scriptée — objectifs fixes",
+    "Scripted baseline — fixed objectives"
+  ],
+  [
+    "Deux commandants PPO — entraînés avec IgnitionRL",
+    "Two PPO commanders — trained with IgnitionRL"
+  ],
+  [
+    "DÉPLOYER LES TERMINATORS",
+    "DEPLOY TERMINATORS"
+  ],
+  [
+    "REPRENDRE LE COMMANDEMENT",
+    "RESUME COMMAND"
+  ],
+  [
+    "1–4 : frères · M : déplacement · T : tir · G : surveillance · R : reconnaissance · E : interaction · C : capacité · Entrée : exécuter.",
+    "1–4: brothers · M: move · T: fire · G: overwatch · R: recon · E: interact · C: ability · Enter: execute."
+  ],
+  [
+    "Le débrief conserve les décisions observables et les résultats mesurés de l’IA.",
+    "The debrief records observable decisions and measured AI results."
+  ],
+  [
+    "Active le son depuis les réglages de ton navigateur.",
+    "Enable audio in your browser settings."
+  ],
+  [
+    "Quitter cette opération ?",
+    "Leave this operation?"
+  ],
+  [
+    "La partie sera comptée comme un abandon. Le débrief montrera uniquement les tours déjà joués.",
+    "This game will count as abandoned. The debrief will only show turns already played."
+  ],
+  [
+    "Continuer",
+    "Continue"
+  ],
+  [
+    "Abandonner",
+    "Abandon"
+  ],
+  [
+    "Opération abandonnée",
+    "Operation abandoned"
+  ],
+  [
+    "Victoire de l’Imperium",
+    "Imperium victory"
+  ],
+  [
+    "Contrôle disputé",
+    "Contested control"
+  ],
+  [
+    "Victoire des Night Lords",
+    "Night Lords victory"
+  ],
+  [
+    "DÉBRIEF / INFORMATIONS DÉCLASSIFIÉES",
+    "DEBRIEF / DECLASSIFIED INFORMATION"
+  ],
+  [
+    "tours résolus",
+    "turns resolved"
+  ],
+  [
+    "PPO entraîné via l’implémentation locale dérivée d’IgnitionAI. Politique expérimentale : consulter les résultats comparatifs.",
+    "PPO trained using the local implementation derived from IgnitionAI. Experimental policy: see the comparative results."
+  ],
+  [
+    "Référence scriptée : objectifs fixes, même perception et même exécution.",
+    "Scripted baseline: fixed objectives, identical perception and execution."
+  ],
+  [
+    "Commandants heuristiques : coordination et choix adaptatifs écrits à la main, sans apprentissage revendiqué.",
+    "Heuristic commanders: hand-authored coordination and adaptive choices, with no claim of learning."
+  ],
+  [
+    "Les lignes ci-dessous sont des traces factuelles, pas une reconstruction de pensées.",
+    "The lines below are factual records, not reconstructed thoughts."
+  ],
+  [
+    "Abandon",
+    "Abandoned"
+  ],
+  [
+    "données",
+    "data"
+  ],
+  [
+    "non extraites",
+    "not extracted"
+  ],
+  [
+    "extraites",
+    "extracted"
+  ],
+  [
+    "sauvetage",
+    "rescue"
+  ],
+  [
+    "non réalisé",
+    "not completed"
+  ],
+  [
+    "réussi",
+    "successful"
+  ],
+  [
+    "Tour",
+    "Turn"
+  ],
+  [
+    "événements",
+    "events"
+  ],
+  [
+    "Contacts connus",
+    "Known contacts"
+  ],
+  [
+    "vu au tour",
+    "seen on turn"
+  ],
+  [
+    "Ordres",
+    "Orders"
+  ],
+  [
+    "PC engagés",
+    "CP committed"
+  ],
+  [
+    "menace",
+    "threat"
+  ],
+  [
+    "cartes",
+    "cards"
+  ],
+  [
+    "aucune",
+    "none"
+  ],
+  [
+    "aucun",
+    "none"
+  ],
+  [
+    "Voir les positions après ce tour",
+    "View positions after this turn"
+  ],
+  [
+    "Aucun impact ni changement de contrôle.",
+    "No hits or changes in control."
+  ],
+  [
+    "Exporter la trace JSON",
+    "Export JSON record"
+  ],
+  [
+    "Nouvelle opération",
+    "New operation"
+  ],
+  [
+    "Voir la carte finale",
+    "View final map"
+  ],
+  [
+    "Débrief — positions après le tour",
+    "Debrief — positions after turn"
+  ],
+  [
+    "Toutes les unités sont révélées après la partie.",
+    "All units are revealed after the game."
+  ],
+  [
+    "REVENIR AU DÉBRIEF",
+    "RETURN TO DEBRIEF"
+  ],
+  [
+    "Évaluation comparative indisponible.",
+    "Comparative evaluation unavailable."
+  ],
+  [
+    "Évaluation IgnitionRL",
+    "IgnitionRL evaluation"
+  ],
+  [
+    "scénarios réservés par contrôleur",
+    "held-out scenarios per controller"
+  ],
+  [
+    "transitions réellement entraînées, trois étapes : déplacement, objectifs, combat. Scénarios d’évaluation distincts des entraînements. Même perception limitée et même exécuteur.",
+    "actual training transitions across three stages: movement, objectives, combat. Evaluation scenarios are separate from training. Identical limited perception and execution."
+  ],
+  [
+    "Commandants",
+    "Commanders"
+  ],
+  [
+    "Victoires NL",
+    "NL wins"
+  ],
+  [
+    "Nuls",
+    "Draws"
+  ],
+  [
+    "Score NL / loyalistes",
+    "NL / loyalist score"
+  ],
+  [
+    "Scriptés",
+    "Scripted"
+  ],
+  [
+    "Heuristiques",
+    "Heuristics"
+  ],
+  [
+    "PPO appris",
+    "Learned PPO"
+  ],
+  [
+    "Ces mesures concernent des adversaires de test automatisés ; elles ne garantissent pas une victoire contre un joueur.",
+    "These measurements concern automated test opponents; they do not guarantee victory against a human player."
+  ],
+  [
+    "armure",
+    "armour"
+  ],
+  [
+    "Case",
+    "Tile"
+  ],
+  [
+    "COMMANDEMENT",
+    "COMMAND"
+  ],
+  [
+    "Brèche du pont VII",
+    "Deck VII breach"
+  ],
+  [
+    "Prenez les archives ; rapportez leurs données au sas pour 6 points supplémentaires.",
+    "Take the archives; return their data to the airlock for 6 extra points."
+  ],
+  [
+    "Sous tension",
+    "Under pressure"
+  ],
+  [
+    "L’alimentation vaut 3 points par tour. Le relais assure la vision ; les archives offrent une autre voie.",
+    "Power is worth 3 points per turn. The relay supports vision; the archives offer another route."
+  ],
+  [
+    "Mémoire du Noctis",
+    "Memory of the Noctis"
+  ],
+  [
+    "Le relais vaut 2 points, les archives 1. Rapportez les données et stabilisez un frère gravement blessé.",
+    "The relay is worth 2 points, the archives 1. Retrieve the data and stabilise a critically wounded brother."
+  ],
+  [
+    "Tir croisé",
+    "Crossfire"
+  ],
+  [
+    "Deux tirs alliés sur la même case : +1 dégât par tir. Une cible peut encore se déplacer.",
+    "Two allied shots at the same tile: +1 damage per shot. The target can still move."
+  ],
+  [
+    "Brèche",
+    "Breach"
+  ],
+  [
+    "Ouvre les portes fermées adjacentes à votre groupe avant les déplacements. +2 bruit.",
+    "Open sealed doors adjacent to your group before movement. +2 noise."
+  ],
+  [
+    "Couverture",
+    "Cover"
+  ],
+  [
+    "Réduit de 1 chaque impact reçu ce tour. Cumulable avec une réserve défensive.",
+    "Reduce each hit received this turn by 1. Stacks with a defensive reserve."
+  ],
+  [
+    "Brouillage",
+    "Jamming"
+  ],
+  [
+    "Pendant le prochain tour : vision ennemie −2 et échanges de contacts interrompus.",
+    "Next turn: enemy sight −2 and contact sharing interrupted."
+  ],
+  [
+    "Leurre",
+    "Decoy"
+  ],
+  [
+    "Émet un écho incertain dans un secteur. Une reconnaissance permet de le dissiper.",
+    "Emit an uncertain echo in a sector. Recon can dispel it."
+  ],
+  [
+    "Chaque système au contact de votre groupe ne rapporte aucun point ce tour.",
+    "Each system adjacent to your group scores no points this turn."
+  ],
+  [
+    "Commandant",
+    "Commander"
+  ],
+  [
+    "Ralliement",
+    "Rally"
+  ],
+  [
+    "2 PC · réduit de 2 le bruit de ce tour ; +1 PC au prochain tour. Deux utilisations.",
+    "2 CP · reduce this turn’s noise by 2; +1 CP next turn. Two uses."
+  ],
+  [
+    "Appui",
+    "Support"
+  ],
+  [
+    "Tir suppressif",
+    "Suppressive fire"
+  ],
+  [
+    "2 PC · tir visible à 7 cases : 2 dégâts et cible immobilisée au prochain tour. Deux utilisations.",
+    "2 CP · visible shot within 7 tiles: 2 damage and target pinned next turn. Two uses."
+  ],
+  [
+    "Apothicaire",
+    "Apothecary"
+  ],
+  [
+    "Stabilisation",
+    "Stabilise"
+  ],
+  [
+    "2 PC · rend 3 armure à un frère adjacent. Stabiliser un frère à 5 armure ou moins : +3 points, une fois.",
+    "2 CP · restore 3 armour to an adjacent brother. Stabilise a brother at 5 armour or less: +3 points once."
+  ],
+  [
+    "Sapeur",
+    "Breacher"
+  ],
+  [
+    "Ouverture contrôlée",
+    "Controlled breach"
+  ],
+  [
+    "2 PC · ouvre une porte fermée à 3 cases, en vue, avant les mouvements. Deux utilisations.",
+    "2 CP · open a visible sealed door within 3 tiles, before movement. Two uses."
+  ],
+  [
+    "Relais de commandement",
+    "Command relay"
+  ],
+  [
+    "Alimentation",
+    "Power"
+  ],
+  [
+    "relais",
+    "relay"
+  ],
+  [
+    "alimentation",
+    "power"
+  ],
+  [
+    "progression",
+    "advance"
+  ],
+  [
+    "reconnaissance",
+    "recon"
+  ],
+  [
+    "pression coordonnée",
+    "coordinated pressure"
+  ],
+  [
+    "défense",
+    "defence"
+  ],
+  [
+    "contact(s) connu(s)",
+    "known contact(s)"
+  ],
+  [
+    "PC disponibles",
+    "CP available"
+  ],
+  [
+    "posture",
+    "stance"
+  ],
+  [
+    "ouverte",
+    "open"
+  ],
+  [
+    "fermée",
+    "closed"
+  ],
+  [
+    "Carte",
+    "Card"
+  ],
+  [
+    "VAEL rallie les frères : bruit réduit, +1 PC au prochain tour.",
+    "VAEL rallies the brothers: reduced noise, +1 CP next turn."
+  ],
+  [
+    "CAEL stabilise",
+    "CAEL stabilises"
+  ],
+  [
+    "BRANN ouvre",
+    "BRANN opens"
+  ],
+  [
+    "sans explosion.",
+    "without an explosion."
+  ],
+  [
+    "Frère stabilisé : objectif secondaire +3.",
+    "Brother stabilised: secondary objective +3."
+  ],
+  [
+    "saboté.",
+    "sabotaged."
+  ],
+  [
+    "porte les données : retour au sas pour +6.",
+    "carries the data: return to the airlock for +6."
+  ],
+  [
+    "Données extraites : objectif secondaire +6.",
+    "Data extracted: secondary objective +6."
+  ],
+  [
+    "décompression",
+    "decompression"
+  ],
+  [
+    "verrouillage",
+    "lockdown"
+  ],
+  [
+    "Incident annoncé : décompression du secteur",
+    "Announced incident: decompression in sector"
+  ],
+  [
+    "Incident annoncé : verrouillage de",
+    "Announced incident: lockdown of"
+  ],
+  [
+    "touche",
+    "hits"
+  ],
+  [
+    "effectue une reconnaissance.",
+    "performs recon."
+  ],
+  [
+    "tir sans impact.",
+    "shot missed."
+  ],
+  [
+    "hors de combat.",
+    "out of action."
+  ],
+  [
+    "sécurisé par",
+    "secured by"
+  ],
+  [
+    "les Terminators",
+    "the Terminators"
+  ],
+  [
+    "les Night Lords",
+    "the Night Lords"
+  ],
+  [
+    "récupère 1 armure auprès de l’alimentation.",
+    "recovers 1 armour near power."
+  ],
+  [
+    "Force adverse neutralisée",
+    "Enemy force neutralised"
+  ],
+  [
+    "Limite de tours atteinte",
+    "Turn limit reached"
+  ],
+  [
+    "Seuil de points atteint",
+    "Score threshold reached"
+  ],
+  [
+    "Chargement des figurines…",
+    "Loading miniatures…"
+  ],
+  [
+    "Chargement du pont…",
+    "Loading the deck…"
+  ],
+  [
+    "Armures et systèmes prêts",
+    "Armour and systems ready"
+  ],
+  [
+    "Un modèle n’a pas pu être chargé. Recharge la vue.",
+    "A model could not be loaded. Reload the view."
+  ],
+  [
+    "MISE EN SCÈNE",
+    "STAGED DEMO"
+  ],
+  [
+    "ALARME SERVO",
+    "SERVO ALARM"
+  ],
+  [
+    "servos critiques",
+    "critical servos"
+  ],
+  [
+    "choc",
+    "staggered"
+  ],
+  [
+    "ARMURE",
+    "ARMOUR"
+  ],
+  [
+    "GANTELET",
+    "POWER FIST"
+  ],
+  [
+    "DÉTONATION",
+    "DETONATION"
+  ],
+  [
+    "TEMPS",
+    "TIME"
+  ],
+  [
+    "OPÉRATION CENDRES",
+    "OPERATION ASHES"
+  ],
+  [
+    "FRÈRE VARREN",
+    "BROTHER VARREN"
+  ],
+  [
+    "Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+    "Squad scattered. Reach the core. We will cover your extraction."
+  ],
+  [
+    "Des griffes dans les conduits. Ne vous laissez pas immobiliser.",
+    "Claws in the vents. Do not let them pin you down."
+  ],
+  [
+    "VOX INTERCEPTÉ",
+    "INTERCEPTED VOX"
+  ],
+  [
+    "Tes frères ne répondront plus. Nous avons tout notre temps.",
+    "Your brothers will answer no more. We have all the time we need."
+  ],
+  [
+    "Biomasse au noyau. Armez la charge, puis revenez au sas initial.",
+    "Biomass at the core. Arm the charge, then return to the starting airlock."
+  ],
+  [
+    "CHARGE ARMÉE",
+    "CHARGE ARMED"
+  ],
+  [
+    "90 secondes. Repliez-vous au sas initial !",
+    "90 seconds. Fall back to the starting airlock!"
+  ],
+  [
+    "GRIFFE ÉLIMINÉE",
+    "TALON ELIMINATED"
+  ],
+  [
+    "La chasse est terminée. Achevez le sabotage et évacuez.",
+    "The hunt is over. Finish the sabotage and evacuate."
+  ],
+  [
+    "Armure détruite — signal perdu",
+    "Armour destroyed — signal lost"
+  ],
+  [
+    "Détonation : extraction manquée",
+    "Detonation: extraction failed"
+  ],
+  [
+    "Extraction réussie — vaisseau purgé",
+    "Extraction successful — ship purged"
+  ],
+  [
+    "EXTRACTION RÉUSSIE · Charge armée · Mission accomplie",
+    "EXTRACTION SUCCESSFUL · Charge armed · Mission complete"
+  ],
+  [
+    "MISSION ÉCHOUÉE",
+    "MISSION FAILED"
+  ],
+  [
+    "Maintenir E au sas",
+    "Hold E at the airlock"
+  ],
+  [
+    "Maintenir E immobile pour armer",
+    "Hold E while stationary to arm"
+  ],
+  [
+    "NOYAU",
+    "CORE"
+  ],
+  [
+    "PONT ÉVENTRÉ",
+    "BREACHED DECK"
+  ],
+  [
+    "MACHINES",
+    "ENGINE ROOM"
+  ],
+  [
+    "REFROIDISSEMENT",
+    "COOLANT"
+  ],
+  [
+    "CONTRÔLE",
+    "CONTROL"
+  ],
+  [
+    "SOUTE",
+    "HOLD"
+  ],
+  [
+    "CHARGE",
+    "CHARGE"
+  ],
+  [
+    "recharge",
+    "reloading"
+  ],
+  [
+    "rafale",
+    "burst"
+  ],
+  [
+    "prêt",
+    "ready"
+  ],
+  [
+    "La meute gagne",
+    "The pack wins"
+  ],
+  [
+    "Le Terminator gagne",
+    "The Terminator wins"
+  ],
+  [
+    "Canalisation à la balise — un coup qui blesse remet à zéro",
+    "Channelling at the beacon — damage resets progress"
+  ],
+  [
+    "Dernier Night Lord — tuez-le ou tenez",
+    "Last Night Lord — kill him or hold out"
+  ],
+  [
+    "Tenez encore",
+    "Hold out for"
+  ],
+  [
+    "Objectif : tenez 2:00 · anéantissez la meute · canalisez 6 s à la balise",
+    "Objective: survive 2:00 · destroy the pack · channel for 6 s at the beacon"
+  ],
+  [
+    "L'armure est tombée à 0. La meute a frappé de flanc ou dans le dos.",
+    "Armour reached 0. The pack struck from the flank or rear."
+  ],
+  [
+    "Les quatre Night Lords sont à terre.",
+    "All four Night Lords are down."
+  ],
+  [
+    "Canalisation de 6 s à la balise, sans coup qui blesse.",
+    "Channelled for 6 s at the beacon without taking damage."
+  ],
+  [
+    "120 s tenues. Le Terminator n'a pas été abattu.",
+    "Survived 120 s. The Terminator was not killed."
+  ],
+  [
+    "La meute l'emporte.",
+    "The pack prevails."
+  ],
+  [
+    "Le Terminator l'emporte.",
+    "The Terminator prevails."
+  ],
+  [
+    "la meute gagne",
+    "the pack wins"
+  ],
+  [
+    "le Terminator gagne",
+    "the Terminator wins"
+  ],
+  [
+    "ce n'est pas une manche jouée",
+    "this is not a played round"
+  ],
+  [
+    "manche",
+    "round"
+  ],
+  [
+    "meute",
+    "pack"
+  ],
+  [
+    "Armure",
+    "Armour"
+  ],
+  [
+    "gantelet",
+    "power fist"
+  ],
+  [
+    "munitions",
+    "ammunition"
+  ],
+  [
+    "canalisation",
+    "channelling"
+  ],
+  [
+    "Manche",
+    "Round"
+  ],
+  [
+    "Night Lords debout",
+    "Night Lords standing"
+  ],
+  [
+    "Entrée : manche suivante",
+    "Enter: next round"
+  ],
+  [
+    "Terminator abattu",
+    "Terminator killed"
+  ],
+  [
+    "meute anéantie",
+    "pack annihilated"
+  ],
+  [
+    "téléporté",
+    "teleported"
+  ],
+  [
+    "temps écoulé, il a tenu",
+    "time elapsed, survived"
+  ],
+  [
+    "meute naïve (aucune politique chargée)",
+    "naive pack (no policy loaded)"
+  ],
+  [
+    "Flèches : se déplacer · souris : viser à 360° (même en marchant) · Espace : bolter · F : gantelet · H : marqueurs · molette ou +/− : zoom (ZQSD aussi)",
+    "Arrows: move · mouse: aim in 360° (also while walking) · Space: bolter · F: power fist · H: markers · scroll or +/−: zoom (WASD also)"
+  ],
+  [
+    "Le Terminator pivote vers le curseur ; une flèche vers l'avant le fait avancer, vers l'arrière reculer, de côté la marche attend que la visée soit alignée. Sans souris, les flèches l'orientent et le font avancer.",
+    "The Terminator turns towards the cursor; forward moves ahead, back retreats, sideways movement waits for aim to align. Without a mouse, the arrows turn and move him."
+  ],
+  [
+    "Victoire : balise 6 s, meute à terre, ou 2:00 tenues ; défaite : armure à 0 · Maj gantelet · V vue de contrôle · M son · Entrée manche suivante · P pause · autres vues :",
+    "Win: beacon 6 s, pack defeated, or survive 2:00; lose: armour at 0 · Shift: power fist · V: control view · M: sound · Enter: next round · P: pause · other views:"
+  ],
+  [
+    "ZQSD / WASD · Clic : bolter · F : gantelet · R : recharge · E : bombe / extraction · P : pause · Entrée : rejouer · Échap : souris",
+    "WASD / ZQSD · Click: bolter · F: power fist · R: reload · E: bomb / extraction · P: pause · Enter: replay · Escape: release mouse"
+  ],
+  [
+    "Entrée : nouvelle mission",
+    "Enter: new mission"
+  ],
+  [
+    "Duel remporté",
+    "Duel won"
+  ],
+  [
+    "Armure détruite",
+    "Armour destroyed"
+  ],
+  [
+    "Entrée : recommencer le duel",
+    "Enter: restart duel"
+  ],
+  [
+    "La meute étudie ta tactique…",
+    "The pack is studying your tactics…"
+  ],
+  [
+    "Ce qu'elle a lu",
+    "What it observed"
+  ],
+  [
+    "Fantôme appris par imitation sur tes",
+    "Ghost trained by imitation on your"
+  ],
+  [
+    " dernière(s) manche(s), meute ré-entraînée contre lui",
+    " latest round(s), pack retrained against it"
+  ],
+  [
+    "mises à jour PPO",
+    "PPO updates"
+  ],
+  [
+    "Pas de ré-entraînement",
+    "No retraining"
+  ],
+  [
+    "échec",
+    "failure"
+  ],
+  [
+    "Serveur local absent : pas de ré-entraînement.",
+    "Local server unavailable: no retraining."
+  ],
+  [
+    "politique",
+    "policy"
+  ],
+  [
+    "graine",
+    "seed"
+  ],
+  [
+    "joueur",
+    "player"
+  ],
+  [
+    "lecture",
+    "playback"
+  ],
+  [
+    "OUVERTURE · RIPOSTEZ",
+    "OPENING · COUNTERATTACK"
+  ],
+  [
+    "ACCÉLÉRATION",
+    "BURST OF SPEED"
+  ],
+  [
+    "TALOS · ARMURE RENFORCÉE",
+    "TALOS · REINFORCED ARMOUR"
+  ],
+  [
+    "Terminator en autoplay",
+    "Terminator on autoplay"
+  ],
+  [
+    "Chargement interrompu · Recharger la mission",
+    "Loading interrupted · Reload mission"
+  ],
+  [
+    "Préparation de la mission…",
+    "Preparing mission…"
+  ],
+  [
+    "Pause · P pour reprendre",
+    "Paused · P to resume"
+  ],
+  [
+    "OPÉRATION CENDRES · Cliquer pour entrer",
+    "OPERATION ASHES · Click to enter"
+  ],
+  [
+    "DUEL FPS · Cliquer pour entrer",
+    "FPS DUEL · Click to enter"
+  ],
+  [
+    "HORS ZONE",
+    "CLEAR OF BLAST"
+  ],
+  [
+    "NON ARMÉE",
+    "NOT ARMED"
+  ],
+  [
+    "Vue de contrôle — ce que perçoit chaque Night Lord",
+    "Control view — what each Night Lord perceives"
+  ],
+  [
+    "rôle",
+    "role"
+  ],
+  [
+    "état",
+    "state"
+  ],
+  [
+    "voit",
+    "sees"
+  ],
+  [
+    "entend",
+    "hears"
+  ],
+  [
+    "âge",
+    "age"
+  ],
+  [
+    "debout",
+    "standing"
+  ],
+  [
+    "mort",
+    "dead"
+  ],
+  [
+    "Anneau blanc = portée du bruit du Terminator",
+    "White ring = range of Terminator noise"
+  ],
+  [
+    "m). Anneaux colorés = où chaque frère croit qu'il est. Le Terminator perçoit",
+    "m). Coloured rings = where each brother believes he is. The Terminator perceives"
+  ],
+  [
+    "personne",
+    "nobody"
+  ],
+  [
+    "CANALISATION",
+    "CHANNELLING"
+  ],
+  [
+    "CANAL COUPÉ",
+    "CHANNEL BROKEN"
+  ],
+  [
+    "DERNIER",
+    "LAST ONE"
+  ],
+  [
+    "RECHARGE",
+    "RELOAD"
+  ],
+  [
+    "La Meute — prototype gris",
+    "The Pack — greybox prototype"
+  ],
+  [
+    "GRIFFE",
+    "TALON"
+  ],
+  [
+    "HORS DE COMBAT",
+    "OUT OF ACTION"
+  ],
+  [
+    "Terrain tactique",
+    "Tactical terrain"
+  ],
+  [
+    "PC",
+    "CP"
+  ],
+  [
+    "tours",
+    "turns"
+  ],
+  [
+    "Oui, commandant.",
+    "Yes, commander."
+  ],
+  [
+    "J'écoute, commandant.",
+    "Listening, commander."
+  ],
+  [
+    "Votre volonté sera faite.",
+    "Your will shall be done."
+  ],
+  [
+    "Prêt à faire mon devoir.",
+    "Ready to do my duty."
+  ],
+  [
+    "Mon armure tient. Vos ordres ?",
+    "My armour holds. Your orders?"
+  ],
+  [
+    "Parlez, commandant.",
+    "Speak, commander."
+  ],
+  [
+    "Canal ouvert, commandant.",
+    "Channel open, commander."
+  ],
+  [
+    "À l'écoute. Pour l'Empereur.",
+    "Listening. For the Emperor."
+  ],
+  [
+    "Mes sens sont en éveil.",
+    "My senses are alert."
+  ],
+  [
+    "Le devoir m'appelle.",
+    "Duty calls."
+  ],
+  [
+    "Toujours fidèle, commandant.",
+    "Ever faithful, commander."
+  ],
+  [
+    "Que l'Empereur nous guide.",
+    "May the Emperor guide us."
+  ],
+  [
+    "À vos ordres.",
+    "At your command."
+  ],
+  [
+    "Itinéraire reçu.",
+    "Route received."
+  ],
+  [
+    "Coordonnées de tir reçues.",
+    "Firing coordinates received."
+  ],
+  [
+    "Bolter prêt.",
+    "Bolter ready."
+  ],
+  [
+    "Je couvrirai ce secteur.",
+    "I will cover this sector."
+  ],
+  [
+    "Position de veille confirmée.",
+    "Overwatch position confirmed."
+  ],
+  [
+    "Auspex prêt, commandant.",
+    "Auspex ready, commander."
+  ],
+  [
+    "Reconnaissance, bien reçu.",
+    "Reconnaissance acknowledged."
+  ],
+  [
+    "Ordre reçu. Je m'en charge.",
+    "Order received. I will see to it."
+  ],
+  [
+    "Interface repérée.",
+    "Interface located."
+  ],
+  [
+    "J'exécute.",
+    "Executing."
+  ],
+  [
+    "Frères, en avant.",
+    "Brothers, advance."
+  ],
+  [
+    "Progression en cours.",
+    "Advancing."
+  ],
+  [
+    "Feu purificateur !",
+    "Purifying fire!"
+  ],
+  [
+    "Balayage auspex en cours.",
+    "Auspex sweep in progress."
+  ],
+  [
+    "Connexion aux systèmes.",
+    "Connecting to the systems."
+  ],
+  [
+    "Secteur sous surveillance.",
+    "Sector under watch."
+  ],
+  [
+    "Passage ouvert.",
+    "Passage open."
+  ],
+  [
+    "Sas verrouillé.",
+    "Airlock sealed."
+  ],
+  [
+    "Objectif sécurisé, commandant.",
+    "Objective secured, commander."
+  ],
+  [
+    "Progression bloquée.",
+    "Advance blocked."
+  ],
+  [
+    "Contact visuel. L'ennemi est là.",
+    "Visual contact. The enemy is here."
+  ],
+  [
+    "Armure touchée. Je tiens.",
+    "Armour hit. I hold."
+  ],
+  [
+    "Ennemi neutralisé.",
+    "Enemy neutralised."
+  ],
+  [
+    "Un frère est tombé.",
+    "A brother has fallen."
+  ],
+  [
+    "Balayage terminé.",
+    "Sweep complete."
+  ],
+  [
+    "La victoire est à l'Empereur.",
+    "Victory belongs to the Emperor."
+  ],
+  [
+    "Opération compromise. Repli.",
+    "Operation compromised. Fall back."
+  ],
+  [
+    "Ordre annulé.",
+    "Order cancelled."
+  ],
+  [
+    "Impossible, commandant.",
+    "Impossible, commander."
+  ],
+  [
+    "Nous venons pour vous.",
+    "We are coming for you."
+  ],
+  [
+    "Votre peur nous appartient.",
+    "Your fear belongs to us."
+  ],
+  [
+    "Ave Dominus Nox !",
+    "Ave Dominus Nox!"
+  ],
+  [
+    "Que la terreur commence !",
+    "Let the terror begin!"
+  ],
+  [
+    "Vous allez le regretter.",
+    "You will regret this."
+  ],
+  [
+    "La nuit... m'emporte.",
+    "The night... takes me."
+  ],
+  [
+    "[Cri de combat]",
+    "[Battle cry]"
+  ],
+  [
+    "[Râle étouffé]",
+    "[Muffled death rattle]"
+  ],
+  [
+    "Plateau ↗",
+    "Tactical ↗"
+  ],
+  [
+    "La langue choisie s’applique aux textes, aux sous-titres et aux voix.",
+    "Your chosen language applies to text, subtitles and voices."
+  ],
+  [
+    "Activer le son",
+    "Enable sound"
+  ],
+  [
+    "Couper le son",
+    "Mute sound"
+  ],
+  [
+    "Reprendre",
+    "Resume"
+  ]
+]

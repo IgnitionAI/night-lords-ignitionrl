@@ -1,0 +1,40 @@
+{
+  "id": "579a099e-aa62-489c-81e3-1c2a5d895c8d",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/579a099e-aa62-489c-81e3-1c2a5d895c8d/listening-commander-cmwkicar.mp3"
+  ],
+  "createdAt": "2026-11-17T09:46:13.596Z",
+  "generationId": "cmwkicarr039g3gt9jjepr3c4",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkicarr039g3gt9jjepr3c4/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkicarr039g3gt9jjepr3c4",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkicarr039g3gt9jjepr3c4/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/579a099e-aa62-489c-81e3-1c2a5d895c8d/output/listening-commander-cmwkicar.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkicarr039g3gt9jjepr3c4/audio-voice",
+        "bytes": 26792
+      }
+    ],
+    "downloadFailures": []
+  }
+}
