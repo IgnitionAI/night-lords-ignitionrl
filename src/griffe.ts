@@ -3,6 +3,7 @@ import {CEILING_ROUTES} from './ship-layout';
 import {SHIP_LANDMARKS} from './ship-layout';
 import {shipHeading} from './ship-path';
 import {travel,searchContact} from './fps-navigation';
+import {lightAction,isDark} from './fps-lighting';
 import { angNorm, nlFrame, rayFree, los, collide, geometry, type World } from './sim';
 /** Learned actor remains authoritative. A wounded, exposed squadmate may retreat during recovery. */
 export function griffeAction(w:World,i:number,learned:number,choice?:number):number {
@@ -43,6 +44,7 @@ function huntAction(w:World,i:number,learned:number,choice?:number):number {
  state.role=(['leader','bait','hunter','interceptor'] as ClawRole[])[known.indexOf(i)%4];
  if(n.vertical)return 0;
  if(n.armTicks||n.stunTicks||(n.recoveryTicks??0)>0)return 0;
+ const lighting=lightAction(w,i);if(lighting!==undefined){state.mode=(n.lightRetreatUntil??0)>w.tick?'withdraw':'cover';return lighting;}
  if(b.valid&&!b.seen&&!b.vox&&b.age>8&&b.age<90){state.mode='search';return searchContact(w,i);}
  if(!b.valid||b.age>=90){
   state.mode='search';
@@ -67,7 +69,7 @@ function huntAction(w:World,i:number,learned:number,choice?:number):number {
  const exposed=b.facing!==null&&Math.abs(angNorm(Math.atan2(n.y-b.y,n.x-b.x)-b.facing))>1.2;
  const support=n.mates.some((m,j)=>j!==i&&m.known&&m.alive&&m.age<15&&Math.hypot(m.x-b.x,m.y-b.y)<9);
  // Reload is an observation acquired by perception, never a read of the player state here.
- const opportunity=b.age<8&&(exposed||n.reloadHeardUntil!>w.tick||support&&d<5);
+ const opportunity=b.age<8&&(exposed||n.reloadHeardUntil!>w.tick||support&&d<5||isDark(w,n.x,n.y));
  const retreatingMate=n.mates.some((m,j)=>j!==i&&m.known&&m.alive&&m.age<10&&(m.retreatUntil??0)>w.tick);
  const previousMode=state.mode;
  if((n.hp??7)<=4&&w.tick-(n.lastDamageTick??-999)<15){state.mode='withdraw';state.until=w.tick+25;}

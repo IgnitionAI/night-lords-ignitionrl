@@ -1,5 +1,6 @@
 import {angNorm,nlFrame,nlSees,type World} from './sim';
 import {travel,searchContact} from './fps-navigation';
+import {lightAction} from './fps-lighting';
 
 /** Solo elite: decisions use perception or retained contacts, not omniscient tracking. */
 export function eliteDuelAction(w:World,i:number):number {
@@ -11,6 +12,7 @@ export function eliteDuelAction(w:World,i:number):number {
  // Also permit the controller's first tick after a deliberate encounter placement.
  if(visible){b.valid=true;b.x=w.t.x;b.y=w.t.y;b.age=0;b.facing=w.t.facing;b.seen=true;}
  if((n.recoveryTicks??0)>0||n.stunTicks||n.armTicks||(n.shotTicks??0)>0)return 0;
+ const lighting=lightAction(w,i);if(lighting!==undefined)return lighting;
  if(!visible){
   if(b.valid&&b.age<90)return searchContact(w,i);
   const points=[[7,12],[20,6],[28,12],[20,18]];

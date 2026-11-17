@@ -1966,5 +1966,25 @@
   [
     "Synchronisation de l’auspex…",
     "Synchronising auspex…"
+  ],
+  [
+    "SABOTAGE · COUPURE IMMINENTE",
+    "SABOTAGE · BLACKOUT IMMINENT"
+  ],
+  [
+    "VISION NOCTURNE · ACTIVE",
+    "NIGHT VISION · ACTIVE"
+  ],
+  [
+    "OBSCURITÉ · ADAPTATION DU VISEUR",
+    "DARKNESS · VISOR ADAPTING"
+  ],
+  [
+    "ÉCLAIRAGE RÉTABLI · ILS SE REPLIENT",
+    "LIGHTS RESTORED · THEY ARE WITHDRAWING"
+  ],
+  [
+    "ÉCLAIRAGE STABLE · VISION NOCTURNE AUTO",
+    "LIGHTS STABLE · AUTO NIGHT VISION"
   ]
 ]

@@ -1,4 +1,5 @@
 import {shipFittingPrisms} from './ship-fittings';
+import {makeLighting,updateLighting,type HuntLighting} from './fps-lighting';
 import {verticalStep,type VerticalMotion} from './vertical-hunt';
 import {SHIP_SIZE,SHIP_WALLS,registerShip,isShip} from './ship-layout';
 // Simulation à pas fixe, pure (aucune dépendance) : la même sert au jeu, à l'entraînement et à l'éval.
@@ -64,6 +65,7 @@ export const T_IDLE: TAction = { fwd: 0, strafe: 0, turn: 0, bolt: false, fist: 
 export interface Belief { valid: boolean; x: number; y: number; age: number; facing: number | null; seen: boolean; heard: boolean; vox: boolean }
 export interface Mate { known: boolean; x: number; y: number; age: number; alive: boolean; retreatUntil?: number }
 export interface NL {
+  lightRetreatUntil?:number; lightCover?:{x:number;y:number};
   vx?:number; vy?:number; navHeading?:number; navDistance?:number; heardTick?:number;
   hp?: number;
   observedArmor?: number; retreatUntil?: number; lastDamageTick?:number; height?: number; vertical?: VerticalMotion; verticalRest?: number;
@@ -96,6 +98,7 @@ export interface Term {
   servoCriticalSent: boolean; // le seuil des 25 % a déjà été annoncé : un seul `servoCritical` par manche
 }
 export type Ev =
+  | {type:'lightsWarning'|'lightsOut'|'lightsRestored';zone:number}
   // `recoil` (0 → 1) : recul normalisé du tir dans sa rafale, pour que la caméra ait une donnée et pas une impression.
   | { type: 'bolt'; x: number; y: number; tx: number; ty: number; kill: number; recoil: number }
   // `staggered` : le choc a étourdi au moins un Night Lord encore debout (`kill` reste l'index de la cible tuée, ou -1).
@@ -119,6 +122,7 @@ export type Ev =
  * `propKinds` : types de props **affichés** (assets chargés). Vide / absent = scène #44, tick pour tick. */
 export interface WorldOpts { mission?: boolean; fps?: boolean; eliteDuel?: boolean; clawWindup?: boolean; propKinds?: readonly PropKind[] }
 export interface World {
+  lighting?:HuntLighting;
   targets?: { x: number; y: number; hp: number; windup: number; cooldown: number }[];
   seed: number; tick: number; rng: Rng; t: Term; nls: NL[]; opts: Required<WorldOpts>;
   done: boolean; winner: 'pack' | 'terminator' | null; reason: string; events: Ev[];
@@ -194,6 +198,7 @@ export function newWorld(seed: number, tSpawn?: { x: number; y: number; facing: 
   }
   for (const n of nls) n.mates = nls.map(() => ({ known: false, x: n.x, y: n.y, age: 99, alive: true }));
   const w: World = { seed, tick: 0, rng, t, nls, opts: { mission: opts.mission ?? false, fps: opts.fps ?? false, eliteDuel: opts.eliteDuel ?? false, clawWindup: opts.clawWindup ?? true, propKinds }, done: false, winner: null, reason: '', events: [], propSolids };
+  if(opts.fps&&(opts.mission||opts.eliteDuel))w.lighting=makeLighting(!!opts.mission);
   perceive(w);
   return w;
 }
@@ -532,7 +537,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
     if (d < mind && d > 0) { n.x = t.x + (n.x - t.x) / d * mind; n.y = t.y + (n.y - t.y) / d * mind; collide(n, NL_CFG.radius, w.propSolids); }
     if (w.opts.fps) {
       if(n.shotRest) n.shotRest--;
-      if (stunned || recovering) n.shotTicks = 0;
+      if (stunned || recovering || w.lighting?.circuits.some(c=>c.saboteur===i&&c.warningUntil>w.tick)) n.shotTicks = 0;
       else if ((n.shotTicks ?? 0) > 0) {
         n.shotTicks!--;
         if (n.shotTicks === 0) {
@@ -575,6 +580,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
   const inZone = dist(t.x, t.y, BEACON.x, BEACON.y) <= BEACON.r;
   t.channel = inZone && t.lastHitTick !== w.tick ? t.channel + 1 : 0;
   w.tick++;
+  updateLighting(w);
   perceive(w);
   w.nls.forEach((n, i) => {
     if (died[i]) rewards[i] += REWARD.death;

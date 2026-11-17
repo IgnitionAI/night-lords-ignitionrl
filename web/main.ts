@@ -1,4 +1,5 @@
 import { HunterMotion, hitOnCompletedTick } from './hunter-motion';
+import {HuntLights,lightingMessage} from './hunt-lighting';
 import {openPanel,controlsMarkup,languageSettings} from './ui/shell';
 import {readMaster,saveMaster} from './ui/preferences';
 import {loading,finishLoading} from './ui/loading';
@@ -143,12 +144,14 @@ if (BENCH) (window as unknown as { __benchFrames: number[] }).__benchFrames = be
 const camera = new THREE.PerspectiveCamera(camFov(false), 1, CAM_MODE === 'fps' ? 0.07 : CAM_MODE === 'shoulder' ? COMBAT_CAM.near : 0.1, 200);
 installCorridorLights(scene, BEACON.y);
 const FPS_LIT = qs.get('fpslit') !== '0';
+let helmetFill:THREE.PointLight|undefined;
 const SHOULDER_LIT = qs.get('huntlit') !== '0';
 if (CAM_MODE === 'fps') {
   renderer.toneMappingExposure = FPS_LIT ? FPS_EXPOSURE : TONE_MAPPING_EXPOSURE;
   scene.fog = new THREE.FogExp2(FOG_COLOR, FPS_LIT ? FPS_FOG_DENSITY : 0.060);
   if (FPS_LIT) scene.add(new THREE.AmbientLight(0x8296b8, 0.9));
   const helmFill = new THREE.PointLight(0xc8d4ee, FPS_LIT ? 3.2 : 0, 11, 2);
+  helmetFill=helmFill;
   helmFill.position.set(0.15, 0.08, 0.2);
   camera.add(helmFill);
   scene.add(camera);
@@ -330,6 +333,10 @@ PILLARS.forEach((b, i) => {
 });
 // Rayon de téléportation : une braise, pas un néon. Le vert saturait à 255 et devenait l'objet le plus attractif du plateau.
 const beacon = new THREE.Mesh(new THREE.CylinderGeometry(BEACON.r, BEACON.r, 0.1, 32), new THREE.MeshStandardMaterial({ color: 0x3a1a08, emissive: 0xc24a12, emissiveIntensity: 0.85 }));
+const huntLights=(FPS_DUEL||MISSION)?new HuntLights(scene,helmetFill):null;
+const huntLightStatus=document.createElement('div');huntLightStatus.id='hunt-light-status';
+huntLightStatus.style.cssText='position:fixed;bottom:72px;left:50%;transform:translateX(-50%);color:#b9e5d3;background:#071514d9;padding:7px 12px;font:11px monospace;letter-spacing:.8px;pointer-events:none;z-index:8;white-space:nowrap';
+if(huntLights)document.body.append(huntLightStatus);
 beacon.position.set(BEACON.x, 0.05, BEACON.y); scene.add(beacon); const bl = new THREE.PointLight(0xff7a3a, 7, 9, 2); bl.position.set(BEACON.x, 2, BEACON.y); scene.add(bl);
 
 // ================== PROPS SCULPTÉS (Genex) ==================
@@ -815,6 +822,7 @@ const postMat = new THREE.ShaderMaterial({
   uniforms: {
     tDiffuse: { value: rt.texture },
     uTime: { value: 0 },
+    uNightVision:{value:0},
     uVignette: { value: POST_VIGNETTE },
     uGrain: { value: CAM_MODE === 'fps' ? 0.0015 : POST_GRAIN },
     uDither: { value: POST_DITHER_SRGB },
@@ -1624,8 +1632,10 @@ function hud() {
   const status = matchStatus(w);
   if (MISSION) {status.clock=mission.phase==='escape' ? `${Math.floor(Math.ceil(mission.remaining)/60)}:${String(Math.ceil(mission.remaining)%60).padStart(2,'0')}` : mission.phase==='extracted'?'HORS ZONE':'NON ARMÉE'; status.timePressure=mission.phase==='escape' && mission.remaining<20;}
   setHTML(h, CAM_MODE === 'fps' ? fpsHudMarkup(status, extra) : hudMarkup(matchStatus(w), extra));
+  if(huntLights){setText(huntLightStatus,lightingMessage(w));huntLightStatus.style.display=fpsStarted&&!paused?'block':'none';}
   (window as unknown as { __NL?: unknown }).__NL = {
     paused,started:fpsStarted,mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, muted: engine.muted,
+    lighting:w.lighting, agents:w.nls.map(n=>({x:n.x,y:n.y,facing:n.facing,alive:n.alive,belief:{...n.belief},arm:n.armTicks,recovery:n.recoveryTicks,retreat:n.lightRetreatUntil,vx:n.vx,vy:n.vy})),
     hunt: MISSION ? {agents:w.nls.map((n,i)=>({x:n.x,y:n.y,height:n.height??0,vertical:n.vertical?.phase,tactic:tacticalState(w,i),alive:n.alive,action:n.lastAction}))} : null,
     playerPosition: {x:w.t.x,y:w.t.y}, genestealersLoaded: scene.userData.genestealersLoaded ?? 0, rendering: {...renderer.info.render}, hp: w.t.hp, nlsAlive: w.nls.filter((n) => n.alive).length,
     fistCharge: w.t.fistCharge,
@@ -1665,6 +1675,7 @@ function updateImpact(dt: number) {
   for (let n = fpsSteps.length - 1; n >= 0; n--) if (simT - fpsSteps[n]!.t0 > FRESH) fpsSteps.splice(n, 1);
 }
 function render(alpha: number) {
+  const lightDt=hunterFrameDt;
   const lerp = (a: number, b: number) => a + (b - a) * alpha; const la = (a: number, b: number) => { let d = b - a; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return a + d * alpha; };
   const tx = lerp(prev.t[0], w.t.x), ty = lerp(prev.t[1], w.t.y), tf = la(prev.t[2], w.t.facing);
   const subjX = FOCUS_NL !== null ? lerp(prev.n[FOCUS_NL][0], w.nls[FOCUS_NL].x) : tx;
@@ -1948,6 +1959,10 @@ function render(alpha: number) {
   fx.sync(w, term, nlMeshes);
   fx.applyPost(postMat.uniforms as { uBloom: { value: number }; uCA: { value: number }; uVignettePulse: { value: number } });
   fx.pulseAlarm(stripMat, alarmLamps, simT - DT + alpha * DT, STRIP_EMISSIVE);
+  if(huntLights){
+    const nv=huntLights.update(w,Math.max(0,Math.min(.05,lightDt)));
+    postMat.uniforms.uNightVision.value=nv;
+  }
   if (CAM_MODE === 'fps') {
     term.traverse((o) => {
       const m = o as THREE.Mesh & { isLight?: boolean };
