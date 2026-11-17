@@ -1,4 +1,4 @@
-import {t,setHTML,setText,localize,languagePicker,onLocaleChange,getLocale} from '../i18n';
+import {t,setHTML,setText,setAttributeText,localize,languagePicker,onLocaleChange,getLocale} from '../i18n';
 import {createOperation,getView,resolve,shareReports,CELLS,COVER,WIDTH,HEIGHT,key,distance,legalOrder,path,type Order,type Unit,type View,type World} from '../../src/strategy/engine';
 import {boardingDecide,decisionPlans,BOARD_OBS,BOARD_ACTIONS} from '../../src/strategy/boarding-agents';
 import {MISSIONS,CARDS,ROLES,planCost,type CardId,type MissionId} from '../../src/strategy/tactics';
@@ -71,7 +71,7 @@ async function boot(){try{const response=await fetch('/policy/boarding-actor.jso
 // Read-only diagnostic surface contains exactly the player's information, never enemy orders.
 Object.assign(window,{render_game_to_text:()=>JSON.stringify({view:getView(w,-1),orders:structuredClone(orders),selected,selectedCard,mode,busy,started,winner:w.winner,enemyMode})});
 
-canvas.onmousemove=e=>{const p=scene.pick(e.clientX,e.clientY);if(!p)return;const v=getView(w,-1),u=[...v.units,...v.contacts].find(u=>key(u)===key(p));canvas.title=t(u?`${u.name} · ${u.hp}/${u.maxHp} armure`:`Case ${p.x}, ${p.y}`);};
+canvas.onmousemove=e=>{const p=scene.pick(e.clientX,e.clientY);if(!p)return;const v=getView(w,-1),u=[...v.units,...v.contacts].find(u=>key(u)===key(p));setAttributeText(canvas,'title',u?`${u.name} · ${u.hp}/${u.maxHp} armure`:`Case ${p.x}, ${p.y}`);};
 window.addEventListener('keydown',e=>{if(el('modal').innerHTML||busy||w.winner)return;if(e.key==='Enter'){e.preventDefault();el('resolve').click();}const n=Number(e.key)-1;if(n>=0&&n<4){selectUnit('t'+n);}const actions:Record<string,Order['kind']>={m:'move',t:'fire',g:'guard',r:'scan',e:'interact',c:'special'};if(actions[e.key.toLowerCase()]){el('actions').querySelector<HTMLButtonElement>(`[data-action="${actions[e.key.toLowerCase()]}"]`)?.click();}});
 
 Object.assign(window,{strategy_visual:{project:(p:{x:number,y:number})=>scene.project(p),diagnostics:()=>scene.diagnostics(),audio:()=>audio.diagnostics()}});

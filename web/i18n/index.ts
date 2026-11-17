@@ -59,6 +59,10 @@ function refresh(){
   for(const [el,attrs] of attributeSources){if(!el.isConnected){attributeSources.delete(el);continue;}for(const [name,r] of attrs){if(el.getAttribute(name)!==r.rendered)r.source=el.getAttribute(name)??'';el.setAttribute(name,r.rendered=t(r.source));}}
   document.querySelectorAll<HTMLButtonElement>('[data-locale]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.locale===locale)));
 }
+export function setAttributeText(el:Element,name:string,source:string){
+ const rendered=t(source),attrs=attributeSources.get(el)??new Map();
+ el.setAttribute(name,rendered);attrs.set(name,{source,rendered});attributeSources.set(el,attrs);
+}
 export function setText(el:Node,value:unknown,append=false){
   const previous=append?[...el.childNodes].map(n=>n.nodeType===Node.TEXT_NODE?textSources.get(n as Text)?.source??n.textContent:n.textContent).join(''):'';
   el.textContent=previous+String(value??'');localize(el);

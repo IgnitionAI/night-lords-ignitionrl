@@ -19,6 +19,9 @@ for a,b in zip(fr,en):
   assets.append(str(source.relative_to(root)))
 manifest=json.loads((root/'docs/i18n/voice/processed-assets.json').read_text())
 assert len(manifest)==168
+original=json.loads((root/'docs/vox/processed-assets.json').read_text())
+profiles={(a['id'],a['unit']):a['profile'] for a in original}
+assert all(a['profile']==profiles[(a['id'],a['unit'])] for a in manifest)
 assert all(0.2<a['seconds']<8.5 for a in manifest)
 assert all(a['bytes']>1000 for a in manifest)
 ledger=json.loads((root/'docs/i18n/voice/generations.json').read_text())
