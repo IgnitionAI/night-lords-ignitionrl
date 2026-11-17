@@ -27,6 +27,16 @@ test('sprint does not stretch the rig or depend on render frequency',async()=>{
  }
 });
 test('attack anticipation cannot precede the actual windup and recovers to guard',()=>{
- for(const windup of [.4,.6]){expect(attackEnvelope(windup-.01,windup).strike).toBe(0);expect(attackEnvelope(windup+.1,windup).strike).toBeCloseTo(1);expect(attackEnvelope(windup+.45,windup).recover).toBe(1);}
+ for(const windup of [.4,.6]){expect(attackEnvelope(windup-.13,windup).strike).toBe(0);expect(attackEnvelope(windup,windup).strike).toBeCloseTo(1);expect(attackEnvelope(windup+.45,windup).recover).toBe(1);}
  expect(stepDuration(6)).toBeLessThan(stepDuration(2));expect(stepDuration(100)).toBe(.17);
+});
+
+test('reversals do not leave a planted foot behind or snap the facing',async()=>{
+ const {group,motion}=await hunter();
+ for(let i=0;i<360;i++){
+  const t=i/60;group.position.x=t<2?t*2:t<4?4-(t-2)*2:0;
+  const prev=group.rotation.y;group.rotation.y=motion.facing(t<2?0:Math.PI,1/60);expect(Math.abs(group.rotation.y-prev)).toBeLessThan(.101);
+  group.updateMatrixWorld(true);motion.restore();motion.apply(1/60);
+ }
+ expect(motion.report().contactError).toBeLessThan(.08);
 });

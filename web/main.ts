@@ -530,7 +530,7 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   if (walkWeight) { walkWeight.setEffectiveWeight(0.38); walkWeight.play(); }
   return {
     root, mixer, walk, run: mk(runClip), idle,
-    hunter: look === 'nl' && (FPS_DUEL || MISSION) ? new HunterMotion(root, FPS_DUEL || who === 3) : null,
+    hunter: look === 'nl' && (FPS_DUEL || MISSION) ? new HunterMotion(root, FPS_DUEL || who === 3, namedIdle ?? undefined) : null,
     attack: look === 'term' ? mkAdd(mixer, resolved.attack, false) : mkShot(resolved.attack, false),
     shoot: mkAdd(mixer, resolved.shoot, false),
     hit: mkAdd(mixer, resolved.hit, false),
@@ -1678,7 +1678,7 @@ function render(alpha: number) {
     g.rotation.z=nlRigs[i]?.hunter?0:(n.alive&&n.dodgeTicks?-.35*(i%2?1:-1):0);
     const ox = fall?.ox ?? 0, oy = fall?.oy ?? 0, oz = fall?.oz ?? 0;
     g.position.set(lerp(prev.n[i][0], n.x) + ox, oy+lerp(prev.n[i][3]??0,n.height??0), lerp(prev.n[i][1], n.y) + oz);
-    if (nlRigs[i]) g.rotation.y = -la(prev.n[i][2], n.facing);
+    if (nlRigs[i]) {const target=-la(prev.n[i][2],n.facing);g.rotation.y=nlRigs[i]!.hunter?.facing(target,hunterFrameDt)??target;}
     else if (!n.alive) { g.rotation.set(Math.PI / 2, 0, 0); g.position.y = 0.4 + oy; }
     else g.rotation.y = -la(prev.n[i][2], n.facing);
     // Match : pas de mesh orphelin. Les planches `?demo=` gardent le clip de mort à l'écran.
