@@ -5,7 +5,7 @@ import {HunterMotion,attackEnvelope,stepDuration,hitOnCompletedTick} from '../we
 import {parseGlb,measureHeight} from '../web/stride';
 (globalThis as any).self=globalThis;
 (globalThis as any).Image=class {width=1;height=1;onload:any;set src(_v:string){queueMicrotask(()=>this.onload?.());}};
-async function hunter(){const m=await parseGlb(readFileSync('web/models/nightlord-refined.glb'));m.scene.scale.setScalar(2/measureHeight(m.scene));const group=new T.Group();group.add(m.scene);const motion=new HunterMotion(m.scene,false);return {group,motion,root:m.scene};}
+async function hunter(ranged=false){const m=await parseGlb(readFileSync('web/models/nightlord-refined.glb'));m.scene.scale.setScalar(2/measureHeight(m.scene));const group=new T.Group();group.add(m.scene);const motion=new HunterMotion(m.scene,ranged);return {group,motion,root:m.scene};}
 test('grounded contacts remain fixed in world space through lateral motion and stops',async()=>{
  const {group,motion}=await hunter();let last:any;
  for(let i=0;i<240;i++){
@@ -74,4 +74,24 @@ test('strike and interrupted preparation blend continuously with grounded feet',
   }
   expect(maxJump).toBeLessThan(.16);expect(motion.report().state).toBe('idle');expect(motion.report().contactError).toBeLessThan(.03);
  }
+});
+
+test('a loaded foot keeps its world orientation until the next step',async()=>{
+ const {group,root,motion}=await hunter();let last:any;
+ for(let k=0;k<120;k++){
+  group.rotation.y=k/120*.8;group.updateMatrixWorld(true);motion.restore();motion.apply(1/60);
+  const r=motion.report(),q=['Left','Right'].map(side=>root.getObjectByName(side+'Foot')!.getWorldQuaternion(new T.Quaternion()));
+  if(last)r.feet.forEach((f,i)=>{if(f.contact&&last.feet[i].contact)expect(q[i].angleTo(last.q[i])).toBeLessThan(.001);});
+  last={feet:r.feet,q};
+ }
+});
+
+// Match the equipment contract: Talos in duel and Cyrion carry their knife on the left.
+test('ranged hunter commits the knife hand while keeping the gun in guard',async()=>{
+ const {root,motion}=await hunter(true);motion.apply(1/60);
+ const positions=()=>['Left','Right'].map(side=>root.getObjectByName(side+'Hand')!.getWorldPosition(new T.Vector3()));
+ const start=positions();motion.signal({arm:6,shot:0,windup:.6,impact:false,fire:false,hit:false,dodge:false});
+ for(let i=0;i<36;i++){motion.restore();motion.apply(1/60);}
+ motion.signal({arm:0,shot:0,windup:.6,impact:true,fire:false,hit:false,dodge:false});motion.restore();motion.apply(1/120);
+ const hit=positions();expect(hit[0].z-start[0].z).toBeGreaterThan(.22);expect(hit[1].distanceTo(start[1])).toBeLessThan(.25);
 });

@@ -56,6 +56,9 @@ export function lightAction(w:World,i:number):number|undefined {
    }
   }
   if(n.lightCover)return travel(w,i,n.lightCover.x,n.lightCover.y,.35);
+  const d=Math.hypot(n.x-b.x,n.y-b.y)||1;
+  const p={x:n.x+(n.x-b.x)/d*3,y:n.y+(n.y-b.y)/d*3};collide(p,.55,w.propSolids);
+  return travel(w,i,p.x,p.y,.3);
  }
  if(!b.valid||b.age>12||isDark(w,n.x,n.y)||Math.hypot(n.x-b.x,n.y-b.y)<2.8)return;
  // One hunter per local circuit; a distant switch is not worth abandoning the hunt.

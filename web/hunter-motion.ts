@@ -13,7 +13,7 @@ export const attackEnvelope=(age:number,windup:number)=>({
   recover:smooth((age-windup-.06)/.32),
 });
 type Pose={bone:T.Object3D;p:T.Vector3;q:T.Quaternion};
-type Foot={bone:T.Object3D;up:T.Object3D;mid:T.Object3D;side:number;anchor:T.Vector3;from:T.Vector3;to:T.Vector3;phase:number;duration:number;lift:number;orientation:T.Quaternion;contact:boolean};
+type Foot={bone:T.Object3D;up:T.Object3D;mid:T.Object3D;side:number;anchor:T.Vector3;from:T.Vector3;to:T.Vector3;phase:number;duration:number;lift:number;orientation:T.Quaternion;plantedQ:T.Quaternion;contact:boolean};
 export type HunterSignal={arm:number;shot:number;impact:boolean;fire:boolean;hit:boolean;windup:number;dodge:boolean};
 
 /** Analytical two-bone solve, using world-space poles instead of assumptions about imported bone axes. */
@@ -46,6 +46,7 @@ export class HunterMotion {
   private attackAge=99;private shotAge=99;private hitAge=99;private windup=.4;
   private preparing=false;private aiming=false;private dodge=0;private distance=0;
   private aimBlend=0;private dodgeBlend=0;private yaw:number|null=null;
+  private lean=V();private lastVelocity=V();private gaitBlend=0;
   private arms:{up:T.Object3D;mid:T.Object3D;hand:T.Object3D;side:number;orientation:T.Quaternion}[]=[];
   public state='idle';public contactError=0;
   constructor(private root:T.Object3D,private ranged:boolean,readyClip?:T.AnimationClip){
@@ -56,7 +57,7 @@ export class HunterMotion {
     this.hips=bone('Hips');this.spine=bone('Spine02');this.head=bone('Head');
     for(const [name,side] of [['Left',1],['Right',-1]] as const){
       const foot=bone(name+'Foot'),hand=bone(name+'Hand');
-      this.feet.push({bone:foot,up:bone(name+'UpLeg'),mid:bone(name+'Leg'),side,anchor:V(),from:V(),to:V(),phase:1,duration:.25,lift:.08,orientation:q.clone().multiply(foot.getWorldQuaternion(new T.Quaternion())),contact:true});
+      this.feet.push({bone:foot,up:bone(name+'UpLeg'),mid:bone(name+'Leg'),side,anchor:V(),from:V(),to:V(),phase:1,duration:.25,lift:.08,orientation:q.clone().multiply(foot.getWorldQuaternion(new T.Quaternion())),plantedQ:new T.Quaternion(),contact:true});
       this.arms.push({up:bone(name+'Arm'),mid:bone(name+'ForeArm'),hand,side,orientation:q.clone().multiply(hand.getWorldQuaternion(new T.Quaternion()))});
     }
     // Match the equipment's authored grip reference, not its unrelated bind pose.
@@ -75,7 +76,7 @@ export class HunterMotion {
   reset(){this.restore();this.initialized=false;this.elapsed=0;this.attackAge=this.shotAge=this.hitAge=99;this.canceledAt=null;this.cancelAge=0;this.preparing=this.aiming=false;this.activeFoot=-1;this.nextFoot=0;this.yaw=null;this.aimBlend=this.dodgeBlend=0;this.contactError=0;}
   signal(s:HunterSignal){
     if(s.arm>0&&!this.preparing){this.attackAge=0;this.canceledAt=null;this.cancelAge=0;this.windup=s.windup;}
-    if(this.preparing&&s.arm===0&&!s.impact&&s.hit){this.canceledAt=this.attackAge;this.cancelAge=0;}
+    if(this.preparing&&s.arm===0&&!s.impact){this.canceledAt=this.attackAge;this.cancelAge=0;}
     this.preparing=s.arm>0;this.aiming=s.shot>0;
     // Impact is authoritative: the visual swing cannot run early or postpone damage.
     if(s.impact)this.attackAge=this.windup;
@@ -94,7 +95,8 @@ export class HunterMotion {
     const delta=this.origin.clone().sub(this.last);delta.y=0;
     if(!this.initialized||delta.length()>2){
       this.velocity.set(0,0,0);this.last.copy(this.origin);this.activeFoot=-1;
-      for(const f of this.feet){f.anchor.copy(this.point(f.side*.24,.20,f.side*.05));f.phase=1;}
+      this.lastVelocity.set(0,0,0);this.lean.set(0,0,0);this.gaitBlend=0;
+      for(const f of this.feet){f.anchor.copy(this.point(f.side*.24,.20,f.side*.05));f.phase=1;f.plantedQ.copy(this.rotation).multiply(f.orientation);}
       this.initialized=true;
     }else if(dt>0){this.velocity.copy(delta).divideScalar(dt);this.distance+=delta.length();}
     this.last.copy(this.origin);this.elapsed+=dt;this.attackAge+=dt;this.cancelAge+=dt;this.shotAge+=dt;this.hitAge+=dt;
@@ -108,18 +110,24 @@ export class HunterMotion {
     const coil=attack.prepare*(1-attack.strike)*weight,cut=attack.strike*weight;
     const speed=this.velocity.length();const localV=this.velocity.clone().applyQuaternion(this.rotation.clone().invert());
     const moving=speed>.12;
+    this.gaitBlend+=((moving?Math.min(1,speed/2):0)-this.gaitBlend)*(1-Math.exp(-9*dt));
+    const acceleration=this.velocity.clone().sub(this.lastVelocity).divideScalar(Math.max(dt,1/120)).applyQuaternion(this.rotation.clone().invert());
+    this.lastVelocity.copy(this.velocity);
+    this.lean.lerp(new T.Vector3(clamp(acceleration.x*.003,-.035,.035),0,clamp(acceleration.z*.003,-.04,.04)),1-Math.exp(-8*dt));
     this.state=hit>.1?'hit':weight>.01&&this.attackAge<2?'attack':this.aimBlend>.5?'shoot':moving?(speed>3?'run':'walk'):'idle';
     const hipsWorld=this.hips.getWorldPosition(V());
     // One pelvis reference for every grounded state. Only a restrained weight transfer changes its height.
-    const settle=moving?.014*Math.cos(this.distance*6):.003*Math.sin(this.elapsed*2.1);
-    hipsWorld.copy(this.point(0,1.04+settle-.022*hit-.035*this.dodgeBlend-.02*coil,.025*cut));
+    const settle=this.gaitBlend*.018*Math.cos(this.distance*6)+(1-this.gaitBlend)*.003*Math.sin(this.elapsed*2.1);
+    const transfer=Math.sin(this.distance*3)*.018*this.gaitBlend;
+    hipsWorld.copy(this.point(transfer-this.lean.x,1.04+settle-.022*hit-.035*this.dodgeBlend-.028*coil,.075*cut-.018*coil-this.lean.z));
     this.hips.position.copy(this.hips.parent!.worldToLocal(hipsWorld));
-    this.spine.quaternion.multiply(new T.Quaternion().setFromEuler(new T.Euler(clamp(localV.z*.009,-.035,.06)-hit*.14+cut*.07-recoil*.7,coil*-.20+cut*.24,clamp(-localV.x*.009,-.045,.045))));
+    const handedness=this.ranged?-1:1;
+    this.spine.quaternion.multiply(new T.Quaternion().setFromEuler(new T.Euler(clamp(localV.z*.012+this.lean.z,-.055,.095)-hit*.14+cut*.10-recoil*.7,(coil*-.28+cut*.32)*handedness,clamp(-localV.x*.012-this.lean.x,-.07,.07))));
     this.head.quaternion.multiply(new T.Quaternion().setFromEuler(new T.Euler(hit*.07,-coil*-.14-cut*.16,0)));
     this.root.updateWorldMatrix(true,true);
     // Feet remain in world space through translations and facing changes. Only the swinging foot moves.
     const duration=stepDuration(speed);
-    const homes=this.feet.map(f=>this.point(f.side*.24,.20,f.side*.05));
+    const homes=this.feet.map(f=>this.point(f.side*.24,.20,f.side*(.05+.09*attack.prepare*weight)));
     this.activeFoot=this.feet.findIndex(f=>f.phase<1);
     if(this.activeFoot<0){
       const errors=this.feet.map((f,i)=>Math.hypot(f.anchor.x-homes[i].x,f.anchor.z-homes[i].z));
@@ -153,26 +161,28 @@ export class HunterMotion {
       }
       f.contact=f.phase>=1;
       solveLimb(f.up,f.mid,f.bone,target,this.point(f.side*.27,.65,.8));
-      setWorldQ(f.bone,this.rotation.clone().multiply(f.orientation));
+      const wantedQ=this.rotation.clone().multiply(f.orientation);
+      if(!f.contact)f.plantedQ.slerp(wantedQ,1-Math.exp(-15*dt));
+      setWorldQ(f.bone,f.plantedQ);
       this.contactError=Math.max(this.contactError,f.contact?f.bone.getWorldPosition(V()).distanceTo(target):0);
     }
     // Guard: small counter-motion, elbows controlled, gaze level. Weapons keep their imported grip.
     const bob=moving?Math.sin(this.distance*4.8)*.022:Math.sin(this.elapsed*1.8)*.004;
     for(const arm of this.arms){
       const hand=new T.Vector3(arm.side*.36,1.28,.23+arm.side*bob);
-      if(arm.side===-1){
-        // Right weapon: draw back, committed diagonal cut, then recover into the same guard.
-        hand.lerp(new T.Vector3(-.42,1.59,.02),coil);
-        hand.lerp(new T.Vector3(-.05,1.24,.46),cut);
-        if(this.ranged)hand.lerp(new T.Vector3(-.27,1.43,.53-recoil),this.aimBlend*(1-weight));
+      const striking=arm.side===(this.ranged?1:-1);
+      if(striking){
+        // Bolter users strike with the left-hand knife; other brothers use their right melee weapon.
+        hand.lerp(this.ranged?new T.Vector3(.40,1.49,.02):new T.Vector3(-.45,1.62,-.03),coil);
+        hand.lerp(this.ranged?new T.Vector3(.10,1.31,.68):new T.Vector3(.05,1.25,.62),cut);
       }else{
-        hand.lerp(new T.Vector3(.28,1.39,.30),Math.min(1,coil+cut)*.6);
-        hand.lerp(this.ranged?new T.Vector3(.16,1.34,.49-recoil):new T.Vector3(.26,1.43,.53-recoil),this.aimBlend*(1-weight));
+        hand.lerp(new T.Vector3(arm.side*.28,1.39,.30),Math.min(1,coil+cut)*.6);
       }
+      if(this.ranged)hand.lerp(arm.side===-1?new T.Vector3(-.27,1.43,.53-recoil):new T.Vector3(.16,1.34,.49-recoil),this.aimBlend*(1-weight));
       hand.z-=hit*.055;
       const target=this.point(hand.x,hand.y,hand.z);
       solveLimb(arm.up,arm.mid,arm.hand,target,this.point(arm.side*.65,1.18,-.08));
-      const wrist=new T.Quaternion().setFromEuler(new T.Euler(arm.side===-1?-.38*coil+.6*cut:0,0,arm.side===-1?.15*coil-.3*cut:0));
+      const wrist=new T.Quaternion().setFromEuler(new T.Euler(striking?-.38*coil+.6*cut:0,0,striking?(-arm.side)*(.15*coil-.3*cut):0));
       setWorldQ(arm.hand,this.rotation.clone().multiply(wrist).multiply(arm.orientation));
     }
     this.root.updateWorldMatrix(true,true);

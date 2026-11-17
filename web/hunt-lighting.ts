@@ -6,15 +6,17 @@ import type {World} from '../src/sim';
 export class HuntLights {
  private lamps:{light:THREE.Light;base:number}[]=[];
  private panels:{mesh:THREE.Mesh;material:THREE.MeshStandardMaterial}[]=[];
- private nv=0;private level=1;
+ private nv=0;private level=1;private lastWorld:World|undefined;
  constructor(private scene:THREE.Scene,private helmet:THREE.PointLight|undefined){
   for(const child of scene.children)if((child as THREE.Light).isLight){const light=child as THREE.Light;this.lamps.push({light,base:light.intensity});}
  }
  update(w:World,dt:number){
   if(!w.lighting)return 0;
+  if(this.lastWorld!==w){this.lastWorld=w;this.nv=0;this.level=1;}
   if(!this.panels.length)for(const c of w.lighting.circuits){
    const material=new THREE.MeshStandardMaterial({color:0x27323a,metalness:.6,roughness:.55,emissive:0x72c6cf,emissiveIntensity:.65});
-   const mesh=new THREE.Mesh(new THREE.BoxGeometry(.22,1.25,.24),material);mesh.position.set(c.x,.625,c.y);this.scene.add(mesh);this.panels.push({mesh,material});
+   const box=new THREE.Mesh(new THREE.BoxGeometry(.35,.25,.45),new THREE.MeshStandardMaterial({color:0x1c2529,metalness:.7,roughness:.6}));box.position.set(c.x,.125,c.y);this.scene.add(box);
+   const mesh=new THREE.Mesh(new THREE.BoxGeometry(.22,.02,.055),material);mesh.position.set(c.x,.261,c.y);this.scene.add(mesh);this.panels.push({mesh,material});
   }
   const factor=(c:Circuit|undefined)=>c&&c.blackoutUntil>w.tick?.06:c&&c.warningUntil>w.tick?.6:1;
   const local=factor(circuitAt(w,w.t.x,w.t.y));

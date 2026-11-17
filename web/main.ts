@@ -1,5 +1,6 @@
 import { HunterMotion, hitOnCompletedTick } from './hunter-motion';
 import {HuntLights,lightingMessage} from './hunt-lighting';
+import {isDark} from '../src/fps-lighting';
 import {openPanel,controlsMarkup,languageSettings} from './ui/shell';
 import {readMaster,saveMaster} from './ui/preferences';
 import {loading,finishLoading} from './ui/loading';
@@ -1962,6 +1963,7 @@ function render(alpha: number) {
   if(huntLights){
     const nv=huntLights.update(w,Math.max(0,Math.min(.05,lightDt)));
     postMat.uniforms.uNightVision.value=nv;
+    if(isDark(w,w.t.x,w.t.y))stripMat.emissiveIntensity*=.08;
   }
   if (CAM_MODE === 'fps') {
     term.traverse((o) => {
@@ -2359,8 +2361,8 @@ if (PROBE_READ) {
         else if(t<4){n.x=8;n.y=14-(t-3)*2;n.lastAction=4;}
         else if(t<5){n.x=8+(t-4)*2;n.lastAction=2;}
         else if(t<6){n.x=10;n.y=12;}
-        else if(t<6.4){n.armTicks=4-(k-60);if(k===60)w.events=[{type:'clawArm',who:0}];}
-        else if(k===64)w.events=[{type:'claw',who:0} as any];
+        else if(t<6.6){n.armTicks=6-(k-60);if(k===60)w.events=[{type:'clawArm',who:0}];}
+        else if(k===66)w.events=[{type:'claw',who:0} as any];
         else if(k===76){n.stunTicks=1;w.events=[{type:'hit',who:0} as any];}
         else if(t>=8.2&&t<8.7){n.shotTicks=5-(k-82);}
         else if(k===87){n.shotTicks=0;w.events=[{type:'enemyBolt',who:0} as any];}

@@ -1,0 +1,501 @@
+{
+  "fixture": true,
+  "description": "Fixed seeds, normal simulation and policies; scripted observer/defender inputs, not human play.",
+  "runs": [
+    {
+      "mode": "duel",
+      "style": "observer",
+      "seed": 527,
+      "ticks": 44,
+      "hp": 0,
+      "alive": 1,
+      "events": {
+        "clawArm": 4,
+        "claw": 4,
+        "hit": 4,
+        "servoCritical": 1
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 0.018459000000000003,
+      "cpuP95Ms": 0.053124999999999645
+    },
+    {
+      "mode": "duel",
+      "style": "observer",
+      "seed": 528,
+      "ticks": 44,
+      "hp": 0,
+      "alive": 1,
+      "events": {
+        "clawArm": 4,
+        "claw": 4,
+        "hit": 4,
+        "servoCritical": 1
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 0.011291000000001716,
+      "cpuP95Ms": 0.08141700000000007
+    },
+    {
+      "mode": "duel",
+      "style": "observer",
+      "seed": 529,
+      "ticks": 44,
+      "hp": 0,
+      "alive": 1,
+      "events": {
+        "clawArm": 4,
+        "claw": 4,
+        "hit": 4,
+        "servoCritical": 1
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 0.01637500000000003,
+      "cpuP95Ms": 0.2827920000000006
+    },
+    {
+      "mode": "duel",
+      "style": "observer",
+      "seed": 530,
+      "ticks": 44,
+      "hp": 0,
+      "alive": 1,
+      "events": {
+        "clawArm": 4,
+        "claw": 4,
+        "hit": 4,
+        "servoCritical": 1
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 0.014500000000001734,
+      "cpuP95Ms": 0.08112500000000011
+    },
+    {
+      "mode": "duel",
+      "style": "observer",
+      "seed": 531,
+      "ticks": 44,
+      "hp": 0,
+      "alive": 1,
+      "events": {
+        "clawArm": 4,
+        "claw": 4,
+        "hit": 4,
+        "servoCritical": 1
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 0.006917000000001394,
+      "cpuP95Ms": 0.01608399999999932
+    },
+    {
+      "mode": "duel",
+      "style": "observer",
+      "seed": 532,
+      "ticks": 44,
+      "hp": 0,
+      "alive": 1,
+      "events": {
+        "clawArm": 4,
+        "claw": 4,
+        "hit": 4,
+        "servoCritical": 1
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 0.005207999999999657,
+      "cpuP95Ms": 0.010583000000000453
+    },
+    {
+      "mode": "duel",
+      "style": "defender",
+      "seed": 527,
+      "ticks": 228,
+      "hp": 0,
+      "alive": 1,
+      "events": {
+        "step": 24,
+        "clawArm": 16,
+        "whiff": 13,
+        "enemyAim": 2,
+        "enemyBolt": 2,
+        "hit": 4,
+        "claw": 3,
+        "servoCritical": 1,
+        "bolt": 61
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 0.01345799999999997,
+      "cpuP95Ms": 0.0786660000000019
+    },
+    {
+      "mode": "duel",
+      "style": "defender",
+      "seed": 528,
+      "ticks": 203,
+      "hp": 0,
+      "alive": 1,
+      "events": {
+        "step": 22,
+        "clawArm": 14,
+        "whiff": 11,
+        "enemyAim": 2,
+        "enemyBolt": 2,
+        "hit": 4,
+        "claw": 3,
+        "servoCritical": 1,
+        "bolt": 57
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 0.011541999999998609,
+      "cpuP95Ms": 0.09049999999999869
+    },
+    {
+      "mode": "duel",
+      "style": "defender",
+      "seed": 529,
+      "ticks": 269,
+      "hp": 0,
+      "alive": 1,
+      "events": {
+        "step": 28,
+        "clawArm": 18,
+        "whiff": 15,
+        "enemyAim": 5,
+        "enemyBolt": 4,
+        "hit": 4,
+        "claw": 3,
+        "servoCritical": 1,
+        "bolt": 86
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 0.008499999999997954,
+      "cpuP95Ms": 0.04620800000000003
+    },
+    {
+      "mode": "duel",
+      "style": "defender",
+      "seed": 530,
+      "ticks": 269,
+      "hp": 0,
+      "alive": 1,
+      "events": {
+        "step": 28,
+        "clawArm": 18,
+        "whiff": 15,
+        "enemyAim": 5,
+        "enemyBolt": 4,
+        "hit": 4,
+        "claw": 3,
+        "servoCritical": 1,
+        "bolt": 86
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 0.004541999999993607,
+      "cpuP95Ms": 0.030041000000004203
+    },
+    {
+      "mode": "duel",
+      "style": "defender",
+      "seed": 531,
+      "ticks": 347,
+      "hp": 0,
+      "alive": 1,
+      "events": {
+        "step": 37,
+        "clawArm": 24,
+        "whiff": 21,
+        "enemyAim": 4,
+        "enemyBolt": 3,
+        "hit": 4,
+        "claw": 3,
+        "servoCritical": 1,
+        "bolt": 120
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 0.0035419999999959373,
+      "cpuP95Ms": 0.01274999999999693
+    },
+    {
+      "mode": "duel",
+      "style": "defender",
+      "seed": 532,
+      "ticks": 263,
+      "hp": 0,
+      "alive": 1,
+      "events": {
+        "step": 28,
+        "clawArm": 17,
+        "whiff": 14,
+        "enemyAim": 4,
+        "enemyBolt": 3,
+        "hit": 4,
+        "claw": 3,
+        "servoCritical": 1,
+        "bolt": 82
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 0.003916999999994175,
+      "cpuP95Ms": 0.01645899999999756
+    },
+    {
+      "mode": "mission",
+      "style": "observer",
+      "seed": 527,
+      "ticks": 102,
+      "hp": 0,
+      "alive": 4,
+      "events": {
+        "step": 7,
+        "enemyAim": 3,
+        "enemyBolt": 3,
+        "clawArm": 12,
+        "claw": 10,
+        "hit": 11,
+        "servoCritical": 1
+      },
+      "longestStuckSeconds": 0.1,
+      "maxPenetration": 0,
+      "cpuMedianMs": 3.317457999999988,
+      "cpuP95Ms": 7.580624999999998
+    },
+    {
+      "mode": "mission",
+      "style": "observer",
+      "seed": 528,
+      "ticks": 92,
+      "hp": 0,
+      "alive": 4,
+      "events": {
+        "step": 7,
+        "enemyAim": 3,
+        "enemyBolt": 3,
+        "clawArm": 13,
+        "claw": 12,
+        "hit": 12,
+        "servoCritical": 1
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 2.3547499999999673,
+      "cpuP95Ms": 5.856625000000008
+    },
+    {
+      "mode": "mission",
+      "style": "observer",
+      "seed": 529,
+      "ticks": 168,
+      "hp": 0,
+      "alive": 4,
+      "events": {
+        "step": 7,
+        "enemyAim": 4,
+        "enemyBolt": 4,
+        "hit": 15,
+        "clawArm": 14,
+        "claw": 12,
+        "servoCritical": 1
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0.09781898421853974,
+      "cpuMedianMs": 3.2706249999998818,
+      "cpuP95Ms": 12.498624999999947
+    },
+    {
+      "mode": "mission",
+      "style": "observer",
+      "seed": 530,
+      "ticks": 134,
+      "hp": 0,
+      "alive": 4,
+      "events": {
+        "step": 7,
+        "enemyAim": 2,
+        "enemyBolt": 2,
+        "clawArm": 15,
+        "whiff": 1,
+        "claw": 14,
+        "hit": 15,
+        "servoCritical": 1
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0.1370600306236902,
+      "cpuMedianMs": 4.09050000000002,
+      "cpuP95Ms": 10.245124999999689
+    },
+    {
+      "mode": "mission",
+      "style": "observer",
+      "seed": 531,
+      "ticks": 259,
+      "hp": 0,
+      "alive": 4,
+      "events": {
+        "step": 7,
+        "enemyAim": 7,
+        "enemyBolt": 7,
+        "hit": 15,
+        "clawArm": 10,
+        "claw": 8,
+        "servoCritical": 1
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0.12583301313069128,
+      "cpuMedianMs": 2.7265419999998812,
+      "cpuP95Ms": 5.193834000000152
+    },
+    {
+      "mode": "mission",
+      "style": "observer",
+      "seed": 532,
+      "ticks": 124,
+      "hp": 0,
+      "alive": 4,
+      "events": {
+        "step": 7,
+        "enemyAim": 2,
+        "enemyBolt": 2,
+        "hit": 15,
+        "clawArm": 15,
+        "claw": 14,
+        "servoCritical": 1
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 2.8796250000000327,
+      "cpuP95Ms": 9.271915999999692
+    },
+    {
+      "mode": "mission",
+      "style": "defender",
+      "seed": 527,
+      "ticks": 600,
+      "hp": 28,
+      "alive": 0,
+      "events": {
+        "step": 26,
+        "enemyAim": 5,
+        "enemyBolt": 4,
+        "clawArm": 6,
+        "whiff": 4,
+        "claw": 1,
+        "hit": 1,
+        "bolt": 231
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 0.6937499999994543,
+      "cpuP95Ms": 3.7817079999999805
+    },
+    {
+      "mode": "mission",
+      "style": "defender",
+      "seed": 528,
+      "ticks": 600,
+      "hp": 26,
+      "alive": 0,
+      "events": {
+        "step": 40,
+        "enemyAim": 11,
+        "enemyBolt": 9,
+        "clawArm": 5,
+        "whiff": 3,
+        "bolt": 231,
+        "hit": 2
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 1.454917000000023,
+      "cpuP95Ms": 5.296207999999751
+    },
+    {
+      "mode": "mission",
+      "style": "defender",
+      "seed": 529,
+      "ticks": 600,
+      "hp": 26,
+      "alive": 0,
+      "events": {
+        "step": 25,
+        "enemyAim": 9,
+        "enemyBolt": 6,
+        "bolt": 231,
+        "hit": 2
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 1.4037909999997282,
+      "cpuP95Ms": 5.54175000000032
+    },
+    {
+      "mode": "mission",
+      "style": "defender",
+      "seed": 530,
+      "ticks": 600,
+      "hp": 30,
+      "alive": 0,
+      "events": {
+        "step": 18,
+        "enemyAim": 5,
+        "enemyBolt": 2,
+        "clawArm": 3,
+        "whiff": 3,
+        "bolt": 231
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0.1370600306236902,
+      "cpuMedianMs": 0.5623750000004293,
+      "cpuP95Ms": 5.951125000000502
+    },
+    {
+      "mode": "mission",
+      "style": "defender",
+      "seed": 531,
+      "ticks": 600,
+      "hp": 28,
+      "alive": 0,
+      "events": {
+        "step": 18,
+        "bolt": 231,
+        "enemyAim": 4,
+        "enemyBolt": 1,
+        "hit": 1
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0,
+      "cpuMedianMs": 1.118332999998529,
+      "cpuP95Ms": 4.132499999999709
+    },
+    {
+      "mode": "mission",
+      "style": "defender",
+      "seed": 532,
+      "ticks": 600,
+      "hp": 28,
+      "alive": 0,
+      "events": {
+        "step": 51,
+        "enemyAim": 6,
+        "enemyBolt": 4,
+        "clawArm": 3,
+        "whiff": 3,
+        "bolt": 231,
+        "hit": 1
+      },
+      "longestStuckSeconds": 0,
+      "maxPenetration": 0.13263649793124088,
+      "cpuMedianMs": 1.1315419999991718,
+      "cpuP95Ms": 3.935709000001225
+    }
+  ]
+}
