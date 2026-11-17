@@ -13,7 +13,7 @@ try{
   await page.route(pattern,async route=>{intercepted=true;await blocked;await route.continue();});
   await page.goto('http://127.0.0.1:18231/'+url,{waitUntil:'domcontentloaded'});await page.locator('.load-screen').waitFor();
   while(!intercepted)await page.waitForTimeout(50);
-  await page.waitForTimeout(500);assert.equal(await page.locator(ready).isVisible(),false);assert.equal(await page.locator('.load-screen').getAttribute('aria-busy'),'true');assert.equal(await page.locator('progress').getAttribute('value'),null);
+  await page.waitForTimeout(500);assert.equal(await page.locator(ready).isVisible(),false);assert.equal(await page.locator('.load-screen').getAttribute('aria-busy'),'true');assert.equal(await page.locator('progress').getAttribute('value'),null);assert.equal(await page.locator('#load-retry').isVisible(),false);
   await page.screenshot({path:`docs/menu/loading-${mode}.png`});release();await page.locator(ready).waitFor({timeout:120000});assert.equal(await page.locator('.load-screen').count(),0);
   await page.unroute(pattern);await page.route(pattern,route=>route.fulfill({status:503,body:'Unavailable'}));await page.reload({waitUntil:'domcontentloaded'});
   await page.locator('#load-error').waitFor({timeout:120000});assert.equal(await page.locator(ready).isVisible(),false);assert.equal(await page.locator('#load-retry').isVisible(),true);await page.screenshot({path:`docs/menu/error-${mode}.png`});

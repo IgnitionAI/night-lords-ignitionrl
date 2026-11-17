@@ -41,3 +41,5 @@
 @media(max-height:650px) and (min-width:601px){.menu-shell h1{font-size:74px;margin-top:12px}.menu-tagline{margin-bottom:16px}.menu-content{padding:16px 0}.menu-nav{gap:6px}.menu-nav button{padding:11px 18px}}
 
 body:has(.load-screen)>:not(.load-screen){visibility:hidden}
+
+.load-screen [hidden],.shell-modal [hidden]{display:none!important}

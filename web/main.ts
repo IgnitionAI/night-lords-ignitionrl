@@ -2206,7 +2206,7 @@ function termPoseReport() {
 }
 (window as any).__animCues = peekAnimCues;
 subscribeAnimCues((cue) => { director.onAnimCue(cue); fx.onAnimCue(cue); if (CAM_MODE !== 'fps') vm?.ingestCue(cue); });
-loading?.complete('module');loading?.report('Décodage des armures…');
+loading?.complete('module');loading?.report('Préparation des armures…');
 await Promise.all([
   loadPolicy(),
   MISSION ? scene.userData.resourcesReady : Promise.resolve(),
@@ -2220,7 +2220,7 @@ await Promise.all([
 audio.attachLifecycle();
 (window as unknown as { __AUDIO?: typeof engine }).__AUDIO = engine;
 resize(); startRound();
-loading?.complete('audio');loading?.report('Initialisation de la scène…');
+loading?.complete('audio');loading?.report('Synchronisation de l’auspex…');
 render(0);loading?.complete('scene');if(loading)finishLoading();
 if((MISSION||FPS_DUEL)&&!DEMO_CFG)showFpsLaunch();
 // ---- sonde temporaire (retirée avant commit)
