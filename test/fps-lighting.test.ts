@@ -27,3 +27,11 @@ test('light decisions do not inspect a hidden player location',()=>{
 test('tactical simulations keep their original lighting-independent contract',()=>{
  expect(newWorld(1).lighting).toBeUndefined();expect(newWorld(1,undefined,{fps:true}).lighting).toBeUndefined();
 });
+test('returning light sends a hunter to physical cover without shooting during withdrawal',()=>{
+ const w=scene(),n=w.nls[0];Object.assign(n,{x:15,y:12,facing:Math.PI,lightRetreatUntil:80});
+ Object.assign(n.belief,{valid:true,x:12,y:12,age:0,seen:true});
+ w.tick=22;const before={x:n.x,y:n.y};const action=lightAction(w,0);
+ expect(action).toBeDefined();expect([n.x,n.y]).toEqual([before.x,before.y]);
+ expect(n.lightCover).toBeDefined();
+ step(w,T_IDLE,[action!]);expect(n.shotTicks??0).toBe(0);expect(Math.hypot(n.x-before.x,n.y-before.y)).toBeLessThan(.6);
+});

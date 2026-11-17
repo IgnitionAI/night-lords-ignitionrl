@@ -1478,6 +1478,10 @@ function tick() {
       if (e.kill >= 0) { hitMarkT = 0.18; hitMarkKill = true; }
     }
     if (e.type === 'enemyAim') floatText(w.nls[e.who].x, w.nls[e.who].y, 'TIR IMMINENT', '#ffb35c');
+    if(e.type==='lightsWarning'||e.type==='lightsOut'||e.type==='lightsRestored'){
+      const c=w.lighting?.circuits[e.zone];
+      if(c)engine.play(e.type==='lightsWarning'?'claw-crackle':e.type==='lightsOut'?'armor-lock':'term-servo',{x:c.x,y:c.y,z:1.4,gain:e.type==='lightsWarning'?.3:.45,rate:.75,priority:6});
+    }
     if (e.type === 'enemyBolt') {
       tracer.geometry.setFromPoints([new THREE.Vector3(e.x, 1.55, e.y), new THREE.Vector3(e.tx, FPS_EYE, e.ty)]);
       tracer.visible = true; tracerT = 0.15;

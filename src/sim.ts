@@ -352,11 +352,10 @@ function fistImpact(w: World, died: boolean[]) {
   if (xeno) { xeno.hp=0; xeno.windup=0; best=-1; }
   if (best >= 0) {
     const n = w.nls[best];
-    n.lastDamageTick=w.tick;
     if (w.opts.eliteDuel) {
       if (!los(t.x,t.y,n.x,n.y,w.propSolids)) best = -1;
-      else { n.hp = (n.hp ?? 24) - 5; if (n.hp <= 0) { n.alive = false; died[best] = true; } }
-    } else { n.alive = false; died[best] = true; }
+      else { n.lastDamageTick=w.tick; n.hp = (n.hp ?? 24) - 5; if (n.hp <= 0) { n.alive = false; died[best] = true; } }
+    } else { if(w.opts.fps)n.lastDamageTick=w.tick; n.alive = false; died[best] = true; }
   }
   // Le choc se propage aux survivants (la cible du contact, elle, est au sol) : c'est « la meute » qui perd l'initiative.
   let staggered = false;
@@ -467,7 +466,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
           const exposed = (n.recoveryTicks ?? 0) > 0 || n.stunTicks > 1;
           n.hp = (n.hp ?? 3) - (w.opts.eliteDuel && !exposed ? .2 : 1); n.lastDamageTick=w.tick; n.stunTicks = w.opts.eliteDuel ? (exposed ? Math.max(n.stunTicks, 1) : 0) : w.opts.mission ? 1 : 3; if (!w.opts.eliteDuel) n.armTicks = 0;
           if (n.hp <= 0) { n.alive = false; died[best] = true; }
-        } else { n.alive = false; died[best] = true; }
+        } else { if(w.opts.fps)n.lastDamageTick=w.tick; n.alive = false; died[best] = true; }
       }
       // Recul normalisé : 1/3, 2/3, 1 sur une rafale de 3 — croissant, saturé à 1 au dernier tir.
       w.events.push({ type: 'bolt', x: t.x, y: t.y, tx: xeno?.x ?? ex, ty: xeno?.y ?? ey, kill: best >= 0 && died[best] ? best : -1, recoil: (fired + 1) / T_CFG.boltBurst });
@@ -546,8 +545,9 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
       collide(n, NL_CFG.radius, w.propSolids, { x: nx0, y: ny0 });
       if(w.opts.fps){n.vx=(n.x-nx0)/DT;n.vy=(n.y-ny0)/DT;}
     } else {
-      const face=Math.atan2(f.uy,f.ux);
-      if(!w.opts.fps||!busy&&!recovering)n.facing=w.opts.fps?angNorm(n.facing+Math.max(-.32,Math.min(.32,angNorm(face-n.facing)))):face;
+      const aiming=(n.shotTicks??0)>0;
+      const face=aiming?Math.atan2(n.shotY!-n.y,n.shotX!-n.x):Math.atan2(f.uy,f.ux);
+      if(!w.opts.fps||aiming||!busy&&!recovering)n.facing=w.opts.fps?angNorm(n.facing+Math.max(-.32,Math.min(.32,angNorm(face-n.facing)))):face;
       n.vx=0;n.vy=0;
     }
     collide(n, NL_CFG.radius, w.propSolids);
@@ -555,7 +555,7 @@ export function step(w: World, ta: TAction, acts: number[]): StepOut {
     if (d < mind && d > 0) { n.x = t.x + (n.x - t.x) / d * mind; n.y = t.y + (n.y - t.y) / d * mind; collide(n, NL_CFG.radius, w.propSolids); }
     if (w.opts.fps) {
       if(n.shotRest) n.shotRest--;
-      if (stunned || recovering || (n.recoveryTicks??0)>0 || n.armTicks || (n.dodgeTicks??0)>0 || w.lighting?.circuits.some(c=>c.saboteur===i&&c.warningUntil>w.tick)) n.shotTicks = 0;
+      if (stunned || recovering || (n.recoveryTicks??0)>0 || n.armTicks || (n.dodgeTicks??0)>0 || (n.lightRetreatUntil??0)>w.tick || w.lighting?.circuits.some(c=>c.saboteur===i&&c.warningUntil>w.tick)) n.shotTicks = 0;
       else if ((n.shotTicks ?? 0) > 0) {
         n.shotTicks!--;
         if (n.shotTicks === 0) {

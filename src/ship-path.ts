@@ -19,8 +19,16 @@ export function shipHeading(w:World,x:number,y:number,tx:number,ty:number,radius
   for(let q=0;q<queue.length;q++){const at=queue[q],ax=at%W,ay=Math.floor(at/W);for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=ax+dx,ny=ay+dy,idx=ny*W+nx;if(nx<0||ny<0||nx>=W||ny>=H||blocked[idx]||dist[idx]>=0)continue;dist[idx]=dist[at]+1;queue.push(idx);}}
   if(cache.size>=16)cache.delete(cache.keys().next().value!);cache.set(key,dist);
  }
- const cx=Math.floor(x),cy=Math.floor(y);let best=Infinity,bx=tx,by=ty;
- for(let j=-3;j<=3;j++)for(let i=-3;i<=3;i++){const px=cx+i+.5,py=cy+j+.5;if(px<0||py<0||px>=W||py>=H)continue;const d=dist[Math.floor(py)*W+Math.floor(px)];if(d<0||!clearPath(w,x,y,px,py,radius))continue;const score=d+Math.hypot(px-x,py-y)*.1;if(score<best){best=score;bx=px;by=py;}}
+ const cx=Math.floor(x),cy=Math.floor(y);let bx=tx,by=ty;
+ const candidates:{x:number;y:number;score:number}[]=[];
+ for(let j=-3;j<=3;j++)for(let i=-3;i<=3;i++){
+  const px=cx+i+.5,py=cy+j+.5;if(px<0||py<0||px>=W||py>=H)continue;
+  const d=dist[Math.floor(py)*W+Math.floor(px)];if(d<0)continue;
+  candidates.push({x:px,y:py,score:d+Math.hypot(px-x,py-y)*.1});
+ }
+ // Expensive swept-clearance checks stop at the best reachable look-ahead point.
+ candidates.sort((a,b)=>a.score-b.score);
+ for(const p of candidates)if(clearPath(w,x,y,p.x,p.y,radius)){bx=p.x;by=p.y;break;}
  return Math.atan2(by-y,bx-x);
 }
 

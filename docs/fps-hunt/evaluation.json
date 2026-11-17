@@ -17,8 +17,8 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.018249999999998323,
-      "cpuP95Ms": 0.17395799999999895
+      "cpuMedianMs": 0.019832999999998435,
+      "cpuP95Ms": 0.09962499999999963
     },
     {
       "mode": "duel",
@@ -35,8 +35,8 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.009458000000002187,
-      "cpuP95Ms": 0.1334169999999979
+      "cpuMedianMs": 0.008040999999998633,
+      "cpuP95Ms": 0.023374999999997925
     },
     {
       "mode": "duel",
@@ -53,8 +53,8 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.015750000000000597,
-      "cpuP95Ms": 0.038000000000000256
+      "cpuMedianMs": 0.00629199999999841,
+      "cpuP95Ms": 0.01404099999999886
     },
     {
       "mode": "duel",
@@ -71,8 +71,8 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.00491699999999895,
-      "cpuP95Ms": 0.010874999999998636
+      "cpuMedianMs": 0.010041999999998552,
+      "cpuP95Ms": 0.024208999999999037
     },
     {
       "mode": "duel",
@@ -89,8 +89,8 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.007207999999998549,
-      "cpuP95Ms": 0.030416999999999916
+      "cpuMedianMs": 0.008207999999999771,
+      "cpuP95Ms": 0.07995899999999878
     },
     {
       "mode": "duel",
@@ -107,8 +107,8 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.005333000000000254,
-      "cpuP95Ms": 0.02091700000000074
+      "cpuMedianMs": 0.006084000000001311,
+      "cpuP95Ms": 0.07554199999999867
     },
     {
       "mode": "duel",
@@ -127,8 +127,8 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.006875000000000853,
-      "cpuP95Ms": 0.06370800000000543
+      "cpuMedianMs": 0.012166000000000565,
+      "cpuP95Ms": 0.0866250000000015
     },
     {
       "mode": "duel",
@@ -150,8 +150,8 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.0061249999999972715,
-      "cpuP95Ms": 0.01966600000000085
+      "cpuMedianMs": 0.008333000000000368,
+      "cpuP95Ms": 0.05412499999999909
     },
     {
       "mode": "duel",
@@ -170,8 +170,8 @@
       },
       "longestStuckSeconds": 0.1,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.0055419999999983816,
-      "cpuP95Ms": 0.021208000000001448
+      "cpuMedianMs": 0.01533300000000537,
+      "cpuP95Ms": 0.07579199999999986
     },
     {
       "mode": "duel",
@@ -192,8 +192,8 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.005624999999994884,
-      "cpuP95Ms": 0.02483399999999847
+      "cpuMedianMs": 0.014707999999998833,
+      "cpuP95Ms": 0.14108400000000643
     },
     {
       "mode": "duel",
@@ -212,8 +212,8 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.005249999999996646,
-      "cpuP95Ms": 0.027833000000001107
+      "cpuMedianMs": 0.006790999999992664,
+      "cpuP95Ms": 0.07466700000000515
     },
     {
       "mode": "duel",
@@ -234,23 +234,23 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.0050420000000030996,
-      "cpuP95Ms": 0.016124999999995282
+      "cpuMedianMs": 0.011583000000001675,
+      "cpuP95Ms": 0.07850000000000534
     },
     {
       "mode": "mission",
       "style": "observer",
       "seed": 527,
-      "ticks": 177,
+      "ticks": 175,
       "hp": 0,
       "alive": 4,
       "events": {
         "step": 7,
-        "enemyAim": 6,
+        "enemyAim": 5,
         "enemyBolt": 5,
         "lightsWarning": 1,
         "lightsOut": 1,
-        "clawArm": 11,
+        "clawArm": 12,
         "claw": 10,
         "hit": 13,
         "servoCritical": 1,
@@ -258,8 +258,8 @@
       },
       "longestStuckSeconds": 0.1,
       "maxPenetration": 0,
-      "cpuMedianMs": 6.0265830000000165,
-      "cpuP95Ms": 13.520083999999997
+      "cpuMedianMs": 2.5693330000000287,
+      "cpuP95Ms": 10.36095800000004
     },
     {
       "mode": "mission",
@@ -281,8 +281,8 @@
       },
       "longestStuckSeconds": 0.1,
       "maxPenetration": 0,
-      "cpuMedianMs": 4.689166999999998,
-      "cpuP95Ms": 11.278667000000041
+      "cpuMedianMs": 3.183125000000018,
+      "cpuP95Ms": 20.41841700000009
     },
     {
       "mode": "mission",
@@ -305,8 +305,8 @@
       },
       "longestStuckSeconds": 0.1,
       "maxPenetration": 0,
-      "cpuMedianMs": 3.412417000000005,
-      "cpuP95Ms": 15.305957999999919
+      "cpuMedianMs": 1.8454999999999018,
+      "cpuP95Ms": 8.83462499999996
     },
     {
       "mode": "mission",
@@ -317,11 +317,11 @@
       "alive": 4,
       "events": {
         "step": 7,
-        "enemyAim": 4,
-        "enemyBolt": 4,
+        "enemyAim": 3,
+        "enemyBolt": 3,
         "lightsWarning": 1,
         "lightsOut": 1,
-        "hit": 14,
+        "hit": 13,
         "clawArm": 11,
         "claw": 11,
         "lightsRestored": 1,
@@ -329,8 +329,8 @@
       },
       "longestStuckSeconds": 0.1,
       "maxPenetration": 0,
-      "cpuMedianMs": 6.34112499999992,
-      "cpuP95Ms": 15.248042000000169
+      "cpuMedianMs": 2.360957999999755,
+      "cpuP95Ms": 10.502375000000029
     },
     {
       "mode": "mission",
@@ -353,32 +353,32 @@
       },
       "longestStuckSeconds": 0.2,
       "maxPenetration": 0,
-      "cpuMedianMs": 7.354416000000128,
-      "cpuP95Ms": 14.732041999999637
+      "cpuMedianMs": 1.9743749999997817,
+      "cpuP95Ms": 6.546582999999828
     },
     {
       "mode": "mission",
       "style": "observer",
       "seed": 532,
-      "ticks": 144,
+      "ticks": 152,
       "hp": 0,
       "alive": 4,
       "events": {
         "step": 7,
         "enemyAim": 4,
-        "enemyBolt": 3,
+        "enemyBolt": 4,
         "lightsWarning": 1,
         "clawArm": 11,
         "lightsOut": 1,
         "claw": 11,
-        "hit": 12,
+        "hit": 13,
         "servoCritical": 1,
         "lightsRestored": 1
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 6.785750000000007,
-      "cpuP95Ms": 13.64862499999981
+      "cpuMedianMs": 2.0574589999996533,
+      "cpuP95Ms": 10.421000000000276
     },
     {
       "mode": "mission",
@@ -400,8 +400,8 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.5137080000004062,
-      "cpuP95Ms": 11.481584000000112
+      "cpuMedianMs": 0.730333999999857,
+      "cpuP95Ms": 4.692458999999872
     },
     {
       "mode": "mission",
@@ -411,9 +411,9 @@
       "hp": 30,
       "alive": 0,
       "events": {
-        "step": 22,
-        "enemyAim": 9,
-        "enemyBolt": 5,
+        "step": 26,
+        "enemyAim": 8,
+        "enemyBolt": 6,
         "clawArm": 1,
         "whiff": 1,
         "lightsWarning": 3,
@@ -423,8 +423,8 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.3763330000001588,
-      "cpuP95Ms": 10.117791999999099
+      "cpuMedianMs": 0.513332999999875,
+      "cpuP95Ms": 4.396625000000313
     },
     {
       "mode": "mission",
@@ -435,7 +435,7 @@
       "alive": 0,
       "events": {
         "step": 33,
-        "enemyAim": 8,
+        "enemyAim": 7,
         "enemyBolt": 2,
         "lightsWarning": 3,
         "bolt": 231,
@@ -444,8 +444,8 @@
       },
       "longestStuckSeconds": 0.1,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.9302090000001044,
-      "cpuP95Ms": 16.601833999999144
+      "cpuMedianMs": 0.7015839999994569,
+      "cpuP95Ms": 4.14941700000054
     },
     {
       "mode": "mission",
@@ -458,7 +458,7 @@
         "step": 18,
         "enemyAim": 5,
         "enemyBolt": 4,
-        "lightsWarning": 1,
+        "lightsWarning": 2,
         "lightsOut": 1,
         "clawArm": 1,
         "whiff": 1,
@@ -468,15 +468,15 @@
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.33695799999986775,
-      "cpuP95Ms": 13.866250000000946
+      "cpuMedianMs": 0.7844589999995151,
+      "cpuP95Ms": 4.084084000000075
     },
     {
       "mode": "mission",
       "style": "defender",
       "seed": 531,
       "ticks": 600,
-      "hp": 26,
+      "hp": 28,
       "alive": 0,
       "events": {
         "step": 12,
@@ -484,36 +484,36 @@
         "bolt": 231,
         "lightsWarning": 1,
         "lightsOut": 1,
-        "enemyBolt": 3,
+        "enemyBolt": 2,
         "lightsRestored": 1,
-        "hit": 2
+        "hit": 1
       },
       "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.7995420000006561,
-      "cpuP95Ms": 16.230625000000146
+      "cpuMedianMs": 0.8299170000009326,
+      "cpuP95Ms": 3.898917000000438
     },
     {
       "mode": "mission",
       "style": "defender",
       "seed": 532,
       "ticks": 600,
-      "hp": 28,
+      "hp": 26,
       "alive": 0,
       "events": {
-        "step": 23,
+        "step": 22,
         "enemyAim": 7,
-        "enemyBolt": 4,
+        "enemyBolt": 5,
         "lightsWarning": 2,
-        "lightsOut": 1,
+        "lightsOut": 2,
         "bolt": 231,
-        "lightsRestored": 1,
-        "hit": 1
+        "hit": 2,
+        "lightsRestored": 2
       },
-      "longestStuckSeconds": 0.6000000000000001,
+      "longestStuckSeconds": 0,
       "maxPenetration": 0,
-      "cpuMedianMs": 0.42329199999949196,
-      "cpuP95Ms": 28.684166000002733
+      "cpuMedianMs": 0.6657080000004498,
+      "cpuP95Ms": 3.986584000000221
     }
   ]
 }
