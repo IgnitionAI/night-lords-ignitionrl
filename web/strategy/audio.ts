@@ -6,6 +6,7 @@ type Phase='planning'|'combat'|'ending';
 type Channel='master'|'music'|'ambience'|'effects'|'vox';
 export class ShipAudio{
   volumes:Record<Channel,number>={master:.7,music:.3,ambience:.28,effects:.65,vox:.85};
+  paused=false;
   enabled=false;phase:Phase='planning';private ctx?:AudioContext;private tracks=new Map<string,HTMLAudioElement>();private levels=new Map<string,number>();
   private fx=new Set<HTMLAudioElement>();private gain?:GainNode;private hullPan?:StereoPannerNode;private timer?:number;
   onVox:(caption:{name:string;text:string;unit:string}|null)=>void=()=>{};
@@ -25,9 +26,10 @@ export class ShipAudio{
     }
     this.radio=new VoxRadio(this.ctx,()=>this.volumes.master*this.volumes.vox,on=>this.ducked=on,c=>this.onVox(c));
     this.timer=window.setInterval(()=>this.mix(),50);this.setPhase(this.phase);this.mix();
-    document.addEventListener('visibilitychange',()=>{if(document.hidden){this.radio?.suspend();for(const a of this.tracks.values())a.pause();this.ctx?.suspend();}else{this.ctx?.resume();this.setPhase(this.phase);}});
+    document.addEventListener('visibilitychange',()=>{if(document.hidden){this.radio?.suspend();for(const a of this.tracks.values())a.pause();this.ctx?.suspend();}else if(!this.paused){this.ctx?.resume();this.setPhase(this.phase);}});
   }
-  setPhase(p:Phase){if(this.phase!==p)this.transitions.push(this.phase+' → '+p);this.phase=p;if(this.enabled&&!document.hidden)for(const n of ['hull',p]){const a=this.tracks.get(n)!;a.play().catch(e=>{if(e.name!=='AbortError')this.errors.push(n+': '+e.name);});}}
+  setPhase(p:Phase){if(this.phase!==p)this.transitions.push(this.phase+' → '+p);this.phase=p;if(this.enabled&&!this.paused&&!document.hidden)for(const n of ['hull',p]){const a=this.tracks.get(n)!;a.play().catch(e=>{if(e.name!=='AbortError')this.errors.push(n+': '+e.name);});}}
+  setPaused(value:boolean){this.paused=value;if(value){this.radio?.suspend();for(const a of [...this.tracks.values(),...this.fx])a.pause();void this.ctx?.suspend();}else{void this.ctx?.resume();this.setPhase(this.phase);for(const a of this.fx)a.play().catch(()=>{});}}
   set(channel:Channel,value:number){this.volumes[channel]=Math.max(0,Math.min(1,Number(value)||0));localStorage.setItem('noctis-audio',JSON.stringify(this.volumes));this.mix();}
   private mix(){this.duckLevel+=((this.ducked && this.volumes.vox>0 ? .32 : 1)-this.duckLevel)*.3;this.radio?.mix();for(const [name,a] of this.tracks){const target=name==='hull'||name===this.phase?1:0;let level=this.levels.get(name)??0;level+=(target-level)*.075;this.levels.set(name,level);a.volume=Math.min(1,level*this.volumes.master*(name==='hull'?this.volumes.ambience:this.volumes.music*this.duckLevel));if(!target&&level<.002&&!a.paused){a.pause();a.currentTime=0;}}
     if(this.gain)this.gain.gain.value=this.volumes.master*this.volumes.effects;

@@ -8,7 +8,7 @@ export function openPanel(title:string,body:string,close:()=>void,kicker='NOCTIS
  const inertBefore=siblings.map(e=>e.inert);siblings.forEach(e=>e.inert=true);
  document.body.append(root);
  setHTML(root,`<section class="shell-card"><div class="shell-heading"><div><small class="shell-kicker">${kicker}</small><h2 id="shell-title">${title}</h2></div><button class="shell-close" data-shell-close>Retour</button></div>${body}</section>`);
- const dispose=()=>{root.remove();siblings.forEach((e,i)=>e.inert=inertBefore[i]);previous?.focus();};
+ const dispose=()=>{root.querySelectorAll<HTMLMediaElement>('video,audio').forEach(media=>{media.pause();media.removeAttribute('src');media.querySelectorAll('source').forEach(source=>source.remove());media.load();});root.remove();siblings.forEach((e,i)=>e.inert=inertBefore[i]);previous?.focus();};
  root.querySelector('[data-shell-close]')!.addEventListener('click',()=>{dispose();close();});
  root.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();dispose();close();}if(e.key==='Tab'){const nodes=[...root.querySelectorAll<HTMLElement>('button,a[href],input,select')].filter(el=>!el.hasAttribute('disabled'));const first=nodes[0],last=nodes.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}});
  root.querySelector<HTMLButtonElement>('button')?.focus();return {root,dispose};

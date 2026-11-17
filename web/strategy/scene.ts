@@ -35,6 +35,7 @@ export class TacticalScene{
   private running?:{p:Presentation;start:number;done:()=>void;fired:Set<string>};private previous=performance.now();private frames:number[]=[];private effects:{obj:T.Object3D;ttl:number;life:number;velocity?:T.Vector3}[]=[];
   private assetPaths:string[]=[];private assetErrors:string[]=[];private animated=new Set<string>();private pointerStart?:{x:number;y:number;cx:number;cz:number};dragged=false;
   private quality=0;private qualityFrames=0;
+  paused=false;
   onStatus?:(s:string)=>void;
   private localeSubscription=onLocaleChange(()=>this.scene.traverse(o=>{const info=o.userData.i18n;if(info){const translated=textSprite(info.source,info.tint,info.size);(o as T.Sprite).material.map=translated.material.map;(o as T.Sprite).material.needsUpdate=true;o.userData.labelPx=translated.userData.labelPx;translated.material.dispose();}}));
   constructor(private canvas:HTMLCanvasElement,private audio:ShipAudio){
@@ -173,7 +174,7 @@ export class TacticalScene{
     for(let i=0;i<3;i++){const smoke=new T.Mesh(new T.SphereGeometry(.09,8,6),new T.MeshBasicMaterial({color:0xadb2ac,transparent:true,opacity:.2,depthWrite:false}));smoke.position.copy(from);this.fx.add(smoke);this.effects.push({obj:smoke,ttl:.6,life:.6,velocity:new T.Vector3((i-1)*.08,.25,.05)});}
   }
   private sparks(p:T.Vector3,c:number){for(let i=0;i<7;i++){const m=new T.Mesh(new T.BoxGeometry(.025,.025,.07),new T.MeshBasicMaterial({color:c,transparent:true}));m.position.copy(p);this.fx.add(m);this.effects.push({obj:m,ttl:.3+i*.035,life:.55,velocity:new T.Vector3(Math.cos(i*2.4),.7+Math.sin(i),Math.sin(i*2.4)).multiplyScalar(.6)});}}
-  private frame(now:number){requestAnimationFrame(t=>this.frame(t));const dt=Math.min(.15,(now-this.previous)/1000);if(!document.hidden){this.frames.push(now-this.previous);if(this.frames.length>600)this.frames.shift();}this.previous=now;if(this.running)this.sequence(now);
+  private frame(now:number){requestAnimationFrame(t=>this.frame(t));const dt=Math.min(.15,(now-this.previous)/1000);if(!document.hidden){this.frames.push(now-this.previous);if(this.frames.length>600)this.frames.shift();}const elapsed=now-this.previous;this.previous=now;if(this.paused){if(this.running)this.running.start+=elapsed;return;}if(this.running)this.sequence(now);
     for(const f of this.figures.values())if(f.group.visible){f.mixer.update(dt);if(f.dead)f.label.visible=f.hp.visible=false;}
     for(const e of [...this.effects]){if(!e.obj.userData.presented){e.obj.userData.presented=true;continue;}e.ttl-=dt;if(e.velocity)e.obj.position.addScaledVector(e.velocity,dt);const mat=(e.obj as T.Mesh).material as T.Material&{opacity:number};mat.opacity=Math.max(0,e.ttl/e.life)*.65;if(e.life===1.5)e.obj.scale.setScalar(1+(1-e.ttl/e.life)*2);if(e.ttl<=0){this.fx.remove(e.obj);(e.obj as T.Mesh).geometry.dispose();mat.dispose();this.effects.splice(this.effects.indexOf(e),1);}}
     // Keep the command interface crisp; adapt only the 3D render surface on slow GPUs.

@@ -1,3 +1,5 @@
+import {openPanel,controlsMarkup,languageSettings} from './ui/shell';
+import {readMaster,saveMaster} from './ui/preferences';
 import {loading,finishLoading} from './ui/loading';
 import {VoxRadio} from './strategy/vox';
 import {voiceCue} from './strategy/vox-cues';
@@ -72,7 +74,7 @@ import { equipNl } from './weapons';
 
 // Language controls are available before deployment and while paused.
 const localeBar=document.createElement('nav');localeBar.id='fps-language';
-setHTML(localeBar, `${languagePicker()}<button id="fps-settings">Paramètres</button><a href="./index.html">Plateau ↗</a>`);document.body.append(localeBar);
+setHTML(localeBar, `${languagePicker()}<button id="fps-settings">Paramètres</button><button id="fps-menu">Menu</button>`);document.body.append(localeBar);
 const settingsPanel=document.createElement('div');settingsPanel.id='fps-settings-panel';settingsPanel.hidden=true;document.body.append(settingsPanel);
 localize(document.body);
 const qs = new URLSearchParams(location.search);
@@ -823,14 +825,33 @@ postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), postMat));
 // ---------- état de jeu
 let w: World, prev: { t: [number, number, number]; n: [number, number, number, number][] }, rec: Recorder, rng: () => number, tactic: Tactic | null;
 let roundNo = 0, score = { pack: 0, term: 0 }, paused = false, acc = 0, mixerSim = 0, hitstop = 0, shake = 0, lastActs: number[] = [0, 0, 0, 0], lastP: number[] = [0, 0, 0, 0], tracerT = 0;
-document.getElementById('fps-settings')!.onclick=()=>{
- const wasPaused=paused;paused=true;keys.clear();queuedReload=queuedBolt=queuedFist=false;document.exitPointerLock?.();
- settingsPanel.hidden=false;setHTML(settingsPanel,`<section><h2>Paramètres</h2>${languagePicker()}<p>La langue choisie s’applique aux textes, aux sous-titres et aux voix.</p><p><button id="fps-vox-test">VOX TERMINATORS</button><button id="fps-vox-nightlords">VOX NIGHT LORDS</button></p><button id="fps-sound-toggle">${engine.muted?'Activer le son':'Couper le son'}</button><button id="fps-settings-close">Reprendre</button></section>`);
- document.getElementById('fps-vox-test')!.onclick=()=>{engine.unlock();startFpsRadio();};
- document.getElementById('fps-vox-nightlords')!.onclick=()=>{engine.unlock();startFpsRadio();fpsRadio?.previewNightLords();};
- document.getElementById('fps-sound-toggle')!.onclick=()=>{engine.toggleMute();setText(document.getElementById('fps-sound-toggle')!,engine.muted?'Activer le son':'Couper le son');};
- document.getElementById('fps-settings-close')!.onclick=()=>{settingsPanel.hidden=true;paused=wasPaused;};
-};
+document.getElementById('fps-settings')!.onclick=()=>showFpsSettings();
+document.getElementById('fps-menu')!.onclick=()=>showFpsPause();
+function freezeFps(){paused=true;keys.clear();queuedReload=queuedBolt=queuedFist=false;fpsRadio?.suspend();void engine.ctx?.suspend();document.exitPointerLock?.();}
+function resumeFps(){paused=false;keys.clear();queuedReload=queuedBolt=queuedFist=false;engine.unlock();if(CAM_MODE==='fps'){fpsStarted=true;canvas.requestPointerLock?.()?.catch(()=>{fpsDragLook=true;});}}
+function showFpsLaunch(){
+ freezeFps();
+ const panel=openPanel(FPS_DUEL?'DUEL CONTRE TALOS':'OPÉRATION CENDRES',`<p>La mission est prête. Cliquez pour prendre le contrôle de votre armure.</p>${languageSettings()}<div class="shell-actions"><button id="fps-deploy" class="shell-button">DÉPLOYER</button><button id="fps-launch-controls" class="shell-button shell-secondary">Commandes</button></div>`,()=>location.assign('./index.html'));
+ panel.root.querySelector('#fps-deploy')!.addEventListener('click',()=>{panel.dispose();resumeFps();startFpsRadio();});
+ panel.root.querySelector('#fps-launch-controls')!.addEventListener('click',()=>{panel.dispose();openPanel('Commandes',controlsMarkup(),showFpsLaunch);});
+}
+function showFpsPause(){
+ if(document.querySelector('.shell-modal')||loading)return;
+ freezeFps();const panel=openPanel('Partie en pause',`${languageSettings()}<p>Les Night Lords attendent votre retour.</p><div class="shell-actions"><button id="fps-resume" class="shell-button">Reprendre la partie</button><button id="fps-pause-settings" class="shell-button shell-secondary">Paramètres</button><button id="fps-controls" class="shell-button shell-secondary">Commandes</button></div><div class="shell-actions"><button id="fps-home" class="shell-button shell-secondary">Retour au menu</button></div>`,resumeFps,'MISSION / SUSPENDUE');
+ panel.root.querySelector('#fps-resume')!.addEventListener('click',()=>{panel.dispose();resumeFps();});
+ panel.root.querySelector('#fps-pause-settings')!.addEventListener('click',()=>{panel.dispose();showFpsSettings();});
+ panel.root.querySelector('#fps-controls')!.addEventListener('click',()=>{panel.dispose();openPanel('Commandes',controlsMarkup(),showFpsPause);});
+ panel.root.querySelector('#fps-home')!.addEventListener('click',()=>{panel.dispose();if(roundOver||!fpsStarted){location.assign('./index.html');return;}const confirm=openPanel('Quitter la partie ?',`<p>La progression de cette partie sera perdue.</p><div class="shell-actions"><button id="fps-stay" class="shell-button">Rester ici</button><a class="shell-button shell-secondary" href="./index.html">Quitter</a></div>`,showFpsPause);confirm.root.querySelector('#fps-stay')!.addEventListener('click',()=>{confirm.dispose();showFpsPause();});});
+}
+function showFpsSettings(){
+ if(document.querySelector('.shell-modal')||loading)return;
+ freezeFps();const panel=openPanel('Paramètres',`${languageSettings()}<label>Volume général<output>${Math.round(engine.masterGain*100)} %</output><input id="fps-master" type="range" min="0" max="100" aria-label="Volume général" value="${engine.masterGain*100}"></label><p><button class="shell-button shell-secondary" id="fps-vox-test">VOX TERMINATORS</button> <button class="shell-button shell-secondary" id="fps-vox-nightlords">VOX NIGHT LORDS</button></p><button class="shell-button shell-secondary" id="fps-sound-toggle">${engine.muted?'Activer le son':'Couper le son'}</button>`,()=>{fpsRadio?.suspend();showFpsPause();});
+ panel.root.querySelector<HTMLInputElement>('#fps-master')!.oninput=e=>{const value=Number((e.target as HTMLInputElement).value)/100;engine.masterGain=value;engine.setMuted(engine.muted);saveMaster(value);panel.root.querySelector('output')!.textContent=Math.round(value*100)+' %';};
+ panel.root.querySelector('#fps-vox-test')!.addEventListener('click',()=>{engine.unlock();startFpsRadio();});
+ panel.root.querySelector('#fps-vox-nightlords')!.addEventListener('click',()=>{engine.unlock();ensureFpsRadio();fpsRadio?.previewNightLords();});
+ panel.root.querySelector('#fps-sound-toggle')!.addEventListener('click',()=>{engine.toggleMute();setText(panel.root.querySelector('#fps-sound-toggle')!,engine.muted?'Activer le son':'Couper le son');});
+}
+
 
 let nlPrevStun = [0, 0, 0, 0], nlPrevAction = [0, 0, 0, 0];
 let nlCamHold = [0, 0, 0, 0];
@@ -859,39 +880,41 @@ const keys = new Set<string>();
 const fpsCaption=document.createElement('div');fpsCaption.id='fps-vox-caption';fpsCaption.hidden=true;fpsCaption.setAttribute('role','status');document.body.append(fpsCaption);
 let fpsRadio:VoxRadio|undefined;
 function ensureFpsRadio(){
- if(!fpsRadio && engine.ctx){fpsRadio=new VoxRadio(engine.ctx as AudioContext,()=>engine.muted?0:.65,on=>{if(on)engine.duck(.4);},c=>{fpsCaption.hidden=!c;if(c)setText(fpsCaption,`VOX / ${c.name} · ${c.text}`);});fpsRadio.observeEnemies(['nl-radio']);}
+ if(!fpsRadio && engine.ctx){fpsRadio=new VoxRadio(engine.ctx as AudioContext,()=>engine.muted?0:engine.masterGain*.93,on=>{if(on)engine.duck(.4);},c=>{fpsCaption.hidden=!c;if(c)setText(fpsCaption,`VOX / ${c.name} · ${c.text}`);});fpsRadio.observeEnemies(['nl-radio']);}
 }
 function startFpsRadio(){ensureFpsRadio();fpsRadio?.speak(voiceCue({id:'t0',name:'TERMINATOR'},'select'));}
 
 director.onSpokenVox=()=>{ensureFpsRadio();fpsRadio?.speak({unit:'nl-radio',name:'NIGHT LORDS',faction:'nightlords',event:'nl-taunt',scope:'action',priority:45});};
 onLocaleChange(()=>{fpsRadio?.boundary(true);});
-document.addEventListener('visibilitychange',()=>{if(document.hidden)fpsRadio?.suspend();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){fpsRadio?.suspend();if(fpsStarted&&!roundOver)showFpsPause();}});
 
 let queuedReload = false, queuedBolt = false, queuedFist = false;
 addEventListener('keydown', e => {
-  if(!settingsPanel.hidden)return;
+  if(document.querySelector('.shell-modal')||loading)return;
+  if(e.code==='KeyP'||e.code==='Escape'){e.preventDefault();showFpsPause();return;}
+  if(paused)return;
   keys.add(e.code);
   if (CAM_MODE === 'fps') { if (e.code === 'KeyR') queuedReload = true; if (e.code === 'Space') queuedBolt = true; if (e.code === 'KeyF') queuedFist = true; }
   if (e.code === 'KeyV') { debug = !debug; if (debug) buildLabels(); }
-  if (e.code === 'KeyP') paused = !paused;
-  if (e.code === 'Escape' && (FPS_DUEL || MISSION)) { fpsStarted = false; keys.clear(); queuedReload = queuedBolt = queuedFist = false; }
+
+
   if (e.code === 'KeyH' && CAM_MODE === 'diablo') readAids = !readAids;
   if (e.code === 'KeyM') engine.toggleMute();
-  if (e.code === 'Enter' && (roundOver || FPS_DUEL)) startRound();
+  if(e.code==='Enter'&&roundOver){startRound();showFpsLaunch();}
   if (e.code === 'Space') e.preventDefault();
 });
 addEventListener('keyup', e => keys.delete(e.code));
 if (CAM_MODE === 'fps') {
-  canvas.addEventListener('click', () => { if(MISSION && !scene.userData.genestealersLoaded)return; fpsStarted = true; startFpsRadio(); if (!fpsDragLook) canvas.requestPointerLock?.()?.catch(() => { fpsDragLook = true; }); });
+  canvas.addEventListener('click', () => { if(paused||loading||document.querySelector('.shell-modal')||(MISSION&&!scene.userData.genestealersLoaded))return; fpsStarted = true; startFpsRadio(); if (!fpsDragLook) canvas.requestPointerLock?.()?.catch(() => { fpsDragLook = true; }); });
   canvas.addEventListener('contextmenu', e => e.preventDefault());
-  addEventListener('mousedown', e => { if (settingsPanel.hidden && e.target === canvas && fpsStarted && e.button < 3) { keys.add(e.button === 0 ? 'MouseFire' : 'MouseFist'); if (e.button === 0) queuedBolt = true; if (e.button === 2) queuedFist = true; } });
+  addEventListener('mousedown', e => { if (!paused && !loading && e.target === canvas && fpsStarted && e.button < 3) { keys.add(e.button === 0 ? 'MouseFire' : 'MouseFist'); if (e.button === 0) queuedBolt = true; if (e.button === 2) queuedFist = true; } });
   addEventListener('mouseup', e => keys.delete(e.button === 0 ? 'MouseFire' : 'MouseFist'));
   addEventListener('blur', () => keys.clear());
   document.addEventListener('pointerlockchange', () => {
-    fpsLook.locked = document.pointerLockElement === canvas;
+    const wasLocked=fpsLook.locked;fpsLook.locked=document.pointerLockElement===canvas;if(wasLocked&&!fpsLook.locked&&fpsStarted&&!paused&&!roundOver)showFpsPause();
   });
   addEventListener('mousemove', (e: MouseEvent) => {
-    if (fpsLook.locked || (fpsDragLook && fpsStarted) || (window as unknown as { __fpsSimLook?: boolean }).__fpsSimLook) {
+    if (!paused && (fpsLook.locked || (fpsDragLook && fpsStarted) || (window as unknown as { __fpsSimLook?: boolean }).__fpsSimLook)) {
       applyLookDelta(fpsLook, e.movementX, e.movementY);
     }
   });
@@ -1587,7 +1610,7 @@ function hud() {
   if (MISSION) {status.clock=mission.phase==='escape' ? `${Math.floor(Math.ceil(mission.remaining)/60)}:${String(Math.ceil(mission.remaining)%60).padStart(2,'0')}` : mission.phase==='extracted'?'HORS ZONE':'NON ARMÉE'; status.timePressure=mission.phase==='escape' && mission.remaining<20;}
   setHTML(h, CAM_MODE === 'fps' ? fpsHudMarkup(status, extra) : hudMarkup(matchStatus(w), extra));
   (window as unknown as { __NL?: unknown }).__NL = {
-    mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, muted: engine.muted,
+    paused,started:fpsStarted,mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, muted: engine.muted,
     hunt: MISSION ? {agents:w.nls.map((n,i)=>({x:n.x,y:n.y,height:n.height??0,vertical:n.vertical?.phase,tactic:tacticalState(w,i),alive:n.alive,action:n.lastAction}))} : null,
     playerPosition: {x:w.t.x,y:w.t.y}, genestealersLoaded: scene.userData.genestealersLoaded ?? 0, rendering: {...renderer.info.render}, hp: w.t.hp, nlsAlive: w.nls.filter((n) => n.alive).length,
     fistCharge: w.t.fistCharge,
@@ -2189,7 +2212,7 @@ await Promise.all([
   MISSION ? scene.userData.resourcesReady : Promise.resolve(),
   (PROBE_READ ? Promise.resolve() : loadModels()).then(()=>loading?.complete('models')),
   (PROBE_READ ? Promise.resolve() : loadProps()).then(()=>loading?.complete('world')),
-  shot || PROBE_READ || CAP_STEP ? Promise.resolve() : initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json' }).then(() => {
+  shot || PROBE_READ || CAP_STEP ? Promise.resolve() : initAudio({ base: '/web/sfx/nightlords/', manifest: 'manifest.json',master:readMaster() }).then(() => {
     engine.setOccluders(PILLARS);
   }),
 ]);
@@ -2198,7 +2221,8 @@ audio.attachLifecycle();
 (window as unknown as { __AUDIO?: typeof engine }).__AUDIO = engine;
 resize(); startRound();
 loading?.complete('audio');loading?.report('Initialisation de la scène…');
-render(0);loading?.complete('scene');finishLoading();
+render(0);loading?.complete('scene');if(loading)finishLoading();
+if((MISSION||FPS_DUEL)&&!DEMO_CFG)showFpsLaunch();
 // ---- sonde temporaire (retirée avant commit)
 if (Number(qs.get('hitscan') ?? 0)) {
   const out: any[] = []; const base = seed; const n = Number(qs.get('hitscan'));
@@ -2262,7 +2286,7 @@ if (PROBE_READ) {
     for (let i = 0; i < steps && !roundOver; i++) tick();
     finishCap();
     return {
-      mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason,
+      paused,started:fpsStarted,mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason,
       msgShown: document.getElementById('msg')?.style.display === 'block',
       hold: nlCamHold.slice(),
       term: { x: w.t.x, y: w.t.y, facing: w.t.facing },
@@ -2289,7 +2313,7 @@ if (PROBE_READ) {
   if (w.done) await endRound();
   (window as unknown as { __SCENE_READY?: boolean }).__SCENE_READY = true;
   (window as unknown as { __NL?: unknown }).__NL = {
-    mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, playSpeed: PLAY_SPEED,
+    paused,started:fpsStarted,mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, playSpeed: PLAY_SPEED,
   };
   document.title=t('READY');
 } else if (shot) { // capture : on avance la sim de N ticks sans attendre le temps réel, puis on rend une image

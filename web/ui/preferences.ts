@@ -1,0 +1,2 @@
+export function readMaster(){try{const value=JSON.parse(localStorage.getItem('noctis-audio')??'{}').master;return typeof value==='number'&&Number.isFinite(value)?Math.max(0,Math.min(1,value)):.7;}catch{return .7;}}
+export function saveMaster(value:number){let values={};try{values=JSON.parse(localStorage.getItem('noctis-audio')??'{}');}catch{}try{localStorage.setItem('noctis-audio',JSON.stringify({...values,master:Math.max(0,Math.min(1,value))}));}catch{}}
