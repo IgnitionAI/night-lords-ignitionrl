@@ -1,0 +1,30 @@
+{
+  "episodes": 108,
+  "examples": 3208,
+  "objectiveCounts": [
+    748,
+    1295,
+    1165
+  ],
+  "datasetSHA256": "d087885fd9d5b7363b92a561389d402abdffa562137815f37438bbc207fd7a7d",
+  "actors": [
+    {
+      "seed": 4101,
+      "trainingAgreement": 0.9772443890274314,
+      "supervisedSteps": 520,
+      "sha256": "8a685e0b045893fae2691bf1c96fa9c2a8e15c0f209010918224bc439987d150"
+    },
+    {
+      "seed": 4102,
+      "trainingAgreement": 0.9775561097256857,
+      "supervisedSteps": 520,
+      "sha256": "1b4f83e807901b5a6d73f12f3dcdf430a2b6f37516d56bf6a019de71f6eb61de"
+    },
+    {
+      "seed": 4103,
+      "trainingAgreement": 0.976932668329177,
+      "supervisedSteps": 520,
+      "sha256": "78ce9d67ebab673868cd024e1c0125f86555d5d1919d1af294c3037687971f89"
+    }
+  ]
+}
