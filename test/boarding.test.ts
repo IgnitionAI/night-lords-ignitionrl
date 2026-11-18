@@ -2,6 +2,20 @@ import {test,expect} from 'bun:test';
 import {createOperation,getView,resolve,observeAll,shareReports,legalOrder,type Order} from '../src/strategy/engine';
 import {MISSIONS,planCost,EXTRACTION} from '../src/strategy/tactics';
 import {boardingDecide,boardingPlan,boardingObservation,legacyBoardingObservation,BOARD_OBS,BOARD_VERSION,decisionPlans} from '../src/strategy/boarding-agents';
+import {trainingScenario,HELD_OUT_RESIDUES} from '../scripts/boarding-scenarios';
+test('each permitted board sees all nine mission/opponent combinations in a training block',()=>{
+ const byBoard=new Map<number,Set<string>>();
+ let episode=0;
+ for(let seed=1;episode<81;seed++){
+  if(HELD_OUT_RESIDUES.includes(seed%12))continue;
+  const {mission,style}=trainingScenario(episode++);
+  const combinations=byBoard.get(seed%12)??new Set<string>();
+  combinations.add(mission+'-'+style);
+  byBoard.set(seed%12,combinations);
+ }
+ expect(byBoard.size).toBe(9);
+ for(const pairs of byBoard.values())expect(pairs.size).toBe(9);
+});
 function duel(){const w=createOperation(17);Object.assign(w.units[0],{x:9,y:10});Object.assign(w.units[1],{x:9,y:9});Object.assign(w.units[4],{x:12,y:10});Object.assign(w.units[5],{x:12,y:9});observeAll(w);return w;}
 test('PPO distinguishes public incidents, echo sectors and the ally posture',()=>{
  const v=getView(duel(),0);

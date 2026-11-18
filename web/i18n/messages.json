@@ -600,8 +600,8 @@
     "held-out scenarios per controller"
   ],
   [
-    "transitions réellement entraînées, trois étapes : déplacement, objectifs, combat. Scénarios d’évaluation distincts des entraînements. Même perception limitée et même exécuteur.",
-    "actual training transitions across three stages: movement, objectives, combat. Evaluation scenarios are separate from training. Identical limited perception and execution."
+    "décisions de commandant enregistrées pendant le réentraînement en mission complète. Les scénarios de comparaison utilisent des configurations réservées.",
+    "commander decisions recorded during full-mission retraining. The comparison uses held-out configurations."
   ],
   [
     "Commandants",

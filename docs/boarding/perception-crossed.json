@@ -1,0 +1,249 @@
+{
+  "curriculum": "crossed",
+  "trainingSeeds": [
+    8341,
+    8342,
+    8343
+  ],
+  "developmentSeeds": [
+    12000,
+    12001,
+    12002,
+    12003,
+    12004,
+    12006,
+    12007,
+    12009,
+    12010
+  ],
+  "developmentStyles": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "incumbentExtra": {
+    "mode": "control",
+    "matches": 27,
+    "wins": 12,
+    "draws": 0,
+    "meanEnemyScore": 8.666666666666666,
+    "meanPlayerScore": 13.925925925925926,
+    "meanSurvivors": 1.4444444444444444
+  },
+  "selection": "worst mission wins, total wins, score margin, then smaller seed",
+  "development": [
+    {
+      "version": "boarding-v1",
+      "seed": 8341,
+      "worstMissionWins": 23,
+      "missionWins": [
+        23,
+        36,
+        47
+      ],
+      "wins": 106,
+      "scoreMargin": 2.833333333333332
+    },
+    {
+      "version": "boarding-v1",
+      "seed": 8342,
+      "worstMissionWins": 16,
+      "missionWins": [
+        22,
+        38,
+        16
+      ],
+      "wins": 76,
+      "scoreMargin": -3.6790123456790127
+    },
+    {
+      "version": "boarding-v1",
+      "seed": 8343,
+      "worstMissionWins": 23,
+      "missionWins": [
+        23,
+        38,
+        47
+      ],
+      "wins": 108,
+      "scoreMargin": 2.833333333333332
+    },
+    {
+      "version": "boarding-v2",
+      "seed": 8341,
+      "worstMissionWins": 10,
+      "missionWins": [
+        14,
+        38,
+        10
+      ],
+      "wins": 62,
+      "scoreMargin": -3.012345679012345
+    },
+    {
+      "version": "boarding-v2",
+      "seed": 8342,
+      "worstMissionWins": 16,
+      "missionWins": [
+        22,
+        38,
+        16
+      ],
+      "wins": 76,
+      "scoreMargin": -3.6790123456790127
+    },
+    {
+      "version": "boarding-v2",
+      "seed": 8343,
+      "worstMissionWins": 9,
+      "missionWins": [
+        17,
+        29,
+        9
+      ],
+      "wins": 55,
+      "scoreMargin": -4
+    }
+  ],
+  "selected": [
+    {
+      "version": "boarding-v1",
+      "seed": 8343,
+      "worstMissionWins": 23,
+      "missionWins": [
+        23,
+        38,
+        47
+      ],
+      "wins": 108,
+      "scoreMargin": 2.833333333333332
+    },
+    {
+      "version": "boarding-v2",
+      "seed": 8342,
+      "worstMissionWins": 16,
+      "missionWins": [
+        22,
+        38,
+        16
+      ],
+      "wins": 76,
+      "scoreMargin": -3.6790123456790127
+    }
+  ],
+  "comparisons": [
+    {
+      "seed": 8341,
+      "paired": [
+        {
+          "version": "boarding-v1",
+          "transitions": 15754,
+          "mode": "ppo",
+          "matches": 27,
+          "wins": 21,
+          "draws": 0,
+          "meanEnemyScore": 14.925925925925926,
+          "meanPlayerScore": 12.296296296296296,
+          "meanSurvivors": 2.8518518518518516
+        },
+        {
+          "version": "boarding-v2",
+          "transitions": 15518,
+          "mode": "ppo",
+          "matches": 27,
+          "wins": 18,
+          "draws": 2,
+          "meanEnemyScore": 12.333333333333334,
+          "meanPlayerScore": 10.11111111111111,
+          "meanSurvivors": 3
+        }
+      ]
+    },
+    {
+      "seed": 8342,
+      "paired": [
+        {
+          "version": "boarding-v1",
+          "transitions": 15688,
+          "mode": "ppo",
+          "matches": 27,
+          "wins": 16,
+          "draws": 1,
+          "meanEnemyScore": 12,
+          "meanPlayerScore": 9.814814814814815,
+          "meanSurvivors": 2.6666666666666665
+        },
+        {
+          "version": "boarding-v2",
+          "transitions": 15750,
+          "mode": "ppo",
+          "matches": 27,
+          "wins": 16,
+          "draws": 1,
+          "meanEnemyScore": 12,
+          "meanPlayerScore": 9.814814814814815,
+          "meanSurvivors": 2.6666666666666665
+        }
+      ]
+    },
+    {
+      "seed": 8343,
+      "paired": [
+        {
+          "version": "boarding-v1",
+          "transitions": 15708,
+          "mode": "ppo",
+          "matches": 27,
+          "wins": 21,
+          "draws": 0,
+          "meanEnemyScore": 14.925925925925926,
+          "meanPlayerScore": 12.296296296296296,
+          "meanSurvivors": 2.8518518518518516
+        },
+        {
+          "version": "boarding-v2",
+          "transitions": 15668,
+          "mode": "ppo",
+          "matches": 27,
+          "wins": 17,
+          "draws": 0,
+          "meanEnemyScore": 11.851851851851851,
+          "meanPlayerScore": 9.074074074074074,
+          "meanSurvivors": 2.4444444444444446
+        }
+      ]
+    }
+  ],
+  "furtherTests": [
+    {
+      "version": "boarding-v1",
+      "seed": 8343,
+      "mode": "ppo",
+      "matches": 27,
+      "wins": 14,
+      "draws": 0,
+      "meanEnemyScore": 8.37037037037037,
+      "meanPlayerScore": 13.666666666666666,
+      "meanSurvivors": 1.9259259259259258
+    },
+    {
+      "version": "boarding-v2",
+      "seed": 8342,
+      "mode": "ppo",
+      "matches": 27,
+      "wins": 9,
+      "draws": 3,
+      "meanEnemyScore": 7.814814814814815,
+      "meanPlayerScore": 12.62962962962963,
+      "meanSurvivors": 1.2222222222222223
+    }
+  ],
+  "extraOpponentStyles": [
+    6,
+    7,
+    8
+  ]
+}

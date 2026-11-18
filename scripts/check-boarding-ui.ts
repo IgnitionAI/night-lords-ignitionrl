@@ -2,13 +2,13 @@ import {chromium} from 'playwright';
 import {boardingPlan,boardingAction} from '../src/strategy/boarding-agents';
 import {planCost} from '../src/strategy/tactics';
 import type {Order} from '../src/strategy/engine';
-import {writeFileSync} from 'node:fs';
+import {writeFileSync,readFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
 const browser=await chromium.launch({headless:true,args:['--use-angle=metal']});
 try{
- const page=await browser.newPage({viewport:{width:1280,height:800}}),errors:string[]=[],failed:string[]=[];
+ const page=await browser.newPage({locale:'fr-FR',viewport:{width:1280,height:800}}),errors:string[]=[],failed:string[]=[];
  page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)failed.push(r.url());});
- await page.goto('http://127.0.0.1:18231/');await page.locator('#start').waitFor();
+ await page.goto('http://127.0.0.1:18231/strategy.html');await page.locator('#start').waitFor();
  assert.equal(await page.locator('#mission option').count(),3);assert.equal(await page.locator('#configuration option').count(),3);
  await page.selectOption('#enemy','ppo');await page.click('#start');await page.click('#overview');
  const state=()=>page.evaluate(()=>JSON.parse((window as any).render_game_to_text()));
@@ -26,7 +26,7 @@ try{
   console.log('TURN',s.view.turn,'score',after.view.score,'contacts',after.view.contacts.length);
   if(after.view.contacts.length&&turn<10)await page.screenshot({path:'docs/boarding/contact.png'});
  }
- const final=await state();assert.ok(final.winner);await page.locator('#evaluation summary').click();assert.match(await page.locator('#evaluation').innerText(),/16064/);assert.equal(await page.locator('#evaluation tbody tr').count(),3);
+ const final=await state();assert.ok(final.winner);await page.locator('#evaluation summary').click();assert.ok((await page.locator('#evaluation').innerText()).includes(String(JSON.parse(readFileSync('policies/boarding-actor.json','utf8')).meta.transitions)));assert.equal(await page.locator('#evaluation tbody tr').count(),3);
  await page.screenshot({path:'docs/boarding/debrief.png'});
  const audio=await page.evaluate(()=>(window as any).strategy_visual.audio());assert.equal(audio.vox.maxConcurrent,1);assert.deepEqual(audio.vox.errors,[]);assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
  const proof={winner:final.winner,turns:trace.length,mode:final.enemyMode,trace,audio,errors,failed,checks:['shared budget refuses overcommit','cards and reserve via actual buttons','unique ability via button','PPO selectable and complete match','held-out evaluation displayed','no page/audio/asset errors']};writeFileSync('docs/boarding/ui-match.json',JSON.stringify(proof,null,2));

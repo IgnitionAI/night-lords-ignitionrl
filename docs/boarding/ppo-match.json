@@ -1,0 +1,16 @@
+{
+  "mode": "ppo",
+  "version": "boarding-v2",
+  "observations": 72,
+  "servedActorSha256": "8572445acd591c9a2c398375dd1eedf2580c2a7a76be6c2e4ddf2a75cf66f3bf",
+  "input": "Chromium UI, standard mission, alternating recon and guard; full match",
+  "winner": "nightlords",
+  "rounds": 16,
+  "score": {
+    "imperium": 0,
+    "nightlords": 9
+  },
+  "verified": 32,
+  "differentFromOld": 3,
+  "pageErrors": []
+}

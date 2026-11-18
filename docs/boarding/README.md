@@ -20,32 +20,60 @@ Le projet utilise sa classe `PPO` dans `src/ppo.ts`, adaptation locale MIT d’I
 
 Deux commandants partagent le réseau mais reçoivent des vues différentes : propres unités, contacts datés réellement vus, états connus des portes et objectifs, scores publics, main et budget propres, pression et incident publics. Le brouillage retire aussi l’intention alliée. Ils ne voient ni le monde complet ni les ordres en préparation du joueur.
 
-45 observations, 12 choix : trois objectifs × progression/reconnaissance/pression coordonnée/défense. L’exécuteur mécanique est identique pour la politique apprise, les heuristiques et la référence à objectifs fixes. Les ordres individuels et la navigation sont encore scriptés : ce réseau apprend les priorités et postures, pas chaque pas ni un langage de communication.
+### Informations transmises au PPO
 
-540 épisodes / 90 mises à jour / 16 064 transitions : 12 mises à jour de déplacement (6 tours), 18 d’objectifs (12 tours), 60 de combat complet (jusqu’à 18 tours). Les deux premières étapes gardent les loyalistes immobiles ; la dernière emploie trois styles scriptés. Le moteur est le même que celui de la partie. Récompenses de mission, capture, survie, dommages et coopération effective, détaillées dans `training.json`. Retours Monte-Carlo actualisés à 0,97, deux couches de 48 neurones. Les empreintes des poids initiaux/finals et des règles attestent l’export correspondant.
+Le mode PPO emploie **72 entrées** et garde ses 12 choix, soit trois systèmes et quatre postures. Les 45 entrées du modèle précédent forment le début du vecteur. Pour chaque système, le commandant reçoit aussi sa valeur dans la mission, son exploration, la fraction du groupe à portée d’interaction, sa valeur rapportée au délai de capture estimé, la proximité des derniers contacts pondérée par leur âge et la présence d’un écho dans le secteur. Les autres entrées décrivent la posture alliée annoncée, le type d’incident et l’exposition du groupe à une décompression, les possibilités de tir groupé, les blessures d’une cible à portée et celles du frère le plus touché. Les quatre postures radio valent toutes zéro pendant le brouillage.
 
-## Évaluation réservée et limites
+Des tests par paires reproduisent trois situations identiques pour le premier réseau. Un verrouillage et une décompression produisaient la même observation, tout comme deux secteurs d’écho ou deux postures alliées visant le même système. Le nouveau vecteur les distingue. Un contact transmis par radio peut renseigner un secteur. Pour compter comme cible de tir il faut aussi qu’il soit visible et à portée.
 
-L’entraînement exclut totalement les configurations dont la graine modulo 12 vaut 5, 8 ou 11. L’évaluation utilise ces trois combinaisons portes/main/incident avec chacune des trois missions et des trois styles de joueur : 27 scénarios par contrôleur, 81 parties. Les cartes géographiques, familles d’adversaires et règles restent connues ; ce n’est pas une preuve de généralisation à un nouveau jeu ou à des joueurs humains. Les répétitions sont déterministes, sans intervalle statistique revendiqué. L’évaluation finale n’a pas été utilisée pour choisir un autre modèle.
+### Entraînements comparés
 
-| Commandants | Victoires NL | Score NL moyen | Score loyaliste moyen | Survivants NL moyens |
+Dans le premier programme, le numéro de mission et le style loyaliste dépendaient tous deux du numéro de partie modulo trois. Dans le programme croisé, chaque configuration autorisée rencontre les trois styles sur chacune des trois missions en 81 épisodes. Les configurations réservées restent exclues. Les règles, les ordres, les récompenses de combat et les scripts loyalistes de l’entraînement sont communs aux témoins de chaque expérience.
+
+Trois paires de tirages (8341, 8342 et 8343) ont été entraînées pour chaque programme. Chaque branche de chaque paire dispose de 540 épisodes et de 90 mises à jour. Les fins de mission font varier le nombre de décisions. Les poids initiaux des entrées communes sont identiques et ceux des nouvelles entrées commencent à zéro. La reproduction du premier entraînement à 45 entrées retrouve les poids exportés du modèle d’origine.
+
+- **Programme initial.** Avec le tirage d’origine, le PPO enrichi gagne 19/27 contre 21/27 pour le témoin. [Comparaison des trois tirages](perception-original.json)
+- **Missions et adversaires croisés, depuis zéro.** Sur les trois tirages, les PPO enrichis gagnent respectivement 18, 16 et 17 scénarios sur 27. Les témoins en gagnent 21, 16 et 21. [Comparaison appariée](perception-crossed.json)
+- **Reprise des poids livrés.** Chaque branche repart du même acteur et du même critique à 45 entrées, avec un taux d’apprentissage de 0,0001. L’entraînement supplémentaire se déroule en missions complètes. Le choix final dans chaque famille utilise 162 parties de développement sur les neuf configurations autorisées et six styles. Le classement privilégie les victoires sur la mission la plus faible, puis les victoires totales et l’écart de score. Le candidat enrichi retenu (8341) a appris sur **18 310 décisions supplémentaires**. [Sélection et essais supplémentaires](perception-continued.json)
+
+### Résultats du modèle livré
+
+Sur le pont du Noctis, les trois configurations réservées (graines 10001, 10004 et 10007) sont combinées avec trois missions et trois styles loyalistes automatisés. Le contrôle à 45 entrées rejoue exactement les résultats précédemment archivés, tout comme les deux références. Le premier essai sur ces scénarios a motivé la comparaison des programmes d’entraînement. Le choix des tirages a été fait sur les configurations de développement. [Résultats par partie](evaluation.json)
+
+| Commandants | Victoires Night Lords | Score NL moyen | Score loyaliste moyen | Survivants NL moyens |
 | --- | ---: | ---: | ---: | ---: |
 | Scriptés | 23/27 | 21,70 | 9,37 | 2,48 |
 | Heuristiques | 23/27 | 23,44 | 10,00 | 2,52 |
-| PPO appris | 21/27 | 15,26 | 12,48 | 2,67 |
+| Ancien PPO livré, 45 entrées | 21/27 | 15,26 | 12,48 | 2,67 |
+| Nouveau PPO livré, 72 entrées | 21/27 | 14,93 | 12,30 | 2,85 |
 
-Le PPO ne dépasse pas la référence sur les victoires et les points. Il conserve un peu plus d’unités. Le mode heuristique reste le choix initial ; PPO et référence sont sélectionnables. Ces chiffres sont affichés dans le débrief avec les décisions réellement prises, les cartes, le bruit et la dépense de PC. Les données cachées ne sont déclassifiées qu’à la fin ou après un abandon explicite.
+Avec le même entraînement supplémentaire, les paires à 45 et 72 entrées totalisent chacune 59 victoires sur les trois répétitions des 27 scénarios. Face à trois nouveaux adversaires qui changent de stratégie pendant une partie, le PPO livré et son prédécesseur gagnent chacun 10/27. La carte et les règles restent communes aux essais.
+
+Sur les 916 décisions du nouveau PPO dans les scénarios historiques, l’ancien modèle aurait choisi un autre objectif 0 fois et une autre posture 339 fois. Avec les poids du nouveau modèle, masquer les 27 entrées ajoutées change le choix final **0 fois sur 916**. L’encodeur transporte davantage d’informations et le réentraînement a changé le comportement. Ces mesures ne permettent pas d’attribuer ces changements aux nouveaux signaux ni de conclure à un gain de victoires.
+
+Une partie complète a également été jouée dans Chromium via les commandes de reconnaissance et de surveillance. La politique reçue par le navigateur correspond à celle livrée, et chacune des 32 décisions des deux commandants sur 16 tours a été reproduite à partir de la vue et du rapport allié du tour correspondant. [Vérification du débrief](ppo-match.json)
+
+Les 54 contrôles tactiques, radio, présentation et langue passent. La suite complète compte 341 réussites, un test ignoré et 13 échecs. Les intitulés des 13 échecs correspondent exactement à ceux du relevé FPS antérieur (dont locomotion, cadrage, musique et harnais de test).
 
 ## Reproduction
 
+Depuis la racine du projet, pour reproduire les trois paires finales et le choix du modèle livré, générer d’abord le point de départ historique avec le premier tirage.
+
 ```sh
 node scripts/build-boarding-training.mjs
-node runs/train-boarding.mjs
+node runs/train-boarding.mjs --historical --legacy --seed 8341
+for seed in 8341 8342 8343; do
+  node runs/train-boarding.mjs --legacy --seed "$seed" --resume runs/boarding/original/boarding-v1-8341/full.json
+  node runs/train-boarding.mjs --seed "$seed" --resume runs/boarding/original/boarding-v1-8341/full.json
+done
+bun scripts/boarding-perception.ts --continued --install
 bun scripts/boarding-evaluate.ts
-bun test test/boarding.test.ts test/strategy.test.ts test/strategy-presentation.test.ts test/strategy-vox.test.ts
+bun test test/boarding.test.ts test/strategy.test.ts test/strategy-presentation.test.ts test/strategy-vox.test.ts test/i18n.test.ts
 bun run build:studio
-python3 scripts/check-vox-assets.py
+bun scripts/check-boarding-policy.ts
 ```
+
+Les expériences depuis zéro se reproduisent avec les mêmes tirages et sans `--resume`. Ajouter `--historical` à l’entraînement et à la comparaison pour reproduire le premier programme. La sélection installe les poids uniquement si `--install` est demandé.
 
 Le test navigateur `scripts/check-boarding-ui.ts` utilise exclusivement les boutons et les clics sur la carte, avec la vue joueur en lecture seule pour préparer ses ordres. Aucun score, position ou état interne n’est injecté. Il vérifie un dépassement de budget refusé, la réserve, les cartes, une capacité, une partie complète contre PPO, le bilan comparatif, les autres briefings et la largeur mobile. Les preuves sont conservées dans ce dossier. Aucune publication.
 
