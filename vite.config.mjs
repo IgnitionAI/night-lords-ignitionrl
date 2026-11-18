@@ -26,7 +26,6 @@ const flattenHtml = () => ({
     // Preserve the now-empty HTML directory; no destructive cleanup is needed.
     mkdirSync(resolve(ROOT, 'web/dist/assets'), { recursive: true });
     cpSync(resolve(ROOT, 'web/models'), resolve(ROOT, 'web/dist/assets/models'), { recursive: true });
-    cpSync(resolve(ROOT, 'web/sfx/vox'), resolve(ROOT, 'web/dist/assets/sfx/vox'), { recursive: true });
     cpSync(resolve(ROOT, 'web/sfx/nightlords'), resolve(ROOT, 'web/dist/assets/sfx/nightlords'), { recursive: true });
     for (const row of JSON.parse(readFileSync(resolve(ROOT, 'docs/immersion/generations.json'), 'utf8'))) {
       for (const file of row.delivery?.files ?? []) { const target=resolve(ROOT, 'web/dist', file.replace(/^public\//,'')); mkdirSync(resolve(target,'..'),{recursive:true});cpSync(resolve(ROOT,file),target); }
@@ -57,6 +56,14 @@ export default ({ command }) => ({
     name: 'nl-static-asset-paths', apply: 'build',
     transform(code, id) {
       if (!id.startsWith(resolve(ROOT, 'web') + '/') || !/\.(ts|tsx|js)$/.test(id)) return;
+      // Pack the two radio catalogues into the tactical bundle to stay under
+      // the Genex file limit. The development server still serves individual clips.
+      if (/\/strategy\/vox-assets(?:-en)?\.ts$/.test(id)) {
+        code = code.replace(/\/web\/sfx\/vox\/(?:en\/)?[\w-]+\.mp3/g, (url) => {
+          const clip = readFileSync(resolve(ROOT, '.' + url));
+          return 'data:audio/mpeg;base64,' + clip.toString('base64');
+        });
+      }
       return code.replaceAll('/web/models/', './assets/models/')
         .replaceAll('/public/assets/genex/', './assets/genex/').replaceAll('/web/sfx/', './assets/sfx/').replaceAll('/policy/', './policy/');
     },
