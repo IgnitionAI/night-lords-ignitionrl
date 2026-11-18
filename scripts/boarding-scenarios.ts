@@ -1,4 +1,4 @@
-import {getView,type World} from '../src/strategy/engine';
+import {distance,getView,type World} from '../src/strategy/engine';
 import {boardingAction,boardingPlan} from '../src/strategy/boarding-agents';
 import {MISSIONS,type MissionId} from '../src/strategy/tactics';
 
@@ -36,4 +36,31 @@ export function trainingScenario(index:number,historical=false){
  const mission=missions[historical?index%3:(index+Math.floor(index/9))%3];
  const style=historical?index%3:(Math.floor(index/3)+Math.floor(index/27))%3;
  return {mission,style};
+}
+
+export function loyalistPlan(world: World, style: number) {
+  if (style < 12) return playerPlan(world, style);
+  const view = getView(world, -1);
+  const tactics = view.tactics!;
+  const objectives = view.objectives;
+  const knownContact = view.contacts.some(c => c.seen === view.turn);
+  if (style === 12) {
+    // Secure the archives, then the power supply, then the relay.
+    const goal = [2, 1, 0].find(i => objectives[i].owner !== view.side) ?? 2;
+    return boardingPlan(view, goal + (knownContact ? 6 : 0));
+  }
+  if (style === 13) {
+    // Defend the most valuable known holding when ahead, seek points otherwise.
+    const ranked = [0, 1, 2].sort((a, b) => MISSIONS[tactics.mission].values[b] - MISSIONS[tactics.mission].values[a]);
+    const leading = view.score.imperium > view.score.nightlords;
+    const goal = ranked.find(i => (objectives[i].owner === view.side) === leading) ?? ranked[0];
+    return boardingPlan(view, goal + (leading ? 9 : 0));
+  }
+  // Prefer the nearest unclaimed system outside an imminent decompression.
+  const threatened = tactics.incident.kind === 'vent' && tactics.incident.threshold - tactics.threat <= 2;
+  const candidates = [0, 1, 2].filter(i => !threatened || i !== tactics.incident.sector);
+  const priority = (i: number) => (objectives[i].owner === view.side ? 100 : 0)
+    + Math.min(...view.units.map(unit => distance(unit, objectives[i])));
+  const goal = candidates.sort((a, b) => priority(a) - priority(b))[0];
+  return boardingPlan(view, goal + (view.turn <= 2 ? 3 : 0));
 }

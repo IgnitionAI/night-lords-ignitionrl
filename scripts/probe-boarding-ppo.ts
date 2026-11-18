@@ -3,9 +3,9 @@ import { readFileSync } from 'node:fs';
 import { argmax, forward, sample, softmax, type ActorJSON } from '../src/policy';
 import { mulberry32 } from '../src/rng';
 import { boardingAction, boardingObservation, boardingPlan } from '../src/strategy/boarding-agents';
-import { createOperation, distance, getView, resolve, shareReports, type World } from '../src/strategy/engine';
+import { createOperation, getView, resolve, shareReports } from '../src/strategy/engine';
 import { MISSIONS, type MissionId } from '../src/strategy/tactics';
-import { EVAL_SEEDS, playerPlan } from './boarding-scenarios';
+import { EVAL_SEEDS, loyalistPlan } from './boarding-scenarios';
 
 const actor: ActorJSON = JSON.parse(readFileSync(new URL('../policies/boarding-actor.json', import.meta.url), 'utf8'));
 const missions = Object.keys(MISSIONS) as MissionId[];
@@ -13,33 +13,6 @@ const variants = ['shipped', 'scripted', 'heuristic', 'splitOpening', 'splitThro
 type Variant = typeof variants[number];
 const suites = { historical: [0, 1, 2], switching: [9, 10, 11], newOpponents: [12, 13, 14] };
 const archivedModes: Partial<Record<Variant, string>> = { shipped: 'ppo', scripted: 'baseline', heuristic: 'adaptive' };
-
-function loyalistPlan(world: World, style: number) {
-  if (style < 12) return playerPlan(world, style);
-  const view = getView(world, -1);
-  const tactics = view.tactics!;
-  const objectives = view.objectives;
-  const knownContact = view.contacts.some(c => c.seen === view.turn);
-  if (style === 12) {
-    // Secure the archives, then the power supply, then the relay.
-    const goal = [2, 1, 0].find(i => objectives[i].owner !== view.side) ?? 2;
-    return boardingPlan(view, goal + (knownContact ? 6 : 0));
-  }
-  if (style === 13) {
-    // Defend the most valuable known holding when ahead, seek points otherwise.
-    const ranked = [0, 1, 2].sort((a, b) => MISSIONS[tactics.mission].values[b] - MISSIONS[tactics.mission].values[a]);
-    const leading = view.score.imperium > view.score.nightlords;
-    const goal = ranked.find(i => (objectives[i].owner === view.side) === leading) ?? ranked[0];
-    return boardingPlan(view, goal + (leading ? 9 : 0));
-  }
-  // Prefer the nearest unclaimed system outside an imminent decompression.
-  const threatened = tactics.incident.kind === 'vent' && tactics.incident.threshold - tactics.threat <= 2;
-  const candidates = [0, 1, 2].filter(i => !threatened || i !== tactics.incident.sector);
-  const priority = (i: number) => (objectives[i].owner === view.side ? 100 : 0)
-    + Math.min(...view.units.map(unit => distance(unit, objectives[i])));
-  const goal = candidates.sort((a, b) => priority(a) - priority(b))[0];
-  return boardingPlan(view, goal + (view.turn <= 2 ? 3 : 0));
-}
 
 function play(mission: MissionId, style: number, seed: number, variant: Variant, repeat: number) {
   const world = createOperation(seed, mission);
