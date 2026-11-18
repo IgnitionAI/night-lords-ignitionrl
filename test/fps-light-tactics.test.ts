@@ -58,3 +58,39 @@ test('visible squad windups stagger claws instead of all hitting in the same ins
  step(w,T_IDLE,[7,7]);expect(w.events.filter(e=>e.type==='clawArm')).toHaveLength(1);
  expect(w.events.some(e=>e.type==='enemyBolt')).toBe(false);
 });
+test('restoring light during a claw keeps its impact and riposte, then withdraws without another claw',()=>{
+ const w=scene(),n=w.nls[0];n.x=5.6;n.cd=0;w.lighting!.circuits.forEach(c=>c.blackoutUntil=4);
+ step(w,T_IDLE,[eliteDuelAction(w,0)]);expect(n.armTicks).toBe(6);
+ let hits=0,arms=0,recovery=0;
+ for(let k=0;k<80;k++){
+  const old={x:n.x,y:n.y,recovery:n.recoveryTicks??0};step(w,T_IDLE,[eliteDuelAction(w,0)]);
+  hits+=w.events.filter(e=>e.type==='claw').length;arms+=w.events.filter(e=>e.type==='clawArm').length;
+  if(old.recovery>0){recovery++;expect(Math.hypot(n.x-old.x,n.y-old.y)).toBeLessThan(.001);}
+ }
+ expect(hits).toBe(1);expect(arms).toBe(0);expect(recovery).toBe(10);
+ expect(n.combatMode).toBe('ranged');expect(Math.hypot(n.x-w.t.x,n.y-w.t.y)).toBeGreaterThan(5.5);
+ expect(w.lighting!.nightVision).toBe(false);
+});
+test('short boundary flicker does not alternate stances and a blackout cancels a pending bolt',()=>{
+ const w=scene(),n=w.nls[0];updateCombatMode(w,n);
+ for(let k=0;k<20;k++){
+  w.tick++;w.lighting!.circuits.forEach(c=>c.blackoutUntil=k%2?w.tick+2:0);updateCombatMode(w,n);
+  expect(n.combatMode).toBe('ranged');
+ }
+ Object.assign(n,{shotTicks:1,shotX:4,shotY:12});
+ w.lighting!.circuits.forEach(c=>c.blackoutUntil=100);step(w,T_IDLE,[0]);
+ expect(w.events.some(e=>e.type==='enemyBolt')).toBe(false);expect(n.shotTicks).toBe(0);
+});
+test('normal sabotage triggers local hunt and automatic night vision before a return to firing range',()=>{
+ const w=scene(),n=w.nls[0];w.tick=20;Object.assign(n,{x:8,y:11});
+ w.lighting!.circuits[0].cooldownUntil=0;
+ const events=new Set<string>(),modes=new Set<string>();let nv=false;
+ for(let k=0;k<160;k++){
+  step(w,T_IDLE,[eliteDuelAction(w,0)]);for(const e of w.events)events.add(e.type);
+  modes.add(n.combatMode!);nv||=w.lighting!.nightVision;
+ }
+ for(const e of ['lightsWarning','lightsOut','clawArm','lightsRestored','enemyBolt'])expect(events.has(e)).toBe(true);
+ expect(modes).toEqual(new Set(['ranged','hunt']));expect(nv).toBe(true);
+ expect(w.lighting!.nightVision).toBe(false);expect(n.combatMode).toBe('ranged');
+ expect(Math.hypot(n.x-w.t.x,n.y-w.t.y)).toBeGreaterThan(5.5);
+});
