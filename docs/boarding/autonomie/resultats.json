@@ -1,0 +1,983 @@
+{
+  "selectionSHA256": "bd6e8f45aced5e91cc3bbb25d5d55efef603c62bfd4753c2085400865d065038",
+  "candidate": "candidate-4103",
+  "scores": {
+    "fixed": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 60,
+        "draws": 2,
+        "margin": 10.333333333333334,
+        "missionWins": [
+          22,
+          17,
+          21
+        ],
+        "objectivesByCommander": [
+          [
+            1127,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1091
+          ]
+        ],
+        "activePairTurns": 963,
+        "splitRate": 1
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 43,
+        "draws": 0,
+        "margin": 13.796296296296296,
+        "missionWins": [
+          18,
+          9,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            776,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            754
+          ]
+        ],
+        "activePairTurns": 752,
+        "splitRate": 1
+      }
+    },
+    "heuristic": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 63,
+        "draws": 0,
+        "margin": 11.62962962962963,
+        "missionWins": [
+          23,
+          18,
+          22
+        ],
+        "objectivesByCommander": [
+          [
+            259,
+            777,
+            147
+          ],
+          [
+            99,
+            185,
+            776
+          ]
+        ],
+        "activePairTurns": 1039,
+        "splitRate": 0.9056785370548605
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 38,
+        "draws": 0,
+        "margin": 10.962962962962964,
+        "missionWins": [
+          15,
+          8,
+          15
+        ],
+        "objectivesByCommander": [
+          [
+            167,
+            404,
+            161
+          ],
+          [
+            72,
+            211,
+            419
+          ]
+        ],
+        "activePairTurns": 702,
+        "splitRate": 0.8903133903133903
+      }
+    },
+    "hybrid": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 66,
+        "draws": 0,
+        "margin": 13.024691358024691,
+        "missionWins": [
+          25,
+          18,
+          23
+        ],
+        "objectivesByCommander": [
+          [
+            307,
+            737,
+            111
+          ],
+          [
+            74,
+            218,
+            869
+          ]
+        ],
+        "activePairTurns": 1146,
+        "splitRate": 0.9267015706806283
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 40,
+        "draws": 1,
+        "margin": 13.537037037037036,
+        "missionWins": [
+          16,
+          8,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            165,
+            298,
+            252
+          ],
+          [
+            58,
+            316,
+            350
+          ]
+        ],
+        "activePairTurns": 715,
+        "splitRate": 0.9132867132867133
+      }
+    },
+    "shipped": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 47,
+        "draws": 0,
+        "margin": -0.25925925925925924,
+        "missionWins": [
+          11,
+          13,
+          23
+        ],
+        "objectivesByCommander": [
+          [
+            1381,
+            0,
+            0
+          ],
+          [
+            1371,
+            0,
+            0
+          ]
+        ],
+        "activePairTurns": 1366,
+        "splitRate": 0
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 34,
+        "draws": 0,
+        "margin": 1,
+        "missionWins": [
+          9,
+          9,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            895,
+            0,
+            0
+          ],
+          [
+            913,
+            0,
+            0
+          ]
+        ],
+        "activePairTurns": 895,
+        "splitRate": 0
+      }
+    },
+    "imitation-4101": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 67,
+        "draws": 0,
+        "margin": 13.37037037037037,
+        "missionWins": [
+          25,
+          19,
+          23
+        ],
+        "objectivesByCommander": [
+          [
+            305,
+            749,
+            113
+          ],
+          [
+            80,
+            215,
+            888
+          ]
+        ],
+        "activePairTurns": 1166,
+        "splitRate": 0.9391080617495712
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 41,
+        "draws": 1,
+        "margin": 13.518518518518519,
+        "missionWins": [
+          16,
+          9,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            187,
+            316,
+            215
+          ],
+          [
+            66,
+            313,
+            348
+          ]
+        ],
+        "activePairTurns": 718,
+        "splitRate": 0.8760445682451253
+      }
+    },
+    "reminders-4101": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 67,
+        "draws": 0,
+        "margin": 13.37037037037037,
+        "missionWins": [
+          25,
+          19,
+          23
+        ],
+        "objectivesByCommander": [
+          [
+            305,
+            749,
+            113
+          ],
+          [
+            79,
+            215,
+            889
+          ]
+        ],
+        "activePairTurns": 1166,
+        "splitRate": 0.9391080617495712
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 41,
+        "draws": 1,
+        "margin": 13.518518518518519,
+        "missionWins": [
+          16,
+          9,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            187,
+            308,
+            223
+          ],
+          [
+            64,
+            319,
+            344
+          ]
+        ],
+        "activePairTurns": 718,
+        "splitRate": 0.8844011142061281
+      }
+    },
+    "ordinary-4101": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 47,
+        "draws": 0,
+        "margin": -0.25925925925925924,
+        "missionWins": [
+          11,
+          13,
+          23
+        ],
+        "objectivesByCommander": [
+          [
+            1381,
+            0,
+            0
+          ],
+          [
+            1371,
+            0,
+            0
+          ]
+        ],
+        "activePairTurns": 1366,
+        "splitRate": 0
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 34,
+        "draws": 0,
+        "margin": 1,
+        "missionWins": [
+          9,
+          9,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            895,
+            0,
+            0
+          ],
+          [
+            913,
+            0,
+            0
+          ]
+        ],
+        "activePairTurns": 895,
+        "splitRate": 0
+      }
+    },
+    "candidate-4101": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 62,
+        "draws": 0,
+        "margin": 13.555555555555555,
+        "missionWins": [
+          22,
+          19,
+          21
+        ],
+        "objectivesByCommander": [
+          [
+            563,
+            416,
+            70
+          ],
+          [
+            128,
+            290,
+            698
+          ]
+        ],
+        "activePairTurns": 1023,
+        "splitRate": 0.8729227761485826
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 43,
+        "draws": 0,
+        "margin": 13.833333333333334,
+        "missionWins": [
+          17,
+          10,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            465,
+            214,
+            44
+          ],
+          [
+            96,
+            279,
+            350
+          ]
+        ],
+        "activePairTurns": 722,
+        "splitRate": 0.9002770083102493
+      }
+    },
+    "imitation-4102": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 67,
+        "draws": 0,
+        "margin": 13.333333333333334,
+        "missionWins": [
+          25,
+          19,
+          23
+        ],
+        "objectivesByCommander": [
+          [
+            301,
+            755,
+            108
+          ],
+          [
+            78,
+            211,
+            891
+          ]
+        ],
+        "activePairTurns": 1163,
+        "splitRate": 0.943250214961307
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 41,
+        "draws": 0,
+        "margin": 13.333333333333334,
+        "missionWins": [
+          16,
+          9,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            186,
+            326,
+            211
+          ],
+          [
+            62,
+            321,
+            347
+          ]
+        ],
+        "activePairTurns": 723,
+        "splitRate": 0.8589211618257261
+      }
+    },
+    "reminders-4102": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 67,
+        "draws": 0,
+        "margin": 13.222222222222221,
+        "missionWins": [
+          25,
+          19,
+          23
+        ],
+        "objectivesByCommander": [
+          [
+            300,
+            755,
+            112
+          ],
+          [
+            78,
+            214,
+            891
+          ]
+        ],
+        "activePairTurns": 1166,
+        "splitRate": 0.9433962264150944
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 41,
+        "draws": 0,
+        "margin": 13.481481481481481,
+        "missionWins": [
+          16,
+          9,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            186,
+            322,
+            211
+          ],
+          [
+            63,
+            320,
+            343
+          ]
+        ],
+        "activePairTurns": 719,
+        "splitRate": 0.866481223922114
+      }
+    },
+    "ordinary-4102": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 49,
+        "draws": 1,
+        "margin": 4.3580246913580245,
+        "missionWins": [
+          13,
+          13,
+          23
+        ],
+        "objectivesByCommander": [
+          [
+            1279,
+            0,
+            0
+          ],
+          [
+            841,
+            268,
+            157
+          ]
+        ],
+        "activePairTurns": 1255,
+        "splitRate": 0.3354581673306773
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 43,
+        "draws": 0,
+        "margin": 11.185185185185185,
+        "missionWins": [
+          18,
+          9,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            800,
+            0,
+            0
+          ],
+          [
+            504,
+            109,
+            197
+          ]
+        ],
+        "activePairTurns": 799,
+        "splitRate": 0.38172715894868586
+      }
+    },
+    "candidate-4102": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 62,
+        "draws": 0,
+        "margin": 13.62962962962963,
+        "missionWins": [
+          23,
+          18,
+          21
+        ],
+        "objectivesByCommander": [
+          [
+            663,
+            220,
+            182
+          ],
+          [
+            35,
+            45,
+            1026
+          ]
+        ],
+        "activePairTurns": 1041,
+        "splitRate": 0.866474543707973
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 42,
+        "draws": 1,
+        "margin": 13.833333333333334,
+        "missionWins": [
+          14,
+          12,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            499,
+            152,
+            110
+          ],
+          [
+            18,
+            15,
+            708
+          ]
+        ],
+        "activePairTurns": 740,
+        "splitRate": 0.8594594594594595
+      }
+    },
+    "imitation-4103": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 67,
+        "draws": 0,
+        "margin": 13.333333333333334,
+        "missionWins": [
+          25,
+          19,
+          23
+        ],
+        "objectivesByCommander": [
+          [
+            305,
+            751,
+            108
+          ],
+          [
+            81,
+            209,
+            890
+          ]
+        ],
+        "activePairTurns": 1163,
+        "splitRate": 0.94067067927773
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 41,
+        "draws": 1,
+        "margin": 13.518518518518519,
+        "missionWins": [
+          16,
+          9,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            191,
+            317,
+            210
+          ],
+          [
+            80,
+            306,
+            341
+          ]
+        ],
+        "activePairTurns": 718,
+        "splitRate": 0.8844011142061281
+      }
+    },
+    "reminders-4103": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 67,
+        "draws": 0,
+        "margin": 13.333333333333334,
+        "missionWins": [
+          25,
+          19,
+          23
+        ],
+        "objectivesByCommander": [
+          [
+            305,
+            752,
+            107
+          ],
+          [
+            82,
+            208,
+            890
+          ]
+        ],
+        "activePairTurns": 1163,
+        "splitRate": 0.939810834049871
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 41,
+        "draws": 1,
+        "margin": 13.518518518518519,
+        "missionWins": [
+          16,
+          9,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            191,
+            318,
+            209
+          ],
+          [
+            81,
+            305,
+            341
+          ]
+        ],
+        "activePairTurns": 718,
+        "splitRate": 0.8857938718662952
+      }
+    },
+    "ordinary-4103": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 49,
+        "draws": 5,
+        "margin": 5.54320987654321,
+        "missionWins": [
+          15,
+          11,
+          23
+        ],
+        "objectivesByCommander": [
+          [
+            1268,
+            0,
+            0
+          ],
+          [
+            867,
+            191,
+            192
+          ]
+        ],
+        "activePairTurns": 1238,
+        "splitRate": 0.3069466882067851
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 44,
+        "draws": 0,
+        "margin": 11.685185185185185,
+        "missionWins": [
+          18,
+          10,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            801,
+            0,
+            0
+          ],
+          [
+            499,
+            134,
+            169
+          ]
+        ],
+        "activePairTurns": 791,
+        "splitRate": 0.38305941845764857
+      }
+    },
+    "candidate-4103": {
+      "diagnostic": {
+        "games": 81,
+        "wins": 64,
+        "draws": 0,
+        "margin": 12.098765432098766,
+        "missionWins": [
+          23,
+          19,
+          22
+        ],
+        "objectivesByCommander": [
+          [
+            352,
+            610,
+            245
+          ],
+          [
+            78,
+            376,
+            772
+          ]
+        ],
+        "activePairTurns": 1177,
+        "splitRate": 0.7867459643160578
+      },
+      "reserved": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 12.092592592592593,
+        "missionWins": [
+          14,
+          10,
+          16
+        ],
+        "objectivesByCommander": [
+          [
+            263,
+            247,
+            239
+          ],
+          [
+            51,
+            354,
+            342
+          ]
+        ],
+        "activePairTurns": 745,
+        "splitRate": 0.7449664429530202
+      }
+    }
+  },
+  "pairedResults": {
+    "shipped": {
+      "diagnostic": {
+        "gained": 19,
+        "lost": 2,
+        "net": 17
+      },
+      "reserved": {
+        "gained": 6,
+        "lost": 0,
+        "net": 6
+      }
+    },
+    "fixed": {
+      "diagnostic": {
+        "gained": 9,
+        "lost": 5,
+        "net": 4
+      },
+      "reserved": {
+        "gained": 2,
+        "lost": 5,
+        "net": -3
+      }
+    },
+    "heuristic": {
+      "diagnostic": {
+        "gained": 7,
+        "lost": 6,
+        "net": 1
+      },
+      "reserved": {
+        "gained": 6,
+        "lost": 4,
+        "net": 2
+      }
+    },
+    "hybrid": {
+      "diagnostic": {
+        "gained": 2,
+        "lost": 4,
+        "net": -2
+      },
+      "reserved": {
+        "gained": 2,
+        "lost": 2,
+        "net": 0
+      }
+    },
+    "imitation-4101": {
+      "diagnostic": {
+        "gained": 1,
+        "lost": 4,
+        "net": -3
+      },
+      "reserved": {
+        "gained": 2,
+        "lost": 3,
+        "net": -1
+      }
+    },
+    "reminders-4103": {
+      "diagnostic": {
+        "gained": 1,
+        "lost": 4,
+        "net": -3
+      },
+      "reserved": {
+        "gained": 2,
+        "lost": 3,
+        "net": -1
+      }
+    },
+    "ordinary-4103": {
+      "diagnostic": {
+        "gained": 18,
+        "lost": 3,
+        "net": 15
+      },
+      "reserved": {
+        "gained": 1,
+        "lost": 5,
+        "net": -4
+      }
+    }
+  },
+  "repetitions": [
+    {
+      "seed": 4101,
+      "versusImitation": {
+        "gained": 2,
+        "lost": 0,
+        "net": 2
+      },
+      "versusReminders": {
+        "gained": 2,
+        "lost": 0,
+        "net": 2
+      },
+      "versusOrdinary": {
+        "gained": 10,
+        "lost": 1,
+        "net": 9
+      }
+    },
+    {
+      "seed": 4102,
+      "versusImitation": {
+        "gained": 3,
+        "lost": 2,
+        "net": 1
+      },
+      "versusReminders": {
+        "gained": 3,
+        "lost": 2,
+        "net": 1
+      },
+      "versusOrdinary": {
+        "gained": 3,
+        "lost": 4,
+        "net": -1
+      }
+    },
+    {
+      "seed": 4103,
+      "versusImitation": {
+        "gained": 2,
+        "lost": 3,
+        "net": -1
+      },
+      "versusReminders": {
+        "gained": 2,
+        "lost": 3,
+        "net": -1
+      },
+      "versusOrdinary": {
+        "gained": 1,
+        "lost": 5,
+        "net": -4
+      }
+    }
+  ],
+  "replicated": 2,
+  "ppoGain": false,
+  "integrate": false
+}

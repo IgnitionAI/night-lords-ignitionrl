@@ -72,7 +72,7 @@ Chaque colonne compte les victoires Night Lords sur 27 parties, avec les trois m
 
 Un tirage suivant les probabilités du réseau à chaque tour donne respectivement 118, 71 et 121 victoires sur 216 parties par colonne (huit répétitions des mêmes scénarios). La répartition durable des objectifs récupère 17 des 19 victoires supplémentaires obtenues au total avec le choix heuristique. Les trois séries partagent la même carte et utilisent des adversaires automatisés. Les variantes emploient les poids livrés.
 
-L’expérience d’entraînement à privilégier consiste à apprendre le choix d’objectif sur des exemples de l’heuristique, puis à poursuivre en PPO en diminuant progressivement l’aide. Comparer le modèle autonome à une reprise PPO ordinaire, avec les mêmes 72 entrées, les mêmes budgets et plusieurs graines. Une nouvelle série d’adversaires réservés permettra de vérifier si le gain se maintient.
+L’essai sur trois graines a ensuite comparé l’imitation, la reprise directe du PPO et l’imitation suivie de PPO. Sur 54 parties contre six nouveaux adversaires, la reprise directe retenue gagne 44 fois, l’imitation 41 fois et l’imitation suivie de PPO 40 fois. Le seuil prévu pour remplacer la politique du jeu n’a pas été atteint. [Résultats de l’essai et modèles évalués](autonomie/RESULTATS.md)
 
 Rejouer avec `bun scripts/probe-boarding-ppo.ts`. Le relevé conserve les victoires par mission et répétition, les matchs nuls, les marges de score et la fréquence des douze décisions. [Résultats détaillés](diagnostic-choix-ppo.jsonl)
 
