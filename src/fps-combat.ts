@@ -27,7 +27,13 @@ export function updateCombatMode(w:World,n:NL):CombatMode|undefined {
  }
  return n.combatMode;
 }
-export function mayStartClaw(w:World,n:NL){return !w.lighting||(n.combatMode==='hunt'&&isDark(w,n.x,n.y));}
+/** Nearby visible windups reserve the next strike; unseen teammates grant no information. */
+export function clawLaneOpen(w:World,n:NL){
+ return !w.nls.some(m=>m!==n&&m.alive&&m.armTicks>1&&Math.abs((m.height??0)-(n.height??0))<1.5&&
+  Math.hypot(m.x-n.x,m.y-n.y)<6&&los(n.x,n.y,m.x,m.y,w.propSolids)&&
+  Math.cos(Math.atan2(m.y-n.y,m.x-n.x)-n.facing)>-.2);
+}
+export function mayStartClaw(w:World,n:NL){return !w.lighting||(n.combatMode==='hunt'&&isDark(w,n.x,n.y)&&clawLaneOpen(w,n));}
 export function mayShoot(w:World,n:NL){return !w.lighting||(n.combatMode==='ranged'&&!isDark(w,n.x,n.y));}
 
 /** A shared, bounded fire-position planner; learned mission roles still choose the flank. */

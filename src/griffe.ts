@@ -4,7 +4,7 @@ import {SHIP_LANDMARKS} from './ship-layout';
 import {shipHeading,clearPath} from './ship-path';
 import {travel,searchContact} from './fps-navigation';
 import {lightAction,isDark} from './fps-lighting';
-import {updateCombatMode,rangedAction} from './fps-combat';
+import {updateCombatMode,rangedAction,clawLaneOpen} from './fps-combat';
 import { angNorm, nlFrame, rayFree, los, collide, geometry, type World } from './sim';
 /** Learned actor remains authoritative. A wounded, exposed squadmate may retreat during recovery. */
 export function griffeAction(w:World,i:number,learned:number,choice?:number):number {
@@ -88,6 +88,10 @@ function huntAction(w:World,i:number,learned:number,choice?:number):number {
  if(wantsSync&&state.mode==='flank'&&w.tick>=state.syncRest){state.mode='sync';state.until=w.tick+12;state.syncRest=w.tick+45;}
  if(state.mode==='sync'&&w.tick<state.until)return 0;
  if(state.mode==='attack'&&b.age<15){
+  if(w.lighting&&n.combatMode==='hunt'&&d<4&&!clawLaneOpen(w,n)){
+   const angle=Math.atan2(n.y-b.y,n.x-b.x)+(i%2?-.8:.8);
+   return travel(w,i,b.x+Math.cos(angle)*2.7,b.y+Math.sin(angle)*2.7,.3);
+  }
   if(d<1.75&&b.seen)return n.cd===0?7:(learned>0&&learned<7?learned:0);
   // Stable assigned sides keep the rear hunters out of the leader's approach lane.
   const angle=Math.atan2(n.y-b.y,n.x-b.x),offset=d>3.2?(i%2?-.65:.65):0;

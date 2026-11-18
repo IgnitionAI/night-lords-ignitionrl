@@ -42,3 +42,19 @@ test('a pillar or crossing squadmate blocks both preparation and a prepared shot
  mate.alive=false;expect(clearFireLane(w,n,4,12)).toBe(true);
  n.x=20;expect(clearFireLane(w,n,15,12)).toBe(false);
 });
+test('blackout belongs to the local zone, not the whole ship',()=>{
+ const w=scene(),n=w.nls[0];w.lighting!.circuits[2].blackoutUntil=100;
+ updateCombatMode(w,n);expect(n.combatMode).toBe('ranged');
+ n.x=34;w.tick++;updateCombatMode(w,n);w.tick++;updateCombatMode(w,n);
+ expect(n.combatMode).toBe('hunt');
+});
+test('visible squad windups stagger claws instead of all hitting in the same instant',()=>{
+ const w=scene(),a=w.nls[0],b=w.nls[1];w.lighting!.circuits.forEach(c=>c.blackoutUntil=200);
+ Object.assign(a,{x:5.5,y:12.4,facing:Math.atan2(-.4,-1.5),cd:0});
+ Object.assign(b,{alive:true,x:5.3,y:11.4,facing:Math.atan2(.6,-1.3),cd:0});
+ for(const n of [a,b])Object.assign(n.belief,{valid:true,x:4,y:12,age:0,seen:true});
+ step(w,T_IDLE,[7,7]);expect(w.events.filter(e=>e.type==='clawArm')).toHaveLength(1);
+ for(let k=0;k<4;k++){step(w,T_IDLE,[7,7]);expect(w.events.some(e=>e.type==='clawArm')).toBe(false);}
+ step(w,T_IDLE,[7,7]);expect(w.events.filter(e=>e.type==='clawArm')).toHaveLength(1);
+ expect(w.events.some(e=>e.type==='enemyBolt')).toBe(false);
+});
