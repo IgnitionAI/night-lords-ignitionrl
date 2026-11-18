@@ -1,0 +1,134 @@
+[
+  {
+    "seed": 4101,
+    "branch": "imitation",
+    "episodes": 0,
+    "decisions": 0,
+    "demoEpisodes": 108,
+    "supervisedSteps": 520,
+    "reminderSteps": 0,
+    "ppoUpdates": 0,
+    "weightsSHA256": "06ab2cab3d354c4116b584b3fdfac731bf0fccd7b97d32359891fef8812760e0"
+  },
+  {
+    "seed": 4101,
+    "branch": "reminders",
+    "episodes": 0,
+    "decisions": 0,
+    "demoEpisodes": 108,
+    "supervisedSteps": 550,
+    "reminderSteps": 30,
+    "ppoUpdates": 0,
+    "weightsSHA256": "c03f295e03e0f47603cad3b0cb233959f36f081ff26645382fa5af56a98218b7"
+  },
+  {
+    "seed": 4101,
+    "branch": "ordinary",
+    "episodes": 540,
+    "decisions": 18388,
+    "demoEpisodes": 0,
+    "supervisedSteps": 0,
+    "reminderSteps": 0,
+    "ppoUpdates": 90,
+    "weightsSHA256": "40e1c3f5dc7bb87c7852e4efd03dd69e655bb9ec6b65375ca96560b626bae562"
+  },
+  {
+    "seed": 4101,
+    "branch": "candidate",
+    "episodes": 540,
+    "decisions": 16836,
+    "demoEpisodes": 108,
+    "supervisedSteps": 550,
+    "reminderSteps": 30,
+    "ppoUpdates": 90,
+    "weightsSHA256": "873b7d421590f6d124cdbcee767b490e120c539115e839b217003cd8a4b96912"
+  },
+  {
+    "seed": 4102,
+    "branch": "imitation",
+    "episodes": 0,
+    "decisions": 0,
+    "demoEpisodes": 108,
+    "supervisedSteps": 520,
+    "reminderSteps": 0,
+    "ppoUpdates": 0,
+    "weightsSHA256": "1152b500aa542768801ee6a7b9020e8027b988f367ca759ba9585dc507e0b780"
+  },
+  {
+    "seed": 4102,
+    "branch": "reminders",
+    "episodes": 0,
+    "decisions": 0,
+    "demoEpisodes": 108,
+    "supervisedSteps": 550,
+    "reminderSteps": 30,
+    "ppoUpdates": 0,
+    "weightsSHA256": "12d03d081e4c8cd6ce00bd05110ebc888a927dc920b9623e37e33bde0fe378db"
+  },
+  {
+    "seed": 4102,
+    "branch": "ordinary",
+    "episodes": 540,
+    "decisions": 18270,
+    "demoEpisodes": 0,
+    "supervisedSteps": 0,
+    "reminderSteps": 0,
+    "ppoUpdates": 90,
+    "weightsSHA256": "87ef76c007d399bc8be3082e9302fd6668cadf4e824428b8ea4d8d6044a3ec81"
+  },
+  {
+    "seed": 4102,
+    "branch": "candidate",
+    "episodes": 540,
+    "decisions": 16918,
+    "demoEpisodes": 108,
+    "supervisedSteps": 550,
+    "reminderSteps": 30,
+    "ppoUpdates": 90,
+    "weightsSHA256": "c487ce16e13ea5893a4ffe4cc5616ddda7530f85ace244778eddd791a6a2cc82"
+  },
+  {
+    "seed": 4103,
+    "branch": "imitation",
+    "episodes": 0,
+    "decisions": 0,
+    "demoEpisodes": 108,
+    "supervisedSteps": 520,
+    "reminderSteps": 0,
+    "ppoUpdates": 0,
+    "weightsSHA256": "b146687159ae48681c92b0f8b8f7c7e1a87fff8ffe9fdb965c6fbee4716c7569"
+  },
+  {
+    "seed": 4103,
+    "branch": "reminders",
+    "episodes": 0,
+    "decisions": 0,
+    "demoEpisodes": 108,
+    "supervisedSteps": 550,
+    "reminderSteps": 30,
+    "ppoUpdates": 0,
+    "weightsSHA256": "fcf5bf9896a6a7515b331ebe31894a8c46c858ccbdb6597190e950e5a6ea89ac"
+  },
+  {
+    "seed": 4103,
+    "branch": "ordinary",
+    "episodes": 540,
+    "decisions": 18180,
+    "demoEpisodes": 0,
+    "supervisedSteps": 0,
+    "reminderSteps": 0,
+    "ppoUpdates": 90,
+    "weightsSHA256": "efe8f62e0143c513776829c58ce98b8cb903cf740fc719337c15e84716667381"
+  },
+  {
+    "seed": 4103,
+    "branch": "candidate",
+    "episodes": 540,
+    "decisions": 16800,
+    "demoEpisodes": 108,
+    "supervisedSteps": 550,
+    "reminderSteps": 30,
+    "ppoUpdates": 90,
+    "weightsSHA256": "31ace881d327038d9e069eb596097c9b7f87ad41a753a22e301b80f1c1bedd0a"
+  }
+]

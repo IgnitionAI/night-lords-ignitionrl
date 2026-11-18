@@ -12,19 +12,19 @@
       "seed": 4101,
       "trainingAgreement": 0.9772443890274314,
       "supervisedSteps": 520,
-      "sha256": "8a685e0b045893fae2691bf1c96fa9c2a8e15c0f209010918224bc439987d150"
+      "sha256": "453e3cb39304319e1b8de8dd3c6590be1b9418f98a33e58f4772e73c8eb8d9be"
     },
     {
       "seed": 4102,
       "trainingAgreement": 0.9775561097256857,
       "supervisedSteps": 520,
-      "sha256": "1b4f83e807901b5a6d73f12f3dcdf430a2b6f37516d56bf6a019de71f6eb61de"
+      "sha256": "558c24083eb37003234cb02a554c0e2be88b728709f45b6e7cba1a9f4cead307"
     },
     {
       "seed": 4103,
       "trainingAgreement": 0.976932668329177,
       "supervisedSteps": 520,
-      "sha256": "78ce9d67ebab673868cd024e1c0125f86555d5d1919d1af294c3037687971f89"
+      "sha256": "0cb25e5d625220c0021a19c5eddc28058e01e7355d5d3e802cc37d7dfdb5875d"
     }
   ]
 }

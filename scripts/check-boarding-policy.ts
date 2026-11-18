@@ -5,13 +5,21 @@ import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {resolve,sep} from 'node:path';
-import {boardingAction,BOARD_OBS,BOARD_VERSION} from '../src/strategy/boarding-agents';
+import {boardingAction,boardingPlan,BOARD_OBS,BOARD_VERSION} from '../src/strategy/boarding-agents';
 import type {Decision} from '../src/strategy/engine';
 const root=resolve('web/dist');
 const sha=(s:Buffer)=>createHash('sha256').update(s).digest('hex');
 const disk=readFileSync('policies/boarding-actor.json');
 const actor=JSON.parse(disk.toString());
 const control=JSON.parse(readFileSync('docs/boarding/ppo-control-v1.json','utf8'));
+const experiment=process.argv.includes('--experiment');
+if(experiment){
+ const folder='docs/boarding/autonomie/';
+ const verdict=JSON.parse(readFileSync(folder+'resultats.json','utf8'));
+ const frozen=JSON.parse(readFileSync(folder+'selection.json','utf8'));
+ const expected=verdict.integrate?frozen.selected.candidate.hash:'8572445acd591c9a2c398375dd1eedf2580c2a7a76be6c2e4ddf2a75cf66f3bf';
+ assert.equal(sha(disk),expected,'The active actor must match the recorded integration decision');
+}
 const browser=await chromium.launch({args:['--use-angle=metal']});
 try{
  const page=await browser.newPage({locale:'fr-FR',viewport:{width:1280,height:800}});
@@ -53,12 +61,18 @@ try{
  const download=await pending;
  const trace=JSON.parse(readFileSync((await download.path())!,'utf8'));
  assert.equal(trace.mode,'ppo');assert.equal(trace.abandon,false);assert.equal(trace.history.length,rounds);
- let previous=[-1,-1],verified=0,differentFromOld=0;
+ let previous=[-1,-1],verified=0,differentFromOld=0,differentFromHeuristic=0;
+ const objectiveCounts=[0,0,0];
  for(const round of trace.history){
   assert.equal(round.decisions.length,2);
   for(const d of round.decisions as Decision[]){
    const ally=previous[1-d.commander];
    assert.equal(d.action,boardingAction(d.view,ally,actor));
+   const plan=boardingPlan(d.view,d.action);
+   assert.deepEqual(d.orders,plan.orders);
+   assert.equal((d as Decision & {card?:string}).card,plan.card);
+   differentFromHeuristic+=Number(d.action!==boardingAction(d.view,ally));
+   objectiveCounts[d.action%3]++;
    differentFromOld+=Number(d.action!==boardingAction(d.view,ally,control));
    verified++;
   }
@@ -67,7 +81,7 @@ try{
  assert.ok(verified>0);assert.deepEqual(errors,[]);
  const result={mode:trace.mode,version:actor.version,observations:actor.obsDim,servedActorSha256:servedHash,
   input:'Chromium UI, standard mission, alternating recon and guard; full match',winner:trace.winner,rounds,
-  score:trace.history.at(-1).score,verified,differentFromOld,pageErrors:errors};
- writeFileSync('docs/boarding/ppo-match.json',JSON.stringify(result,null,2));
+  score:trace.history.at(-1).score,verified,differentFromOld,differentFromHeuristic,objectiveCounts,pageErrors:errors};
+ writeFileSync(experiment?'docs/boarding/autonomie/partie-navigateur.json':'docs/boarding/ppo-match.json',JSON.stringify(result,null,2));
  console.log(result);
 }finally{await browser.close();}

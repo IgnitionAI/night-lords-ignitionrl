@@ -1,0 +1,1063 @@
+{
+  "checkpoints": [
+    {
+      "family": "imitation",
+      "seed": 4101,
+      "update": 0,
+      "hash": "453e3cb39304319e1b8de8dd3c6590be1b9418f98a33e58f4772e73c8eb8d9be",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 9.518518518518519,
+        "missionWins": [
+          15,
+          11,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            266,
+            367,
+            119
+          ],
+          [
+            150,
+            217,
+            450
+          ]
+        ],
+        "activePairTurns": 750,
+        "splitRate": 0.8746666666666667
+      }
+    },
+    {
+      "family": "reminders",
+      "seed": 4101,
+      "update": 30,
+      "hash": "5a8f53100910d12c6daa3bc4b37ea494d902ea3e096c7e6b02f7ec54dde0dd30",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 9.407407407407407,
+        "missionWins": [
+          15,
+          11,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            258,
+            371,
+            135
+          ],
+          [
+            163,
+            221,
+            445
+          ]
+        ],
+        "activePairTurns": 762,
+        "splitRate": 0.8582677165354331
+      }
+    },
+    {
+      "family": "ordinary",
+      "seed": 4101,
+      "update": 45,
+      "hash": "9656f69731d812ee981ac989ea81a4450fc8767a21b266552b4b356df9441e79",
+      "development": {
+        "games": 54,
+        "wins": 33,
+        "draws": 4,
+        "margin": 2.0925925925925926,
+        "missionWins": [
+          10,
+          9,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            898,
+            0,
+            0
+          ],
+          [
+            934,
+            0,
+            0
+          ]
+        ],
+        "activePairTurns": 891,
+        "splitRate": 0
+      }
+    },
+    {
+      "family": "ordinary",
+      "seed": 4101,
+      "update": 90,
+      "hash": "50ec9de0127ab7f7bd285f0662d3caa594e7d51fb3654155f332255a2ded4360",
+      "development": {
+        "games": 54,
+        "wins": 34,
+        "draws": 4,
+        "margin": 2.4074074074074074,
+        "missionWins": [
+          10,
+          9,
+          15
+        ],
+        "objectivesByCommander": [
+          [
+            906,
+            0,
+            0
+          ],
+          [
+            936,
+            0,
+            0
+          ]
+        ],
+        "activePairTurns": 900,
+        "splitRate": 0
+      }
+    },
+    {
+      "family": "candidate",
+      "seed": 4101,
+      "update": 45,
+      "hash": "50bac98cc5e73e28fdfa2db2f65e071008bfe434cfabaa0062e02b7b00b9da85",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 11.037037037037036,
+        "missionWins": [
+          15,
+          11,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            475,
+            250,
+            13
+          ],
+          [
+            155,
+            203,
+            396
+          ]
+        ],
+        "activePairTurns": 709,
+        "splitRate": 0.9153737658674189
+      }
+    },
+    {
+      "family": "candidate",
+      "seed": 4101,
+      "update": 90,
+      "hash": "85f36531ead383c4c40beec15561c9e46c2ae4b707cbcd9e2afb150a861c1d4d",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 10.203703703703704,
+        "missionWins": [
+          14,
+          12,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            532,
+            180,
+            24
+          ],
+          [
+            180,
+            176,
+            400
+          ]
+        ],
+        "activePairTurns": 698,
+        "splitRate": 0.8810888252148997
+      }
+    },
+    {
+      "family": "imitation",
+      "seed": 4102,
+      "update": 0,
+      "hash": "558c24083eb37003234cb02a554c0e2be88b728709f45b6e7cba1a9f4cead307",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 8.87037037037037,
+        "missionWins": [
+          16,
+          10,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            263,
+            351,
+            165
+          ],
+          [
+            139,
+            271,
+            416
+          ]
+        ],
+        "activePairTurns": 774,
+        "splitRate": 0.8462532299741602
+      }
+    },
+    {
+      "family": "reminders",
+      "seed": 4102,
+      "update": 30,
+      "hash": "08c42abc50303d5cd6c09cf7d6f1ce6dc14a97fb4a3877a63d8992a197fbf33e",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 8.833333333333334,
+        "missionWins": [
+          16,
+          10,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            264,
+            350,
+            165
+          ],
+          [
+            138,
+            272,
+            416
+          ]
+        ],
+        "activePairTurns": 774,
+        "splitRate": 0.8449612403100775
+      }
+    },
+    {
+      "family": "ordinary",
+      "seed": 4102,
+      "update": 45,
+      "hash": "6dffe1449eb6735e6c0d088d25c2646a51f01e2de838403cae974a610742c56f",
+      "development": {
+        "games": 54,
+        "wins": 34,
+        "draws": 4,
+        "margin": 2.8518518518518516,
+        "missionWins": [
+          10,
+          9,
+          15
+        ],
+        "objectivesByCommander": [
+          [
+            906,
+            0,
+            0
+          ],
+          [
+            926,
+            4,
+            6
+          ]
+        ],
+        "activePairTurns": 900,
+        "splitRate": 0.011111111111111112
+      }
+    },
+    {
+      "family": "ordinary",
+      "seed": 4102,
+      "update": 90,
+      "hash": "f8d963eb690f6cf197f9ea02506d9bf783408ad251e8bfd09f705c3a10e77006",
+      "development": {
+        "games": 54,
+        "wins": 37,
+        "draws": 5,
+        "margin": 7.314814814814815,
+        "missionWins": [
+          12,
+          10,
+          15
+        ],
+        "objectivesByCommander": [
+          [
+            818,
+            0,
+            0
+          ],
+          [
+            512,
+            165,
+            171
+          ]
+        ],
+        "activePairTurns": 799,
+        "splitRate": 0.39424280350438046
+      }
+    },
+    {
+      "family": "candidate",
+      "seed": 4102,
+      "update": 45,
+      "hash": "dc9f3caa719e7a8d9794e9f018feb51c99d6220031f95dbe1a8e35f8bca27a06",
+      "development": {
+        "games": 54,
+        "wins": 33,
+        "draws": 3,
+        "margin": 6.666666666666667,
+        "missionWins": [
+          12,
+          9,
+          12
+        ],
+        "objectivesByCommander": [
+          [
+            334,
+            239,
+            127
+          ],
+          [
+            34,
+            77,
+            653
+          ]
+        ],
+        "activePairTurns": 656,
+        "splitRate": 0.7698170731707317
+      }
+    },
+    {
+      "family": "candidate",
+      "seed": 4102,
+      "update": 90,
+      "hash": "24b6352a6ac30239864003684eb6fa8071ba24763e8f086f5f160fe9de926c5e",
+      "development": {
+        "games": 54,
+        "wins": 34,
+        "draws": 2,
+        "margin": 8.75925925925926,
+        "missionWins": [
+          11,
+          10,
+          13
+        ],
+        "objectivesByCommander": [
+          [
+            446,
+            100,
+            213
+          ],
+          [
+            126,
+            32,
+            644
+          ]
+        ],
+        "activePairTurns": 751,
+        "splitRate": 0.8735019973368842
+      }
+    },
+    {
+      "family": "imitation",
+      "seed": 4103,
+      "update": 0,
+      "hash": "0cb25e5d625220c0021a19c5eddc28058e01e7355d5d3e802cc37d7dfdb5875d",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 9.055555555555555,
+        "missionWins": [
+          15,
+          11,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            253,
+            369,
+            145
+          ],
+          [
+            154,
+            226,
+            443
+          ]
+        ],
+        "activePairTurns": 764,
+        "splitRate": 0.8664921465968587
+      }
+    },
+    {
+      "family": "reminders",
+      "seed": 4103,
+      "update": 30,
+      "hash": "4ede5b7395f2fb0fed51db53b68d9ec2ceaba047a6f19f6f663d2777dd0d1c82",
+      "development": {
+        "games": 54,
+        "wins": 41,
+        "draws": 0,
+        "margin": 9.351851851851851,
+        "missionWins": [
+          15,
+          12,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            253,
+            374,
+            137
+          ],
+          [
+            157,
+            218,
+            450
+          ]
+        ],
+        "activePairTurns": 762,
+        "splitRate": 0.8648293963254593
+      }
+    },
+    {
+      "family": "ordinary",
+      "seed": 4103,
+      "update": 45,
+      "hash": "a183f3eddeb107589f0ec8cd2842cb2c5477098e84a49098d21bef7d1f3e9e48",
+      "development": {
+        "games": 54,
+        "wins": 35,
+        "draws": 2,
+        "margin": 7.2407407407407405,
+        "missionWins": [
+          13,
+          10,
+          12
+        ],
+        "objectivesByCommander": [
+          [
+            729,
+            60,
+            0
+          ],
+          [
+            308,
+            234,
+            302
+          ]
+        ],
+        "activePairTurns": 767,
+        "splitRate": 0.5867014341590613
+      }
+    },
+    {
+      "family": "ordinary",
+      "seed": 4103,
+      "update": 90,
+      "hash": "0848b177edc05f43a19317a82881a8e094715b2a87ec774ee64044611ab4026a",
+      "development": {
+        "games": 54,
+        "wins": 38,
+        "draws": 3,
+        "margin": 7.481481481481482,
+        "missionWins": [
+          13,
+          10,
+          15
+        ],
+        "objectivesByCommander": [
+          [
+            834,
+            0,
+            0
+          ],
+          [
+            608,
+            103,
+            151
+          ]
+        ],
+        "activePairTurns": 816,
+        "splitRate": 0.28799019607843135
+      }
+    },
+    {
+      "family": "candidate",
+      "seed": 4103,
+      "update": 45,
+      "hash": "20e23d1b508b1e2f6752d7d9070bb5fcf3b858ce602eae82dd5a5d410dd795b1",
+      "development": {
+        "games": 54,
+        "wins": 41,
+        "draws": 0,
+        "margin": 8.833333333333334,
+        "missionWins": [
+          15,
+          13,
+          13
+        ],
+        "objectivesByCommander": [
+          [
+            294,
+            290,
+            228
+          ],
+          [
+            83,
+            365,
+            383
+          ]
+        ],
+        "activePairTurns": 808,
+        "splitRate": 0.7896039603960396
+      }
+    },
+    {
+      "family": "candidate",
+      "seed": 4103,
+      "update": 90,
+      "hash": "acaafd9f8ee49c6b0fb5c51b47c6dbaabc69d3de2f0e0f10f317631f0e52ad18",
+      "development": {
+        "games": 54,
+        "wins": 36,
+        "draws": 4,
+        "margin": 6,
+        "missionWins": [
+          15,
+          9,
+          12
+        ],
+        "objectivesByCommander": [
+          [
+            113,
+            471,
+            233
+          ],
+          [
+            9,
+            317,
+            504
+          ]
+        ],
+        "activePairTurns": 815,
+        "splitRate": 0.6846625766871166
+      }
+    }
+  ],
+  "perSeed": [
+    {
+      "family": "imitation",
+      "seed": 4101,
+      "update": 0,
+      "hash": "453e3cb39304319e1b8de8dd3c6590be1b9418f98a33e58f4772e73c8eb8d9be",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 9.518518518518519,
+        "missionWins": [
+          15,
+          11,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            266,
+            367,
+            119
+          ],
+          [
+            150,
+            217,
+            450
+          ]
+        ],
+        "activePairTurns": 750,
+        "splitRate": 0.8746666666666667
+      }
+    },
+    {
+      "family": "reminders",
+      "seed": 4101,
+      "update": 30,
+      "hash": "5a8f53100910d12c6daa3bc4b37ea494d902ea3e096c7e6b02f7ec54dde0dd30",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 9.407407407407407,
+        "missionWins": [
+          15,
+          11,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            258,
+            371,
+            135
+          ],
+          [
+            163,
+            221,
+            445
+          ]
+        ],
+        "activePairTurns": 762,
+        "splitRate": 0.8582677165354331
+      }
+    },
+    {
+      "family": "ordinary",
+      "seed": 4101,
+      "update": 90,
+      "hash": "50ec9de0127ab7f7bd285f0662d3caa594e7d51fb3654155f332255a2ded4360",
+      "development": {
+        "games": 54,
+        "wins": 34,
+        "draws": 4,
+        "margin": 2.4074074074074074,
+        "missionWins": [
+          10,
+          9,
+          15
+        ],
+        "objectivesByCommander": [
+          [
+            906,
+            0,
+            0
+          ],
+          [
+            936,
+            0,
+            0
+          ]
+        ],
+        "activePairTurns": 900,
+        "splitRate": 0
+      }
+    },
+    {
+      "family": "candidate",
+      "seed": 4101,
+      "update": 45,
+      "hash": "50bac98cc5e73e28fdfa2db2f65e071008bfe434cfabaa0062e02b7b00b9da85",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 11.037037037037036,
+        "missionWins": [
+          15,
+          11,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            475,
+            250,
+            13
+          ],
+          [
+            155,
+            203,
+            396
+          ]
+        ],
+        "activePairTurns": 709,
+        "splitRate": 0.9153737658674189
+      }
+    },
+    {
+      "family": "imitation",
+      "seed": 4102,
+      "update": 0,
+      "hash": "558c24083eb37003234cb02a554c0e2be88b728709f45b6e7cba1a9f4cead307",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 8.87037037037037,
+        "missionWins": [
+          16,
+          10,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            263,
+            351,
+            165
+          ],
+          [
+            139,
+            271,
+            416
+          ]
+        ],
+        "activePairTurns": 774,
+        "splitRate": 0.8462532299741602
+      }
+    },
+    {
+      "family": "reminders",
+      "seed": 4102,
+      "update": 30,
+      "hash": "08c42abc50303d5cd6c09cf7d6f1ce6dc14a97fb4a3877a63d8992a197fbf33e",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 8.833333333333334,
+        "missionWins": [
+          16,
+          10,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            264,
+            350,
+            165
+          ],
+          [
+            138,
+            272,
+            416
+          ]
+        ],
+        "activePairTurns": 774,
+        "splitRate": 0.8449612403100775
+      }
+    },
+    {
+      "family": "ordinary",
+      "seed": 4102,
+      "update": 90,
+      "hash": "f8d963eb690f6cf197f9ea02506d9bf783408ad251e8bfd09f705c3a10e77006",
+      "development": {
+        "games": 54,
+        "wins": 37,
+        "draws": 5,
+        "margin": 7.314814814814815,
+        "missionWins": [
+          12,
+          10,
+          15
+        ],
+        "objectivesByCommander": [
+          [
+            818,
+            0,
+            0
+          ],
+          [
+            512,
+            165,
+            171
+          ]
+        ],
+        "activePairTurns": 799,
+        "splitRate": 0.39424280350438046
+      }
+    },
+    {
+      "family": "candidate",
+      "seed": 4102,
+      "update": 90,
+      "hash": "24b6352a6ac30239864003684eb6fa8071ba24763e8f086f5f160fe9de926c5e",
+      "development": {
+        "games": 54,
+        "wins": 34,
+        "draws": 2,
+        "margin": 8.75925925925926,
+        "missionWins": [
+          11,
+          10,
+          13
+        ],
+        "objectivesByCommander": [
+          [
+            446,
+            100,
+            213
+          ],
+          [
+            126,
+            32,
+            644
+          ]
+        ],
+        "activePairTurns": 751,
+        "splitRate": 0.8735019973368842
+      }
+    },
+    {
+      "family": "imitation",
+      "seed": 4103,
+      "update": 0,
+      "hash": "0cb25e5d625220c0021a19c5eddc28058e01e7355d5d3e802cc37d7dfdb5875d",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 9.055555555555555,
+        "missionWins": [
+          15,
+          11,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            253,
+            369,
+            145
+          ],
+          [
+            154,
+            226,
+            443
+          ]
+        ],
+        "activePairTurns": 764,
+        "splitRate": 0.8664921465968587
+      }
+    },
+    {
+      "family": "reminders",
+      "seed": 4103,
+      "update": 30,
+      "hash": "4ede5b7395f2fb0fed51db53b68d9ec2ceaba047a6f19f6f663d2777dd0d1c82",
+      "development": {
+        "games": 54,
+        "wins": 41,
+        "draws": 0,
+        "margin": 9.351851851851851,
+        "missionWins": [
+          15,
+          12,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            253,
+            374,
+            137
+          ],
+          [
+            157,
+            218,
+            450
+          ]
+        ],
+        "activePairTurns": 762,
+        "splitRate": 0.8648293963254593
+      }
+    },
+    {
+      "family": "ordinary",
+      "seed": 4103,
+      "update": 90,
+      "hash": "0848b177edc05f43a19317a82881a8e094715b2a87ec774ee64044611ab4026a",
+      "development": {
+        "games": 54,
+        "wins": 38,
+        "draws": 3,
+        "margin": 7.481481481481482,
+        "missionWins": [
+          13,
+          10,
+          15
+        ],
+        "objectivesByCommander": [
+          [
+            834,
+            0,
+            0
+          ],
+          [
+            608,
+            103,
+            151
+          ]
+        ],
+        "activePairTurns": 816,
+        "splitRate": 0.28799019607843135
+      }
+    },
+    {
+      "family": "candidate",
+      "seed": 4103,
+      "update": 45,
+      "hash": "20e23d1b508b1e2f6752d7d9070bb5fcf3b858ce602eae82dd5a5d410dd795b1",
+      "development": {
+        "games": 54,
+        "wins": 41,
+        "draws": 0,
+        "margin": 8.833333333333334,
+        "missionWins": [
+          15,
+          13,
+          13
+        ],
+        "objectivesByCommander": [
+          [
+            294,
+            290,
+            228
+          ],
+          [
+            83,
+            365,
+            383
+          ]
+        ],
+        "activePairTurns": 808,
+        "splitRate": 0.7896039603960396
+      }
+    }
+  ],
+  "selected": {
+    "imitation": {
+      "family": "imitation",
+      "seed": 4101,
+      "update": 0,
+      "hash": "453e3cb39304319e1b8de8dd3c6590be1b9418f98a33e58f4772e73c8eb8d9be",
+      "development": {
+        "games": 54,
+        "wins": 40,
+        "draws": 0,
+        "margin": 9.518518518518519,
+        "missionWins": [
+          15,
+          11,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            266,
+            367,
+            119
+          ],
+          [
+            150,
+            217,
+            450
+          ]
+        ],
+        "activePairTurns": 750,
+        "splitRate": 0.8746666666666667
+      }
+    },
+    "reminders": {
+      "family": "reminders",
+      "seed": 4103,
+      "update": 30,
+      "hash": "4ede5b7395f2fb0fed51db53b68d9ec2ceaba047a6f19f6f663d2777dd0d1c82",
+      "development": {
+        "games": 54,
+        "wins": 41,
+        "draws": 0,
+        "margin": 9.351851851851851,
+        "missionWins": [
+          15,
+          12,
+          14
+        ],
+        "objectivesByCommander": [
+          [
+            253,
+            374,
+            137
+          ],
+          [
+            157,
+            218,
+            450
+          ]
+        ],
+        "activePairTurns": 762,
+        "splitRate": 0.8648293963254593
+      }
+    },
+    "ordinary": {
+      "family": "ordinary",
+      "seed": 4103,
+      "update": 90,
+      "hash": "0848b177edc05f43a19317a82881a8e094715b2a87ec774ee64044611ab4026a",
+      "development": {
+        "games": 54,
+        "wins": 38,
+        "draws": 3,
+        "margin": 7.481481481481482,
+        "missionWins": [
+          13,
+          10,
+          15
+        ],
+        "objectivesByCommander": [
+          [
+            834,
+            0,
+            0
+          ],
+          [
+            608,
+            103,
+            151
+          ]
+        ],
+        "activePairTurns": 816,
+        "splitRate": 0.28799019607843135
+      }
+    },
+    "candidate": {
+      "family": "candidate",
+      "seed": 4103,
+      "update": 45,
+      "hash": "20e23d1b508b1e2f6752d7d9070bb5fcf3b858ce602eae82dd5a5d410dd795b1",
+      "development": {
+        "games": 54,
+        "wins": 41,
+        "draws": 0,
+        "margin": 8.833333333333334,
+        "missionWins": [
+          15,
+          13,
+          13
+        ],
+        "objectivesByCommander": [
+          [
+            294,
+            290,
+            228
+          ],
+          [
+            83,
+            365,
+            383
+          ]
+        ],
+        "activePairTurns": 808,
+        "splitRate": 0.7896039603960396
+      }
+    }
+  },
+  "archiveSHA256": "067b2b2a311d59c63d491521b2ada94149a36b0232cda1a75dd443a6f0b5cc4b"
+}

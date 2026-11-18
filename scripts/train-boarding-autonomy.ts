@@ -16,6 +16,7 @@ mkdirSync(dir, { recursive: true });
 const ppo = new PPO(BOARD_OBS, BOARD_ACTIONS, { ...DEFAULT_PPO, hidden: [48, 48],
   lr: .0003, epochs: 4, minibatch: 128 }, seed);
 const base = initialActor();
+const baseLayersHash = digest(JSON.stringify(base.layers));
 for (const name of ['actor', 'critic'] as const) tf.tidy(() => {
   ppo[name].setWeights(initial[name].map((w: {data:number[];shape:number[]}) => tf.tensor(w.data, w.shape)));
 });
@@ -49,8 +50,16 @@ function reminder(update: number, opt: tf.Optimizer) {
   teach(ids, opt, (31 - update) / 30);
 }
 function save(update: number, extra: Record<string, unknown> = {}) {
-  const meta = { ...base.meta, experiment: 'autonomie-1', branch, trainingSeed: seed,
-    initialActorHash: startHash, supervisedSteps, updates: update, ...extra };
+  const reinforcement = branch === 'candidate' || branch === 'ordinary';
+  const warmSteps = branch === 'candidate' || branch === 'reminders' ? Math.ceil(demos.length / batch) * 20 : 0;
+  const meta = { experiment: 'autonomie-1', branch, trainingSeed: seed, startingPolicyHash: baseLayersHash,
+    initialActorHash: startHash, rulesHash: base.meta!.rulesHash, observations: BOARD_OBS, actions: BOARD_ACTIONS,
+    algorithm: reinforcement ? base.meta!.algorithm : 'Objective imitation, no PPO reward updates',
+    excludedConfigurations: [5, 8, 11], curriculum: 'autonomie-1', stages: [], episodes: 0,
+    trainingSeeds: [], updates: reinforcement ? update : 0, transitions: 0,
+    demoEpisodes: branch === 'ordinary' ? 0 : 108, demoExamples: branch === 'ordinary' ? 0 : demos.length,
+    supervisedSteps: warmSteps + supervisedSteps, reminderSteps: branch === 'reminders' || branch === 'candidate' ? supervisedSteps : 0,
+    inference: 'argmax, individual view, 72 inputs', ...extra };
   write(actorPath(seed, branch, update), ppo.exportActor(BOARD_VERSION, meta));
 }
 if (branch === 'imitation') {
