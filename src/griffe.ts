@@ -4,12 +4,14 @@ import {SHIP_LANDMARKS} from './ship-layout';
 import {shipHeading,clearPath} from './ship-path';
 import {travel,searchContact} from './fps-navigation';
 import {lightAction,isDark} from './fps-lighting';
+import {updateCombatMode,rangedAction} from './fps-combat';
 import { angNorm, nlFrame, rayFree, los, collide, geometry, type World } from './sim';
 /** Learned actor remains authoritative. A wounded, exposed squadmate may retreat during recovery. */
 export function griffeAction(w:World,i:number,learned:number,choice?:number):number {
  const n=w.nls[i],b=n.belief;
  n.navHeading=undefined;n.navDistance=undefined;
  if(!n.alive)return 0;
+ updateCombatMode(w,n);
  if(w.opts.mission)return huntAction(w,i,learned,choice);
  if(!b.valid||b.age>10||b.facing===null||n.armTicks||n.stunTicks)return learned;
  const f=nlFrame(n),front=Math.abs(angNorm(Math.atan2(n.y-b.y,n.x-b.x)-b.facing));
@@ -45,6 +47,8 @@ function huntAction(w:World,i:number,learned:number,choice?:number):number {
  if(n.vertical)return 0;
  if(n.armTicks||n.stunTicks||n.shotTicks||(n.recoveryTicks??0)>0)return 0;
  const lighting=lightAction(w,i);if(lighting!==undefined){state.mode=(n.lightRetreatUntil??0)>w.tick?'withdraw':'cover';return lighting;}
+ const ranged=rangedAction(w,i,choice===1?1:choice===2?-1:0);
+ if(ranged!==undefined){state.mode=(n.lightRetreatUntil??0)>w.tick?'withdraw':ranged===0?'cover':'flank';return ranged;}
  if(b.valid&&!b.seen&&!b.vox&&b.age>8&&b.age<90){state.mode='search';return searchContact(w,i);}
  if(!b.valid||b.age>=90){
   state.mode='search';

@@ -9,8 +9,9 @@ test('elite armor survives a burst; recovery multiplies actual damage',()=>{
 test('missing with fist cannot stun elite remotely',()=>{
  const w=duel();step(w,{...T_IDLE,fist:true},[0]);for(let k=0;k<8;k++)step(w,T_IDLE,[0]);expect(w.nls[0].stunTicks).toBe(0);expect(w.nls[0].hp).toBe(24);
 });
-test('sprint ends and cannot restart before cooldown',()=>{
- const w=duel();eliteDuelAction(w,0);expect(w.nls[0].burstTicks).toBe(5);
+test('blackout sprint ends and cannot restart before cooldown',()=>{
+ const w=duel();w.nls[0].facing=Math.PI;w.lighting!.circuits.forEach(c=>c.blackoutUntil=100);
+ eliteDuelAction(w,0);expect(w.nls[0].burstTicks).toBe(5);
  for(let k=0;k<6;k++){w.tick++;eliteDuelAction(w,0);}expect(w.nls[0].burstTicks).toBe(0);expect(w.nls[0].burstRest).toBeGreaterThan(0);
 });
 test('attack reveals a recovery window even when dodged',()=>{

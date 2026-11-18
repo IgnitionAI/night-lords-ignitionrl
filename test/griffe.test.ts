@@ -15,9 +15,10 @@ test('stale information cannot trigger a scripted route or reveal the player',()
  expect(griffeAction(w,0,5)).toBe(5);
 });
 
-test('perceived rear opportunity attacks regardless of old rhythm, without moving bodies',()=>{
+test('perceived rear opportunity in blackout attacks regardless of old rhythm, without moving bodies',()=>{
  for(const tick of [0,180,360,500]){
   const w=newWorld(527,undefined,{fps:true,mission:true}),n=w.nls[0];w.tick=tick;n.x=25.5;n.y=12;
+  w.lighting!.circuits.forEach(c=>c.blackoutUntil=tick+100);
   n.belief={valid:true,x:27,y:12,age:0,facing:0,seen:true,heard:false,vox:false};
   const before={x:n.x,y:n.y,hp:n.hp};expect(griffeAction(w,0,0)).toBe(7);
   expect({x:n.x,y:n.y,hp:n.hp}).toEqual(before);
@@ -48,6 +49,7 @@ test('mission shelter routing depends on belief, not hidden actual player coordi
  });
  test('a fresh retreat report requests cover but an expired report does not',()=>{
  const w=newWorld(527,undefined,{fps:true,mission:true}),n=w.nls[2];
+ w.lighting!.circuits.forEach(c=>c.blackoutUntil=200);
  w.tick=100;n.x=25;n.y=12;
  n.belief={valid:true,x:27,y:12,age:0,facing:0,seen:true,heard:false,vox:false};
  n.mates[1]={known:true,alive:true,x:24,y:12,age:0,retreatUntil:120};

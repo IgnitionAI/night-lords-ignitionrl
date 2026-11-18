@@ -44,7 +44,7 @@ export function lightAction(w:World,i:number):number|undefined {
  if(n.armTicks||n.shotTicks||n.stunTicks||(n.recoveryTicks??0)>0)return;
  const active=light.circuits.find(c=>c.saboteur===i&&c.warningUntil>w.tick);
  if(active)return 0;
- if((n.lightRetreatUntil??0)>w.tick&&b.valid){
+ if((n.lightRetreatUntil??0)>w.tick&&b.valid&&n.combatMode===undefined){
   if(!n.lightCover){
    let best=Infinity;const size=geometry(w.propSolids).size;
    // Choose nearby cover behind actual geometry. Never hide or teleport the mesh.
@@ -60,10 +60,10 @@ export function lightAction(w:World,i:number):number|undefined {
   const p={x:n.x+(n.x-b.x)/d*3,y:n.y+(n.y-b.y)/d*3};collide(p,.55,w.propSolids);
   return travel(w,i,p.x,p.y,.3);
  }
- if(!b.valid||b.age>12||isDark(w,n.x,n.y)||Math.hypot(n.x-b.x,n.y-b.y)<2.8)return;
+ if(!b.valid||b.age>12||isDark(w,n.x,n.y)||(n.lightRetreatUntil??0)>w.tick||Math.hypot(n.x-b.x,n.y-b.y)<4)return;
  // One hunter per local circuit; a distant switch is not worth abandoning the hunt.
  const c=circuitAt(w,n.x,n.y);
- if(!c||c.blackoutUntil||c.warningUntil||c.cooldownUntil>w.tick||Math.hypot(c.x-b.x,c.y-b.y)>11||Math.hypot(n.x-c.x,n.y-c.y)>6)return;
+ if(!c||c.blackoutUntil||c.warningUntil||c.cooldownUntil>w.tick||Math.hypot(c.x-b.x,c.y-b.y)>11||Math.hypot(c.x-b.x,c.y-b.y)<4||Math.hypot(n.x-c.x,n.y-c.y)>6)return;
  const other=light.circuits.some(c=>c.warningUntil>0);if(other)return;
  if(Math.hypot(n.x-c.x,n.y-c.y)>1.15)return travel(w,i,c.x,c.y,.7);
  c.saboteur=i;c.warningUntil=w.tick+12;

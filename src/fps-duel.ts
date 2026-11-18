@@ -1,11 +1,13 @@
 import {angNorm,nlFrame,nlSees,type World} from './sim';
 import {travel,searchContact} from './fps-navigation';
 import {lightAction} from './fps-lighting';
+import {updateCombatMode,rangedAction} from './fps-combat';
 
 /** Solo elite: decisions use perception or retained contacts, not omniscient tracking. */
 export function eliteDuelAction(w:World,i:number):number {
  const n=w.nls[i],b=n.belief;n.navHeading=undefined;n.navDistance=undefined;
  if(!n.alive)return 0;
+ updateCombatMode(w,n);
  if((n.burstTicks??0)>0)n.burstTicks!--;
  if((n.burstRest??0)>0)n.burstRest!--;
  const visible=nlSees(w,n);
@@ -13,6 +15,7 @@ export function eliteDuelAction(w:World,i:number):number {
  if(visible){b.valid=true;b.x=w.t.x;b.y=w.t.y;b.age=0;b.facing=w.t.facing;b.seen=true;}
  if((n.recoveryTicks??0)>0||n.stunTicks||n.armTicks||(n.shotTicks??0)>0)return 0;
  const lighting=lightAction(w,i);if(lighting!==undefined)return lighting;
+ const ranged=rangedAction(w,i);if(ranged!==undefined)return ranged;
  if(!visible){
   if(b.valid&&b.age<90)return searchContact(w,i);
   const points=[[7,12],[20,6],[28,12],[20,18]];
