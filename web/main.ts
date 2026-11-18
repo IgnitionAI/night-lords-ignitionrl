@@ -538,7 +538,7 @@ const rigOf = (model: any, clips: THREE.AnimationClip[], targetHeight: number, d
   if (walkWeight) { walkWeight.setEffectiveWeight(0.38); walkWeight.play(); }
   return {
     root, mixer, walk, run: mk(runClip), idle,
-    hunter: look === 'nl' && (FPS_DUEL || MISSION) ? new HunterMotion(root, FPS_DUEL || who === 3, namedIdle ?? undefined) : null,
+    hunter: look === 'nl' && (FPS_DUEL || MISSION) ? new HunterMotion(root, FPS_DUEL || who === 3, namedIdle ?? undefined, MISSION && who !== 3) : null,
     attack: look === 'term' ? mkAdd(mixer, resolved.attack, false) : mkShot(resolved.attack, false),
     shoot: mkAdd(mixer, resolved.shoot, false),
     hit: mkAdd(mixer, resolved.hit, false),
@@ -1387,6 +1387,7 @@ function updateRigs() { // gait + timeScale au tick ; l'avance mixer est dans la
       // Side/back movement is locomotion; only the simulation's actual evade flag is an evade.
       intent.dodge = false;
       rig.hunter.signal({arm:n.armTicks,shot:n.shotTicks??0,windup:6*DT,
+        rangedReady:n.combatMode==='ranged'&&n.belief.seen&&!n.armTicks&&!n.vertical,
         impact:flags.claw.includes(i)||flags.whiff.includes(i),
         fire:w.events.some(e=>e.type==='enemyBolt'&&e.who===i),
         hit:hitOnCompletedTick(n.lastDamageTick,w.tick)||intent.hit,dodge:(n.dodgeTicks??0)>0});
@@ -1483,8 +1484,11 @@ function tick() {
       if(c)engine.play(e.type==='lightsWarning'?'claw-crackle':e.type==='lightsOut'?'armor-lock':'term-servo',{x:c.x,y:c.y,z:1.4,gain:e.type==='lightsWarning'?.3:.45,rate:.75,priority:6});
     }
     if (e.type === 'enemyBolt') {
-      tracer.geometry.setFromPoints([new THREE.Vector3(e.x, 1.55, e.y), new THREE.Vector3(e.tx, FPS_EYE, e.ty)]);
+      const n=w.nls[e.who],hand=nlRigs[e.who]?.root.getObjectByName(MISSION&&e.who<3?'LeftHand':'RightHand');
+      const muzzle=hand?hand.getWorldPosition(new THREE.Vector3()).add(new THREE.Vector3(Math.cos(n.facing),0,Math.sin(n.facing)).multiplyScalar(.35)):new THREE.Vector3(e.x,1.55,e.y);
+      tracer.geometry.setFromPoints([muzzle, new THREE.Vector3(e.tx, FPS_EYE, e.ty)]);
       tracer.visible = true; tracerT = 0.15;
+      muzzleFlash.position.copy(muzzle);muzzleFlash.visible=true;
     }
     if (e.type === 'fist' && e.kill >= 0) { hitMarkT = 0.2; hitMarkKill = true; }
     if (CAM_MODE === 'shoulder' && (e.type === 'claw' || e.type === 'clawArm' || e.type === 'whiff')) {
@@ -1640,7 +1644,7 @@ function hud() {
   if(huntLights){setText(huntLightStatus,lightingMessage(w));huntLightStatus.style.display=fpsStarted&&!paused?'block':'none';}
   (window as unknown as { __NL?: unknown }).__NL = {
     paused,started:fpsStarted,mission: MISSION ? mission : null, tick: w.tick, done: w.done, winner: w.winner, reason: w.reason, seed, muted: engine.muted,
-    lighting:w.lighting, agents:w.nls.map(n=>({x:n.x,y:n.y,facing:n.facing,alive:n.alive,belief:{...n.belief},arm:n.armTicks,recovery:n.recoveryTicks,retreat:n.lightRetreatUntil,vx:n.vx,vy:n.vy})),
+    lighting:w.lighting, agents:w.nls.map(n=>({x:n.x,y:n.y,facing:n.facing,alive:n.alive,belief:{...n.belief},arm:n.armTicks,shot:n.shotTicks,combatMode:n.combatMode,recovery:n.recoveryTicks,retreat:n.lightRetreatUntil,vx:n.vx,vy:n.vy})),
     hunt: MISSION ? {agents:w.nls.map((n,i)=>({x:n.x,y:n.y,height:n.height??0,vertical:n.vertical?.phase,tactic:tacticalState(w,i),alive:n.alive,action:n.lastAction}))} : null,
     playerPosition: {x:w.t.x,y:w.t.y}, genestealersLoaded: scene.userData.genestealersLoaded ?? 0, rendering: {...renderer.info.render}, hp: w.t.hp, nlsAlive: w.nls.filter((n) => n.alive).length,
     fistCharge: w.t.fistCharge,
@@ -2194,7 +2198,7 @@ async function loadModels() {
     try {
       // Frères v2 : textures bleu nuit déjà sombres, l'albédo ×0,22 des anciens modèles les rendait gris.
       const rig = await load(`NL-${i + 1}`, NL_HEIGHT, CAM_MODE === 'fps' ? 0.85 : 0.5, true, 'nl', i);
-      await equipNl(rig.root, FPS_DUEL && i === 0 ? 3 : i, rig.idle?.getClip() ?? null, loadGLB);
+      await equipNl(rig.root, FPS_DUEL && i === 0 ? 3 : i, rig.idle?.getClip() ?? null, loadGLB, MISSION);
       if (CAM_MODE === 'fps' && !rig.root.userData.refinedArmor) addNightLordTrophies(rig.root);
       nlMeshes[i].add(rig.root); nlRigs[i] = rig;
       for (const p of nlProxy.slice(i * 3, i * 3 + 3)) p.visible = false; // capsule + 2 yeux de ce rôle
@@ -2359,6 +2363,10 @@ if (PROBE_READ) {
       if(frame%6===0){
         prev=snap(); w.tick=k; simT=k*DT; w.events=[];
         const n=w.nls[0];n.armTicks=0;n.stunTicks=0;n.lastAction=0;
+        if(qs.get('lighttacticslab')==='1'){
+          n.combatMode=t<5||t>=8?'ranged':'hunt';
+          Object.assign(n.belief,{valid:true,seen:true,x:w.t.x,y:w.t.y,age:0});
+        }
         if(t<1){n.x=10;n.y=12;}
         else if(t<2){n.x=10-(t-1)*2;n.lastAction=1;}
         else if(t<3){n.x=8;n.y=12+(t-2)*2;n.lastAction=3;}

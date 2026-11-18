@@ -1,6 +1,6 @@
 import {chromium} from 'playwright';
 import {mkdirSync,writeFileSync,renameSync} from 'node:fs';
-const out='docs/fps-hunt/combat';mkdirSync(out,{recursive:true});
+const out=process.argv[3]??'docs/fps-hunt/combat';mkdirSync(out,{recursive:true});
 const b=await chromium.launch({headless:true,args:['--use-angle=metal']});
 try{for(const mode of (process.argv[2]?[process.argv[2]]:['duel','mission']))for(const locale of (mode==='duel'?['fr']:['fr','en'])){
  const name=`${mode}-${locale}`,c=await b.newContext({locale,viewport:{width:960,height:600},recordVideo:{dir:out,size:{width:960,height:600}}}),p=await c.newPage(),trace:any[]=[],errors:string[]=[];

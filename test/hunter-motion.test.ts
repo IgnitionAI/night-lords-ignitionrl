@@ -5,7 +5,7 @@ import {HunterMotion,attackEnvelope,stepDuration,hitOnCompletedTick} from '../we
 import {parseGlb,measureHeight} from '../web/stride';
 (globalThis as any).self=globalThis;
 (globalThis as any).Image=class {width=1;height=1;onload:any;set src(_v:string){queueMicrotask(()=>this.onload?.());}};
-async function hunter(ranged=false){const m=await parseGlb(readFileSync('web/models/nightlord-refined.glb'));m.scene.scale.setScalar(2/measureHeight(m.scene));const group=new T.Group();group.add(m.scene);const motion=new HunterMotion(m.scene,ranged);return {group,motion,root:m.scene};}
+async function hunter(ranged=false,sidearm=false){const m=await parseGlb(readFileSync('web/models/nightlord-refined.glb'));m.scene.scale.setScalar(2/measureHeight(m.scene));const group=new T.Group();group.add(m.scene);const motion=new HunterMotion(m.scene,ranged,undefined,sidearm);return {group,motion,root:m.scene};}
 test('grounded contacts remain fixed in world space through lateral motion and stops',async()=>{
  const {group,motion}=await hunter();let last:any;
  for(let i=0;i<240;i++){
@@ -94,4 +94,24 @@ test('ranged hunter commits the knife hand while keeping the gun in guard',async
  for(let i=0;i<36;i++){motion.restore();motion.apply(1/60);}
  motion.signal({arm:0,shot:0,windup:.6,impact:true,fire:false,hit:false,dodge:false});motion.restore();motion.apply(1/120);
  const hit=positions();expect(hit[0].z-start[0].z).toBeGreaterThan(.22);expect(hit[1].distanceTo(start[1])).toBeLessThan(.25);
+});
+
+test('mission sidearm aims while retreating, then blends back to the right melee weapon',async()=>{
+ const {root,group,motion}=await hunter(false,true);motion.apply(1/60);
+ const hand=(side:string)=>root.getObjectByName(side+'Hand')!.getWorldPosition(new T.Vector3()).sub(group.position);
+ const start=hand('Left');let previous=hand('Left'),jump=0;
+ motion.signal({arm:0,shot:0,windup:.6,impact:false,fire:false,hit:false,dodge:false,rangedReady:true});
+ for(let i=0;i<90;i++){
+  group.position.z-=2/60;group.updateMatrixWorld(true);motion.restore();motion.apply(1/60);
+  const next=hand('Left');jump=Math.max(jump,previous.distanceTo(next));previous=next;
+ }
+ expect(motion.report().state).toBe('aim-walk');expect(hand('Left').z-start.z).toBeGreaterThan(.12);
+ expect(motion.report().contactError).toBeLessThan(.08);expect(jump).toBeLessThan(.1);
+ motion.signal({arm:0,shot:0,windup:.6,impact:false,fire:false,hit:false,dodge:false});
+ for(let i=0;i<60;i++){motion.restore();motion.apply(1/60);}
+ expect(motion.report().state).toBe('idle');
+ const right=hand('Right');motion.signal({arm:6,shot:0,windup:.6,impact:false,fire:false,hit:false,dodge:false});
+ for(let i=0;i<36;i++){motion.restore();motion.apply(1/60);}
+ motion.signal({arm:0,shot:0,windup:.6,impact:true,fire:false,hit:false,dodge:false});motion.restore();motion.apply(1/120);
+ expect(hand('Right').z-right.z).toBeGreaterThan(.22);
 });

@@ -47,15 +47,6 @@ function huntAction(w:World,i:number,learned:number,choice?:number):number {
  if(n.vertical)return 0;
  if(n.armTicks||n.stunTicks||n.shotTicks||(n.recoveryTicks??0)>0)return 0;
  const lighting=lightAction(w,i);if(lighting!==undefined){state.mode=(n.lightRetreatUntil??0)>w.tick?'withdraw':'cover';return lighting;}
- const ranged=rangedAction(w,i,choice===1?1:choice===2?-1:0);
- if(ranged!==undefined){state.mode=(n.lightRetreatUntil??0)>w.tick?'withdraw':ranged===0?'cover':'flank';return ranged;}
- if(b.valid&&!b.seen&&!b.vox&&b.age>8&&b.age<90){state.mode='search';return searchContact(w,i);}
- if(!b.valid||b.age>=90){
-  state.mode='search';
-  const point=SHIP_LANDMARKS[state.search%SHIP_LANDMARKS.length];
-  if(Math.hypot(n.x-point.x,n.y-point.y)<1)state.search++;
-  return travel(w,i,point.x,point.y);
- }
  const d=Math.hypot(n.x-b.x,n.y-b.y);
  // Scripted reaction to visible aim; a short committed trajectory, not immunity.
  if(b.seen&&b.facing!==null&&d>2.5&&d<13&&!n.dodgeRest){
@@ -68,6 +59,16 @@ function huntAction(w:World,i:number,learned:number,choice?:number):number {
     if(Math.hypot(end.x-expected.x,end.y-expected.y)<.05&&clearPath(w,n.x,n.y,end.x,end.y,.45)){n.dodgeX=dx*sign;n.dodgeY=dy*sign;n.dodgeTicks=5;n.dodgeRest=34;break;}
    }
   }
+ }
+
+ const ranged=rangedAction(w,i,choice===1?1:choice===2?-1:0);
+ if(ranged!==undefined){state.mode=(n.lightRetreatUntil??0)>w.tick?'withdraw':ranged===0?'cover':'flank';return ranged;}
+ if(b.valid&&!b.seen&&!b.vox&&b.age>8&&b.age<90){state.mode='search';return searchContact(w,i);}
+ if(!b.valid||b.age>=90){
+  state.mode='search';
+  const point=SHIP_LANDMARKS[state.search%SHIP_LANDMARKS.length];
+  if(Math.hypot(n.x-point.x,n.y-point.y)<1)state.search++;
+  return travel(w,i,point.x,point.y);
  }
 
  const exposed=b.facing!==null&&Math.abs(angNorm(Math.atan2(n.y-b.y,n.x-b.x)-b.facing))>1.2;

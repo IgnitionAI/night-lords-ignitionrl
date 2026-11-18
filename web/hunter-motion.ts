@@ -14,7 +14,7 @@ export const attackEnvelope=(age:number,windup:number)=>({
 });
 type Pose={bone:T.Object3D;p:T.Vector3;q:T.Quaternion};
 type Foot={bone:T.Object3D;up:T.Object3D;mid:T.Object3D;side:number;anchor:T.Vector3;from:T.Vector3;to:T.Vector3;phase:number;duration:number;lift:number;orientation:T.Quaternion;plantedQ:T.Quaternion;contact:boolean};
-export type HunterSignal={arm:number;shot:number;impact:boolean;fire:boolean;hit:boolean;windup:number;dodge:boolean};
+export type HunterSignal={arm:number;shot:number;impact:boolean;fire:boolean;hit:boolean;windup:number;dodge:boolean;rangedReady?:boolean};
 
 /** Analytical two-bone solve, using world-space poles instead of assumptions about imported bone axes. */
 export function solveLimb(up:T.Object3D,mid:T.Object3D,end:T.Object3D,target:T.Vector3,pole:T.Vector3){
@@ -44,12 +44,12 @@ export class HunterMotion {
   private initialized=false;private elapsed=0;private activeFoot=-1;private nextFoot=0;
   private canceledAt:number|null=null;private cancelAge=0;
   private attackAge=99;private shotAge=99;private hitAge=99;private windup=.4;
-  private preparing=false;private aiming=false;private dodge=0;private distance=0;
+  private preparing=false;private aiming=false;private rangedReady=false;private dodge=0;private distance=0;
   private aimBlend=0;private dodgeBlend=0;private yaw:number|null=null;
   private lean=V();private lastVelocity=V();private gaitBlend=0;
   private arms:{up:T.Object3D;mid:T.Object3D;hand:T.Object3D;side:number;orientation:T.Quaternion}[]=[];
   public state='idle';public contactError=0;
-  constructor(private root:T.Object3D,private ranged:boolean,readyClip?:T.AnimationClip){
+  constructor(private root:T.Object3D,private ranged:boolean,readyClip?:T.AnimationClip,private sidearm=false){
     root.updateWorldMatrix(true,true);
     const q=root.getWorldQuaternion(new T.Quaternion()).invert();
     root.traverse(bone=>{if((bone as T.Bone).isBone)this.rest.push({bone,p:bone.position.clone(),q:bone.quaternion.clone()});});
@@ -73,11 +73,11 @@ export class HunterMotion {
     const error=Math.atan2(Math.sin(target-this.yaw),Math.cos(target-this.yaw));
     this.yaw+=clamp(error,-6*dt,6*dt);return this.yaw;
   }
-  reset(){this.restore();this.initialized=false;this.elapsed=0;this.attackAge=this.shotAge=this.hitAge=99;this.canceledAt=null;this.cancelAge=0;this.preparing=this.aiming=false;this.activeFoot=-1;this.nextFoot=0;this.yaw=null;this.aimBlend=this.dodgeBlend=0;this.contactError=0;}
+  reset(){this.restore();this.initialized=false;this.elapsed=0;this.attackAge=this.shotAge=this.hitAge=99;this.canceledAt=null;this.cancelAge=0;this.preparing=this.aiming=this.rangedReady=false;this.activeFoot=-1;this.nextFoot=0;this.yaw=null;this.aimBlend=this.dodgeBlend=0;this.contactError=0;}
   signal(s:HunterSignal){
     if(s.arm>0&&!this.preparing){this.attackAge=0;this.canceledAt=null;this.cancelAge=0;this.windup=s.windup;}
     if(this.preparing&&s.arm===0&&!s.impact){this.canceledAt=this.attackAge;this.cancelAge=0;}
-    this.preparing=s.arm>0;this.aiming=s.shot>0;
+    this.preparing=s.arm>0;this.aiming=s.shot>0;this.rangedReady=!!s.rangedReady;
     // Impact is authoritative: the visual swing cannot run early or postpone damage.
     if(s.impact)this.attackAge=this.windup;
     if(s.fire)this.shotAge=0;
@@ -101,7 +101,7 @@ export class HunterMotion {
     }else if(dt>0){this.velocity.copy(delta).divideScalar(dt);this.distance+=delta.length();}
     this.last.copy(this.origin);this.elapsed+=dt;this.attackAge+=dt;this.cancelAge+=dt;this.shotAge+=dt;this.hitAge+=dt;
     if(this.preparing)this.attackAge=Math.min(this.attackAge,this.windup-.001);
-    const aimTarget=this.aiming||this.shotAge<.2?1:0;
+    const aimTarget=this.aiming||this.shotAge<.2?1:this.rangedReady?.65:0;
     this.aimBlend+=(aimTarget-this.aimBlend)*(1-Math.exp(-14*dt));
     this.dodgeBlend+=(this.dodge-this.dodgeBlend)*(1-Math.exp(-18*dt));
     const hit=this.hitAge<.32?Math.sin(Math.PI*clamp(this.hitAge/.07,0,1)/2)*(1-smooth((this.hitAge-.07)/.25)):0;
@@ -114,7 +114,7 @@ export class HunterMotion {
     const acceleration=this.velocity.clone().sub(this.lastVelocity).divideScalar(Math.max(dt,1/120)).applyQuaternion(this.rotation.clone().invert());
     this.lastVelocity.copy(this.velocity);
     this.lean.lerp(new T.Vector3(clamp(acceleration.x*.003,-.035,.035),0,clamp(acceleration.z*.003,-.04,.04)),1-Math.exp(-8*dt));
-    this.state=hit>.1?'hit':weight>.01&&this.attackAge<2?'attack':this.aimBlend>.5?'shoot':moving?(speed>3?'run':'walk'):'idle';
+    this.state=hit>.1?'hit':weight>.01&&this.attackAge<2?'attack':this.aiming||this.shotAge<.2?'shoot':this.aimBlend>.4?(moving?'aim-walk':'aim'):moving?(speed>3?'run':'walk'):'idle';
     const hipsWorld=this.hips.getWorldPosition(V());
     // One pelvis reference for every grounded state. Only a restrained weight transfer changes its height.
     const settle=this.gaitBlend*.018*Math.cos(this.distance*6)+(1-this.gaitBlend)*.003*Math.sin(this.elapsed*2.1);
@@ -179,6 +179,7 @@ export class HunterMotion {
         hand.lerp(new T.Vector3(arm.side*.28,1.39,.30),Math.min(1,coil+cut)*.6);
       }
       if(this.ranged)hand.lerp(arm.side===-1?new T.Vector3(-.27,1.43,.53-recoil):new T.Vector3(.16,1.34,.49-recoil),this.aimBlend*(1-weight));
+      else if(this.sidearm&&arm.side===1)hand.lerp(new T.Vector3(.27,1.43,.53-recoil),this.aimBlend*(1-weight));
       hand.z-=hit*.055;
       const target=this.point(hand.x,hand.y,hand.z);
       solveLimb(arm.up,arm.mid,arm.hand,target,this.point(arm.side*.65,1.18,-.08));
