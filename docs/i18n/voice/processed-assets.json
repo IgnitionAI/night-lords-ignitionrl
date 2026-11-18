@@ -1,0 +1,3194 @@
+[
+  {
+    "id": "select-vael-1",
+    "unit": "t0",
+    "text": "Yes, commander.",
+    "source": "public/assets/genex/b6ec835b-de4b-47a7-ad95-e1c9d256075a/yes-commander-cmwkibu3.mp3",
+    "output": "web/sfx/vox/en/t0-select-vael-1-vox2.mp3",
+    "deliveryId": "b6ec835b-de4b-47a7-ad95-e1c9d256075a",
+    "seconds": 1.488,
+    "bytes": 17876,
+    "sha256": "1385cfe5ddde546115a090dd4f2d1d12808b5bbf5540cb5a8c4d41ef0b16ba08",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "select-vael-2",
+    "unit": "t0",
+    "text": "Listening, commander.",
+    "source": "public/assets/genex/579a099e-aa62-489c-81e3-1c2a5d895c8d/listening-commander-cmwkicar.mp3",
+    "output": "web/sfx/vox/en/t0-select-vael-2-vox2.mp3",
+    "deliveryId": "579a099e-aa62-489c-81e3-1c2a5d895c8d",
+    "seconds": 1.704,
+    "bytes": 20756,
+    "sha256": "2a52721791119a2e111bc87f744f8812e50f8f6f5148f828c084bba1e35e5919",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "select-vael-3",
+    "unit": "t0",
+    "text": "Your will shall be done.",
+    "source": "public/assets/genex/30b97f19-7696-435b-84b2-ac99d383e32f/your-will-shall-be-done-cmwkicqn.mp3",
+    "output": "web/sfx/vox/en/t0-select-vael-3-vox2.mp3",
+    "deliveryId": "30b97f19-7696-435b-84b2-ac99d383e32f",
+    "seconds": 1.992,
+    "bytes": 22796,
+    "sha256": "839b4318f8317fdb4330ae608c7b5152f31566820bd0f0386368895f18f0e070",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "select-tor-1",
+    "unit": "t1",
+    "text": "Ready to do my duty.",
+    "source": "public/assets/genex/02b6470a-1254-4ba6-9d7f-d83a3373d00e/ready-to-do-my-duty-cmwkid6z.mp3",
+    "output": "web/sfx/vox/en/t1-select-tor-1-vox2.mp3",
+    "deliveryId": "02b6470a-1254-4ba6-9d7f-d83a3373d00e",
+    "seconds": 1.752,
+    "bytes": 20948,
+    "sha256": "f4e91891f18479547be65a0296223be996b1638908e0ed69b5271e219d266a5b",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "select-tor-2",
+    "unit": "t1",
+    "text": "My armour holds. Your orders?",
+    "source": "public/assets/genex/d2c53f43-ea78-495e-b30e-cf9d671b41ef/my-armour-holds-your-orders-cmwkidnv.mp3",
+    "output": "web/sfx/vox/en/t1-select-tor-2-vox2.mp3",
+    "deliveryId": "d2c53f43-ea78-495e-b30e-cf9d671b41ef",
+    "seconds": 2.664,
+    "bytes": 30140,
+    "sha256": "c537a08591ce0caa0896f4a6d2fc3969a4ca3b15e292fe4da74e880087e134b1",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "select-tor-3",
+    "unit": "t1",
+    "text": "Speak, commander.",
+    "source": "public/assets/genex/abc083a0-21d7-40a4-be8d-5fff53978c77/speak-commander-cmwkie3v.mp3",
+    "output": "web/sfx/vox/en/t1-select-tor-3-vox2.mp3",
+    "deliveryId": "abc083a0-21d7-40a4-be8d-5fff53978c77",
+    "seconds": 1.728,
+    "bytes": 20252,
+    "sha256": "426e2ef1721f30d2cfaaa69fd8b3a84ac61b1e83b30e441ce4abe49100528f7a",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "select-cael-1",
+    "unit": "t2",
+    "text": "Channel open, commander.",
+    "source": "public/assets/genex/08e4324e-87cd-458d-94ad-a379f507fa52/channel-open-commander-cmwkiejz.mp3",
+    "output": "web/sfx/vox/en/t2-select-cael-1-vox2.mp3",
+    "deliveryId": "08e4324e-87cd-458d-94ad-a379f507fa52",
+    "seconds": 1.92,
+    "bytes": 22460,
+    "sha256": "d596c63d7f5afa9b98f130dbbf244087c0cfff4e865635361c5e2f49a2628b75",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "select-cael-2",
+    "unit": "t2",
+    "text": "Listening. For the Emperor.",
+    "source": "public/assets/genex/3cb225a9-e7ca-4b22-9a71-076fbfc1e004/listening-for-the-emperor-cmwkiezz.mp3",
+    "output": "web/sfx/vox/en/t2-select-cael-2-vox2.mp3",
+    "deliveryId": "3cb225a9-e7ca-4b22-9a71-076fbfc1e004",
+    "seconds": 2.448,
+    "bytes": 28580,
+    "sha256": "99f0a2cea533892a10369a04b148bd50da5fb5d6a73f4c3a91301c79822503b1",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "select-cael-3",
+    "unit": "t2",
+    "text": "My senses are alert.",
+    "source": "public/assets/genex/23e10dd7-cf93-4337-9ac9-02be823bffde/my-senses-are-alert-cmwkifg0.mp3",
+    "output": "web/sfx/vox/en/t2-select-cael-3-vox2.mp3",
+    "deliveryId": "23e10dd7-cf93-4337-9ac9-02be823bffde",
+    "seconds": 1.968,
+    "bytes": 23564,
+    "sha256": "079138c17742d8012915a310764040520ea396208101ee21a8acf4ab5e2d22a4",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "select-brann-1",
+    "unit": "t3",
+    "text": "Duty calls.",
+    "source": "public/assets/genex/bd3ac47f-93c6-48b7-82d8-d7602777eac5/duty-calls-cmwkifw1.mp3",
+    "output": "web/sfx/vox/en/t3-select-brann-1-vox2.mp3",
+    "deliveryId": "bd3ac47f-93c6-48b7-82d8-d7602777eac5",
+    "seconds": 1.44,
+    "bytes": 17300,
+    "sha256": "8a2d33e14d421b4656158fff5aed6fb3758af9af8e0849dda0b3ba0b810ddc80",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "select-brann-2",
+    "unit": "t3",
+    "text": "Ever faithful, commander.",
+    "source": "public/assets/genex/09749c48-7b2f-469c-8ea7-075d8f1a77fd/ever-faithful-commander-cmwkigbw.mp3",
+    "output": "web/sfx/vox/en/t3-select-brann-2-vox2.mp3",
+    "deliveryId": "09749c48-7b2f-469c-8ea7-075d8f1a77fd",
+    "seconds": 2.064,
+    "bytes": 23612,
+    "sha256": "b19615137991b4720950bb259710af0108f1a779a9468d6cd293ec332d0fa9d0",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "select-brann-3",
+    "unit": "t3",
+    "text": "May the Emperor guide us.",
+    "source": "public/assets/genex/02e68ae2-c931-46b9-920b-15069c9d6aa1/may-the-emperor-guide-us-cmwkigs0.mp3",
+    "output": "web/sfx/vox/en/t3-select-brann-3-vox2.mp3",
+    "deliveryId": "02e68ae2-c931-46b9-920b-15069c9d6aa1",
+    "seconds": 2.112,
+    "bytes": 25340,
+    "sha256": "839d37c44d94cf6dc8a13a5abe53c8c60628d89f399e324e7fd44874a26ce20a",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-move-1",
+    "unit": "t0",
+    "text": "At your command.",
+    "source": "public/assets/genex/2d0689ea-feca-4c79-9f70-53b42fb9f2ea/at-your-command-cmwkih81.mp3",
+    "output": "web/sfx/vox/en/t0-ack-move-1-vox2.mp3",
+    "deliveryId": "2d0689ea-feca-4c79-9f70-53b42fb9f2ea",
+    "seconds": 1.512,
+    "bytes": 18068,
+    "sha256": "76413d3fc3ca09230e5917de144388ab506e73e712e400102e75623a36ac3dd4",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-move-1",
+    "unit": "t1",
+    "text": "At your command.",
+    "source": "public/assets/genex/2d0689ea-feca-4c79-9f70-53b42fb9f2ea/at-your-command-cmwkih81.mp3",
+    "output": "web/sfx/vox/en/t1-ack-move-1-vox2.mp3",
+    "deliveryId": "2d0689ea-feca-4c79-9f70-53b42fb9f2ea",
+    "seconds": 1.536,
+    "bytes": 18428,
+    "sha256": "7c708912018997f971f8f6e857e804cab2aff8b4f3cdb67a3d23a1401ed8b885",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-move-1",
+    "unit": "t2",
+    "text": "At your command.",
+    "source": "public/assets/genex/2d0689ea-feca-4c79-9f70-53b42fb9f2ea/at-your-command-cmwkih81.mp3",
+    "output": "web/sfx/vox/en/t2-ack-move-1-vox2.mp3",
+    "deliveryId": "2d0689ea-feca-4c79-9f70-53b42fb9f2ea",
+    "seconds": 1.512,
+    "bytes": 17900,
+    "sha256": "8ce68ccb77c10f993e5210e3fc286f7c841d5e75f9b23c9ea107ab109d6e0187",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-move-1",
+    "unit": "t3",
+    "text": "At your command.",
+    "source": "public/assets/genex/2d0689ea-feca-4c79-9f70-53b42fb9f2ea/at-your-command-cmwkih81.mp3",
+    "output": "web/sfx/vox/en/t3-ack-move-1-vox2.mp3",
+    "deliveryId": "2d0689ea-feca-4c79-9f70-53b42fb9f2ea",
+    "seconds": 1.536,
+    "bytes": 18116,
+    "sha256": "f43fad23946369cd0cb60247ca51f2b95769d1bb7bfeed4bf9b4d6c1c8990eb4",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-move-1",
+    "unit": "command",
+    "text": "At your command.",
+    "source": "public/assets/genex/2d0689ea-feca-4c79-9f70-53b42fb9f2ea/at-your-command-cmwkih81.mp3",
+    "output": "web/sfx/vox/en/command-ack-move-1-vox2.mp3",
+    "deliveryId": "2d0689ea-feca-4c79-9f70-53b42fb9f2ea",
+    "seconds": 1.512,
+    "bytes": 18116,
+    "sha256": "4d9c99d0e2a35e99a7cb0244eccbc3a5bc67635630f39d9c993de743af709790",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-move-2",
+    "unit": "t0",
+    "text": "Route received.",
+    "source": "public/assets/genex/6f24a74d-721f-4765-9930-5e63a75e07a4/route-received-cmwkihop.mp3",
+    "output": "web/sfx/vox/en/t0-ack-move-2-vox2.mp3",
+    "deliveryId": "6f24a74d-721f-4765-9930-5e63a75e07a4",
+    "seconds": 1.512,
+    "bytes": 17468,
+    "sha256": "369ffccfecf593f3f685d340add1ce3cfa41ad8db117cd787e1ce44e61c71342",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-move-2",
+    "unit": "t1",
+    "text": "Route received.",
+    "source": "public/assets/genex/6f24a74d-721f-4765-9930-5e63a75e07a4/route-received-cmwkihop.mp3",
+    "output": "web/sfx/vox/en/t1-ack-move-2-vox2.mp3",
+    "deliveryId": "6f24a74d-721f-4765-9930-5e63a75e07a4",
+    "seconds": 1.512,
+    "bytes": 18332,
+    "sha256": "c7b6115b9e587b242fdcd97293367e74157f83eb62883d5b67057e4cf81f132a",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-move-2",
+    "unit": "t2",
+    "text": "Route received.",
+    "source": "public/assets/genex/6f24a74d-721f-4765-9930-5e63a75e07a4/route-received-cmwkihop.mp3",
+    "output": "web/sfx/vox/en/t2-ack-move-2-vox2.mp3",
+    "deliveryId": "6f24a74d-721f-4765-9930-5e63a75e07a4",
+    "seconds": 1.488,
+    "bytes": 17900,
+    "sha256": "5287a19750c10e3820c13f54a2dd966a29a455265e0214b963bb126f9fd41b7e",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-move-2",
+    "unit": "t3",
+    "text": "Route received.",
+    "source": "public/assets/genex/6f24a74d-721f-4765-9930-5e63a75e07a4/route-received-cmwkihop.mp3",
+    "output": "web/sfx/vox/en/t3-ack-move-2-vox2.mp3",
+    "deliveryId": "6f24a74d-721f-4765-9930-5e63a75e07a4",
+    "seconds": 1.512,
+    "bytes": 17996,
+    "sha256": "5e35fe8198719181f847f87bdeeb76e7d2bba6829dc133a3cbd5cdffd3b79617",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-move-2",
+    "unit": "command",
+    "text": "Route received.",
+    "source": "public/assets/genex/6f24a74d-721f-4765-9930-5e63a75e07a4/route-received-cmwkihop.mp3",
+    "output": "web/sfx/vox/en/command-ack-move-2-vox2.mp3",
+    "deliveryId": "6f24a74d-721f-4765-9930-5e63a75e07a4",
+    "seconds": 1.488,
+    "bytes": 17852,
+    "sha256": "a0f14e1965c1fe5d7df72c455b5cbad4b5171d616566ccc801b244e8aae7ab36",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-fire-1",
+    "unit": "t0",
+    "text": "Firing coordinates received.",
+    "source": "public/assets/genex/fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714/firing-coordinates-received-cmwkii57.mp3",
+    "output": "web/sfx/vox/en/t0-ack-fire-1-vox2.mp3",
+    "deliveryId": "fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714",
+    "seconds": 1.896,
+    "bytes": 22052,
+    "sha256": "0f35fca7c93270ca9b0fdb2917c933284299fe4a6e62003458614cd3c7529c93",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-fire-1",
+    "unit": "t1",
+    "text": "Firing coordinates received.",
+    "source": "public/assets/genex/fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714/firing-coordinates-received-cmwkii57.mp3",
+    "output": "web/sfx/vox/en/t1-ack-fire-1-vox2.mp3",
+    "deliveryId": "fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714",
+    "seconds": 1.944,
+    "bytes": 22580,
+    "sha256": "1a3830bb869491cc5712190f7bbc48c0b3d0a6fcf4d9b45d18ff40bec7f6124f",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-fire-1",
+    "unit": "t2",
+    "text": "Firing coordinates received.",
+    "source": "public/assets/genex/fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714/firing-coordinates-received-cmwkii57.mp3",
+    "output": "web/sfx/vox/en/t2-ack-fire-1-vox2.mp3",
+    "deliveryId": "fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714",
+    "seconds": 1.896,
+    "bytes": 22364,
+    "sha256": "0ffba852402eba82663ddb010d8270f21824b27553919295d7dd81c68922e6d1",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-fire-1",
+    "unit": "t3",
+    "text": "Firing coordinates received.",
+    "source": "public/assets/genex/fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714/firing-coordinates-received-cmwkii57.mp3",
+    "output": "web/sfx/vox/en/t3-ack-fire-1-vox2.mp3",
+    "deliveryId": "fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714",
+    "seconds": 1.92,
+    "bytes": 22724,
+    "sha256": "6f1ef54f0914ac93734cbc7ea15e08330478ddd96c325d221ce58c7f69e87be6",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-fire-1",
+    "unit": "command",
+    "text": "Firing coordinates received.",
+    "source": "public/assets/genex/fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714/firing-coordinates-received-cmwkii57.mp3",
+    "output": "web/sfx/vox/en/command-ack-fire-1-vox2.mp3",
+    "deliveryId": "fb4fad3b-9cd2-4c3c-866b-cbf84d0f9714",
+    "seconds": 1.896,
+    "bytes": 22172,
+    "sha256": "abb1b22869cfc91f4e6b548b5f2d7a285604c6494715dae794e0c7454b1bb3f6",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-fire-2",
+    "unit": "t0",
+    "text": "Bolter ready.",
+    "source": "public/assets/genex/34c81e9a-aba9-4cfa-a39d-c9a05c5f6dbb/bolter-ready-cmwkiile.mp3",
+    "output": "web/sfx/vox/en/t0-ack-fire-2-vox2.mp3",
+    "deliveryId": "34c81e9a-aba9-4cfa-a39d-c9a05c5f6dbb",
+    "seconds": 1.2,
+    "bytes": 14180,
+    "sha256": "f88f542ebb3247b69609292ef2c71075e42b2130a94eb4fca95e354889f133fa",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-fire-2",
+    "unit": "t1",
+    "text": "Bolter ready.",
+    "source": "public/assets/genex/34c81e9a-aba9-4cfa-a39d-c9a05c5f6dbb/bolter-ready-cmwkiile.mp3",
+    "output": "web/sfx/vox/en/t1-ack-fire-2-vox2.mp3",
+    "deliveryId": "34c81e9a-aba9-4cfa-a39d-c9a05c5f6dbb",
+    "seconds": 1.2,
+    "bytes": 14084,
+    "sha256": "ac170a0e2fa54ee60a56ee956e1759251c9d375d0cce22fb1ecbb09368a0acd7",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-fire-2",
+    "unit": "t2",
+    "text": "Bolter ready.",
+    "source": "public/assets/genex/34c81e9a-aba9-4cfa-a39d-c9a05c5f6dbb/bolter-ready-cmwkiile.mp3",
+    "output": "web/sfx/vox/en/t2-ack-fire-2-vox2.mp3",
+    "deliveryId": "34c81e9a-aba9-4cfa-a39d-c9a05c5f6dbb",
+    "seconds": 1.2,
+    "bytes": 14204,
+    "sha256": "cf08672b1800fe8d706147979f062447e87a8187c901979fb3a66cada3bc2e17",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-fire-2",
+    "unit": "t3",
+    "text": "Bolter ready.",
+    "source": "public/assets/genex/34c81e9a-aba9-4cfa-a39d-c9a05c5f6dbb/bolter-ready-cmwkiile.mp3",
+    "output": "web/sfx/vox/en/t3-ack-fire-2-vox2.mp3",
+    "deliveryId": "34c81e9a-aba9-4cfa-a39d-c9a05c5f6dbb",
+    "seconds": 1.2,
+    "bytes": 14204,
+    "sha256": "53d59596cbd787ff52ca9f0e2bb04f05e9cde5062d4dc7f3ccbc4c092d296612",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-fire-2",
+    "unit": "command",
+    "text": "Bolter ready.",
+    "source": "public/assets/genex/34c81e9a-aba9-4cfa-a39d-c9a05c5f6dbb/bolter-ready-cmwkiile.mp3",
+    "output": "web/sfx/vox/en/command-ack-fire-2-vox2.mp3",
+    "deliveryId": "34c81e9a-aba9-4cfa-a39d-c9a05c5f6dbb",
+    "seconds": 1.2,
+    "bytes": 14396,
+    "sha256": "e0bca737cc1dade2ed38d4d08082860363c38fc4adf56c558b93b94539c03b03",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-guard-1",
+    "unit": "t0",
+    "text": "I will cover this sector.",
+    "source": "public/assets/genex/b6e7136f-50d0-4af1-9003-613677925d28/i-will-cover-this-sector-cmwkij1d.mp3",
+    "output": "web/sfx/vox/en/t0-ack-guard-1-vox2.mp3",
+    "deliveryId": "b6e7136f-50d0-4af1-9003-613677925d28",
+    "seconds": 1.656,
+    "bytes": 19604,
+    "sha256": "2cc4b6c4764904d9c1b4cebfd5cebca4eabc985e9abb58595cb672deb8bac9d8",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-guard-1",
+    "unit": "t1",
+    "text": "I will cover this sector.",
+    "source": "public/assets/genex/b6e7136f-50d0-4af1-9003-613677925d28/i-will-cover-this-sector-cmwkij1d.mp3",
+    "output": "web/sfx/vox/en/t1-ack-guard-1-vox2.mp3",
+    "deliveryId": "b6e7136f-50d0-4af1-9003-613677925d28",
+    "seconds": 1.68,
+    "bytes": 20156,
+    "sha256": "6934647dd645c7fb9ed6ee62a4acf8ba95f39712c0fd27c1789a0dfd3247f823",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-guard-1",
+    "unit": "t2",
+    "text": "I will cover this sector.",
+    "source": "public/assets/genex/b6e7136f-50d0-4af1-9003-613677925d28/i-will-cover-this-sector-cmwkij1d.mp3",
+    "output": "web/sfx/vox/en/t2-ack-guard-1-vox2.mp3",
+    "deliveryId": "b6e7136f-50d0-4af1-9003-613677925d28",
+    "seconds": 1.656,
+    "bytes": 19724,
+    "sha256": "4d61f703decbf20776296478caeb51c4ff7a0d33ca10e18053a0f349d76eee31",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-guard-1",
+    "unit": "t3",
+    "text": "I will cover this sector.",
+    "source": "public/assets/genex/b6e7136f-50d0-4af1-9003-613677925d28/i-will-cover-this-sector-cmwkij1d.mp3",
+    "output": "web/sfx/vox/en/t3-ack-guard-1-vox2.mp3",
+    "deliveryId": "b6e7136f-50d0-4af1-9003-613677925d28",
+    "seconds": 1.68,
+    "bytes": 20084,
+    "sha256": "31f7715a5deed8f596a5e68c2410c633e4c1a4fe1847eb3ddcdf56a35de6227c",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-guard-1",
+    "unit": "command",
+    "text": "I will cover this sector.",
+    "source": "public/assets/genex/b6e7136f-50d0-4af1-9003-613677925d28/i-will-cover-this-sector-cmwkij1d.mp3",
+    "output": "web/sfx/vox/en/command-ack-guard-1-vox2.mp3",
+    "deliveryId": "b6e7136f-50d0-4af1-9003-613677925d28",
+    "seconds": 1.656,
+    "bytes": 19796,
+    "sha256": "680abfb816f3db64ba6d3113d92869f040a5374459424ae5a777e13c5dc3a50f",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-guard-2",
+    "unit": "t0",
+    "text": "Overwatch position confirmed.",
+    "source": "public/assets/genex/89ae4be2-8888-45be-95e1-bcd27a133bf0/overwatch-position-confirmed-cmwkijh8.mp3",
+    "output": "web/sfx/vox/en/t0-ack-guard-2-vox2.mp3",
+    "deliveryId": "89ae4be2-8888-45be-95e1-bcd27a133bf0",
+    "seconds": 2.16,
+    "bytes": 24956,
+    "sha256": "7fe18bf166d2e5ff562c9724e2ab3ffeb7d15eafb7a174d7771b37fc48da08c1",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-guard-2",
+    "unit": "t1",
+    "text": "Overwatch position confirmed.",
+    "source": "public/assets/genex/89ae4be2-8888-45be-95e1-bcd27a133bf0/overwatch-position-confirmed-cmwkijh8.mp3",
+    "output": "web/sfx/vox/en/t1-ack-guard-2-vox2.mp3",
+    "deliveryId": "89ae4be2-8888-45be-95e1-bcd27a133bf0",
+    "seconds": 2.208,
+    "bytes": 25676,
+    "sha256": "1b91ba53e2cc5991c42eca8d5a95f9c91613c1a41a0d29eab5e6bf471162216d",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-guard-2",
+    "unit": "t2",
+    "text": "Overwatch position confirmed.",
+    "source": "public/assets/genex/89ae4be2-8888-45be-95e1-bcd27a133bf0/overwatch-position-confirmed-cmwkijh8.mp3",
+    "output": "web/sfx/vox/en/t2-ack-guard-2-vox2.mp3",
+    "deliveryId": "89ae4be2-8888-45be-95e1-bcd27a133bf0",
+    "seconds": 2.16,
+    "bytes": 25292,
+    "sha256": "fe902640a3be3ff6db4839cbd32f09620f8963045ecc28106aedb3615931412e",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-guard-2",
+    "unit": "t3",
+    "text": "Overwatch position confirmed.",
+    "source": "public/assets/genex/89ae4be2-8888-45be-95e1-bcd27a133bf0/overwatch-position-confirmed-cmwkijh8.mp3",
+    "output": "web/sfx/vox/en/t3-ack-guard-2-vox2.mp3",
+    "deliveryId": "89ae4be2-8888-45be-95e1-bcd27a133bf0",
+    "seconds": 2.184,
+    "bytes": 25316,
+    "sha256": "818a8c083e4d5d4c80c76eb4e2aca326ec88456c523eead31504c0a964145400",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-guard-2",
+    "unit": "command",
+    "text": "Overwatch position confirmed.",
+    "source": "public/assets/genex/89ae4be2-8888-45be-95e1-bcd27a133bf0/overwatch-position-confirmed-cmwkijh8.mp3",
+    "output": "web/sfx/vox/en/command-ack-guard-2-vox2.mp3",
+    "deliveryId": "89ae4be2-8888-45be-95e1-bcd27a133bf0",
+    "seconds": 2.16,
+    "bytes": 25244,
+    "sha256": "028d860ff4b4c92794d9b28a3f301ffd27390b41311eb92f83fdc3dc681e8f09",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-scan-1",
+    "unit": "t0",
+    "text": "Auspex ready, commander.",
+    "source": "public/assets/genex/7272ff86-c104-44bc-acb3-ceeeac972dec/auspex-ready-commander-cmwkijxr.mp3",
+    "output": "web/sfx/vox/en/t0-ack-scan-1-vox2.mp3",
+    "deliveryId": "7272ff86-c104-44bc-acb3-ceeeac972dec",
+    "seconds": 1.992,
+    "bytes": 23996,
+    "sha256": "1cd2d9d9d012f2f28379163e6152d5a4c56811ba4598be0c58d722c7422ceceb",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-scan-1",
+    "unit": "t1",
+    "text": "Auspex ready, commander.",
+    "source": "public/assets/genex/7272ff86-c104-44bc-acb3-ceeeac972dec/auspex-ready-commander-cmwkijxr.mp3",
+    "output": "web/sfx/vox/en/t1-ack-scan-1-vox2.mp3",
+    "deliveryId": "7272ff86-c104-44bc-acb3-ceeeac972dec",
+    "seconds": 2.016,
+    "bytes": 23852,
+    "sha256": "3e84e898363038afc17363a8064cbd2b7096f93adebc409dc11a11193dde2490",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-scan-1",
+    "unit": "t2",
+    "text": "Auspex ready, commander.",
+    "source": "public/assets/genex/7272ff86-c104-44bc-acb3-ceeeac972dec/auspex-ready-commander-cmwkijxr.mp3",
+    "output": "web/sfx/vox/en/t2-ack-scan-1-vox2.mp3",
+    "deliveryId": "7272ff86-c104-44bc-acb3-ceeeac972dec",
+    "seconds": 1.968,
+    "bytes": 23732,
+    "sha256": "f6c2d2b47b0dda5738f474c9069435810be6d87af9edd31e6b0ad44252f4e6e5",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-scan-1",
+    "unit": "t3",
+    "text": "Auspex ready, commander.",
+    "source": "public/assets/genex/7272ff86-c104-44bc-acb3-ceeeac972dec/auspex-ready-commander-cmwkijxr.mp3",
+    "output": "web/sfx/vox/en/t3-ack-scan-1-vox2.mp3",
+    "deliveryId": "7272ff86-c104-44bc-acb3-ceeeac972dec",
+    "seconds": 1.992,
+    "bytes": 23324,
+    "sha256": "d6cd3690c30cbc162574ce5e68afc43af110d751952f570ebc20cb5804e541cf",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-scan-1",
+    "unit": "command",
+    "text": "Auspex ready, commander.",
+    "source": "public/assets/genex/7272ff86-c104-44bc-acb3-ceeeac972dec/auspex-ready-commander-cmwkijxr.mp3",
+    "output": "web/sfx/vox/en/command-ack-scan-1-vox2.mp3",
+    "deliveryId": "7272ff86-c104-44bc-acb3-ceeeac972dec",
+    "seconds": 1.968,
+    "bytes": 23132,
+    "sha256": "02a944c6c2ece4239b0f6ffd9da038b64db1cfdcb64bfedd3275f06f875ad3c1",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-scan-2",
+    "unit": "t0",
+    "text": "Reconnaissance acknowledged.",
+    "source": "public/assets/genex/1f840a71-6135-41c9-b197-8720eab4fd8c/reconnaissance-acknowledged-cmwkikdz.mp3",
+    "output": "web/sfx/vox/en/t0-ack-scan-2-vox2.mp3",
+    "deliveryId": "1f840a71-6135-41c9-b197-8720eab4fd8c",
+    "seconds": 1.728,
+    "bytes": 20876,
+    "sha256": "7f07f65123f5abce0266ce271135817142e95bdfc3697a454074eea1c7c5330f",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-scan-2",
+    "unit": "t1",
+    "text": "Reconnaissance acknowledged.",
+    "source": "public/assets/genex/1f840a71-6135-41c9-b197-8720eab4fd8c/reconnaissance-acknowledged-cmwkikdz.mp3",
+    "output": "web/sfx/vox/en/t1-ack-scan-2-vox2.mp3",
+    "deliveryId": "1f840a71-6135-41c9-b197-8720eab4fd8c",
+    "seconds": 1.752,
+    "bytes": 20732,
+    "sha256": "74083bb3eb02b34eedb0e6b644bca870e27cafb19bfa20a927a3512c43efdf53",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-scan-2",
+    "unit": "t2",
+    "text": "Reconnaissance acknowledged.",
+    "source": "public/assets/genex/1f840a71-6135-41c9-b197-8720eab4fd8c/reconnaissance-acknowledged-cmwkikdz.mp3",
+    "output": "web/sfx/vox/en/t2-ack-scan-2-vox2.mp3",
+    "deliveryId": "1f840a71-6135-41c9-b197-8720eab4fd8c",
+    "seconds": 1.728,
+    "bytes": 21452,
+    "sha256": "c18ab6ce1d9c80404c442297e016b040a558707d9ee4a0c690ef624a46096b92",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-scan-2",
+    "unit": "t3",
+    "text": "Reconnaissance acknowledged.",
+    "source": "public/assets/genex/1f840a71-6135-41c9-b197-8720eab4fd8c/reconnaissance-acknowledged-cmwkikdz.mp3",
+    "output": "web/sfx/vox/en/t3-ack-scan-2-vox2.mp3",
+    "deliveryId": "1f840a71-6135-41c9-b197-8720eab4fd8c",
+    "seconds": 1.752,
+    "bytes": 21068,
+    "sha256": "0c60973b535d8ce2d2596e40cadec844a2829ed85bdde0022c2552f0afcedab0",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-scan-2",
+    "unit": "command",
+    "text": "Reconnaissance acknowledged.",
+    "source": "public/assets/genex/1f840a71-6135-41c9-b197-8720eab4fd8c/reconnaissance-acknowledged-cmwkikdz.mp3",
+    "output": "web/sfx/vox/en/command-ack-scan-2-vox2.mp3",
+    "deliveryId": "1f840a71-6135-41c9-b197-8720eab4fd8c",
+    "seconds": 1.728,
+    "bytes": 21692,
+    "sha256": "861e14fb7b9938bb896c3c27613bdbadd4a6d1bfb447884718eca786408f0492",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-interact-1",
+    "unit": "t0",
+    "text": "Order received. I will see to it.",
+    "source": "public/assets/genex/91fe9dc5-b723-464b-8c4c-e08674cef286/order-received-i-will-see-to-it-cmwkikul.mp3",
+    "output": "web/sfx/vox/en/t0-ack-interact-1-vox2.mp3",
+    "deliveryId": "91fe9dc5-b723-464b-8c4c-e08674cef286",
+    "seconds": 2.496,
+    "bytes": 29204,
+    "sha256": "bbd99208bd0e91fd5e863e42a0e5e51210f51eca7837dd98df1eb3a18ff0f303",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-interact-1",
+    "unit": "t1",
+    "text": "Order received. I will see to it.",
+    "source": "public/assets/genex/91fe9dc5-b723-464b-8c4c-e08674cef286/order-received-i-will-see-to-it-cmwkikul.mp3",
+    "output": "web/sfx/vox/en/t1-ack-interact-1-vox2.mp3",
+    "deliveryId": "91fe9dc5-b723-464b-8c4c-e08674cef286",
+    "seconds": 2.544,
+    "bytes": 29708,
+    "sha256": "f31541eb81970b8180c1d20bb1072ff46888d135c8360280d3bbb5af60faa349",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-interact-1",
+    "unit": "t2",
+    "text": "Order received. I will see to it.",
+    "source": "public/assets/genex/91fe9dc5-b723-464b-8c4c-e08674cef286/order-received-i-will-see-to-it-cmwkikul.mp3",
+    "output": "web/sfx/vox/en/t2-ack-interact-1-vox2.mp3",
+    "deliveryId": "91fe9dc5-b723-464b-8c4c-e08674cef286",
+    "seconds": 2.496,
+    "bytes": 29084,
+    "sha256": "63c560f7b82ad623722440814efdb51fb35d1143e35f19b0a74d820dbeaf6454",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-interact-1",
+    "unit": "t3",
+    "text": "Order received. I will see to it.",
+    "source": "public/assets/genex/91fe9dc5-b723-464b-8c4c-e08674cef286/order-received-i-will-see-to-it-cmwkikul.mp3",
+    "output": "web/sfx/vox/en/t3-ack-interact-1-vox2.mp3",
+    "deliveryId": "91fe9dc5-b723-464b-8c4c-e08674cef286",
+    "seconds": 2.52,
+    "bytes": 29372,
+    "sha256": "84f8c7eb4becb2e50d2c9aa82bbc4c1008349bcc77a847a09ff92adbe0a8361a",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-interact-1",
+    "unit": "command",
+    "text": "Order received. I will see to it.",
+    "source": "public/assets/genex/91fe9dc5-b723-464b-8c4c-e08674cef286/order-received-i-will-see-to-it-cmwkikul.mp3",
+    "output": "web/sfx/vox/en/command-ack-interact-1-vox2.mp3",
+    "deliveryId": "91fe9dc5-b723-464b-8c4c-e08674cef286",
+    "seconds": 2.496,
+    "bytes": 30092,
+    "sha256": "782787493d463580fbd7f54b3950a62f7fa818c77eb125fc57423090141707db",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-interact-2",
+    "unit": "t0",
+    "text": "Interface located.",
+    "source": "public/assets/genex/a2474699-7527-4f3f-8679-109edf2ecbe0/interface-located-cmwkilb5.mp3",
+    "output": "web/sfx/vox/en/t0-ack-interact-2-vox2.mp3",
+    "deliveryId": "a2474699-7527-4f3f-8679-109edf2ecbe0",
+    "seconds": 1.584,
+    "bytes": 18644,
+    "sha256": "d4984318885272a2d961bd5df24280de942e10931b6ec3623b803b87ca6221de",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "ack-interact-2",
+    "unit": "t1",
+    "text": "Interface located.",
+    "source": "public/assets/genex/a2474699-7527-4f3f-8679-109edf2ecbe0/interface-located-cmwkilb5.mp3",
+    "output": "web/sfx/vox/en/t1-ack-interact-2-vox2.mp3",
+    "deliveryId": "a2474699-7527-4f3f-8679-109edf2ecbe0",
+    "seconds": 1.608,
+    "bytes": 18956,
+    "sha256": "6c03d290e9448413d4ddf6cf7996e185448cb035ddf646ab1ad09ba283d41591",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "ack-interact-2",
+    "unit": "t2",
+    "text": "Interface located.",
+    "source": "public/assets/genex/a2474699-7527-4f3f-8679-109edf2ecbe0/interface-located-cmwkilb5.mp3",
+    "output": "web/sfx/vox/en/t2-ack-interact-2-vox2.mp3",
+    "deliveryId": "a2474699-7527-4f3f-8679-109edf2ecbe0",
+    "seconds": 1.584,
+    "bytes": 18716,
+    "sha256": "4543aea1053b68a80ef93b887afb036373ee9544330058a9c223fabb7434cd9e",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "ack-interact-2",
+    "unit": "t3",
+    "text": "Interface located.",
+    "source": "public/assets/genex/a2474699-7527-4f3f-8679-109edf2ecbe0/interface-located-cmwkilb5.mp3",
+    "output": "web/sfx/vox/en/t3-ack-interact-2-vox2.mp3",
+    "deliveryId": "a2474699-7527-4f3f-8679-109edf2ecbe0",
+    "seconds": 1.608,
+    "bytes": 19532,
+    "sha256": "49ff0e3f3f8c76ad43304349874b772243142edfc69d58a071e003fafe053133",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "ack-interact-2",
+    "unit": "command",
+    "text": "Interface located.",
+    "source": "public/assets/genex/a2474699-7527-4f3f-8679-109edf2ecbe0/interface-located-cmwkilb5.mp3",
+    "output": "web/sfx/vox/en/command-ack-interact-2-vox2.mp3",
+    "deliveryId": "a2474699-7527-4f3f-8679-109edf2ecbe0",
+    "seconds": 1.584,
+    "bytes": 18620,
+    "sha256": "d73c06e174c30c87576c8b2d8309392a019bd774b2910b37f77ab81ace6a25bc",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "execute-1",
+    "unit": "t0",
+    "text": "Executing.",
+    "source": "public/assets/genex/204af086-b8f7-4ad9-9ba4-793ff55ff971/executing-cmwkils3.mp3",
+    "output": "web/sfx/vox/en/t0-execute-1-vox2.mp3",
+    "deliveryId": "204af086-b8f7-4ad9-9ba4-793ff55ff971",
+    "seconds": 1.272,
+    "bytes": 15740,
+    "sha256": "08fc024a44a13f10daa63ebf4ffb33771fb3d43605526bd0e5571867e2a24292",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "execute-1",
+    "unit": "t1",
+    "text": "Executing.",
+    "source": "public/assets/genex/204af086-b8f7-4ad9-9ba4-793ff55ff971/executing-cmwkils3.mp3",
+    "output": "web/sfx/vox/en/t1-execute-1-vox2.mp3",
+    "deliveryId": "204af086-b8f7-4ad9-9ba4-793ff55ff971",
+    "seconds": 1.272,
+    "bytes": 15500,
+    "sha256": "950914e59fe97f0921c5e5f06d346c565e4a1b4edb8983e032688e236fddaa5f",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "execute-1",
+    "unit": "t2",
+    "text": "Executing.",
+    "source": "public/assets/genex/204af086-b8f7-4ad9-9ba4-793ff55ff971/executing-cmwkils3.mp3",
+    "output": "web/sfx/vox/en/t2-execute-1-vox2.mp3",
+    "deliveryId": "204af086-b8f7-4ad9-9ba4-793ff55ff971",
+    "seconds": 1.248,
+    "bytes": 15380,
+    "sha256": "6204cb5281b8198c6a43d380ab5a6dbb334813e0fe7d83d19ea6186233e15d0a",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "execute-1",
+    "unit": "t3",
+    "text": "Executing.",
+    "source": "public/assets/genex/204af086-b8f7-4ad9-9ba4-793ff55ff971/executing-cmwkils3.mp3",
+    "output": "web/sfx/vox/en/t3-execute-1-vox2.mp3",
+    "deliveryId": "204af086-b8f7-4ad9-9ba4-793ff55ff971",
+    "seconds": 1.272,
+    "bytes": 15644,
+    "sha256": "6b4bbf446c6d71370d6ca6689bf9ef3384e725a10a638a2b7300327940be6fef",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "execute-1",
+    "unit": "command",
+    "text": "Executing.",
+    "source": "public/assets/genex/204af086-b8f7-4ad9-9ba4-793ff55ff971/executing-cmwkils3.mp3",
+    "output": "web/sfx/vox/en/command-execute-1-vox2.mp3",
+    "deliveryId": "204af086-b8f7-4ad9-9ba4-793ff55ff971",
+    "seconds": 1.248,
+    "bytes": 15500,
+    "sha256": "3b11fd09f99054e6da23ea39e202c88b0fc0fd3ab98e7591d879915801a9f9b1",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "execute-2",
+    "unit": "t0",
+    "text": "Brothers, advance.",
+    "source": "public/assets/genex/0cbc4098-8378-4ec8-be93-4bcc83881943/brothers-advance-cmwkim9f.mp3",
+    "output": "web/sfx/vox/en/t0-execute-2-vox2.mp3",
+    "deliveryId": "0cbc4098-8378-4ec8-be93-4bcc83881943",
+    "seconds": 2.016,
+    "bytes": 23804,
+    "sha256": "846fada80fe3b92950796aa7b07e7cd243e957033a88fcb504538e2dd2fde90c",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "execute-2",
+    "unit": "t1",
+    "text": "Brothers, advance.",
+    "source": "public/assets/genex/0cbc4098-8378-4ec8-be93-4bcc83881943/brothers-advance-cmwkim9f.mp3",
+    "output": "web/sfx/vox/en/t1-execute-2-vox2.mp3",
+    "deliveryId": "0cbc4098-8378-4ec8-be93-4bcc83881943",
+    "seconds": 2.04,
+    "bytes": 24044,
+    "sha256": "62bc141073eb6084a9f10d945c963eb22f0fae5694502389c45cb96d63b953ee",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "execute-2",
+    "unit": "t2",
+    "text": "Brothers, advance.",
+    "source": "public/assets/genex/0cbc4098-8378-4ec8-be93-4bcc83881943/brothers-advance-cmwkim9f.mp3",
+    "output": "web/sfx/vox/en/t2-execute-2-vox2.mp3",
+    "deliveryId": "0cbc4098-8378-4ec8-be93-4bcc83881943",
+    "seconds": 1.992,
+    "bytes": 24044,
+    "sha256": "4c746173266b1d75519eae51e12f84438edf9ac89880fb77e33242ebbe356cc5",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "execute-2",
+    "unit": "t3",
+    "text": "Brothers, advance.",
+    "source": "public/assets/genex/0cbc4098-8378-4ec8-be93-4bcc83881943/brothers-advance-cmwkim9f.mp3",
+    "output": "web/sfx/vox/en/t3-execute-2-vox2.mp3",
+    "deliveryId": "0cbc4098-8378-4ec8-be93-4bcc83881943",
+    "seconds": 2.016,
+    "bytes": 23804,
+    "sha256": "a63f720e09ecae8e4abdcc74a3197e744f4adc2d55011f15d58d0b26228a1959",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "execute-2",
+    "unit": "command",
+    "text": "Brothers, advance.",
+    "source": "public/assets/genex/0cbc4098-8378-4ec8-be93-4bcc83881943/brothers-advance-cmwkim9f.mp3",
+    "output": "web/sfx/vox/en/command-execute-2-vox2.mp3",
+    "deliveryId": "0cbc4098-8378-4ec8-be93-4bcc83881943",
+    "seconds": 1.992,
+    "bytes": 23780,
+    "sha256": "4140454db65777ccdd46a66e471c3a7afde537d9337faaa083b39360323ad4f7",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "moving",
+    "unit": "t0",
+    "text": "Advancing.",
+    "source": "public/assets/genex/f1e8c49b-60af-4c9f-bd5e-f070b51a8769/advancing-cmwkimpl.mp3",
+    "output": "web/sfx/vox/en/t0-moving-vox2.mp3",
+    "deliveryId": "f1e8c49b-60af-4c9f-bd5e-f070b51a8769",
+    "seconds": 1.128,
+    "bytes": 13340,
+    "sha256": "914ca4f726d50243db0f218dae62b9973b87e19a3bfef4f78f2d89eba55241fe",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "moving",
+    "unit": "t1",
+    "text": "Advancing.",
+    "source": "public/assets/genex/f1e8c49b-60af-4c9f-bd5e-f070b51a8769/advancing-cmwkimpl.mp3",
+    "output": "web/sfx/vox/en/t1-moving-vox2.mp3",
+    "deliveryId": "f1e8c49b-60af-4c9f-bd5e-f070b51a8769",
+    "seconds": 1.128,
+    "bytes": 13796,
+    "sha256": "864ff6ac104a3c3903191beb9fa75b00a280938aee1d1a588fee101268231cb9",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "moving",
+    "unit": "t2",
+    "text": "Advancing.",
+    "source": "public/assets/genex/f1e8c49b-60af-4c9f-bd5e-f070b51a8769/advancing-cmwkimpl.mp3",
+    "output": "web/sfx/vox/en/t2-moving-vox2.mp3",
+    "deliveryId": "f1e8c49b-60af-4c9f-bd5e-f070b51a8769",
+    "seconds": 1.128,
+    "bytes": 13532,
+    "sha256": "f499d125f0776420073b3351f6f1de2ad135c9e8464bceac2d6cedaeebab4378",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "moving",
+    "unit": "t3",
+    "text": "Advancing.",
+    "source": "public/assets/genex/f1e8c49b-60af-4c9f-bd5e-f070b51a8769/advancing-cmwkimpl.mp3",
+    "output": "web/sfx/vox/en/t3-moving-vox2.mp3",
+    "deliveryId": "f1e8c49b-60af-4c9f-bd5e-f070b51a8769",
+    "seconds": 1.128,
+    "bytes": 13580,
+    "sha256": "5c65d960e076895aa22dd1f6311de3670ce15de9b3570f51955699188ec9a947",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "moving",
+    "unit": "command",
+    "text": "Advancing.",
+    "source": "public/assets/genex/f1e8c49b-60af-4c9f-bd5e-f070b51a8769/advancing-cmwkimpl.mp3",
+    "output": "web/sfx/vox/en/command-moving-vox2.mp3",
+    "deliveryId": "f1e8c49b-60af-4c9f-bd5e-f070b51a8769",
+    "seconds": 1.128,
+    "bytes": 13388,
+    "sha256": "13594ba5d89d9f4b570fb72bf7196d53ba70cc54ae27c488b782262af0fc7e60",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "firing",
+    "unit": "t0",
+    "text": "Purifying fire!",
+    "source": "public/assets/genex/50baf625-84d8-4a1e-8efe-a3b43fd8061e/purifying-fire-cmwkin59.mp3",
+    "output": "web/sfx/vox/en/t0-firing-vox2.mp3",
+    "deliveryId": "50baf625-84d8-4a1e-8efe-a3b43fd8061e",
+    "seconds": 1.752,
+    "bytes": 20132,
+    "sha256": "6ba0184f5abad36bfe3830a6311376f5f7252bb36d7ec4b4e67db5ce7efefe74",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "firing",
+    "unit": "t1",
+    "text": "Purifying fire!",
+    "source": "public/assets/genex/50baf625-84d8-4a1e-8efe-a3b43fd8061e/purifying-fire-cmwkin59.mp3",
+    "output": "web/sfx/vox/en/t1-firing-vox2.mp3",
+    "deliveryId": "50baf625-84d8-4a1e-8efe-a3b43fd8061e",
+    "seconds": 1.776,
+    "bytes": 20708,
+    "sha256": "1d2dcbb93db68989f69c5e48fb7bd7215e2d86df2e295e3e6cca06ca3b9fc61d",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "firing",
+    "unit": "t2",
+    "text": "Purifying fire!",
+    "source": "public/assets/genex/50baf625-84d8-4a1e-8efe-a3b43fd8061e/purifying-fire-cmwkin59.mp3",
+    "output": "web/sfx/vox/en/t2-firing-vox2.mp3",
+    "deliveryId": "50baf625-84d8-4a1e-8efe-a3b43fd8061e",
+    "seconds": 1.752,
+    "bytes": 20180,
+    "sha256": "222437eeb16925674a44fb48afaf4e0596def9c470c8fe2ed406464750e7dbcb",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "firing",
+    "unit": "t3",
+    "text": "Purifying fire!",
+    "source": "public/assets/genex/50baf625-84d8-4a1e-8efe-a3b43fd8061e/purifying-fire-cmwkin59.mp3",
+    "output": "web/sfx/vox/en/t3-firing-vox2.mp3",
+    "deliveryId": "50baf625-84d8-4a1e-8efe-a3b43fd8061e",
+    "seconds": 1.776,
+    "bytes": 20372,
+    "sha256": "bf33f30da477a9327fb270a136edba8f2756243342563a552330a778ad968a8d",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "firing",
+    "unit": "command",
+    "text": "Purifying fire!",
+    "source": "public/assets/genex/50baf625-84d8-4a1e-8efe-a3b43fd8061e/purifying-fire-cmwkin59.mp3",
+    "output": "web/sfx/vox/en/command-firing-vox2.mp3",
+    "deliveryId": "50baf625-84d8-4a1e-8efe-a3b43fd8061e",
+    "seconds": 1.752,
+    "bytes": 20228,
+    "sha256": "185bc660fccecd00be08a8a326214d4d15fdd52728f3d8b56a5a672615884fce",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "scanning",
+    "unit": "t0",
+    "text": "Auspex sweep in progress.",
+    "source": "public/assets/genex/ed16aa7f-9eb0-4097-b164-cc2de4c49c91/auspex-sweep-in-progress-cmwkinl8.mp3",
+    "output": "web/sfx/vox/en/t0-scanning-vox2.mp3",
+    "deliveryId": "ed16aa7f-9eb0-4097-b164-cc2de4c49c91",
+    "seconds": 2.328,
+    "bytes": 27836,
+    "sha256": "99f3335aa74cdbc0e940549549f89004d635ccac20042056a872c4d634d2a43a",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "scanning",
+    "unit": "t1",
+    "text": "Auspex sweep in progress.",
+    "source": "public/assets/genex/ed16aa7f-9eb0-4097-b164-cc2de4c49c91/auspex-sweep-in-progress-cmwkinl8.mp3",
+    "output": "web/sfx/vox/en/t1-scanning-vox2.mp3",
+    "deliveryId": "ed16aa7f-9eb0-4097-b164-cc2de4c49c91",
+    "seconds": 2.352,
+    "bytes": 27788,
+    "sha256": "405791b832413099448b30b44cf0ed500f4e0fb776a0cc48b02da74eb7a90fc4",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "scanning",
+    "unit": "t2",
+    "text": "Auspex sweep in progress.",
+    "source": "public/assets/genex/ed16aa7f-9eb0-4097-b164-cc2de4c49c91/auspex-sweep-in-progress-cmwkinl8.mp3",
+    "output": "web/sfx/vox/en/t2-scanning-vox2.mp3",
+    "deliveryId": "ed16aa7f-9eb0-4097-b164-cc2de4c49c91",
+    "seconds": 2.328,
+    "bytes": 28508,
+    "sha256": "b92e1062dcc509aa238364b7b8774beb63416cc2069ac1b6f15fde3e759aabbe",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "scanning",
+    "unit": "t3",
+    "text": "Auspex sweep in progress.",
+    "source": "public/assets/genex/ed16aa7f-9eb0-4097-b164-cc2de4c49c91/auspex-sweep-in-progress-cmwkinl8.mp3",
+    "output": "web/sfx/vox/en/t3-scanning-vox2.mp3",
+    "deliveryId": "ed16aa7f-9eb0-4097-b164-cc2de4c49c91",
+    "seconds": 2.352,
+    "bytes": 28028,
+    "sha256": "a3646d1de12c2b6ef72f719e3af6ffcd1f8b6dff4c147fb06adbc726ecd1176b",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "scanning",
+    "unit": "command",
+    "text": "Auspex sweep in progress.",
+    "source": "public/assets/genex/ed16aa7f-9eb0-4097-b164-cc2de4c49c91/auspex-sweep-in-progress-cmwkinl8.mp3",
+    "output": "web/sfx/vox/en/command-scanning-vox2.mp3",
+    "deliveryId": "ed16aa7f-9eb0-4097-b164-cc2de4c49c91",
+    "seconds": 2.328,
+    "bytes": 28652,
+    "sha256": "7e0e9d7a4897bf0b9c0f022851a46ec74624bdff193af55831a35e24fcb0aad8",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "working",
+    "unit": "t0",
+    "text": "Connecting to the systems.",
+    "source": "public/assets/genex/3ba5dccd-426e-43e7-a8a1-471f60a3bb4e/connecting-to-the-systems-cmwkio18.mp3",
+    "output": "web/sfx/vox/en/t0-working-vox2.mp3",
+    "deliveryId": "3ba5dccd-426e-43e7-a8a1-471f60a3bb4e",
+    "seconds": 1.728,
+    "bytes": 20876,
+    "sha256": "a9ff6cc09eaac3a91082dbc071f2d9ad864ced36029f2f01c7de8473e873be3c",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "working",
+    "unit": "t1",
+    "text": "Connecting to the systems.",
+    "source": "public/assets/genex/3ba5dccd-426e-43e7-a8a1-471f60a3bb4e/connecting-to-the-systems-cmwkio18.mp3",
+    "output": "web/sfx/vox/en/t1-working-vox2.mp3",
+    "deliveryId": "3ba5dccd-426e-43e7-a8a1-471f60a3bb4e",
+    "seconds": 1.728,
+    "bytes": 20828,
+    "sha256": "0750f4a2c34c2429e31acba89ddcbc7763e072355efb761685e315b79195452e",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "working",
+    "unit": "t2",
+    "text": "Connecting to the systems.",
+    "source": "public/assets/genex/3ba5dccd-426e-43e7-a8a1-471f60a3bb4e/connecting-to-the-systems-cmwkio18.mp3",
+    "output": "web/sfx/vox/en/t2-working-vox2.mp3",
+    "deliveryId": "3ba5dccd-426e-43e7-a8a1-471f60a3bb4e",
+    "seconds": 1.728,
+    "bytes": 21356,
+    "sha256": "024b9f038e2fa91fb862e5e04990d82f375dab2cc122a7edb779536b69eba996",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "working",
+    "unit": "t3",
+    "text": "Connecting to the systems.",
+    "source": "public/assets/genex/3ba5dccd-426e-43e7-a8a1-471f60a3bb4e/connecting-to-the-systems-cmwkio18.mp3",
+    "output": "web/sfx/vox/en/t3-working-vox2.mp3",
+    "deliveryId": "3ba5dccd-426e-43e7-a8a1-471f60a3bb4e",
+    "seconds": 1.728,
+    "bytes": 20972,
+    "sha256": "35e52443af92b257123e80ced06ae9f8c887e1ab461642951f9a98f36d6dc0e1",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "working",
+    "unit": "command",
+    "text": "Connecting to the systems.",
+    "source": "public/assets/genex/3ba5dccd-426e-43e7-a8a1-471f60a3bb4e/connecting-to-the-systems-cmwkio18.mp3",
+    "output": "web/sfx/vox/en/command-working-vox2.mp3",
+    "deliveryId": "3ba5dccd-426e-43e7-a8a1-471f60a3bb4e",
+    "seconds": 1.728,
+    "bytes": 20684,
+    "sha256": "36537b887ee2b42b5a4c4fea323b39d817a57a4985bc60a2cc8cf8188319c2d5",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "guarding",
+    "unit": "t0",
+    "text": "Sector under watch.",
+    "source": "public/assets/genex/54dbadfd-ce1c-4c69-92a7-fef85932a787/sector-under-watch-cmwkioh7.mp3",
+    "output": "web/sfx/vox/en/t0-guarding-vox2.mp3",
+    "deliveryId": "54dbadfd-ce1c-4c69-92a7-fef85932a787",
+    "seconds": 1.752,
+    "bytes": 20924,
+    "sha256": "bb2fd29c545e9d2b598293017e972d1b819240de2034d2437bb7da1151e1f994",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "guarding",
+    "unit": "t1",
+    "text": "Sector under watch.",
+    "source": "public/assets/genex/54dbadfd-ce1c-4c69-92a7-fef85932a787/sector-under-watch-cmwkioh7.mp3",
+    "output": "web/sfx/vox/en/t1-guarding-vox2.mp3",
+    "deliveryId": "54dbadfd-ce1c-4c69-92a7-fef85932a787",
+    "seconds": 1.776,
+    "bytes": 21548,
+    "sha256": "2338f309dca8673ea2cf2e2bb56c8786df31f34ea6c6836060c32296d3d3c624",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "guarding",
+    "unit": "t2",
+    "text": "Sector under watch.",
+    "source": "public/assets/genex/54dbadfd-ce1c-4c69-92a7-fef85932a787/sector-under-watch-cmwkioh7.mp3",
+    "output": "web/sfx/vox/en/t2-guarding-vox2.mp3",
+    "deliveryId": "54dbadfd-ce1c-4c69-92a7-fef85932a787",
+    "seconds": 1.752,
+    "bytes": 21212,
+    "sha256": "5457f9c88ed492f3399034d5d58c9919df0fb99a0e731d6e73f1fbdc340f8beb",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "guarding",
+    "unit": "t3",
+    "text": "Sector under watch.",
+    "source": "public/assets/genex/54dbadfd-ce1c-4c69-92a7-fef85932a787/sector-under-watch-cmwkioh7.mp3",
+    "output": "web/sfx/vox/en/t3-guarding-vox2.mp3",
+    "deliveryId": "54dbadfd-ce1c-4c69-92a7-fef85932a787",
+    "seconds": 1.776,
+    "bytes": 21596,
+    "sha256": "9221b025538e8d8dcb4cfae8a42b24b7329e6cd1d573c0878f5eede77d9679df",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "guarding",
+    "unit": "command",
+    "text": "Sector under watch.",
+    "source": "public/assets/genex/54dbadfd-ce1c-4c69-92a7-fef85932a787/sector-under-watch-cmwkioh7.mp3",
+    "output": "web/sfx/vox/en/command-guarding-vox2.mp3",
+    "deliveryId": "54dbadfd-ce1c-4c69-92a7-fef85932a787",
+    "seconds": 1.752,
+    "bytes": 20780,
+    "sha256": "e41fa2683857937fa65a79948a8d55fb8cc533406800eace61da57a795c66fa8",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "door-open",
+    "unit": "t0",
+    "text": "Passage open.",
+    "source": "public/assets/genex/2c226df4-7a1f-429b-b157-dbb504a285be/passage-open-cmwkiox1.mp3",
+    "output": "web/sfx/vox/en/t0-door-open-vox2.mp3",
+    "deliveryId": "2c226df4-7a1f-429b-b157-dbb504a285be",
+    "seconds": 1.464,
+    "bytes": 17372,
+    "sha256": "2653d34bdb70f38e8e3abc17357b2294124743b5a6607b4432eaf1dc88a4b217",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "door-open",
+    "unit": "t1",
+    "text": "Passage open.",
+    "source": "public/assets/genex/2c226df4-7a1f-429b-b157-dbb504a285be/passage-open-cmwkiox1.mp3",
+    "output": "web/sfx/vox/en/t1-door-open-vox2.mp3",
+    "deliveryId": "2c226df4-7a1f-429b-b157-dbb504a285be",
+    "seconds": 1.488,
+    "bytes": 17564,
+    "sha256": "490110072c2f350a1fb8e6ebd3c00df880c174f684fc441e55b57288acdf0800",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "door-open",
+    "unit": "t2",
+    "text": "Passage open.",
+    "source": "public/assets/genex/2c226df4-7a1f-429b-b157-dbb504a285be/passage-open-cmwkiox1.mp3",
+    "output": "web/sfx/vox/en/t2-door-open-vox2.mp3",
+    "deliveryId": "2c226df4-7a1f-429b-b157-dbb504a285be",
+    "seconds": 1.464,
+    "bytes": 17660,
+    "sha256": "e44576e30f1687e82760221869daecf91b714ee98628ea0d4ed214cddc619ffc",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "door-open",
+    "unit": "t3",
+    "text": "Passage open.",
+    "source": "public/assets/genex/2c226df4-7a1f-429b-b157-dbb504a285be/passage-open-cmwkiox1.mp3",
+    "output": "web/sfx/vox/en/t3-door-open-vox2.mp3",
+    "deliveryId": "2c226df4-7a1f-429b-b157-dbb504a285be",
+    "seconds": 1.488,
+    "bytes": 17660,
+    "sha256": "3fb6cd21eb9dbae436b0c1437774667f091c5ce32c569073736711d1d38c1677",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "door-open",
+    "unit": "command",
+    "text": "Passage open.",
+    "source": "public/assets/genex/2c226df4-7a1f-429b-b157-dbb504a285be/passage-open-cmwkiox1.mp3",
+    "output": "web/sfx/vox/en/command-door-open-vox2.mp3",
+    "deliveryId": "2c226df4-7a1f-429b-b157-dbb504a285be",
+    "seconds": 1.464,
+    "bytes": 17372,
+    "sha256": "43cab08e6b6352878c94edee490e22b49acca734e46471f3094279db30859873",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "door-closed",
+    "unit": "t0",
+    "text": "Airlock sealed.",
+    "source": "public/assets/genex/5043e36e-08e8-4ec6-9d93-0c9cd02656b3/airlock-sealed-cmwkipd6.mp3",
+    "output": "web/sfx/vox/en/t0-door-closed-vox2.mp3",
+    "deliveryId": "5043e36e-08e8-4ec6-9d93-0c9cd02656b3",
+    "seconds": 1.392,
+    "bytes": 16772,
+    "sha256": "4ccd432b90cc607a8fa4e12655d62ffbfa3224931b4e9c997630d3687ed2bb24",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "door-closed",
+    "unit": "t1",
+    "text": "Airlock sealed.",
+    "source": "public/assets/genex/5043e36e-08e8-4ec6-9d93-0c9cd02656b3/airlock-sealed-cmwkipd6.mp3",
+    "output": "web/sfx/vox/en/t1-door-closed-vox2.mp3",
+    "deliveryId": "5043e36e-08e8-4ec6-9d93-0c9cd02656b3",
+    "seconds": 1.416,
+    "bytes": 17276,
+    "sha256": "f89e8d8016dd51e313267942b8eb9c44e94b64a36d6766c0b5db98f1e8084185",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "door-closed",
+    "unit": "t2",
+    "text": "Airlock sealed.",
+    "source": "public/assets/genex/5043e36e-08e8-4ec6-9d93-0c9cd02656b3/airlock-sealed-cmwkipd6.mp3",
+    "output": "web/sfx/vox/en/t2-door-closed-vox2.mp3",
+    "deliveryId": "5043e36e-08e8-4ec6-9d93-0c9cd02656b3",
+    "seconds": 1.392,
+    "bytes": 17492,
+    "sha256": "ecc288b2168cdbd7483e0f0be1d873d2f7896eae9c4a751faecaad3839299aac",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "door-closed",
+    "unit": "t3",
+    "text": "Airlock sealed.",
+    "source": "public/assets/genex/5043e36e-08e8-4ec6-9d93-0c9cd02656b3/airlock-sealed-cmwkipd6.mp3",
+    "output": "web/sfx/vox/en/t3-door-closed-vox2.mp3",
+    "deliveryId": "5043e36e-08e8-4ec6-9d93-0c9cd02656b3",
+    "seconds": 1.416,
+    "bytes": 16724,
+    "sha256": "a610cdc27e498f207c83b08db0da32af476823f5d86a399c12a2402d99f5c9ad",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "door-closed",
+    "unit": "command",
+    "text": "Airlock sealed.",
+    "source": "public/assets/genex/5043e36e-08e8-4ec6-9d93-0c9cd02656b3/airlock-sealed-cmwkipd6.mp3",
+    "output": "web/sfx/vox/en/command-door-closed-vox2.mp3",
+    "deliveryId": "5043e36e-08e8-4ec6-9d93-0c9cd02656b3",
+    "seconds": 1.392,
+    "bytes": 17204,
+    "sha256": "92f0362fb03423a96f5b99ee8421a735d38a30c69b61d984208937ac66a098e8",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "secured",
+    "unit": "t0",
+    "text": "Objective secured, commander.",
+    "source": "public/assets/genex/feb022eb-403c-4053-831d-dc1439fd286e/objective-secured-commander-cmwkipte.mp3",
+    "output": "web/sfx/vox/en/t0-secured-vox2.mp3",
+    "deliveryId": "feb022eb-403c-4053-831d-dc1439fd286e",
+    "seconds": 2.064,
+    "bytes": 24332,
+    "sha256": "b88d5cd6c37e442e0d274fda056f58e0456cda8f022d45d9e10f5c8f8ff93958",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "secured",
+    "unit": "t1",
+    "text": "Objective secured, commander.",
+    "source": "public/assets/genex/feb022eb-403c-4053-831d-dc1439fd286e/objective-secured-commander-cmwkipte.mp3",
+    "output": "web/sfx/vox/en/t1-secured-vox2.mp3",
+    "deliveryId": "feb022eb-403c-4053-831d-dc1439fd286e",
+    "seconds": 2.064,
+    "bytes": 24452,
+    "sha256": "94a3a5463e81002d4ca1eb1197bcffe43ca9c1c0670f5e9d636f3cb303c76e80",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "secured",
+    "unit": "t2",
+    "text": "Objective secured, commander.",
+    "source": "public/assets/genex/feb022eb-403c-4053-831d-dc1439fd286e/objective-secured-commander-cmwkipte.mp3",
+    "output": "web/sfx/vox/en/t2-secured-vox2.mp3",
+    "deliveryId": "feb022eb-403c-4053-831d-dc1439fd286e",
+    "seconds": 2.064,
+    "bytes": 25004,
+    "sha256": "616c709a66e79ede2a606ca72e5416be491927730e2e47e9aab75282a2f38e3f",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "secured",
+    "unit": "t3",
+    "text": "Objective secured, commander.",
+    "source": "public/assets/genex/feb022eb-403c-4053-831d-dc1439fd286e/objective-secured-commander-cmwkipte.mp3",
+    "output": "web/sfx/vox/en/t3-secured-vox2.mp3",
+    "deliveryId": "feb022eb-403c-4053-831d-dc1439fd286e",
+    "seconds": 2.064,
+    "bytes": 24836,
+    "sha256": "3fa07eedf28073a9185fe09191b273441fc4195c9ddf02d940a3c9c13170a9cd",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "secured",
+    "unit": "command",
+    "text": "Objective secured, commander.",
+    "source": "public/assets/genex/feb022eb-403c-4053-831d-dc1439fd286e/objective-secured-commander-cmwkipte.mp3",
+    "output": "web/sfx/vox/en/command-secured-vox2.mp3",
+    "deliveryId": "feb022eb-403c-4053-831d-dc1439fd286e",
+    "seconds": 2.064,
+    "bytes": 24236,
+    "sha256": "194dcdda685bda4f1c7f8d67fe3d2724df550d0dbe464a702c23e9754aca0c38",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "blocked",
+    "unit": "t0",
+    "text": "Advance blocked.",
+    "source": "public/assets/genex/db134673-e124-484a-8450-47f972bee447/advance-blocked-cmwkiq9a.mp3",
+    "output": "web/sfx/vox/en/t0-blocked-vox2.mp3",
+    "deliveryId": "db134673-e124-484a-8450-47f972bee447",
+    "seconds": 1.632,
+    "bytes": 19532,
+    "sha256": "962b6a6a56c9fbf1a2e9a8262b0f7c451ec9a5b8be7a30df7359d0dc0536755b",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "blocked",
+    "unit": "t1",
+    "text": "Advance blocked.",
+    "source": "public/assets/genex/db134673-e124-484a-8450-47f972bee447/advance-blocked-cmwkiq9a.mp3",
+    "output": "web/sfx/vox/en/t1-blocked-vox2.mp3",
+    "deliveryId": "db134673-e124-484a-8450-47f972bee447",
+    "seconds": 1.656,
+    "bytes": 19892,
+    "sha256": "718a92e506ae1b42304434197d3ee0fb36d8981c0c5111cf5b17657815a1bb2a",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "blocked",
+    "unit": "t2",
+    "text": "Advance blocked.",
+    "source": "public/assets/genex/db134673-e124-484a-8450-47f972bee447/advance-blocked-cmwkiq9a.mp3",
+    "output": "web/sfx/vox/en/t2-blocked-vox2.mp3",
+    "deliveryId": "db134673-e124-484a-8450-47f972bee447",
+    "seconds": 1.632,
+    "bytes": 20468,
+    "sha256": "9131b3168c28de892a80ad8b807c032a622933c3d0b5ab7a24671ca89f684490",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "blocked",
+    "unit": "t3",
+    "text": "Advance blocked.",
+    "source": "public/assets/genex/db134673-e124-484a-8450-47f972bee447/advance-blocked-cmwkiq9a.mp3",
+    "output": "web/sfx/vox/en/t3-blocked-vox2.mp3",
+    "deliveryId": "db134673-e124-484a-8450-47f972bee447",
+    "seconds": 1.656,
+    "bytes": 20252,
+    "sha256": "2735bbd32c7a6067040c5aee4e9f0e9731e59c3490d7adfe8eb4da9db59b2c4c",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "blocked",
+    "unit": "command",
+    "text": "Advance blocked.",
+    "source": "public/assets/genex/db134673-e124-484a-8450-47f972bee447/advance-blocked-cmwkiq9a.mp3",
+    "output": "web/sfx/vox/en/command-blocked-vox2.mp3",
+    "deliveryId": "db134673-e124-484a-8450-47f972bee447",
+    "seconds": 1.632,
+    "bytes": 20132,
+    "sha256": "04e9899bebc0a55a288238007d55ff6b7a59312eb4bc1341d14207312c406f8a",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "contact",
+    "unit": "t0",
+    "text": "Visual contact. The enemy is here.",
+    "source": "public/assets/genex/d61df578-7709-4108-9266-ba17560dbd75/visual-contact-the-enemy-is-here-cmwkiqp0.mp3",
+    "output": "web/sfx/vox/en/t0-contact-vox2.mp3",
+    "deliveryId": "d61df578-7709-4108-9266-ba17560dbd75",
+    "seconds": 2.856,
+    "bytes": 33116,
+    "sha256": "d8697c8705d514ef57244436aa50882d35610834bc477194d792afecdff5d919",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "contact",
+    "unit": "t1",
+    "text": "Visual contact. The enemy is here.",
+    "source": "public/assets/genex/d61df578-7709-4108-9266-ba17560dbd75/visual-contact-the-enemy-is-here-cmwkiqp0.mp3",
+    "output": "web/sfx/vox/en/t1-contact-vox2.mp3",
+    "deliveryId": "d61df578-7709-4108-9266-ba17560dbd75",
+    "seconds": 2.88,
+    "bytes": 33404,
+    "sha256": "0f922841ceb0aed7edc2411ecb1c45f0f3e530f58e25048efb6dd87b42fe6391",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "contact",
+    "unit": "t2",
+    "text": "Visual contact. The enemy is here.",
+    "source": "public/assets/genex/d61df578-7709-4108-9266-ba17560dbd75/visual-contact-the-enemy-is-here-cmwkiqp0.mp3",
+    "output": "web/sfx/vox/en/t2-contact-vox2.mp3",
+    "deliveryId": "d61df578-7709-4108-9266-ba17560dbd75",
+    "seconds": 2.856,
+    "bytes": 33164,
+    "sha256": "200c5e99c533f8eb6d5310fb8a85f0ef1a09921f6f3d3fc05dc3a7b5bba94df7",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "contact",
+    "unit": "t3",
+    "text": "Visual contact. The enemy is here.",
+    "source": "public/assets/genex/d61df578-7709-4108-9266-ba17560dbd75/visual-contact-the-enemy-is-here-cmwkiqp0.mp3",
+    "output": "web/sfx/vox/en/t3-contact-vox2.mp3",
+    "deliveryId": "d61df578-7709-4108-9266-ba17560dbd75",
+    "seconds": 2.88,
+    "bytes": 33260,
+    "sha256": "44d61ae455e1ed68832189d7ffc679901f630268491bf03a4ec79a3a362fb4cc",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "contact",
+    "unit": "command",
+    "text": "Visual contact. The enemy is here.",
+    "source": "public/assets/genex/d61df578-7709-4108-9266-ba17560dbd75/visual-contact-the-enemy-is-here-cmwkiqp0.mp3",
+    "output": "web/sfx/vox/en/command-contact-vox2.mp3",
+    "deliveryId": "d61df578-7709-4108-9266-ba17560dbd75",
+    "seconds": 2.856,
+    "bytes": 33020,
+    "sha256": "5f5b536f66a46a2a8a3cd077b4dfb2baf01722a119096aea8e808f4d728450a0",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "hurt",
+    "unit": "t0",
+    "text": "Armour hit. I hold.",
+    "source": "public/assets/genex/d9ecc659-836e-414f-8aa7-b34b6bf6725d/armour-hit-i-hold-cmwkir50.mp3",
+    "output": "web/sfx/vox/en/t0-hurt-vox2.mp3",
+    "deliveryId": "d9ecc659-836e-414f-8aa7-b34b6bf6725d",
+    "seconds": 2.376,
+    "bytes": 27068,
+    "sha256": "146cd19af3d6711eb7911bce1dc1c2bd875f3bc5f8a68db29e911c2e7f719963",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "hurt",
+    "unit": "t1",
+    "text": "Armour hit. I hold.",
+    "source": "public/assets/genex/d9ecc659-836e-414f-8aa7-b34b6bf6725d/armour-hit-i-hold-cmwkir50.mp3",
+    "output": "web/sfx/vox/en/t1-hurt-vox2.mp3",
+    "deliveryId": "d9ecc659-836e-414f-8aa7-b34b6bf6725d",
+    "seconds": 2.424,
+    "bytes": 27644,
+    "sha256": "104b8bfa99c7c534aec869ec0fd432c1b343357f5200d5a47900fb24348e69e6",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "hurt",
+    "unit": "t2",
+    "text": "Armour hit. I hold.",
+    "source": "public/assets/genex/d9ecc659-836e-414f-8aa7-b34b6bf6725d/armour-hit-i-hold-cmwkir50.mp3",
+    "output": "web/sfx/vox/en/t2-hurt-vox2.mp3",
+    "deliveryId": "d9ecc659-836e-414f-8aa7-b34b6bf6725d",
+    "seconds": 2.376,
+    "bytes": 27596,
+    "sha256": "2391f7ae561f9d04bcb4479be34b21a66303f74800fbc07c60421da6a2c5237b",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "hurt",
+    "unit": "t3",
+    "text": "Armour hit. I hold.",
+    "source": "public/assets/genex/d9ecc659-836e-414f-8aa7-b34b6bf6725d/armour-hit-i-hold-cmwkir50.mp3",
+    "output": "web/sfx/vox/en/t3-hurt-vox2.mp3",
+    "deliveryId": "d9ecc659-836e-414f-8aa7-b34b6bf6725d",
+    "seconds": 2.4,
+    "bytes": 27452,
+    "sha256": "4bb5d49b3bea8be6086876bd50a978bdf9e7f9b65368468fb3b1c8f9dcabaf35",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "hurt",
+    "unit": "command",
+    "text": "Armour hit. I hold.",
+    "source": "public/assets/genex/d9ecc659-836e-414f-8aa7-b34b6bf6725d/armour-hit-i-hold-cmwkir50.mp3",
+    "output": "web/sfx/vox/en/command-hurt-vox2.mp3",
+    "deliveryId": "d9ecc659-836e-414f-8aa7-b34b6bf6725d",
+    "seconds": 2.376,
+    "bytes": 27068,
+    "sha256": "a5c7c0337e0a4873e11add915899b3ec3f6dddcec078959279ce048ee9be8937",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "kill",
+    "unit": "t0",
+    "text": "Enemy neutralised.",
+    "source": "public/assets/genex/177e7851-d074-4ba6-8c74-7bad9e0d0a2e/enemy-neutralised-cmwkirl0.mp3",
+    "output": "web/sfx/vox/en/t0-kill-vox2.mp3",
+    "deliveryId": "177e7851-d074-4ba6-8c74-7bad9e0d0a2e",
+    "seconds": 1.584,
+    "bytes": 19196,
+    "sha256": "5ca8c6b579a52b63ddac969de7a11a0397b3769aa04bf0ddebaee993f7c6e235",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "kill",
+    "unit": "t1",
+    "text": "Enemy neutralised.",
+    "source": "public/assets/genex/177e7851-d074-4ba6-8c74-7bad9e0d0a2e/enemy-neutralised-cmwkirl0.mp3",
+    "output": "web/sfx/vox/en/t1-kill-vox2.mp3",
+    "deliveryId": "177e7851-d074-4ba6-8c74-7bad9e0d0a2e",
+    "seconds": 1.608,
+    "bytes": 19820,
+    "sha256": "8877205e850a2b0ff5138bc600f3f44580ec0dc60887b65f2a2acd5e82d426c4",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "kill",
+    "unit": "t2",
+    "text": "Enemy neutralised.",
+    "source": "public/assets/genex/177e7851-d074-4ba6-8c74-7bad9e0d0a2e/enemy-neutralised-cmwkirl0.mp3",
+    "output": "web/sfx/vox/en/t2-kill-vox2.mp3",
+    "deliveryId": "177e7851-d074-4ba6-8c74-7bad9e0d0a2e",
+    "seconds": 1.584,
+    "bytes": 19436,
+    "sha256": "1d4d1dd4a5f526a684a95be6d4f89499e81d261650b94ff9de9897f79302de4c",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "kill",
+    "unit": "t3",
+    "text": "Enemy neutralised.",
+    "source": "public/assets/genex/177e7851-d074-4ba6-8c74-7bad9e0d0a2e/enemy-neutralised-cmwkirl0.mp3",
+    "output": "web/sfx/vox/en/t3-kill-vox2.mp3",
+    "deliveryId": "177e7851-d074-4ba6-8c74-7bad9e0d0a2e",
+    "seconds": 1.584,
+    "bytes": 19196,
+    "sha256": "88d95166b466d1cb0bf0f965c9c3973acd8ae741ad22e86ebf3d3697f8e4cd7f",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "kill",
+    "unit": "command",
+    "text": "Enemy neutralised.",
+    "source": "public/assets/genex/177e7851-d074-4ba6-8c74-7bad9e0d0a2e/enemy-neutralised-cmwkirl0.mp3",
+    "output": "web/sfx/vox/en/command-kill-vox2.mp3",
+    "deliveryId": "177e7851-d074-4ba6-8c74-7bad9e0d0a2e",
+    "seconds": 1.584,
+    "bytes": 19532,
+    "sha256": "34680370f4b1fafc24cad52fede86eac392a8ed20db24b91e9b780f26f985f7a",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "fallen",
+    "unit": "t0",
+    "text": "A brother has fallen.",
+    "source": "public/assets/genex/fc764f51-b50b-4687-a95c-83a3b794b447/a-brother-has-fallen-cmwkis10.mp3",
+    "output": "web/sfx/vox/en/t0-fallen-vox2.mp3",
+    "deliveryId": "fc764f51-b50b-4687-a95c-83a3b794b447",
+    "seconds": 1.872,
+    "bytes": 21452,
+    "sha256": "2ae37d85b8fd1b489143ddcd208316fe99d2e07cd13a5704334aa1c3219b6f4e",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "fallen",
+    "unit": "t1",
+    "text": "A brother has fallen.",
+    "source": "public/assets/genex/fc764f51-b50b-4687-a95c-83a3b794b447/a-brother-has-fallen-cmwkis10.mp3",
+    "output": "web/sfx/vox/en/t1-fallen-vox2.mp3",
+    "deliveryId": "fc764f51-b50b-4687-a95c-83a3b794b447",
+    "seconds": 1.896,
+    "bytes": 22604,
+    "sha256": "cc980eb92640ee415300645b66401d39a51fd7e73f9048841831580cbd028490",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "fallen",
+    "unit": "t2",
+    "text": "A brother has fallen.",
+    "source": "public/assets/genex/fc764f51-b50b-4687-a95c-83a3b794b447/a-brother-has-fallen-cmwkis10.mp3",
+    "output": "web/sfx/vox/en/t2-fallen-vox2.mp3",
+    "deliveryId": "fc764f51-b50b-4687-a95c-83a3b794b447",
+    "seconds": 1.848,
+    "bytes": 21620,
+    "sha256": "d3e3bb8bff046dc85d2c965633339b08db20a25ce61fee934176ccbc808a9034",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "fallen",
+    "unit": "t3",
+    "text": "A brother has fallen.",
+    "source": "public/assets/genex/fc764f51-b50b-4687-a95c-83a3b794b447/a-brother-has-fallen-cmwkis10.mp3",
+    "output": "web/sfx/vox/en/t3-fallen-vox2.mp3",
+    "deliveryId": "fc764f51-b50b-4687-a95c-83a3b794b447",
+    "seconds": 1.872,
+    "bytes": 21692,
+    "sha256": "dca1b181685ea67ebe043a98704a1b1e5e20c03838efadc47fe0fdf5dd0dce12",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "fallen",
+    "unit": "command",
+    "text": "A brother has fallen.",
+    "source": "public/assets/genex/fc764f51-b50b-4687-a95c-83a3b794b447/a-brother-has-fallen-cmwkis10.mp3",
+    "output": "web/sfx/vox/en/command-fallen-vox2.mp3",
+    "deliveryId": "fc764f51-b50b-4687-a95c-83a3b794b447",
+    "seconds": 1.848,
+    "bytes": 21356,
+    "sha256": "2c426661250f0993d93085bba51617e280ab03c8d86f72cbdc310da980daad62",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "recon-done",
+    "unit": "t0",
+    "text": "Sweep complete.",
+    "source": "public/assets/genex/f5a37448-9abe-4724-8525-9d3162dae5bf/sweep-complete-cmwkish1.mp3",
+    "output": "web/sfx/vox/en/t0-recon-done-vox2.mp3",
+    "deliveryId": "f5a37448-9abe-4724-8525-9d3162dae5bf",
+    "seconds": 1.584,
+    "bytes": 19052,
+    "sha256": "12ca3084e4ecd477fc8aea72864b6a187a5161e84fa9d82b21cea8bf2abf3525",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "recon-done",
+    "unit": "t1",
+    "text": "Sweep complete.",
+    "source": "public/assets/genex/f5a37448-9abe-4724-8525-9d3162dae5bf/sweep-complete-cmwkish1.mp3",
+    "output": "web/sfx/vox/en/t1-recon-done-vox2.mp3",
+    "deliveryId": "f5a37448-9abe-4724-8525-9d3162dae5bf",
+    "seconds": 1.584,
+    "bytes": 19316,
+    "sha256": "545874acaf0593eae9629735f2ddbdaa953988beb10afbeb9b2644ca361f1974",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "recon-done",
+    "unit": "t2",
+    "text": "Sweep complete.",
+    "source": "public/assets/genex/f5a37448-9abe-4724-8525-9d3162dae5bf/sweep-complete-cmwkish1.mp3",
+    "output": "web/sfx/vox/en/t2-recon-done-vox2.mp3",
+    "deliveryId": "f5a37448-9abe-4724-8525-9d3162dae5bf",
+    "seconds": 1.56,
+    "bytes": 19244,
+    "sha256": "60f4211fbe79cc29c9ead54a0add423fc99c80cd295ed0861abc9eb124a9eeb5",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "recon-done",
+    "unit": "t3",
+    "text": "Sweep complete.",
+    "source": "public/assets/genex/f5a37448-9abe-4724-8525-9d3162dae5bf/sweep-complete-cmwkish1.mp3",
+    "output": "web/sfx/vox/en/t3-recon-done-vox2.mp3",
+    "deliveryId": "f5a37448-9abe-4724-8525-9d3162dae5bf",
+    "seconds": 1.584,
+    "bytes": 19148,
+    "sha256": "f62b75607dc9e420a1321efe857baccd129d7e49e9b5074d7a6a3551d976c13d",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "recon-done",
+    "unit": "command",
+    "text": "Sweep complete.",
+    "source": "public/assets/genex/f5a37448-9abe-4724-8525-9d3162dae5bf/sweep-complete-cmwkish1.mp3",
+    "output": "web/sfx/vox/en/command-recon-done-vox2.mp3",
+    "deliveryId": "f5a37448-9abe-4724-8525-9d3162dae5bf",
+    "seconds": 1.56,
+    "bytes": 19172,
+    "sha256": "e2f0192b35446a710a922074928496f0b200025444173c3baddb2cefa39b42d6",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "victory",
+    "unit": "t0",
+    "text": "Victory belongs to the Emperor.",
+    "source": "public/assets/genex/0d507036-1009-4934-a2d7-d77d76747e3d/victory-belongs-to-the-emperor-cmwkiswm.mp3",
+    "output": "web/sfx/vox/en/t0-victory-vox2.mp3",
+    "deliveryId": "0d507036-1009-4934-a2d7-d77d76747e3d",
+    "seconds": 2.496,
+    "bytes": 28796,
+    "sha256": "93ba649bdd56711d38c3d4d6dfd4a1e6fdcfb5d12344cea55ee5d4806ae8418b",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "victory",
+    "unit": "t1",
+    "text": "Victory belongs to the Emperor.",
+    "source": "public/assets/genex/0d507036-1009-4934-a2d7-d77d76747e3d/victory-belongs-to-the-emperor-cmwkiswm.mp3",
+    "output": "web/sfx/vox/en/t1-victory-vox2.mp3",
+    "deliveryId": "0d507036-1009-4934-a2d7-d77d76747e3d",
+    "seconds": 2.52,
+    "bytes": 28892,
+    "sha256": "3f233add54fc822ce0e099eb42933a1f1508a6d544c11a708a0219a5243238dc",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "victory",
+    "unit": "t2",
+    "text": "Victory belongs to the Emperor.",
+    "source": "public/assets/genex/0d507036-1009-4934-a2d7-d77d76747e3d/victory-belongs-to-the-emperor-cmwkiswm.mp3",
+    "output": "web/sfx/vox/en/t2-victory-vox2.mp3",
+    "deliveryId": "0d507036-1009-4934-a2d7-d77d76747e3d",
+    "seconds": 2.472,
+    "bytes": 28508,
+    "sha256": "c6f0a003bd1cf9416f849ad3f7b6e9de7405c8c04152846f679848efa01def8e",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "victory",
+    "unit": "t3",
+    "text": "Victory belongs to the Emperor.",
+    "source": "public/assets/genex/0d507036-1009-4934-a2d7-d77d76747e3d/victory-belongs-to-the-emperor-cmwkiswm.mp3",
+    "output": "web/sfx/vox/en/t3-victory-vox2.mp3",
+    "deliveryId": "0d507036-1009-4934-a2d7-d77d76747e3d",
+    "seconds": 2.52,
+    "bytes": 28652,
+    "sha256": "bdddd6edd955e6c358e86059f5fcb24fd0860104d090d28f64dac324d5e746ce",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "victory",
+    "unit": "command",
+    "text": "Victory belongs to the Emperor.",
+    "source": "public/assets/genex/0d507036-1009-4934-a2d7-d77d76747e3d/victory-belongs-to-the-emperor-cmwkiswm.mp3",
+    "output": "web/sfx/vox/en/command-victory-vox2.mp3",
+    "deliveryId": "0d507036-1009-4934-a2d7-d77d76747e3d",
+    "seconds": 2.472,
+    "bytes": 28340,
+    "sha256": "98127995bd5895ec78c01083fdd548d431efbcc3d0f336d049bb96829e1f7d6e",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "defeat",
+    "unit": "t0",
+    "text": "Operation compromised. Fall back.",
+    "source": "public/assets/genex/e6d7bed2-2659-4ca9-9e66-4da8a68c7bf9/operation-compromised-fall-back-cmwkitcr.mp3",
+    "output": "web/sfx/vox/en/t0-defeat-vox2.mp3",
+    "deliveryId": "e6d7bed2-2659-4ca9-9e66-4da8a68c7bf9",
+    "seconds": 2.616,
+    "bytes": 30260,
+    "sha256": "d36e14ad7a6903a4c67d1747a375c848f7d1881b6fc86a6f98f99590d183eda1",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "defeat",
+    "unit": "t1",
+    "text": "Operation compromised. Fall back.",
+    "source": "public/assets/genex/e6d7bed2-2659-4ca9-9e66-4da8a68c7bf9/operation-compromised-fall-back-cmwkitcr.mp3",
+    "output": "web/sfx/vox/en/t1-defeat-vox2.mp3",
+    "deliveryId": "e6d7bed2-2659-4ca9-9e66-4da8a68c7bf9",
+    "seconds": 2.664,
+    "bytes": 30476,
+    "sha256": "d98ee76af6f9f8fe81bbe1c58e1215453314fba861f7d79e9e7654af965d8419",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "defeat",
+    "unit": "t2",
+    "text": "Operation compromised. Fall back.",
+    "source": "public/assets/genex/e6d7bed2-2659-4ca9-9e66-4da8a68c7bf9/operation-compromised-fall-back-cmwkitcr.mp3",
+    "output": "web/sfx/vox/en/t2-defeat-vox2.mp3",
+    "deliveryId": "e6d7bed2-2659-4ca9-9e66-4da8a68c7bf9",
+    "seconds": 2.616,
+    "bytes": 30524,
+    "sha256": "67a861b38203e4decc9fc3b760522aa88ddc8c355de1e8ae527c033ab77fd104",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "defeat",
+    "unit": "t3",
+    "text": "Operation compromised. Fall back.",
+    "source": "public/assets/genex/e6d7bed2-2659-4ca9-9e66-4da8a68c7bf9/operation-compromised-fall-back-cmwkitcr.mp3",
+    "output": "web/sfx/vox/en/t3-defeat-vox2.mp3",
+    "deliveryId": "e6d7bed2-2659-4ca9-9e66-4da8a68c7bf9",
+    "seconds": 2.664,
+    "bytes": 30908,
+    "sha256": "c69dae11fd9ea24934a5766c000d0254cde991b2d11f923eafafbdc8456715b8",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "defeat",
+    "unit": "command",
+    "text": "Operation compromised. Fall back.",
+    "source": "public/assets/genex/e6d7bed2-2659-4ca9-9e66-4da8a68c7bf9/operation-compromised-fall-back-cmwkitcr.mp3",
+    "output": "web/sfx/vox/en/command-defeat-vox2.mp3",
+    "deliveryId": "e6d7bed2-2659-4ca9-9e66-4da8a68c7bf9",
+    "seconds": 2.616,
+    "bytes": 30284,
+    "sha256": "3fd8c3335fdc4fd2eb4ef205313c9f70f004ce30ca7c0747c0a402274c0de59e",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "cancel",
+    "unit": "t0",
+    "text": "Order cancelled.",
+    "source": "public/assets/genex/58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b/order-cancelled-cmwkitss.mp3",
+    "output": "web/sfx/vox/en/t0-cancel-vox2.mp3",
+    "deliveryId": "58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b",
+    "seconds": 1.512,
+    "bytes": 17876,
+    "sha256": "e1e9baff92ab0f2408ba64531cb43c47b526517e6bfc197743fc2066335554bc",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "cancel",
+    "unit": "t1",
+    "text": "Order cancelled.",
+    "source": "public/assets/genex/58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b/order-cancelled-cmwkitss.mp3",
+    "output": "web/sfx/vox/en/t1-cancel-vox2.mp3",
+    "deliveryId": "58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b",
+    "seconds": 1.536,
+    "bytes": 17948,
+    "sha256": "9ae3a007d12b039f3471112f6b977c07bc3ade2c378723f6b122552289cd6d26",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "cancel",
+    "unit": "t2",
+    "text": "Order cancelled.",
+    "source": "public/assets/genex/58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b/order-cancelled-cmwkitss.mp3",
+    "output": "web/sfx/vox/en/t2-cancel-vox2.mp3",
+    "deliveryId": "58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b",
+    "seconds": 1.512,
+    "bytes": 18020,
+    "sha256": "ac68c6c45ca09904a3f11e8988da5f4988b6d1a79ec13e5bb85edc2ab00a8683",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "cancel",
+    "unit": "t3",
+    "text": "Order cancelled.",
+    "source": "public/assets/genex/58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b/order-cancelled-cmwkitss.mp3",
+    "output": "web/sfx/vox/en/t3-cancel-vox2.mp3",
+    "deliveryId": "58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b",
+    "seconds": 1.536,
+    "bytes": 18044,
+    "sha256": "3a9b32154eb2dfb6549cb6a56a5417b4c4eec7438a346a369e8bf9cd59ed9f3d",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "cancel",
+    "unit": "command",
+    "text": "Order cancelled.",
+    "source": "public/assets/genex/58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b/order-cancelled-cmwkitss.mp3",
+    "output": "web/sfx/vox/en/command-cancel-vox2.mp3",
+    "deliveryId": "58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b",
+    "seconds": 1.512,
+    "bytes": 18164,
+    "sha256": "5e15d105a9eeca326957a5079221418b5fc2a3bb7d46d4953dcddf00658fc168",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "invalid",
+    "unit": "t0",
+    "text": "Impossible, commander.",
+    "source": "public/assets/genex/c8272d89-bca5-4c16-bb1c-71f21b8acadc/impossible-commander-cmwkiu8z.mp3",
+    "output": "web/sfx/vox/en/t0-invalid-vox2.mp3",
+    "deliveryId": "c8272d89-bca5-4c16-bb1c-71f21b8acadc",
+    "seconds": 1.824,
+    "bytes": 21260,
+    "sha256": "a9d031474aeeb2f08feda3ada73420d647b733a9eeb9404b1df17c4894d004f3",
+    "profile": {
+      "pitch": 0.78,
+      "tempo": 1.28,
+      "high": 105,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "invalid",
+    "unit": "t1",
+    "text": "Impossible, commander.",
+    "source": "public/assets/genex/c8272d89-bca5-4c16-bb1c-71f21b8acadc/impossible-commander-cmwkiu8z.mp3",
+    "output": "web/sfx/vox/en/t1-invalid-vox2.mp3",
+    "deliveryId": "c8272d89-bca5-4c16-bb1c-71f21b8acadc",
+    "seconds": 1.848,
+    "bytes": 21884,
+    "sha256": "bf3b3814de43de6de0d683f68e16a38180e9a59231f5681df0657bbfbaed4cda",
+    "profile": {
+      "pitch": 0.72,
+      "tempo": 1.37,
+      "high": 95,
+      "low": 2700,
+      "ring": 61,
+      "delay": 10
+    }
+  },
+  {
+    "id": "invalid",
+    "unit": "t2",
+    "text": "Impossible, commander.",
+    "source": "public/assets/genex/c8272d89-bca5-4c16-bb1c-71f21b8acadc/impossible-commander-cmwkiu8z.mp3",
+    "output": "web/sfx/vox/en/t2-invalid-vox2.mp3",
+    "deliveryId": "c8272d89-bca5-4c16-bb1c-71f21b8acadc",
+    "seconds": 1.824,
+    "bytes": 21548,
+    "sha256": "7dc6f533df8f13dcff8bed9ebd5a34a4a6eb1cddd50a7e29a874a825cf5d468a",
+    "profile": {
+      "pitch": 0.84,
+      "tempo": 1.19,
+      "high": 130,
+      "low": 3150,
+      "ring": 79,
+      "delay": 7
+    }
+  },
+  {
+    "id": "invalid",
+    "unit": "t3",
+    "text": "Impossible, commander.",
+    "source": "public/assets/genex/c8272d89-bca5-4c16-bb1c-71f21b8acadc/impossible-commander-cmwkiu8z.mp3",
+    "output": "web/sfx/vox/en/t3-invalid-vox2.mp3",
+    "deliveryId": "c8272d89-bca5-4c16-bb1c-71f21b8acadc",
+    "seconds": 1.848,
+    "bytes": 22028,
+    "sha256": "4ebc35d96d340d4576ab29dae126acf59e36d2fceb8ae550f6df903d35344398",
+    "profile": {
+      "pitch": 0.76,
+      "tempo": 1.3,
+      "high": 100,
+      "low": 2800,
+      "ring": 71,
+      "delay": 9
+    }
+  },
+  {
+    "id": "invalid",
+    "unit": "command",
+    "text": "Impossible, commander.",
+    "source": "public/assets/genex/c8272d89-bca5-4c16-bb1c-71f21b8acadc/impossible-commander-cmwkiu8z.mp3",
+    "output": "web/sfx/vox/en/command-invalid-vox2.mp3",
+    "deliveryId": "c8272d89-bca5-4c16-bb1c-71f21b8acadc",
+    "seconds": 1.824,
+    "bytes": 21548,
+    "sha256": "db6e7db7552ac578ecd03a535d5f9eae99a82269fdff02ec114c72fea347cea0",
+    "profile": {
+      "pitch": 0.8,
+      "tempo": 1.25,
+      "high": 170,
+      "low": 2900,
+      "ring": 67,
+      "delay": 8
+    }
+  },
+  {
+    "id": "nl-taunt-1",
+    "unit": "nightlords",
+    "text": "We are coming for you.",
+    "source": "public/assets/genex/44f10d6d-4b5c-4605-a972-02b19547751e/we-are-coming-for-you-cmwkiupb.mp3",
+    "output": "web/sfx/vox/en/nightlords-nl-taunt-1-chaos-vox3.mp3",
+    "deliveryId": "44f10d6d-4b5c-4605-a972-02b19547751e",
+    "seconds": 2.112,
+    "bytes": 24524,
+    "sha256": "bce47d483bbe6ef8ff557d122ee74abb8c41163db40c79d0f4d1da99468073d4",
+    "profile": {
+      "version": "chaos-vox3",
+      "pitch": 0.82,
+      "tempo": 1.17,
+      "whisper_mix": 0.78,
+      "radio_highpass": 340,
+      "radio_lowpass": 2650
+    }
+  },
+  {
+    "id": "nl-taunt-2",
+    "unit": "nightlords",
+    "text": "Your fear belongs to us.",
+    "source": "public/assets/genex/b0547256-d316-4479-9d16-640856efc52f/your-fear-belongs-to-us-cmwkiv5g.mp3",
+    "output": "web/sfx/vox/en/nightlords-nl-taunt-2-chaos-vox3.mp3",
+    "deliveryId": "b0547256-d316-4479-9d16-640856efc52f",
+    "seconds": 2.52,
+    "bytes": 30212,
+    "sha256": "e6f650a8b542b89580f4dd3ec43e6d72294f282126c2b46889b641adff877ce8",
+    "profile": {
+      "version": "chaos-vox3",
+      "pitch": 0.82,
+      "tempo": 1.17,
+      "whisper_mix": 0.78,
+      "radio_highpass": 340,
+      "radio_lowpass": 2650
+    }
+  },
+  {
+    "id": "nl-attack-1",
+    "unit": "nightlords",
+    "text": "Ave Dominus Nox!",
+    "source": "public/assets/genex/86653e54-33d3-4145-a6ef-107727197005/ave-dominus-nox-cmwkivmo.mp3",
+    "output": "web/sfx/vox/en/nightlords-nl-attack-1-chaos-vox3.mp3",
+    "deliveryId": "86653e54-33d3-4145-a6ef-107727197005",
+    "seconds": 2.28,
+    "bytes": 27140,
+    "sha256": "8b1f0626237131dc8a74230e5ac97b6e187594df8b7514a8d4ac446ad0b365f0",
+    "profile": {
+      "version": "chaos-vox3",
+      "pitch": 0.82,
+      "tempo": 1.17,
+      "whisper_mix": 0.78,
+      "radio_highpass": 340,
+      "radio_lowpass": 2650
+    }
+  },
+  {
+    "id": "nl-attack-2",
+    "unit": "nightlords",
+    "text": "Let the terror begin!",
+    "source": "public/assets/genex/845c769b-0a94-495e-a7b1-708cdff95cb1/let-the-terror-begin-cmwkiw37.mp3",
+    "output": "web/sfx/vox/en/nightlords-nl-attack-2-chaos-vox3.mp3",
+    "deliveryId": "845c769b-0a94-495e-a7b1-708cdff95cb1",
+    "seconds": 2.232,
+    "bytes": 25796,
+    "sha256": "defc6228234a614c90b485508f82073533fd073a7a9ef1c47a13a3fdda5865a6",
+    "profile": {
+      "version": "chaos-vox3",
+      "pitch": 0.82,
+      "tempo": 1.17,
+      "whisper_mix": 0.78,
+      "radio_highpass": 340,
+      "radio_lowpass": 2650
+    }
+  },
+  {
+    "id": "nl-hurt-1",
+    "unit": "nightlords",
+    "text": "You will regret this.",
+    "source": "public/assets/genex/2ec4efdb-9ab6-4767-bc9c-78c46feba52a/you-will-regret-this-cmwkiwjx.mp3",
+    "output": "web/sfx/vox/en/nightlords-nl-hurt-1-chaos-vox3.mp3",
+    "deliveryId": "2ec4efdb-9ab6-4767-bc9c-78c46feba52a",
+    "seconds": 2.088,
+    "bytes": 24956,
+    "sha256": "d00a67955ee15dc88c8db2c6a7d055b2f8f86e657eb23d8c5c7b8082a3a09024",
+    "profile": {
+      "version": "chaos-vox3",
+      "pitch": 0.82,
+      "tempo": 1.17,
+      "whisper_mix": 0.78,
+      "radio_highpass": 340,
+      "radio_lowpass": 2650
+    }
+  },
+  {
+    "id": "nl-death-1",
+    "unit": "nightlords",
+    "text": "The night... takes me.",
+    "source": "public/assets/genex/d05312e1-333c-44ed-b60e-9caf7ea7f87e/the-night-takes-me-cmwkiwzw.mp3",
+    "output": "web/sfx/vox/en/nightlords-nl-death-1-chaos-vox3.mp3",
+    "deliveryId": "d05312e1-333c-44ed-b60e-9caf7ea7f87e",
+    "seconds": 2.424,
+    "bytes": 28628,
+    "sha256": "1e81e673e7896dd5ac6337b0ea665db8d1e4f7d3d4c5c24792fd11621b7291af",
+    "profile": {
+      "version": "chaos-vox3",
+      "pitch": 0.82,
+      "tempo": 1.17,
+      "whisper_mix": 0.78,
+      "radio_highpass": 340,
+      "radio_lowpass": 2650
+    }
+  }
+]

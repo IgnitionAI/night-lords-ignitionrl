@@ -1,0 +1,281 @@
+[
+  {
+    "id": "46643041-81c1-4a05-8cc0-21092de1f490",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:06:58.437Z",
+    "generationId": "cmwjkseav000x3lllmlrz9po4",
+    "remoteStatus": "completed",
+    "requestId": "46c74411-88bd-49b7-a4bf-7140c5b9c67b",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjkseav000x3lllmlrz9po4/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "89ee0089-a3fd-4c3c-abd3-78e071c26e9e",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:07:00.853Z",
+    "generationId": "cmwjksfzf00153lllfsrafvfo",
+    "remoteStatus": "completed",
+    "requestId": "a09d5d86-f551-4b2c-9425-06d0612c5534",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjksfzf00153lllfsrafvfo/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "608caec1-26b4-49a2-ac1c-c3d6b8b431d5",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:07:03.421Z",
+    "generationId": "cmwjksi0y000p2bnyov5jliag",
+    "remoteStatus": "completed",
+    "requestId": "1ab73ffc-ed32-4787-bd5c-64fd45006a83",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjksi0y000p2bnyov5jliag/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "1424b1c4-0c67-4047-acbb-a94671751c34",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:07:38.004Z",
+    "generationId": "cmwjkt8pd000y2bnyu1g2prg7",
+    "remoteStatus": "completed",
+    "requestId": "1d674997-4bc3-4638-8ef4-eb6001528819",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjkt8pd000y2bnyu1g2prg7/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "228360b2-10ed-454d-b30b-ecdaac59cb2b",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:07:40.270Z",
+    "generationId": "cmwjktahh001g3lll534w5dxm",
+    "remoteStatus": "completed",
+    "requestId": "8fe25193-7247-4010-900b-14627946e8cd",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjktahh001g3lll534w5dxm/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "3dc6ff90-5780-4388-8cb7-dd4538295339",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:07:42.381Z",
+    "generationId": "cmwjktbxg00142bnydpmjgp54",
+    "remoteStatus": "completed",
+    "requestId": "0809bc6b-8781-4d81-a30a-50c4bca4aad4",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjktbxg00142bnydpmjgp54/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "6b320933-ab2c-4e8f-a254-58dca429b5eb",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:07:44.341Z",
+    "generationId": "cmwjktdlm001p3lll26gnk3yr",
+    "remoteStatus": "completed",
+    "requestId": "7ac2cceb-3d48-4edd-a0b4-3a1013f81e1a",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjktdlm001p3lll26gnk3yr/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "bf2a0978-aea1-4a04-bd69-5d0ace5732d6",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:07:46.456Z",
+    "generationId": "cmwjktf6c001d2bnybsygwfrx",
+    "remoteStatus": "completed",
+    "requestId": "27cdda6e-c89e-4544-8345-bff4f5751e8b",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjktf6c001d2bnybsygwfrx/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "deb20d46-16f9-4299-a4cd-0b3083ba5a75",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:07:48.717Z",
+    "generationId": "cmwjktgyu00213lll3sjxo31g",
+    "remoteStatus": "completed",
+    "requestId": "88011518-d3a9-41a1-9ef0-899d2bdb716b",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjktgyu00213lll3sjxo31g/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "ff3361e3-f836-4e2c-b9c0-f4c7ceadab04",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:07:50.981Z",
+    "generationId": "cmwjktiot001j2bny4mk3xy6o",
+    "remoteStatus": "completed",
+    "requestId": "4b3eeefa-59fa-4fbd-a5ce-8a78007df722",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjktiot001j2bny4mk3xy6o/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "8c3f3f54-6fad-45db-ad6e-644aa0f8e295",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:07:53.247Z",
+    "generationId": "cmwjktkgb001s2bnyzojjttg8",
+    "remoteStatus": "completed",
+    "requestId": "a1892f7b-2f68-4e83-88be-96eaebd9c6d5",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjktkgb001s2bnyzojjttg8/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "39c4769f-27f3-41f5-b1ce-553195e017f2",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:07:55.360Z",
+    "generationId": "cmwjktm4d002d3lll2l83itl5",
+    "remoteStatus": "completed",
+    "requestId": "134a8ec9-9a6e-49ff-8952-15bb01a1bc03",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjktm4d002d3lll2l83itl5/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "c1bc92a0-9f54-4759-8d0b-21f297f1284c",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:07:57.623Z",
+    "generationId": "cmwjktnt4002n3lll75dttpp8",
+    "remoteStatus": "completed",
+    "requestId": "4b307a42-24e4-4219-8bd0-c1983b0d5340",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjktnt4002n3lll75dttpp8/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "ecacaa84-ba96-4c4d-aaca-d9b023b963c9",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:07:59.884Z",
+    "generationId": "cmwjktpg2002t3lll8ms4afdl",
+    "remoteStatus": "completed",
+    "requestId": "5e7eb97d-cb31-4a04-aaca-3bb8a57ca287",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjktpg2002t3lll8ms4afdl/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "d99484b5-2f7f-47d2-87d4-2af07edebb9e",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "generated",
+    "files": [],
+    "createdAt": "2026-11-16T18:08:01.695Z",
+    "generationId": "cmwjktqwj00242bny3jzu47ks",
+    "remoteStatus": "completed",
+    "requestId": "befc86c0-220b-4dc5-a5c7-0aedd9f2019f",
+    "creditsQuoted": 2,
+    "manifest": [
+      {
+        "role": "audio-voice",
+        "url": "https://assets.genex.technology/generations/cmwjktqwj00242bny3jzu47ks/audio-voice"
+      }
+    ]
+  },
+  {
+    "id": "38cf7236-7139-4f67-91ca-0882560850be",
+    "project": "night-lords-ignitionrl",
+    "operation": "voice",
+    "status": "failed",
+    "files": [],
+    "createdAt": "2026-11-16T18:08:03.808Z",
+    "error": "\u2717 Error: Cannot quote this generation (HTTP 429). No generation was sent; the API must support option-aware quotes.\n"
+  }
+]

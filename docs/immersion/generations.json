@@ -1,0 +1,429 @@
+[
+  {
+    "name": "planning",
+    "result": {
+      "id": "a2608a60-b089-4ebc-9432-191f946d9611",
+      "project": "night-lords-ignitionrl",
+      "operation": "music",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-16T15:51:36.039Z",
+      "generationId": "cmwjfyaxm00yn2po79bud5cir",
+      "remoteStatus": "pending",
+      "requestId": "8aaf4d55-1bc6-49bb-965f-3ac9a7f30636",
+      "creditsQuoted": 27,
+      "result": {
+        "kind": "music",
+        "id": "cmwjfyaxm00yn2po79bud5cir",
+        "status": "pending",
+        "nextCommand": "genex wait cmwjfyaxm00yn2po79bud5cir --json"
+      }
+    },
+    "delivery": {
+      "id": "a9a7cf91-bc2e-4f60-9f7a-9e7770cd4a7d",
+      "project": "night-lords-ignitionrl",
+      "operation": "wait",
+      "status": "downloaded",
+      "files": [
+        "public/assets/genex/a9a7cf91-bc2e-4f60-9f7a-9e7770cd4a7d/original-instrumental-gothic-science-fic-cmwjfyax.mp3"
+      ],
+      "createdAt": "2026-11-16T15:54:09.536Z",
+      "generationId": "cmwjfyaxm00yn2po79bud5cir",
+      "remoteStatus": "completed",
+      "manifest": [
+        {
+          "role": "audio-music",
+          "url": "https://assets.genex.technology/generations/cmwjfyaxm00yn2po79bud5cir/audio-music"
+        }
+      ],
+      "result": {
+        "kind": "music",
+        "id": "cmwjfyaxm00yn2po79bud5cir",
+        "status": "completed",
+        "files": [
+          {
+            "role": "audio-music",
+            "contentType": "audio/mpeg",
+            "ext": "mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfyaxm00yn2po79bud5cir/audio-music"
+          }
+        ],
+        "saved": [
+          {
+            "role": "audio-music",
+            "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/a9a7cf91-bc2e-4f60-9f7a-9e7770cd4a7d/output/original-instrumental-gothic-science-fic-cmwjfyax.mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfyaxm00yn2po79bud5cir/audio-music",
+            "bytes": 2160620
+          }
+        ],
+        "downloadFailures": []
+      }
+    }
+  },
+  {
+    "name": "combat",
+    "result": {
+      "id": "c2edcb85-2b41-4a22-9d7d-a917c154e992",
+      "project": "night-lords-ignitionrl",
+      "operation": "music",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-16T15:51:37.236Z",
+      "generationId": "cmwjfybtl00zb34rxjkl775s7",
+      "remoteStatus": "pending",
+      "requestId": "67f2202f-0cf0-48d0-971f-7a322492b77c",
+      "creditsQuoted": 27,
+      "result": {
+        "kind": "music",
+        "id": "cmwjfybtl00zb34rxjkl775s7",
+        "status": "pending",
+        "nextCommand": "genex wait cmwjfybtl00zb34rxjkl775s7 --json"
+      }
+    },
+    "delivery": {
+      "id": "a1db9726-7985-448b-bd49-e10a11fb0112",
+      "project": "night-lords-ignitionrl",
+      "operation": "wait",
+      "status": "downloaded",
+      "files": [
+        "public/assets/genex/a1db9726-7985-448b-bd49-e10a11fb0112/original-instrumental-combat-loop-for-go-cmwjfybt.mp3"
+      ],
+      "createdAt": "2026-11-16T15:54:10.740Z",
+      "generationId": "cmwjfybtl00zb34rxjkl775s7",
+      "remoteStatus": "completed",
+      "manifest": [
+        {
+          "role": "audio-music",
+          "url": "https://assets.genex.technology/generations/cmwjfybtl00zb34rxjkl775s7/audio-music"
+        }
+      ],
+      "result": {
+        "kind": "music",
+        "id": "cmwjfybtl00zb34rxjkl775s7",
+        "status": "completed",
+        "files": [
+          {
+            "role": "audio-music",
+            "contentType": "audio/mpeg",
+            "ext": "mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfybtl00zb34rxjkl775s7/audio-music"
+          }
+        ],
+        "saved": [
+          {
+            "role": "audio-music",
+            "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/a1db9726-7985-448b-bd49-e10a11fb0112/output/original-instrumental-combat-loop-for-go-cmwjfybt.mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfybtl00zb34rxjkl775s7/audio-music",
+            "bytes": 2160620
+          }
+        ],
+        "downloadFailures": []
+      }
+    }
+  },
+  {
+    "name": "ending",
+    "result": {
+      "id": "2b4123a7-faae-4473-abc7-8c116121886a",
+      "project": "night-lords-ignitionrl",
+      "operation": "music",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-16T15:51:38.448Z",
+      "generationId": "cmwjfycll00zi34rxgj3xjda0",
+      "remoteStatus": "pending",
+      "requestId": "2169a05d-6c73-41dc-a318-4babfab4afea",
+      "creditsQuoted": 14,
+      "result": {
+        "kind": "music",
+        "id": "cmwjfycll00zi34rxgj3xjda0",
+        "status": "pending",
+        "nextCommand": "genex wait cmwjfycll00zi34rxgj3xjda0 --json"
+      }
+    },
+    "delivery": {
+      "id": "216904ac-6181-49a6-853d-3ead58f824e5",
+      "project": "night-lords-ignitionrl",
+      "operation": "wait",
+      "status": "downloaded",
+      "files": [
+        "public/assets/genex/216904ac-6181-49a6-853d-3ead58f824e5/original-instrumental-aftermath-of-gothi-cmwjfycl.mp3"
+      ],
+      "createdAt": "2026-11-16T15:54:11.794Z",
+      "generationId": "cmwjfycll00zi34rxgj3xjda0",
+      "remoteStatus": "completed",
+      "manifest": [
+        {
+          "role": "audio-music",
+          "url": "https://assets.genex.technology/generations/cmwjfycll00zi34rxgj3xjda0/audio-music"
+        }
+      ],
+      "result": {
+        "kind": "music",
+        "id": "cmwjfycll00zi34rxgj3xjda0",
+        "status": "completed",
+        "files": [
+          {
+            "role": "audio-music",
+            "contentType": "audio/mpeg",
+            "ext": "mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfycll00zi34rxgj3xjda0/audio-music"
+          }
+        ],
+        "saved": [
+          {
+            "role": "audio-music",
+            "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/216904ac-6181-49a6-853d-3ead58f824e5/output/original-instrumental-aftermath-of-gothi-cmwjfycl.mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfycll00zi34rxgj3xjda0/audio-music",
+            "bytes": 1080620
+          }
+        ],
+        "downloadFailures": []
+      }
+    }
+  },
+  {
+    "name": "servo",
+    "result": {
+      "id": "5f3fa259-7850-4160-82e0-5614eea54d83",
+      "project": "night-lords-ignitionrl",
+      "operation": "sfx",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-16T15:51:39.354Z",
+      "generationId": "cmwjfydcd00yw2po79zxm0077",
+      "remoteStatus": "pending",
+      "requestId": "5ed099e2-64bf-4220-a7a4-a3f695799384",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "sfx",
+        "id": "cmwjfydcd00yw2po79zxm0077",
+        "status": "pending",
+        "nextCommand": "genex wait cmwjfydcd00yw2po79zxm0077 --json"
+      }
+    },
+    "delivery": {
+      "id": "7f2d200d-c76d-4d18-aad1-f74b28c378ff",
+      "project": "night-lords-ignitionrl",
+      "operation": "wait",
+      "status": "downloaded",
+      "files": [
+        "public/assets/genex/7f2d200d-c76d-4d18-aad1-f74b28c378ff/one-heavy-armored-mechanical-footstep-on-cmwjfydc.mp3"
+      ],
+      "createdAt": "2026-11-16T15:54:13.306Z",
+      "generationId": "cmwjfydcd00yw2po79zxm0077",
+      "remoteStatus": "completed",
+      "manifest": [
+        {
+          "role": "audio-sfx",
+          "url": "https://assets.genex.technology/generations/cmwjfydcd00yw2po79zxm0077/audio-sfx"
+        }
+      ],
+      "result": {
+        "kind": "sfx",
+        "id": "cmwjfydcd00yw2po79zxm0077",
+        "status": "completed",
+        "files": [
+          {
+            "role": "audio-sfx",
+            "contentType": "audio/mpeg",
+            "ext": "mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfydcd00yw2po79zxm0077/audio-sfx"
+          }
+        ],
+        "saved": [
+          {
+            "role": "audio-sfx",
+            "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/7f2d200d-c76d-4d18-aad1-f74b28c378ff/output/one-heavy-armored-mechanical-footstep-on-cmwjfydc.mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfydcd00yw2po79zxm0077/audio-sfx",
+            "bytes": 17179
+          }
+        ],
+        "downloadFailures": []
+      }
+    }
+  },
+  {
+    "name": "bolter",
+    "result": {
+      "id": "09de71ad-1b0f-4eb9-8bff-c34e98c79f9f",
+      "project": "night-lords-ignitionrl",
+      "operation": "sfx",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-16T15:51:40.276Z",
+      "generationId": "cmwjfydwv00zo34rx01hlmias",
+      "remoteStatus": "pending",
+      "requestId": "5c990fc8-faf5-475b-9064-d34ad343783c",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "sfx",
+        "id": "cmwjfydwv00zo34rx01hlmias",
+        "status": "pending",
+        "nextCommand": "genex wait cmwjfydwv00zo34rx01hlmias --json"
+      }
+    },
+    "delivery": {
+      "id": "e3c83fa8-4f52-4387-973f-413f55f5d6f3",
+      "project": "night-lords-ignitionrl",
+      "operation": "wait",
+      "status": "downloaded",
+      "files": [
+        "public/assets/genex/e3c83fa8-4f52-4387-973f-413f55f5d6f3/single-massive-futuristic-explosive-rifl-cmwjfydw.mp3"
+      ],
+      "createdAt": "2026-11-16T15:54:14.214Z",
+      "generationId": "cmwjfydwv00zo34rx01hlmias",
+      "remoteStatus": "completed",
+      "manifest": [
+        {
+          "role": "audio-sfx",
+          "url": "https://assets.genex.technology/generations/cmwjfydwv00zo34rx01hlmias/audio-sfx"
+        }
+      ],
+      "result": {
+        "kind": "sfx",
+        "id": "cmwjfydwv00zo34rx01hlmias",
+        "status": "completed",
+        "files": [
+          {
+            "role": "audio-sfx",
+            "contentType": "audio/mpeg",
+            "ext": "mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfydwv00zo34rx01hlmias/audio-sfx"
+          }
+        ],
+        "saved": [
+          {
+            "role": "audio-sfx",
+            "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/e3c83fa8-4f52-4387-973f-413f55f5d6f3/output/single-massive-futuristic-explosive-rifl-cmwjfydw.mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfydwv00zo34rx01hlmias/audio-sfx",
+            "bytes": 17179
+          }
+        ],
+        "downloadFailures": []
+      }
+    }
+  },
+  {
+    "name": "door",
+    "result": {
+      "id": "11fa4677-4a8b-4162-a594-e91f6991b3f0",
+      "project": "night-lords-ignitionrl",
+      "operation": "sfx",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-16T15:51:41.031Z",
+      "generationId": "cmwjfyeks00zv34rx57i7wt5a",
+      "remoteStatus": "pending",
+      "requestId": "a5ba903b-c2a9-4d04-8c1e-418ec4b75646",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "sfx",
+        "id": "cmwjfyeks00zv34rx57i7wt5a",
+        "status": "pending",
+        "nextCommand": "genex wait cmwjfyeks00zv34rx57i7wt5a --json"
+      }
+    },
+    "delivery": {
+      "id": "0d336f5a-6097-4889-8572-722e52428b39",
+      "project": "night-lords-ignitionrl",
+      "operation": "wait",
+      "status": "downloaded",
+      "files": [
+        "public/assets/genex/0d336f5a-6097-4889-8572-722e52428b39/one-massive-gothic-starship-bulkhead-doo-cmwjfyek.mp3"
+      ],
+      "createdAt": "2026-11-16T15:54:15.265Z",
+      "generationId": "cmwjfyeks00zv34rx57i7wt5a",
+      "remoteStatus": "completed",
+      "manifest": [
+        {
+          "role": "audio-sfx",
+          "url": "https://assets.genex.technology/generations/cmwjfyeks00zv34rx57i7wt5a/audio-sfx"
+        }
+      ],
+      "result": {
+        "kind": "sfx",
+        "id": "cmwjfyeks00zv34rx57i7wt5a",
+        "status": "completed",
+        "files": [
+          {
+            "role": "audio-sfx",
+            "contentType": "audio/mpeg",
+            "ext": "mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfyeks00zv34rx57i7wt5a/audio-sfx"
+          }
+        ],
+        "saved": [
+          {
+            "role": "audio-sfx",
+            "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/0d336f5a-6097-4889-8572-722e52428b39/output/one-massive-gothic-starship-bulkhead-doo-cmwjfyek.mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfyeks00zv34rx57i7wt5a/audio-sfx",
+            "bytes": 40585
+          }
+        ],
+        "downloadFailures": []
+      }
+    }
+  },
+  {
+    "name": "impact",
+    "result": {
+      "id": "77f559d9-e07a-40dc-902e-4b058dfd4bd1",
+      "project": "night-lords-ignitionrl",
+      "operation": "sfx",
+      "status": "accepted",
+      "files": [],
+      "createdAt": "2026-11-16T15:51:41.785Z",
+      "generationId": "cmwjfyf3r010134rxhk1czewd",
+      "remoteStatus": "pending",
+      "requestId": "052835e9-3977-44d9-a551-775211f22e82",
+      "creditsQuoted": 2,
+      "result": {
+        "kind": "sfx",
+        "id": "cmwjfyf3r010134rxhk1czewd",
+        "status": "pending",
+        "nextCommand": "genex wait cmwjfyf3r010134rxhk1czewd --json"
+      }
+    },
+    "delivery": {
+      "id": "1eba503f-8da6-4d92-a306-7b09fde946eb",
+      "project": "night-lords-ignitionrl",
+      "operation": "wait",
+      "status": "downloaded",
+      "files": [
+        "public/assets/genex/1eba503f-8da6-4d92-a306-7b09fde946eb/single-sharp-projectile-impact-against-t-cmwjfyf3.mp3"
+      ],
+      "createdAt": "2026-11-16T15:54:16.472Z",
+      "generationId": "cmwjfyf3r010134rxhk1czewd",
+      "remoteStatus": "completed",
+      "manifest": [
+        {
+          "role": "audio-sfx",
+          "url": "https://assets.genex.technology/generations/cmwjfyf3r010134rxhk1czewd/audio-sfx"
+        }
+      ],
+      "result": {
+        "kind": "sfx",
+        "id": "cmwjfyf3r010134rxhk1czewd",
+        "status": "completed",
+        "files": [
+          {
+            "role": "audio-sfx",
+            "contentType": "audio/mpeg",
+            "ext": "mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfyf3r010134rxhk1czewd/audio-sfx"
+          }
+        ],
+        "saved": [
+          {
+            "role": "audio-sfx",
+            "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/1eba503f-8da6-4d92-a306-7b09fde946eb/output/single-sharp-projectile-impact-against-t-cmwjfyf3.mp3",
+            "url": "https://assets.genex.technology/generations/cmwjfyf3r010134rxhk1czewd/audio-sfx",
+            "bytes": 17179
+          }
+        ],
+        "downloadFailures": []
+      }
+    }
+  }
+]

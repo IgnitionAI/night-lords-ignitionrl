@@ -1,0 +1,40 @@
+{
+  "id": "66fae788-47a9-42fd-8ccd-f1e71cdd1c78",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/66fae788-47a9-42fd-8ccd-f1e71cdd1c78/ordre-re-u-je-m-en-charge-cmwjl78t.mp3"
+  ],
+  "createdAt": "2026-11-16T18:19:55.677Z",
+  "generationId": "cmwjl78tx00513llleyfm5g8p",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjl78tx00513llleyfm5g8p/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjl78tx00513llleyfm5g8p",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl78tx00513llleyfm5g8p/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/66fae788-47a9-42fd-8ccd-f1e71cdd1c78/output/ordre-re-u-je-m-en-charge-cmwjl78t.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl78tx00513llleyfm5g8p/audio-voice",
+        "bytes": 36823
+      }
+    ],
+    "downloadFailures": []
+  }
+}

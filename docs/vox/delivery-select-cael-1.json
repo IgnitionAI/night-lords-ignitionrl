@@ -1,0 +1,40 @@
+{
+  "id": "821f6bab-ef96-44b4-b482-667892fc1d8b",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/821f6bab-ef96-44b4-b482-667892fc1d8b/canal-ouvert-commandant-cmwjktdl.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:39.707Z",
+  "generationId": "cmwjktdlm001p3lll26gnk3yr",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjktdlm001p3lll26gnk3yr/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjktdlm001p3lll26gnk3yr",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktdlm001p3lll26gnk3yr/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/821f6bab-ef96-44b4-b482-667892fc1d8b/output/canal-ouvert-commandant-cmwjktdl.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktdlm001p3lll26gnk3yr/audio-voice",
+        "bytes": 29300
+      }
+    ],
+    "downloadFailures": []
+  }
+}

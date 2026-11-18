@@ -135,6 +135,10 @@ export interface StrideSample {
 
 // Après `rotation.y = π/2` du chargeur, l'avant du modèle est +X (axe de la sim).
 export function measureForwardStride(root: THREE.Object3D, clip: THREE.AnimationClip): StrideSample {
+  // Measurement must not replace local rest transforms with world-space bind matrices.
+  // Skeleton.pose() changes a root bone beneath a scaled non-bone Armature.
+  const pose: { o: THREE.Object3D; p: THREE.Vector3; q: THREE.Quaternion; s: THREE.Vector3 }[] = [];
+  root.traverse(o => pose.push({ o, p: o.position.clone(), q: o.quaternion.clone(), s: o.scale.clone() }));
   const mesh = skinnedMeshOf(root);
   const mixer = new THREE.AnimationMixer(root);
   const action = mixer.clipAction(clip);
@@ -167,7 +171,7 @@ export function measureForwardStride(root: THREE.Object3D, clip: THREE.Animation
   const pEnd = contactPoint(mesh, leftJ);
   mixer.stopAllAction();
   mixer.uncacheClip(clip);
-  mesh.skeleton.pose();
+  for (const { o, p, q, s } of pose) { o.position.copy(p); o.quaternion.copy(q); o.scale.copy(s); }
   root.updateMatrixWorld(true);
   const leftSpan = peakSpanX(left);
   const rightSpan = peakSpanX(right);

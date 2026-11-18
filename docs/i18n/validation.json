@@ -1,0 +1,43 @@
+{
+  "languages": [
+    "fr",
+    "en"
+  ],
+  "tacticalCompleteMatches": 2,
+  "tacticalTurns": [
+    18,
+    18
+  ],
+  "tacticalResultsIdentical": true,
+  "tacticalScore": {
+    "imperium": 24,
+    "nightlords": 11
+  },
+  "fpsCompleteDuels": 2,
+  "fpsMissionControlsChecked": true,
+  "languageDetectionPersistenceAndLiveSwitchChecked": true,
+  "mobileWidthsChecked": [
+    390,
+    1280
+  ],
+  "targetedTestsPassed": 92,
+  "voice": {
+    "spokenLines": 48,
+    "reusedVocalisations": 2,
+    "catalogEntries": 50,
+    "processedAudioFiles": 170,
+    "rawGenerations": 48,
+    "maxSeconds": 2.88,
+    "nightLordsProfile": "chaos-vox3",
+    "builtFilesIdentical": true,
+    "idsAndEventsPreserved": true,
+    "englishTextMatchesScript": true
+  },
+  "pageErrors": [],
+  "requiredAssetFailures": [],
+  "optionalFPSMusicManifestAbsent": true,
+  "maximumConcurrentVox": 1,
+  "rawRulesUnchanged": true,
+  "publicationPerformed": false,
+  "coverChanged": false
+}

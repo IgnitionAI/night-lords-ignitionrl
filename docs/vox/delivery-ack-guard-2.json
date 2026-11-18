@@ -1,0 +1,40 @@
+{
+  "id": "1cc9fa6a-2687-42a8-95f0-e2b0fce8159f",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/1cc9fa6a-2687-42a8-95f0-e2b0fce8159f/position-de-veille-confirm-e-cmwjl6cg.mp3"
+  ],
+  "createdAt": "2026-11-16T18:19:48.279Z",
+  "generationId": "cmwjl6cgt004d2bnypdnrjucs",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjl6cgt004d2bnypdnrjucs/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjl6cgt004d2bnypdnrjucs",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl6cgt004d2bnypdnrjucs/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/1cc9fa6a-2687-42a8-95f0-e2b0fce8159f/output/position-de-veille-confirm-e-cmwjl6cg.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl6cgt004d2bnypdnrjucs/audio-voice",
+        "bytes": 30554
+      }
+    ],
+    "downloadFailures": []
+  }
+}

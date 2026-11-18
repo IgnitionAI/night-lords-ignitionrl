@@ -1,0 +1,40 @@
+{
+  "id": "eba7dbd6-0fd4-48a8-99c0-90397ffcd02b",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/eba7dbd6-0fd4-48a8-99c0-90397ffcd02b/balayage-auspex-en-cours-cmwjl92f.mp3"
+  ],
+  "createdAt": "2026-11-16T18:21:37.621Z",
+  "generationId": "cmwjl92ft005x3lll0t9a6kvo",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjl92ft005x3lll0t9a6kvo/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjl92ft005x3lll0t9a6kvo",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl92ft005x3lll0t9a6kvo/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/eba7dbd6-0fd4-48a8-99c0-90397ffcd02b/output/balayage-auspex-en-cours-cmwjl92f.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl92ft005x3lll0t9a6kvo/audio-voice",
+        "bytes": 34315
+      }
+    ],
+    "downloadFailures": []
+  }
+}

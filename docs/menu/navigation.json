@@ -1,0 +1,26 @@
+{
+  "languages": [
+    {
+      "lang": "fr",
+      "tacticalOrdersPreserved": true,
+      "tacticalResolutionPaused": true,
+      "fpsTickFrozen": true,
+      "fpsResumed": true,
+      "missionReady": true,
+      "videoPlayed": true,
+      "mobileFits": true
+    },
+    {
+      "lang": "en",
+      "tacticalOrdersPreserved": true,
+      "tacticalResolutionPaused": true,
+      "fpsTickFrozen": true,
+      "fpsResumed": true,
+      "missionReady": true,
+      "videoPlayed": true,
+      "mobileFits": true
+    }
+  ],
+  "errors": [],
+  "failed": []
+}

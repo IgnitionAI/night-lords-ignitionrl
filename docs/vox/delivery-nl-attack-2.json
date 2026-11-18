@@ -1,0 +1,40 @@
+{
+  "id": "04dd012f-f432-4786-985d-e24119c3206e",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/04dd012f-f432-4786-985d-e24119c3206e/que-la-terreur-commence-cmwjluj9.mp3"
+  ],
+  "createdAt": "2026-11-16T18:36:39.121Z",
+  "generationId": "cmwjluj9600a02bnyhtsf5p0l",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjluj9600a02bnyhtsf5p0l/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjluj9600a02bnyhtsf5p0l",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjluj9600a02bnyhtsf5p0l/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/04dd012f-f432-4786-985d-e24119c3206e/output/que-la-terreur-commence-cmwjluj9.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjluj9600a02bnyhtsf5p0l/audio-voice",
+        "bytes": 30554
+      }
+    ],
+    "downloadFailures": []
+  }
+}

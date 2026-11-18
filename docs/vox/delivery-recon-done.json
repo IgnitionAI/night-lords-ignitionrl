@@ -1,0 +1,40 @@
+{
+  "id": "06da772d-3cbe-4a8b-80f5-180f97368d9e",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/06da772d-3cbe-4a8b-80f5-180f97368d9e/balayage-termin-cmwjlph6.mp3"
+  ],
+  "createdAt": "2026-11-16T18:32:43.172Z",
+  "generationId": "cmwjlph63008r2bnycwakxt6g",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjlph63008r2bnycwakxt6g/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjlph63008r2bnycwakxt6g",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlph63008r2bnycwakxt6g/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/06da772d-3cbe-4a8b-80f5-180f97368d9e/output/balayage-termin-cmwjlph6.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlph63008r2bnycwakxt6g/audio-voice",
+        "bytes": 26792
+      }
+    ],
+    "downloadFailures": []
+  }
+}

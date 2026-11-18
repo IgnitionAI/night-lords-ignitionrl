@@ -1,0 +1,40 @@
+{
+  "id": "116c37d5-4e40-4b37-9334-8e6686be2304",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/116c37d5-4e40-4b37-9334-8e6686be2304/pr-t-faire-mon-devoir-cmwjkt8p.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:33.206Z",
+  "generationId": "cmwjkt8pd000y2bnyu1g2prg7",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjkt8pd000y2bnyu1g2prg7/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjkt8pd000y2bnyu1g2prg7",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjkt8pd000y2bnyu1g2prg7/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/116c37d5-4e40-4b37-9334-8e6686be2304/output/pr-t-faire-mon-devoir-cmwjkt8p.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjkt8pd000y2bnyu1g2prg7/audio-voice",
+        "bytes": 28046
+      }
+    ],
+    "downloadFailures": []
+  }
+}

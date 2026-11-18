@@ -1,0 +1,23 @@
+[
+  {
+    "mode": "tactical",
+    "delayedAssetHeldGate": true,
+    "requiredFailureRecoverable": true,
+    "retryPassed": true,
+    "errors": []
+  },
+  {
+    "mode": "fps",
+    "delayedAssetHeldGate": true,
+    "requiredFailureRecoverable": true,
+    "retryPassed": true,
+    "errors": []
+  },
+  {
+    "mode": "mission",
+    "delayedAssetHeldGate": true,
+    "requiredFailureRecoverable": true,
+    "retryPassed": true,
+    "errors": []
+  }
+]

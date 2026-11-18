@@ -1,0 +1,816 @@
+{
+  "meta": {
+    "algorithm": "PPO-Clip via src/ppo.ts, local adaptation of IgnitionAI/ignition@52974ec",
+    "updates": 100,
+    "transitions": 24308,
+    "trainingSeeds": [
+      1,
+      600
+    ],
+    "reward": "0.1 score delta + 0.025 HP delta + terminal +/-2; discounted Monte Carlo returns gamma=.97",
+    "observations": 25,
+    "actions": 6
+  },
+  "metrics": [
+    {
+      "update": 1,
+      "transitions": 234,
+      "policyLoss": -0.02288608788512647,
+      "valueLoss": 2.5465921610593796,
+      "entropy": 1.7915382981300354,
+      "approxKL": 0.0011022721228073351
+    },
+    {
+      "update": 2,
+      "transitions": 470,
+      "policyLoss": -0.012678899802267551,
+      "valueLoss": 0.856357254087925,
+      "entropy": 1.7906898856163025,
+      "approxKL": 0.0013306418622960337
+    },
+    {
+      "update": 3,
+      "transitions": 724,
+      "policyLoss": -0.018158989027142525,
+      "valueLoss": 0.6272388510406017,
+      "entropy": 1.7894896566867828,
+      "approxKL": -0.0009449885528738378
+    },
+    {
+      "update": 4,
+      "transitions": 968,
+      "policyLoss": -0.018253863789141178,
+      "valueLoss": 2.0855140388011932,
+      "entropy": 1.7883388102054596,
+      "approxKL": -0.00031590459548169747
+    },
+    {
+      "update": 5,
+      "transitions": 1228,
+      "policyLoss": -0.0992183346922199,
+      "valueLoss": 2.434832173089186,
+      "entropy": 1.7881965339183807,
+      "approxKL": -0.0010671562825640042
+    },
+    {
+      "update": 6,
+      "transitions": 1464,
+      "policyLoss": -0.021911769872531295,
+      "valueLoss": 1.2771072536706924,
+      "entropy": 1.7867706269025803,
+      "approxKL": -0.0003529499881551601
+    },
+    {
+      "update": 7,
+      "transitions": 1708,
+      "policyLoss": -0.020762073574587703,
+      "valueLoss": 0.5599041767418385,
+      "entropy": 1.7845310866832733,
+      "approxKL": -0.0003656728695204947
+    },
+    {
+      "update": 8,
+      "transitions": 1940,
+      "policyLoss": -0.02622722531668842,
+      "valueLoss": 1.2547117322683334,
+      "entropy": 1.7817759364843369,
+      "approxKL": -0.0009076791247935034
+    },
+    {
+      "update": 9,
+      "transitions": 2178,
+      "policyLoss": -0.01589900813996792,
+      "valueLoss": 0.22800312004983425,
+      "entropy": 1.7787811011075974,
+      "approxKL": -0.0013875266622562776
+    },
+    {
+      "update": 10,
+      "transitions": 2406,
+      "policyLoss": -0.021891832817345858,
+      "valueLoss": 0.34527965635061264,
+      "entropy": 1.776199147105217,
+      "approxKL": 0.0008294573835883057
+    },
+    {
+      "update": 11,
+      "transitions": 2654,
+      "policyLoss": -0.01910109492018819,
+      "valueLoss": 0.33440594747662544,
+      "entropy": 1.7742247134447098,
+      "approxKL": 0.0001958104403456673
+    },
+    {
+      "update": 12,
+      "transitions": 2900,
+      "policyLoss": -0.017254632548429072,
+      "valueLoss": 2.5358371138572693,
+      "entropy": 1.7686821073293686,
+      "approxKL": 0.00009667449239714188
+    },
+    {
+      "update": 13,
+      "transitions": 3154,
+      "policyLoss": -0.017775260377675295,
+      "valueLoss": 2.621892958879471,
+      "entropy": 1.7631858885288239,
+      "approxKL": -0.0008051321365201147
+    },
+    {
+      "update": 14,
+      "transitions": 3392,
+      "policyLoss": -0.019278195686638355,
+      "valueLoss": 1.9725159853696823,
+      "entropy": 1.7632209360599518,
+      "approxKL": -0.0005005628190701827
+    },
+    {
+      "update": 15,
+      "transitions": 3638,
+      "policyLoss": -0.01728912442922592,
+      "valueLoss": 1.09603001922369,
+      "entropy": 1.7629017233848572,
+      "approxKL": 0.002167799808376003
+    },
+    {
+      "update": 16,
+      "transitions": 3882,
+      "policyLoss": -0.02038036717567593,
+      "valueLoss": 1.5280297249555588,
+      "entropy": 1.761344388127327,
+      "approxKL": 0.0011533648503245786
+    },
+    {
+      "update": 17,
+      "transitions": 4110,
+      "policyLoss": -0.02779130032286048,
+      "valueLoss": 1.5051091611385345,
+      "entropy": 1.757037952542305,
+      "approxKL": 0.0009474764010519721
+    },
+    {
+      "update": 18,
+      "transitions": 4336,
+      "policyLoss": -0.025215358240529895,
+      "valueLoss": 1.723275750875473,
+      "entropy": 1.7628389298915863,
+      "approxKL": -0.0031073857408046024
+    },
+    {
+      "update": 19,
+      "transitions": 4586,
+      "policyLoss": -0.02182776713743806,
+      "valueLoss": 1.0916271209716797,
+      "entropy": 1.7670294344425201,
+      "approxKL": -0.0010758999596873764
+    },
+    {
+      "update": 20,
+      "transitions": 4840,
+      "policyLoss": -0.01730150857474655,
+      "valueLoss": 1.5903912782669067,
+      "entropy": 1.7720592319965363,
+      "approxKL": 0.0010315304371033562
+    },
+    {
+      "update": 21,
+      "transitions": 5080,
+      "policyLoss": -0.020451823016628623,
+      "valueLoss": 0.3219795413315296,
+      "entropy": 1.7736993581056595,
+      "approxKL": -0.0001269256154046161
+    },
+    {
+      "update": 22,
+      "transitions": 5306,
+      "policyLoss": -0.020519525511190295,
+      "valueLoss": 0.41002069041132927,
+      "entropy": 1.7755436301231384,
+      "approxKL": -0.0009360774347442202
+    },
+    {
+      "update": 23,
+      "transitions": 5544,
+      "policyLoss": -0.018321168841794133,
+      "valueLoss": 0.2891366723924875,
+      "entropy": 1.7740164399147034,
+      "approxKL": 0.0007800404382578563
+    },
+    {
+      "update": 24,
+      "transitions": 5776,
+      "policyLoss": -0.02086062030866742,
+      "valueLoss": 0.25616623647511005,
+      "entropy": 1.7757867127656937,
+      "approxKL": 0.0010413936797704082
+    },
+    {
+      "update": 25,
+      "transitions": 6028,
+      "policyLoss": -0.019269739743322134,
+      "valueLoss": 2.032041162252426,
+      "entropy": 1.776650607585907,
+      "approxKL": 0.000560051452339394
+    },
+    {
+      "update": 26,
+      "transitions": 6262,
+      "policyLoss": -0.018527710461057723,
+      "valueLoss": 2.755030781030655,
+      "entropy": 1.7796363532543182,
+      "approxKL": 0.0004972986353095621
+    },
+    {
+      "update": 27,
+      "transitions": 6506,
+      "policyLoss": -0.021601675543934107,
+      "valueLoss": 2.707049697637558,
+      "entropy": 1.7783728539943695,
+      "approxKL": -0.001172773174403119
+    },
+    {
+      "update": 28,
+      "transitions": 6754,
+      "policyLoss": -0.022196321515366435,
+      "valueLoss": 2.950092077255249,
+      "entropy": 1.774321809411049,
+      "approxKL": -0.0004789874710695585
+    },
+    {
+      "update": 29,
+      "transitions": 7000,
+      "policyLoss": -0.0170908288564533,
+      "valueLoss": 1.4975268989801407,
+      "entropy": 1.7660905569791794,
+      "approxKL": -0.0007994154079824511
+    },
+    {
+      "update": 30,
+      "transitions": 7228,
+      "policyLoss": -0.022638774011284113,
+      "valueLoss": 1.3403775244951248,
+      "entropy": 1.7598884850740433,
+      "approxKL": 0.001313732071139384
+    },
+    {
+      "update": 31,
+      "transitions": 7472,
+      "policyLoss": -0.020166739588603377,
+      "valueLoss": 1.6741525679826736,
+      "entropy": 1.7592469304800034,
+      "approxKL": -0.0004296367519600608
+    },
+    {
+      "update": 32,
+      "transitions": 7714,
+      "policyLoss": -0.02103577647358179,
+      "valueLoss": 1.3297560960054398,
+      "entropy": 1.7655917406082153,
+      "approxKL": -0.000720878892593646
+    },
+    {
+      "update": 33,
+      "transitions": 7944,
+      "policyLoss": -0.02286520425695926,
+      "valueLoss": 1.4475686848163605,
+      "entropy": 1.7721135765314102,
+      "approxKL": 0.00016935920211835764
+    },
+    {
+      "update": 34,
+      "transitions": 8188,
+      "policyLoss": -0.018233404960483313,
+      "valueLoss": 1.5356654524803162,
+      "entropy": 1.7760642766952515,
+      "approxKL": 0.0012226073868077947
+    },
+    {
+      "update": 35,
+      "transitions": 8420,
+      "policyLoss": -0.01624208176508546,
+      "valueLoss": 2.2542672902345657,
+      "entropy": 1.7788357138633728,
+      "approxKL": -0.0004745993483084021
+    },
+    {
+      "update": 36,
+      "transitions": 8676,
+      "policyLoss": -0.01850153924897313,
+      "valueLoss": 1.2850327640771866,
+      "entropy": 1.780900463461876,
+      "approxKL": -0.00007913552690297365
+    },
+    {
+      "update": 37,
+      "transitions": 8898,
+      "policyLoss": -0.017252190271392465,
+      "valueLoss": 2.168394759297371,
+      "entropy": 1.7831517457962036,
+      "approxKL": -0.00036267245733512254
+    },
+    {
+      "update": 38,
+      "transitions": 9152,
+      "policyLoss": -0.01896110293455422,
+      "valueLoss": 1.2258321642875671,
+      "entropy": 1.7834300845861435,
+      "approxKL": -0.0005534244028240209
+    },
+    {
+      "update": 39,
+      "transitions": 9386,
+      "policyLoss": -0.021887134993448853,
+      "valueLoss": 0.47092507407069206,
+      "entropy": 1.782698154449463,
+      "approxKL": 0.00004862316927756183
+    },
+    {
+      "update": 40,
+      "transitions": 9600,
+      "policyLoss": -0.03161812457256019,
+      "valueLoss": 2.7533673644065857,
+      "entropy": 1.783451572060585,
+      "approxKL": -0.0002875805662370112
+    },
+    {
+      "update": 41,
+      "transitions": 9850,
+      "policyLoss": -0.017957107280381024,
+      "valueLoss": 1.770654633641243,
+      "entropy": 1.7842962592840195,
+      "approxKL": 0.000038803633287898265
+    },
+    {
+      "update": 42,
+      "transitions": 10098,
+      "policyLoss": -0.02040562720503658,
+      "valueLoss": 1.9923556745052338,
+      "entropy": 1.78522589802742,
+      "approxKL": -0.00008370673867830192
+    },
+    {
+      "update": 43,
+      "transitions": 10338,
+      "policyLoss": -0.017756043933331966,
+      "valueLoss": 1.254563495516777,
+      "entropy": 1.7855602204799652,
+      "approxKL": 0.0002426745727461821
+    },
+    {
+      "update": 44,
+      "transitions": 10592,
+      "policyLoss": -0.019219220732338727,
+      "valueLoss": 1.462833121418953,
+      "entropy": 1.7841546386480331,
+      "approxKL": 0.0008773685549385846
+    },
+    {
+      "update": 45,
+      "transitions": 10830,
+      "policyLoss": -0.018810463952831924,
+      "valueLoss": 1.6064613163471222,
+      "entropy": 1.7848365604877472,
+      "approxKL": 0.0004843837978114607
+    },
+    {
+      "update": 46,
+      "transitions": 11068,
+      "policyLoss": -0.015162828378379345,
+      "valueLoss": 0.7465347200632095,
+      "entropy": 1.7829549014568329,
+      "approxKL": -0.0005478497346302902
+    },
+    {
+      "update": 47,
+      "transitions": 11302,
+      "policyLoss": -0.01826797192916274,
+      "valueLoss": 0.42389722168445587,
+      "entropy": 1.784415826201439,
+      "approxKL": 0.0007791553425704478
+    },
+    {
+      "update": 48,
+      "transitions": 11536,
+      "policyLoss": -0.014589196303859353,
+      "valueLoss": 1.8502426445484161,
+      "entropy": 1.7831113934516907,
+      "approxKL": -0.00007737870328128338
+    },
+    {
+      "update": 49,
+      "transitions": 11788,
+      "policyLoss": -0.020760729210451245,
+      "valueLoss": 0.5654915049672127,
+      "entropy": 1.7820734977722168,
+      "approxKL": -0.0013623347294924315
+    },
+    {
+      "update": 50,
+      "transitions": 12012,
+      "policyLoss": -0.015802865847945213,
+      "valueLoss": 0.24009258672595024,
+      "entropy": 1.7816207110881805,
+      "approxKL": -0.0008526999081368558
+    },
+    {
+      "update": 51,
+      "transitions": 12230,
+      "policyLoss": -0.015441410942003131,
+      "valueLoss": 3.7367153763771057,
+      "entropy": 1.782240405678749,
+      "approxKL": -0.0003339475906614098
+    },
+    {
+      "update": 52,
+      "transitions": 12476,
+      "policyLoss": -0.02043869416229427,
+      "valueLoss": 1.5903236865997314,
+      "entropy": 1.7826163172721863,
+      "approxKL": 0.0004983270209777402
+    },
+    {
+      "update": 53,
+      "transitions": 12722,
+      "policyLoss": -0.0211732960306108,
+      "valueLoss": 1.8996076136827469,
+      "entropy": 1.7840982377529144,
+      "approxKL": 0.0008130935202643741
+    },
+    {
+      "update": 54,
+      "transitions": 12954,
+      "policyLoss": -0.015629890142008662,
+      "valueLoss": 1.3479428589344025,
+      "entropy": 1.7825299054384232,
+      "approxKL": -0.0011736063133866992
+    },
+    {
+      "update": 55,
+      "transitions": 13208,
+      "policyLoss": -0.019099883269518614,
+      "valueLoss": 1.7217151820659637,
+      "entropy": 1.7841687500476837,
+      "approxKL": -0.00000770430142438272
+    },
+    {
+      "update": 56,
+      "transitions": 13450,
+      "policyLoss": -0.020160062704235315,
+      "valueLoss": 1.5639938563108444,
+      "entropy": 1.7819100618362427,
+      "approxKL": 0.0005880343546778022
+    },
+    {
+      "update": 57,
+      "transitions": 13694,
+      "policyLoss": -0.019797398475930095,
+      "valueLoss": 1.9681258797645569,
+      "entropy": 1.7789054065942764,
+      "approxKL": -0.0005887798997719074
+    },
+    {
+      "update": 58,
+      "transitions": 13946,
+      "policyLoss": -0.019856834085658193,
+      "valueLoss": 0.9937440976500511,
+      "entropy": 1.7768748104572296,
+      "approxKL": 0.0002840149559233396
+    },
+    {
+      "update": 59,
+      "transitions": 14190,
+      "policyLoss": -0.019771482795476913,
+      "valueLoss": 0.7218771353363991,
+      "entropy": 1.7737516462802887,
+      "approxKL": 0.0008605364091636147
+    },
+    {
+      "update": 60,
+      "transitions": 14436,
+      "policyLoss": -0.021931285155005753,
+      "valueLoss": 0.684265524148941,
+      "entropy": 1.7711306363344193,
+      "approxKL": -0.0015680968717788346
+    },
+    {
+      "update": 61,
+      "transitions": 14700,
+      "policyLoss": 0.04161684851472577,
+      "valueLoss": 1.2932380835215251,
+      "entropy": 1.7683308521906536,
+      "approxKL": 0.00608794903382659
+    },
+    {
+      "update": 62,
+      "transitions": 14942,
+      "policyLoss": -0.015434903092682362,
+      "valueLoss": 0.6969141811132431,
+      "entropy": 1.756168156862259,
+      "approxKL": 0.0018703191526583396
+    },
+    {
+      "update": 63,
+      "transitions": 15184,
+      "policyLoss": -0.018623661948367953,
+      "valueLoss": 1.3864866942167282,
+      "entropy": 1.7477318495512009,
+      "approxKL": -0.0001388151367791579
+    },
+    {
+      "update": 64,
+      "transitions": 15438,
+      "policyLoss": -0.01906842482276261,
+      "valueLoss": 0.5539905950427055,
+      "entropy": 1.7439391911029816,
+      "approxKL": -0.00020435904662008397
+    },
+    {
+      "update": 65,
+      "transitions": 15700,
+      "policyLoss": 0.021573621779680252,
+      "valueLoss": 1.4110289191206296,
+      "entropy": 1.7421067853768666,
+      "approxKL": -0.0013649270210104685
+    },
+    {
+      "update": 66,
+      "transitions": 15938,
+      "policyLoss": -0.02542574144899845,
+      "valueLoss": 1.3351013213396072,
+      "entropy": 1.738750398159027,
+      "approxKL": 0.005588904343312606
+    },
+    {
+      "update": 67,
+      "transitions": 16174,
+      "policyLoss": -0.01627121865749359,
+      "valueLoss": 0.6431168168783188,
+      "entropy": 1.726589486002922,
+      "approxKL": 0.0023198644412332214
+    },
+    {
+      "update": 68,
+      "transitions": 16426,
+      "policyLoss": -0.02005059947259724,
+      "valueLoss": 1.1102417260408401,
+      "entropy": 1.718973994255066,
+      "approxKL": 0.0021563959526247345
+    },
+    {
+      "update": 69,
+      "transitions": 16676,
+      "policyLoss": -0.021197085734456778,
+      "valueLoss": 1.9699117839336395,
+      "entropy": 1.7089558690786362,
+      "approxKL": 0.0016098224732559174
+    },
+    {
+      "update": 70,
+      "transitions": 16932,
+      "policyLoss": -0.019959709607064724,
+      "valueLoss": 1.1447437405586243,
+      "entropy": 1.6869525909423828,
+      "approxKL": 0.0011874392512254417
+    },
+    {
+      "update": 71,
+      "transitions": 17176,
+      "policyLoss": -0.0183978556888178,
+      "valueLoss": 1.2623265981674194,
+      "entropy": 1.66287262737751,
+      "approxKL": 0.0012502405343184364
+    },
+    {
+      "update": 72,
+      "transitions": 17422,
+      "policyLoss": -0.021827694261446595,
+      "valueLoss": 1.2910996973514557,
+      "entropy": 1.6490988433361053,
+      "approxKL": 0.004666171342250891
+    },
+    {
+      "update": 73,
+      "transitions": 17652,
+      "policyLoss": -0.014922396279871464,
+      "valueLoss": 0.33608201891183853,
+      "entropy": 1.6188837885856628,
+      "approxKL": 0.004726259132439736
+    },
+    {
+      "update": 74,
+      "transitions": 17914,
+      "policyLoss": -0.01004496170207858,
+      "valueLoss": 2.171144356330236,
+      "entropy": 1.6005550523598988,
+      "approxKL": -0.0000034024318059285483
+    },
+    {
+      "update": 75,
+      "transitions": 18148,
+      "policyLoss": -0.018655546009540558,
+      "valueLoss": 1.4421886056661606,
+      "entropy": 1.6223130226135254,
+      "approxKL": 0.0006644732584391022
+    },
+    {
+      "update": 76,
+      "transitions": 18406,
+      "policyLoss": 0.047821110424896084,
+      "valueLoss": 0.3656258595486482,
+      "entropy": 1.674796958764394,
+      "approxKL": -0.0010787097659582894
+    },
+    {
+      "update": 77,
+      "transitions": 18650,
+      "policyLoss": -0.015876618679612875,
+      "valueLoss": 2.3260914087295532,
+      "entropy": 1.6675123274326324,
+      "approxKL": 0.0003686984691739781
+    },
+    {
+      "update": 78,
+      "transitions": 18894,
+      "policyLoss": -0.018154125194996595,
+      "valueLoss": 2.3843444138765335,
+      "entropy": 1.6882622689008713,
+      "approxKL": -0.00022631804995398852
+    },
+    {
+      "update": 79,
+      "transitions": 19144,
+      "policyLoss": -0.016353207640349865,
+      "valueLoss": 1.2986057549715042,
+      "entropy": 1.6755214482545853,
+      "approxKL": -0.00025283611694248975
+    },
+    {
+      "update": 80,
+      "transitions": 19406,
+      "policyLoss": 0.017088841026027996,
+      "valueLoss": 1.7801770468552907,
+      "entropy": 1.6596207519372304,
+      "approxKL": 0.0032107657364880047
+    },
+    {
+      "update": 81,
+      "transitions": 19640,
+      "policyLoss": -0.017183936201035976,
+      "valueLoss": 1.5907915979623795,
+      "entropy": 1.5876630991697311,
+      "approxKL": -0.000948798266108497
+    },
+    {
+      "update": 82,
+      "transitions": 19876,
+      "policyLoss": -0.01684389286674559,
+      "valueLoss": 1.554802045226097,
+      "entropy": 1.5718848705291748,
+      "approxKL": -0.00021524887100099477
+    },
+    {
+      "update": 83,
+      "transitions": 20110,
+      "policyLoss": -0.020927197067067027,
+      "valueLoss": 1.3463397026062012,
+      "entropy": 1.5644351840019226,
+      "approxKL": 0.0005485239507834194
+    },
+    {
+      "update": 84,
+      "transitions": 20366,
+      "policyLoss": -0.016314384061843157,
+      "valueLoss": 1.0503518357872963,
+      "entropy": 1.58821502327919,
+      "approxKL": -0.0006708490545861423
+    },
+    {
+      "update": 85,
+      "transitions": 20622,
+      "policyLoss": -0.016727057052776217,
+      "valueLoss": 0.44273120909929276,
+      "entropy": 1.5843603610992432,
+      "approxKL": -0.00012273906031623483
+    },
+    {
+      "update": 86,
+      "transitions": 20856,
+      "policyLoss": -0.028662279597483575,
+      "valueLoss": 1.153216928243637,
+      "entropy": 1.572658583521843,
+      "approxKL": 0.0011137622532260139
+    },
+    {
+      "update": 87,
+      "transitions": 21112,
+      "policyLoss": -0.012635485967621207,
+      "valueLoss": 1.8431752622127533,
+      "entropy": 1.443006619811058,
+      "approxKL": 0.0020350070553831756
+    },
+    {
+      "update": 88,
+      "transitions": 21366,
+      "policyLoss": -0.014803578844293952,
+      "valueLoss": 0.8990089073777199,
+      "entropy": 1.4182068705558777,
+      "approxKL": 0.0000567949872021245
+    },
+    {
+      "update": 89,
+      "transitions": 21616,
+      "policyLoss": -0.01814774505328387,
+      "valueLoss": 0.46944572031497955,
+      "entropy": 1.4933847934007645,
+      "approxKL": 0.0004991364314719249
+    },
+    {
+      "update": 90,
+      "transitions": 21874,
+      "policyLoss": 0.023875681062539417,
+      "valueLoss": 1.8835172268251579,
+      "entropy": 1.5737242201964061,
+      "approxKL": 0.00952395338875552
+    },
+    {
+      "update": 91,
+      "transitions": 22092,
+      "policyLoss": -0.011532066622748971,
+      "valueLoss": 0.7473514676094055,
+      "entropy": 1.4981732964515686,
+      "approxKL": -0.00142530987795908
+    },
+    {
+      "update": 92,
+      "transitions": 22312,
+      "policyLoss": -0.01124251529108733,
+      "valueLoss": 1.1319817006587982,
+      "entropy": 1.4253035932779312,
+      "approxKL": 0.00031328453405876644
+    },
+    {
+      "update": 93,
+      "transitions": 22552,
+      "policyLoss": -0.01675829035229981,
+      "valueLoss": 1.1106139123439789,
+      "entropy": 1.3843503594398499,
+      "approxKL": 0.0016244480102614034
+    },
+    {
+      "update": 94,
+      "transitions": 22828,
+      "policyLoss": -0.039478896806637444,
+      "valueLoss": 0.9505560994148254,
+      "entropy": 1.2992076476414998,
+      "approxKL": -0.0029224181974617145
+    },
+    {
+      "update": 95,
+      "transitions": 23092,
+      "policyLoss": 0.030077375083540876,
+      "valueLoss": 1.4854709307352703,
+      "entropy": 1.264108657836914,
+      "approxKL": 0.00458639699112003
+    },
+    {
+      "update": 96,
+      "transitions": 23338,
+      "policyLoss": -0.012488978449255228,
+      "valueLoss": 0.6721574813127518,
+      "entropy": 1.2489776611328125,
+      "approxKL": 0.0008734171206015162
+    },
+    {
+      "update": 97,
+      "transitions": 23572,
+      "policyLoss": -0.017308321315795183,
+      "valueLoss": 0.5802015103399754,
+      "entropy": 1.2240277379751205,
+      "approxKL": 0.0015126147814044089
+    },
+    {
+      "update": 98,
+      "transitions": 23830,
+      "policyLoss": -0.13149698280418912,
+      "valueLoss": 4.054489687085152,
+      "entropy": 1.1302648931741714,
+      "approxKL": -0.00838013319298625
+    },
+    {
+      "update": 99,
+      "transitions": 24066,
+      "policyLoss": -0.01862044632434845,
+      "valueLoss": 2.079170510172844,
+      "entropy": 1.0116495937108994,
+      "approxKL": 0.008385045064642327
+    },
+    {
+      "update": 100,
+      "transitions": 24308,
+      "policyLoss": -0.008724478771910071,
+      "valueLoss": 2.938297986984253,
+      "entropy": 0.856788270175457,
+      "approxKL": -0.0021888826267968398
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "id": "d546361f-6ee4-43d1-9a35-5a9bf9537e7f",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/d546361f-6ee4-43d1-9a35-5a9bf9537e7f/interface-rep-r-e-cmwjl7jt.mp3"
+  ],
+  "createdAt": "2026-11-16T18:19:58.074Z",
+  "generationId": "cmwjl7jtv005a3lllrr8qtnhn",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjl7jtv005a3lllrr8qtnhn/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjl7jtv005a3lllrr8qtnhn",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl7jtv005a3lllrr8qtnhn/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/d546361f-6ee4-43d1-9a35-5a9bf9537e7f/output/interface-rep-r-e-cmwjl7jt.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl7jtv005a3lllrr8qtnhn/audio-voice",
+        "bytes": 26792
+      }
+    ],
+    "downloadFailures": []
+  }
+}

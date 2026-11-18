@@ -1,6 +1,8 @@
 // Armes en premier plan (storm bolter + gantelet). Scène séparée, profondeur vidée
 // pour que le canon ne traverse pas les piliers. Cues #72 : anticipation / impact / fire.
 import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
+import { buildSiegeBolter, detailGauntlet, wornMetalMap } from './weapon-detail';
 import type { AnimCue } from '../anim-cues';
 
 export interface Viewmodel {
@@ -12,8 +14,8 @@ export interface Viewmodel {
   muzzle: THREE.PointLight;
   tracer: THREE.Line;
   ingestCue(cue: AnimCue): void;
-  ingestSim(ev: { type: string }): void;
-  update(dt: number, now: number, bobX: number, bobY: number, moving: boolean): void;
+  ingestSim(ev: { type: string; intensity?: number; foot?: number }): void;
+  update(dt: number, now: number, bobX: number, bobY: number, moving: boolean, reload?: number): void;
   dispose(): void;
 }
 
@@ -23,7 +25,7 @@ function box(
   g: THREE.Group, w: number, h: number, d: number,
   mat: THREE.Material, x: number, y: number, z: number,
 ): THREE.Mesh {
-  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+  const m = new THREE.Mesh(new RoundedBoxGeometry(w, h, d, 2, Math.min(w,h,d) * 0.15), mat);
   m.position.set(x, y, z);
   m.castShadow = false;
   m.receiveShadow = false;
@@ -51,20 +53,22 @@ export function createViewmodel(): Viewmodel {
   const root = new THREE.Group();
   scene.add(root);
 
-  scene.add(new THREE.AmbientLight(0xb8c4d8, 1.15));
-  const key = new THREE.DirectionalLight(0xffe4c0, 1.85);
+  scene.add(new THREE.AmbientLight(0x8996ad, .65));
+  const key = new THREE.DirectionalLight(0xffd6ac, 2.1);
   key.position.set(0.45, 0.7, 1.0);
   scene.add(key);
-  const fill = new THREE.DirectionalLight(0x7a94b8, 0.85);
+  const fill = new THREE.DirectionalLight(0x7a94b8, 1.1);
   fill.position.set(-0.7, 0.15, 0.8);
   scene.add(fill);
 
   const steel = ph(0x5a5348, { spec: 0x99a8b8, shine: 36, em: 0x1a1814, ei: 0.28 });
   const dark = ph(0x24201c, { spec: 0x556677, shine: 24, em: 0x0c0a08, ei: 0.2 });
-  const brass = ph(0xc49a42, { spec: 0xffe8b0, shine: 52, em: 0x5a3c10, ei: 0.55 });
-  const gold = ph(0xe0bc6a, { spec: 0xfff0c8, shine: 46, em: 0x5a4418, ei: 0.4 });
+  const brass = ph(0x8d7546, { spec: 0xffe8b0, shine: 52, em: 0x5a3c10, ei: 0.08 });
+  const gold = ph(0xb4a17a, { spec: 0xfff0c8, shine: 46, em: 0x5a4418, ei: 0.08 });
   const fistMat = ph(0x3a455c, { spec: 0x88aadd, shine: 32, em: 0x1c3c90, ei: 0.7 });
   const plate = ph(0x4a5368, { spec: 0x99bbdd, shine: 28, em: 0x121820, ei: 0.25 });
+  const wear = wornMetalMap();
+  for (const material of [steel, brass, gold, fistMat, plate]) material.map = wear;
   const energyMat = new THREE.MeshPhongMaterial({
     color: 0x4ec8ff, emissive: 0x2288ff, emissiveIntensity: 0.9,
     transparent: true, opacity: 0.55, depthWrite: false, shininess: 12,
@@ -98,30 +102,55 @@ export function createViewmodel(): Viewmodel {
   bolter.add(bolterLamp);
   bolter.position.set(0.22, -0.14, -0.52);
   bolter.rotation.set(0.12, 0.28, 0.04);
-  bolter.scale.setScalar(1.28);
+  bolter.scale.setScalar(0.85);
   root.add(bolter);
 
   const fist = new THREE.Group();
   fist.name = 'power-fist';
-  box(fist, 0.09, 0.20, 0.09, plate, 0, -0.16, 0.05);
-  box(fist, 0.10, 0.03, 0.10, brass, 0, -0.055, 0.05);
-  box(fist, 0.14, 0.08, 0.12, fistMat, 0, 0.02, 0.02);
-  box(fist, 0.145, 0.025, 0.04, brass, 0, 0.055, -0.01);
-  const fingerXs = [-0.052, -0.018, 0.016, 0.050];
-  for (const fx of fingerXs) {
-    box(fist, 0.028, 0.034, 0.07, fistMat, fx, 0.03, -0.08);
-    box(fist, 0.024, 0.028, 0.055, dark, fx, 0.028, -0.13);
-    box(fist, 0.018, 0.022, 0.03, brass, fx, 0.024, -0.165);
-    box(fist, 0.032, 0.038, 0.08, energyMat, fx, 0.03, -0.11);
+  // Armoured forearm, wrist coupling and palm: fingers curl around real knuckle pivots.
+  box(fist, .15, .22, .14, plate, 0, -.19, .06);
+  box(fist, .17, .035, .16, brass, 0, -.085, .06);
+  box(fist, .12, .055, .11, dark, 0, -.053, .045);
+  box(fist, .175, .10, .16, fistMat, 0, .015, .025);
+  box(fist, .15, .022, .12, plate, 0, .072, .025);
+  for (const x of [-.068,.068]) {
+    box(fist, .014, .15, .025, steel, x, -.16, -.012);
+    box(fist, .022, .028, .024, brass, x, .077, .065);
   }
-  box(fist, 0.03, 0.04, 0.06, fistMat, -0.085, -0.01, -0.02);
-  box(fist, 0.024, 0.03, 0.05, dark, -0.10, 0.01, -0.07);
+  for(let i=0;i<4;i++) {
+    box(fist,.028,.016,.092,plate,-.064+i*.043,.089,.025);
+    box(fist,.011,.009,.052,steel,-.064+i*.043,.101,.034);
+  }
+  box(fist,.06,.014,.038,brass,0,.105,.057);
+  const fingerJoints: THREE.Group[][] = [];
+  for (let i=0;i<4;i++) {
+    const joints: THREE.Group[] = [];
+    let parent: THREE.Group = fist;
+    const widths = [.039,.042,.040,.034];
+    for (let j=0;j<3;j++) {
+      const pivot = new THREE.Group();
+      pivot.name = `finger-${i}-joint-${j}`;
+      pivot.position.set(j===0 ? -.066+i*.044 : 0, j===0 ? .025 : 0, j===0 ? -.055 : -.046);
+      parent.add(pivot);
+      box(pivot,widths[i],.039,.048,fistMat,0,0,-.022);
+      box(pivot,widths[i]*.94,.012,.028,brass,0,.025,-.012);
+      box(pivot,widths[i]*.70,.018,.014,dark,0,0,-.048);
+      if(j===0) box(pivot,.012,.007,.025,energyMat,0,.033,-.015);
+      joints.push(pivot); parent=pivot;
+    }
+    fingerJoints.push(joints);
+  }
+  const thumb = new THREE.Group(); thumb.name='opposed-thumb';
+  thumb.position.set(.10,-.015,.015); thumb.rotation.set(-.3,-.8,-.45); fist.add(thumb);
+  box(thumb,.052,.055,.065,fistMat,0,0,-.025);
+  box(thumb,.045,.047,.048,plate,-.018,-.025,-.068);
+  box(thumb,.049,.012,.025,brass,0,.03,-.03);
   const fistLamp = new THREE.PointLight(0x6aa8ff, 1.05, 1.3, 1.5);
   fistLamp.position.set(-0.02, 0.08, 0.08);
   fist.add(fistLamp);
   fist.position.set(-0.26, -0.12, -0.50);
   fist.rotation.set(0.55, -0.55, -0.18);
-  fist.scale.setScalar(1.32);
+  fist.scale.setScalar(0.72);
   root.add(fist);
 
   const tracer = new THREE.Line(
@@ -131,12 +160,21 @@ export function createViewmodel(): Viewmodel {
   tracer.position.set(0.20, -0.12, -0.92);
   root.add(tracer);
 
+  // Bras droit et doigts autour de la poignée, distincts de la carcasse.
+  box(bolter, 0.105, 0.25, 0.12, plate, 0.015, -0.24, 0.15);
+  box(bolter, 0.11, 0.045, 0.13, brass, 0.015, -0.13, 0.15);
+  for (let i = 0; i < 4; i++) box(bolter, 0.07, 0.018, 0.06, fistMat, 0.008, -0.07 - i * 0.022, 0.085);
+  bolter.children.filter(o => o instanceof THREE.Mesh).slice(0, 12).forEach(o => o.visible = false);
+  const siege = buildSiegeBolter(); bolter.add(siege.root);
+  detailGauntlet(fist);
+  let lastTime: number | null = null;
   let recZ = 0;
   let recX = 0;
   let fireT = 0;
   let wind = 0;
   let strike = 0;
   let idle = 0;
+  let tread = 0, treadSide = 1, armorHit = 0;
 
   const ingestCue = (cue: AnimCue) => {
     if (cue.role !== 'TERM') return;
@@ -152,9 +190,11 @@ export function createViewmodel(): Viewmodel {
     }
   };
 
-  const ingestSim = (ev: { type: string }) => {
+  const ingestSim = (ev: { type: string; intensity?: number; foot?: number }) => {
+    if (ev.type === 'step') { tread = ev.intensity === 0 ? 1.2 : .85; treadSide = ev.foot === 1 ? 1 : -1; }
+    if (ev.type === 'hit') armorHit = 1;
     if (ev.type === 'bolt') {
-      recZ = Math.max(recZ, 0.048);
+      recZ = Math.max(recZ, 0.072);
       recX = Math.max(recX, 0.01);
       fireT = 1;
     }
@@ -165,31 +205,50 @@ export function createViewmodel(): Viewmodel {
     }
   };
 
-  const update = (dt: number, now: number, bobX: number, bobY: number, moving: boolean) => {
+  const update = (dt: number, now: number, bobX: number, bobY: number, moving: boolean, reload = 0) => {
+    dt = lastTime === null ? 0 : Math.max(0, Math.min(0.05, now - lastTime));
+    lastTime = now;
     idle += dt;
-    recZ *= Math.exp(-dt * 14);
+    tread *= Math.exp(-dt * 10);
+    armorHit *= Math.exp(-dt * 8);
+    recZ *= Math.exp(-dt * 9);
     recX *= Math.exp(-dt * 12);
     fireT = Math.max(0, fireT - dt / 0.075);
-    wind = Math.max(0, wind - dt / 0.55);
-    strike = Math.max(0, strike - dt / 0.16);
+    wind = Math.max(0, wind - dt / 0.8);
+    strike = Math.max(0, strike - dt / 0.38);
     const sway = moving ? 1 : 0.45;
     const sx = Math.sin(idle * 1.35) * 0.008 * sway + bobX * 0.35;
     const sy = Math.sin(idle * 1.05) * 0.006 * sway + bobY * 0.55;
-    root.position.set(sx, sy, recZ);
-    root.rotation.z = recX * 4 + bobX * 0.15;
-    bolter.position.z = -0.50 + recZ * 2.2;
+    root.position.set(sx + treadSide * tread * .006, sy - tread * .022, recZ + armorHit * .035);
+    root.rotation.z = recX * 3 + bobX * 0.15 + treadSide * tread * .012;
+    const reloadArc = reload > 0 ? Math.sin(Math.PI * (1 - reload / 20)) : 0;
+    bolter.position.set(0.22, -0.19 - reloadArc * 0.15, -0.58 + recZ * 1.3);
+    bolter.rotation.z = 0.04 + reloadArc * 0.55;
     bolter.rotation.x = 0.10 + recZ * 3.2;
+    const reloadProgress = THREE.MathUtils.clamp(1 - reload / 20, 0, 1);
+    const magTravel = reload > 0 ? Math.sin(Math.PI * reloadProgress) : 0;
+    siege.magazine.position.y = -.125 - magTravel * .17;
+    siege.magazine.rotation.x = magTravel * .18;
+    siege.slide.position.z = .08 + fireT * .045;
     (muzzleFlash.material as THREE.MeshBasicMaterial).opacity = fireT * fireT;
     muzzleFlash.scale.setScalar(0.6 + fireT * 1.8);
     muzzle.intensity = 14 * fireT * fireT;
     (tracer.material as THREE.LineBasicMaterial).opacity = fireT * 0.85;
     const pull = wind * 0.16;
-    const punch = strike * 0.22;
-    fist.position.set(-0.26 - wind * 0.04, -0.12 + pull * 0.08, -0.50 + punch - pull);
+    const punch = strike * strike * .27;
+    // High-frequency vibration belongs to the energized gauntlet, never to the aiming camera.
+    const vibro = Math.sin(now * Math.PI * 2 * 32) * .0018 * wind;
+    fist.position.set(-0.24 + strike * 0.12 + reloadArc * 0.30, -0.17 + strike * 0.12 - reloadArc * 0.06, -0.58 - punch + pull + vibro);
+    const grip = 1 - reloadArc * .75;
+    fingerJoints.forEach((joints,i) => joints.forEach((joint,j) => {
+      joint.rotation.x = -(j===0 ? .45 : 1.15) * grip - wind*.12 + Math.sin(now*1.2+i)*.015;
+    }));
+    thumb.rotation.y = -.8 - grip*.25;
+    fist.rotation.z = -0.18 - reloadArc * 0.65 - strike * .20;
     fist.rotation.x = 0.55 - wind * 0.32 + strike * 0.45;
-    fistMat.emissiveIntensity = 0.7 + wind * 1.1 + strike * 1.4;
+    fistMat.emissiveIntensity = 0.08 + wind * 1.1 + strike * 1.4;
     energyMat.emissiveIntensity = 0.9 + wind * 1.3 + strike * 0.8;
-    energyMat.opacity = 0.5 + wind * 0.35 + strike * 0.2;
+    energyMat.opacity = 0.04 + wind * 0.35 + strike * 0.2;
     fistLamp.intensity = 1.05 + wind * 1.6 + strike * 1.2;
     void now;
   };

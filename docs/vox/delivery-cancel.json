@@ -1,0 +1,40 @@
+{
+  "id": "41b24601-90c6-4415-a6f8-169399c4b214",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/41b24601-90c6-4415-a6f8-169399c4b214/ordre-annul-cmwjlqvk.mp3"
+  ],
+  "createdAt": "2026-11-16T18:33:48.398Z",
+  "generationId": "cmwjlqvk8009p3lllfl4htwi2",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjlqvk8009p3lllfl4htwi2/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjlqvk8009p3lllfl4htwi2",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlqvk8009p3lllfl4htwi2/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/41b24601-90c6-4415-a6f8-169399c4b214/output/ordre-annul-cmwjlqvk.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlqvk8009p3lllfl4htwi2/audio-voice",
+        "bytes": 23030
+      }
+    ],
+    "downloadFailures": []
+  }
+}

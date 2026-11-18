@@ -1,0 +1,40 @@
+{
+  "id": "58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b/order-cancelled-cmwkitss.mp3"
+  ],
+  "createdAt": "2026-11-17T09:59:50.066Z",
+  "generationId": "cmwkitssy03g43gt9etno4h1y",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkitssy03g43gt9etno4h1y/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkitssy03g43gt9etno4h1y",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkitssy03g43gt9etno4h1y/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/58fe4ebf-d734-45d8-b0ff-a3fca2e8cb8b/output/order-cancelled-cmwkitss.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkitssy03g43gt9etno4h1y/audio-voice",
+        "bytes": 24284
+      }
+    ],
+    "downloadFailures": []
+  }
+}

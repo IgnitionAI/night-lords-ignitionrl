@@ -36,9 +36,9 @@ const EVENT_SOUNDS: { event: string; sounds: string[] }[] = [
   { event: 'stinger', sounds: ['stinger-victory', 'stinger-defeat'] },
 ];
 
-test('contrats gelés : NL_CFG.speed et T_CFG.fwd inchangés', () => {
+test('vitesses réactives : la passe audio ne ralentit pas le joueur', () => {
   assert.equal(NL_CFG.speed, 6);
-  assert.equal(T_CFG.fwd, 2.5);
+  assert.equal(T_CFG.fwd, 5);
 });
 
 test('mixeur : bus sfx/voice/ambience/music/ui, compresseur et limiteur sur le master', () => {
@@ -94,7 +94,7 @@ test('manifeste : fichier réel, échantillons présents, budget < 8 Mo', () => 
     assert.ok(st.size > 200, s.file + ' trop petit');
     bytes += st.size;
     names.add(s.name);
-    assert.ok(s.license.toLowerCase().includes('cc0'), s.name);
+    assert.ok(s.license.toLowerCase().includes('cc0') || (s.license.startsWith('Generated with Genex') && s.source.startsWith('Genex generation ')), s.name);
     if (s.name === 'bolter-shot' || s.name === 'fist-impact' || s.name === 'claw-metal') {
       assert.ok((s.variants?.length ?? 0) >= 2, s.name + ' variations');
     }

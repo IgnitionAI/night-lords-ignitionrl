@@ -1,0 +1,426 @@
+IGNITION · THEATRE OF OPERATIONS / 01
+Boarding War
+TURN 18 / 18
+FR
+EN
+Settings
+Briefing
+FPS mode ↗
+NOCTIS CRUISER / DECK VII
+OPERATION COMPLETE
+6 / 6 CP available
+THREAT 23 / 28 · noise 0
+At 28 : lockdown / ARCHIVES
+＋
+−
+Squad
+Overview
+Plan view
+Scroll: zoom · Drag: pan
+Breach · 1 CP
+Open sealed doors adjacent to your group before movement. +2 noise.
+Breach · 1 CP
+Open sealed doors adjacent to your group before movement. +2 noise.
+Crossfire · 1 CP
+Two allied shots at the same tile: +1 damage per shot. The target can still move.
+◆ Terminators
+◆ Confirmed contact
+◇ Last known position
+▰ Door · ▧ Cover
+Resolution complete. Reassess positions and prepare the next turn.
+SHIP CONTROL
+IMPERIUM 24
+11 VIIIᵉ
+
+Deck VII breach · 24 points or the highest score after 18 turns. Take the archives; return their data to the airlock for 6 extra points.
+
+01 / Command relay
+Control unconfirmed · +1 pt/turn
+02 / Power
+Under our control · +1 pt/turn
+03 / Archives
+Under our control · +2 pt/turn
+TERMINATOR SQUAD
+VAEL
+0/10
+OUT OF ACTION
+Commander · 0 charges
+TOR
+0/10
+OUT OF ACTION
+Support · 0 charges
+CAEL
+6/10
+Wait · 0
+Apothecary · 1 charges
+BRANN
+5/10
+Wait · 0
+Breacher · 2 charges · DATA
+ORDER / BRANN
+Move · 1
+Controlled breach · 2
+Aimed fire · 2
+Overwatch · 1
+Recon · 1
+Interact · 1
+Wait · 0
+
+Click an adjacent door or objective. A data carrier can deliver data to the AIRLOCK (3,10).
+
+Reserve a reaction · 1 CPClear this order
+EXECUTE ORDERS
+
+0 order(s) · 0 CP committed. No order: wait. Reserve: −2 damage on the first hit. Cards: one per turn, draw every two turns. Return the data to the AIRLOCK (3,10).
+
+CAEL stabilises BRANN (+3 armour). • Brother stabilised: secondary objective +3. • Power secured by the Terminators. • BRANN recovers 1 armour near power.
+Two enemy commanders · limited intelligence
+Trained PPO · results in the debrief
+Abandon and view debrief
+FR
+EN
+DEBRIEF / DECLASSIFIED INFORMATION
+Imperium victory
+
+Imperium 24 — 11 Night Lords · 18 turns resolved
+
+PPO trained using the local implementation derived from IgnitionAI. Experimental policy: see the comparative results. The lines below are factual records, not reconstructed thoughts.
+IgnitionRL evaluation · 27 held-out scenarios per controller
+
+Turn limit reached · data not extracted · rescue successful.
+
+Turn 1 · 0 / 0 · 4 events
+
+VRAK → Command relay / defence
+0 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : none
+Orders : n0 Move · 1 (17,4) ; n1 Move · 1 (19,5) ; n2 Move · 1 (20,5)
+
+NYX → Command relay / defence
+0 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : none
+Orders : n3 Move · 1 (17,17) ; n4 Move · 1 (19,18) ; n5 Move · 1 (20,18)
+
+CP committed 6 · noise 0 · threat 1 · cards : Vrak / Cover, Nyx / Cover, Imperium / Cover
+
+Card : Cover.
+VAEL rallies the brothers: reduced noise, +1 CP next turn.
+TOR performs recon.
+CAEL performs recon.
+View positions after this turn
+Turn 2 · 0 / 0 · 0 events
+
+VRAK → Command relay / advance
+0 known contact(s) ; 4 CP available ; stance advance.
+Known contacts : none
+Orders : n0 Move · 1 (16,6) ; n1 Move · 1 (21,5) ; n2 Move · 1 (24,4)
+
+NYX → Command relay / advance
+0 known contact(s) ; 4 CP available ; stance advance.
+Known contacts : none
+Orders : n3 Move · 1 (16,15) ; n4 Move · 1 (21,18) ; n5 Move · 1 (24,17)
+
+CP committed 4 · noise 0 · threat 2 · cards : none
+
+No hits or changes in control.
+View positions after this turn
+Turn 3 · 0 / 0 · 0 events
+
+VRAK → Command relay / defence
+0 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : none
+Orders : n0 Move · 1 (16,9) ; n1 Move · 1 (18,5) ; n2 Move · 1 (26,5)
+
+NYX → Command relay / defence
+0 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : none
+Orders : n3 Move · 1 (16,12) ; n4 Move · 1 (18,18) ; n5 Move · 1 (26,16)
+
+CP committed 4 · noise 0 · threat 3 · cards : none
+
+No hits or changes in control.
+View positions after this turn
+Turn 4 · 0 / 0 · 2 events
+
+VRAK → Command relay / defence
+0 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : none
+Orders : n0 Move · 1 (14,10) ; n1 Move · 1 (16,4) ; n2 Move · 1 (25,7)
+
+NYX → Command relay / defence
+0 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : none
+Orders : n3 Move · 1 (16,9) ; n4 Move · 1 (16,17) ; n5 Move · 1 (26,13)
+
+CP committed 5 · noise 0 · threat 4 · cards : Imperium / Jamming
+
+Card : Jamming.
+VAEL performs recon.
+View positions after this turn
+Turn 5 · 0 / 0 · 4 events
+
+VRAK → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : TOR (10,10), seen on turn 5
+Orders : n0 Aimed fire · 2 (10,10) ; n1 Interact · 1 (15,4) ; n2 Move · 1 (25,10)
+
+NYX → Command relay / defence
+0 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : none
+Orders : n3 Move · 1 (16,7) ; n4 Move · 1 (13,17) ; n5 Move · 1 (26,10)
+
+CP committed 6 · noise 2 · threat 5 · cards : Imperium / Crossfire
+
+Card : Crossfire.
+D2 : open.
+TOR hits VRAK (−4).
+VRAK hits TOR (−3).
+View positions after this turn
+Turn 6 · 0 / 0 · 9 events
+
+VRAK → Command relay / defence
+3 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : TOR (10,10), seen on turn 6 ; VAEL (8,10), seen on turn 6 ; BRANN (9,17), seen on turn 6
+Orders : n0 Aimed fire · 2 (10,10) ; n1 Move · 1 (13,4) ; n2 Move · 1 (22,10)
+
+NYX → Command relay / defence
+3 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : BRANN (9,17), seen on turn 6 ; TOR (10,10), seen on turn 6 ; VAEL (8,10), seen on turn 6
+Orders : n3 Move · 1 (16,4) ; n4 Aimed fire · 2 (9,17) ; n5 Move · 1 (26,7)
+
+CP committed 6 · noise 5 · threat 7 · cards : none
+
+VAEL hits VRAK (−4).
+TOR hits VRAK (−4).
+BRANN hits TAL (−4).
+VRAK hits TOR (−3).
+TAL hits BRANN (−3).
+VRAK out of action.
+BRANN : decompression (−2).
+TAL : decompression (−2).
+Announced incident: decompression in sector Archives.
+View positions after this turn
+Turn 7 · 0 / 0 · 3 events
+
+VRAK → Command relay / advance
+3 known contact(s) ; 4 CP available ; stance advance.
+Known contacts : TOR (10,10), seen on turn 6 ; VAEL (8,10), seen on turn 6 ; BRANN (9,17), seen on turn 7
+Orders : n1 Move · 1 (11,4) ; n2 Move · 1 (19,10)
+
+NYX → Command relay / defence
+3 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : BRANN (9,17), seen on turn 7 ; TOR (10,10), seen on turn 6 ; VAEL (8,10), seen on turn 6
+Orders : n3 Move · 1 (13,4) ; n4 Aimed fire · 2 (9,17) ; n5 Move · 1 (25,9)
+
+CP committed 5 · noise 2 · threat 8 · cards : none
+
+BRANN hits TAL (−4).
+TAL hits BRANN (−3).
+TAL out of action.
+View positions after this turn
+Turn 8 · 0 / 1 · 4 events
+
+VRAK → Command relay / advance
+3 known contact(s) ; 4 CP available ; stance advance.
+Known contacts : TOR (13,10), seen on turn 8 ; VAEL (8,10), seen on turn 6 ; BRANN (9,17), seen on turn 7
+Orders : n1 Interact · 1 (11,4) ; n2 Aimed fire · 2 (13,10)
+
+NYX → Command relay / defence
+3 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : BRANN (9,17), seen on turn 7 ; TOR (13,10), seen on turn 8 ; VAEL (8,10), seen on turn 6
+Orders : n3 Move · 1 (11,4) ; n5 Move · 1 (23,10)
+
+CP committed 6 · noise 2 · threat 9 · cards : Imperium / Cover
+
+Card : Cover.
+TOR hits KOR (−2).
+KOR hits TOR (−2).
+Command relay secured by the Night Lords.
+View positions after this turn
+Turn 9 · 2 / 2 · 6 events
+
+VRAK → Command relay / defence
+3 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : TOR (13,10), seen on turn 9 ; VAEL (8,10), seen on turn 6 ; BRANN (9,17), seen on turn 7
+Orders : n1 Overwatch · 1 ; n2 Aimed fire · 2 (13,10)
+
+NYX → Command relay / defence
+3 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : BRANN (9,17), seen on turn 7 ; TOR (13,10), seen on turn 9 ; VAEL (8,10), seen on turn 6
+Orders : n3 Overwatch · 1 ; n5 Move · 1 (20,10)
+
+CP committed 6 · noise 2 · threat 10 · cards : Imperium / Jamming
+
+Card : Jamming.
+TOR hits KOR (−0).
+KOR hits TOR (−3).
+TOR out of action.
+Archives secured by the Terminators.
+BRANN carries the data: return to the airlock for +6.
+View positions after this turn
+Turn 10 · 4 / 3 · 3 events
+
+VRAK → Command relay / defence
+2 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : TOR (13,10), seen on turn 9 ; VAEL (15,10), seen on turn 10
+Orders : n1 Overwatch · 1 ; n2 Aimed fire · 2 (15,10)
+
+NYX → Command relay / defence
+2 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : BRANN (9,17), seen on turn 7 ; VAEL (15,10), seen on turn 10
+Orders : n3 Overwatch · 1 ; n5 Aimed fire · 2 (15,10)
+
+CP committed 5 · noise 3 · threat 12 · cards : none
+
+VAEL hits KOR (−2).
+KOR hits VAEL (−1).
+VOSS hits VAEL (−3).
+View positions after this turn
+Turn 11 · 6 / 4 · 4 events
+
+VRAK → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : VAEL (15,10), seen on turn 11
+Orders : n1 Overwatch · 1 ; n2 Aimed fire · 2 (15,10)
+
+NYX → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : VAEL (15,10), seen on turn 11
+Orders : n3 Overwatch · 1 ; n5 Aimed fire · 2 (15,10)
+
+CP committed 5 · noise 3 · threat 14 · cards : none
+
+VAEL hits KOR (−2).
+KOR hits VAEL (−1).
+VOSS hits VAEL (−3).
+Announced incident: lockdown of D2.
+View positions after this turn
+Turn 12 · 8 / 5 · 5 events
+
+VRAK → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : VAEL (15,10), seen on turn 12
+Orders : n1 Overwatch · 1 ; n2 Aimed fire · 2 (15,10)
+
+NYX → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : VAEL (15,10), seen on turn 12
+Orders : n3 Overwatch · 1 ; n5 Aimed fire · 2 (15,10)
+
+CP committed 5 · noise 3 · threat 16 · cards : none
+
+VAEL hits KOR (−2).
+KOR hits VAEL (−1).
+VOSS hits VAEL (−3).
+VAEL out of action.
+KOR out of action.
+View positions after this turn
+Turn 13 · 10 / 6 · 0 events
+
+VRAK → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : VAEL (15,10), seen on turn 12
+Orders : n1 Overwatch · 1
+
+NYX → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : VAEL (15,10), seen on turn 12
+Orders : n3 Overwatch · 1 ; n5 Move · 1 (17,10)
+
+CP committed 2 · noise 0 · threat 17 · cards : none
+
+No hits or changes in control.
+View positions after this turn
+Turn 14 · 12 / 7 · 0 events
+
+VRAK → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : VAEL (15,10), seen on turn 12
+Orders : n1 Overwatch · 1
+
+NYX → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : VAEL (15,10), seen on turn 12
+Orders : n3 Overwatch · 1 ; n5 Move · 1 (14,10)
+
+CP committed 2 · noise 0 · threat 18 · cards : none
+
+No hits or changes in control.
+View positions after this turn
+Turn 15 · 14 / 8 · 2 events
+
+VRAK → Command relay / defence
+2 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : VAEL (15,10), seen on turn 12 ; CAEL (12,10), seen on turn 15
+Orders : n1 Overwatch · 1
+
+NYX → Command relay / defence
+2 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : CAEL (12,10), seen on turn 15 ; VAEL (15,10), seen on turn 12
+Orders : n3 Overwatch · 1 ; n5 Aimed fire · 2 (12,10)
+
+CP committed 5 · noise 2 · threat 19 · cards : none
+
+CAEL hits VOSS (−4).
+VOSS hits CAEL (−1).
+View positions after this turn
+Turn 16 · 16 / 9 · 7 events
+
+VRAK → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : CAEL (12,10), seen on turn 16
+Orders : n1 Overwatch · 1
+
+NYX → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : CAEL (12,10), seen on turn 16
+Orders : n3 Overwatch · 1 ; n5 Aimed fire · 2 (12,10)
+
+CP committed 6 · noise 3 · threat 21 · cards : none
+
+CAEL hits VOSS (−2).
+BRANN hits VOSS (−4).
+VOSS hits CAEL (−1).
+VOSS out of action.
+CAEL : decompression (−2).
+BRANN : decompression (−1).
+Announced incident: decompression in sector Power.
+View positions after this turn
+Turn 17 · 18 / 10 · 0 events
+
+VRAK → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : CAEL (12,10), seen on turn 16
+Orders : n1 Overwatch · 1
+
+NYX → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : CAEL (12,10), seen on turn 16
+Orders : n3 Overwatch · 1
+
+CP committed 2 · noise 0 · threat 22 · cards : none
+
+No hits or changes in control.
+View positions after this turn
+Turn 18 · 24 / 11 · 4 events
+
+VRAK → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : CAEL (12,10), seen on turn 16
+Orders : n1 Overwatch · 1
+
+NYX → Command relay / defence
+1 known contact(s) ; 4 CP available ; stance defence.
+Known contacts : CAEL (12,10), seen on turn 16
+Orders : n3 Overwatch · 1
+
+CP committed 3 · noise 0 · threat 23 · cards : none
+
+CAEL stabilises BRANN (+3 armour).
+Brother stabilised: secondary objective +3.
+Power secured by the Terminators.
+BRANN recovers 1 armour near power.
+View positions after this turn
+Export JSON record
+New operation
+View final map

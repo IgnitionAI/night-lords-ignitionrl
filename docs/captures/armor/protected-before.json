@@ -1,0 +1,17 @@
+{
+  "src/sim.ts": "878ef127adeb1cc9e29636fa04cc0869cc2874f39bda50a23ae0d58083395060",
+  "src/fps-duel.ts": "437a57c2f9dad4f646ce3cf352d92a79d1361123e84ca0a2d3f1534dd965807c",
+  "web/visor.css": "bb709c9d4930551a66baacaf80b1c7cfbef0df970e119ee80e40d82e037f2615",
+  "web/camera/viewmodel.ts": "98a7c1b9fb9ee98e110860cbd8955a2a67f345cc9c93871985b62dd147cdeac9",
+  "web/weapons.ts": "e5c4b71354eda2e8cd654c5321adbd6d9d82229d08b8bd30ab9fc43f5968fcbc",
+  "web/audio/director.ts": "e6571cea71cb8c7a396920031bdf36536464b4467a271af3c43ff9ea49752ee6",
+  "web/audio/mixer.ts": "a60e9b9bf9e779a6ebe440375031a956ba231f783b59d9d04dfacaa258263258",
+  "web/audio/engine.ts": "40520fe3786224043a3ebcd1d9ec6733f3b88d154ee09dfad6c96a9590b49e76",
+  "web/audio/mock-context.ts": "b740bd9be72419986425c4b5a256967a366c06b459b1d68099cc4e1c45b81faf",
+  "web/audio/voices.ts": "0a25c2ac39e5887e1424d1f18085817dcab6b83b153b238ceea258657f5a6407",
+  "web/audio/types.ts": "e2a505548376ce76ec2472939143d6493d9c2ce154e1a68057d68593fb36bf48",
+  "web/audio/music-local.ts": "7b14b00b6672425b7786848bf629761536dbc3e1fd51076252ec1b0e82f8af20",
+  "web/audio/index.ts": "e493059221a9abe28a0aced2af8e98501f9398a76df33cc2c7bd8aee3350bf7e",
+  "web/audio/occlusion.ts": "b700f965d7443dac4eb3a4d4b0ec2b0da641eb37d76e2e7fc0190141bf6a526a",
+  "web/audio/nightlords-audio.d.ts": "06ab9e60b750daef1084804c09b51b77400c4ef7214c23a5eaabb7e43c67e6de"
+}

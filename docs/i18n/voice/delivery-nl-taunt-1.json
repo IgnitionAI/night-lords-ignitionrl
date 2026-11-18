@@ -1,0 +1,40 @@
+{
+  "id": "44f10d6d-4b5c-4605-a972-02b19547751e",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/44f10d6d-4b5c-4605-a972-02b19547751e/we-are-coming-for-you-cmwkiupb.mp3"
+  ],
+  "createdAt": "2026-11-17T10:00:32.376Z",
+  "generationId": "cmwkiupb703gi3gt9ya4o3aef",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkiupb703gi3gt9ya4o3aef/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkiupb703gi3gt9ya4o3aef",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiupb703gi3gt9ya4o3aef/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/44f10d6d-4b5c-4605-a972-02b19547751e/output/we-are-coming-for-you-cmwkiupb.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiupb703gi3gt9ya4o3aef/audio-voice",
+        "bytes": 30554
+      }
+    ],
+    "downloadFailures": []
+  }
+}

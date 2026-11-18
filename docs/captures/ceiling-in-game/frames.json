@@ -1,0 +1,2281 @@
+{
+  "scope": "Staged initial encounter; real simulation and equipped in-game rigs; not mission completion",
+  "errors": [],
+  "frames": [
+    {
+      "time": 0.1,
+      "path": "docs/captures/ceiling-in-game/001.png",
+      "state": {
+        "mission": {
+          "phase": "infiltration",
+          "planted": 0,
+          "remaining": 90,
+          "extraction": 0,
+          "cleared": false,
+          "narrative": 0,
+          "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+          "radioUntil": 90,
+          "xenos": [
+            {
+              "x": 22,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 40,
+              "y": 24,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 54,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 62,
+              "y": 6,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 60,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 24,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            }
+          ]
+        },
+        "tick": 1,
+        "done": false,
+        "winner": null,
+        "reason": "",
+        "seed": 527,
+        "muted": false,
+        "hunt": {
+          "agents": [
+            {
+              "x": 24,
+              "y": 15,
+              "height": 0.22,
+              "vertical": "climb",
+              "tactic": {
+                "role": "leader",
+                "mode": "search",
+                "until": 0,
+                "search": 0,
+                "syncRest": 0
+              },
+              "alive": true,
+              "action": 0
+            },
+            {
+              "x": 37.9107546005398,
+              "y": 17.493558345362544,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 61.1447011041455,
+              "y": 23.79874330572784,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 48.18269220320508,
+              "y": 31.58015297818929,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            }
+          ]
+        },
+        "playerPosition": {
+          "x": 24,
+          "y": 26
+        },
+        "genestealersLoaded": 6,
+        "rendering": {
+          "frame": 3,
+          "calls": 1,
+          "triangles": 2,
+          "points": 0,
+          "lines": 0
+        },
+        "hp": 30,
+        "nlsAlive": 1,
+        "fistCharge": 0,
+        "events": [],
+        "seen": [],
+        "eventWho": [],
+        "msgShown": false,
+        "audio": {
+          "ok": false,
+          "enabled": true,
+          "muted": false,
+          "unlocked": false,
+          "state": "none",
+          "decoded": [],
+          "missing": [],
+          "samples": 0,
+          "activeVoices": 0,
+          "polyphony": 18,
+          "musicPhase": "silence",
+          "ducked": false
+        },
+        "playSpeed": 1,
+        "bodies": [
+          {
+            "i": 0,
+            "alive": true,
+            "kind": "idle",
+            "clip": "Idle_3",
+            "loco": true,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 1,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 2,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-dismember",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 3,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          }
+        ]
+      }
+    },
+    {
+      "time": 0.8,
+      "path": "docs/captures/ceiling-in-game/008.png",
+      "state": {
+        "mission": {
+          "phase": "infiltration",
+          "planted": 0,
+          "remaining": 90,
+          "extraction": 0,
+          "cleared": false,
+          "narrative": 0,
+          "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+          "radioUntil": 90,
+          "xenos": [
+            {
+              "x": 22,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 40,
+              "y": 24,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 54,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 62,
+              "y": 6,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 60,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 24,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            }
+          ]
+        },
+        "tick": 8,
+        "done": false,
+        "winner": null,
+        "reason": "",
+        "seed": 527,
+        "muted": false,
+        "hunt": {
+          "agents": [
+            {
+              "x": 24,
+              "y": 15,
+              "height": 1.76,
+              "vertical": "climb",
+              "tactic": {
+                "role": "leader",
+                "mode": "search",
+                "until": 0,
+                "search": 0,
+                "syncRest": 0
+              },
+              "alive": true,
+              "action": 0
+            },
+            {
+              "x": 37.9107546005398,
+              "y": 17.493558345362544,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 61.1447011041455,
+              "y": 23.79874330572784,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 48.18269220320508,
+              "y": 31.58015297818929,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            }
+          ]
+        },
+        "playerPosition": {
+          "x": 24,
+          "y": 26
+        },
+        "genestealersLoaded": 6,
+        "rendering": {
+          "frame": 24,
+          "calls": 1,
+          "triangles": 2,
+          "points": 0,
+          "lines": 0
+        },
+        "hp": 30,
+        "nlsAlive": 1,
+        "fistCharge": 0,
+        "events": [],
+        "seen": [],
+        "eventWho": [],
+        "msgShown": false,
+        "audio": {
+          "ok": false,
+          "enabled": true,
+          "muted": false,
+          "unlocked": false,
+          "state": "none",
+          "decoded": [],
+          "missing": [],
+          "samples": 0,
+          "activeVoices": 0,
+          "polyphony": 18,
+          "musicPhase": "silence",
+          "ducked": false
+        },
+        "playSpeed": 1,
+        "bodies": [
+          {
+            "i": 0,
+            "alive": true,
+            "kind": "idle",
+            "clip": "Idle_3",
+            "loco": true,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 1,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 2,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-dismember",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 3,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          }
+        ]
+      }
+    },
+    {
+      "time": 1.4000000000000001,
+      "path": "docs/captures/ceiling-in-game/014.png",
+      "state": {
+        "mission": {
+          "phase": "infiltration",
+          "planted": 0,
+          "remaining": 90,
+          "extraction": 0,
+          "cleared": false,
+          "narrative": 0,
+          "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+          "radioUntil": 90,
+          "xenos": [
+            {
+              "x": 22,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 40,
+              "y": 24,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 54,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 62,
+              "y": 6,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 60,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 24,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            }
+          ]
+        },
+        "tick": 14,
+        "done": false,
+        "winner": null,
+        "reason": "",
+        "seed": 527,
+        "muted": false,
+        "hunt": {
+          "agents": [
+            {
+              "x": 24,
+              "y": 15,
+              "height": 3,
+              "vertical": "traverse",
+              "tactic": {
+                "role": "leader",
+                "mode": "search",
+                "until": 0,
+                "search": 0,
+                "syncRest": 0
+              },
+              "alive": true,
+              "action": 0
+            },
+            {
+              "x": 37.9107546005398,
+              "y": 17.493558345362544,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 61.1447011041455,
+              "y": 23.79874330572784,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 48.18269220320508,
+              "y": 31.58015297818929,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            }
+          ]
+        },
+        "playerPosition": {
+          "x": 24,
+          "y": 26
+        },
+        "genestealersLoaded": 6,
+        "rendering": {
+          "frame": 42,
+          "calls": 1,
+          "triangles": 2,
+          "points": 0,
+          "lines": 0
+        },
+        "hp": 30,
+        "nlsAlive": 1,
+        "fistCharge": 0,
+        "events": [],
+        "seen": [],
+        "eventWho": [],
+        "msgShown": false,
+        "audio": {
+          "ok": false,
+          "enabled": true,
+          "muted": false,
+          "unlocked": false,
+          "state": "none",
+          "decoded": [],
+          "missing": [],
+          "samples": 0,
+          "activeVoices": 0,
+          "polyphony": 18,
+          "musicPhase": "silence",
+          "ducked": false
+        },
+        "playSpeed": 1,
+        "bodies": [
+          {
+            "i": 0,
+            "alive": true,
+            "kind": "idle",
+            "clip": "Idle_3",
+            "loco": true,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 1,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 2,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-dismember",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 3,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          }
+        ]
+      }
+    },
+    {
+      "time": 2.5,
+      "path": "docs/captures/ceiling-in-game/025.png",
+      "state": {
+        "mission": {
+          "phase": "infiltration",
+          "planted": 0,
+          "remaining": 90,
+          "extraction": 0,
+          "cleared": false,
+          "narrative": 0,
+          "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+          "radioUntil": 90,
+          "xenos": [
+            {
+              "x": 22,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 40,
+              "y": 24,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 54,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 62,
+              "y": 6,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 60,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 24,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            }
+          ]
+        },
+        "tick": 25,
+        "done": false,
+        "winner": null,
+        "reason": "",
+        "seed": 527,
+        "muted": false,
+        "hunt": {
+          "agents": [
+            {
+              "x": 24,
+              "y": 17.63999999999999,
+              "height": 3,
+              "vertical": "traverse",
+              "tactic": {
+                "role": "leader",
+                "mode": "search",
+                "until": 0,
+                "search": 0,
+                "syncRest": 0
+              },
+              "alive": true,
+              "action": 0
+            },
+            {
+              "x": 37.9107546005398,
+              "y": 17.493558345362544,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 61.1447011041455,
+              "y": 23.79874330572784,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 48.18269220320508,
+              "y": 31.58015297818929,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            }
+          ]
+        },
+        "playerPosition": {
+          "x": 24,
+          "y": 26
+        },
+        "genestealersLoaded": 6,
+        "rendering": {
+          "frame": 75,
+          "calls": 1,
+          "triangles": 2,
+          "points": 0,
+          "lines": 0
+        },
+        "hp": 30,
+        "nlsAlive": 1,
+        "fistCharge": 0,
+        "events": [],
+        "seen": [],
+        "eventWho": [],
+        "msgShown": false,
+        "audio": {
+          "ok": false,
+          "enabled": true,
+          "muted": false,
+          "unlocked": false,
+          "state": "none",
+          "decoded": [],
+          "missing": [],
+          "samples": 0,
+          "activeVoices": 0,
+          "polyphony": 18,
+          "musicPhase": "silence",
+          "ducked": false
+        },
+        "playSpeed": 1,
+        "bodies": [
+          {
+            "i": 0,
+            "alive": true,
+            "kind": "walk",
+            "clip": "Armature|walking_man|baselayer",
+            "loco": true,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 1,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 2,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-dismember",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 3,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          }
+        ]
+      }
+    },
+    {
+      "time": 3.9000000000000004,
+      "path": "docs/captures/ceiling-in-game/039.png",
+      "state": {
+        "mission": {
+          "phase": "infiltration",
+          "planted": 0,
+          "remaining": 90,
+          "extraction": 0,
+          "cleared": false,
+          "narrative": 0,
+          "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+          "radioUntil": 90,
+          "xenos": [
+            {
+              "x": 22,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 40,
+              "y": 24,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 54,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 62,
+              "y": 6,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 60,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 24,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            }
+          ]
+        },
+        "tick": 39,
+        "done": false,
+        "winner": null,
+        "reason": "",
+        "seed": 527,
+        "muted": false,
+        "hunt": {
+          "agents": [
+            {
+              "x": 24,
+              "y": 20.999999999999968,
+              "height": 3,
+              "vertical": "traverse",
+              "tactic": {
+                "role": "leader",
+                "mode": "search",
+                "until": 0,
+                "search": 0,
+                "syncRest": 0
+              },
+              "alive": true,
+              "action": 0
+            },
+            {
+              "x": 37.9107546005398,
+              "y": 17.493558345362544,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 61.1447011041455,
+              "y": 23.79874330572784,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 48.18269220320508,
+              "y": 31.58015297818929,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            }
+          ]
+        },
+        "playerPosition": {
+          "x": 24,
+          "y": 26
+        },
+        "genestealersLoaded": 6,
+        "rendering": {
+          "frame": 117,
+          "calls": 1,
+          "triangles": 2,
+          "points": 0,
+          "lines": 0
+        },
+        "hp": 30,
+        "nlsAlive": 1,
+        "fistCharge": 0,
+        "events": [],
+        "seen": [],
+        "eventWho": [],
+        "msgShown": false,
+        "audio": {
+          "ok": false,
+          "enabled": true,
+          "muted": false,
+          "unlocked": false,
+          "state": "none",
+          "decoded": [],
+          "missing": [],
+          "samples": 0,
+          "activeVoices": 0,
+          "polyphony": 18,
+          "musicPhase": "silence",
+          "ducked": false
+        },
+        "playSpeed": 1,
+        "bodies": [
+          {
+            "i": 0,
+            "alive": true,
+            "kind": "walk",
+            "clip": "Armature|walking_man|baselayer",
+            "loco": true,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 1,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 2,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-dismember",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 3,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          }
+        ]
+      }
+    },
+    {
+      "time": 4.9,
+      "path": "docs/captures/ceiling-in-game/049.png",
+      "state": {
+        "mission": {
+          "phase": "infiltration",
+          "planted": 0,
+          "remaining": 90,
+          "extraction": 0,
+          "cleared": false,
+          "narrative": 0,
+          "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+          "radioUntil": 90,
+          "xenos": [
+            {
+              "x": 22,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 40,
+              "y": 24,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 54,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 62,
+              "y": 6,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 60,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 24,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            }
+          ]
+        },
+        "tick": 49,
+        "done": false,
+        "winner": null,
+        "reason": "",
+        "seed": 527,
+        "muted": false,
+        "hunt": {
+          "agents": [
+            {
+              "x": 24,
+              "y": 22.919999999999956,
+              "height": 3,
+              "vertical": "drop",
+              "tactic": {
+                "role": "leader",
+                "mode": "search",
+                "until": 0,
+                "search": 0,
+                "syncRest": 0
+              },
+              "alive": true,
+              "action": 0
+            },
+            {
+              "x": 37.9107546005398,
+              "y": 17.493558345362544,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 61.1447011041455,
+              "y": 23.79874330572784,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 48.18269220320508,
+              "y": 31.58015297818929,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            }
+          ]
+        },
+        "playerPosition": {
+          "x": 24,
+          "y": 26
+        },
+        "genestealersLoaded": 6,
+        "rendering": {
+          "frame": 147,
+          "calls": 1,
+          "triangles": 2,
+          "points": 0,
+          "lines": 0
+        },
+        "hp": 30,
+        "nlsAlive": 1,
+        "fistCharge": 0,
+        "events": [
+          "clawArm"
+        ],
+        "seen": [
+          "clawArm"
+        ],
+        "eventWho": [
+          0
+        ],
+        "msgShown": false,
+        "audio": {
+          "ok": false,
+          "enabled": true,
+          "muted": false,
+          "unlocked": false,
+          "state": "none",
+          "decoded": [],
+          "missing": [],
+          "samples": 0,
+          "activeVoices": 0,
+          "polyphony": 18,
+          "musicPhase": "silence",
+          "ducked": false
+        },
+        "playSpeed": 1,
+        "bodies": [
+          {
+            "i": 0,
+            "alive": true,
+            "kind": "attack",
+            "clip": "Armature|attack|baselayer",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 1,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 2,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-dismember",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 3,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          }
+        ]
+      }
+    },
+    {
+      "time": 5.300000000000001,
+      "path": "docs/captures/ceiling-in-game/053.png",
+      "state": {
+        "mission": {
+          "phase": "infiltration",
+          "planted": 0,
+          "remaining": 90,
+          "extraction": 0,
+          "cleared": false,
+          "narrative": 0,
+          "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+          "radioUntil": 90,
+          "xenos": [
+            {
+              "x": 22,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 40,
+              "y": 24,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 54,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 62,
+              "y": 6,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 60,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 24,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            }
+          ]
+        },
+        "tick": 53,
+        "done": false,
+        "winner": null,
+        "reason": "",
+        "seed": 527,
+        "muted": false,
+        "hunt": {
+          "agents": [
+            {
+              "x": 24,
+              "y": 24.199999999999957,
+              "height": 1.8000000000000005,
+              "vertical": "drop",
+              "tactic": {
+                "role": "leader",
+                "mode": "search",
+                "until": 0,
+                "search": 0,
+                "syncRest": 0
+              },
+              "alive": true,
+              "action": 0
+            },
+            {
+              "x": 37.9107546005398,
+              "y": 17.493558345362544,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 61.1447011041455,
+              "y": 23.79874330572784,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 48.18269220320508,
+              "y": 31.58015297818929,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            }
+          ]
+        },
+        "playerPosition": {
+          "x": 24,
+          "y": 26
+        },
+        "genestealersLoaded": 6,
+        "rendering": {
+          "frame": 159,
+          "calls": 1,
+          "triangles": 2,
+          "points": 0,
+          "lines": 0
+        },
+        "hp": 30,
+        "nlsAlive": 1,
+        "fistCharge": 0,
+        "events": [],
+        "seen": [
+          "clawArm"
+        ],
+        "eventWho": [],
+        "msgShown": false,
+        "audio": {
+          "ok": false,
+          "enabled": true,
+          "muted": false,
+          "unlocked": false,
+          "state": "none",
+          "decoded": [],
+          "missing": [],
+          "samples": 0,
+          "activeVoices": 0,
+          "polyphony": 18,
+          "musicPhase": "silence",
+          "ducked": false
+        },
+        "playSpeed": 1,
+        "bodies": [
+          {
+            "i": 0,
+            "alive": true,
+            "kind": "attack",
+            "clip": "Armature|attack|baselayer",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 1,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 2,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-dismember",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 3,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          }
+        ]
+      }
+    },
+    {
+      "time": 5.7,
+      "path": "docs/captures/ceiling-in-game/057.png",
+      "state": {
+        "mission": {
+          "phase": "infiltration",
+          "planted": 0,
+          "remaining": 90,
+          "extraction": 0,
+          "cleared": false,
+          "narrative": 0,
+          "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+          "radioUntil": 90,
+          "xenos": [
+            {
+              "x": 22,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 40,
+              "y": 24,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 54,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 62,
+              "y": 6,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 60,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 24,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            }
+          ]
+        },
+        "tick": 57,
+        "done": false,
+        "winner": null,
+        "reason": "",
+        "seed": 527,
+        "muted": false,
+        "hunt": {
+          "agents": [
+            {
+              "x": 24,
+              "y": 24.65,
+              "height": 0.6000000000000003,
+              "vertical": "drop",
+              "tactic": {
+                "role": "leader",
+                "mode": "search",
+                "until": 0,
+                "search": 0,
+                "syncRest": 0
+              },
+              "alive": true,
+              "action": 0
+            },
+            {
+              "x": 37.9107546005398,
+              "y": 17.493558345362544,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 61.1447011041455,
+              "y": 23.79874330572784,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 48.18269220320508,
+              "y": 31.58015297818929,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            }
+          ]
+        },
+        "playerPosition": {
+          "x": 24,
+          "y": 26
+        },
+        "genestealersLoaded": 6,
+        "rendering": {
+          "frame": 171,
+          "calls": 1,
+          "triangles": 2,
+          "points": 0,
+          "lines": 0
+        },
+        "hp": 30,
+        "nlsAlive": 1,
+        "fistCharge": 0,
+        "events": [],
+        "seen": [
+          "clawArm"
+        ],
+        "eventWho": [],
+        "msgShown": false,
+        "audio": {
+          "ok": false,
+          "enabled": true,
+          "muted": false,
+          "unlocked": false,
+          "state": "none",
+          "decoded": [],
+          "missing": [],
+          "samples": 0,
+          "activeVoices": 0,
+          "polyphony": 18,
+          "musicPhase": "silence",
+          "ducked": false
+        },
+        "playSpeed": 1,
+        "bodies": [
+          {
+            "i": 0,
+            "alive": true,
+            "kind": "idle",
+            "clip": "Idle_3",
+            "loco": true,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 1,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 2,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-dismember",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 3,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          }
+        ]
+      }
+    },
+    {
+      "time": 6.1000000000000005,
+      "path": "docs/captures/ceiling-in-game/061.png",
+      "state": {
+        "mission": {
+          "phase": "infiltration",
+          "planted": 0,
+          "remaining": 90,
+          "extraction": 0,
+          "cleared": false,
+          "narrative": 0,
+          "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+          "radioUntil": 90,
+          "xenos": [
+            {
+              "x": 22,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 40,
+              "y": 24,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 54,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 62,
+              "y": 6,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 60,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 24,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            }
+          ]
+        },
+        "tick": 61,
+        "done": false,
+        "winner": null,
+        "reason": "",
+        "seed": 527,
+        "muted": false,
+        "hunt": {
+          "agents": [
+            {
+              "x": 24,
+              "y": 24.65,
+              "height": 0,
+              "tactic": {
+                "role": "leader",
+                "mode": "search",
+                "until": 0,
+                "search": 0,
+                "syncRest": 0
+              },
+              "alive": true,
+              "action": 0
+            },
+            {
+              "x": 37.9107546005398,
+              "y": 17.493558345362544,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 61.1447011041455,
+              "y": 23.79874330572784,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 48.18269220320508,
+              "y": 31.58015297818929,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            }
+          ]
+        },
+        "playerPosition": {
+          "x": 24,
+          "y": 26
+        },
+        "genestealersLoaded": 6,
+        "rendering": {
+          "frame": 183,
+          "calls": 1,
+          "triangles": 2,
+          "points": 0,
+          "lines": 0
+        },
+        "hp": 30,
+        "nlsAlive": 1,
+        "fistCharge": 0,
+        "events": [],
+        "seen": [
+          "clawArm"
+        ],
+        "eventWho": [],
+        "msgShown": false,
+        "audio": {
+          "ok": false,
+          "enabled": true,
+          "muted": false,
+          "unlocked": false,
+          "state": "none",
+          "decoded": [],
+          "missing": [],
+          "samples": 0,
+          "activeVoices": 0,
+          "polyphony": 18,
+          "musicPhase": "silence",
+          "ducked": false
+        },
+        "playSpeed": 1,
+        "bodies": [
+          {
+            "i": 0,
+            "alive": true,
+            "kind": "idle",
+            "clip": "Idle_3",
+            "loco": true,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 1,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 2,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-dismember",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 3,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          }
+        ]
+      }
+    },
+    {
+      "time": 6.6000000000000005,
+      "path": "docs/captures/ceiling-in-game/066.png",
+      "state": {
+        "mission": {
+          "phase": "infiltration",
+          "planted": 0,
+          "remaining": 90,
+          "extraction": 0,
+          "cleared": false,
+          "narrative": 0,
+          "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+          "radioUntil": 90,
+          "xenos": [
+            {
+              "x": 22,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 40,
+              "y": 24,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 54,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 62,
+              "y": 6,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 60,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 24,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            }
+          ]
+        },
+        "tick": 66,
+        "done": false,
+        "winner": null,
+        "reason": "",
+        "seed": 527,
+        "muted": false,
+        "hunt": {
+          "agents": [
+            {
+              "x": 23.53040922799069,
+              "y": 24.070579142813504,
+              "height": 0,
+              "tactic": {
+                "role": "leader",
+                "mode": "cover",
+                "until": 0,
+                "search": 0,
+                "syncRest": 0
+              },
+              "alive": true,
+              "action": 3
+            },
+            {
+              "x": 37.9107546005398,
+              "y": 17.493558345362544,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 61.1447011041455,
+              "y": 23.79874330572784,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 48.18269220320508,
+              "y": 31.58015297818929,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            }
+          ]
+        },
+        "playerPosition": {
+          "x": 24,
+          "y": 26
+        },
+        "genestealersLoaded": 6,
+        "rendering": {
+          "frame": 198,
+          "calls": 1,
+          "triangles": 2,
+          "points": 0,
+          "lines": 0
+        },
+        "hp": 30,
+        "nlsAlive": 1,
+        "fistCharge": 0,
+        "events": [],
+        "seen": [
+          "clawArm"
+        ],
+        "eventWho": [],
+        "msgShown": false,
+        "audio": {
+          "ok": false,
+          "enabled": true,
+          "muted": false,
+          "unlocked": false,
+          "state": "none",
+          "decoded": [],
+          "missing": [],
+          "samples": 0,
+          "activeVoices": 0,
+          "polyphony": 18,
+          "musicPhase": "silence",
+          "ducked": false
+        },
+        "playSpeed": 1,
+        "bodies": [
+          {
+            "i": 0,
+            "alive": true,
+            "kind": "dodge",
+            "clip": "proc-dodge-left",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 1,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 2,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-dismember",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 3,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          }
+        ]
+      }
+    },
+    {
+      "time": 7.300000000000001,
+      "path": "docs/captures/ceiling-in-game/073.png",
+      "state": {
+        "mission": {
+          "phase": "infiltration",
+          "planted": 0,
+          "remaining": 90,
+          "extraction": 0,
+          "cleared": false,
+          "narrative": 0,
+          "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+          "radioUntil": 90,
+          "xenos": [
+            {
+              "x": 22,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 40,
+              "y": 24,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 54,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 62,
+              "y": 6,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 60,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 24,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            }
+          ]
+        },
+        "tick": 73,
+        "done": false,
+        "winner": null,
+        "reason": "",
+        "seed": 527,
+        "muted": false,
+        "hunt": {
+          "agents": [
+            {
+              "x": 21.357972768418595,
+              "y": 22.002376977740102,
+              "height": 0,
+              "tactic": {
+                "role": "leader",
+                "mode": "cover",
+                "until": 0,
+                "search": 0,
+                "syncRest": 0
+              },
+              "alive": true,
+              "action": 2
+            },
+            {
+              "x": 37.9107546005398,
+              "y": 17.493558345362544,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 61.1447011041455,
+              "y": 23.79874330572784,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 48.18269220320508,
+              "y": 31.58015297818929,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            }
+          ]
+        },
+        "playerPosition": {
+          "x": 24,
+          "y": 26
+        },
+        "genestealersLoaded": 6,
+        "rendering": {
+          "frame": 219,
+          "calls": 1,
+          "triangles": 2,
+          "points": 0,
+          "lines": 0
+        },
+        "hp": 30,
+        "nlsAlive": 1,
+        "fistCharge": 0,
+        "events": [],
+        "seen": [
+          "clawArm"
+        ],
+        "eventWho": [],
+        "msgShown": false,
+        "audio": {
+          "ok": false,
+          "enabled": true,
+          "muted": false,
+          "unlocked": false,
+          "state": "none",
+          "decoded": [],
+          "missing": [],
+          "samples": 0,
+          "activeVoices": 0,
+          "polyphony": 18,
+          "musicPhase": "silence",
+          "ducked": false
+        },
+        "playSpeed": 1,
+        "bodies": [
+          {
+            "i": 0,
+            "alive": true,
+            "kind": "run",
+            "clip": "Armature|running|baselayer",
+            "loco": true,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 1,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 2,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-dismember",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 3,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          }
+        ]
+      }
+    },
+    {
+      "time": 8.6,
+      "path": "docs/captures/ceiling-in-game/086.png",
+      "state": {
+        "mission": {
+          "phase": "infiltration",
+          "planted": 0,
+          "remaining": 90,
+          "extraction": 0,
+          "cleared": false,
+          "narrative": 0,
+          "radio": "FRÈRE VARREN · Escouade dispersée. Gagnez le noyau. Nous couvrons votre extraction.",
+          "radioUntil": 90,
+          "xenos": [
+            {
+              "x": 22,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 40,
+              "y": 24,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 54,
+              "y": 20,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 62,
+              "y": 6,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 60,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            },
+            {
+              "x": 24,
+              "y": 32,
+              "hp": 0,
+              "windup": 0,
+              "cooldown": 0,
+              "active": false
+            }
+          ]
+        },
+        "tick": 86,
+        "done": false,
+        "winner": null,
+        "reason": "",
+        "seed": 527,
+        "muted": false,
+        "hunt": {
+          "agents": [
+            {
+              "x": 20.35838878713929,
+              "y": 21.374211762983727,
+              "height": 0,
+              "tactic": {
+                "role": "leader",
+                "mode": "cover",
+                "until": 0,
+                "search": 0,
+                "syncRest": 0
+              },
+              "alive": true,
+              "action": 0
+            },
+            {
+              "x": 37.9107546005398,
+              "y": 17.493558345362544,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 61.1447011041455,
+              "y": 23.79874330572784,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            },
+            {
+              "x": 48.18269220320508,
+              "y": 31.58015297818929,
+              "height": 0,
+              "alive": false,
+              "action": 0
+            }
+          ]
+        },
+        "playerPosition": {
+          "x": 24,
+          "y": 26
+        },
+        "genestealersLoaded": 6,
+        "rendering": {
+          "frame": 258,
+          "calls": 1,
+          "triangles": 2,
+          "points": 0,
+          "lines": 0
+        },
+        "hp": 30,
+        "nlsAlive": 1,
+        "fistCharge": 0,
+        "events": [
+          "enemyAim"
+        ],
+        "seen": [
+          "clawArm",
+          "enemyAim"
+        ],
+        "eventWho": [
+          0
+        ],
+        "msgShown": false,
+        "audio": {
+          "ok": false,
+          "enabled": true,
+          "muted": false,
+          "unlocked": false,
+          "state": "none",
+          "decoded": [],
+          "missing": [],
+          "samples": 0,
+          "activeVoices": 0,
+          "polyphony": 18,
+          "musicPhase": "silence",
+          "ducked": false
+        },
+        "playSpeed": 1,
+        "bodies": [
+          {
+            "i": 0,
+            "alive": true,
+            "kind": "idle",
+            "clip": "Idle_3",
+            "loco": true,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 1,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 2,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-dismember",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          },
+          {
+            "i": 3,
+            "alive": false,
+            "kind": "death",
+            "clip": "proc-death-collapse",
+            "loco": false,
+            "skinned": 1,
+            "visibleSkinned": 1,
+            "proxyVisible": false
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -13,6 +13,8 @@ Un Terminator surpuissant, piloté par un joueur, contre une meute de 4 Night Lo
 
 Rendu Three.js (modèles riggés versionnés, capsules en repli), construit à partir du framework RL navigateur [IgnitionAI/ignition](https://github.com/IgnitionAI/ignition) (IgnitionRL).
 
+Mise à jour FPS solo du 18 novembre 2026 : sous lumière, la meute maintient sa portée de tir ; pendant le blackout local, elle chasse au corps-à-corps, puis se replie au rétablissement. Sabotages, vision nocturne automatique et animations restent liés aux mêmes événements. Comparaisons, témoins et limites : [notes de validation](docs/fps-light-tactics/NOTES.md).
+
 > **Statut : prototype de recherche.** Tous les chiffres ci-dessous sont des **mesures de prototype** sur une seule machine (8 CPU, tfjs-node sur CPU). Le run b3 repose sur **une seule graine** (seed 3), sans barre d'erreur entre runs. L'expérience C utilise un **joueur synthétique** (une tactique scriptée), pas un humain. Les règles (armure, portées, vitesses) sont des valeurs de prototype, sans réglage ni référence.
 
 *Projet de fan non officiel. Warhammer 40,000 et Night Lords sont des marques et propriétés de Games Workshop. Ce dépôt ne contient aucun asset de Games Workshop.*

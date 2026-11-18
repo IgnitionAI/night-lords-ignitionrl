@@ -1,0 +1,40 @@
+{
+  "id": "0d507036-1009-4934-a2d7-d77d76747e3d",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/0d507036-1009-4934-a2d7-d77d76747e3d/victory-belongs-to-the-emperor-cmwkiswm.mp3"
+  ],
+  "createdAt": "2026-11-17T09:59:08.385Z",
+  "generationId": "cmwkiswmz03fp3gt969hj070l",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkiswmz03fp3gt969hj070l/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkiswmz03fp3gt969hj070l",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiswmz03fp3gt969hj070l/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/0d507036-1009-4934-a2d7-d77d76747e3d/output/victory-belongs-to-the-emperor-cmwkiswm.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiswmz03fp3gt969hj070l/audio-voice",
+        "bytes": 38077
+      }
+    ],
+    "downloadFailures": []
+  }
+}

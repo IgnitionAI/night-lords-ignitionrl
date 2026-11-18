@@ -1,0 +1,1538 @@
+[
+  {
+    "mode": "adaptive",
+    "winner": "imperium",
+    "turn": 12,
+    "score": {
+      "imperium": 12,
+      "nightlords": 4
+    },
+    "errors": [],
+    "trace": [
+      {
+        "turn": 1,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 5,
+              "y": 9
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 9
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 12
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 13
+            }
+          }
+        ]
+      },
+      {
+        "turn": 2,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 8,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 14
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 16
+            }
+          }
+        ]
+      },
+      {
+        "turn": 3,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 9,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 4,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 12,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 5,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 7,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 9,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 6,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "interact",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 13,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 13,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 7,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 15,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 10,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 8,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "fire",
+            "target": {
+              "x": 19,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 19,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 9,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 11
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 13
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "interact",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "interact",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 10,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 8
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          },
+          {
+            "unit": "t3",
+            "kind": "guard"
+          }
+        ]
+      },
+      {
+        "turn": 11,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "fire",
+            "target": {
+              "x": 16,
+              "y": 5
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 16,
+              "y": 5
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          },
+          {
+            "unit": "t3",
+            "kind": "guard"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "baseline",
+    "winner": "nightlords",
+    "turn": 19,
+    "score": {
+      "imperium": 17,
+      "nightlords": 36
+    },
+    "errors": [],
+    "trace": [
+      {
+        "turn": 1,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 8
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 9
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 12
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 9
+            }
+          }
+        ]
+      },
+      {
+        "turn": 2,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 8,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 14
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          }
+        ]
+      },
+      {
+        "turn": 3,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          }
+        ]
+      },
+      {
+        "turn": 4,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 7,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          }
+        ]
+      },
+      {
+        "turn": 5,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          }
+        ]
+      },
+      {
+        "turn": 6,
+        "contacts": 3,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          }
+        ]
+      },
+      {
+        "turn": 7,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "interact",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 13,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          }
+        ]
+      },
+      {
+        "turn": 8,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 19,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 13
+            }
+          }
+        ]
+      },
+      {
+        "turn": 9,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 4
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 19,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 16
+            }
+          }
+        ]
+      },
+      {
+        "turn": 10,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 7,
+              "y": 4
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 13
+            }
+          }
+        ]
+      },
+      {
+        "turn": 11,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 4
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 12
+            }
+          }
+        ]
+      },
+      {
+        "turn": 12,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 4
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 7,
+              "y": 10
+            }
+          }
+        ]
+      },
+      {
+        "turn": 13,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 10,
+              "y": 4
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 8,
+              "y": 10
+            }
+          }
+        ]
+      },
+      {
+        "turn": 14,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "interact",
+            "target": {
+              "x": 11,
+              "y": 4
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 8,
+              "y": 10
+            }
+          }
+        ]
+      },
+      {
+        "turn": 15,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "guard"
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 9,
+              "y": 10
+            }
+          }
+        ]
+      },
+      {
+        "turn": 16,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "guard"
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 12,
+              "y": 10
+            }
+          }
+        ]
+      },
+      {
+        "turn": 17,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "guard"
+          },
+          {
+            "unit": "t3",
+            "kind": "guard"
+          }
+        ]
+      },
+      {
+        "turn": 18,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "guard"
+          },
+          {
+            "unit": "t3",
+            "kind": "guard"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "ppo",
+    "winner": "imperium",
+    "turn": 22,
+    "score": {
+      "imperium": 31,
+      "nightlords": 10
+    },
+    "errors": [],
+    "trace": [
+      {
+        "turn": 1,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 5,
+              "y": 9
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 9
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 12
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 13
+            }
+          }
+        ]
+      },
+      {
+        "turn": 2,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 8,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 14
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 16
+            }
+          }
+        ]
+      },
+      {
+        "turn": 3,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 9,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 4,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 12,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 5,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "interact",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 7,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 9,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 6,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 11
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 13,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 13,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 7,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 12
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 14
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 10,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 8,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "fire",
+            "target": {
+              "x": 16,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 16,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 9,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 15
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 10,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 15,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 13,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "interact",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 11,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 12,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "guard"
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          }
+        ]
+      },
+      {
+        "turn": 12,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "scan"
+          },
+          {
+            "unit": "t1",
+            "kind": "scan"
+          },
+          {
+            "unit": "t2",
+            "kind": "scan"
+          }
+        ]
+      },
+      {
+        "turn": 13,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "guard"
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          }
+        ]
+      },
+      {
+        "turn": 14,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "guard"
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          }
+        ]
+      },
+      {
+        "turn": 15,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "guard"
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          }
+        ]
+      },
+      {
+        "turn": 16,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "scan"
+          },
+          {
+            "unit": "t1",
+            "kind": "scan"
+          },
+          {
+            "unit": "t2",
+            "kind": "scan"
+          }
+        ]
+      },
+      {
+        "turn": 17,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 6,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 6,
+              "y": 17
+            }
+          }
+        ]
+      },
+      {
+        "turn": 18,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "guard"
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          }
+        ]
+      },
+      {
+        "turn": 19,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "guard"
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          }
+        ]
+      },
+      {
+        "turn": 20,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t1",
+            "kind": "scan"
+          },
+          {
+            "unit": "t2",
+            "kind": "scan"
+          }
+        ]
+      },
+      {
+        "turn": 21,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 14,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 14,
+              "y": 17
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

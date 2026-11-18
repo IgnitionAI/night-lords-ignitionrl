@@ -1,0 +1,10 @@
+import {chromium} from 'playwright';
+import {mkdirSync,writeFileSync} from 'node:fs';
+const out='docs/immersion';mkdirSync(out,{recursive:true});
+const browser=await chromium.launch({headless:true,args:['--use-angle=metal']});
+const page=await browser.newPage({viewport:{width:1440,height:900}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:18231/');await page.locator('#start').waitFor();await page.click('#start');await page.waitForTimeout(1000);await page.screenshot({path:out+'/overview.png'});
+await page.click('#focus');await page.waitForTimeout(600);await page.screenshot({path:out+'/squad.png'});
+writeFileSync(out+'/initial-check.json',JSON.stringify({errors,visual:await page.evaluate(()=>window.strategy_visual.diagnostics()),audio:await page.evaluate(()=>window.strategy_visual.audio())},null,2));
+await page.setViewportSize({width:390,height:844});await page.screenshot({path:out+'/mobile-final.png',fullPage:true});const width=await page.evaluate(()=>({page:document.documentElement.scrollWidth,viewport:innerWidth}));if(width.page>width.viewport)throw Error('Mobile horizontal overflow');await page.goto('http://127.0.0.1:18231/fps.html');await page.locator('#c').waitFor();await page.waitForTimeout(2000);await page.setViewportSize({width:960,height:600});await page.screenshot({path:out+'/fps-final.png'});writeFileSync(out+'/smoke-final.json',JSON.stringify({errors,mobile:width,fpsCanvas:await page.locator('#c').isVisible()},null,2));console.log('Inspection saved',errors,width);await browser.close();

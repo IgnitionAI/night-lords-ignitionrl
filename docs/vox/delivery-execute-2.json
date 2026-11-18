@@ -1,0 +1,40 @@
+{
+  "id": "38909ae4-2b7b-4be1-9035-e4573fa987f7",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/38909ae4-2b7b-4be1-9035-e4573fa987f7/fr-res-en-avant-cmwjl85o.mp3"
+  ],
+  "createdAt": "2026-11-16T18:20:02.295Z",
+  "generationId": "cmwjl85o8005g3lllmmyk3ux1",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjl85o8005g3lllmmyk3ux1/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjl85o8005g3lllmmyk3ux1",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl85o8005g3lllmmyk3ux1/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/38909ae4-2b7b-4be1-9035-e4573fa987f7/output/fr-res-en-avant-cmwjl85o.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl85o8005g3lllmmyk3ux1/audio-voice",
+        "bytes": 28046
+      }
+    ],
+    "downloadFailures": []
+  }
+}

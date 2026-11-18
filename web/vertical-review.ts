@@ -1,0 +1,14 @@
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+import {applyVerticalPose,restoreVerticalPose} from './vertical-pose';
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(960,600);document.body.appendChild(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x18212d);scene.add(new THREE.HemisphereLight(0xcadfff,0x404040,3));
+const key=new THREE.DirectionalLight(0xffffff,3);key.position.set(3,8,4);scene.add(key);
+const camera=new THREE.PerspectiveCamera(50,1.6,.1,100);camera.position.set(5,4.3,7);camera.lookAt(0,3.5,0);
+const rail=new THREE.Mesh(new THREE.BoxGeometry(6,.18,.35),new THREE.MeshStandardMaterial({color:0x8093a0}));rail.position.y=5.4;scene.add(rail);
+const gltf=await new GLTFLoader().loadAsync('/web/models/nightlord-refined.glb');const root=gltf.scene;
+root.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(root),size=box.getSize(new THREE.Vector3()),center=box.getCenter(new THREE.Vector3());const scale=2.4/size.y;
+root.scale.multiplyScalar(scale);root.position.set(-center.x*scale,-box.min.y*scale,-center.z*scale);const group=new THREE.Group();group.add(root);scene.add(group);
+const n:any={alive:true,x:0,y:0,facing:0,height:3,vertical:{phase:'perch'}};
+(window as any).pose=(phase:string,time:number,height:number)=>{restoreVerticalPose(root);n.height=height;n.vertical.phase=phase;group.position.y=height;group.updateMatrixWorld(true);applyVerticalPose(root,n,time);renderer.render(scene,camera);const hands:any={};root.traverse(o=>{if(/^(Left|Right)Hand$/.test(o.name))hands[o.name]=o.getWorldPosition(new THREE.Vector3()).toArray();});return hands;};
+(window as any).ready=true;(window as any).pose('perch',0,3);

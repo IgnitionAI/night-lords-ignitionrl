@@ -466,7 +466,7 @@ export class AudioEngine {
 
   setMusicPhase(phase: MusicPhase): void {
     this.musicPhase = phase;
-    if (phase === 'stinger') {
+    if (phase === 'stinger' || phase === 'silence') {
       this.setLoopGain('music-explore', 0.0001);
       this.setLoopGain('music-tension', 0.0001);
       this.setLoopGain('music-combat', 0.0001);

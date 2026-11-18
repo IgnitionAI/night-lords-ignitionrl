@@ -28,7 +28,7 @@ export const FPS_BOB = {
 
 export type CamMode = 'fps' | 'shoulder' | 'couloir' | 'epaule' | 'troisquarts' | 'diablo';
 
-/** Une seule source de vérité : vue Diablo par défaut (décision de Salim, 15/11) ; `?cam=fps` garde la vue subjective. `?cam=combat` = alias de `shoulder`. */
+/** Une seule source de vérité : vue FPS par défaut ; `?cam=diablo` conserve la vue tactique. `?cam=combat` = alias de `shoulder`. */
 export function parseCamMode(raw: string | null): CamMode {
   if (raw === 'couloir') return 'couloir';
   if (raw === 'troisquarts') return 'troisquarts';
@@ -36,7 +36,7 @@ export function parseCamMode(raw: string | null): CamMode {
   if (raw === 'epaule') return 'epaule';
   if (raw === 'combat' || raw === 'shoulder') return 'shoulder';
   if (raw === 'fps') return 'fps';
-  return 'diablo';
+  return 'fps';
 }
 
 export function fpsFov(portrait: boolean): number {
@@ -64,7 +64,7 @@ export function freshLook(yaw = 0): FpsLook {
 }
 
 export function applyLookDelta(look: FpsLook, dx: number, dy: number, sens = FPS_LOOK_SENS): void {
-  look.yaw = wrapPi(look.yaw - dx * sens);
+  look.yaw = wrapPi(look.yaw + dx * sens);
   look.pitch = clamp(look.pitch - dy * sens, FPS_PITCH_MIN, FPS_PITCH_MAX);
 }
 

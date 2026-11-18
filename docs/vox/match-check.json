@@ -1,0 +1,4571 @@
+{
+  "winner": "imperium",
+  "turn": 15,
+  "score": {
+    "imperium": 21,
+    "nightlords": 7
+  },
+  "audio": {
+    "vox": {
+      "active": null,
+      "caption": null,
+      "pending": [],
+      "gain": 0.5950000286102295,
+      "maxConcurrent": 1,
+      "history": [
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "time": 1048.4000000059605,
+          "status": "ended"
+        },
+        {
+          "unit": "t1",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+          "time": 2968.4000000059605,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "time": 5688.4000000059605,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+          "time": 7128.4000000059605,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "time": 10288.90000000596,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+          "time": 12208.199999988079,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "contact",
+          "line": "contact",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+          "time": 14527.699999988079,
+          "status": "ended"
+        },
+        {
+          "unit": "n3",
+          "event": "nl-taunt",
+          "line": "nl-taunt-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+          "time": 16929.09999999404,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "time": 19767.69999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+          "time": 21208.59999999404,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n3",
+          "event": "nl-death",
+          "line": "nl-death-growl",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+          "time": 22848,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "hurt",
+          "line": "hurt",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+          "time": 25489,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "kill",
+          "line": "kill",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+          "time": 27968.19999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "time": 30088.79999998212,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+          "time": 32008.79999998212,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n0",
+          "event": "nl-death",
+          "line": "nl-death-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+          "time": 33167.79999998212,
+          "status": "ended"
+        },
+        {
+          "unit": "t1",
+          "event": "hurt",
+          "line": "hurt",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-hurt-vox2.mp3",
+          "time": 35688.79999998212,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "kill",
+          "line": "kill",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+          "time": 38168.69999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "time": 40287.69999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t1",
+          "event": "working",
+          "line": "working",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-working-vox2.mp3",
+          "time": 41728,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n4",
+          "event": "nl-death",
+          "line": "nl-death-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+          "time": 43368,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "hurt",
+          "line": "hurt",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+          "time": 45848.29999998212,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "kill",
+          "line": "kill",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+          "time": 48328.19999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "time": 50447.79999998212,
+          "status": "ended"
+        },
+        {
+          "unit": "t1",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+          "time": 52368.09999999404,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "contact",
+          "line": "contact",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+          "time": 54688.19999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "n2",
+          "event": "nl-taunt",
+          "line": "nl-taunt-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-1-chaos-vox3.mp3",
+          "time": 57088.90000000596,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "time": 59247.90000000596,
+          "status": "ended"
+        },
+        {
+          "unit": "n2",
+          "event": "nl-attack",
+          "line": "nl-attack-growl",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-attack-growl-chaos-vox3.mp3",
+          "time": 62054.69999998808,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n2",
+          "event": "nl-death",
+          "line": "nl-death-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+          "time": 62328,
+          "status": "ended"
+        },
+        {
+          "unit": "n5",
+          "event": "nl-death",
+          "line": "nl-death-growl",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+          "time": 64848.09999999404,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "kill",
+          "line": "kill",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+          "time": 67489,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "time": 69608.79999998212,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "working",
+          "line": "working",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-working-vox2.mp3",
+          "time": 71528.90000000596,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "secured",
+          "line": "secured",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-secured-vox2.mp3",
+          "time": 73848.19999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "secured",
+          "line": "secured",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-secured-vox2.mp3",
+          "time": 76088.19999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "time": 78728.90000000596,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "guarding",
+          "line": "guarding",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+          "time": 80168.69999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "time": 83408.29999998212,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "guarding",
+          "line": "guarding",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+          "time": 85328.59999999404,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "time": 88128.19999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "scanning",
+          "line": "scanning",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-scanning-vox2.mp3",
+          "time": 89568.19999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "recon-done",
+          "line": "recon-done",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-recon-done-vox2.mp3",
+          "time": 92367.69999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t1",
+          "event": "recon-done",
+          "line": "recon-done",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-recon-done-vox2.mp3",
+          "time": 94208.69999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "time": 96409,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "guarding",
+          "line": "guarding",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+          "time": 98328.09999999404,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "hurt",
+          "line": "hurt",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-hurt-vox2.mp3",
+          "time": 99488.5,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "contact",
+          "line": "contact",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+          "time": 101927.90000000596,
+          "status": "ended"
+        },
+        {
+          "unit": "n1",
+          "event": "nl-taunt",
+          "line": "nl-taunt-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+          "time": 104327.19999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "time": 107089.19999998808,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "guarding",
+          "line": "guarding",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+          "time": 108528.19999998808,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n1",
+          "event": "nl-death",
+          "line": "nl-death-growl",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+          "time": 110168.09999999404,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "victory",
+          "line": "victory",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-victory-vox2.mp3",
+          "time": 111368.69999998808,
+          "status": "ended"
+        }
+      ],
+      "errors": []
+    },
+    "duckLevel": 0.32000010821910596,
+    "enabled": true,
+    "phase": "ending",
+    "volumes": {
+      "master": 0.7,
+      "music": 0.3,
+      "ambience": 0.28,
+      "effects": 0.65,
+      "vox": 0.85
+    },
+    "played": {
+      "servo": 79,
+      "bolter": 18,
+      "impact": 13
+    },
+    "transitions": [
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → ending"
+    ],
+    "errors": [],
+    "tracks": [
+      {
+        "name": "planning",
+        "paused": true,
+        "time": 0,
+        "volume": 0.0000026654647030767002,
+        "ready": 4
+      },
+      {
+        "name": "combat",
+        "paused": false,
+        "time": 6.451413,
+        "volume": 0.0021730678437879227,
+        "ready": 4
+      },
+      {
+        "name": "ending",
+        "paused": false,
+        "time": 2.140739,
+        "volume": 0.06502428941752125,
+        "ready": 4
+      },
+      {
+        "name": "hull",
+        "paused": false,
+        "time": 0.827211,
+        "volume": 0.19599999999999987,
+        "ready": 4
+      }
+    ]
+  },
+  "trace": [
+    {
+      "turn": 1,
+      "contacts": 0,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.9934115807568535,
+        "enabled": true,
+        "phase": "planning",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 10
+        },
+        "transitions": [],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": false,
+            "time": 4.626435,
+            "volume": 0.20848972130757373,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 4.649796,
+            "volume": 0.1958809523898265,
+            "ready": 4
+          }
+        ]
+      }
+    },
+    {
+      "turn": 2,
+      "contacts": 0,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 5688.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 7128.4000000059605,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.9998138935664191,
+        "enabled": true,
+        "phase": "planning",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 22
+        },
+        "transitions": [],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": false,
+            "time": 9.256813,
+            "volume": 0.2099608197805489,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 9.279274,
+            "volume": 0.19599990863915798,
+            "ready": 4
+          }
+        ]
+      }
+    },
+    {
+      "turn": 3,
+      "contacts": 0,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 5688.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 7128.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 10288.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 12208.199999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 14527.699999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 16929.09999999404,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.3200000234251396,
+        "enabled": true,
+        "phase": "planning",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 34
+        },
+        "transitions": [],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": false,
+            "time": 18.636916,
+            "volume": 0.06720000491926581,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 2.655707,
+            "volume": 0.19599999999996062,
+            "ready": 4
+          }
+        ]
+      }
+    },
+    {
+      "turn": 4,
+      "contacts": 1,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 5688.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 7128.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 10288.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 12208.199999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 14527.699999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 16929.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 19767.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 21208.59999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 22848,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 25489,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 27968.19999998808,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.3200049341411662,
+        "enabled": true,
+        "phase": "planning",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 39,
+          "bolter": 3,
+          "impact": 2
+        },
+        "transitions": [
+          "planning → combat",
+          "combat → planning"
+        ],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": false,
+            "time": 5.5503,
+            "volume": 0.06719020394558918,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": true,
+            "time": 0,
+            "volume": 0.000010832224055725015,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 12.971247,
+            "volume": 0.19599999999999987,
+            "ready": 4
+          }
+        ]
+      }
+    },
+    {
+      "turn": 5,
+      "contacts": 1,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 5688.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 7128.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 10288.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 12208.199999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 14527.699999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 16929.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 19767.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 21208.59999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 22848,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 25489,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 27968.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 30088.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+              "time": 32008.79999998212,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n0",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 33167.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-hurt-vox2.mp3",
+              "time": 35688.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 38168.69999998808,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.3200049341411662,
+        "enabled": true,
+        "phase": "planning",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 45,
+          "bolter": 6,
+          "impact": 4
+        },
+        "transitions": [
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning"
+        ],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": false,
+            "time": 5.463097,
+            "volume": 0.06718837615479768,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": true,
+            "time": 0,
+            "volume": 0.000012660014847220249,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 7.183134,
+            "volume": 0.19599999999999987,
+            "ready": 4
+          }
+        ]
+      }
+    },
+    {
+      "turn": 6,
+      "contacts": 1,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 5688.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 7128.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 10288.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 12208.199999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 14527.699999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 16929.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 19767.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 21208.59999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 22848,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 25489,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 27968.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 30088.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+              "time": 32008.79999998212,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n0",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 33167.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-hurt-vox2.mp3",
+              "time": 35688.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 38168.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 40287.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-working-vox2.mp3",
+              "time": 41728,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n4",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 43368,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 45848.29999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 48328.19999998808,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.32000493414114634,
+        "enabled": true,
+        "phase": "planning",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 45,
+          "bolter": 9,
+          "impact": 6
+        },
+        "transitions": [
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning"
+        ],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": false,
+            "time": 5.393777,
+            "volume": 0.06718734966685845,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": true,
+            "time": 0,
+            "volume": 0.000013686502782270767,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 1.325832,
+            "volume": 0.19599999999999987,
+            "ready": 4
+          }
+        ]
+      }
+    },
+    {
+      "turn": 7,
+      "contacts": 0,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 5688.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 7128.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 10288.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 12208.199999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 14527.699999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 16929.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 19767.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 21208.59999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 22848,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 25489,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 27968.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 30088.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+              "time": 32008.79999998212,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n0",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 33167.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-hurt-vox2.mp3",
+              "time": 35688.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 38168.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 40287.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-working-vox2.mp3",
+              "time": 41728,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n4",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 43368,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 45848.29999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 48328.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 50447.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 52368.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 54688.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-taunt",
+              "line": "nl-taunt-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-1-chaos-vox3.mp3",
+              "time": 57088.90000000596,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.3200034538989453,
+        "enabled": true,
+        "phase": "planning",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 55,
+          "bolter": 9,
+          "impact": 6
+        },
+        "transitions": [
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning"
+        ],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": false,
+            "time": 14.193073,
+            "volume": 0.06720072530373893,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": true,
+            "time": 0,
+            "volume": 1.5039570823327228e-11,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 10.125545,
+            "volume": 0.19599999999999987,
+            "ready": 4
+          }
+        ]
+      }
+    },
+    {
+      "turn": 8,
+      "contacts": 2,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 5688.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 7128.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 10288.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 12208.199999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 14527.699999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 16929.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 19767.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 21208.59999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 22848,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 25489,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 27968.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 30088.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+              "time": 32008.79999998212,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n0",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 33167.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-hurt-vox2.mp3",
+              "time": 35688.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 38168.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 40287.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-working-vox2.mp3",
+              "time": 41728,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n4",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 43368,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 45848.29999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 48328.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 50447.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 52368.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 54688.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-taunt",
+              "line": "nl-taunt-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-1-chaos-vox3.mp3",
+              "time": 57088.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 59247.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-attack",
+              "line": "nl-attack-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-attack-growl-chaos-vox3.mp3",
+              "time": 62054.69999998808,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 62328,
+              "status": "ended"
+            },
+            {
+              "unit": "n5",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 64848.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 67489,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.32000345389877555,
+        "enabled": true,
+        "phase": "planning",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 55,
+          "bolter": 15,
+          "impact": 10
+        },
+        "transitions": [
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning"
+        ],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": false,
+            "time": 5.618751,
+            "volume": 0.06719145703990753,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": true,
+            "time": 0,
+            "volume": 0.000009268278835333746,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 4.490159,
+            "volume": 0.19599999999999987,
+            "ready": 4
+          }
+        ]
+      }
+    },
+    {
+      "turn": 9,
+      "contacts": 0,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 5688.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 7128.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 10288.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 12208.199999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 14527.699999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 16929.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 19767.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 21208.59999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 22848,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 25489,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 27968.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 30088.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+              "time": 32008.79999998212,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n0",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 33167.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-hurt-vox2.mp3",
+              "time": 35688.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 38168.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 40287.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-working-vox2.mp3",
+              "time": 41728,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n4",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 43368,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 45848.29999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 48328.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 50447.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 52368.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 54688.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-taunt",
+              "line": "nl-taunt-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-1-chaos-vox3.mp3",
+              "time": 57088.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 59247.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-attack",
+              "line": "nl-attack-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-attack-growl-chaos-vox3.mp3",
+              "time": 62054.69999998808,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 62328,
+              "status": "ended"
+            },
+            {
+              "unit": "n5",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 64848.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 67489,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 69608.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-working-vox2.mp3",
+              "time": 71528.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "secured",
+              "line": "secured",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-secured-vox2.mp3",
+              "time": 73848.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "secured",
+              "line": "secured",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-secured-vox2.mp3",
+              "time": 76088.19999998808,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.320000097564106,
+        "enabled": true,
+        "phase": "planning",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 61,
+          "bolter": 15,
+          "impact": 10
+        },
+        "transitions": [
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning"
+        ],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": false,
+            "time": 14.732136,
+            "volume": 0.06720002048208272,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": true,
+            "time": 0,
+            "volume": 6.37954777971218e-12,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 13.603143,
+            "volume": 0.19599999999999987,
+            "ready": 4
+          }
+        ]
+      }
+    },
+    {
+      "turn": 10,
+      "contacts": 0,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 5688.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 7128.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 10288.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 12208.199999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 14527.699999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 16929.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 19767.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 21208.59999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 22848,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 25489,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 27968.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 30088.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+              "time": 32008.79999998212,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n0",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 33167.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-hurt-vox2.mp3",
+              "time": 35688.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 38168.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 40287.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-working-vox2.mp3",
+              "time": 41728,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n4",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 43368,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 45848.29999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 48328.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 50447.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 52368.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 54688.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-taunt",
+              "line": "nl-taunt-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-1-chaos-vox3.mp3",
+              "time": 57088.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 59247.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-attack",
+              "line": "nl-attack-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-attack-growl-chaos-vox3.mp3",
+              "time": 62054.69999998808,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 62328,
+              "status": "ended"
+            },
+            {
+              "unit": "n5",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 64848.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 67489,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 69608.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-working-vox2.mp3",
+              "time": 71528.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "secured",
+              "line": "secured",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-secured-vox2.mp3",
+              "time": 73848.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "secured",
+              "line": "secured",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-secured-vox2.mp3",
+              "time": 76088.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 78728.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "guarding",
+              "line": "guarding",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+              "time": 80168.69999998808,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.9934115486428009,
+        "enabled": true,
+        "phase": "planning",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 67,
+          "bolter": 15,
+          "impact": 10
+        },
+        "transitions": [
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning"
+        ],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": false,
+            "time": 19.434954,
+            "volume": 0.20861642521497514,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": true,
+            "time": 0,
+            "volume": 1.3004446299783566e-14,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 2.302534,
+            "volume": 0.19599999999999987,
+            "ready": 4
+          }
+        ]
+      }
+    },
+    {
+      "turn": 11,
+      "contacts": 0,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 5688.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 7128.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 10288.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 12208.199999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 14527.699999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 16929.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 19767.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 21208.59999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 22848,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 25489,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 27968.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 30088.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+              "time": 32008.79999998212,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n0",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 33167.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-hurt-vox2.mp3",
+              "time": 35688.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 38168.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 40287.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-working-vox2.mp3",
+              "time": 41728,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n4",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 43368,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 45848.29999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 48328.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 50447.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 52368.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 54688.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-taunt",
+              "line": "nl-taunt-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-1-chaos-vox3.mp3",
+              "time": 57088.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 59247.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-attack",
+              "line": "nl-attack-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-attack-growl-chaos-vox3.mp3",
+              "time": 62054.69999998808,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 62328,
+              "status": "ended"
+            },
+            {
+              "unit": "n5",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 64848.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 67489,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 69608.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-working-vox2.mp3",
+              "time": 71528.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "secured",
+              "line": "secured",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-secured-vox2.mp3",
+              "time": 73848.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "secured",
+              "line": "secured",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-secured-vox2.mp3",
+              "time": 76088.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 78728.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "guarding",
+              "line": "guarding",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+              "time": 80168.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 83408.29999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "guarding",
+              "line": "guarding",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+              "time": 85328.59999999404,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.8367320334645295,
+        "enabled": true,
+        "phase": "planning",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 73,
+          "bolter": 15,
+          "impact": 10
+        },
+        "transitions": [
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning"
+        ],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": false,
+            "time": 24.134261,
+            "volume": 0.1757137270275511,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": true,
+            "time": 0,
+            "volume": 7.192368569107888e-18,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 7.002323,
+            "volume": 0.19599999999999987,
+            "ready": 4
+          }
+        ]
+      }
+    },
+    {
+      "turn": 12,
+      "contacts": 0,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 5688.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 7128.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 10288.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 12208.199999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 14527.699999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 16929.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 19767.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 21208.59999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 22848,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 25489,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 27968.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 30088.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+              "time": 32008.79999998212,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n0",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 33167.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-hurt-vox2.mp3",
+              "time": 35688.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 38168.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 40287.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-working-vox2.mp3",
+              "time": 41728,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n4",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 43368,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 45848.29999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 48328.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 50447.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 52368.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 54688.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-taunt",
+              "line": "nl-taunt-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-1-chaos-vox3.mp3",
+              "time": 57088.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 59247.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-attack",
+              "line": "nl-attack-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-attack-growl-chaos-vox3.mp3",
+              "time": 62054.69999998808,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 62328,
+              "status": "ended"
+            },
+            {
+              "unit": "n5",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 64848.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 67489,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 69608.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-working-vox2.mp3",
+              "time": 71528.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "secured",
+              "line": "secured",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-secured-vox2.mp3",
+              "time": 73848.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "secured",
+              "line": "secured",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-secured-vox2.mp3",
+              "time": 76088.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 78728.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "guarding",
+              "line": "guarding",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+              "time": 80168.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 83408.29999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "guarding",
+              "line": "guarding",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+              "time": 85328.59999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 88128.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "scanning",
+              "line": "scanning",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-scanning-vox2.mp3",
+              "time": 89568.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "recon-done",
+              "line": "recon-done",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-recon-done-vox2.mp3",
+              "time": 92367.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "recon-done",
+              "line": "recon-done",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-recon-done-vox2.mp3",
+              "time": 94208.69999998808,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.32000131374996105,
+        "enabled": true,
+        "phase": "planning",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 73,
+          "bolter": 15,
+          "impact": 10
+        },
+        "transitions": [
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning"
+        ],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": false,
+            "time": 32.431103,
+            "volume": 0.06720027588749178,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": true,
+            "time": 0,
+            "volume": 6.591206750218764e-24,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 15.296145,
+            "volume": 0.19599999999999987,
+            "ready": 4
+          }
+        ]
+      }
+    },
+    {
+      "turn": 13,
+      "contacts": 0,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 5688.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 7128.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 10288.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 12208.199999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 14527.699999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 16929.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 19767.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 21208.59999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 22848,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 25489,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 27968.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 30088.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+              "time": 32008.79999998212,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n0",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 33167.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-hurt-vox2.mp3",
+              "time": 35688.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 38168.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 40287.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-working-vox2.mp3",
+              "time": 41728,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n4",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 43368,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 45848.29999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 48328.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 50447.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 52368.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 54688.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-taunt",
+              "line": "nl-taunt-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-1-chaos-vox3.mp3",
+              "time": 57088.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 59247.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-attack",
+              "line": "nl-attack-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-attack-growl-chaos-vox3.mp3",
+              "time": 62054.69999998808,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 62328,
+              "status": "ended"
+            },
+            {
+              "unit": "n5",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 64848.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 67489,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 69608.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-working-vox2.mp3",
+              "time": 71528.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "secured",
+              "line": "secured",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-secured-vox2.mp3",
+              "time": 73848.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "secured",
+              "line": "secured",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-secured-vox2.mp3",
+              "time": 76088.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 78728.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "guarding",
+              "line": "guarding",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+              "time": 80168.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 83408.29999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "guarding",
+              "line": "guarding",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+              "time": 85328.59999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 88128.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "scanning",
+              "line": "scanning",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-scanning-vox2.mp3",
+              "time": 89568.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "recon-done",
+              "line": "recon-done",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-recon-done-vox2.mp3",
+              "time": 92367.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "recon-done",
+              "line": "recon-done",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-recon-done-vox2.mp3",
+              "time": 94208.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 96409,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "guarding",
+              "line": "guarding",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+              "time": 98328.09999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "t0",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-hurt-vox2.mp3",
+              "time": 99488.5,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 101927.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "n1",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 104327.19999998808,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.5240000234251392,
+        "enabled": true,
+        "phase": "planning",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 79,
+          "bolter": 15,
+          "impact": 11
+        },
+        "transitions": [
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning"
+        ],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": false,
+            "time": 5.980046,
+            "volume": 0.11003121129591163,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": true,
+            "time": 0,
+            "volume": 0.000008793623367572022,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": true,
+            "time": 0,
+            "volume": 0,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 10.024284,
+            "volume": 0.19599999999999987,
+            "ready": 4
+          }
+        ]
+      }
+    },
+    {
+      "turn": 14,
+      "contacts": 1,
+      "audio": {
+        "vox": {
+          "active": null,
+          "caption": null,
+          "pending": [],
+          "gain": 0.5950000286102295,
+          "maxConcurrent": 1,
+          "history": [
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 1048.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 2968.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 5688.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 7128.4000000059605,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 10288.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 12208.199999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 14527.699999988079,
+              "status": "ended"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 16929.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 19767.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+              "time": 21208.59999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n3",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 22848,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 25489,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 27968.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 30088.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+              "time": 32008.79999998212,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n0",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 33167.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-hurt-vox2.mp3",
+              "time": 35688.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 38168.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 40287.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-working-vox2.mp3",
+              "time": 41728,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n4",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 43368,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-hurt-vox2.mp3",
+              "time": 45848.29999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 48328.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 50447.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "moving",
+              "line": "moving",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+              "time": 52368.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 54688.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-taunt",
+              "line": "nl-taunt-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-1-chaos-vox3.mp3",
+              "time": 57088.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 59247.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-attack",
+              "line": "nl-attack-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-attack-growl-chaos-vox3.mp3",
+              "time": 62054.69999998808,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n2",
+              "event": "nl-death",
+              "line": "nl-death-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+              "time": 62328,
+              "status": "ended"
+            },
+            {
+              "unit": "n5",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 64848.09999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "kill",
+              "line": "kill",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-kill-vox2.mp3",
+              "time": 67489,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 69608.79999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "working",
+              "line": "working",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-working-vox2.mp3",
+              "time": 71528.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "secured",
+              "line": "secured",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-secured-vox2.mp3",
+              "time": 73848.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "secured",
+              "line": "secured",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-secured-vox2.mp3",
+              "time": 76088.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 78728.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "guarding",
+              "line": "guarding",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+              "time": 80168.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 83408.29999998212,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "guarding",
+              "line": "guarding",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+              "time": 85328.59999999404,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 88128.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "scanning",
+              "line": "scanning",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-scanning-vox2.mp3",
+              "time": 89568.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "recon-done",
+              "line": "recon-done",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-recon-done-vox2.mp3",
+              "time": 92367.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t1",
+              "event": "recon-done",
+              "line": "recon-done",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-recon-done-vox2.mp3",
+              "time": 94208.69999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+              "time": 96409,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "guarding",
+              "line": "guarding",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+              "time": 98328.09999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "t0",
+              "event": "hurt",
+              "line": "hurt",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-hurt-vox2.mp3",
+              "time": 99488.5,
+              "status": "ended"
+            },
+            {
+              "unit": "t0",
+              "event": "contact",
+              "line": "contact",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+              "time": 101927.90000000596,
+              "status": "ended"
+            },
+            {
+              "unit": "n1",
+              "event": "nl-taunt",
+              "line": "nl-taunt-2",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-2-chaos-vox3.mp3",
+              "time": 104327.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t3",
+              "event": "execute",
+              "line": "execute-1",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+              "time": 107089.19999998808,
+              "status": "ended"
+            },
+            {
+              "unit": "t2",
+              "event": "guarding",
+              "line": "guarding",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-guarding-vox2.mp3",
+              "time": 108528.19999998808,
+              "status": "interrupted"
+            },
+            {
+              "unit": "n1",
+              "event": "nl-death",
+              "line": "nl-death-growl",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+              "time": 110168.09999999404,
+              "status": "interrupted"
+            },
+            {
+              "unit": "t0",
+              "event": "victory",
+              "line": "victory",
+              "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-victory-vox2.mp3",
+              "time": 111368.69999998808,
+              "status": "ended"
+            }
+          ],
+          "errors": []
+        },
+        "duckLevel": 0.32000010821910596,
+        "enabled": true,
+        "phase": "ending",
+        "volumes": {
+          "master": 0.7,
+          "music": 0.3,
+          "ambience": 0.28,
+          "effects": 0.65,
+          "vox": 0.85
+        },
+        "played": {
+          "servo": 79,
+          "bolter": 18,
+          "impact": 13
+        },
+        "transitions": [
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → planning",
+          "planning → combat",
+          "combat → ending"
+        ],
+        "errors": [],
+        "tracks": [
+          {
+            "name": "planning",
+            "paused": true,
+            "time": 0,
+            "volume": 0.0000026654647030767002,
+            "ready": 4
+          },
+          {
+            "name": "combat",
+            "paused": false,
+            "time": 6.444857,
+            "volume": 0.0021730678437879227,
+            "ready": 4
+          },
+          {
+            "name": "ending",
+            "paused": false,
+            "time": 2.134183,
+            "volume": 0.06502428941752125,
+            "ready": 4
+          },
+          {
+            "name": "hull",
+            "paused": false,
+            "time": 0.821271,
+            "volume": 0.19599999999999987,
+            "ready": 4
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "failed": []
+}

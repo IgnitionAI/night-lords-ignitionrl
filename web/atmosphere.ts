@@ -54,7 +54,7 @@ export function sceneRenderTargetOptions(): THREE.RenderTargetOptions {
 }
 
 // Passe plein écran : vignette, grain, gamma historique Three pow(c,0.4545), dither triangulaire (IGN).
-export const POST_FRAGMENT_SHADER = `uniform sampler2D tDiffuse; uniform float uTime, uVignette, uGrain, uDither, uBloom, uCA, uVignettePulse; uniform vec2 uBlur; varying vec2 vUv;
+export const POST_FRAGMENT_SHADER = `uniform sampler2D tDiffuse; uniform float uTime, uVignette, uGrain, uDither, uBloom, uCA, uVignettePulse, uNightVision; uniform vec2 uBlur; varying vec2 vUv;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
     float ign(vec2 p){ return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715)))); }
     float triDither(vec2 p){
@@ -76,6 +76,7 @@ export const POST_FRAGMENT_SHADER = `uniform sampler2D tDiffuse; uniform float u
       }
       c *= clamp(1.0 - dot(d, d) * (uVignette * 1.9 + uVignettePulse), 0.0, 1.0);
       float lum = dot(c, vec3(0.2126, 0.7152, 0.0722));
+      c = mix(c, vec3(.52, 1.0, .79) * (lum * 1.55 + .018), uNightVision);
       c += c * max(lum - 0.72, 0.0) * uBloom;
       c += (hash(vUv * 1024.0 + uTime) - 0.5) * uGrain;
       vec3 srgb = pow(clamp(c, 0.0, 1.0), vec3(0.4545));

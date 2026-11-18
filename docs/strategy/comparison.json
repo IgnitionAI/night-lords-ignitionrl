@@ -1,0 +1,499 @@
+{
+  "scenarios": 12,
+  "rows": [
+    {
+      "mode": "baseline",
+      "seed": 10000,
+      "style": 0,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 11,
+        "nightlords": 36
+      },
+      "turns": 15,
+      "enemySurvivors": 2,
+      "changes": 0
+    },
+    {
+      "mode": "baseline",
+      "seed": 10001,
+      "style": 0,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 17,
+        "nightlords": 36
+      },
+      "turns": 18,
+      "enemySurvivors": 1,
+      "changes": 0
+    },
+    {
+      "mode": "baseline",
+      "seed": 10002,
+      "style": 0,
+      "winner": "imperium",
+      "score": {
+        "imperium": 37,
+        "nightlords": 16
+      },
+      "turns": 19,
+      "enemySurvivors": 2,
+      "changes": 0
+    },
+    {
+      "mode": "baseline",
+      "seed": 10005,
+      "style": 0,
+      "winner": "imperium",
+      "score": {
+        "imperium": 29,
+        "nightlords": 5
+      },
+      "turns": 21,
+      "enemySurvivors": 0,
+      "changes": 0
+    },
+    {
+      "mode": "baseline",
+      "seed": 10000,
+      "style": 1,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 4,
+        "nightlords": 37
+      },
+      "turns": 22,
+      "enemySurvivors": 1,
+      "changes": 0
+    },
+    {
+      "mode": "baseline",
+      "seed": 10001,
+      "style": 1,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 8,
+        "nightlords": 36
+      },
+      "turns": 23,
+      "enemySurvivors": 1,
+      "changes": 0
+    },
+    {
+      "mode": "baseline",
+      "seed": 10002,
+      "style": 1,
+      "winner": "imperium",
+      "score": {
+        "imperium": 22,
+        "nightlords": 15
+      },
+      "turns": 18,
+      "enemySurvivors": 0,
+      "changes": 0
+    },
+    {
+      "mode": "baseline",
+      "seed": 10005,
+      "style": 1,
+      "winner": "imperium",
+      "score": {
+        "imperium": 20,
+        "nightlords": 10
+      },
+      "turns": 17,
+      "enemySurvivors": 0,
+      "changes": 0
+    },
+    {
+      "mode": "baseline",
+      "seed": 10000,
+      "style": 2,
+      "winner": "imperium",
+      "score": {
+        "imperium": 37,
+        "nightlords": 16
+      },
+      "turns": 19,
+      "enemySurvivors": 3,
+      "changes": 0
+    },
+    {
+      "mode": "baseline",
+      "seed": 10001,
+      "style": 2,
+      "winner": "imperium",
+      "score": {
+        "imperium": 21,
+        "nightlords": 7
+      },
+      "turns": 14,
+      "enemySurvivors": 0,
+      "changes": 0
+    },
+    {
+      "mode": "baseline",
+      "seed": 10002,
+      "style": 2,
+      "winner": "imperium",
+      "score": {
+        "imperium": 38,
+        "nightlords": 17
+      },
+      "turns": 20,
+      "enemySurvivors": 1,
+      "changes": 0
+    },
+    {
+      "mode": "baseline",
+      "seed": 10005,
+      "style": 2,
+      "winner": "imperium",
+      "score": {
+        "imperium": 36,
+        "nightlords": 14
+      },
+      "turns": 21,
+      "enemySurvivors": 1,
+      "changes": 0
+    },
+    {
+      "mode": "adaptive",
+      "seed": 10000,
+      "style": 0,
+      "winner": "imperium",
+      "score": {
+        "imperium": 38,
+        "nightlords": 25
+      },
+      "turns": 19,
+      "enemySurvivors": 2,
+      "changes": 26
+    },
+    {
+      "mode": "adaptive",
+      "seed": 10001,
+      "style": 0,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 14,
+        "nightlords": 37
+      },
+      "turns": 17,
+      "enemySurvivors": 2,
+      "changes": 8
+    },
+    {
+      "mode": "adaptive",
+      "seed": 10002,
+      "style": 0,
+      "winner": "imperium",
+      "score": {
+        "imperium": 22,
+        "nightlords": 15
+      },
+      "turns": 16,
+      "enemySurvivors": 0,
+      "changes": 5
+    },
+    {
+      "mode": "adaptive",
+      "seed": 10005,
+      "style": 0,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 10,
+        "nightlords": 18
+      },
+      "turns": 24,
+      "enemySurvivors": 1,
+      "changes": 17
+    },
+    {
+      "mode": "adaptive",
+      "seed": 10000,
+      "style": 1,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 6,
+        "nightlords": 38
+      },
+      "turns": 19,
+      "enemySurvivors": 3,
+      "changes": 9
+    },
+    {
+      "mode": "adaptive",
+      "seed": 10001,
+      "style": 1,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 2,
+        "nightlords": 37
+      },
+      "turns": 17,
+      "enemySurvivors": 1,
+      "changes": 4
+    },
+    {
+      "mode": "adaptive",
+      "seed": 10002,
+      "style": 1,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 28,
+        "nightlords": 38
+      },
+      "turns": 22,
+      "enemySurvivors": 2,
+      "changes": 10
+    },
+    {
+      "mode": "adaptive",
+      "seed": 10005,
+      "style": 1,
+      "winner": "imperium",
+      "score": {
+        "imperium": 38,
+        "nightlords": 23
+      },
+      "turns": 22,
+      "enemySurvivors": 3,
+      "changes": 17
+    },
+    {
+      "mode": "adaptive",
+      "seed": 10000,
+      "style": 2,
+      "winner": "imperium",
+      "score": {
+        "imperium": 22,
+        "nightlords": 11
+      },
+      "turns": 14,
+      "enemySurvivors": 0,
+      "changes": 5
+    },
+    {
+      "mode": "adaptive",
+      "seed": 10001,
+      "style": 2,
+      "winner": "imperium",
+      "score": {
+        "imperium": 12,
+        "nightlords": 4
+      },
+      "turns": 11,
+      "enemySurvivors": 0,
+      "changes": 2
+    },
+    {
+      "mode": "adaptive",
+      "seed": 10002,
+      "style": 2,
+      "winner": "imperium",
+      "score": {
+        "imperium": 14,
+        "nightlords": 10
+      },
+      "turns": 13,
+      "enemySurvivors": 0,
+      "changes": 6
+    },
+    {
+      "mode": "adaptive",
+      "seed": 10005,
+      "style": 2,
+      "winner": "imperium",
+      "score": {
+        "imperium": 29,
+        "nightlords": 15
+      },
+      "turns": 19,
+      "enemySurvivors": 0,
+      "changes": 17
+    },
+    {
+      "mode": "ppo",
+      "seed": 10000,
+      "style": 0,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 13,
+        "nightlords": 36
+      },
+      "turns": 18,
+      "enemySurvivors": 2,
+      "changes": 4
+    },
+    {
+      "mode": "ppo",
+      "seed": 10001,
+      "style": 0,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 14,
+        "nightlords": 38
+      },
+      "turns": 19,
+      "enemySurvivors": 1,
+      "changes": 6
+    },
+    {
+      "mode": "ppo",
+      "seed": 10002,
+      "style": 0,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 14,
+        "nightlords": 18
+      },
+      "turns": 24,
+      "enemySurvivors": 2,
+      "changes": 0
+    },
+    {
+      "mode": "ppo",
+      "seed": 10005,
+      "style": 0,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 14,
+        "nightlords": 18
+      },
+      "turns": 24,
+      "enemySurvivors": 2,
+      "changes": 0
+    },
+    {
+      "mode": "ppo",
+      "seed": 10000,
+      "style": 1,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 11,
+        "nightlords": 34
+      },
+      "turns": 24,
+      "enemySurvivors": 4,
+      "changes": 0
+    },
+    {
+      "mode": "ppo",
+      "seed": 10001,
+      "style": 1,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 10,
+        "nightlords": 34
+      },
+      "turns": 24,
+      "enemySurvivors": 4,
+      "changes": 0
+    },
+    {
+      "mode": "ppo",
+      "seed": 10002,
+      "style": 1,
+      "winner": "imperium",
+      "score": {
+        "imperium": 36,
+        "nightlords": 0
+      },
+      "turns": 21,
+      "enemySurvivors": 3,
+      "changes": 0
+    },
+    {
+      "mode": "ppo",
+      "seed": 10005,
+      "style": 1,
+      "winner": "imperium",
+      "score": {
+        "imperium": 38,
+        "nightlords": 0
+      },
+      "turns": 22,
+      "enemySurvivors": 3,
+      "changes": 0
+    },
+    {
+      "mode": "ppo",
+      "seed": 10000,
+      "style": 2,
+      "winner": "imperium",
+      "score": {
+        "imperium": 31,
+        "nightlords": 10
+      },
+      "turns": 21,
+      "enemySurvivors": 0,
+      "changes": 2
+    },
+    {
+      "mode": "ppo",
+      "seed": 10001,
+      "style": 2,
+      "winner": "imperium",
+      "score": {
+        "imperium": 31,
+        "nightlords": 10
+      },
+      "turns": 21,
+      "enemySurvivors": 0,
+      "changes": 2
+    },
+    {
+      "mode": "ppo",
+      "seed": 10002,
+      "style": 2,
+      "winner": "imperium",
+      "score": {
+        "imperium": 22,
+        "nightlords": 4
+      },
+      "turns": 17,
+      "enemySurvivors": 0,
+      "changes": 6
+    },
+    {
+      "mode": "ppo",
+      "seed": 10005,
+      "style": 2,
+      "winner": "imperium",
+      "score": {
+        "imperium": 8,
+        "nightlords": 0
+      },
+      "turns": 12,
+      "enemySurvivors": 0,
+      "changes": 0
+    }
+  ],
+  "summary": [
+    {
+      "mode": "baseline",
+      "matches": 12,
+      "wins": 4,
+      "draws": 0,
+      "meanEnemyScore": 20.416666666666668,
+      "meanPlayerScore": 23.333333333333332
+    },
+    {
+      "mode": "adaptive",
+      "matches": 12,
+      "wins": 5,
+      "draws": 0,
+      "meanEnemyScore": 22.583333333333332,
+      "meanPlayerScore": 19.583333333333332
+    },
+    {
+      "mode": "ppo",
+      "matches": 12,
+      "wins": 6,
+      "draws": 0,
+      "meanEnemyScore": 16.833333333333332,
+      "meanPlayerScore": 20.166666666666668
+    }
+  ]
+}

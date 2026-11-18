@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { newWorld, step, nlSees, DT, T_CFG, NL_CFG } from '../src/sim.ts';
 import { DIABLO } from '../web/atmosphere.ts';
 import {
-  diabloControls, diabloKeys, screenHeading, turnToward, rayToGround, DIABLO_TURN_GAIN, DIABLO_WALK_HALF, DIABLO_AIM_HOLD,
+  diabloControls, diabloKeys, screenHeading, turnToward, rayToGround, DIABLO_TURN_GAIN, DIABLO_WALK_HALF,
 } from '../web/controls/diablo.ts';
 import { noiseRingRadius, coneFan, coneGradient, placeConePoint, inCone } from '../web/read-aids.ts';
 
@@ -76,7 +76,7 @@ test('diablo : la consigne turn tend vers le cap du curseur, dans les bornes tur
 test('diablo : turnToward reprend le contrôleur existant (gain 2,4, plafonné)', () => {
   const t = term(0, 0);
   assert.equal(turnToward(t, 0.1, T_CFG, DT), Math.max(-1, Math.min(1, 0.1 * DIABLO_TURN_GAIN / (T_CFG.turnAccel * DT))));
-  assert.equal(turnToward(term(0, T_CFG.turnMax), Math.PI / 2, T_CFG, DT), 0, 'déjà à turnMax vers la cible : on tient');
+  assert.equal(turnToward(term(0, T_CFG.turnMax), Math.PI, T_CFG, DT), 0, 'déjà à turnMax vers la cible : on tient');
 });
 
 test('diablo : sans curseur, comportement existant (ZQSD oriente et fait avancer)', () => {
@@ -166,55 +166,22 @@ test('diablo : les flèches sont le déplacement de référence, ZQSD/WASD donne
   assert.deepEqual(diabloKeys(held('Space', 'KeyF', 'KeyH')), { up: 0, right: 0 }, 'tir, gantelet, H ne déplacent pas');
 });
 
-test('diablo : avec souris, ↑ devant → fwd 1, ↓ derrière → fwd -1 (souris garde la rotation), ←/→ de côté → les touches pivotent', () => {
-  const t = term(-Math.PI / 2); // cap = haut de l'écran, curseur devant
-  const aim = { x: 10, y: 2 };
-  const f = (...c: string[]) => diabloControls(t, diabloKeys(held(...c)), aim, CAM, T_CFG, DT);
-  const mouseOnly = diabloControls(t, { up: 0, right: 0 }, aim, CAM, T_CFG, DT).turn;
-  assert.equal(f('ArrowUp').fwd, 1);
-  assert.equal(f('ArrowDown').fwd, -1);
-  assert.equal(f('ArrowUp').turn, mouseOnly, 'fenêtre avant : la souris tourne');
-  assert.equal(f('ArrowDown').turn, mouseOnly, 'fenêtre arrière : recul en gardant la visée');
-  assert.equal(f().turn, 0, 'aligné sur le curseur, sans touche : aucune rotation');
-  // hors fenêtre : les touches prennent la rotation, vers leur direction, sans avancer encore
-  assert.equal(f('ArrowLeft').fwd, 0);
-  assert.equal(f('ArrowRight').fwd, 0);
-  assert.ok(f('ArrowRight').turn > 0, '→ pivote vers la droite de l\'écran (cap 0)');
-  assert.ok(f('ArrowLeft').turn < 0, '← pivote vers la gauche de l\'écran (cap ±π)');
-});
-
-test('diablo : geste de Fulgrim — curseur à droite, ↑ à 78° du cap → les touches pivotent vers le haut, puis fwd = 1 sous 50°', () => {
-  const w = newWorld(900002, { x: 10, y: 14, facing: -Math.PI / 2 + 78 * Math.PI / 180 });
-  const aim = { x: 30, y: 14 }; // loin à droite à l'écran (cap 0)
-  const up = diabloKeys(held('ArrowUp'));
-  const first = diabloControls(w.t, up, aim, CAM, T_CFG, DT);
-  assert.equal(first.fwd, 0, 'premier tick : hors fenêtre, pas encore de marche');
-  assert.ok(first.turn < 0, 'pivote vers le haut de l\'écran (cap -π/2), pas vers la souris');
-  assert.ok(first.turn >= -1);
-  const y0 = w.t.y; let firstWalk = -1, fwdFlips = 0, last = first.fwd;
-  for (let i = 0; i < 30; i++) {
-    const out = diabloControls(w.t, up, aim, CAM, T_CFG, DT);
-    const gap = Math.abs(wrap(-Math.PI / 2 - w.t.facing));
-    if (gap < DIABLO_WALK_HALF) assert.equal(out.fwd, 1, `écart ${gap} sous 50° → fwd = 1`);
-    if (out.fwd === 1 && firstWalk < 0) firstWalk = i;
-    if (out.fwd !== last) { fwdFlips++; last = out.fwd; }
-    step(w, { fwd: out.fwd, strafe: 0, turn: out.turn, bolt: false, fist: false }, [0, 0, 0, 0]);
+test('diablo : demi-tour vers un ennemi derrière, même avec la marche tenue', () => {
+  const w = newWorld(5, { x: 10, y: 10, facing: -Math.PI / 2 });
+  for (let i = 0; i < 15; i++) {
+    const aim = { x: w.t.x, y: w.t.y + 8 };
+    const out = diabloControls(w.t, Z, aim, CAM, T_CFG, DT);
+    assert.equal(out.turn, diabloControls(w.t, NONE, aim, CAM, T_CFG, DT).turn,
+      'les touches ne reprennent jamais la rotation à la souris');
+    step(w, { ...out, strafe: 0, bolt: false, fist: false }, [0, 0, 0, 0]);
   }
-  assert.ok(firstWalk > 0 && firstWalk < 10, `marche dès le tick ${firstWalk}`);
-  assert.equal(fwdFlips, 1, 'une fois dans la fenêtre, il marche sans à-coups (pas de pompage 0/1)');
-  assert.ok(y0 - w.t.y > 2, `monte nettement à l'écran : Δy = ${w.t.y - y0}`);
-  // la souris a repris la rotation, bornée à 45° de l'axe des touches : cap entre -90° et -45°
-  assert.ok(Math.abs(wrap(w.t.facing - (-Math.PI / 2 + DIABLO_AIM_HOLD))) < 0.05, `cap ${w.t.facing}`);
-  // touches relâchées : la souris reprend toute la rotation
-  assert.ok(diabloControls(w.t, { up: 0, right: 0 }, aim, CAM, T_CFG, DT).turn > 0);
+  assert.ok(Math.abs(wrap(w.t.facing - Math.PI / 2)) < 0.15, 'fait face derrière en 1,5 seconde');
 });
 
-test('diablo : recul en gardant la visée, borné à ±45° de l\'axe arrière', () => {
-  const t = term(Math.PI / 2); // regarde vers le bas de l'écran
-  const out = diabloControls(t, diabloKeys(held('ArrowUp')), { x: 30, y: 10 }, CAM, T_CFG, DT); // souris à droite (90° du cap)
-  assert.equal(out.fwd, -1);
-  assert.equal(out.turn, turnToward(t, Math.PI / 2 - DIABLO_AIM_HOLD, T_CFG, DT), 'vise vers la souris, mais pas au-delà de 45° de l\'axe');
-  assert.ok(out.turn < 0);
+test('mobilité : atteint 5 m/s en une demi-seconde', () => {
+  const w = newWorld(5, { x: 10, y: 10, facing: 0 });
+  for (let i = 0; i < 5; i++) step(w, { fwd: 1, strafe: 0, turn: 0, bolt: false, fist: false }, [0, 0, 0, 0]);
+  assert.ok(Math.hypot(w.t.vx, w.t.vy) >= 5);
 });
 
 test('diablo : sans souris, les flèches suivent le schéma ZQSD (orienter + avancer), pas l\'ancien pivot ←/→', () => {

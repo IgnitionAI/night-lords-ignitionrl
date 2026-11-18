@@ -1,0 +1,100 @@
+[
+  {
+    "name": "bolter",
+    "duration": 1.044898,
+    "levels": [
+      [
+        "mean_volume",
+        "-19.3 dB"
+      ],
+      [
+        "max_volume",
+        "-2.2 dB"
+      ]
+    ]
+  },
+  {
+    "name": "planning",
+    "duration": 90.024,
+    "levels": [
+      [
+        "mean_volume",
+        "-15.7 dB"
+      ],
+      [
+        "max_volume",
+        "-1.0 dB"
+      ]
+    ]
+  },
+  {
+    "name": "servo",
+    "duration": 1.044898,
+    "levels": [
+      [
+        "mean_volume",
+        "-15.1 dB"
+      ],
+      [
+        "max_volume",
+        "-1.4 dB"
+      ]
+    ]
+  },
+  {
+    "name": "ending",
+    "duration": 45.024,
+    "levels": [
+      [
+        "mean_volume",
+        "-14.5 dB"
+      ],
+      [
+        "max_volume",
+        "-0.0 dB"
+      ]
+    ]
+  },
+  {
+    "name": "door",
+    "duration": 2.507755,
+    "levels": [
+      [
+        "mean_volume",
+        "-19.3 dB"
+      ],
+      [
+        "max_volume",
+        "-2.9 dB"
+      ]
+    ]
+  },
+  {
+    "name": "impact",
+    "duration": 1.044898,
+    "levels": [
+      [
+        "mean_volume",
+        "-23.4 dB"
+      ],
+      [
+        "max_volume",
+        "-1.7 dB"
+      ]
+    ]
+  },
+  {
+    "name": "combat",
+    "duration": 90.024,
+    "levels": [
+      [
+        "mean_volume",
+        "-14.0 dB"
+      ],
+      [
+        "max_volume",
+        "0.0 dB"
+      ]
+    ]
+  }
+]

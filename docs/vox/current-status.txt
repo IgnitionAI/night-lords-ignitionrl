@@ -1,0 +1,87 @@
+{
+  "connected": true,
+  "enabled": true,
+  "credentialState": "unlocked",
+  "legal": {
+    "accepted": true,
+    "requiredVersion": "2026-10-16",
+    "acceptUrl": "https://genex.games/accept"
+  },
+  "lanes": {
+    "lanes": [
+      {
+        "kind": "model",
+        "provider": "tripo",
+        "mock": false,
+        "credit": "ok"
+      },
+      {
+        "kind": "image",
+        "provider": "fal-image",
+        "mock": false,
+        "credit": "unknown"
+      },
+      {
+        "kind": "video",
+        "provider": "fal-video",
+        "mock": false,
+        "credit": "unknown"
+      },
+      {
+        "kind": "texture",
+        "provider": "gemini",
+        "mock": false,
+        "credit": "unknown"
+      },
+      {
+        "kind": "sfx",
+        "provider": "elevenlabs",
+        "mock": false,
+        "credit": "unknown"
+      },
+      {
+        "kind": "music",
+        "provider": "elevenlabs-music",
+        "mock": false,
+        "credit": "unknown"
+      },
+      {
+        "kind": "voice",
+        "provider": "elevenlabs-voice",
+        "mock": false,
+        "credit": "unknown"
+      },
+      {
+        "kind": "character",
+        "provider": "meshy",
+        "mock": false,
+        "credit": "ok"
+      },
+      {
+        "kind": "character_motion",
+        "provider": "uthana",
+        "mock": false,
+        "credit": "unknown"
+      },
+      {
+        "kind": "model_segment",
+        "provider": "tripo",
+        "mock": false,
+        "credit": "ok"
+      },
+      {
+        "kind": "model_rig",
+        "provider": "tripo",
+        "mock": false,
+        "credit": "ok"
+      },
+      {
+        "kind": "model_animation",
+        "provider": "tripo",
+        "mock": false,
+        "credit": "ok"
+      }
+    ],
+    "paused": false
+  }
+}

@@ -9,13 +9,6 @@ export const DIABLO_WALK_HALF = 50 * Math.PI / 180;
 export const DIABLO_TURN_GAIN = 2.4;
 /** En deçà de cette distance au sol (m), le cap du curseur est indéfini : on tient le cap courant. */
 export const DIABLO_AIM_DEADZONE = 0.35;
-/**
- * Pendant la marche (avant ou arrière), la visée souris reste bornée à ±45° de l'axe des touches : 5° de marge
- * sous la fenêtre de 50°. Sans cette borne, la souris ramènerait le cap hors fenêtre, les touches le
- * reprendraient, et le Terminator pomperait (mesuré : cap 0°↔-73°, marche un tick sur deux, période 3,2 s).
- */
-export const DIABLO_AIM_HOLD = 45 * Math.PI / 180;
-
 export interface DiabloTerm { x: number; y: number; facing: number; turnVel: number }
 export interface DiabloTurnCfg { turnMax: number; turnAccel: number }
 /** `up` / `right` ∈ {-1, 0, 1} : ZQSD ou flèches, en directions écran. */
@@ -61,15 +54,7 @@ export function turnToward(t: DiabloTerm, target: number, cfg: DiabloTurnCfg, dt
 
 export interface DiabloOut { fwd: number; turn: number }
 
-/**
- * Sans curseur : schéma historique, ZQSD oriente et fait avancer quand le cap est à moins de 50° (jamais de recul).
- * Avec curseur :
- *  - sans touche : pivote vers le curseur, fwd = 0 ;
- *  - direction des touches à moins de 50° du cap : fwd = 1 ; à moins de 50° de l'opposé : fwd = -1 (vitesse
- *    `back`). La souris garde la rotation, bornée à ±45° de l'axe de marche (voir `DIABLO_AIM_HOLD`) ;
- *  - hors des deux fenêtres : les touches prennent la rotation (pivot vers leur direction, fwd = 0) jusqu'à
- *    entrer dans la fenêtre avant ; une flèche ne reste donc jamais sans effet.
- */
+/** La souris garde la visée à 360°, même pendant la marche ; sans souris les touches orientent. */
 export function diabloControls(t: DiabloTerm, keys: DiabloKeys, aim: DiabloAim, camYaw: number, cfg: DiabloTurnCfg, dt: number): DiabloOut {
   const dir = screenHeading(keys, camYaw);
   const cosHalf = Math.cos(DIABLO_WALK_HALF);
@@ -82,10 +67,9 @@ export function diabloControls(t: DiabloTerm, keys: DiabloKeys, aim: DiabloAim, 
   const turn = turnToward(t, target, cfg, dt);
   if (dir === null) return { fwd: 0, turn };
   const c = Math.cos(wrap(dir - t.facing));
-  if (c <= cosHalf && c >= -cosHalf) return { fwd: 0, turn: turnToward(t, dir, cfg, dt) };
-  const axis = c > cosHalf ? dir : dir + Math.PI; // axe de marche : avant, ou opposé des touches en recul
-  const held = axis + clamp(wrap(target - axis), -DIABLO_AIM_HOLD, DIABLO_AIM_HOLD);
-  return { fwd: c > cosHalf ? 1 : -1, turn: turnToward(t, held, cfg, dt) };
+  // Ne jamais rendre la rotation au clavier au milieu d'un demi-tour : cela
+  // enfermerait la visée dans le cône de marche et laisserait les ennemis derrière.
+  return { fwd: c > cosHalf ? 1 : c < -cosHalf ? -1 : 0, turn };
 }
 
 /** Rayon caméra → plan du sol y = 0. Retourne le point en coordonnées sim (x, y = z monde), ou `null` si le rayon ne descend pas. */

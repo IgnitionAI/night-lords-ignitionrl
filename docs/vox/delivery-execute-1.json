@@ -1,0 +1,40 @@
+{
+  "id": "586aac90-8829-4618-a5f2-00dec8404c10",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/586aac90-8829-4618-a5f2-00dec8404c10/j-ex-cute-cmwjl7uu.mp3"
+  ],
+  "createdAt": "2026-11-16T18:20:00.181Z",
+  "generationId": "cmwjl7uu600572bnyxf7uwry0",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjl7uu600572bnyxf7uwry0/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjl7uu600572bnyxf7uwry0",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl7uu600572bnyxf7uwry0/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/586aac90-8829-4618-a5f2-00dec8404c10/output/j-ex-cute-cmwjl7uu.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl7uu600572bnyxf7uwry0/audio-voice",
+        "bytes": 20105
+      }
+    ],
+    "downloadFailures": []
+  }
+}

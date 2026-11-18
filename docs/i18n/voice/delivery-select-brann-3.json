@@ -1,0 +1,40 @@
+{
+  "id": "02e68ae2-c931-46b9-920b-15069c9d6aa1",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/02e68ae2-c931-46b9-920b-15069c9d6aa1/may-the-emperor-guide-us-cmwkigs0.mp3"
+  ],
+  "createdAt": "2026-11-17T09:49:42.588Z",
+  "generationId": "cmwkigs0k03ev30qk2f9d1sni",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkigs0k03ev30qk2f9d1sni/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkigs0k03ev30qk2f9d1sni",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkigs0k03ev30qk2f9d1sni/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/02e68ae2-c931-46b9-920b-15069c9d6aa1/output/may-the-emperor-guide-us-cmwkigs0.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkigs0k03ev30qk2f9d1sni/audio-voice",
+        "bytes": 33061
+      }
+    ],
+    "downloadFailures": []
+  }
+}

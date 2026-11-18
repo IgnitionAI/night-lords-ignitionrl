@@ -1,0 +1,49 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 720
+  },
+  "errors": [],
+  "panels": [
+    {
+      "class": "cell armor",
+      "x": 23.390625,
+      "y": 172.796875,
+      "width": 89.6875,
+      "height": 68.890625,
+      "inBounds": true
+    },
+    {
+      "class": "cell ammo",
+      "x": 276.921875,
+      "y": 172.796875,
+      "width": 89.6875,
+      "height": 88.9375,
+      "inBounds": true
+    },
+    {
+      "class": "cell fist",
+      "x": 23.390625,
+      "y": 468,
+      "width": 89.6875,
+      "height": 52.890625,
+      "inBounds": true
+    },
+    {
+      "class": "cell clock",
+      "x": 276.921875,
+      "y": 468,
+      "width": 89.6875,
+      "height": 52.890625,
+      "inBounds": true
+    },
+    {
+      "class": "meta",
+      "x": 66.296875,
+      "y": 64.796875,
+      "width": 257.40625,
+      "height": 34.5,
+      "inBounds": true
+    }
+  ]
+}

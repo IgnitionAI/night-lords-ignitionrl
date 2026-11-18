@@ -1,0 +1,75 @@
+{
+  "milestone": "First tactical mission, awaiting human playtest before campaign",
+  "branch": "dev",
+  "tests": {
+    "tactics_strategy_visibility_vox": 47,
+    "fps_weapons_audio": 41,
+    "failures": 0
+  },
+  "browser": {
+    "fullMatchTurns": 18,
+    "mode": "ppo",
+    "winner": "imperium",
+    "errors": [],
+    "failedAssets": [],
+    "maxConcurrentVox": 1,
+    "variants": 3,
+    "configurations": 3,
+    "mobileNoHorizontalOverflow": true
+  },
+  "training": {
+    "episodes": 540,
+    "updates": 90,
+    "transitions": 16064,
+    "initialWeights": "eb9622417271a928d486aa1ab2193b222a7e5a2340f430872b90566950929b40",
+    "finalWeights": "226fb90e9838e84b0e013bfe438a2f18c51010f3f202847e2c3367756fbb8384",
+    "sourceRules": "ee31b1338c593f603437edd8902605c8089afd782d346c90b14acd412f1cbedc"
+  },
+  "evaluation": [
+    {
+      "mode": "baseline",
+      "matches": 27,
+      "wins": 23,
+      "draws": 0,
+      "meanEnemyScore": 21.703703703703702,
+      "meanPlayerScore": 9.37037037037037,
+      "meanSurvivors": 2.4814814814814814
+    },
+    {
+      "mode": "adaptive",
+      "matches": 27,
+      "wins": 23,
+      "draws": 0,
+      "meanEnemyScore": 23.444444444444443,
+      "meanPlayerScore": 10,
+      "meanSurvivors": 2.5185185185185186
+    },
+    {
+      "mode": "ppo",
+      "matches": 27,
+      "wins": 21,
+      "draws": 0,
+      "meanEnemyScore": 15.25925925925926,
+      "meanPlayerScore": 12.481481481481481,
+      "meanSurvivors": 2.6666666666666665
+    }
+  ],
+  "audio": {
+    "loyalist_lines": 42,
+    "nightlords_spoken_lines": 6,
+    "nightlords_reused_vocalisations": 2,
+    "total_entries": 50,
+    "total_audio_files": 170,
+    "previously_approved_files_unchanged": 77,
+    "all_planned_lines_in_catalog": true,
+    "built_audio_matches_source": true,
+    "nightlords_profile": "chaos-vox3",
+    "all_nightlords_use_chaos_radio": true
+  },
+  "deliveredActorSHA256": "7125748344a56d7dc7e07a12cc476dd39bef43a11a1031fde601f98d00616316",
+  "notDone": [
+    "Human playtest approval of this mission",
+    "Branching campaign with persistent wounds, equipment and resources after approval"
+  ],
+  "published": false
+}

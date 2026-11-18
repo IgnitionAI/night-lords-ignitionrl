@@ -1,0 +1,40 @@
+{
+  "id": "132a1502-8532-448f-9a78-2c973b796fa9",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/132a1502-8532-448f-9a78-2c973b796fa9/sas-verrouill-cmwjlm80.mp3"
+  ],
+  "createdAt": "2026-11-16T18:30:11.322Z",
+  "generationId": "cmwjlm80c007r2bnyvc86rav6",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjlm80c007r2bnyvc86rav6/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjlm80c007r2bnyvc86rav6",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlm80c007r2bnyvc86rav6/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/132a1502-8532-448f-9a78-2c973b796fa9/output/sas-verrouill-cmwjlm80.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlm80c007r2bnyvc86rav6/audio-voice",
+        "bytes": 21358
+      }
+    ],
+    "downloadFailures": []
+  }
+}

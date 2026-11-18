@@ -1,0 +1,112 @@
+IGNITION · THÉÂTRE D’OPÉRATIONS / 01
+Guerre de coursives
+TOUR 18 / 18
+FR
+EN
+Paramètres
+Briefing
+FPS conservé ↗
+CROISEUR NOCTIS / PONT VII
+OPÉRATION TERMINÉE
+6 / 6 PC libres
+MENACE 23 / 28 · bruit 0
+À 28 : verrouillage / ARCHIVES
+＋
+−
+Escouade
+Vue générale
+Vue plan
+Molette : zoom · Glisser : déplacer la vue
+Brèche · 1 PC
+Ouvre les portes fermées adjacentes à votre groupe avant les déplacements. +2 bruit.
+Brèche · 1 PC
+Ouvre les portes fermées adjacentes à votre groupe avant les déplacements. +2 bruit.
+Tir croisé · 1 PC
+Deux tirs alliés sur la même case : +1 dégât par tir. Une cible peut encore se déplacer.
+◆ Terminators
+◆ Contact confirmé
+◇ Dernière position connue
+▰ Porte · ▧ Couvert
+Résolution terminée. Réévalue les positions et prépare le prochain tour.
+CONTRÔLE DU VAISSEAU
+IMPERIUM 24
+11 VIIIᵉ
+
+Brèche du pont VII · 24 points ou meilleur score après 18 tours. Prenez les archives ; rapportez leurs données au sas pour 6 points supplémentaires.
+
+01 / Relais de commandement
+Contrôle non confirmé · +1 pt/tour
+02 / Alimentation
+Sous notre contrôle · +1 pt/tour
+03 / Archives
+Sous notre contrôle · +2 pt/tour
+ESCOUADE TERMINATOR
+VAEL
+0/10
+HORS COMBAT
+Commandant · 0 charges
+TOR
+0/10
+HORS COMBAT
+Appui · 0 charges
+CAEL
+6/10
+Attendre · 0
+Apothicaire · 1 charges
+BRANN
+5/10
+Attendre · 0
+Sapeur · 2 charges · DONNÉES
+ORDRE / BRANN
+Déplacement · 1
+Ouverture contrôlée · 2
+Tir ciblé · 2
+Surveillance · 1
+Reconnaissance · 1
+Interaction · 1
+Attendre · 0
+
+Clique une porte ou un objectif adjacent. Un porteur de données peut les déposer au SAS (3,10).
+
+Réserver une réaction · 1 PCEffacer cet ordre
+EXÉCUTER LES ORDRES
+
+0 ordre(s) · 0 PC engagés. Sans ordre : attente. Réserve : −2 au premier impact. Carte : une par tour, pioche tous les deux tours. Données à ramener au SAS (3,10).
+
+CAEL stabilise BRANN (+3 armure). • Frère stabilisé : objectif secondaire +3. • Alimentation sécurisé par les Terminators. • BRANN récupère 1 armure auprès de l’alimentation.
+Deux commandants adverses · renseignements limités
+PPO entraîné · bilan dans le débrief
+Abandonner et voir le débrief
+FR
+EN
+DÉBRIEF / INFORMATIONS DÉCLASSIFIÉES
+Victoire de l’Imperium
+
+Imperium 24 — 11 Night Lords · 18 tours résolus
+
+PPO entraîné via l’implémentation locale dérivée d’IgnitionAI. Politique expérimentale : consulter les résultats comparatifs. Les lignes ci-dessous sont des traces factuelles, pas une reconstruction de pensées.
+Évaluation IgnitionRL · 27 scénarios réservés par contrôleur
+
+Limite de tours atteinte · données non extraites · sauvetage réussi.
+
+Tour 1 · 0 / 0 · 4 événements
+Tour 2 · 0 / 0 · 0 événements
+Tour 3 · 0 / 0 · 0 événements
+Tour 4 · 0 / 0 · 2 événements
+Tour 5 · 0 / 0 · 4 événements
+Tour 6 · 0 / 0 · 9 événements
+Tour 7 · 0 / 0 · 3 événements
+Tour 8 · 0 / 1 · 4 événements
+Tour 9 · 2 / 2 · 6 événements
+Tour 10 · 4 / 3 · 3 événements
+Tour 11 · 6 / 4 · 4 événements
+Tour 12 · 8 / 5 · 5 événements
+Tour 13 · 10 / 6 · 0 événements
+Tour 14 · 12 / 7 · 0 événements
+Tour 15 · 14 / 8 · 2 événements
+Tour 16 · 16 / 9 · 7 événements
+Tour 17 · 18 / 10 · 0 événements
+Tour 18 · 24 / 11 · 4 événements
+Exporter la trace JSON
+Nouvelle opération
+Voir la carte finale

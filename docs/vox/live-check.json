@@ -1,0 +1,19 @@
+{
+  "scope": "Menu Son et aperçu VOX Night Lords dans la version jouable Genex",
+  "actions": [
+    "Déployer les Terminators",
+    "Ouvrir Son",
+    "Défiler les réglages",
+    "Cliquer VOX NIGHT LORDS"
+  ],
+  "screenshot": "docs/vox/nightlords-radio-menu.jpg",
+  "console_errors": [],
+  "recap": {
+    "inputs": 4,
+    "looks": 3,
+    "failed": 0,
+    "ineffective": 0
+  },
+  "audio_playback_evidence": "docs/vox/interaction-check.json",
+  "note": "Le contrôle visuel confirme le menu. La lecture du son Chaos est confirmée par le test navigateur, pas par une écoute humaine."
+}

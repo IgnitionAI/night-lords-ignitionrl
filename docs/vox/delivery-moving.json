@@ -1,0 +1,40 @@
+{
+  "id": "20d0814d-5691-489e-b6d8-040cd007cd29",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/20d0814d-5691-489e-b6d8-040cd007cd29/progression-en-cours-cmwjl8gc.mp3"
+  ],
+  "createdAt": "2026-11-16T18:20:04.556Z",
+  "generationId": "cmwjl8gce005i2bnyz8p3qy30",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjl8gce005i2bnyz8p3qy30/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjl8gce005i2bnyz8p3qy30",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl8gce005i2bnyz8p3qy30/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/20d0814d-5691-489e-b6d8-040cd007cd29/output/progression-en-cours-cmwjl8gc.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl8gce005i2bnyz8p3qy30/audio-voice",
+        "bytes": 25538
+      }
+    ],
+    "downloadFailures": []
+  }
+}

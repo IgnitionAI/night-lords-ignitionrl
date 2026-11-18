@@ -1,0 +1,40 @@
+{
+  "id": "3ba5dccd-426e-43e7-a8a1-471f60a3bb4e",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/3ba5dccd-426e-43e7-a8a1-471f60a3bb4e/connecting-to-the-systems-cmwkio18.mp3"
+  ],
+  "createdAt": "2026-11-17T09:55:21.130Z",
+  "generationId": "cmwkio18x03hu30qk9oytc5iz",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkio18x03hu30qk9oytc5iz/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkio18x03hu30qk9oytc5iz",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkio18x03hu30qk9oytc5iz/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/3ba5dccd-426e-43e7-a8a1-471f60a3bb4e/output/connecting-to-the-systems-cmwkio18.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkio18x03hu30qk9oytc5iz/audio-voice",
+        "bytes": 26792
+      }
+    ],
+    "downloadFailures": []
+  }
+}

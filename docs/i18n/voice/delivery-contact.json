@@ -1,0 +1,40 @@
+{
+  "id": "d61df578-7709-4108-9266-ba17560dbd75",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/d61df578-7709-4108-9266-ba17560dbd75/visual-contact-the-enemy-is-here-cmwkiqp0.mp3"
+  ],
+  "createdAt": "2026-11-17T09:57:25.146Z",
+  "generationId": "cmwkiqp0i03iv30qkqdrloele",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkiqp0i03iv30qkqdrloele/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkiqp0i03iv30qkqdrloele",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiqp0i03iv30qkqdrloele/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/d61df578-7709-4108-9266-ba17560dbd75/output/visual-contact-the-enemy-is-here-cmwkiqp0.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiqp0i03iv30qkqdrloele/audio-voice",
+        "bytes": 44764
+      }
+    ],
+    "downloadFailures": []
+  }
+}

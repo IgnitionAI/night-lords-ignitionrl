@@ -1,0 +1,40 @@
+{
+  "id": "1614c377-e99c-4bb9-a94e-f7b32542e53a",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/1614c377-e99c-4bb9-a94e-f7b32542e53a/nous-venons-pour-vous-cmwjlrt2.mp3"
+  ],
+  "createdAt": "2026-11-16T18:34:31.807Z",
+  "generationId": "cmwjlrt2x00a73lll4zb40bc3",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjlrt2x00a73lll4zb40bc3/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjlrt2x00a73lll4zb40bc3",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlrt2x00a73lll4zb40bc3/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/1614c377-e99c-4bb9-a94e-f7b32542e53a/output/nous-venons-pour-vous-cmwjlrt2.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjlrt2x00a73lll4zb40bc3/audio-voice",
+        "bytes": 24284
+      }
+    ],
+    "downloadFailures": []
+  }
+}

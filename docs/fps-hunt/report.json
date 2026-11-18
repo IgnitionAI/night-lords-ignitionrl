@@ -1,0 +1,110 @@
+{
+  "duel-observer": {
+    "before": {
+      "meanSeconds": 4.4,
+      "meanHP": 0,
+      "survivors": 0,
+      "cuts": 0,
+      "restores": 0
+    },
+    "after": {
+      "meanSeconds": 10.0,
+      "meanHP": 0,
+      "survivors": 0,
+      "cuts": 0,
+      "restores": 0
+    }
+  },
+  "duel-defender": {
+    "before": {
+      "meanSeconds": 26.32,
+      "meanHP": 0,
+      "survivors": 0,
+      "cuts": 0,
+      "restores": 0
+    },
+    "after": {
+      "meanSeconds": 33.97,
+      "meanHP": 19.5,
+      "survivors": 6,
+      "cuts": 0,
+      "restores": 0
+    }
+  },
+  "mission-observer": {
+    "before": {
+      "meanSeconds": 14.65,
+      "meanHP": 0,
+      "survivors": 0,
+      "cuts": 0,
+      "restores": 0
+    },
+    "after": {
+      "meanSeconds": 18.52,
+      "meanHP": 0,
+      "survivors": 0,
+      "cuts": 6,
+      "restores": 4
+    }
+  },
+  "mission-defender": {
+    "before": {
+      "meanSeconds": 60.0,
+      "meanHP": 27.67,
+      "survivors": 6,
+      "cuts": 0,
+      "restores": 0
+    },
+    "after": {
+      "meanSeconds": 60.0,
+      "meanHP": 28.33,
+      "survivors": 6,
+      "cuts": 8,
+      "restores": 8
+    }
+  },
+  "collision": {
+    "beforeMaxPenetration": 0.1370600306236902,
+    "afterMaxPenetration": 0
+  },
+  "cpu": {
+    "before": {
+      "worstP95Ms": 12.5
+    },
+    "after": {
+      "worstP95Ms": 20.42
+    }
+  },
+  "tests": {
+    "targetedPassed": 67,
+    "targetedFailed": 0,
+    "broadPassed": 325,
+    "broadFailed": 13,
+    "broadSkipped": 1,
+    "allBroadFailuresReproducedOnBaseline": true,
+    "baseline": "5c2bf81",
+    "baselineFixtureMissingExtraArtifact": "nn-harness guard expects mesures/eval-b3.json in the temporary baseline copy"
+  },
+  "frameTimes": {
+    "before-duel": {
+      "p50ms": 16.7,
+      "p95ms": 16.7,
+      "maxMs": 66.6
+    },
+    "before-mission": {
+      "p50ms": 16.7,
+      "p95ms": 33.4,
+      "maxMs": 50.1
+    },
+    "after-duel": {
+      "p50ms": 16.7,
+      "p95ms": 16.7,
+      "maxMs": 16.8
+    },
+    "after-mission": {
+      "p50ms": 16.7,
+      "p95ms": 16.8,
+      "maxMs": 33.4
+    }
+  }
+}

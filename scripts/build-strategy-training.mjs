@@ -1,0 +1,2 @@
+import {build} from 'esbuild';
+await build({entryPoints:['scripts/train-strategy.ts'],outfile:'runs/train-strategy.mjs',bundle:true,platform:'node',format:'esm',external:['@tensorflow/tfjs-node'],banner:{js:"import {createRequire} from 'node:module'; const require=createRequire(import.meta.url); const util=require('node:util'); util.isNullOrUndefined ??= v => v === null || v === undefined; util.isArray ??= Array.isArray;"}});

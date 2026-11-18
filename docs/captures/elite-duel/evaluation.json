@@ -1,0 +1,82 @@
+[
+  {
+    "elite": false,
+    "style": "stationary",
+    "wins": 100,
+    "rounds": 100,
+    "meanSeconds": 0.758,
+    "meanPlayerHp": 30
+  },
+  {
+    "elite": false,
+    "style": "backpedal",
+    "wins": 100,
+    "rounds": 100,
+    "meanSeconds": 1.051,
+    "meanPlayerHp": 29.94
+  },
+  {
+    "elite": false,
+    "style": "strafe",
+    "wins": 100,
+    "rounds": 100,
+    "meanSeconds": 0.941,
+    "meanPlayerHp": 30
+  },
+  {
+    "elite": false,
+    "style": "fist",
+    "wins": 0,
+    "rounds": 100,
+    "meanSeconds": 14.4,
+    "meanPlayerHp": 0
+  },
+  {
+    "elite": false,
+    "style": "expert",
+    "wins": 100,
+    "rounds": 100,
+    "meanSeconds": 0.3,
+    "meanPlayerHp": 30
+  },
+  {
+    "elite": true,
+    "style": "stationary",
+    "wins": 0,
+    "rounds": 100,
+    "meanSeconds": 4.797,
+    "meanPlayerHp": 0
+  },
+  {
+    "elite": true,
+    "style": "backpedal",
+    "wins": 0,
+    "rounds": 100,
+    "meanSeconds": 10.401,
+    "meanPlayerHp": 0
+  },
+  {
+    "elite": true,
+    "style": "strafe",
+    "wins": 0,
+    "rounds": 100,
+    "meanSeconds": 13.838,
+    "meanPlayerHp": 0
+  },
+  {
+    "elite": true,
+    "style": "fist",
+    "wins": 0,
+    "rounds": 100,
+    "meanSeconds": 6.645,
+    "meanPlayerHp": 0
+  },
+  {
+    "elite": true,
+    "style": "expert",
+    "wins": 29,
+    "rounds": 100,
+    "meanSeconds": 13.629,
+    "meanPlayerHp": 2.57
+  }
+]

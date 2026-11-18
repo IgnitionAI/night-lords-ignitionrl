@@ -1,0 +1,40 @@
+{
+  "id": "b0547256-d316-4479-9d16-640856efc52f",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/b0547256-d316-4479-9d16-640856efc52f/your-fear-belongs-to-us-cmwkiv5g.mp3"
+  ],
+  "createdAt": "2026-11-17T10:00:53.201Z",
+  "generationId": "cmwkiv5g703gr3gt90xgrd2m3",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkiv5g703gr3gt90xgrd2m3/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkiv5g703gr3gt90xgrd2m3",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiv5g703gr3gt90xgrd2m3/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/b0547256-d316-4479-9d16-640856efc52f/output/your-fear-belongs-to-us-cmwkiv5g.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkiv5g703gr3gt90xgrd2m3/audio-voice",
+        "bytes": 36823
+      }
+    ],
+    "downloadFailures": []
+  }
+}

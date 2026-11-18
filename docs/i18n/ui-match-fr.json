@@ -1,0 +1,1216 @@
+{
+  "language": "fr",
+  "winner": "imperium",
+  "turns": 18,
+  "mode": "ppo",
+  "trace": [
+    {
+      "turn": 1,
+      "orders": [
+        {
+          "unit": "t0",
+          "kind": "special",
+          "reaction": true
+        },
+        {
+          "unit": "t1",
+          "kind": "scan"
+        },
+        {
+          "unit": "t2",
+          "kind": "scan"
+        }
+      ],
+      "card": "cover",
+      "score": {
+        "imperium": 0,
+        "nightlords": 0
+      },
+      "threat": 1,
+      "contacts": 0
+    },
+    {
+      "turn": 2,
+      "orders": [
+        {
+          "unit": "t0",
+          "kind": "move",
+          "target": {
+            "x": 4,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t1",
+          "kind": "move",
+          "target": {
+            "x": 4,
+            "y": 11
+          }
+        },
+        {
+          "unit": "t2",
+          "kind": "move",
+          "target": {
+            "x": 4,
+            "y": 12
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "move",
+          "target": {
+            "x": 4,
+            "y": 13
+          }
+        }
+      ],
+      "score": {
+        "imperium": 0,
+        "nightlords": 0
+      },
+      "threat": 2,
+      "contacts": 0
+    },
+    {
+      "turn": 3,
+      "orders": [
+        {
+          "unit": "t0",
+          "kind": "move",
+          "target": {
+            "x": 6,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t1",
+          "kind": "move",
+          "target": {
+            "x": 7,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t2",
+          "kind": "move",
+          "target": {
+            "x": 6,
+            "y": 11
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "move",
+          "target": {
+            "x": 4,
+            "y": 16
+          }
+        }
+      ],
+      "score": {
+        "imperium": 0,
+        "nightlords": 0
+      },
+      "threat": 3,
+      "contacts": 0
+    },
+    {
+      "turn": 4,
+      "orders": [
+        {
+          "unit": "t0",
+          "kind": "scan"
+        },
+        {
+          "unit": "t1",
+          "kind": "move",
+          "target": {
+            "x": 10,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t2",
+          "kind": "move",
+          "target": {
+            "x": 4,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "move",
+          "target": {
+            "x": 6,
+            "y": 17
+          }
+        }
+      ],
+      "card": "jam",
+      "score": {
+        "imperium": 0,
+        "nightlords": 0
+      },
+      "threat": 4,
+      "contacts": 2
+    },
+    {
+      "turn": 5,
+      "orders": [
+        {
+          "unit": "t0",
+          "kind": "move",
+          "target": {
+            "x": 8,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t1",
+          "kind": "fire",
+          "target": {
+            "x": 14,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t2",
+          "kind": "move",
+          "target": {
+            "x": 7,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "move",
+          "target": {
+            "x": 9,
+            "y": 17
+          }
+        }
+      ],
+      "card": "crossfire",
+      "score": {
+        "imperium": 0,
+        "nightlords": 0
+      },
+      "threat": 5,
+      "contacts": 2
+    },
+    {
+      "turn": 6,
+      "orders": [
+        {
+          "unit": "t0",
+          "kind": "fire",
+          "target": {
+            "x": 14,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t1",
+          "kind": "fire",
+          "target": {
+            "x": 14,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t2",
+          "kind": "hold"
+        },
+        {
+          "unit": "t3",
+          "kind": "fire",
+          "target": {
+            "x": 13,
+            "y": 17
+          }
+        }
+      ],
+      "score": {
+        "imperium": 0,
+        "nightlords": 0
+      },
+      "threat": 7,
+      "contacts": 1
+    },
+    {
+      "turn": 7,
+      "orders": [
+        {
+          "unit": "t0",
+          "kind": "move",
+          "target": {
+            "x": 10,
+            "y": 11
+          }
+        },
+        {
+          "unit": "t1",
+          "kind": "move",
+          "target": {
+            "x": 13,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t2",
+          "kind": "move",
+          "target": {
+            "x": 4,
+            "y": 11
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "fire",
+          "target": {
+            "x": 13,
+            "y": 17
+          }
+        }
+      ],
+      "score": {
+        "imperium": 0,
+        "nightlords": 0
+      },
+      "threat": 8,
+      "contacts": 1
+    },
+    {
+      "turn": 8,
+      "orders": [
+        {
+          "unit": "t0",
+          "kind": "move",
+          "target": {
+            "x": 13,
+            "y": 11
+          }
+        },
+        {
+          "unit": "t1",
+          "kind": "special",
+          "target": {
+            "x": 19,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t2",
+          "kind": "move",
+          "target": {
+            "x": 4,
+            "y": 14
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "move",
+          "target": {
+            "x": 10,
+            "y": 17
+          }
+        }
+      ],
+      "card": "cover",
+      "score": {
+        "imperium": 0,
+        "nightlords": 1
+      },
+      "threat": 9,
+      "contacts": 1
+    },
+    {
+      "turn": 9,
+      "orders": [
+        {
+          "unit": "t0",
+          "kind": "move",
+          "target": {
+            "x": 15,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t1",
+          "kind": "special",
+          "target": {
+            "x": 19,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t2",
+          "kind": "move",
+          "target": {
+            "x": 4,
+            "y": 17
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "interact",
+          "target": {
+            "x": 11,
+            "y": 17
+          }
+        }
+      ],
+      "card": "jam",
+      "score": {
+        "imperium": 2,
+        "nightlords": 2
+      },
+      "threat": 10,
+      "contacts": 2
+    },
+    {
+      "turn": 10,
+      "orders": [
+        {
+          "unit": "t0",
+          "kind": "fire",
+          "target": {
+            "x": 19,
+            "y": 10
+          },
+          "reaction": true
+        },
+        {
+          "unit": "t2",
+          "kind": "move",
+          "target": {
+            "x": 4,
+            "y": 14
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "move",
+          "target": {
+            "x": 13,
+            "y": 17
+          }
+        }
+      ],
+      "score": {
+        "imperium": 4,
+        "nightlords": 3
+      },
+      "threat": 12,
+      "contacts": 2
+    },
+    {
+      "turn": 11,
+      "orders": [
+        {
+          "unit": "t0",
+          "kind": "fire",
+          "target": {
+            "x": 19,
+            "y": 10
+          },
+          "reaction": true
+        },
+        {
+          "unit": "t2",
+          "kind": "move",
+          "target": {
+            "x": 6,
+            "y": 13
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "move",
+          "target": {
+            "x": 16,
+            "y": 17
+          }
+        }
+      ],
+      "score": {
+        "imperium": 6,
+        "nightlords": 4
+      },
+      "threat": 14,
+      "contacts": 2
+    },
+    {
+      "turn": 12,
+      "orders": [
+        {
+          "unit": "t0",
+          "kind": "fire",
+          "target": {
+            "x": 19,
+            "y": 10
+          },
+          "reaction": true
+        },
+        {
+          "unit": "t2",
+          "kind": "move",
+          "target": {
+            "x": 6,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "move",
+          "target": {
+            "x": 13,
+            "y": 17
+          }
+        }
+      ],
+      "score": {
+        "imperium": 8,
+        "nightlords": 5
+      },
+      "threat": 16,
+      "contacts": 2
+    },
+    {
+      "turn": 13,
+      "orders": [
+        {
+          "unit": "t2",
+          "kind": "move",
+          "target": {
+            "x": 9,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "move",
+          "target": {
+            "x": 16,
+            "y": 17
+          }
+        }
+      ],
+      "score": {
+        "imperium": 10,
+        "nightlords": 6
+      },
+      "threat": 17,
+      "contacts": 2
+    },
+    {
+      "turn": 14,
+      "orders": [
+        {
+          "unit": "t2",
+          "kind": "move",
+          "target": {
+            "x": 12,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "move",
+          "target": {
+            "x": 16,
+            "y": 14
+          }
+        }
+      ],
+      "score": {
+        "imperium": 12,
+        "nightlords": 7
+      },
+      "threat": 18,
+      "contacts": 2
+    },
+    {
+      "turn": 15,
+      "orders": [
+        {
+          "unit": "t2",
+          "kind": "fire",
+          "target": {
+            "x": 14,
+            "y": 10
+          },
+          "reaction": true
+        },
+        {
+          "unit": "t3",
+          "kind": "move",
+          "target": {
+            "x": 16,
+            "y": 11
+          },
+          "reaction": true
+        }
+      ],
+      "score": {
+        "imperium": 14,
+        "nightlords": 8
+      },
+      "threat": 19,
+      "contacts": 1
+    },
+    {
+      "turn": 16,
+      "orders": [
+        {
+          "unit": "t2",
+          "kind": "fire",
+          "target": {
+            "x": 14,
+            "y": 10
+          },
+          "reaction": true
+        },
+        {
+          "unit": "t3",
+          "kind": "fire",
+          "target": {
+            "x": 14,
+            "y": 10
+          },
+          "reaction": true
+        }
+      ],
+      "score": {
+        "imperium": 16,
+        "nightlords": 9
+      },
+      "threat": 21,
+      "contacts": 0
+    },
+    {
+      "turn": 17,
+      "orders": [
+        {
+          "unit": "t2",
+          "kind": "move",
+          "target": {
+            "x": 14,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "move",
+          "target": {
+            "x": 14,
+            "y": 10
+          }
+        }
+      ],
+      "score": {
+        "imperium": 18,
+        "nightlords": 10
+      },
+      "threat": 22,
+      "contacts": 0
+    },
+    {
+      "turn": 18,
+      "orders": [
+        {
+          "unit": "t2",
+          "kind": "special",
+          "target": {
+            "x": 15,
+            "y": 10
+          }
+        },
+        {
+          "unit": "t3",
+          "kind": "interact",
+          "target": {
+            "x": 14,
+            "y": 10
+          }
+        }
+      ],
+      "score": {
+        "imperium": 24,
+        "nightlords": 11
+      },
+      "threat": 23,
+      "contacts": 0
+    }
+  ],
+  "audio": {
+    "vox": {
+      "locale": "fr",
+      "active": null,
+      "caption": null,
+      "pending": [],
+      "gain": 0.5950000286102295,
+      "maxConcurrent": 1,
+      "history": [
+        {
+          "unit": "t0",
+          "event": "select",
+          "line": "select-vael-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-select-vael-1-vox2.mp3",
+          "locale": "fr",
+          "time": 804.3000000119209,
+          "status": "ended"
+        },
+        {
+          "unit": "preview-nightlords",
+          "event": "nl-taunt",
+          "line": "nl-taunt-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-taunt-1-chaos-vox3.mp3",
+          "locale": "fr",
+          "time": 4365.200000017881,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "select",
+          "line": "select-brann-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-select-brann-1-vox2.mp3",
+          "locale": "fr",
+          "time": 8683.800000011921,
+          "status": "loading"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "locale": "fr",
+          "time": 8764.700000017881,
+          "status": "ended"
+        },
+        {
+          "unit": "t1",
+          "event": "scanning",
+          "line": "scanning",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-scanning-vox2.mp3",
+          "locale": "fr",
+          "time": 10685.700000017881,
+          "status": "ended"
+        },
+        {
+          "unit": "t1",
+          "event": "recon-done",
+          "line": "recon-done",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-recon-done-vox2.mp3",
+          "locale": "fr",
+          "time": 13045.40000000596,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "locale": "fr",
+          "time": 13404.5,
+          "status": "ended"
+        },
+        {
+          "unit": "t1",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-moving-vox2.mp3",
+          "locale": "fr",
+          "time": 14845.300000011921,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "locale": "fr",
+          "time": 18045.600000023842,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+          "locale": "fr",
+          "time": 19965.600000023842,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "locale": "fr",
+          "time": 22684.20000001788,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "scanning",
+          "line": "scanning",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-scanning-vox2.mp3",
+          "locale": "fr",
+          "time": 24125.600000023842,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "contact",
+          "line": "contact",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-contact-vox2.mp3",
+          "locale": "fr",
+          "time": 26949.90000000596,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "locale": "fr",
+          "time": 27445.20000001788,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+          "locale": "fr",
+          "time": 29365.40000000596,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t1",
+          "event": "hurt",
+          "line": "hurt",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-hurt-vox2.mp3",
+          "locale": "fr",
+          "time": 30565.600000023842,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "locale": "fr",
+          "time": 32164.30000001192,
+          "status": "ended"
+        },
+        {
+          "unit": "n4",
+          "event": "nl-attack",
+          "line": "nl-attack-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-attack-2-chaos-vox3.mp3",
+          "locale": "fr",
+          "time": 35005.40000000596,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n0",
+          "event": "nl-death",
+          "line": "nl-death-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+          "locale": "fr",
+          "time": 35245,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "locale": "fr",
+          "time": 36884,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+          "locale": "fr",
+          "time": 38805.5,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n4",
+          "event": "nl-death",
+          "line": "nl-death-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+          "locale": "fr",
+          "time": 39965.5,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "locale": "fr",
+          "time": 41603.80000001192,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-moving-vox2.mp3",
+          "locale": "fr",
+          "time": 43045.30000001192,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t1",
+          "event": "hurt",
+          "line": "hurt",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t1-hurt-vox2.mp3",
+          "locale": "fr",
+          "time": 44685.60000002384,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "locale": "fr",
+          "time": 46325.30000001192,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "working",
+          "line": "working",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-working-vox2.mp3",
+          "locale": "fr",
+          "time": 48246.10000002384,
+          "status": "ended"
+        },
+        {
+          "unit": "t0",
+          "event": "fallen",
+          "line": "fallen",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-fallen-vox2.mp3",
+          "locale": "fr",
+          "time": 50574.30000001192,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "locale": "fr",
+          "time": 51005,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+          "locale": "fr",
+          "time": 52485.30000001192,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "hurt",
+          "line": "hurt",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-hurt-vox2.mp3",
+          "locale": "fr",
+          "time": 54083.80000001192,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "locale": "fr",
+          "time": 55684.5,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+          "locale": "fr",
+          "time": 57605.5,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t0",
+          "event": "hurt",
+          "line": "hurt",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t0-hurt-vox2.mp3",
+          "locale": "fr",
+          "time": 58765.30000001192,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "locale": "fr",
+          "time": 60245.70000001788,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+          "locale": "fr",
+          "time": 61684.70000001788,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n2",
+          "event": "nl-death",
+          "line": "nl-death-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-1-chaos-vox3.mp3",
+          "locale": "fr",
+          "time": 63368,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t2",
+          "event": "fallen",
+          "line": "fallen",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-fallen-vox2.mp3",
+          "locale": "fr",
+          "time": 64616.70000001788,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "locale": "fr",
+          "time": 64767.10000002384,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+          "locale": "fr",
+          "time": 66684.60000002384,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "locale": "fr",
+          "time": 69245.60000002384,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+          "locale": "fr",
+          "time": 70684.60000002384,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "contact",
+          "line": "contact",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-contact-vox2.mp3",
+          "locale": "fr",
+          "time": 73491.30000001192,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "locale": "fr",
+          "time": 73805.30000001192,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-moving-vox2.mp3",
+          "locale": "fr",
+          "time": 75724.90000000596,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t2",
+          "event": "hurt",
+          "line": "hurt",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-hurt-vox2.mp3",
+          "locale": "fr",
+          "time": 76925.70000001788,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "locale": "fr",
+          "time": 78364.80000001192,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "firing",
+          "line": "firing",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-firing-vox2.mp3",
+          "locale": "fr",
+          "time": 81203.80000001192,
+          "status": "interrupted"
+        },
+        {
+          "unit": "n5",
+          "event": "nl-death",
+          "line": "nl-death-growl",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/nightlords-nl-death-growl-chaos-vox3.mp3",
+          "locale": "fr",
+          "time": 81445.20000001788,
+          "status": "interrupted"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-2",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-2-vox2.mp3",
+          "locale": "fr",
+          "time": 82884.60000002384,
+          "status": "ended"
+        },
+        {
+          "unit": "t2",
+          "event": "moving",
+          "line": "moving",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t2-moving-vox2.mp3",
+          "locale": "fr",
+          "time": 84805.10000002384,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "execute",
+          "line": "execute-1",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-execute-1-vox2.mp3",
+          "locale": "fr",
+          "time": 87364.80000001192,
+          "status": "ended"
+        },
+        {
+          "unit": "t3",
+          "event": "working",
+          "line": "working",
+          "source": "http://127.0.0.1:18231/assets/sfx/vox/t3-working-vox2.mp3",
+          "locale": "fr",
+          "time": 88806.10000002384,
+          "status": "ended"
+        }
+      ],
+      "errors": []
+    },
+    "duckLevel": 0.9999846732557124,
+    "enabled": true,
+    "phase": "ending",
+    "volumes": {
+      "master": 0.7,
+      "music": 0.3,
+      "ambience": 0.28,
+      "effects": 0.65,
+      "vox": 0.85
+    },
+    "played": {
+      "servo": 95,
+      "bolter": 27,
+      "impact": 22
+    },
+    "transitions": [
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → planning",
+      "planning → combat",
+      "combat → planning",
+      "planning → ending"
+    ],
+    "errors": [],
+    "tracks": [
+      {
+        "name": "planning",
+        "paused": false,
+        "time": 9.574771,
+        "volume": 0.07621752023396877,
+        "ready": 4
+      },
+      {
+        "name": "combat",
+        "paused": true,
+        "time": 0,
+        "volume": 6.129073374152594e-8,
+        "ready": 4
+      },
+      {
+        "name": "ending",
+        "paused": false,
+        "time": 0.570773,
+        "volume": 0.13377919985899706,
+        "ready": 4
+      },
+      {
+        "name": "hull",
+        "paused": false,
+        "time": 11.632321,
+        "volume": 0.19599999999999987,
+        "ready": 4
+      }
+    ]
+  },
+  "errors": [],
+  "failed": [],
+  "checks": [
+    "shared budget refuses overcommit",
+    "cards and reserve via actual buttons",
+    "unique ability via button",
+    "PPO selectable and complete match",
+    "held-out evaluation displayed",
+    "no page/audio/asset errors"
+  ]
+}

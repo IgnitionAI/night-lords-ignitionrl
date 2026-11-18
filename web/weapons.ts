@@ -4,7 +4,7 @@
 // la main dans toutes les animations. `flip` choisit le bout tenu, `grip` place la paume le long du manche.
 import * as THREE from 'three';
 export type WeaponSpec = { bone: 'RightHand' | 'LeftHand'; length: number; flip?: boolean; grip?: number; roll?: number; dir?: [number, number, number] };
-function principalAxis(obj: THREE.Object3D) {
+export function principalAxis(obj: THREE.Object3D) {
   const pts: THREE.Vector3[] = []; obj.updateMatrixWorld(true);
   obj.traverse(o => { const m = o as THREE.Mesh; if (!m.isMesh) return; const p = m.geometry.getAttribute('position'); const step = Math.max(1, Math.floor(p.count / 3000));
     for (let i = 0; i < p.count; i += step) pts.push(new THREE.Vector3().fromBufferAttribute(p, i).applyMatrix4(m.matrixWorld)); });
@@ -42,16 +42,19 @@ export const NL_WEAPONS: [string, WeaponSpec][][] = [
 
 /** Fixe les armes d'un rôle. Le personnage est posé un instant sur `idle` (1,2 s) pour orienter les armes,
  *  puis rendu à son mixer. À appeler avant de rattacher la racine à la scène. */
-export async function equipNl(root: THREE.Object3D, role: number, idle: THREE.AnimationClip | null, load: (url: string) => Promise<{ scene: THREE.Object3D }>) {
-  const list = NL_WEAPONS[role] ?? [];
+export async function equipNl(root: THREE.Object3D, role: number, idle: THREE.AnimationClip | null, load: (url: string) => Promise<{ scene: THREE.Object3D }>, sidearm=false) {
+  const list: [string,WeaponSpec][] = [...(NL_WEAPONS[role] ?? [])];
+  // FPS brothers retain their approved melee weapon and carry the existing bolter in their free hand.
+  if(sidearm&&role<3)list.push(['bolter',{bone:'LeftHand',length:.68,grip:.35,dir:[0,0,1]}]);
   const meshes = await Promise.all(list.map(([w]) => load(`/web/models/weapons/${w}.glb`).then((g) => g.scene, () => null)));
   const tmp = idle ? new THREE.AnimationMixer(root) : null;
   if (tmp && idle) { tmp.clipAction(idle).play(); tmp.update(1.2); }
   root.updateMatrixWorld(true);
   list.forEach(([, spec], k) => {
     const w = meshes[k]; if (!w) return;
+    const supportGun=sidearm&&role<3&&spec.bone==='LeftHand';
     w.traverse((o) => {
-      o.frustumCulled = false; const m = o as THREE.Mesh; if (!m.isMesh) return; m.castShadow = true;
+      o.frustumCulled = supportGun; const m = o as THREE.Mesh; if (!m.isMesh) return; m.castShadow = !supportGun;
       // Même calage que les armures : l'or et l'acier Genex sortent éclairés studio, trop chauds dans le couloir.
       const mat = m.material as THREE.MeshStandardMaterial; if (mat?.color) { mat.color.multiplyScalar(.5); mat.envMapIntensity = .25; }
     });

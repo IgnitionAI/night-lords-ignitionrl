@@ -1,0 +1,61 @@
+{
+  "matches": [
+    {
+      "mode": "adaptive",
+      "identicalTo2D": true,
+      "turns": 11,
+      "winner": "imperium",
+      "score": {
+        "imperium": 12,
+        "nightlords": 4
+      }
+    },
+    {
+      "mode": "baseline",
+      "identicalTo2D": true,
+      "turns": 18,
+      "winner": "nightlords",
+      "score": {
+        "imperium": 17,
+        "nightlords": 36
+      }
+    },
+    {
+      "mode": "ppo",
+      "identicalTo2D": true,
+      "turns": 21,
+      "winner": "imperium",
+      "score": {
+        "imperium": 31,
+        "nightlords": 10
+      }
+    }
+  ],
+  "sources": [
+    {
+      "path": "src/strategy/engine.ts",
+      "unchanged": true,
+      "sha256": "8c789138f3bd88462d9f7be1be359c88073a13f8f082ce5598b2e2a3e401cbe9"
+    },
+    {
+      "path": "src/strategy/agents.ts",
+      "unchanged": true,
+      "sha256": "3421ff8e27efdcb5ce37680c7a49871ac4aa338159da5be0a18f54ba1fe82a68"
+    },
+    {
+      "path": "policies/strategy-actor.json",
+      "unchanged": true,
+      "sha256": "c97f67f9c540b5d7c50bef0eb5d31fa5d7746b48a7a6859ab9f03e65b51e96d3"
+    },
+    {
+      "path": "web/main.ts",
+      "unchanged": true,
+      "sha256": "c962ff7c4ebb691335e236f028048df65cbd5e8db1d6c13d036922a645c7c3ef"
+    },
+    {
+      "path": "web/fps.html",
+      "unchanged": true,
+      "sha256": "1e1f96674c4c0f3d7f168a8278a03cd8318b446700dac86f2ea577c263bf42ed"
+    }
+  ]
+}

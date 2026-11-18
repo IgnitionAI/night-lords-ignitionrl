@@ -1,0 +1,14 @@
+{
+  "armor-tread": [
+    "[Parsed_volumedetect_0 @ 0xa0705c600] mean_volume: -17.1 dB",
+    "[Parsed_volumedetect_0 @ 0xa0705c600] max_volume: -1.3 dB"
+  ],
+  "armor-lock": [
+    "[Parsed_volumedetect_0 @ 0x7ad00cb40] mean_volume: -21.9 dB",
+    "[Parsed_volumedetect_0 @ 0x7ad00cb40] max_volume: -3.0 dB"
+  ],
+  "armor-vibro": [
+    "[Parsed_volumedetect_0 @ 0x7d500cb40] mean_volume: -17.2 dB",
+    "[Parsed_volumedetect_0 @ 0x7d500cb40] max_volume: -8.4 dB"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "id": "d9ecc659-836e-414f-8aa7-b34b6bf6725d",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/d9ecc659-836e-414f-8aa7-b34b6bf6725d/armour-hit-i-hold-cmwkir50.mp3"
+  ],
+  "createdAt": "2026-11-17T09:57:45.996Z",
+  "generationId": "cmwkir50003j130qkrbndd8io",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwkir50003j130qkrbndd8io/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwkir50003j130qkrbndd8io",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwkir50003j130qkrbndd8io/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/d9ecc659-836e-414f-8aa7-b34b6bf6725d/output/armour-hit-i-hold-cmwkir50.mp3",
+        "url": "https://assets.genex.technology/generations/cmwkir50003j130qkrbndd8io/audio-voice",
+        "bytes": 36823
+      }
+    ],
+    "downloadFailures": []
+  }
+}

@@ -212,33 +212,33 @@
     },
     {
       "name": "nl-vox-come-for-you",
-      "file": "nl-vox-come-for-you.ogg",
+      "file": "helmet-threat.ogg",
       "bus": "voice",
-      "gain": 0.72,
+      "gain": 0.5,
       "spatial": true,
       "priority": 7,
-      "license": "CC0 1.0 (layered Freesound recordings)",
-      "source": "see web/sfx/CREDITS.md"
+      "license": "Generated with Genex voice; local helmet filter",
+      "source": "Genex generation cmwiewmnw008h2ql4txsx8w5j"
     },
     {
       "name": "nl-scream",
-      "file": "nl-scream.ogg",
+      "file": "armored-growl.ogg",
       "bus": "voice",
-      "gain": 0.58,
+      "gain": 0.65,
       "spatial": true,
       "priority": 6,
-      "license": "CC0 1.0 (layered Freesound recordings)",
-      "source": "see web/sfx/CREDITS.md"
+      "license": "Generated with Genex audio",
+      "source": "Genex generation cmwieu0aw00812ql42d53vmyq"
     },
     {
       "name": "nl-death",
-      "file": "nl-death.ogg",
+      "file": "armored-death.ogg",
       "bus": "voice",
-      "gain": 0.84,
+      "gain": 0.45,
       "spatial": true,
       "priority": 9,
-      "license": "CC0 1.0 (layered Freesound recordings)",
-      "source": "see web/sfx/CREDITS.md"
+      "license": "Generated with Genex audio; local death variation",
+      "source": "Genex generation cmwieu0aw00812ql42d53vmyq"
     },
     {
       "name": "alarm-klaxon",
@@ -252,14 +252,14 @@
     },
     {
       "name": "amb-drone",
-      "file": "amb-drone.ogg",
+      "file": "hull-dread.ogg",
       "bus": "ambience",
-      "gain": 0.42,
+      "gain": 0.5,
       "loop": true,
       "spatial": false,
       "priority": 2,
-      "license": "CC0 1.0 (layered Freesound recordings)",
-      "source": "see web/sfx/CREDITS.md"
+      "license": "Generated with Genex audio",
+      "source": "Genex generation cmwieu0z2007n30o15i0febnn"
     },
     {
       "name": "amb-drip",
@@ -286,7 +286,7 @@
       "name": "music-explore",
       "file": "music-explore.ogg",
       "bus": "music",
-      "gain": 0.38,
+      "gain": 0.171,
       "loop": true,
       "spatial": false,
       "priority": 1,
@@ -297,7 +297,7 @@
       "name": "music-tension",
       "file": "music-tension.ogg",
       "bus": "music",
-      "gain": 0.44,
+      "gain": 0.198,
       "loop": true,
       "spatial": false,
       "priority": 1,
@@ -308,7 +308,7 @@
       "name": "music-combat",
       "file": "music-combat.ogg",
       "bus": "music",
-      "gain": 0.5,
+      "gain": 0.225,
       "loop": true,
       "spatial": false,
       "priority": 1,
@@ -344,6 +344,36 @@
       "priority": 0,
       "license": "CC0 1.0 (layered Freesound recordings)",
       "source": "see web/sfx/CREDITS.md"
+    },
+    {
+      "name": "armor-tread",
+      "file": "armor-tread.ogg",
+      "bus": "sfx",
+      "gain": 0.7,
+      "spatial": false,
+      "priority": 6,
+      "license": "CC0 1.0 (original procedural synthesis)",
+      "source": "scripts/build-armor-sounds.py"
+    },
+    {
+      "name": "armor-lock",
+      "file": "armor-lock.ogg",
+      "bus": "sfx",
+      "gain": 0.45,
+      "spatial": false,
+      "priority": 6,
+      "license": "CC0 1.0 (original procedural synthesis)",
+      "source": "scripts/build-armor-sounds.py"
+    },
+    {
+      "name": "armor-vibro",
+      "file": "armor-vibro.ogg",
+      "bus": "sfx",
+      "gain": 0.6,
+      "spatial": false,
+      "priority": 6,
+      "license": "CC0 1.0 (original procedural synthesis)",
+      "source": "scripts/build-armor-sounds.py"
     }
   ]
 }

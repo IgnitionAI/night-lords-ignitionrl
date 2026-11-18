@@ -1,0 +1,40 @@
+{
+  "id": "c8b5c337-f4a4-470a-9251-fbdae291ee7f",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/c8b5c337-f4a4-470a-9251-fbdae291ee7f/feu-purificateur-cmwjl8ro.mp3"
+  ],
+  "createdAt": "2026-11-16T18:21:35.510Z",
+  "generationId": "cmwjl8ror005r2bny7c1jhhk9",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjl8ror005r2bny7c1jhhk9/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjl8ror005r2bny7c1jhhk9",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl8ror005r2bny7c1jhhk9/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/c8b5c337-f4a4-470a-9251-fbdae291ee7f/output/feu-purificateur-cmwjl8ro.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjl8ror005r2bny7c1jhhk9/audio-voice",
+        "bytes": 26792
+      }
+    ],
+    "downloadFailures": []
+  }
+}

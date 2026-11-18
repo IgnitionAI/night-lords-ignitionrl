@@ -1,0 +1,6975 @@
+[
+  {
+    "mode": "adaptive",
+    "winner": "imperium",
+    "turn": 12,
+    "score": {
+      "imperium": 12,
+      "nightlords": 4
+    },
+    "errors": [],
+    "audio": {
+      "enabled": true,
+      "phase": "ending",
+      "volumes": {
+        "master": 0.7,
+        "music": 0.3,
+        "ambience": 0.28,
+        "effects": 0.65
+      },
+      "played": {
+        "servo": 67,
+        "bolter": 18,
+        "impact": 12
+      },
+      "transitions": [
+        "planning → combat",
+        "combat → planning",
+        "planning → combat",
+        "combat → planning",
+        "planning → combat",
+        "combat → ending"
+      ],
+      "errors": [],
+      "tracks": [
+        {
+          "name": "planning",
+          "paused": false,
+          "time": 63.045227,
+          "volume": 0.0026678059337600854,
+          "ready": 4
+        },
+        {
+          "name": "combat",
+          "paused": false,
+          "time": 8.922532,
+          "volume": 0.01922641741712543,
+          "ready": 4
+        },
+        {
+          "name": "ending",
+          "paused": false,
+          "time": 4.314529,
+          "volume": 0.18810577664911446,
+          "ready": 4
+        },
+        {
+          "name": "hull",
+          "paused": false,
+          "time": 8.995108,
+          "volume": 0.19599999999999987,
+          "ready": 4
+        }
+      ]
+    },
+    "trace": [
+      {
+        "turn": 1,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 5,
+              "y": 9
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 9
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 12
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 13
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 66.70000000000073,
+            "p95": 116.59999999999945
+          },
+          "animations": [
+            "walk",
+            "idle"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 1.1500000000000004,
+              "position": [
+                4.5,
+                0,
+                9.5
+              ],
+              "head": [
+                4.50315698463094,
+                0.7455545312245413,
+                9.497420146321387
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 1.1500000000000004,
+              "position": [
+                6.5,
+                0,
+                9.5
+              ],
+              "head": [
+                6.502631160876914,
+                0.7455545312245413,
+                9.503114352164229
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 1.1500000000000004,
+              "position": [
+                4.5,
+                0,
+                11.5
+              ],
+              "head": [
+                4.502630750133022,
+                0.7455545312245413,
+                11.503114699134851
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 1.1500000000000004,
+              "position": [
+                4.5,
+                0,
+                13.5
+              ],
+              "head": [
+                4.502581192897445,
+                0.7455545312245413,
+                13.503155889761894
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 2,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 8,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 14
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 16
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 66.70000000000073,
+            "p95": 116.69999999999891
+          },
+          "animations": [
+            "walk",
+            "idle"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 1.2000000000000004,
+              "position": [
+                6.5,
+                0,
+                10.5
+              ],
+              "head": [
+                6.502328510869738,
+                0.7455184702943264,
+                10.502763370364162
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 1.2000000000000004,
+              "position": [
+                8.5,
+                0,
+                10.5
+              ],
+              "head": [
+                8.502359712292415,
+                0.7455184702943264,
+                10.502736774842223
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 1.2000000000000004,
+              "position": [
+                4.5,
+                0,
+                14.5
+              ],
+              "head": [
+                4.502323432521256,
+                0.7455184702943264,
+                14.502767641587921
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 1.2000000000000004,
+              "position": [
+                4.5,
+                0,
+                16.5
+              ],
+              "head": [
+                4.5023234322793915,
+                0.7455184702943264,
+                16.502767641790967
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 3,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 9,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 66.70000000000073,
+            "p95": 116.59999999999854
+          },
+          "animations": [
+            "walk",
+            "idle"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 1.1500000000000004,
+              "position": [
+                9.5,
+                0,
+                10.5
+              ],
+              "head": [
+                9.502631133860595,
+                0.7455545312245413,
+                10.503114374988767
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 1.1500000000000004,
+              "position": [
+                11.5,
+                0,
+                10.5
+              ],
+              "head": [
+                11.502631134055958,
+                0.7455545312245413,
+                10.503114374823719
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 1.1500000000000004,
+              "position": [
+                4.5,
+                0,
+                17.5
+              ],
+              "head": [
+                4.502579853678614,
+                0.7455545312245413,
+                17.503156984630937
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 1.1500000000000004,
+              "position": [
+                6.5,
+                0,
+                17.5
+              ],
+              "head": [
+                6.502630272285438,
+                0.7455545312245413,
+                17.503115102673668
+              ]
+            },
+            {
+              "id": "n3",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.47437684584969,
+                0.6765913779326006,
+                17.499614108079424
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 4,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 12,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 216,
+          "triangles": 112126,
+          "frameMs": {
+            "median": 66.70000000000437,
+            "p95": 116.59999999999854
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                12.5,
+                0,
+                10.5
+              ],
+              "head": [
+                12.522162091126107,
+                0.7472878475140865,
+                10.503913295739117
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 1.5500000000000007,
+              "position": [
+                13.5,
+                0,
+                10.5
+              ],
+              "head": [
+                13.502275337183757,
+                0.7456172628765844,
+                10.501039588507414
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                4.5,
+                0,
+                17.5
+              ],
+              "head": [
+                4.49788656258972,
+                0.7455480910234698,
+                17.50807346667633
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                6.5,
+                0,
+                17.5
+              ],
+              "head": [
+                6.497886564525409,
+                0.7455480910234698,
+                17.508073467183046
+              ]
+            },
+            {
+              "id": "n0",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                15.5,
+                0,
+                10.5
+              ],
+              "head": [
+                15.49530563950315,
+                0.6745807269063266,
+                10.501211894140296
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 5,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 7,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 9,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 216,
+          "triangles": 112126,
+          "frameMs": {
+            "median": 83.19999999999709,
+            "p95": 116.59999999999854
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                12.5,
+                0,
+                10.5
+              ],
+              "head": [
+                12.497886751715944,
+                0.7455480910234698,
+                10.508073516182613
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                10.5
+              ],
+              "head": [
+                13.497886751715944,
+                0.7455480910234698,
+                10.508073516182613
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 1.1000000000000003,
+              "position": [
+                7.5,
+                0,
+                17.5
+              ],
+              "head": [
+                7.5028794047858405,
+                0.7455925579290743,
+                17.50350536771825
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 1.1000000000000003,
+              "position": [
+                9.5,
+                0,
+                17.5
+              ],
+              "head": [
+                9.502879404785853,
+                0.7455925579290743,
+                17.503505367718244
+              ]
+            },
+            {
+              "id": "n4",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.49530563950315,
+                0.6745807269063266,
+                17.501211894140297
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 6,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "interact",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 13,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 13,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 216,
+          "triangles": 112126,
+          "frameMs": {
+            "median": 83.29999999999563,
+            "p95": 116.69999999999709
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 8.499999999999986,
+              "position": [
+                12.5,
+                0,
+                10.5
+              ],
+              "head": [
+                12.51026531641679,
+                0.7465626214821287,
+                10.51850371826084
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                10.5
+              ],
+              "head": [
+                13.497886751718227,
+                0.7455480910234698,
+                10.50807351618321
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                7.5,
+                0,
+                17.5
+              ],
+              "head": [
+                7.497886564992204,
+                0.7455480910234698,
+                17.50807346730524
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                9.5,
+                0,
+                17.5
+              ],
+              "head": [
+                9.497886564992204,
+                0.7455480910234698,
+                17.50807346730524
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 7,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 15,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 10,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 223,
+          "triangles": 124234,
+          "frameMs": {
+            "median": 83.29999999998836,
+            "p95": 116.60000000000582
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0.3,
+              "position": [
+                14.5,
+                0,
+                10.5
+              ],
+              "head": [
+                14.50703873424006,
+                0.7461769267977183,
+                10.500351421618168
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0.3,
+              "position": [
+                16.5,
+                0,
+                10.5
+              ],
+              "head": [
+                16.507038734240062,
+                0.7461769267977183,
+                10.500351421618168
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0.3,
+              "position": [
+                10.5,
+                0,
+                17.5
+              ],
+              "head": [
+                10.507038734239995,
+                0.7461769267977183,
+                17.500351421619506
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 1.900000000000001,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.494157251216503,
+                0.7458660399501029,
+                17.50315639662604
+              ]
+            },
+            {
+              "id": "n2",
+              "clip": "idle",
+              "time": 1.1000000000000003,
+              "position": [
+                19.5,
+                0,
+                10.5
+              ],
+              "head": [
+                19.48557538882297,
+                0.6786253630112629,
+                10.497925678049944
+              ]
+            },
+            {
+              "id": "n5",
+              "clip": "idle",
+              "time": 1.1000000000000003,
+              "position": [
+                15.5,
+                0,
+                17.5
+              ],
+              "head": [
+                15.478343902571657,
+                0.6696109858226539,
+                17.51044841100622
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 8,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "fire",
+            "target": {
+              "x": 19,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 19,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 219,
+          "triangles": 124206,
+          "frameMs": {
+            "median": 83.29999999998836,
+            "p95": 116.69999999999709
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                14.5,
+                0,
+                10.5
+              ],
+              "head": [
+                14.497886751718227,
+                0.7455480910234698,
+                10.50807351618321
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                16.5,
+                0,
+                10.5
+              ],
+              "head": [
+                16.49788675171823,
+                0.7455480910234698,
+                10.50807351618321
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                10.5,
+                0,
+                17.5
+              ],
+              "head": [
+                10.497886751718227,
+                0.7455480910234698,
+                17.508073516183213
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.49788647093594,
+                0.7455480910234698,
+                17.50807344268304
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 9,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 11
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 13
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "interact",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "interact",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 83.29999999998836,
+            "p95": 116.60000000000582
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                16.5,
+                0,
+                11.5
+              ],
+              "head": [
+                16.484217644608115,
+                0.7476627117883528,
+                11.532449791612978
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                16.5,
+                0,
+                13.5
+              ],
+              "head": [
+                16.48414535556833,
+                0.7476627117883528,
+                13.532414533274244
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                10.5,
+                0,
+                17.5
+              ],
+              "head": [
+                10.497886751718227,
+                0.7455480910234698,
+                17.508073516183213
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.4919264614356,
+                0.7455480910234698,
+                17.49788683722583
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 10,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 8
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          },
+          {
+            "unit": "t3",
+            "kind": "guard"
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 83.19999999999709,
+            "p95": 116.60000000000582
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 1.2000000000000004,
+              "position": [
+                16.5,
+                0,
+                8.5
+              ],
+              "head": [
+                16.50239678347543,
+                0.7455184702943264,
+                8.502704368246357
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 1.2000000000000004,
+              "position": [
+                16.5,
+                0,
+                10.5
+              ],
+              "head": [
+                16.502396783425866,
+                0.7455184702943264,
+                10.502704368290285
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                10.5,
+                0,
+                17.5
+              ],
+              "head": [
+                10.497886751718227,
+                0.7455480910234698,
+                17.508073516183213
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.491926483816608,
+                0.7455480910234698,
+                17.497886751718934
+              ]
+            },
+            {
+              "id": "n1",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                16.5,
+                0,
+                5.5
+              ],
+              "head": [
+                16.475799397772807,
+                0.6699301820394168,
+                5.510786241865563
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 11,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "fire",
+            "target": {
+              "x": 16,
+              "y": 5
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 16,
+              "y": 5
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          },
+          {
+            "unit": "t3",
+            "kind": "guard"
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 216,
+          "triangles": 112126,
+          "frameMs": {
+            "median": 83.29999999998836,
+            "p95": 116.69999999999709
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                16.5,
+                0,
+                8.5
+              ],
+              "head": [
+                16.5080733964575,
+                0.7455480910234698,
+                8.502113705632533
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                16.5,
+                0,
+                10.5
+              ],
+              "head": [
+                16.508073396457497,
+                0.7455480910234698,
+                10.502113705632537
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                10.5,
+                0,
+                17.5
+              ],
+              "head": [
+                10.497886751718227,
+                0.7455480910234698,
+                17.508073516183213
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.49192648381679,
+                0.7455480910234698,
+                17.49788675171823
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "mode": "baseline",
+    "winner": "nightlords",
+    "turn": 19,
+    "score": {
+      "imperium": 17,
+      "nightlords": 36
+    },
+    "errors": [],
+    "audio": {
+      "enabled": true,
+      "phase": "ending",
+      "volumes": {
+        "master": 0.7,
+        "music": 0.3,
+        "ambience": 0.28,
+        "effects": 0.65
+      },
+      "played": {
+        "servo": 57,
+        "bolter": 23,
+        "impact": 22
+      },
+      "transitions": [
+        "planning → combat",
+        "combat → planning",
+        "planning → combat",
+        "combat → planning",
+        "planning → ending"
+      ],
+      "errors": [],
+      "tracks": [
+        {
+          "name": "planning",
+          "paused": false,
+          "time": 32.238077,
+          "volume": 0.02366942980749562,
+          "ready": 4
+        },
+        {
+          "name": "combat",
+          "paused": true,
+          "time": 0,
+          "volume": 8.42110360512931e-10,
+          "ready": 4
+        },
+        {
+          "name": "ending",
+          "paused": false,
+          "time": 3.822064,
+          "volume": 0.186330569350394,
+          "ready": 4
+        },
+        {
+          "name": "hull",
+          "paused": false,
+          "time": 11.721651,
+          "volume": 0.19599999999999987,
+          "ready": 4
+        }
+      ]
+    },
+    "trace": [
+      {
+        "turn": 1,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 8
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 9
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 12
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 9
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 66.70000000000073,
+            "p95": 116.60000000000036
+          },
+          "animations": [
+            "walk",
+            "idle"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 1.7000000000000008,
+              "position": [
+                3.5,
+                0,
+                9.5
+              ],
+              "head": [
+                3.5043097860889283,
+                0.7457640408162246,
+                9.50034334267618
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 1.2000000000000004,
+              "position": [
+                6.5,
+                0,
+                9.5
+              ],
+              "head": [
+                6.502360355223735,
+                0.7455184702943264,
+                9.502736220359875
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 1.2000000000000004,
+              "position": [
+                4.5,
+                0,
+                11.5
+              ],
+              "head": [
+                4.5023601575173755,
+                0.7455184702943264,
+                11.502736390895542
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 1.7000000000000008,
+              "position": [
+                4.5,
+                0,
+                10.5
+              ],
+              "head": [
+                4.503288518898724,
+                0.7457640408162246,
+                10.497193261006373
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 2,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 8,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 14
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 66.70000000000073,
+            "p95": 116.70000000000073
+          },
+          "animations": [
+            "walk",
+            "idle"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0.38333377838135474,
+              "position": [
+                3.5,
+                0,
+                9.5
+              ],
+              "head": [
+                3.50258723192324,
+                0.7461250480609765,
+                9.493499765688867
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                8.5,
+                0,
+                10.5
+              ],
+              "head": [
+                8.52530459785316,
+                0.747559609105669,
+                10.510546538385226
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                4.5,
+                0,
+                14.5
+              ],
+              "head": [
+                4.489460437914105,
+                0.747559609105669,
+                14.525307504330904
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0.38333377838135474,
+              "position": [
+                4.5,
+                0,
+                10.5
+              ],
+              "head": [
+                4.499407074888777,
+                0.7461250480609765,
+                10.493028970310155
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 3,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 83.29999999999563,
+            "p95": 133.29999999999927
+          },
+          "animations": [
+            "walk",
+            "idle"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 8.433333778381341,
+              "position": [
+                3.5,
+                0,
+                9.5
+              ],
+              "head": [
+                3.5213544279635687,
+                0.7466323813783522,
+                9.498360754195348
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                10.5
+              ],
+              "head": [
+                11.527630716712352,
+                0.7475679742165078,
+                10.517544180459458
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                4.5,
+                0,
+                17.5
+              ],
+              "head": [
+                4.4824558203670195,
+                0.7475679742165078,
+                17.52763071723712
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 8.433333778381341,
+              "position": [
+                4.5,
+                0,
+                10.5
+              ],
+              "head": [
+                4.518366888004795,
+                0.7466323813783522,
+                10.48898382346371
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 4,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 7,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 83.29999999999927,
+            "p95": 133.3000000000029
+          },
+          "animations": [
+            "walk",
+            "idle"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 7.066667556762694,
+              "position": [
+                3.5,
+                0,
+                9.5
+              ],
+              "head": [
+                3.5160608174053998,
+                0.7458226346464418,
+                9.504272190437153
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 1.6500000000000008,
+              "position": [
+                13.5,
+                0,
+                10.5
+              ],
+              "head": [
+                13.50269205210272,
+                0.745725376952525,
+                10.502522128985882
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 1.2000000000000004,
+              "position": [
+                7.5,
+                0,
+                17.5
+              ],
+              "head": [
+                7.502360326243356,
+                0.7455184702943264,
+                17.502736245359056
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 7.066667556762694,
+              "position": [
+                4.5,
+                0,
+                10.5
+              ],
+              "head": [
+                4.516275813443134,
+                0.7458226346464418,
+                10.496638547393582
+              ]
+            },
+            {
+              "id": "n0",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                15.5,
+                0,
+                10.5
+              ],
+              "head": [
+                15.49530563950315,
+                0.6745807269063266,
+                10.501211894140296
+              ]
+            },
+            {
+              "id": "n3",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.47437684584969,
+                0.6765913779326006,
+                17.499614108079424
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 5,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 223,
+          "triangles": 124234,
+          "frameMs": {
+            "median": 83.30000000000291,
+            "p95": 133.3000000000029
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 5.3000013351440565,
+              "position": [
+                3.5,
+                0,
+                9.5
+              ],
+              "head": [
+                3.5000838017446037,
+                0.7459525167532917,
+                9.492605342724767
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                10.5
+              ],
+              "head": [
+                13.497886751718227,
+                0.7455480910234698,
+                10.50807351618321
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                7.5,
+                0,
+                17.5
+              ],
+              "head": [
+                7.497886411629776,
+                0.7455480910234698,
+                17.50807342715718
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 5.3000013351440565,
+              "position": [
+                4.5,
+                0,
+                10.5
+              ],
+              "head": [
+                4.496767963291479,
+                0.7459525167532917,
+                10.49334854018539
+              ]
+            },
+            {
+              "id": "n0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                15.5,
+                0,
+                10.5
+              ],
+              "head": [
+                15.488559050586115,
+                0.6761558210432825,
+                10.48790586243676
+              ]
+            },
+            {
+              "id": "n3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.4809913807958,
+                0.6770042154548449,
+                17.491305822466767
+              ]
+            },
+            {
+              "id": "n4",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.49530563950315,
+                0.6745807269063266,
+                17.501211894140297
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 6,
+        "contacts": 3,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 224,
+          "triangles": 136300,
+          "frameMs": {
+            "median": 83.30000000000291,
+            "p95": 133.3000000000029
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload",
+            "death"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 3.3833351135254195,
+              "position": [
+                3.5,
+                0,
+                9.5
+              ],
+              "head": [
+                3.523500525964431,
+                0.7457171208296131,
+                9.506118757821003
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                10.5
+              ],
+              "head": [
+                13.497886751718227,
+                0.7455480910234698,
+                10.50807351618321
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                7.5,
+                0,
+                17.5
+              ],
+              "head": [
+                7.497886751697884,
+                0.7455480910234698,
+                17.50807351617789
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 3.3833351135254195,
+              "position": [
+                4.5,
+                0,
+                10.5
+              ],
+              "head": [
+                4.52375590111051,
+                0.7457171208296131,
+                10.494963028657555
+              ]
+            },
+            {
+              "id": "n4",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.488559050586115,
+                0.6761558210432825,
+                17.48790586243676
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 7,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "interact",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 13,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 214,
+          "triangles": 100048,
+          "frameMs": {
+            "median": 83.30000000000291,
+            "p95": 133.3000000000029
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload",
+            "death",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0.9666688919067792,
+              "position": [
+                3.5,
+                0,
+                9.5
+              ],
+              "head": [
+                3.4991012345377355,
+                0.7457174719782967,
+                9.494070171902752
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0.3,
+              "position": [
+                13.5,
+                0,
+                10.5
+              ],
+              "head": [
+                13.50703873424006,
+                0.7461769267977183,
+                10.500351421618168
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0.9666688919067792,
+              "position": [
+                4.5,
+                0,
+                10.5
+              ],
+              "head": [
+                4.496544219988151,
+                0.7457174719782967,
+                10.495098140645759
+              ]
+            },
+            {
+              "id": "n2",
+              "clip": "idle",
+              "time": 1.1000000000000003,
+              "position": [
+                19.5,
+                0,
+                10.5
+              ],
+              "head": [
+                19.48557538882297,
+                0.6786253630112629,
+                10.497925678049944
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 8,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 7
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 19,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 13
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 83.30000000000291,
+            "p95": 133.3000000000029
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload",
+            "death",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 1.1500000000000004,
+              "position": [
+                4.5,
+                0,
+                7.5
+              ],
+              "head": [
+                4.5026807180567445,
+                0.7455545312245413,
+                7.503071798766728
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                10.5
+              ],
+              "head": [
+                13.497886751718227,
+                0.7455480910234698,
+                10.50807351618321
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 1.1500000000000004,
+              "position": [
+                4.5,
+                0,
+                13.5
+              ],
+              "head": [
+                4.502579935230694,
+                0.7455545312245413,
+                13.503156917985706
+              ]
+            },
+            {
+              "id": "n2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                19.5,
+                0,
+                10.5
+              ],
+              "head": [
+                19.476062747450115,
+                0.68007589424432,
+                10.486168764614995
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 9,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 4
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 19,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 16
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 209,
+          "triangles": 100018,
+          "frameMs": {
+            "median": 83.30000000000291,
+            "p95": 133.3000000000029
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload",
+            "death",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                4.5,
+                0,
+                4.5
+              ],
+              "head": [
+                4.513138613063013,
+                0.7476280885930873,
+                4.470042624914513
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                4.5,
+                0,
+                16.5
+              ],
+              "head": [
+                4.4868621528456805,
+                0.7476280885930873,
+                16.52995771098368
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 10,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 7,
+              "y": 4
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 13
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 203,
+          "triangles": 75858,
+          "frameMs": {
+            "median": 66.80000000000291,
+            "p95": 133.29999999998836
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload",
+            "death",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 1.3498999999999948,
+              "position": [
+                7.5,
+                0,
+                4.5
+              ],
+              "head": [
+                7.501087060646381,
+                0.7454795586554119,
+                4.501959166048562
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 1.3498999999999948,
+              "position": [
+                4.5,
+                0,
+                13.5
+              ],
+              "head": [
+                4.501101515477097,
+                0.7454795586554119,
+                13.501951075628586
+              ]
+            },
+            {
+              "id": "n1",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                11.5,
+                0,
+                4.5
+              ],
+              "head": [
+                11.475799397772805,
+                0.6699301820394168,
+                4.510786241865563
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 11,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 4
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 12
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 208,
+          "triangles": 87952,
+          "frameMs": {
+            "median": 66.70000000001164,
+            "p95": 116.70000000001164
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload",
+            "death",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                7.5,
+                0,
+                4.5
+              ],
+              "head": [
+                7.497886704793215,
+                0.7455480910234698,
+                4.508073503900411
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 1.2000000000000004,
+              "position": [
+                6.5,
+                0,
+                12.5
+              ],
+              "head": [
+                6.502391864630698,
+                0.7455184702943264,
+                12.502708719665899
+              ]
+            },
+            {
+              "id": "n1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                4.5
+              ],
+              "head": [
+                11.460936927686568,
+                0.6719452485818611,
+                4.5000000009630945
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 12,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 4
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 7,
+              "y": 10
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 206,
+          "triangles": 87938,
+          "frameMs": {
+            "median": 66.69999999999709,
+            "p95": 100
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload",
+            "death",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                7.5,
+                0,
+                4.5
+              ],
+              "head": [
+                7.497886751718086,
+                0.7455480910234698,
+                4.508073516183173
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 1.7498999999999951,
+              "position": [
+                6.5,
+                0,
+                10.5
+              ],
+              "head": [
+                6.502858609404409,
+                0.7457882360215378,
+                10.503950578203598
+              ]
+            },
+            {
+              "id": "n5",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                8.5,
+                0,
+                10.5
+              ],
+              "head": [
+                8.475799397772805,
+                0.6699301820394168,
+                10.510786241865564
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 13,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 10,
+              "y": 4
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 8,
+              "y": 10
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 208,
+          "triangles": 87952,
+          "frameMs": {
+            "median": 66.69999999999709,
+            "p95": 100
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload",
+            "death",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 1.2500000000000004,
+              "position": [
+                10.5,
+                0,
+                4.5
+              ],
+              "head": [
+                10.502020596852901,
+                0.7454901937000257,
+                4.502392970219439
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                6.5,
+                0,
+                10.5
+              ],
+              "head": [
+                6.49788675175508,
+                0.7455480910234698,
+                10.508073516192855
+              ]
+            },
+            {
+              "id": "n5",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                8.5,
+                0,
+                10.5
+              ],
+              "head": [
+                8.460936927686568,
+                0.6719452485818611,
+                10.500000000963096
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 14,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "interact",
+            "target": {
+              "x": 11,
+              "y": 4
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 8,
+              "y": 10
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 206,
+          "triangles": 87938,
+          "frameMs": {
+            "median": 66.69999999998254,
+            "p95": 100
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload",
+            "death",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                10.5,
+                0,
+                4.5
+              ],
+              "head": [
+                10.497886713328384,
+                0.7455480910234698,
+                4.5080735061345445
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                6.5,
+                0,
+                10.5
+              ],
+              "head": [
+                6.497886751718231,
+                0.7455480910234698,
+                10.50807351618321
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 15,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "guard"
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 9,
+              "y": 10
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 203,
+          "triangles": 75858,
+          "frameMs": {
+            "median": 66.69999999998254,
+            "p95": 100
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload",
+            "death",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                10.5,
+                0,
+                4.5
+              ],
+              "head": [
+                10.497886751718193,
+                0.7455480910234698,
+                4.508073516183201
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 1.349799999999989,
+              "position": [
+                9.5,
+                0,
+                10.5
+              ],
+              "head": [
+                9.501088176406185,
+                0.7454795250367943,
+                10.501959337254531
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 16,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "guard"
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 12,
+              "y": 10
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 203,
+          "triangles": 75858,
+          "frameMs": {
+            "median": 66.69999999998254,
+            "p95": 83.39999999999418
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload",
+            "death",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                10.5,
+                0,
+                4.5
+              ],
+              "head": [
+                10.497886751718227,
+                0.7455480910234698,
+                4.50807351618321
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                12.5,
+                0,
+                10.5
+              ],
+              "head": [
+                12.528390238398218,
+                0.7475236501812029,
+                10.500402965600728
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 17,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "guard"
+          },
+          {
+            "unit": "t3",
+            "kind": "guard"
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 203,
+          "triangles": 75858,
+          "frameMs": {
+            "median": 66.69999999998254,
+            "p95": 83.39999999999418
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload",
+            "death",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                10.5,
+                0,
+                4.5
+              ],
+              "head": [
+                10.497886751718227,
+                0.7455480910234698,
+                4.50807351618321
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                12.5,
+                0,
+                10.5
+              ],
+              "head": [
+                12.497886751718223,
+                0.7455480910234698,
+                10.508073516183208
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 18,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "guard"
+          },
+          {
+            "unit": "t3",
+            "kind": "guard"
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 203,
+          "triangles": 75858,
+          "frameMs": {
+            "median": 66.60000000000582,
+            "p95": 83.39999999999418
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "reload",
+            "death",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                10.5,
+                0,
+                4.5
+              ],
+              "head": [
+                10.497886751718227,
+                0.7455480910234698,
+                4.50807351618321
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                12.5,
+                0,
+                10.5
+              ],
+              "head": [
+                12.497886751718227,
+                0.7455480910234698,
+                10.50807351618321
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "mode": "ppo",
+    "winner": "imperium",
+    "turn": 22,
+    "score": {
+      "imperium": 31,
+      "nightlords": 10
+    },
+    "errors": [],
+    "audio": {
+      "enabled": true,
+      "phase": "ending",
+      "volumes": {
+        "master": 0.7,
+        "music": 0.3,
+        "ambience": 0.28,
+        "effects": 0.65
+      },
+      "played": {
+        "servo": 75,
+        "bolter": 20,
+        "impact": 18
+      },
+      "transitions": [
+        "planning → combat",
+        "combat → planning",
+        "planning → combat",
+        "combat → planning",
+        "planning → combat",
+        "combat → planning",
+        "planning → combat",
+        "combat → ending"
+      ],
+      "errors": [],
+      "tracks": [
+        {
+          "name": "planning",
+          "paused": false,
+          "time": 16.150476,
+          "volume": 0.001938718033950752,
+          "ready": 4
+        },
+        {
+          "name": "combat",
+          "paused": false,
+          "time": 53.505157,
+          "volume": 0.021730712615655214,
+          "ready": 4
+        },
+        {
+          "name": "ending",
+          "paused": false,
+          "time": 3.243789,
+          "volume": 0.186330569350394,
+          "ready": 4
+        },
+        {
+          "name": "hull",
+          "paused": false,
+          "time": 5.043639,
+          "volume": 0.19599999999999987,
+          "ready": 4
+        }
+      ]
+    },
+    "trace": [
+      {
+        "turn": 1,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 5,
+              "y": 9
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 9
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 12
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 13
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 66.69999999999891,
+            "p95": 116.70000000000073
+          },
+          "animations": [
+            "walk",
+            "idle"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                4.5,
+                0,
+                9.5
+              ],
+              "head": [
+                4.524724982757892,
+                0.7473772430095318,
+                9.499665607043625
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                6.5,
+                0,
+                9.5
+              ],
+              "head": [
+                6.521022938104649,
+                0.7471352167948876,
+                9.500213693124163
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                4.5,
+                0,
+                11.5
+              ],
+              "head": [
+                4.524725018775127,
+                0.7473772430095318,
+                11.499668280846393
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                4.5,
+                0,
+                13.5
+              ],
+              "head": [
+                4.499793759196848,
+                0.7471352167948876,
+                13.521023012534705
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 2,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 8,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 14
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 16
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 66.69999999999982,
+            "p95": 116.60000000000036
+          },
+          "animations": [
+            "walk",
+            "idle"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                6.5,
+                0,
+                10.5
+              ],
+              "head": [
+                6.489840143507009,
+                0.7475391512185239,
+                10.524715412332375
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                8.5,
+                0,
+                10.5
+              ],
+              "head": [
+                8.524694338390935,
+                0.7475391512185239,
+                10.51021097165561
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                4.5,
+                0,
+                14.5
+              ],
+              "head": [
+                4.489794914652253,
+                0.7475391512185239,
+                14.524696771525095
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                4.5,
+                0,
+                16.5
+              ],
+              "head": [
+                4.489794738823319,
+                0.7475391512185239,
+                16.524696698869146
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 3,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 9,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 4,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 6,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 66.69999999999891,
+            "p95": 116.60000000000036
+          },
+          "animations": [
+            "walk",
+            "idle"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 1.7165,
+              "position": [
+                9.5,
+                0,
+                10.5
+              ],
+              "head": [
+                9.496524605317074,
+                0.7457726152036948,
+                10.5028707995707
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 1.7165,
+              "position": [
+                11.5,
+                0,
+                10.5
+              ],
+              "head": [
+                11.496524630216975,
+                0.7457726152036948,
+                10.502870829714293
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 1.7165,
+              "position": [
+                4.5,
+                0,
+                17.5
+              ],
+              "head": [
+                4.496486426529436,
+                0.7457726152036948,
+                17.502823944022843
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 1.7165,
+              "position": [
+                6.5,
+                0,
+                17.5
+              ],
+              "head": [
+                6.496523811351477,
+                0.7457726152036948,
+                17.50286983812385
+              ]
+            },
+            {
+              "id": "n3",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.47437684584969,
+                0.6765913779326006,
+                17.499614108079424
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 4,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 12,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 216,
+          "triangles": 112126,
+          "frameMs": {
+            "median": 66.69999999999891,
+            "p95": 116.59999999999854
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 1.7331999999999965,
+              "position": [
+                12.5,
+                0,
+                10.5
+              ],
+              "head": [
+                12.496328170324244,
+                0.7457810725572674,
+                10.502930843674463
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 1.7331999999999965,
+              "position": [
+                14.5,
+                0,
+                10.5
+              ],
+              "head": [
+                14.496328170324702,
+                0.7457810725572674,
+                10.502930843675042
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                4.5,
+                0,
+                17.5
+              ],
+              "head": [
+                4.497886521073862,
+                0.7455480910234698,
+                17.50807345580837
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                6.5,
+                0,
+                17.5
+              ],
+              "head": [
+                6.4978865230020055,
+                0.7455480910234698,
+                17.508073456313124
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 5,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "interact",
+            "target": {
+              "x": 14,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 7,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "move",
+            "target": {
+              "x": 9,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 213,
+          "triangles": 100046,
+          "frameMs": {
+            "median": 66.69999999999709,
+            "p95": 116.59999999999854
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 3.149800000000004,
+              "position": [
+                13.5,
+                0,
+                10.5
+              ],
+              "head": [
+                13.50215031500535,
+                0.7452699504326993,
+                10.525046883216499
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                14.5,
+                0,
+                10.5
+              ],
+              "head": [
+                14.491926483301729,
+                0.7455480910234698,
+                10.497886753685984
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 1.7665000000000002,
+              "position": [
+                7.5,
+                0,
+                17.5
+              ],
+              "head": [
+                7.495881121700141,
+                0.7457951567344356,
+                17.502932458430003
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 1.7665000000000002,
+              "position": [
+                9.5,
+                0,
+                17.5
+              ],
+              "head": [
+                9.495881121700148,
+                0.7457951567344356,
+                17.502932458430006
+              ]
+            },
+            {
+              "id": "n4",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.49530563950315,
+                0.6745807269063266,
+                17.501211894140297
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 6,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 10
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 11
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 13,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 13,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 216,
+          "triangles": 112126,
+          "frameMs": {
+            "median": 66.69999999999709,
+            "p95": 116.60000000000582
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                15.5,
+                0,
+                10.5
+              ],
+              "head": [
+                15.522258285166876,
+                0.74730213670441,
+                10.504317194028443
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                16.5,
+                0,
+                11.5
+              ],
+              "head": [
+                16.493385005574726,
+                0.7473698410121895,
+                11.521960033323873
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                7.5,
+                0,
+                17.5
+              ],
+              "head": [
+                7.497886598248198,
+                0.7455480910234698,
+                17.50807347601077
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                9.5,
+                0,
+                17.5
+              ],
+              "head": [
+                9.497886598248197,
+                0.7455480910234698,
+                17.50807347601077
+              ]
+            },
+            {
+              "id": "n0",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                15.5,
+                0,
+                17.5
+              ],
+              "head": [
+                15.49530563950315,
+                0.6745807269063266,
+                17.501211894140297
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 7,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 12
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 14
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 10,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 223,
+          "triangles": 124234,
+          "frameMs": {
+            "median": 66.69999999999709,
+            "p95": 116.69999999999709
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 2.4666000000000055,
+              "position": [
+                16.5,
+                0,
+                12.5
+              ],
+              "head": [
+                16.48473066633656,
+                0.7456430949525472,
+                12.50173098001249
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 2.4666000000000055,
+              "position": [
+                16.5,
+                0,
+                14.5
+              ],
+              "head": [
+                16.484729332727778,
+                0.7456430949525472,
+                14.501719175206365
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 3.8499000000000096,
+              "position": [
+                8.5,
+                0,
+                17.5
+              ],
+              "head": [
+                8.505826719798893,
+                0.7460355102838209,
+                17.51948816708334
+              ]
+            },
+            {
+              "id": "t3",
+              "clip": "idle",
+              "time": 0.7,
+              "position": [
+                9.5,
+                0,
+                17.5
+              ],
+              "head": [
+                9.507148908156948,
+                0.7460223641524397,
+                17.497216815121817
+              ]
+            },
+            {
+              "id": "n0",
+              "clip": "idle",
+              "time": 0.7,
+              "position": [
+                15.5,
+                0,
+                17.5
+              ],
+              "head": [
+                15.494821988531825,
+                0.6746636448240009,
+                17.50085130848325
+              ]
+            },
+            {
+              "id": "n5",
+              "clip": "idle",
+              "time": 1.5,
+              "position": [
+                16.5,
+                0,
+                17.5
+              ],
+              "head": [
+                16.47959104617535,
+                0.6695627805342129,
+                17.507677739722826
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 8,
+        "contacts": 2,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "fire",
+            "target": {
+              "x": 16,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 16,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t3",
+            "kind": "fire",
+            "target": {
+              "x": 15,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 217,
+          "triangles": 124192,
+          "frameMs": {
+            "median": 66.70000000001164,
+            "p95": 116.69999999999709
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                16.5,
+                0,
+                12.5
+              ],
+              "head": [
+                16.491926483762896,
+                0.7455480910234698,
+                12.497886751924122
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                16.5,
+                0,
+                14.5
+              ],
+              "head": [
+                16.49192648381678,
+                0.7455480910234698,
+                14.497886751718248
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                8.5,
+                0,
+                17.5
+              ],
+              "head": [
+                8.497886751718227,
+                0.7455480910234698,
+                17.508073516183213
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 9,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 15
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 16,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 208,
+          "triangles": 87952,
+          "frameMs": {
+            "median": 66.69999999999709,
+            "p95": 116.69999999999709
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 1.6833000000000027,
+              "position": [
+                16.5,
+                0,
+                15.5
+              ],
+              "head": [
+                16.496961367815977,
+                0.7457527401138545,
+                15.502777477829037
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 1.6833000000000027,
+              "position": [
+                16.5,
+                0,
+                17.5
+              ],
+              "head": [
+                16.496961367815974,
+                0.7457527401138545,
+                17.50277747782904
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 1.6833000000000027,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.49699210852448,
+                0.7457527401138545,
+                17.50281073967349
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 10,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 15,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "move",
+            "target": {
+              "x": 13,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "interact",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 208,
+          "triangles": 87952,
+          "frameMs": {
+            "median": 66.69999999999709,
+            "p95": 116.69999999999709
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                15.5,
+                0,
+                17.5
+              ],
+              "head": [
+                15.477934401404667,
+                0.7472719422725929,
+                17.496522506514566
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.477937924485726,
+                0.7472719422725929,
+                17.49650022481949
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.491926483769129,
+                0.7455480910234698,
+                17.497886751900303
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 11,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 12,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "guard"
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 208,
+          "triangles": 87952,
+          "frameMs": {
+            "median": 66.69999999999709,
+            "p95": 100.10000000000582
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 3.133100000000006,
+              "position": [
+                14.5,
+                0,
+                17.5
+              ],
+              "head": [
+                14.498097956044147,
+                0.7452350877834784,
+                17.474940545823262
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.502113248281718,
+                0.7455480910234698,
+                17.491926483816773
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.491926483816787,
+                0.7455480910234698,
+                17.49788675171823
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 12,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "scan"
+          },
+          {
+            "unit": "t1",
+            "kind": "scan"
+          },
+          {
+            "unit": "t2",
+            "kind": "scan"
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 208,
+          "triangles": 87952,
+          "frameMs": {
+            "median": 66.69999999998254,
+            "p95": 83.40000000000873
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                14.5,
+                0,
+                17.5
+              ],
+              "head": [
+                14.502113248281773,
+                0.7455480910234698,
+                17.491926483816787
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.502113248281773,
+                0.7455480910234698,
+                17.491926483816787
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.49192648381679,
+                0.7455480910234698,
+                17.49788675171823
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 13,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "guard"
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 208,
+          "triangles": 87952,
+          "frameMs": {
+            "median": 66.60000000000582,
+            "p95": 83.40000000000873
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 9.5996,
+              "position": [
+                14.5,
+                0,
+                17.5
+              ],
+              "head": [
+                14.496761642430371,
+                0.7458820608028583,
+                17.49109466374199
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.502113248281773,
+                0.7455480910234698,
+                17.491926483816787
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.49192648381679,
+                0.7455480910234698,
+                17.49788675171823
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 14,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "guard"
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 208,
+          "triangles": 87952,
+          "frameMs": {
+            "median": 66.60000000000582,
+            "p95": 83.40000000000873
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 9.232533778381352,
+              "position": [
+                14.5,
+                0,
+                17.5
+              ],
+              "head": [
+                14.49852798962566,
+                0.7455687617861365,
+                17.48450688597648
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.502113248281773,
+                0.7455480910234698,
+                17.491926483816787
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.49192648381679,
+                0.7455480910234698,
+                17.49788675171823
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 15,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "guard"
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 208,
+          "triangles": 87952,
+          "frameMs": {
+            "median": 66.60000000000582,
+            "p95": 83.39999999999418
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 8.882167556762681,
+              "position": [
+                14.5,
+                0,
+                17.5
+              ],
+              "head": [
+                14.494615727530844,
+                0.746052960661891,
+                17.482211046668997
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.502113248281773,
+                0.7455480910234698,
+                17.491926483816787
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.49192648381679,
+                0.7455480910234698,
+                17.49788675171823
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 16,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "scan"
+          },
+          {
+            "unit": "t1",
+            "kind": "scan"
+          },
+          {
+            "unit": "t2",
+            "kind": "scan"
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 208,
+          "triangles": 87952,
+          "frameMs": {
+            "median": 66.69999999998254,
+            "p95": 83.40000000002328
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                14.5,
+                0,
+                17.5
+              ],
+              "head": [
+                14.469697583538677,
+                0.7345917599878655,
+                17.42468742022856
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.502113248281773,
+                0.7455480910234698,
+                17.491926483816787
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.49192648381679,
+                0.7455480910234698,
+                17.49788675171823
+              ]
+            },
+            {
+              "id": "n1",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                6.5,
+                0,
+                17.5
+              ],
+              "head": [
+                6.475799397772806,
+                0.6699301820394168,
+                17.510786241865564
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 17,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 6,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 6,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 211,
+          "triangles": 100032,
+          "frameMs": {
+            "median": 66.69999999998254,
+            "p95": 99.89999999999418
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                14.5,
+                0,
+                17.5
+              ],
+              "head": [
+                14.469697583538677,
+                0.7345917599878655,
+                17.42468742022856
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.502113248281773,
+                0.7455480910234698,
+                17.491926483816787
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.502113162772275,
+                0.7455480910234698,
+                17.491926461435106
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 18,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "guard"
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 208,
+          "triangles": 87952,
+          "frameMs": {
+            "median": 66.69999999998254,
+            "p95": 99.89999999999418
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t0",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                14.5,
+                0,
+                17.5
+              ],
+              "head": [
+                14.469697583538677,
+                0.7345917599878655,
+                17.42468742022856
+              ]
+            },
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.502113248281773,
+                0.7455480910234698,
+                17.491926483816787
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.502113248281557,
+                0.7455480910234698,
+                17.49192648381673
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 19,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t0",
+            "kind": "move",
+            "target": {
+              "x": 11,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t1",
+            "kind": "guard"
+          },
+          {
+            "unit": "t2",
+            "kind": "guard"
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 206,
+          "triangles": 87938,
+          "frameMs": {
+            "median": 66.69999999998254,
+            "p95": 99.89999999999418
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.502113248281773,
+                0.7455480910234698,
+                17.491926483816787
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.502113248281773,
+                0.7455480910234698,
+                17.491926483816787
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 20,
+        "contacts": 0,
+        "orders": [
+          {
+            "unit": "t1",
+            "kind": "scan"
+          },
+          {
+            "unit": "t2",
+            "kind": "scan"
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 203,
+          "triangles": 75858,
+          "frameMs": {
+            "median": 66.69999999998254,
+            "p95": 83.39999999999418
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.502113248281773,
+                0.7455480910234698,
+                17.491926483816787
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.502113248281773,
+                0.7455480910234698,
+                17.491926483816787
+              ]
+            },
+            {
+              "id": "n2",
+              "clip": "idle",
+              "time": 0.8,
+              "position": [
+                14.5,
+                0,
+                17.5
+              ],
+              "head": [
+                14.482997170348513,
+                0.6788877232576881,
+                17.49826332345265
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "turn": 21,
+        "contacts": 1,
+        "orders": [
+          {
+            "unit": "t1",
+            "kind": "fire",
+            "target": {
+              "x": 14,
+              "y": 17
+            }
+          },
+          {
+            "unit": "t2",
+            "kind": "fire",
+            "target": {
+              "x": 14,
+              "y": 17
+            }
+          }
+        ],
+        "visual": {
+          "ready": true,
+          "assets": [
+            "./assets/models/TERM-walk.glb",
+            "./assets/models/TERM-idle.glb",
+            "./assets/models/TERM-hit.glb",
+            "./assets/models/TERM-shoot.glb",
+            "./assets/models/NL-1-idle.glb",
+            "./assets/models/NL-1-death.glb",
+            "./assets/models/NL-1-walk.glb",
+            "./assets/models/NL-1-hit.glb",
+            "./assets/models/NL-2-idle.glb",
+            "./assets/models/NL-2-walk.glb",
+            "./assets/models/NL-2-death.glb",
+            "./assets/models/NL-2-hit.glb",
+            "./assets/models/NL-3-idle.glb",
+            "./assets/models/NL-3-walk.glb",
+            "./assets/models/NL-3-death.glb",
+            "./assets/models/NL-4-idle.glb",
+            "./assets/models/NL-3-hit.glb",
+            "./assets/models/NL-4-walk.glb",
+            "./assets/models/NL-4-hit.glb",
+            "./assets/models/NL-4-death.glb",
+            "./assets/models/strategy/TERM.glb",
+            "./assets/models/strategy/NL-1.glb",
+            "./assets/models/strategy/NL-2.glb",
+            "./assets/models/strategy/NL-4.glb",
+            "./assets/models/strategy/NL-3.glb",
+            "./assets/models/strategy/noctis-kit.glb",
+            "./assets/models/strategy/bolter.glb"
+          ],
+          "errors": [],
+          "drawCalls": 206,
+          "triangles": 87938,
+          "frameMs": {
+            "median": 66.69999999998254,
+            "p95": 83.39999999999418
+          },
+          "animations": [
+            "walk",
+            "idle",
+            "aim",
+            "fire",
+            "hit",
+            "death",
+            "reload",
+            "interact"
+          ],
+          "figures": [
+            {
+              "id": "t1",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                13.5,
+                0,
+                17.5
+              ],
+              "head": [
+                13.49788668831483,
+                0.7455480910234698,
+                17.50807349958706
+              ]
+            },
+            {
+              "id": "t2",
+              "clip": "idle",
+              "time": 0,
+              "position": [
+                11.5,
+                0,
+                17.5
+              ],
+              "head": [
+                11.49788668831483,
+                0.7455480910234698,
+                17.50807349958706
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

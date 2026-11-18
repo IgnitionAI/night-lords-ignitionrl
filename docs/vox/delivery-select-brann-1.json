@@ -1,0 +1,40 @@
+{
+  "id": "557af5ee-dee2-4381-abb8-8219d1a22d0d",
+  "project": "night-lords-ignitionrl",
+  "operation": "wait",
+  "status": "downloaded",
+  "files": [
+    "public/assets/genex/557af5ee-dee2-4381-abb8-8219d1a22d0d/le-devoir-m-appelle-cmwjktio.mp3"
+  ],
+  "createdAt": "2026-11-16T18:10:46.354Z",
+  "generationId": "cmwjktiot001j2bny4mk3xy6o",
+  "remoteStatus": "completed",
+  "manifest": [
+    {
+      "role": "audio-voice",
+      "url": "https://assets.genex.technology/generations/cmwjktiot001j2bny4mk3xy6o/audio-voice"
+    }
+  ],
+  "result": {
+    "kind": "voice",
+    "id": "cmwjktiot001j2bny4mk3xy6o",
+    "status": "completed",
+    "files": [
+      {
+        "role": "audio-voice",
+        "contentType": "audio/mpeg",
+        "ext": "mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktiot001j2bny4mk3xy6o/audio-voice"
+      }
+    ],
+    "saved": [
+      {
+        "role": "audio-voice",
+        "path": "/Users/salimlaimeche/Library/Application Support/Genex/engine-homes/genex/projects/night-lords-ignitionrl/jobs/557af5ee-dee2-4381-abb8-8219d1a22d0d/output/le-devoir-m-appelle-cmwjktio.mp3",
+        "url": "https://assets.genex.technology/generations/cmwjktiot001j2bny4mk3xy6o/audio-voice",
+        "bytes": 25538
+      }
+    ],
+    "downloadFailures": []
+  }
+}

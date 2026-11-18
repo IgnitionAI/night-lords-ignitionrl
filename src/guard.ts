@@ -6,6 +6,8 @@ import { loadavg } from 'node:os';
 export const INODE_STOP = 85;
 export function inodePct(): number {
   const l = execSync(`df -i ${process.env.GUARD_FS ?? '.'}`, { timeout: 20e3 }).toString().trim().split('\n').pop()!.split(/\s+/);
+  // macOS df -i keeps disk blocks first and appends inode fields.
+  if (process.platform === 'darwin') return Number(l[7].replace('%', ''));
   return Number(l[2]) / Number(l[1]) * 100;
 }
 // ps peut bloquer si un process est en état D : on borne à 20 s ; un échec compte comme « pas ok » (on attend).

@@ -1,0 +1,29 @@
+{
+  "duel": {
+    "errors": [],
+    "maxPlantedAnkleErrorMeters": 0.006645766432542131
+  },
+  "mission": {
+    "errors": [],
+    "maxPlantedAnkleErrorMeters": 0.03549442946878176
+  },
+  "fr": {
+    "errors": [],
+    "hitReactionSamples": 16
+  },
+  "en": {
+    "errors": [],
+    "hitReactionSamples": 32
+  },
+  "sources": {
+    "src/sim.ts": "e99225773b38ca0654a1fe5b78116d16d8a5484bcc261fb6bc4cd4c75cd87ce7",
+    "web/main.ts": "58f093a08cce99b9efbad33ac47722adb43b5f5fd883a34cf4a8ecd4e6dbbdbc",
+    "web/hunter-motion.ts": "e8a31ca2a40bed89a2c14bf261c3e3b2a5fa788a8eba9a055dcf374eb7545b19"
+  },
+  "checks": {
+    "motionTests": "7 passed",
+    "regressionTests": "44 passed; 1 pre-existing stale speed assertion (T_CFG.fwd 5, expected 2.5)",
+    "build": "passed",
+    "simulationModelsAudioMenusDiffFrom6078618": "empty"
+  }
+}

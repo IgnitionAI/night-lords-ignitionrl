@@ -1,0 +1,21 @@
+{
+  "turn": 14,
+  "events": [
+    "execute",
+    "moving",
+    "contact",
+    "nl-taunt",
+    "nl-death",
+    "hurt",
+    "kill",
+    "working",
+    "nl-attack",
+    "secured",
+    "guarding",
+    "scanning",
+    "recon-done",
+    "victory"
+  ],
+  "errors": [],
+  "failed": []
+}

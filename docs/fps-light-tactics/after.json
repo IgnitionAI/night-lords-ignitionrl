@@ -1,0 +1,691 @@
+{
+  "fixture": true,
+  "description": "Navigation witness: 1000 initial player health, no fire, scheduled local circuits lit 0-10s, blackout 10-24s, lit 24-40s. Real policies and collision; not a normal playthrough.",
+  "runs": [
+    {
+      "mode": "duel",
+      "seed": 527,
+      "phases": {
+        "lit": {
+          "events": {
+            "enemyAim": 4,
+            "enemyBolt": 3,
+            "hit": 3
+          },
+          "modes": {
+            "ranged": 100
+          },
+          "closeTicks": 0,
+          "agents": 70,
+          "medianRange": 8.33633456510234,
+          "minRange": 7.799322448979591,
+          "closeFraction": 0
+        },
+        "dark": {
+          "events": {
+            "clawArm": 5,
+            "claw": 5,
+            "hit": 5,
+            "lightsRestored": 3
+          },
+          "modes": {
+            "ranged": 1,
+            "hunt": 139
+          },
+          "closeTicks": 128,
+          "agents": 140,
+          "medianRange": 1.6052183778335658,
+          "minRange": 1.5934963386788201,
+          "closeFraction": 0.9142857142857143
+        },
+        "restored": {
+          "events": {
+            "enemyAim": 5,
+            "enemyBolt": 5,
+            "hit": 5
+          },
+          "modes": {
+            "hunt": 2,
+            "ranged": 158
+          },
+          "closeTicks": 6,
+          "agents": 130,
+          "medianRange": 7.46222784687675,
+          "minRange": 1.5934963386788201,
+          "closeFraction": 0.046153846153846156
+        }
+      },
+      "maxPenetration": 0,
+      "cpuP95Ms": 0.152667000000001
+    },
+    {
+      "mode": "duel",
+      "seed": 528,
+      "phases": {
+        "lit": {
+          "events": {
+            "enemyAim": 4,
+            "enemyBolt": 3,
+            "hit": 3
+          },
+          "modes": {
+            "ranged": 100
+          },
+          "closeTicks": 0,
+          "agents": 70,
+          "medianRange": 8.33633456510234,
+          "minRange": 7.799322448979591,
+          "closeFraction": 0
+        },
+        "dark": {
+          "events": {
+            "clawArm": 5,
+            "claw": 5,
+            "hit": 5,
+            "lightsRestored": 3
+          },
+          "modes": {
+            "ranged": 1,
+            "hunt": 139
+          },
+          "closeTicks": 128,
+          "agents": 140,
+          "medianRange": 1.6052183778335658,
+          "minRange": 1.5934963386788201,
+          "closeFraction": 0.9142857142857143
+        },
+        "restored": {
+          "events": {
+            "enemyAim": 5,
+            "enemyBolt": 5,
+            "hit": 5
+          },
+          "modes": {
+            "hunt": 2,
+            "ranged": 158
+          },
+          "closeTicks": 6,
+          "agents": 130,
+          "medianRange": 7.462227846876752,
+          "minRange": 1.5934963386788201,
+          "closeFraction": 0.046153846153846156
+        }
+      },
+      "maxPenetration": 0,
+      "cpuP95Ms": 0.030416999999999916
+    },
+    {
+      "mode": "duel",
+      "seed": 529,
+      "phases": {
+        "lit": {
+          "events": {
+            "enemyAim": 4,
+            "enemyBolt": 3,
+            "hit": 3
+          },
+          "modes": {
+            "ranged": 100
+          },
+          "closeTicks": 0,
+          "agents": 70,
+          "medianRange": 8.33633456510234,
+          "minRange": 7.799322448979591,
+          "closeFraction": 0
+        },
+        "dark": {
+          "events": {
+            "clawArm": 5,
+            "claw": 5,
+            "hit": 5,
+            "lightsRestored": 3
+          },
+          "modes": {
+            "ranged": 1,
+            "hunt": 139
+          },
+          "closeTicks": 128,
+          "agents": 140,
+          "medianRange": 1.6052183778335658,
+          "minRange": 1.5934963386788201,
+          "closeFraction": 0.9142857142857143
+        },
+        "restored": {
+          "events": {
+            "enemyAim": 5,
+            "enemyBolt": 5,
+            "hit": 5
+          },
+          "modes": {
+            "hunt": 2,
+            "ranged": 158
+          },
+          "closeTicks": 6,
+          "agents": 130,
+          "medianRange": 7.46222784687675,
+          "minRange": 1.5934963386788201,
+          "closeFraction": 0.046153846153846156
+        }
+      },
+      "maxPenetration": 0,
+      "cpuP95Ms": 0.06025000000000347
+    },
+    {
+      "mode": "duel",
+      "seed": 530,
+      "phases": {
+        "lit": {
+          "events": {
+            "enemyAim": 4,
+            "enemyBolt": 3,
+            "hit": 3
+          },
+          "modes": {
+            "ranged": 100
+          },
+          "closeTicks": 0,
+          "agents": 70,
+          "medianRange": 8.33633456510234,
+          "minRange": 7.799322448979591,
+          "closeFraction": 0
+        },
+        "dark": {
+          "events": {
+            "clawArm": 5,
+            "claw": 5,
+            "hit": 5,
+            "lightsRestored": 3
+          },
+          "modes": {
+            "ranged": 1,
+            "hunt": 139
+          },
+          "closeTicks": 128,
+          "agents": 140,
+          "medianRange": 1.6052183778335658,
+          "minRange": 1.5934963386788201,
+          "closeFraction": 0.9142857142857143
+        },
+        "restored": {
+          "events": {
+            "enemyAim": 5,
+            "enemyBolt": 5,
+            "hit": 5
+          },
+          "modes": {
+            "hunt": 2,
+            "ranged": 158
+          },
+          "closeTicks": 6,
+          "agents": 130,
+          "medianRange": 7.462227846876752,
+          "minRange": 1.5934963386788201,
+          "closeFraction": 0.046153846153846156
+        }
+      },
+      "maxPenetration": 0,
+      "cpuP95Ms": 0.06875000000000142
+    },
+    {
+      "mode": "duel",
+      "seed": 531,
+      "phases": {
+        "lit": {
+          "events": {
+            "enemyAim": 4,
+            "enemyBolt": 3,
+            "hit": 3
+          },
+          "modes": {
+            "ranged": 100
+          },
+          "closeTicks": 0,
+          "agents": 70,
+          "medianRange": 8.33633456510234,
+          "minRange": 7.799322448979591,
+          "closeFraction": 0
+        },
+        "dark": {
+          "events": {
+            "clawArm": 5,
+            "claw": 5,
+            "hit": 5,
+            "lightsRestored": 3
+          },
+          "modes": {
+            "ranged": 1,
+            "hunt": 139
+          },
+          "closeTicks": 128,
+          "agents": 140,
+          "medianRange": 1.6052183778335658,
+          "minRange": 1.5934963386788201,
+          "closeFraction": 0.9142857142857143
+        },
+        "restored": {
+          "events": {
+            "enemyAim": 5,
+            "enemyBolt": 5,
+            "hit": 5
+          },
+          "modes": {
+            "hunt": 2,
+            "ranged": 158
+          },
+          "closeTicks": 6,
+          "agents": 130,
+          "medianRange": 7.46222784687675,
+          "minRange": 1.5934963386788201,
+          "closeFraction": 0.046153846153846156
+        }
+      },
+      "maxPenetration": 0,
+      "cpuP95Ms": 0.03079200000000526
+    },
+    {
+      "mode": "duel",
+      "seed": 532,
+      "phases": {
+        "lit": {
+          "events": {
+            "enemyAim": 4,
+            "enemyBolt": 3,
+            "hit": 3
+          },
+          "modes": {
+            "ranged": 100
+          },
+          "closeTicks": 0,
+          "agents": 70,
+          "medianRange": 8.33633456510234,
+          "minRange": 7.799322448979591,
+          "closeFraction": 0
+        },
+        "dark": {
+          "events": {
+            "clawArm": 5,
+            "claw": 5,
+            "hit": 5,
+            "lightsRestored": 3
+          },
+          "modes": {
+            "ranged": 1,
+            "hunt": 139
+          },
+          "closeTicks": 128,
+          "agents": 140,
+          "medianRange": 1.6052183778335658,
+          "minRange": 1.5934963386788201,
+          "closeFraction": 0.9142857142857143
+        },
+        "restored": {
+          "events": {
+            "enemyAim": 5,
+            "enemyBolt": 5,
+            "hit": 5
+          },
+          "modes": {
+            "hunt": 2,
+            "ranged": 158
+          },
+          "closeTicks": 6,
+          "agents": 130,
+          "medianRange": 7.462227846876752,
+          "minRange": 1.5934963386788201,
+          "closeFraction": 0.046153846153846156
+        }
+      },
+      "maxPenetration": 0,
+      "cpuP95Ms": 0.012250000000008754
+    },
+    {
+      "mode": "mission",
+      "seed": 527,
+      "phases": {
+        "lit": {
+          "events": {
+            "step": 7,
+            "enemyAim": 5,
+            "enemyBolt": 4,
+            "hit": 3
+          },
+          "modes": {
+            "ranged": 400
+          },
+          "closeTicks": 0,
+          "agents": 280,
+          "medianRange": 8.35829239981107,
+          "minRange": 6.481002147704299,
+          "closeFraction": 0
+        },
+        "dark": {
+          "events": {
+            "clawArm": 19,
+            "claw": 18,
+            "hit": 18,
+            "lightsRestored": 5
+          },
+          "modes": {
+            "ranged": 4,
+            "hunt": 556
+          },
+          "closeTicks": 422,
+          "agents": 560,
+          "medianRange": 1.6560542185494687,
+          "minRange": 0.9501488344839798,
+          "closeFraction": 0.7535714285714286
+        },
+        "restored": {
+          "events": {
+            "whiff": 1,
+            "enemyAim": 14,
+            "enemyBolt": 12,
+            "hit": 12
+          },
+          "modes": {
+            "hunt": 24,
+            "ranged": 616
+          },
+          "closeTicks": 58,
+          "agents": 520,
+          "medianRange": 7.437899091295213,
+          "minRange": 1.0562938490022464,
+          "closeFraction": 0.11153846153846154
+        }
+      },
+      "maxPenetration": 0,
+      "cpuP95Ms": 8.118584000000055
+    },
+    {
+      "mode": "mission",
+      "seed": 528,
+      "phases": {
+        "lit": {
+          "events": {
+            "step": 7,
+            "enemyAim": 5,
+            "enemyBolt": 5,
+            "hit": 4
+          },
+          "modes": {
+            "ranged": 400
+          },
+          "closeTicks": 0,
+          "agents": 280,
+          "medianRange": 8.40542285650163,
+          "minRange": 4.47604930714981,
+          "closeFraction": 0
+        },
+        "dark": {
+          "events": {
+            "clawArm": 20,
+            "claw": 16,
+            "hit": 16,
+            "whiff": 3,
+            "lightsRestored": 5
+          },
+          "modes": {
+            "ranged": 4,
+            "hunt": 556
+          },
+          "closeTicks": 449,
+          "agents": 560,
+          "medianRange": 1.674286039820479,
+          "minRange": 0.9947464103268125,
+          "closeFraction": 0.8017857142857143
+        },
+        "restored": {
+          "events": {
+            "claw": 1,
+            "hit": 13,
+            "enemyAim": 15,
+            "enemyBolt": 12
+          },
+          "modes": {
+            "hunt": 15,
+            "ranged": 625
+          },
+          "closeTicks": 39,
+          "agents": 520,
+          "medianRange": 7.297688864292201,
+          "minRange": 1.0906406816946876,
+          "closeFraction": 0.075
+        }
+      },
+      "maxPenetration": 0,
+      "cpuP95Ms": 9.837541000000101
+    },
+    {
+      "mode": "mission",
+      "seed": 529,
+      "phases": {
+        "lit": {
+          "events": {
+            "step": 7,
+            "enemyAim": 3,
+            "enemyBolt": 3,
+            "hit": 3
+          },
+          "modes": {
+            "ranged": 400
+          },
+          "closeTicks": 0,
+          "agents": 280,
+          "medianRange": 10.95451151129447,
+          "minRange": 5.154983852478996,
+          "closeFraction": 0
+        },
+        "dark": {
+          "events": {
+            "clawArm": 17,
+            "claw": 11,
+            "hit": 11,
+            "whiff": 5,
+            "lightsRestored": 5
+          },
+          "modes": {
+            "ranged": 4,
+            "hunt": 556
+          },
+          "closeTicks": 380,
+          "agents": 560,
+          "medianRange": 1.7927138896114256,
+          "minRange": 0.9803466015266197,
+          "closeFraction": 0.6785714285714286
+        },
+        "restored": {
+          "events": {
+            "claw": 1,
+            "hit": 16,
+            "enemyAim": 18,
+            "enemyBolt": 15
+          },
+          "modes": {
+            "hunt": 17,
+            "ranged": 623
+          },
+          "closeTicks": 30,
+          "agents": 520,
+          "medianRange": 7.464806136147373,
+          "minRange": 1.3275361343574767,
+          "closeFraction": 0.057692307692307696
+        }
+      },
+      "maxPenetration": 0,
+      "cpuP95Ms": 10.67608300000029
+    },
+    {
+      "mode": "mission",
+      "seed": 530,
+      "phases": {
+        "lit": {
+          "events": {
+            "step": 7,
+            "enemyAim": 3,
+            "enemyBolt": 3,
+            "hit": 2
+          },
+          "modes": {
+            "ranged": 400
+          },
+          "closeTicks": 0,
+          "agents": 280,
+          "medianRange": 20.296817163003016,
+          "minRange": 7.707194869028041,
+          "closeFraction": 0
+        },
+        "dark": {
+          "events": {
+            "clawArm": 15,
+            "claw": 14,
+            "hit": 14,
+            "lightsRestored": 5
+          },
+          "modes": {
+            "ranged": 4,
+            "hunt": 556
+          },
+          "closeTicks": 304,
+          "agents": 560,
+          "medianRange": 1.943828187484022,
+          "minRange": 1.0701315083609895,
+          "closeFraction": 0.5428571428571428
+        },
+        "restored": {
+          "events": {
+            "claw": 1,
+            "hit": 17,
+            "enemyAim": 16,
+            "enemyBolt": 16
+          },
+          "modes": {
+            "hunt": 20,
+            "ranged": 620
+          },
+          "closeTicks": 39,
+          "agents": 520,
+          "medianRange": 7.464932792903723,
+          "minRange": 1.4477956909243168,
+          "closeFraction": 0.075
+        }
+      },
+      "maxPenetration": 0,
+      "cpuP95Ms": 7.373291999999765
+    },
+    {
+      "mode": "mission",
+      "seed": 531,
+      "phases": {
+        "lit": {
+          "events": {
+            "step": 7
+          },
+          "modes": {
+            "ranged": 400
+          },
+          "closeTicks": 0,
+          "agents": 280,
+          "medianRange": 24.11069143793475,
+          "minRange": 8.860823322514449,
+          "closeFraction": 0
+        },
+        "dark": {
+          "events": {
+            "clawArm": 10,
+            "claw": 8,
+            "hit": 8,
+            "whiff": 1,
+            "lightsRestored": 5
+          },
+          "modes": {
+            "ranged": 4,
+            "hunt": 556
+          },
+          "closeTicks": 194,
+          "agents": 560,
+          "medianRange": 10.960787439892739,
+          "minRange": 1.2499999999999987,
+          "closeFraction": 0.3464285714285714
+        },
+        "restored": {
+          "events": {
+            "claw": 1,
+            "hit": 17,
+            "enemyAim": 16,
+            "enemyBolt": 16
+          },
+          "modes": {
+            "hunt": 19,
+            "ranged": 621
+          },
+          "closeTicks": 40,
+          "agents": 520,
+          "medianRange": 7.466127296726933,
+          "minRange": 1.5008843785756285,
+          "closeFraction": 0.07692307692307693
+        }
+      },
+      "maxPenetration": 0,
+      "cpuP95Ms": 6.069250000000466
+    },
+    {
+      "mode": "mission",
+      "seed": 532,
+      "phases": {
+        "lit": {
+          "events": {
+            "step": 7,
+            "enemyAim": 5,
+            "enemyBolt": 5,
+            "hit": 3
+          },
+          "modes": {
+            "ranged": 400
+          },
+          "closeTicks": 0,
+          "agents": 280,
+          "medianRange": 9.817444696271965,
+          "minRange": 6.610496497116423,
+          "closeFraction": 0
+        },
+        "dark": {
+          "events": {
+            "clawArm": 20,
+            "whiff": 2,
+            "claw": 17,
+            "hit": 17,
+            "lightsRestored": 5
+          },
+          "modes": {
+            "ranged": 4,
+            "hunt": 556
+          },
+          "closeTicks": 456,
+          "agents": 560,
+          "medianRange": 1.7151880888070556,
+          "minRange": 0.9249570939237727,
+          "closeFraction": 0.8142857142857143
+        },
+        "restored": {
+          "events": {
+            "claw": 1,
+            "hit": 14,
+            "enemyAim": 15,
+            "enemyBolt": 13
+          },
+          "modes": {
+            "hunt": 23,
+            "ranged": 617
+          },
+          "closeTicks": 62,
+          "agents": 520,
+          "medianRange": 7.462248905944047,
+          "minRange": 0.9758828060820176,
+          "closeFraction": 0.11923076923076924
+        }
+      },
+      "maxPenetration": 1.7763568394002505e-15,
+      "cpuP95Ms": 3.5764579999995476
+    }
+  ]
+}

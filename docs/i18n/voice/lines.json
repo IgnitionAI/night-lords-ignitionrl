@@ -1,0 +1,260 @@
+[
+  {
+    "id": "select-vael-1",
+    "text": "Yes, commander.",
+    "unit": "t0",
+    "event": "select"
+  },
+  {
+    "id": "select-vael-2",
+    "text": "Listening, commander.",
+    "unit": "t0",
+    "event": "select"
+  },
+  {
+    "id": "select-vael-3",
+    "text": "Your will shall be done.",
+    "unit": "t0",
+    "event": "select"
+  },
+  {
+    "id": "select-tor-1",
+    "text": "Ready to do my duty.",
+    "unit": "t1",
+    "event": "select"
+  },
+  {
+    "id": "select-tor-2",
+    "text": "My armour holds. Your orders?",
+    "unit": "t1",
+    "event": "select"
+  },
+  {
+    "id": "select-tor-3",
+    "text": "Speak, commander.",
+    "unit": "t1",
+    "event": "select"
+  },
+  {
+    "id": "select-cael-1",
+    "text": "Channel open, commander.",
+    "unit": "t2",
+    "event": "select"
+  },
+  {
+    "id": "select-cael-2",
+    "text": "Listening. For the Emperor.",
+    "unit": "t2",
+    "event": "select"
+  },
+  {
+    "id": "select-cael-3",
+    "text": "My senses are alert.",
+    "unit": "t2",
+    "event": "select"
+  },
+  {
+    "id": "select-brann-1",
+    "text": "Duty calls.",
+    "unit": "t3",
+    "event": "select"
+  },
+  {
+    "id": "select-brann-2",
+    "text": "Ever faithful, commander.",
+    "unit": "t3",
+    "event": "select"
+  },
+  {
+    "id": "select-brann-3",
+    "text": "May the Emperor guide us.",
+    "unit": "t3",
+    "event": "select"
+  },
+  {
+    "id": "ack-move-1",
+    "text": "At your command.",
+    "event": "ack-move"
+  },
+  {
+    "id": "ack-move-2",
+    "text": "Route received.",
+    "event": "ack-move"
+  },
+  {
+    "id": "ack-fire-1",
+    "text": "Firing coordinates received.",
+    "event": "ack-fire"
+  },
+  {
+    "id": "ack-fire-2",
+    "text": "Bolter ready.",
+    "event": "ack-fire"
+  },
+  {
+    "id": "ack-guard-1",
+    "text": "I will cover this sector.",
+    "event": "ack-guard"
+  },
+  {
+    "id": "ack-guard-2",
+    "text": "Overwatch position confirmed.",
+    "event": "ack-guard"
+  },
+  {
+    "id": "ack-scan-1",
+    "text": "Auspex ready, commander.",
+    "event": "ack-scan"
+  },
+  {
+    "id": "ack-scan-2",
+    "text": "Reconnaissance acknowledged.",
+    "event": "ack-scan"
+  },
+  {
+    "id": "ack-interact-1",
+    "text": "Order received. I will see to it.",
+    "event": "ack-interact"
+  },
+  {
+    "id": "ack-interact-2",
+    "text": "Interface located.",
+    "event": "ack-interact"
+  },
+  {
+    "id": "execute-1",
+    "text": "Executing.",
+    "event": "execute"
+  },
+  {
+    "id": "execute-2",
+    "text": "Brothers, advance.",
+    "event": "execute"
+  },
+  {
+    "id": "moving",
+    "text": "Advancing.",
+    "event": "moving"
+  },
+  {
+    "id": "firing",
+    "text": "Purifying fire!",
+    "event": "firing"
+  },
+  {
+    "id": "scanning",
+    "text": "Auspex sweep in progress.",
+    "event": "scanning"
+  },
+  {
+    "id": "working",
+    "text": "Connecting to the systems.",
+    "event": "working"
+  },
+  {
+    "id": "guarding",
+    "text": "Sector under watch.",
+    "event": "guarding"
+  },
+  {
+    "id": "door-open",
+    "text": "Passage open.",
+    "event": "door-open"
+  },
+  {
+    "id": "door-closed",
+    "text": "Airlock sealed.",
+    "event": "door-closed"
+  },
+  {
+    "id": "secured",
+    "text": "Objective secured, commander.",
+    "event": "secured"
+  },
+  {
+    "id": "blocked",
+    "text": "Advance blocked.",
+    "event": "blocked"
+  },
+  {
+    "id": "contact",
+    "text": "Visual contact. The enemy is here.",
+    "event": "contact"
+  },
+  {
+    "id": "hurt",
+    "text": "Armour hit. I hold.",
+    "event": "hurt"
+  },
+  {
+    "id": "kill",
+    "text": "Enemy neutralised.",
+    "event": "kill"
+  },
+  {
+    "id": "fallen",
+    "text": "A brother has fallen.",
+    "event": "fallen"
+  },
+  {
+    "id": "recon-done",
+    "text": "Sweep complete.",
+    "event": "recon-done"
+  },
+  {
+    "id": "victory",
+    "text": "Victory belongs to the Emperor.",
+    "event": "victory"
+  },
+  {
+    "id": "defeat",
+    "text": "Operation compromised. Fall back.",
+    "event": "defeat"
+  },
+  {
+    "id": "cancel",
+    "text": "Order cancelled.",
+    "event": "cancel"
+  },
+  {
+    "id": "invalid",
+    "text": "Impossible, commander.",
+    "event": "invalid"
+  },
+  {
+    "id": "nl-taunt-1",
+    "text": "We are coming for you.",
+    "event": "nl-taunt",
+    "faction": "nightlords"
+  },
+  {
+    "id": "nl-taunt-2",
+    "text": "Your fear belongs to us.",
+    "event": "nl-taunt",
+    "faction": "nightlords"
+  },
+  {
+    "id": "nl-attack-1",
+    "text": "Ave Dominus Nox!",
+    "event": "nl-attack",
+    "faction": "nightlords"
+  },
+  {
+    "id": "nl-attack-2",
+    "text": "Let the terror begin!",
+    "event": "nl-attack",
+    "faction": "nightlords"
+  },
+  {
+    "id": "nl-hurt-1",
+    "text": "You will regret this.",
+    "event": "nl-hurt",
+    "faction": "nightlords"
+  },
+  {
+    "id": "nl-death-1",
+    "text": "The night... takes me.",
+    "event": "nl-death",
+    "faction": "nightlords"
+  }
+]
