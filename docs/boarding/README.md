@@ -55,6 +55,27 @@ Une partie complète a également été jouée dans Chromium via les commandes d
 
 Les 54 contrôles tactiques, radio, présentation et langue passent. La suite complète compte 341 réussites, un test ignoré et 13 échecs. Les intitulés des 13 échecs correspondent exactement à ceux du relevé FPS antérieur (dont locomotion, cadrage, musique et harnais de test).
 
+### Diagnostic du choix d’objectif
+
+Sur 81 parties simulées, les deux commandants PPO ont choisi « défense du relais » à chacune des 2 772 décisions enregistrées. Ce choix arrive en tête avec une probabilité moyenne de 33 % environ. L’entraînement tire un choix suivant les probabilités du réseau, tandis que le jeu prend systématiquement celui qui arrive en tête.
+
+Chaque colonne compte les victoires Night Lords sur 27 parties, avec les trois missions et les trois configurations réservées du même pont. Les adversaires de la deuxième colonne changent de stratégie pendant la partie. Les trois adversaires écrits pour la troisième donnent respectivement priorité aux archives, adaptent leur choix à l’écart au score, ou évitent une décompression imminente. Chaque commandant utilise sa vue habituelle, y compris pendant le brouillage. Le banc reproduit le vainqueur et les deux scores de chacune des 81 parties archivées pour les trois modes historiques.
+
+| Décision des commandants | Adversaires historiques | Adversaires changeants | Nouveaux adversaires |
+| --- | ---: | ---: | ---: |
+| PPO livré | 21 | 10 | 16 |
+| Référence scriptée | 23 | 12 | 25 |
+| Référence heuristique | 23 | 15 | 25 |
+| Posture PPO, relais et archives répartis au premier tour uniquement | 21 | 10 | 16 |
+| Posture PPO, relais et archives répartis toute la partie | 23 | 16 | 25 |
+| Posture PPO, objectif choisi à chaque tour par l’heuristique | 25 | 16 | 25 |
+
+Un tirage suivant les probabilités du réseau à chaque tour donne respectivement 118, 71 et 121 victoires sur 216 parties par colonne (huit répétitions des mêmes scénarios). La répartition durable des objectifs récupère 17 des 19 victoires supplémentaires obtenues au total avec le choix heuristique. Les trois séries partagent la même carte et utilisent des adversaires automatisés. Les variantes emploient les poids livrés.
+
+L’expérience d’entraînement à privilégier consiste à apprendre le choix d’objectif sur des exemples de l’heuristique, puis à poursuivre en PPO en diminuant progressivement l’aide. Comparer le modèle autonome à une reprise PPO ordinaire, avec les mêmes 72 entrées, les mêmes budgets et plusieurs graines. Une nouvelle série d’adversaires réservés permettra de vérifier si le gain se maintient.
+
+Rejouer avec `bun scripts/probe-boarding-ppo.ts`. Le relevé conserve les victoires par mission et répétition, les matchs nuls, les marges de score et la fréquence des douze décisions. [Résultats détaillés](diagnostic-choix-ppo.jsonl)
+
 ## Reproduction
 
 Depuis la racine du projet, pour reproduire les trois paires finales et le choix du modèle livré, générer d’abord le point de départ historique avec le premier tirage.
