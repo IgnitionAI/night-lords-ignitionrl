@@ -1,0 +1,165 @@
+{
+  "baselineCommit": "a9b4793",
+  "automatedPlayer": true,
+  "worldOverridesInCaptures": false,
+  "captures": [
+    {
+      "tag": "before",
+      "mode": "duel",
+      "errors": [],
+      "litSeenDistanceMedian": 4.339785226708311,
+      "litArmedSamples": 6,
+      "nightVisionSamples": 0,
+      "endTick": 106,
+      "endHealth": 7,
+      "frameMedianMs": 16.69999999999891,
+      "frameP95Ms": 16.799999999999272
+    },
+    {
+      "tag": "before",
+      "mode": "mission",
+      "errors": [],
+      "litSeenDistanceMedian": 3.441441562731738,
+      "litArmedSamples": 7,
+      "nightVisionSamples": 39,
+      "endTick": 186,
+      "endHealth": 0,
+      "frameMedianMs": 16.700000000000728,
+      "frameP95Ms": 33.44200000000001
+    },
+    {
+      "tag": "final",
+      "mode": "duel",
+      "errors": [],
+      "litSeenDistanceMedian": 8.162774741812266,
+      "litArmedSamples": 0,
+      "nightVisionSamples": 39,
+      "endTick": 102,
+      "endHealth": 22,
+      "frameMedianMs": 16.69999999999891,
+      "frameP95Ms": 16.799999999999272
+    },
+    {
+      "tag": "final",
+      "mode": "mission",
+      "errors": [],
+      "litSeenDistanceMedian": 8.011380327340436,
+      "litArmedSamples": 0,
+      "nightVisionSamples": 0,
+      "endTick": 244,
+      "endHealth": 2,
+      "frameMedianMs": 33.20000000000073,
+      "frameP95Ms": 33.400000000001455
+    },
+    {
+      "tag": "reload",
+      "mode": "duel",
+      "errors": [],
+      "litSeenDistanceMedian": 8.22,
+      "litArmedSamples": 0,
+      "nightVisionSamples": 40,
+      "endTick": 95,
+      "endHealth": 22,
+      "frameMedianMs": 16.699999999999818,
+      "frameP95Ms": 16.700000000000728
+    },
+    {
+      "tag": "reload",
+      "mode": "mission",
+      "errors": [],
+      "litSeenDistanceMedian": 7.473011498603127,
+      "litArmedSamples": 0,
+      "nightVisionSamples": 0,
+      "endTick": 212,
+      "endHealth": 0,
+      "frameMedianMs": 16.69999999999891,
+      "frameP95Ms": 16.700000000000728
+    }
+  ],
+  "combat": [
+    {
+      "path": "docs/fps-light-tactics/combat/duel-fr.json",
+      "errors": [],
+      "events": [
+        "enemyAim",
+        "enemyBolt",
+        "hit",
+        "lightsWarning",
+        "lightsOut",
+        "step",
+        "clawArm",
+        "claw",
+        "bolt",
+        "lightsRestored"
+      ],
+      "nightVisionSamples": 61,
+      "huntSamples": 64,
+      "endTick": 265,
+      "endHealth": 0
+    },
+    {
+      "path": "docs/fps-light-tactics/combat/mission-en.json",
+      "errors": [],
+      "events": [
+        "step",
+        "enemyAim",
+        "enemyBolt",
+        "lightsWarning",
+        "hit",
+        "lightsOut",
+        "bolt",
+        "lightsRestored"
+      ],
+      "nightVisionSamples": 64,
+      "huntSamples": 101,
+      "endTick": 344,
+      "endHealth": 26
+    },
+    {
+      "path": "docs/fps-light-tactics/combat/mission-fr.json",
+      "errors": [],
+      "events": [
+        "step",
+        "enemyAim",
+        "enemyBolt",
+        "hit",
+        "lightsWarning",
+        "lightsOut",
+        "bolt",
+        "lightsRestored"
+      ],
+      "nightVisionSamples": 0,
+      "huntSamples": 31,
+      "endTick": 345,
+      "endHealth": 24
+    },
+    {
+      "path": "docs/fps-light-tactics/blackout/mission-fr.json",
+      "errors": [],
+      "events": [
+        "step",
+        "enemyAim",
+        "enemyBolt",
+        "lightsWarning",
+        "hit",
+        "lightsOut",
+        "lightsRestored",
+        "bolt"
+      ],
+      "nightVisionSamples": 61,
+      "huntSamples": 100,
+      "endTick": 344,
+      "endHealth": 24
+    }
+  ],
+  "fixtureDescription": "Navigation witness: 1000 initial player health, no fire, scheduled local circuits lit 0-10s, blackout 10-24s, lit 24-40s. Real policies and collision; not a normal playthrough.",
+  "fixtureMaxWallPenetration": 1.7763568394002505e-15,
+  "fixtureMaxCpuP95Ms": 10.67608300000029,
+  "tests": {
+    "passed": 338,
+    "skipped": 1,
+    "failed": 13,
+    "failureNote": "Same thirteen historical failures listed in docs/fps-hunt/NOTES.md; new visible-aim regression corrected."
+  },
+  "humanFeelValidated": false
+}

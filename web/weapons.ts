@@ -52,8 +52,9 @@ export async function equipNl(root: THREE.Object3D, role: number, idle: THREE.An
   root.updateMatrixWorld(true);
   list.forEach(([, spec], k) => {
     const w = meshes[k]; if (!w) return;
+    const supportGun=sidearm&&role<3&&spec.bone==='LeftHand';
     w.traverse((o) => {
-      o.frustumCulled = false; const m = o as THREE.Mesh; if (!m.isMesh) return; m.castShadow = true;
+      o.frustumCulled = supportGun; const m = o as THREE.Mesh; if (!m.isMesh) return; m.castShadow = !supportGun;
       // Même calage que les armures : l'or et l'acier Genex sortent éclairés studio, trop chauds dans le couloir.
       const mat = m.material as THREE.MeshStandardMaterial; if (mat?.color) { mat.color.multiplyScalar(.5); mat.envMapIntensity = .25; }
     });
