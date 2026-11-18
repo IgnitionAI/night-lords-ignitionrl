@@ -1,11 +1,13 @@
 import {observation as classicObservation,chooseAction,execute} from './agents';
 import {distance,key,line,legalOrder,type View,type Order,type Decision} from './engine';
-import {orderCost,type CardId,type Plans} from './tactics';
+import {MISSIONS,orderCost,type CardId,type Plans} from './tactics';
 import {forward,argmax,type ActorJSON} from '../policy';
 
-export const BOARD_OBS=45,BOARD_ACTIONS=12,BOARD_VERSION='boarding-v1';
+export const LEGACY_BOARD_OBS=45, BOARD_ACTIONS=12, BOARD_VERSION='boarding-v2';
+// v1 prefix + six signals per system + four radio postures + five local combat/incident signals.
+export const BOARD_OBS=LEGACY_BOARD_OBS+3*6+4+5;
 export const POSTURES=['progression','reconnaissance','pression coordonnée','défense'];
-export function boardingObservation(v:View,ally=-1){
+export function legacyBoardingObservation(v:View,ally=-1){
  const t=v.tactics;if(!t)throw Error('Tactical observation requires an operation');if(t.jammed)ally=-1;
  return [...classicObservation(v,ally),t.threat/28,t.noise/10,t.budget/7,
   ...(['crossfire','breach','cover','jam','decoy','sabotage'] as CardId[]).map(c=>Number(t.hand.includes(c))),
@@ -13,8 +15,50 @@ export function boardingObservation(v:View,ally=-1){
   ...[0,1,2].map(i=>Number(t.incident.sector===i)),(t.incident.threshold-t.threat)/7,
   ...['breach','blackout','recovery'].map(m=>Number(t.mission===m)),Math.min(1,t.signals.length/3)];
 }
+export function boardingObservation(v:View, ally=-1):number[] {
+ const t=v.tactics;
+ if(!t)throw Error('Tactical observation requires an operation');
+ const base=legacyBoardingObservation(v,ally);
+ const size=Math.max(1,v.units.length);
+ const mission=MISSIONS[t.mission];
+ const visible=new Set(v.visible);
+ const explored=new Set(v.explored);
+ const systems=v.objectives.flatMap((o,i)=>{
+  const adjacent=v.units.filter(u=>distance(u,o)<=1).length;
+  // The v1 prefix already contains the shortest known route per system.
+  // A unit on the system can interact even when path() returns no steps.
+  const steps=adjacent?0:Math.round(base[7+4*i]*40);
+  const turns=1+Math.ceil(Math.max(0,steps-1)/3);
+  const value=mission.values[i]/3;
+  const recentThreat=v.contacts.reduce((max,c)=>{
+   const freshness=Math.max(0,1-(v.turn-c.seen)/4);
+   return Math.max(max,freshness/(1+distance(c,o)/3));
+  },0);
+  return [value,Number(explored.has(key(o))),adjacent/size,
+   steps<40 && o.owner!==v.side ? value/turns : 0,
+   recentThreat,Number(t.signals.some(s=>s.sector===i))];
+ });
+ const localTargets=v.contacts.filter(c=>c.seen===v.turn && visible.has(key(c)));
+ let maxShooters=0,weakestTarget=1;
+ for(const c of localTargets){
+  const shooters=v.units.filter(u=>distance(u,c)<=7 && line(u,c,v.doors)).length;
+  if(shooters){
+   maxShooters=Math.max(maxShooters,shooters);
+   weakestTarget=Math.min(weakestTarget,c.hp/c.maxHp);
+  }
+ }
+ const allyStance=t.jammed || ally<0 ? -1 : Math.floor(ally/3);
+ const vent=t.incident.kind==='vent';
+ const exposed=vent?v.units.filter(u=>distance(u,v.objectives[t.incident.sector])<=3).length:0;
+ return [...base,...systems,...POSTURES.map((_,i)=>Number(allyStance===i)),
+  Number(vent),exposed/size,maxShooters/size,1-weakestTarget,
+  v.units.reduce((worst,u)=>Math.max(worst,1-u.hp/u.maxHp),0)];
+}
 export function boardingAction(v:View,ally=-1,actor?:ActorJSON){
- if(actor)return argmax(forward(actor,boardingObservation(v,ally)));
+ if(actor){
+  const encode=actor.version==='boarding-v1'?legacyBoardingObservation:boardingObservation;
+  return argmax(forward(actor,encode(v,ally)));
+ }
  const target=chooseAction(v,v.tactics?.jammed?-1:ally)%3;
  if(v.units.some(u=>u.hp<4))return target+9;
  if(v.contacts.some(c=>c.seen===v.turn))return target+6;

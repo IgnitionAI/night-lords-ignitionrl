@@ -1,6 +1,8 @@
 import {PPO,DEFAULT_PPO} from '../src/ppo';
 import {createOperation,getView,shareReports,resolve,distance,type View} from '../src/strategy/engine';
-import {BOARD_OBS,BOARD_ACTIONS,BOARD_VERSION,boardingObservation,boardingPlan} from '../src/strategy/boarding-agents';
+import {BOARD_OBS,LEGACY_BOARD_OBS,BOARD_ACTIONS,BOARD_VERSION,boardingObservation,boardingPlan} from '../src/strategy/boarding-agents';
+import * as tf from '@tensorflow/tfjs-node';
+import {layerSeed} from '../src/model';
 import type {MissionId} from '../src/strategy/tactics';
 import {playerPlan,HELD_OUT_RESIDUES} from './boarding-evaluate';
 import {sample} from '../src/policy';
@@ -9,7 +11,20 @@ import {mkdirSync,writeFileSync,readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 const hash=(x:string)=>createHash('sha256').update(x).digest('hex');
 const ppo=new PPO(BOARD_OBS,BOARD_ACTIONS,{...DEFAULT_PPO,hidden:[48,48],lr:.0006,epochs:4,minibatch:128},8341),rng=mulberry32(8341);
+// Match the old actor and critic before the first update. New channels start
+// neutral and acquire weights through exactly the same training curriculum.
+for(const [network,seed] of [[ppo.actor,8341],[ppo.critic,(8341^0x5bd1e995)>>>0]] as const){
+ tf.tidy(()=>{
+  const layer=network.layers[0];
+  const oldKernel=tf.initializers.glorotNormal({seed:layerSeed(seed,0)}).apply([LEGACY_BOARD_OBS,48]);
+  layer.setWeights([oldKernel.pad([[0,BOARD_OBS-LEGACY_BOARD_OBS],[0,0]]),layer.getWeights()[1]]);
+ });
+}
 const initialHash=hash(JSON.stringify(ppo.exportActor(BOARD_VERSION).layers)),metrics:any[]=[],seeds:number[]=[];
+const control=JSON.parse(readFileSync('docs/boarding/ppo-control-v1.json','utf8'));
+const initialLayers=ppo.exportActor(BOARD_VERSION).layers;
+initialLayers[0]={...initialLayers[0],inDim:LEGACY_BOARD_OBS,w:initialLayers[0].w.slice(0,LEGACY_BOARD_OBS*initialLayers[0].outDim)};
+if(hash(JSON.stringify(initialLayers))!==control.meta.initialActorHash)throw Error('Initial shared weights differ from the v1 control');
 const stages=[{name:'movement',updates:12,horizon:6},{name:'objectives',updates:18,horizon:12},{name:'combat',updates:60,horizon:18}];
 let transitions=0,episodeIndex=0,nextSeed=1,updateIndex=0;
 const nearest=(v:View,obj:number)=>v.units.reduce((s,u)=>s+distance(u,v.objectives[obj]),0);
