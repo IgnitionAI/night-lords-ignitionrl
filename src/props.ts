@@ -270,19 +270,55 @@ export function collidePrisms(p: { x: number; y: number }, r: number, solids: re
   }
 }
 
-/** Pousse le disque hors des prismes, et refuse un accord interpolé qui percera un volume orienté. */
-export function resolvePrisms(from: { x: number; y: number }, p: { x: number; y: number }, r: number, solids: readonly PropPrism[]) {
-  collidePrisms(p, r, solids);
+/** Glissement au contact : pas de sous-pas (m) et pénétration interpolée tolérée (m) sur chaque sous-pas. */
+export const SLIDE_STEP = 0.05;
+export const SLIDE_TOL = 1e-3;
+
+function firstHitAll(ax: number, ay: number, bx: number, by: number, r: number, solids: readonly PropPrism[]) {
   let tHit = 1, hit: PropPrism | null = null;
   for (const o of solids) {
-    const t = firstHitT(from.x, from.y, p.x, p.y, r, o);
+    const t = firstHitT(ax, ay, bx, by, r, o);
     if (t < tHit) { tHit = t; hit = o; }
   }
-  if (hit && tHit < 1) {
-    const t = Math.max(0, tHit);
-    p.x = from.x + (p.x - from.x) * t;
-    p.y = from.y + (p.y - from.y) * t;
-    collidePrisms(p, r, solids);
+  return { tHit, hit };
+}
+
+/**
+ * Pousse le disque hors des prismes, et refuse un accord interpolé qui percera un volume orienté.
+ * Quand l'accord est coupé, le disque s'arrête au point de contact puis glisse sur la tangente du prisme
+ * touché avec le reste du déplacement (composante normale entrante retirée). Ce glissement avance par
+ * sous-pas de SLIDE_STEP, chacun reprojeté (collidePrisms) puis revérifié contre tous les prismes avec
+ * une pénétration interpolée bornée à SLIDE_TOL : la flèche d'un sous-pas sur un coin arrondi
+ * (SLIDE_STEP² / 8r ≈ 4e-4 m pour r = 0,8) passe, une traversée (R46-02) reste refusée.
+ */
+export function resolvePrisms(from: { x: number; y: number }, p: { x: number; y: number }, r: number, solids: readonly PropPrism[]) {
+  const goalX = p.x, goalY = p.y;
+  collidePrisms(p, r, solids);
+  const { tHit, hit } = firstHitAll(from.x, from.y, p.x, p.y, r, solids);
+  if (!hit || tHit >= 1) return;
+  const t = Math.max(0, tHit);
+  p.x = from.x + (p.x - from.x) * t;
+  p.y = from.y + (p.y - from.y) * t;
+  collidePrisms(p, r, solids);
+  // Sans origine distincte (collide sans `from`), pas de déplacement à faire glisser : comportement historique.
+  if (from === p) return;
+  const [lx, ly] = toLocal(p.x, p.y, hit);
+  const qx = Math.min(hit.hx, Math.max(-hit.hx, lx)), qy = Math.min(hit.hy, Math.max(-hit.hy, ly));
+  const d = Math.hypot(lx - qx, ly - qy);
+  if (d === 0) return;
+  const nlx = (lx - qx) / d, nly = (ly - qy) / d;
+  const nx = nlx * hit.cos + nly * hit.sin, ny = -nlx * hit.sin + nly * hit.cos;
+  let rx = goalX - p.x, ry = goalY - p.y;
+  const dn = rx * nx + ry * ny;
+  if (dn < 0) { rx -= dn * nx; ry -= dn * ny; }
+  const len = Math.hypot(rx, ry);
+  if (len < 1e-9) return;
+  const n = Math.ceil(len / SLIDE_STEP), sx = rx / n, sy = ry / n;
+  for (let i = 0; i < n; i++) {
+    const q = { x: p.x + sx, y: p.y + sy };
+    collidePrisms(q, r, solids);
+    if (firstHitAll(p.x, p.y, q.x, q.y, r - SLIDE_TOL, solids).tHit < 1) break;
+    p.x = q.x; p.y = q.y;
   }
 }
 
