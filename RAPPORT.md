@@ -18,6 +18,19 @@
 > Un coup de griffe qui **inflige des dégâts** émet désormais, **en plus** du `claw` (vu de la meute), un événement `hit` côté Terminator : `{ dmg, zone, hpAfter, stagger, servoAlarm }`. Il pose `staggerTicks = 2` (0,2 s) : pendant ces deux ticks, **aucune action offensive n'est acceptée** (`bolt`, `fist` ignorés) et le déplacement est **réduit de moitié** — on encaisse, on ne s'arrête pas net. Une **alarme de servo** est posée à `max(servoAlarm, 10)` (1 s) et décroît d'un tick par pas ; quand l'armure passe **sous 25 %**, un `servoCritical` est émis **une seule fois** par manche.
 > **Le stagger et l'interruption annulent des actions** : un **gantelet en charge est perdu** (`fistCharge = 0`, aucune munition consommée, aucun impact) et une **rafale en cours est coupée** (`burstLeft = 0`, les munitions déjà parties sont perdues). Ils changent donc les trajectoires **et les durées** : les chiffres publiés (`mesures/`, `README.md`, tableaux ci-dessous) **ne décrivent pas ce jeu** et restent une simple référence d'entraînement (observations à 29 dimensions et espace d'action inchangés, politiques chargeables sans réentraînement). Valeurs retenues, réglables au ressenti : `T_CFG.hitStaggerTicks = 2`, `staggerSpeed = 0,5`, `servoAlarmTicks = 10`, `servoCriticalFrac = 0,25` ; les valeurs de dégâts (`NL_CFG.dmgSide`, `dmgRear`) et de combat sont **inchangées** — c'est le retour du coup, pas un rééquilibrage.
 
+> **Encadré (19/11/2026) — glissement au contact des décors : les runs AVEC décors sont périmés.**
+> **Bug** : avec les décors au sol (`propKinds` non vide), un disque au contact d'un prisme orienté restait collé. Le contrôle anti-tunnel de `resolvePrisms` (`firstHitT` sur l'accord `from → p`) voyait l'accord entre deux points au contact couper le coin arrondi (le volume gonflé du rayon est convexe : l'accord passe dedans) et ramenait `p` à `from`, déplacement nul à chaque tick. Le Terminator `march` restait ainsi figé contre le débris du couloir (8,4 ; 8,6) jusqu'au tick 1200.
+> **Correction** (`src/props.ts`, `resolvePrisms`) : quand l'accord est coupé, le disque s'arrête au point de contact, puis glisse sur la tangente du prisme touché avec le reste du déplacement (composante normale entrante retirée), par sous-pas de 0,05 m (`SLIDE_STEP`), chacun reprojeté puis revérifié contre tous les prismes avec une pénétration interpolée tolérée de 1 mm (`SLIDE_TOL`). La flèche d'un sous-pas sur un coin (≈ 0,4 mm) passe ; une traversée (R46-02, pas rapide à travers une caisse fine) reste refusée. Un `collide` sans `from` garde le comportement d'avant. Tests : `test/prism-slide.test.ts`.
+> **Mesure** (rejeu headless, Terminator `march`, meute naïve, graines 1 à 40 ; manche bloquée = « temps écoulé, il a tenu », aucun coup encaissé, tick 1200) :
+>
+> | décors | bloquées avant | bloquées après | victoires du Terminator avant → après |
+> |---|---|---|---|
+> | aucun | 0/40 | 0/40 | 24 → 24 (sorties identiques) |
+> | `debris` | 17/40 | 0/40 | 32 → 24 |
+> | tous | 17/40 | 0/40 | 39 → 28 |
+>
+> **Ce qui est périmé** : toutes les trajectoires, durées, dégâts et taux de victoire mesurés **avec décors** (`propKinds` non vide, ou build `web/` avec décors chargés), y compris les captures et vidéos tournées avec décors : sur 17 graines sur 40, le Terminator scripté y restait immobile. **Sans décors, rien ne change** : `solids` est vide, `resolvePrisms` n'est pas appelé, et les 40 rejeux sans décors sont identiques octet pour octet avant et après (vainqueur, raison, tick final, positions échantillonnées). L'évaluation sans `propKinds` reste valide.
+
 # Jalon 1b : état au 31/10/2026, 22:25 (heure de Paris), EN COURS
 
 Le rapport du jalon 1 est archivé dans `jalon1/RAPPORT-jalon1.md`, avec ses mesures et ses captures. Ses chiffres ne valent plus pour les règles actuelles.
